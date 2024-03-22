@@ -1,0 +1,8 @@
+Cartero is at the moment a prototype for a graphical application for GNOME that
+makes HTTP requests and allows to debug HTTP APIs.
+
+Note: this project at the moment is not a complete GNOME project with a
+meson.build and that stuff. Just use `cargo build` to compile the application.
+Make sure you have GTK+4, GtkSourceView 5, GLib 2 and Rust 1.77 or greater.
+
+License: GPL3-or-later. See COPYING.

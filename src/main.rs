@@ -1,9 +1,11 @@
+mod components;
+
 use std::collections::HashMap;
 
-use glib::GString;
 use gtk4::{prelude::*, DropDown, StringObject};
 use gtk4::{Application, ApplicationWindow, Box, Builder, Button, Entry, ListBox};
 use sourceview5::View;
+use components::rowheader::RowHeader;
 
 // Deprecated
 #[derive(Debug)]
@@ -57,8 +59,8 @@ fn create_row(header_name: &str, header_value: &str) -> Box {
 
 fn populate_list(list_box: &ListBox, map: &HashMap<String, String>) {
     for (name, value) in map.iter() {
-        let entry_box = create_row(&name, &value);
-        list_box.append(&entry_box);
+        let rowheader = RowHeader::new(&name, &value);
+        list_box.append(&rowheader);
     }
 }
 

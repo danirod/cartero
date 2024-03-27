@@ -1,7 +1,7 @@
 using Gtk 4.0;
 using GtkSource 5;
 
-ApplicationWindow win {
+template $CarteroWindow: ApplicationWindow {
   Box {
     orientation: vertical;
 
@@ -24,6 +24,7 @@ ApplicationWindow win {
       }
 
       Button send {
+        clicked => $on_send_request() swapped;
         label: 'Enviar';
       }
     }

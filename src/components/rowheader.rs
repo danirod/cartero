@@ -1,8 +1,8 @@
-use glib::GString;
 use glib::subclass::InitializingObject;
-use gtk4::{prelude::*, CompositeTemplate};
+use glib::GString;
 use gtk4::subclass::prelude::*;
-use gtk4::{ Box, Entry };
+use gtk4::{prelude::*, CompositeTemplate};
+use gtk4::{Box, Entry};
 
 #[derive(CompositeTemplate, Default)]
 #[template(file = "../../data/ui/rowheader.ui")]

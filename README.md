@@ -81,7 +81,6 @@ While this application is not official and at the moment is not affiliated with
 GNOME, you are expected to follow the [GNOME Code of Conduct][coc] when
 interacting with this repository.
 
-
 ## Credits and acknowledgments
 
 Cartero is being developed by [Dani Rodríguez][danirod].
@@ -97,7 +96,8 @@ source code I've read in order to know how to use some of the GTK features that
 you cannot learn just by reading the official docs.
 
 ## Blog
-Danirod's dev blog (in spanish) of Cartero [blog].
+
+Dani's [dev blog][blog] (in Spanish) of Cartero.
 
 [bp]: https://gitlab.gnome.org/jwestman/blueprint-compiler
 [coc]: https://conduct.gnome.org

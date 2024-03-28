@@ -49,9 +49,9 @@ commands on your own, it won't be pretty.
 Currently, to build the application you'll have to make sure that the required
 libraries are installed on your system.
 
-* glib >= 2.80
-* gtk >= 4.14
-* gtksourceview >= 5.12
+* glib >= 2.72
+* gtk >= 4.6
+* gtksourceview >= 5.4
 
 ### Meson
 

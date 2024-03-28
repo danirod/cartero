@@ -28,9 +28,9 @@ gnome = import('gnome')
 
 base_id = 'es.danirod.Cartero'
 
-dependency('glib-2.0', version: '>= 2.80')
-dependency('gtk4', version: '>= 4.14')
-dependency('gtksourceview-5', version: '>= 5.12')
+dependency('glib-2.0', version: '>= 2.72')
+dependency('gtk4', version: '>= 4.6')
+dependency('gtksourceview-5', version: '>= 5.4')
 
 glib_compile_resources = find_program('glib-compile-resources', required: true)
 cargo = find_program('cargo', required: true)

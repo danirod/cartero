@@ -15,9 +15,21 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+blueprint_files = [
+  'ui/http_header_row.blp',
+  'ui/main_window.blp',
+]
+
+blueprints = custom_target('blueprints',
+  input: files(blueprint_files),
+  output: '.',
+  command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@'],
+)
+
 resources = gnome.compile_resources(
   'cartero',
   'cartero.gresource.xml',
+  dependencies: blueprints,
   gresource_bundle: true,
   source_dir: meson.current_build_dir(),
   install: true,

@@ -136,7 +136,6 @@ you cannot learn just by reading the official docs.
 
 Dani's [dev blog][blog] (in Spanish) of Cartero.
 
-[bp]: https://gitlab.gnome.org/jwestman/blueprint-compiler
 [coc]: https://conduct.gnome.org
 [contrib]: https://github.com/danirod/cartero/graphs/contributors
 [danirod]: https://github.com/danirod

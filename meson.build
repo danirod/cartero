@@ -23,17 +23,23 @@ project(
   license: 'GPL-3.0-or-later',
 )
 
+gnome = import('gnome')
+
 base_id = 'es.danirod.Cartero'
 
 dependency('glib-2.0', version: '>= 2.80')
 dependency('gtk4', version: '>= 4.14')
 dependency('gtksourceview-5', version: '>= 5.12')
 
+glib_compile_resources = find_program('glib-compile-resources', required: true)
 cargo = find_program('cargo', required: true)
 
 version = meson.project_version()
 prefix = get_option('prefix')
 bindir = prefix / get_option('bindir')
+
+datadir = prefix / get_option('datadir')
+pkgdatadir = datadir / meson.project_name()
 
 if get_option('profile') == 'development'
   profile = 'Devel'
@@ -62,4 +68,5 @@ if get_option('profile') == 'development'
   run_command('cp', '-f', 'hooks/pre-commit.hook', '.git/hooks/pre-commit', check: false)
 endif
 
+subdir('data')
 subdir('src')

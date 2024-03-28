@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/es/danirod/Cartero/">
+    <file compressed="true" preprocess="xml-stripblanks" alias="http_header_row.ui">ui/http_header_row.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks" alias="main_window.ui">ui/main_window.ui</file>
+  </gresource>
+</gresources>

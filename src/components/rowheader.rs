@@ -22,7 +22,7 @@ use gtk4::{prelude::*, CompositeTemplate};
 use gtk4::{Box, Entry};
 
 #[derive(CompositeTemplate, Default)]
-#[template(file = "../../data/ui/rowheader.ui")]
+#[template(resource = "/es/danirod/Cartero/http_header_row.ui")]
 pub struct RowHeaderImpl {
     #[template_child]
     pub entry_key: TemplateChild<Entry>,

@@ -21,11 +21,16 @@ mod components;
 mod config;
 mod win;
 
-use app::CarteroApplication;
+use gtk4::gio;
 use gtk4::prelude::*;
-pub use win::CarteroWindow;
+
+use self::app::CarteroApplication;
+use self::config::RESOURCES_FILE;
 
 fn main() -> glib::ExitCode {
+    let res = gio::Resource::load(RESOURCES_FILE).expect("Could not load gresource file");
+    gio::resources_register(&res);
+
     let app = CarteroApplication::new();
     app.run()
 }

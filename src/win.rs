@@ -56,7 +56,7 @@ mod imp {
     use super::populate_list;
 
     #[derive(CompositeTemplate, Default)]
-    #[template(file = "../data/ui/prototype.ui")]
+    #[template(resource = "/es/danirod/Cartero/main_window.ui")]
     pub struct CarteroWindow {
         #[template_child(id = "send")]
         pub send_button: TemplateChild<gtk4::Button>,

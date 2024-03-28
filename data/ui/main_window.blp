@@ -44,7 +44,7 @@ template $CarteroWindow: ApplicationWindow {
     [end]
     Button send {
       clicked => $on_send_request() swapped;
-      label: 'Enviar';
+      label: _("Send");
     }
   }
 
@@ -56,7 +56,7 @@ template $CarteroWindow: ApplicationWindow {
     Notebook {
       NotebookPage {
         tab: Label {
-          label: 'Headers';
+          label: _("Headers");
         };
 
         child: ScrolledWindow {
@@ -71,7 +71,7 @@ template $CarteroWindow: ApplicationWindow {
 
       NotebookPage {
         tab: Label {
-          label: 'Body';
+          label: _("Body");
         };
 
         child: ScrolledWindow {
@@ -100,7 +100,7 @@ template $CarteroWindow: ApplicationWindow {
     Notebook {
       NotebookPage {
         tab: Label {
-          label: 'Headers';
+          label: _("Headers");
         };
 
         child: ScrolledWindow {
@@ -115,7 +115,7 @@ template $CarteroWindow: ApplicationWindow {
 
       NotebookPage {
         tab: Label {
-          label: 'Body';
+          label: _("Body");
         };
 
         child: ScrolledWindow {

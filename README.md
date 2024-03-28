@@ -106,9 +106,27 @@ formatted. Read `hooks/pre-commit.hook` to inspect what the script does.
 
 This project is highly appreciative of contributions. If you know about Rust,
 GTK or the GNOME technologies and want to help during the development, you can
-contribute if you wish. [Fork the project][fork] and commit your code. **Use a
-feature branch, do not make your changes in the trunk branch**. Push to your
-fork and send a pull request.
+contribute if you wish. [Fork the project][fork] and commit your code.
+
+Some checklist rules before submitting a pull request:
+
+* **Use a feature branch**, do not make your changes in the trunk branch
+  directly.
+
+* **Rebase your code** and make sure that you are working on top of the most
+  recent version of the trunk branch, in case something has changed while you
+  were working on your code.
+
+* **Update the locales** if you changed strings. The ninja target that you are
+  looking for is called `cartero-update-po` (such as `ninja -C build
+  cartero-update-po`). Don't worry, you don't have to translate the strings by
+  yourself, but make sure that the new templates are added to the .po and .pot
+  files.
+
+* **Use the pre-commit hook**. The pre-commit hook will validate that your code
+  is formatted. It should be automatically configured if you run Meson in
+  development mode (`-Dprofile=development`), but you can install it on your
+  own or run `hooks/pre-commit.hook`.
 
 The project is starting small, so if you want to do something big, it is best
 to first start a discussion thread with your proposal in order to see how to

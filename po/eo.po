@@ -1,0 +1,30 @@
+# Esperanto translations for cartero package.
+# Copyright (C) 2024 THE cartero'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the cartero package.
+# Automatically generated, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: cartero\n"
+"Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
+"POT-Creation-Date: 2024-03-28 18:20+0100\n"
+"PO-Revision-Date: 2024-03-28 18:09+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: eo\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ASCII\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/ui/main_window.blp:47
+msgid "Send"
+msgstr "Petu"
+
+#: data/ui/main_window.blp:59 data/ui/main_window.blp:103
+msgid "Headers"
+msgstr "Kapoj"
+
+#: data/ui/main_window.blp:74 data/ui/main_window.blp:118
+msgid "Body"
+msgstr "Korpo"

@@ -23,6 +23,7 @@ project(
   license: 'GPL-3.0-or-later',
 )
 
+i18n = import('i18n')
 gnome = import('gnome')
 
 base_id = 'es.danirod.Cartero'
@@ -37,9 +38,11 @@ cargo = find_program('cargo', required: true)
 version = meson.project_version()
 prefix = get_option('prefix')
 bindir = prefix / get_option('bindir')
+localedir = prefix / get_option('localedir')
 
 datadir = prefix / get_option('datadir')
 pkgdatadir = datadir / meson.project_name()
+gettext_package = meson.project_name()
 
 if get_option('profile') == 'development'
   profile = 'Devel'
@@ -69,4 +72,5 @@ if get_option('profile') == 'development'
 endif
 
 subdir('data')
+subdir('po')
 subdir('src')

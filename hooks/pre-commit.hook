@@ -45,13 +45,36 @@ if ! which cargo >/dev/null 2>&1 || ! cargo fmt --help >/dev/null 2>&1; then
 
 fi
 
-echo "--Checking style--"
+if ! which blueprint-compiler >/dev/null 2>&1 ; then
+    BLUEPRINT_INSTALL_DIR=git/blueprint-compiler
+    if ! [ -d $BLUEPRINT_INSTALL_DIR/subprojects/blueprint-compiler ]; then
+        echo "Locally pulling blueprint-compiler for this one..."
+        meson subprojects download
+        meson setup $BLUEPRINT_INSTALL_DIR --reconfigure
+    fi
+    BLUEPRINT=$BLUEPRINT_INSTALL_DIR/subprojects/blueprint-compiler/blueprint-compiler
+else
+    BLUEPRINT=blueprint-compiler
+fi
+
+echo "--Checking Rust style--"
 cargo fmt --all -- --check
 if test $? != 0; then
-    echo "--Checking style fail--"
+    echo "--Checking Rust style fail--"
     echo "Please fix the above issues, either manually or by running: cargo fmt --all"
 
     exit 1
 else
-    echo "--Checking style pass--"
+    echo "--Checking Rust style pass--"
+fi
+
+echo "--Checking Blueprint style--"
+$BLUEPRINT format data/ui
+if test $? != 0; then
+    echo "--Checking Blueprint style fail--"
+    echo "Please, fix the above issues, either manually or by running: $BLUEPRINT format -f data/ui"
+
+    exit 1
+else
+    echo "--Checking Blueprint style pass--"
 fi

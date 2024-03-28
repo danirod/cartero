@@ -19,15 +19,17 @@ use std::collections::HashMap;
 
 use crate::app::CarteroApplication;
 use crate::components::rowheader::RowHeader;
+use crate::config::{PROFILE, VERSION};
 use glib::{GString, Object};
 use gtk4::subclass::prelude::ObjectSubclassIsExt;
 use gtk4::{gio, glib, StringObject};
 use gtk4::{prelude::*, ListBox};
 
 fn mock_map() -> HashMap<String, String> {
+    let user_agent = format!("cartero/{} ({})", VERSION, PROFILE);
     let mut map = HashMap::new();
     map.insert(String::from("Accept"), String::from("text/html"));
-    map.insert(String::from("User-Agent"), String::from("Cartero/1.0"));
+    map.insert(String::from("User-Agent"), user_agent);
     map.insert(String::from("Accept-Encoding"), String::from("bzip"));
     map
 }

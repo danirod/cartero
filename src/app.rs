@@ -18,6 +18,7 @@
 use glib::Object;
 use gtk4::gio;
 
+use crate::config::APP_ID;
 use crate::win::CarteroWindow;
 
 mod imp {
@@ -56,9 +57,7 @@ glib::wrapper! {
 
 impl CarteroApplication {
     pub fn new() -> Self {
-        Object::builder()
-            .property("application-id", "es.danirod.Cartero")
-            .build()
+        Object::builder().property("application-id", APP_ID).build()
     }
 
     pub fn get_window(&self) -> CarteroWindow {

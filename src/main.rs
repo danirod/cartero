@@ -17,6 +17,8 @@
 
 mod app;
 mod components;
+#[rustfmt::skip]
+mod config;
 mod win;
 
 use app::CarteroApplication;

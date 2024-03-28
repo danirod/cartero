@@ -95,8 +95,13 @@ Finally, shoutout to many of the GTK and GNOME Circle applications out there who
 source code I've read in order to know how to use some of the GTK features that
 you cannot learn just by reading the official docs.
 
+## Blog
+
+Dani's [dev blog][blog] (in Spanish) of Cartero.
+
 [bp]: https://gitlab.gnome.org/jwestman/blueprint-compiler
 [coc]: https://conduct.gnome.org
 [contrib]: https://github.com/danirod/cartero/graphs/contributors
 [danirod]: https://github.com/danirod
 [fork]: https://github.com/danirod/cartero/fork
+[blog]: https://danirod.es/secciones/devlogs/cartero/

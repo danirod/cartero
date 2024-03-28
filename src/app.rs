@@ -24,8 +24,10 @@ use crate::win::CarteroWindow;
 mod imp {
     use glib::subclass::{object::ObjectImpl, types::ObjectSubclass};
     use gtk4::prelude::*;
-    use gtk4::subclass::prelude::ObjectSubclassExt;
+    use gtk4::subclass::prelude::*;
     use gtk4::subclass::{application::GtkApplicationImpl, prelude::ApplicationImpl};
+
+    use super::*;
 
     #[derive(Default)]
     pub struct CarteroApplication;
@@ -41,7 +43,13 @@ mod imp {
 
     impl ApplicationImpl for CarteroApplication {
         fn activate(&self) {
+            self.parent_activate();
             self.obj().get_window().present();
+        }
+
+        fn startup(&self) {
+            self.parent_startup();
+            gtk4::Window::set_default_icon_name(APP_ID);
         }
     }
 

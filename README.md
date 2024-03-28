@@ -1,3 +1,5 @@
+<img src="data/icons/es.danirod.Cartero.svg" width="128" height="128">
+
 # Cartero
 
 Make HTTP requests and test APIs.

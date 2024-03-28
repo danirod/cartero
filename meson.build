@@ -42,6 +42,7 @@ localedir = prefix / get_option('localedir')
 
 datadir = prefix / get_option('datadir')
 pkgdatadir = datadir / meson.project_name()
+iconsdir = datadir / 'icons'
 gettext_package = meson.project_name()
 
 if get_option('profile') == 'development'
@@ -74,3 +75,8 @@ endif
 subdir('data')
 subdir('po')
 subdir('src')
+
+gnome.post_install(
+  gtk_update_icon_cache: true,
+  update_desktop_database: true,
+)

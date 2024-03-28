@@ -15,6 +15,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+subdir('icons')
+
 blueprint_files = [
   'ui/http_header_row.blp',
   'ui/main_window.blp',
@@ -35,3 +37,12 @@ resources = gnome.compile_resources(
   install: true,
   install_dir: pkgdatadir,
 )
+
+desktop_file = configure_file(
+  input: 'cartero.desktop.in',
+  output: '@0@.desktop'.format(application_id),
+  configuration: { 'app_id': application_id },
+  install_dir: join_paths(get_option('datadir'), 'applications')
+)
+desktop_utils = find_program('desktop-file-validate', required: true)
+test('Validate desktop file', desktop_utils, args: [desktop_file])

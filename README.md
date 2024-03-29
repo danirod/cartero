@@ -12,7 +12,7 @@ Make HTTP requests and test APIs.
 This project exists because there aren't many native graphical HTTP testing
 applications / graphical alternatives to cURL that are fully free software, and
 I think the world has had enough of Electron / non-native applications that are
-are anonymously accesible until one day you are forced to create an account and
+anonymously accesible until one day you are forced to create an account and
 log in to use.
 
 ## Roadmap

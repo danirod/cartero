@@ -42,6 +42,11 @@ fn populate_list(list_box: &ListBox, map: &HashMap<String, String>) {
 }
 
 mod imp {
+    use std::collections::HashMap;
+    use std::io::Read;
+
+    use crate::client::build_request;
+    use crate::client::{Request, RequestMethod};
     use glib::subclass::object::*;
     use glib::subclass::types::*;
     use glib::subclass::InitializingObject;
@@ -52,6 +57,7 @@ mod imp {
         },
         CompositeTemplate, TemplateChild,
     };
+    use isahc::RequestExt;
 
     use super::populate_list;
 
@@ -80,10 +86,48 @@ mod imp {
         fn on_send_request(&self, _: &gtk4::Button) {
             let obj = &self.obj();
             let url = obj.request_url();
-            let method = obj.request_method();
             let body = obj.request_body();
-            println!("Method: {}, URL: {}", method, url);
-            println!("{}", body);
+            let method = {
+                let str = String::from(obj.request_method());
+                RequestMethod::try_from(str.as_str())
+            };
+
+            let request = match method {
+                Ok(method) => {
+                    let request = Request {
+                        url: String::from(url),
+                        method,
+                        body: String::from(body),
+                        headers: HashMap::new(),
+                    };
+                    build_request(&request)
+                }
+                Err(_) => {
+                    println!("Error: invalid method");
+                    return;
+                }
+            };
+
+            let response = match request {
+                Err(_) => {
+                    println!("Error: invalid request");
+                    return;
+                }
+                Ok(req) => req.send(),
+            };
+
+            match response {
+                Err(_) => {
+                    println!("Error: invalid response");
+                    return;
+                }
+                Ok(mut rsp) => {
+                    let mut body_content = String::new();
+                    let _ = rsp.body_mut().read_to_string(&mut body_content);
+                    println!("{:?}", rsp);
+                    println!("{}", body_content);
+                }
+            };
         }
     }
 

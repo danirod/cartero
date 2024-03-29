@@ -16,6 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 mod app;
+mod client;
 mod components;
 #[rustfmt::skip]
 mod config;

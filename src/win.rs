@@ -47,6 +47,7 @@ mod imp {
 
     use crate::client::build_request;
     use crate::client::{Request, RequestMethod};
+    use crate::components::response_panel::ResponsePanel;
     use glib::subclass::object::*;
     use glib::subclass::types::*;
     use glib::subclass::InitializingObject;
@@ -78,6 +79,9 @@ mod imp {
 
         #[template_child]
         pub request_body: TemplateChild<sourceview5::View>,
+
+        #[template_child]
+        pub response: TemplateChild<ResponsePanel>,
     }
 
     #[gtk4::template_callbacks]

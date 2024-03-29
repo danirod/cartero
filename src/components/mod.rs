@@ -15,4 +15,5 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+pub mod response_panel;
 pub mod rowheader;

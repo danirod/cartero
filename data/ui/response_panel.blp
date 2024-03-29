@@ -1,0 +1,68 @@
+using Gtk 4.0;
+using GtkSource 5;
+
+template $CarteroResponsePanel: Box {
+  Overlay {
+    hexpand: true;
+    vexpand: true;
+
+    [overlay]
+    Notebook {
+      NotebookPage {
+        tab: Label {
+          label: _("Headers");
+        };
+
+        child: Label {
+          label: 'UNDER CONSTRUCTION';
+        };
+
+        // ListBox response_headers {
+        //   selection-mode: none;
+        // }
+      }
+
+      NotebookPage {
+        tab: Label {
+          label: _("Body");
+        };
+
+        child: ScrolledWindow {
+          hexpand: true;
+          vexpand: true;
+          width-request: 480;
+
+          GtkSource.View response_body {
+            auto-indent: true;
+            indent-width: 2;
+            show-line-numbers: true;
+            top-margin: 10;
+            bottom-margin: 10;
+            left-margin: 10;
+            right-margin: 10;
+            monospace: true;
+
+            buffer: GtkSource.Buffer {
+              text: '{"hello": "world"}';
+            };
+          }
+        };
+      }
+    }
+
+    [overlay]
+    Box response_meta {
+      halign: end;
+      valign: start;
+      margin-top: 10;
+      margin-end: 10;
+      spacing: 13;
+
+      Label status_code {}
+
+      Label duration {}
+
+      Label response_size {}
+    }
+  }
+}

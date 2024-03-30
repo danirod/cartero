@@ -1,0 +1,99 @@
+# Copyright 2024 the Cartero authors
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+on:
+  push:
+    branches:
+      - trunk
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Rust
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+      - name: Verify Rust Installation
+        run: |
+          rustc --version
+          cargo --version
+
+      - name: Setting up workflow dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y meson ninja-build glib-2.0 libgtk-4-dev valac python3-gi libgtksourceview-5-dev desktop-file-utils
+          npm install -g semver
+          
+      - name: Meson setup
+        run: |
+          meson setup out --prefix=~
+
+      - name: Compile
+        run: |
+          ninja -C out
+          ninja -C out install
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: cartero
+          path: ~/bin/cartero
+
+  create-release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: cartero
+          path: ~/bin
+      - name: Set up Git user
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+      - name: Create tag
+        run: |
+          git tag -a preview -m "Preview release"
+          git push origin trunk --tags
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: preview
+          release_name: Cartero Preview
+          body: |
+            Preview release
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: /home/runner/bin/cartero
+          asset_name: cartero
+          asset_content_type: application/octet-stream

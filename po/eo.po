@@ -19,11 +19,11 @@ msgstr ""
 
 #: data/ui/main_window.blp:26
 msgid "Open"
-msgstr ""
+msgstr "Malfermu"
 
 #: data/ui/main_window.blp:27 data/ui/main_window.blp:39
 msgid "UNDER CONSTRUCTION"
-msgstr ""
+msgstr "FARATA LABORO"
 
 #: data/ui/main_window.blp:78
 msgid "Send"

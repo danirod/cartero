@@ -46,13 +46,15 @@ if ! which cargo >/dev/null 2>&1 || ! cargo fmt --help >/dev/null 2>&1; then
 fi
 
 if ! which blueprint-compiler >/dev/null 2>&1 ; then
-    BLUEPRINT_INSTALL_DIR=git/blueprint-compiler
-    if ! [ -d $BLUEPRINT_INSTALL_DIR/subprojects/blueprint-compiler ]; then
+    BLUEPRINT_INSTALL_DIR=.git/blueprint-compiler
+    BLUEPRINT_ABS_INSTALL_DIR=$(realpath "$PWD/$BLUEPRINT_INSTALL_DIR")
+    BLUEPRINT=$BLUEPRINT_INSTALL_DIR/bin/blueprint-compiler
+    if ! [ -x $BLUEPRINT ]; then
         echo "Locally pulling blueprint-compiler for this one..."
         meson subprojects download
-        meson setup $BLUEPRINT_INSTALL_DIR --reconfigure
+        meson setup subprojects/blueprint-compiler/build subprojects/blueprint-compiler --prefix=$BLUEPRINT_ABS_INSTALL_DIR
+        ninja -C subprojects/blueprint-compiler/build install
     fi
-    BLUEPRINT=$BLUEPRINT_INSTALL_DIR/subprojects/blueprint-compiler/blueprint-compiler
 else
     BLUEPRINT=blueprint-compiler
 fi

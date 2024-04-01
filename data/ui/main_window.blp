@@ -22,81 +22,135 @@ template $CarteroWindow: ApplicationWindow {
   [titlebar]
   HeaderBar {
     [start]
-    DropDown method {
-      model: StringList {
-        strings [
-          "GET",
-          "POST",
-          "PUT",
-          "PATCH",
-          "DELETE",
-          "OPTIONS"
-        ]
-      };
+    MenuButton {
+      label: _("Open");
+      tooltip-text: _("UNDER CONSTRUCTION");
     }
 
     [title]
-    Entry url {
-      hexpand: true;
-      text: 'https://www.google.com';
+    Label {
+      use-markup: true;
+      label: "<b>Cartero</b>";
     }
 
     [end]
-    Button send {
-      clicked => $on_send_request() swapped;
-      label: _("Send");
+    MenuButton {
+      icon-name: "open-menu-symbolic";
+      tooltip-text: _("UNDER CONSTRUCTION");
+      primary: true;
     }
   }
 
-  Paned {
-    vexpand: true;
-    hexpand: true;
-    wide-handle: true;
+  Box {
+    orientation: vertical;
+    margin-top: 6;
+    margin-bottom: 6;
+    margin-start: 6;
+    margin-end: 6;
+    spacing: 6;
 
-    Notebook {
-      NotebookPage {
-        tab: Label {
-          label: _("Headers");
-        };
+    Box {
+      orientation: horizontal;
+      margin-start: 6;
+      margin-end: 6;
+      spacing: 6;
 
-        child: ScrolledWindow {
-          hexpand: true;
-          vexpand: true;
-
-          ListBox request_headers {
-            selection-mode: none;
-          }
+      DropDown method {
+        model: StringList {
+          strings [
+            "GET",
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE",
+            "OPTIONS"
+          ]
         };
       }
 
-      NotebookPage {
-        tab: Label {
-          label: _("Body");
-        };
+      Entry url {
+        hexpand: true;
+        text: 'https://www.google.com';
+      }
 
-        child: ScrolledWindow {
-          hexpand: true;
-          vexpand: true;
-          width-request: 480;
-
-          GtkSource.View request_body {
-            auto-indent: true;
-            indent-width: 2;
-            show-line-numbers: true;
-            top-margin: 10;
-            bottom-margin: 10;
-            left-margin: 10;
-            right-margin: 10;
-            monospace: true;
-
-            buffer: GtkSource.Buffer {
-              text: '{"hello": "world"}';
-            };
-          }
-        };
+      Button send {
+        clicked => $on_send_request() swapped;
+        label: _("Send");
       }
     }
 
-    $CarteroResponsePanel response {}
+    FlowBox {
+      orientation: horizontal;
+      homogeneous: true;
+      max-children-per-line: 2;
+      min-children-per-line: 1;
+      row-spacing: 6;
+      column-spacing: 6;
+      selection-mode: none;
+
+      FlowBoxChild {
+        focusable: false;
+
+        Box {
+          width-request: 480;
+          height-request: 200;
+
+          Notebook {
+            NotebookPage {
+              tab: Label {
+                label: _("Headers");
+              };
+
+              child: ScrolledWindow {
+                hexpand: true;
+                vexpand: true;
+
+                ListBox request_headers {
+                  selection-mode: none;
+                }
+              };
+            }
+
+            NotebookPage {
+              tab: Label {
+                label: _("Body");
+              };
+
+              child: ScrolledWindow {
+                hexpand: true;
+                vexpand: true;
+
+                GtkSource.View request_body {
+                  auto-indent: true;
+                  indent-width: 2;
+                  show-line-numbers: true;
+                  smart-backspace: true;
+                  top-margin: 10;
+                  bottom-margin: 10;
+                  left-margin: 10;
+                  right-margin: 10;
+                  monospace: true;
+
+                  buffer: GtkSource.Buffer {
+                    text: '{"hello": "world"}';
+                  };
+                }
+              };
+            }
+          }
+        }
+      }
+
+      FlowBoxChild {
+        focusable: false;
+
+        Box {
+          width-request: 480;
+          height-request: 200;
+
+          $CarteroResponsePanel response {}
+        }
+      }
+    }
   }
 }

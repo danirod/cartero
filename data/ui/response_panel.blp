@@ -14,7 +14,7 @@ template $CarteroResponsePanel: Box {
         };
 
         child: Label {
-          label: 'UNDER CONSTRUCTION';
+          label: _("UNDER CONSTRUCTION");
         };
 
         // ListBox response_headers {
@@ -30,12 +30,12 @@ template $CarteroResponsePanel: Box {
         child: ScrolledWindow {
           hexpand: true;
           vexpand: true;
-          width-request: 480;
 
           GtkSource.View response_body {
             auto-indent: true;
             indent-width: 2;
             show-line-numbers: true;
+            smart-backspace: true;
             top-margin: 10;
             bottom-margin: 10;
             left-margin: 10;

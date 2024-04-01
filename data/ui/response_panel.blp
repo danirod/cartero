@@ -27,19 +27,25 @@ template $CarteroResponsePanel: Box {
           label: _("Body");
         };
 
-        child: GtkSource.View response_body {
-          auto-indent: true;
-          indent-width: 2;
-          show-line-numbers: true;
-          top-margin: 10;
-          bottom-margin: 10;
-          left-margin: 10;
-          right-margin: 10;
-          monospace: true;
+        child: ScrolledWindow {
+          hexpand: true;
+          vexpand: true;
 
-          buffer: GtkSource.Buffer {
-            text: '{"hello": "world"}';
-          };
+          GtkSource.View response_body {
+            auto-indent: true;
+            indent-width: 2;
+            show-line-numbers: true;
+            smart-backspace: true;
+            top-margin: 10;
+            bottom-margin: 10;
+            left-margin: 10;
+            right-margin: 10;
+            monospace: true;
+
+            buffer: GtkSource.Buffer {
+              text: '{"hello": "world"}';
+            };
+          }
         };
       }
     }

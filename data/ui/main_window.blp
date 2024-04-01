@@ -48,55 +48,70 @@ template $CarteroWindow: ApplicationWindow {
     }
   }
 
-  Paned {
-    vexpand: true;
-    hexpand: true;
-    wide-handle: true;
+  FlowBox {
+    orientation: horizontal;
+    homogeneous: true;
+    max-children-per-line: 2;
+    min-children-per-line: 1;
+    selection-mode: none;
 
-    Notebook {
-      NotebookPage {
-        tab: Label {
-          label: _("Headers");
-        };
+    FlowBoxChild {
+      focusable: false;
 
-        child: ScrolledWindow {
-          hexpand: true;
-          vexpand: true;
+      Box {
+        width-request: 480;
+        height-request: 200;
 
-          ListBox request_headers {
-            selection-mode: none;
-          }
-        };
-      }
+        Notebook {
+          NotebookPage {
+            tab: Label {
+              label: _("Headers");
+            };
 
-      NotebookPage {
-        tab: Label {
-          label: _("Body");
-        };
+            child: ScrolledWindow {
+              hexpand: true;
+              vexpand: true;
 
-        child: ScrolledWindow {
-          hexpand: true;
-          vexpand: true;
-          width-request: 480;
-
-          GtkSource.View request_body {
-            auto-indent: true;
-            indent-width: 2;
-            show-line-numbers: true;
-            top-margin: 10;
-            bottom-margin: 10;
-            left-margin: 10;
-            right-margin: 10;
-            monospace: true;
-
-            buffer: GtkSource.Buffer {
-              text: '{"hello": "world"}';
+              ListBox request_headers {
+                selection-mode: none;
+              }
             };
           }
-        };
+
+          NotebookPage {
+            tab: Label {
+              label: _("Body");
+            };
+
+            child: GtkSource.View request_body {
+              auto-indent: true;
+              indent-width: 2;
+              show-line-numbers: true;
+              smart-backspace: true;
+              top-margin: 10;
+              bottom-margin: 10;
+              left-margin: 10;
+              right-margin: 10;
+              monospace: true;
+
+              buffer: GtkSource.Buffer {
+                text: '{"hello": "world"}';
+              };
+            };
+          }
+        }
       }
     }
 
-    $CarteroResponsePanel response {}
+    FlowBoxChild {
+      focusable: false;
+
+      Box {
+        width-request: 480;
+        height-request: 200;
+
+        $CarteroResponsePanel response {}
+      }
+    }
   }
 }

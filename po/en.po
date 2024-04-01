@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-03-28 18:20+0100\n"
+"POT-Creation-Date: 2024-04-01 00:07-0300\n"
 "PO-Revision-Date: 2024-03-28 18:09+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,14 +17,22 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: data/ui/main_window.blp:47
+#: data/ui/main_window.blp:26
+msgid "Open"
+msgstr "Open"
+
+#: data/ui/main_window.blp:27 data/ui/main_window.blp:39
+msgid "UNDER CONSTRUCTION"
+msgstr "UNDER CONSTRUCTION"
+
+#: data/ui/main_window.blp:78
 msgid "Send"
 msgstr "Send"
 
-#: data/ui/main_window.blp:59 data/ui/main_window.blp:103
+#: data/ui/main_window.blp:101
 msgid "Headers"
 msgstr "Headers"
 
-#: data/ui/main_window.blp:74 data/ui/main_window.blp:118
+#: data/ui/main_window.blp:116
 msgid "Body"
 msgstr "Body"

@@ -163,9 +163,32 @@ While this application is not official and at the moment is not affiliated with
 GNOME, you are expected to follow the [GNOME Code of Conduct][coc] when
 interacting with this repository.
 
+## Licenses
+
+Cartero is published under the terms of the GNU General Public License v3.0 or later.
+
+```
+Copyright 2024 the Cartero authors
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+```
+The Cartero icon is published under the a [Creative Commons
+Attribution-ShareAlike 4.0 International license][ccbysa].
+
 ## Credits and acknowledgments
 
-Cartero is being developed by [Dani Rodríguez][danirod].
+Cartero is maintained by [Dani Rodríguez][danirod].
 
 Big shoutout to the [contributors][contrib] who have sent patches or
 translations!
@@ -181,6 +204,7 @@ you cannot learn just by reading the official docs.
 
 Dani's [dev blog][blog] (in Spanish) of Cartero.
 
+[ccbysa]: https://creativecommons.org/licenses/by-sa/4.0/
 [coc]: https://conduct.gnome.org
 [contrib]: https://github.com/danirod/cartero/graphs/contributors
 [danirod]: https://github.com/danirod

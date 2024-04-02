@@ -101,6 +101,31 @@ It will also configure a Git hook so that the source code is checked prior to
 authoring a Git commit. The hook runs `cargo fmt` to assert that the code is
 formatted. Read `hooks/pre-commit.hook` to inspect what the script does.
 
+### Flatpak
+
+Install the runtime:
+
+```sh
+flatpak install --user org.gnome.Sdk//45 org.freedesktop.Sdk.Extension.rust-stable//23.08
+```
+
+To build and run the Flatpak:
+
+```sh
+flatpak-builder --user flatpak_app build-aux/es.danirod.Cartero.json
+flatpak-builder --run flatpak_app build-aux/es.danirod.Cartero.json cartero
+```
+
+To install the Flatpak into your system or user Flatpak, use the `--install`
+flag and maybe the `--user`:
+
+```sh
+flatpak-builder --user --install flatpak_app build-aux/es.danirod.Cartero.json
+```
+
+You will find Cartero in your application launcher, or you can launch it with
+`flatpak run es.danirod.Cartero`.
+
 ## Contributing
 
 > 🐛 This project is currently a larva trying to grow. Do you want to get in?

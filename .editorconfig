@@ -7,7 +7,7 @@ trim_trailing_whitespace = true
 insert_final_newline = true
 charset = utf-8
 
-[*.{blp,build,doap,xml}]
+[*.{blp,build,doap,json,xml}]
 indent_size = 2
 
 [*.{rs,rs.in}]

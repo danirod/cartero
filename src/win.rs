@@ -36,7 +36,7 @@ fn mock_map() -> HashMap<String, String> {
 
 fn populate_list(list_box: &ListBox, map: &HashMap<String, String>) {
     for (name, value) in map.iter() {
-        let rowheader = RowHeader::new(&name, &value);
+        let rowheader = RowHeader::new(name, value);
         list_box.append(&rowheader);
     }
 }
@@ -123,7 +123,6 @@ mod imp {
             match response {
                 Err(_) => {
                     println!("Error: invalid response");
-                    return;
                 }
                 Ok(mut rsp) => {
                     let mut body_content = String::new();
@@ -131,7 +130,7 @@ mod imp {
                     println!("{:?}", rsp);
                     println!("{}", body_content);
                 }
-            };
+            }
         }
     }
 

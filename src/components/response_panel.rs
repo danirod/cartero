@@ -82,6 +82,12 @@ glib::wrapper! {
         @implements gtk4::Accessible, gtk4::Buildable, gtk4::ConstraintTarget;
 }
 
+impl Default for ResponsePanel {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl ResponsePanel {
     pub fn new() -> Self {
         Object::builder().build()

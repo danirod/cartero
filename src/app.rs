@@ -63,12 +63,18 @@ glib::wrapper! {
 
 }
 
+impl Default for CarteroApplication {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl CarteroApplication {
     pub fn new() -> Self {
         Object::builder().property("application-id", APP_ID).build()
     }
 
     pub fn get_window(&self) -> CarteroWindow {
-        CarteroWindow::new(&self)
+        CarteroWindow::new(self)
     }
 }

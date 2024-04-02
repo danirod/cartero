@@ -1,4 +1,3 @@
-use isahc::http::request::Builder;
 use isahc::http::{Error, Method as IsaMethod};
 use isahc::Request as IsaRequest;
 

@@ -20,6 +20,7 @@ mod client;
 mod components;
 #[rustfmt::skip]
 mod config;
+mod objects;
 mod win;
 
 use gettextrs::LocaleCategory;

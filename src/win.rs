@@ -15,43 +15,26 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use std::collections::HashMap;
-
 use crate::app::CarteroApplication;
-use crate::components::rowheader::RowHeader;
-use crate::config::VERSION;
 use glib::{GString, Object};
+use gtk4::prelude::*;
 use gtk4::subclass::prelude::ObjectSubclassIsExt;
 use gtk4::{gio, glib, StringObject};
-use gtk4::{prelude::*, ListBox};
-
-fn mock_map() -> HashMap<String, String> {
-    let user_agent = format!("cartero/{})", VERSION);
-    let mut map = HashMap::new();
-    map.insert(String::from("Accept"), String::from("text/html"));
-    map.insert(String::from("User-Agent"), user_agent);
-    map.insert(String::from("Accept-Encoding"), String::from("bzip"));
-    map
-}
-
-fn populate_list(list_box: &ListBox, map: &HashMap<String, String>) {
-    for (name, value) in map.iter() {
-        let rowheader = RowHeader::new(name, value);
-        list_box.append(&rowheader);
-    }
-}
 
 mod imp {
     use std::collections::HashMap;
     use std::io::Read;
 
+    use gtk4::prelude::*;
+    use gtk4::subclass::prelude::*;
+
     use crate::client::build_request;
     use crate::client::{Request, RequestMethod};
     use crate::components::response_panel::ResponsePanel;
-    use glib::subclass::object::*;
-    use glib::subclass::types::*;
+    use crate::components::rowheader::RowHeader;
+    use crate::config::VERSION;
+    use crate::objects::Header;
     use glib::subclass::InitializingObject;
-    use gtk4::subclass::widget::*;
     use gtk4::{
         subclass::{
             application_window::ApplicationWindowImpl, widget::WidgetImpl, window::WindowImpl,
@@ -59,8 +42,6 @@ mod imp {
         CompositeTemplate, TemplateChild,
     };
     use isahc::RequestExt;
-
-    use super::populate_list;
 
     #[derive(CompositeTemplate, Default)]
     #[template(resource = "/es/danirod/Cartero/main_window.ui")]
@@ -154,8 +135,17 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let fake_headers = super::mock_map();
-            populate_list(&self.request_headers, &fake_headers);
+            let header = format!("Cartero/{}", VERSION);
+            let model = Header::new("User-Agent", &header);
+            let rowheader = RowHeader::default();
+            rowheader.set_header(&model);
+            self.request_headers.append(&rowheader);
+
+            self.send_button
+                .connect_clicked(glib::clone!(@weak model => move |_| {
+                    let value = format!("{} = {}", model.header_name(), model.header_value());
+                    println!("Header: {}", value);
+                }));
         }
     }
 

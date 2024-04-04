@@ -15,15 +15,22 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use std::cell::RefCell;
+
 use glib::subclass::InitializingObject;
-use glib::GString;
+use glib::{Object, Properties};
 use gtk4::subclass::prelude::*;
 use gtk4::{prelude::*, CompositeTemplate};
 use gtk4::{Box, Entry};
 
-#[derive(CompositeTemplate, Default)]
+use crate::objects::Header;
+
+#[derive(CompositeTemplate, Default, Properties)]
+#[properties(wrapper_type = RowHeader)]
 #[template(resource = "/es/danirod/Cartero/http_header_row.ui")]
 pub struct RowHeaderImpl {
+    #[property(get, set)]
+    header: RefCell<Header>,
     #[template_child]
     pub entry_key: TemplateChild<Entry>,
     #[template_child]
@@ -43,12 +50,8 @@ impl ObjectSubclass for RowHeaderImpl {
         obj.init_template();
     }
 }
-
-impl ObjectImpl for RowHeaderImpl {
-    fn constructed(&self) {
-        self.parent_constructed();
-    }
-}
+#[glib::derived_properties]
+impl ObjectImpl for RowHeaderImpl {}
 impl WidgetImpl for RowHeaderImpl {}
 impl BoxImpl for RowHeaderImpl {}
 
@@ -60,19 +63,8 @@ glib::wrapper! {
 
 }
 
-impl RowHeader {
-    pub fn new(key: &str, value: &str) -> Self {
-        let obj: Self = glib::Object::builder().build();
-        obj.imp().entry_key.set_text(key);
-        obj.imp().entry_value.set_text(value);
-        obj
-    }
-
-    pub fn get_key(&self) -> GString {
-        self.imp().entry_key.text()
-    }
-
-    pub fn get_value(&self) -> GString {
-        self.imp().entry_value.text()
+impl Default for RowHeader {
+    fn default() -> Self {
+        Object::builder().build()
     }
 }

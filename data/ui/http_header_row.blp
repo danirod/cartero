@@ -25,7 +25,11 @@ template $RowHeader: Gtk.Box {
   margin_top: 5;
   margin_bottom: 5;
 
-  Gtk.Entry entry_key {}
+  Gtk.Entry entry_key {
+    text: bind template.header as <$CarteroHeader>.header-name;
+  }
 
-  Gtk.Entry entry_value {}
+  Gtk.Entry entry_value {
+    text: bind template.header as <$CarteroHeader>.header-value;
+  }
 }

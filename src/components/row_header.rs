@@ -27,7 +27,7 @@ use crate::objects::Header;
 
 #[derive(CompositeTemplate, Default, Properties)]
 #[properties(wrapper_type = RowHeader)]
-#[template(resource = "/es/danirod/Cartero/http_header_row.ui")]
+#[template(resource = "/es/danirod/Cartero/row_header.ui")]
 pub struct RowHeaderImpl {
     #[property(get, set)]
     header: RefCell<Header>,
@@ -39,7 +39,7 @@ pub struct RowHeaderImpl {
 
 #[glib::object_subclass]
 impl ObjectSubclass for RowHeaderImpl {
-    const NAME: &'static str = "RowHeader";
+    const NAME: &'static str = "CarteroRowHeader";
     type Type = RowHeader;
     type ParentType = Box;
     fn class_init(klass: &mut Self::Class) {

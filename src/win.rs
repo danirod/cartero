@@ -31,7 +31,7 @@ mod imp {
     use crate::client::build_request;
     use crate::client::{Request, RequestMethod};
     use crate::components::response_panel::ResponsePanel;
-    use crate::components::rowheader::RowHeader;
+    use crate::components::row_header::RowHeader;
     use crate::config::VERSION;
     use crate::objects::Header;
     use glib::subclass::InitializingObject;

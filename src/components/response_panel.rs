@@ -15,7 +15,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use glib::subclass::types::*;
 use glib::Object;
 use gtk4::glib;
 

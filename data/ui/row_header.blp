@@ -18,18 +18,23 @@
 using Gtk 4.0;
 
 template $CarteroRowHeader: Gtk.Box {
-  homogeneous: true;
   spacing: 10;
   margin_start: 10;
   margin_end: 10;
   margin_top: 5;
   margin_bottom: 5;
 
+  Gtk.CheckButton active {
+    active: bind template.active bidirectional;
+  }
+
   Gtk.Entry entry_key {
-    text: bind template.header as <$CarteroHeader>.header-name;
+    hexpand: true;
+    text: bind template.header-name bidirectional;
   }
 
   Gtk.Entry entry_value {
-    text: bind template.header as <$CarteroHeader>.header-value;
+    hexpand: true;
+    text: bind template.header-value bidirectional;
   }
 }

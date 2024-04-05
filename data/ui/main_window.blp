@@ -105,8 +105,16 @@ template $CarteroWindow: ApplicationWindow {
                 hexpand: true;
                 vexpand: true;
 
-                ListBox request_headers {
-                  selection-mode: none;
+                ListView request_headers {
+                  factory: Gtk.BuilderListItemFactory {
+                    template ListItem {
+                      child: $CarteroRowHeader {
+                        header-name: bind template.item as <$CarteroHeader>.header-name;
+                        header-value: bind template.item as <$CarteroHeader>.header-value;
+                        active: bind template.item as <$CarteroHeader>.active;
+                      };
+                    }
+                  };
                 }
               };
             }

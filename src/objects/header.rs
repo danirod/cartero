@@ -44,7 +44,17 @@ impl Header {
         Object::builder()
             .property("header-name", name)
             .property("header-value", value)
+            .property("active", true)
             .build()
+    }
+
+    pub fn print(&self) {
+        println!(
+            "[{}] {}: {}",
+            self.active(),
+            self.header_name(),
+            self.header_value()
+        );
     }
 }
 

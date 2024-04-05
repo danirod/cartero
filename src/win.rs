@@ -22,11 +22,13 @@ use gtk4::subclass::prelude::ObjectSubclassIsExt;
 use gtk4::{gio, glib, StringObject};
 
 mod imp {
+    use std::cell::RefCell;
     use std::collections::HashMap;
     use std::io::Read;
 
-    use gtk4::prelude::*;
+    use gtk4::gio::{ListModel, ListStore};
     use gtk4::subclass::prelude::*;
+    use gtk4::{prelude::*, NoSelection};
 
     use crate::client::build_request;
     use crate::client::{Request, RequestMethod};
@@ -50,7 +52,7 @@ mod imp {
         pub send_button: TemplateChild<gtk4::Button>,
 
         #[template_child]
-        pub request_headers: TemplateChild<gtk4::ListBox>,
+        pub request_headers: TemplateChild<gtk4::ListView>,
 
         #[template_child(id = "method")]
         pub request_method: TemplateChild<gtk4::DropDown>,
@@ -69,48 +71,37 @@ mod imp {
     impl CarteroWindow {
         #[template_callback]
         fn on_send_request(&self, _: &gtk4::Button) {
-            let obj = &self.obj();
-            let url = obj.request_url();
-            let body = obj.request_body();
-            let method = {
-                let str = String::from(obj.request_method());
-                RequestMethod::try_from(str.as_str())
-            };
+            let headers = self.get_headers();
+            for h in headers {
+                println!("{:?}", h);
+            }
+        }
 
-            let request = match method {
-                Ok(method) => {
-                    let request = Request {
-                        url: String::from(url),
-                        method,
-                        body: String::from(body),
-                        headers: HashMap::new(),
-                    };
-                    build_request(&request)
+        fn get_headers(&self) -> Vec<(String, String)> {
+            let mut headers = Vec::new();
+            if let Some(model) = self.request_headers.model() {
+                let no_selection = model.downcast::<NoSelection>().unwrap();
+                let list_model = no_selection.model().unwrap();
+                for item in &list_model {
+                    if let Ok(thing) = item {
+                        let header = thing.downcast::<Header>().unwrap();
+                        let value = (header.header_name(), header.header_value());
+                        headers.push(value);
+                    }
                 }
-                Err(_) => {
-                    println!("Error: invalid method");
-                    return;
-                }
-            };
+            }
+            headers
+        }
 
-            let response = match request {
-                Err(_) => {
-                    println!("Error: invalid request");
-                    return;
-                }
-                Ok(req) => req.send(),
-            };
-
-            match response {
-                Err(_) => {
-                    println!("Error: invalid response");
-                }
-                Ok(mut rsp) => {
-                    let mut body_content = String::new();
-                    let _ = rsp.body_mut().read_to_string(&mut body_content);
-                    println!("{:?}", rsp);
-                    println!("{}", body_content);
-                }
+        fn add_header(&self, h: &Header) {
+            if let Some(model) = self.request_headers.model() {
+                let no_selection = model.downcast::<NoSelection>().unwrap();
+                let list_model = no_selection
+                    .model()
+                    .unwrap()
+                    .downcast::<ListStore>()
+                    .unwrap();
+                list_model.append(h);
             }
         }
     }
@@ -122,6 +113,7 @@ mod imp {
         type ParentType = gtk4::ApplicationWindow;
 
         fn class_init(klass: &mut Self::Class) {
+            RowHeader::static_type();
             klass.bind_template();
             klass.bind_template_callbacks();
         }
@@ -135,17 +127,15 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let header = format!("Cartero/{}", VERSION);
-            let model = Header::new("User-Agent", &header);
-            let rowheader = RowHeader::default();
-            rowheader.set_header(&model);
-            self.request_headers.append(&rowheader);
+            let model = ListStore::new::<Header>();
+            let selection_model = gtk4::NoSelection::new(Some(model.upcast::<ListModel>()));
+            self.request_headers.set_model(Some(&selection_model));
 
-            self.send_button
-                .connect_clicked(glib::clone!(@weak model => move |_| {
-                    let value = format!("{} = {}", model.header_name(), model.header_value());
-                    println!("Header: {}", value);
-                }));
+            self.add_header(&Header::new("Accept", "text/html"));
+            let h = Header::new("Content-Type", "text/html");
+            h.set_active(false);
+            self.add_header(&h);
+            self.add_header(&Header::new("Authorization", "Bearer roar"));
         }
     }
 

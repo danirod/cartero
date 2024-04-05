@@ -23,14 +23,16 @@ use gtk4::subclass::prelude::*;
 use gtk4::{prelude::*, CompositeTemplate};
 use gtk4::{Box, Entry};
 
-use crate::objects::Header;
-
 #[derive(CompositeTemplate, Default, Properties)]
 #[properties(wrapper_type = RowHeader)]
 #[template(resource = "/es/danirod/Cartero/row_header.ui")]
 pub struct RowHeaderImpl {
     #[property(get, set)]
-    header: RefCell<Header>,
+    active: RefCell<bool>,
+    #[property(get, set)]
+    header_name: RefCell<String>,
+    #[property(get, set)]
+    header_value: RefCell<String>,
     #[template_child]
     pub entry_key: TemplateChild<Entry>,
     #[template_child]

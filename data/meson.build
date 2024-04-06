@@ -23,10 +23,15 @@ blueprint_files = [
   'ui/response_panel.blp',
 ]
 
+blueprint_targets = []
+foreach blp : blueprint_files
+  blueprint_targets += blp.replace('.blp', '.ui').split('/')[-1]
+endforeach
+
 blueprints = custom_target('blueprints',
   input: files(blueprint_files),
-  output: '.',
-  command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@'],
+  output: blueprint_targets,
+  command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTDIR@', '@CURRENT_SOURCE_DIR@', '@INPUT@'],
 )
 
 resources = gnome.compile_resources(

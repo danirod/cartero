@@ -15,5 +15,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-pub mod response_panel;
-pub mod row_header;
+mod request_header_row;
+mod response_panel;
+
+pub use request_header_row::RequestHeaderRow;
+pub use response_panel::ResponsePanel;

@@ -18,8 +18,8 @@
 subdir('icons')
 
 blueprint_files = [
-  'ui/row_header.blp',
   'ui/main_window.blp',
+  'ui/request_header_row.blp',
   'ui/response_panel.blp',
 ]
 

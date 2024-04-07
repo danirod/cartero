@@ -17,7 +17,7 @@
 
 mod app;
 mod client;
-mod components;
+mod widgets;
 #[rustfmt::skip]
 mod config;
 mod objects;

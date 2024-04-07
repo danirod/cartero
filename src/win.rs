@@ -32,10 +32,9 @@ mod imp {
 
     use crate::client::build_request;
     use crate::client::{Request, RequestMethod};
-    use crate::components::response_panel::ResponsePanel;
-    use crate::components::row_header::RowHeader;
     use crate::config::VERSION;
     use crate::objects::Header;
+    use crate::widgets::*;
     use glib::subclass::InitializingObject;
     use gtk4::{
         subclass::{
@@ -113,7 +112,7 @@ mod imp {
         type ParentType = gtk4::ApplicationWindow;
 
         fn class_init(klass: &mut Self::Class) {
-            RowHeader::static_type();
+            RequestHeaderRow::static_type();
             klass.bind_template();
             klass.bind_template_callbacks();
         }

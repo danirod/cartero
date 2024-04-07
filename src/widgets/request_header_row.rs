@@ -1,0 +1,77 @@
+// Copyright 2024 the Cartero authors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+use gtk4::glib;
+use gtk4::glib::Object;
+
+mod imp {
+    use std::cell::RefCell;
+
+    use glib::subclass::InitializingObject;
+    use glib::Properties;
+    use gtk4::subclass::prelude::*;
+    use gtk4::{prelude::*, CompositeTemplate};
+    use gtk4::{Box, Entry};
+
+    #[derive(CompositeTemplate, Default, Properties)]
+    #[properties(wrapper_type = super::RequestHeaderRow)]
+    #[template(resource = "/es/danirod/Cartero/request_header_row.ui")]
+    pub struct RequestHeaderRow {
+        #[property(get, set)]
+        active: RefCell<bool>,
+        #[property(get, set)]
+        header_name: RefCell<String>,
+        #[property(get, set)]
+        header_value: RefCell<String>,
+        #[template_child]
+        pub entry_key: TemplateChild<Entry>,
+        #[template_child]
+        pub entry_value: TemplateChild<Entry>,
+    }
+
+    #[glib::object_subclass]
+    impl ObjectSubclass for RequestHeaderRow {
+        const NAME: &'static str = "CarteroRequestHeaderRow";
+        type Type = super::RequestHeaderRow;
+        type ParentType = Box;
+        fn class_init(klass: &mut Self::Class) {
+            klass.bind_template();
+        }
+
+        fn instance_init(obj: &InitializingObject<Self>) {
+            obj.init_template();
+        }
+    }
+    #[glib::derived_properties]
+    impl ObjectImpl for RequestHeaderRow {}
+    impl WidgetImpl for RequestHeaderRow {}
+    impl BoxImpl for RequestHeaderRow {}
+}
+
+glib::wrapper! {
+    pub struct RequestHeaderRow(ObjectSubclass<imp::RequestHeaderRow>)
+        @extends gtk4::Widget, gtk4::Box,
+        @implements gtk4::Accessible, gtk4::Buildable, gtk4::ConstraintTarget,
+                    gtk4::Actionable, gtk4::ActionBar, gtk4::ATContext;
+
+}
+
+impl Default for RequestHeaderRow {
+    fn default() -> Self {
+        Object::builder().build()
+    }
+}

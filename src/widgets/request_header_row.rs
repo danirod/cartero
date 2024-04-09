@@ -15,17 +15,23 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use glib::property::PropertySet;
+use glib::subclass::types::ObjectSubclassIsExt;
+use glib::{Binding, SignalHandlerId};
 use gtk4::glib;
 use gtk4::glib::Object;
 
 mod imp {
     use std::cell::RefCell;
+    use std::sync::OnceLock;
 
-    use glib::subclass::InitializingObject;
-    use glib::Properties;
+    use glib::subclass::{InitializingObject, Signal};
+    use glib::{Properties, SignalHandlerId};
     use gtk4::subclass::prelude::*;
     use gtk4::{prelude::*, CompositeTemplate};
     use gtk4::{Box, Entry};
+
+    use super::HeaderRowBindings;
 
     #[derive(CompositeTemplate, Default, Properties)]
     #[properties(wrapper_type = super::RequestHeaderRow)]
@@ -41,6 +47,19 @@ mod imp {
         pub entry_key: TemplateChild<Entry>,
         #[template_child]
         pub entry_value: TemplateChild<Entry>,
+
+        pub bindings: RefCell<Option<HeaderRowBindings>>,
+
+        pub delete_signal: RefCell<Option<SignalHandlerId>>,
+    }
+
+    #[gtk4::template_callbacks]
+    impl RequestHeaderRow {
+        #[template_callback]
+        fn on_delete_request(&self) {
+            let obj = self.obj();
+            obj.emit_by_name::<()>("delete", &[]);
+        }
     }
 
     #[glib::object_subclass]
@@ -50,14 +69,22 @@ mod imp {
         type ParentType = Box;
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
         }
 
         fn instance_init(obj: &InitializingObject<Self>) {
             obj.init_template();
         }
     }
+
     #[glib::derived_properties]
-    impl ObjectImpl for RequestHeaderRow {}
+    impl ObjectImpl for RequestHeaderRow {
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| vec![Signal::builder("delete").build()])
+        }
+    }
+
     impl WidgetImpl for RequestHeaderRow {}
     impl BoxImpl for RequestHeaderRow {}
 }
@@ -73,5 +100,62 @@ glib::wrapper! {
 impl Default for RequestHeaderRow {
     fn default() -> Self {
         Object::builder().build()
+    }
+}
+
+impl RequestHeaderRow {
+    pub fn set_bindings(&self, header_name: Binding, header_value: Binding, active: Binding) {
+        let imp = self.imp();
+
+        let binds = HeaderRowBindings::new(header_name, header_value, active);
+        imp.bindings.set(Some(binds));
+    }
+
+    pub fn reset_bindings(&self) {
+        let imp = self.imp();
+
+        {
+            let bindings = imp.bindings.borrow_mut();
+            if let Some(binds) = &*bindings {
+                binds.unbind();
+            }
+        }
+
+        imp.bindings.set(None);
+    }
+
+    pub fn set_delete_closure(&self, hnd: SignalHandlerId) {
+        let imp = self.imp();
+        imp.delete_signal.set(Some(hnd));
+    }
+
+    pub fn delete_closure(&self) -> Option<SignalHandlerId> {
+        let imp = self.imp();
+        imp.delete_signal.take()
+    }
+}
+
+/// Represents the bindings used by the HeaderRow component, which are required to
+/// persist so that I can unbind them later when the component is being cleaned
+/// to be reused with a different header later.
+pub struct HeaderRowBindings {
+    header_name: Binding,
+    header_value: Binding,
+    active: Binding,
+}
+
+impl HeaderRowBindings {
+    pub fn new(header_name: Binding, header_value: Binding, active: Binding) -> Self {
+        Self {
+            header_name,
+            header_value,
+            active,
+        }
+    }
+
+    pub fn unbind(&self) {
+        self.header_name.unbind();
+        self.header_value.unbind();
+        self.active.unbind();
     }
 }

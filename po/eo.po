@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-04-01 00:07-0300\n"
+"POT-Creation-Date: 2024-04-10 01:22+0200\n"
 "PO-Revision-Date: 2024-03-28 18:09+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -22,6 +22,7 @@ msgid "Open"
 msgstr "Malfermu"
 
 #: data/ui/main_window.blp:27 data/ui/main_window.blp:39
+#: data/ui/response_panel.blp:17
 msgid "UNDER CONSTRUCTION"
 msgstr "FARATA LABORO"
 
@@ -29,10 +30,26 @@ msgstr "FARATA LABORO"
 msgid "Send"
 msgstr "Petu"
 
-#: data/ui/main_window.blp:101
+#: data/ui/main_window.blp:101 data/ui/response_panel.blp:13
 msgid "Headers"
 msgstr "Kapoj"
 
-#: data/ui/main_window.blp:116
+#: data/ui/main_window.blp:114 data/ui/response_panel.blp:27
 msgid "Body"
 msgstr "Korpo"
+
+#: data/ui/request_header_pane.blp:33
+msgid "Add new header"
+msgstr "Novan kapon"
+
+#: data/ui/request_header_row.blp:34
+msgid "Name"
+msgstr "Nomo"
+
+#: data/ui/request_header_row.blp:40
+msgid "Value"
+msgstr "Enhavo"
+
+#: data/ui/request_header_row.blp:46
+msgid "Delete header"
+msgstr "Forigi kapo"

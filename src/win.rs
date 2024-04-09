@@ -22,18 +22,9 @@ use gtk4::subclass::prelude::ObjectSubclassIsExt;
 use gtk4::{gio, glib, StringObject};
 
 mod imp {
-    use std::cell::RefCell;
-    use std::collections::HashMap;
-    use std::io::Read;
-
-    use gtk4::gio::{ListModel, ListStore};
+    use gtk4::prelude::*;
     use gtk4::subclass::prelude::*;
-    use gtk4::{prelude::*, NoSelection};
 
-    use crate::client::build_request;
-    use crate::client::{Request, RequestMethod};
-    use crate::config::VERSION;
-    use crate::objects::Header;
     use crate::widgets::*;
     use glib::subclass::InitializingObject;
     use gtk4::{
@@ -42,7 +33,6 @@ mod imp {
         },
         CompositeTemplate, TemplateChild,
     };
-    use isahc::RequestExt;
 
     #[derive(CompositeTemplate, Default)]
     #[template(resource = "/es/danirod/Cartero/main_window.ui")]
@@ -51,7 +41,7 @@ mod imp {
         pub send_button: TemplateChild<gtk4::Button>,
 
         #[template_child]
-        pub request_headers: TemplateChild<gtk4::ListView>,
+        pub header_pane: TemplateChild<RequestHeaderPane>,
 
         #[template_child(id = "method")]
         pub request_method: TemplateChild<gtk4::DropDown>,
@@ -70,37 +60,9 @@ mod imp {
     impl CarteroWindow {
         #[template_callback]
         fn on_send_request(&self, _: &gtk4::Button) {
-            let headers = self.get_headers();
-            for h in headers {
-                println!("{:?}", h);
-            }
-        }
-
-        fn get_headers(&self) -> Vec<(String, String)> {
-            let mut headers = Vec::new();
-            if let Some(model) = self.request_headers.model() {
-                let no_selection = model.downcast::<NoSelection>().unwrap();
-                let list_model = no_selection.model().unwrap();
-                for item in &list_model {
-                    if let Ok(thing) = item {
-                        let header = thing.downcast::<Header>().unwrap();
-                        let value = (header.header_name(), header.header_value());
-                        headers.push(value);
-                    }
-                }
-            }
-            headers
-        }
-
-        fn add_header(&self, h: &Header) {
-            if let Some(model) = self.request_headers.model() {
-                let no_selection = model.downcast::<NoSelection>().unwrap();
-                let list_model = no_selection
-                    .model()
-                    .unwrap()
-                    .downcast::<ListStore>()
-                    .unwrap();
-                list_model.append(h);
+            let headers = self.header_pane.get_headers();
+            for header in headers {
+                header.print();
             }
         }
     }
@@ -113,6 +75,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             RequestHeaderRow::static_type();
+            RequestHeaderPane::static_type();
             klass.bind_template();
             klass.bind_template_callbacks();
         }
@@ -125,16 +88,6 @@ mod imp {
     impl ObjectImpl for CarteroWindow {
         fn constructed(&self) {
             self.parent_constructed();
-
-            let model = ListStore::new::<Header>();
-            let selection_model = gtk4::NoSelection::new(Some(model.upcast::<ListModel>()));
-            self.request_headers.set_model(Some(&selection_model));
-
-            self.add_header(&Header::new("Accept", "text/html"));
-            let h = Header::new("Content-Type", "text/html");
-            h.set_active(false);
-            self.add_header(&h);
-            self.add_header(&Header::new("Authorization", "Bearer roar"));
         }
     }
 

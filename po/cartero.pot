@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-04-01 00:07-0300\n"
+"POT-Creation-Date: 2024-04-10 01:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,6 +22,7 @@ msgid "Open"
 msgstr ""
 
 #: data/ui/main_window.blp:27 data/ui/main_window.blp:39
+#: data/ui/response_panel.blp:17
 msgid "UNDER CONSTRUCTION"
 msgstr ""
 
@@ -29,10 +30,26 @@ msgstr ""
 msgid "Send"
 msgstr ""
 
-#: data/ui/main_window.blp:101
+#: data/ui/main_window.blp:101 data/ui/response_panel.blp:13
 msgid "Headers"
 msgstr ""
 
-#: data/ui/main_window.blp:116
+#: data/ui/main_window.blp:114 data/ui/response_panel.blp:27
 msgid "Body"
+msgstr ""
+
+#: data/ui/request_header_pane.blp:33
+msgid "Add new header"
+msgstr ""
+
+#: data/ui/request_header_row.blp:34
+msgid "Name"
+msgstr ""
+
+#: data/ui/request_header_row.blp:40
+msgid "Value"
+msgstr ""
+
+#: data/ui/request_header_row.blp:46
+msgid "Delete header"
 msgstr ""

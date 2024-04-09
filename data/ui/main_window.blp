@@ -105,17 +105,7 @@ template $CarteroWindow: ApplicationWindow {
                 hexpand: true;
                 vexpand: true;
 
-                ListView request_headers {
-                  factory: Gtk.BuilderListItemFactory {
-                    template ListItem {
-                      child: $CarteroRequestHeaderRow {
-                        header-name: bind template.item as <$CarteroHeader>.header-name;
-                        header-value: bind template.item as <$CarteroHeader>.header-value;
-                        active: bind template.item as <$CarteroHeader>.active;
-                      };
-                    }
-                  };
-                }
+                $CarteroRequestHeaderPane header_pane {}
               };
             }
 

@@ -25,6 +25,9 @@ mod imp {
     use gtk4::prelude::*;
     use gtk4::subclass::prelude::*;
 
+    use gtk4::gio::ActionEntry;
+    use gtk4::gio::SimpleActionGroup;
+
     use crate::widgets::*;
     use glib::subclass::InitializingObject;
     use gtk4::{
@@ -56,10 +59,8 @@ mod imp {
         pub response: TemplateChild<ResponsePanel>,
     }
 
-    #[gtk4::template_callbacks]
     impl CarteroWindow {
-        #[template_callback]
-        fn on_send_request(&self, _: &gtk4::Button) {
+        fn perform_request(&self) {
             let headers = self.header_pane.get_headers();
             for header in headers {
                 header.print();
@@ -77,7 +78,6 @@ mod imp {
             RequestHeaderRow::static_type();
             RequestHeaderPane::static_type();
             klass.bind_template();
-            klass.bind_template_callbacks();
         }
 
         fn instance_init(obj: &InitializingObject<Self>) {
@@ -88,6 +88,15 @@ mod imp {
     impl ObjectImpl for CarteroWindow {
         fn constructed(&self) {
             self.parent_constructed();
+
+            let action_request = ActionEntry::builder("request")
+                .activate(glib::clone!(@weak self as window => move |_, _, _| {
+                    window.perform_request();
+                }))
+                .build();
+
+            let obj = self.obj();
+            obj.add_action_entries([action_request]);
         }
     }
 

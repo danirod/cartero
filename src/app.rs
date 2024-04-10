@@ -50,6 +50,9 @@ mod imp {
         fn startup(&self) {
             self.parent_startup();
             gtk4::Window::set_default_icon_name(APP_ID);
+
+            let obj = self.obj();
+            obj.set_accels_for_action("win.request", &["<Primary>Return"]);
         }
     }
 

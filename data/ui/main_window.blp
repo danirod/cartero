@@ -74,7 +74,7 @@ template $CarteroWindow: ApplicationWindow {
       }
 
       Button send {
-        clicked => $on_send_request() swapped;
+        action-name: "win.request";
         label: _("Send");
       }
     }

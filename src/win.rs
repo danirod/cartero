@@ -19,15 +19,23 @@ use crate::app::CarteroApplication;
 use glib::{GString, Object};
 use gtk4::prelude::*;
 use gtk4::subclass::prelude::ObjectSubclassIsExt;
-use gtk4::{gio, glib, StringObject};
+use gtk4::{gio, glib};
 
 mod imp {
+    use std::collections::HashMap;
+
+    use glib::GString;
     use gtk4::prelude::*;
     use gtk4::subclass::prelude::*;
 
     use gtk4::gio::ActionEntry;
-    use gtk4::gio::SimpleActionGroup;
+    use gtk4::StringObject;
+    use isahc::RequestExt;
 
+    use crate::client::Request;
+    use crate::client::RequestError;
+    use crate::client::RequestMethod;
+    use crate::client::Response;
     use crate::widgets::*;
     use glib::subclass::InitializingObject;
     use gtk4::{
@@ -60,11 +68,48 @@ mod imp {
     }
 
     impl CarteroWindow {
+        fn request_method(&self) -> GString {
+            self.request_method
+                .selected_item()
+                .unwrap()
+                .downcast::<StringObject>()
+                .unwrap()
+                .string()
+        }
+
+        fn extract_request(&self) -> Result<Request, RequestError> {
+            let url = String::from(self.request_url.buffer().text());
+            let method = RequestMethod::try_from(self.request_method().as_str())?;
+
+            let headers = {
+                let vector = self.header_pane.get_headers();
+                let map: Vec<(String, String)> = vector
+                    .iter()
+                    .filter(|h| h.active())
+                    .map(|h| (h.header_name(), h.header_value()))
+                    .collect();
+                HashMap::from_iter(map)
+            };
+
+            let mut body = {
+                let buffer = self.request_body.buffer();
+                let (start, end) = buffer.bounds();
+                let text = buffer.text(&start, &end, true);
+                Vec::from(text.as_bytes())
+            };
+
+            Ok(Request::new(url, method, headers, body))
+        }
+
         fn perform_request(&self) {
-            let headers = self.header_pane.get_headers();
-            for header in headers {
-                header.print();
-            }
+            let request = self.extract_request().unwrap();
+            let request_obj = isahc::Request::try_from(request).unwrap();
+            let mut response_obj = request_obj.send().unwrap();
+            let response = Response::try_from(&mut response_obj).unwrap();
+
+            println!("{:?}", response.status_code);
+            println!("{:?}", response.headers);
+            println!("{:?}", response.body_as_str());
         }
     }
 
@@ -122,14 +167,13 @@ impl CarteroWindow {
         self.imp().request_url.text()
     }
 
-    pub fn request_method(&self) -> GString {
-        let method = &self.imp().request_method;
-        method
-            .selected_item()
-            .unwrap()
-            .downcast::<StringObject>()
-            .unwrap()
-            .string()
+    pub fn request_headers(&self) -> Vec<(String, String)> {
+        let headers = self.imp().header_pane.get_headers();
+        headers
+            .iter()
+            .filter(|h| h.active())
+            .map(|h| (h.header_name(), h.header_value()))
+            .collect()
     }
 
     pub fn request_body(&self) -> GString {

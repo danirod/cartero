@@ -91,13 +91,12 @@ mod imp {
                 HashMap::from_iter(map)
             };
 
-            let mut body = {
+            let body = {
                 let buffer = self.request_body.buffer();
                 let (start, end) = buffer.bounds();
                 let text = buffer.text(&start, &end, true);
                 Vec::from(text.as_bytes())
             };
-
             Ok(Request::new(url, method, headers, body))
         }
 
@@ -106,10 +105,7 @@ mod imp {
             let request_obj = isahc::Request::try_from(request).unwrap();
             let mut response_obj = request_obj.send().unwrap();
             let response = Response::try_from(&mut response_obj).unwrap();
-
-            println!("{:?}", response.status_code);
-            println!("{:?}", response.headers);
-            println!("{:?}", response.body_as_str());
+            self.response.assign_from_response(&response);
         }
     }
 

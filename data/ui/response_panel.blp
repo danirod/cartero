@@ -13,13 +13,10 @@ template $CarteroResponsePanel: Box {
           label: _("Headers");
         };
 
-        child: Label {
-          label: _("UNDER CONSTRUCTION");
+        child: ScrolledWindow response_header_window {
+          hexpand: true;
+          vexpand: true;
         };
-
-        // ListBox response_headers {
-        //   selection-mode: none;
-        // }
       }
 
       NotebookPage {
@@ -42,9 +39,7 @@ template $CarteroResponsePanel: Box {
             right-margin: 10;
             monospace: true;
 
-            buffer: GtkSource.Buffer {
-              text: '{"hello": "world"}';
-            };
+            buffer: GtkSource.Buffer {};
           }
         };
       }
@@ -58,11 +53,17 @@ template $CarteroResponsePanel: Box {
       margin-end: 10;
       spacing: 13;
 
-      Label status_code {}
+      Label status_code {
+        visible: false;
+      }
 
-      Label duration {}
+      Label duration {
+        visible: false;
+      }
 
-      Label response_size {}
+      Label response_size {
+        visible: false;
+      }
     }
   }
 }

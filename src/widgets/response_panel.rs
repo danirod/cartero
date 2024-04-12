@@ -17,11 +17,16 @@
 
 use glib::Object;
 use gtk4::glib;
+use gtk4::prelude::TextViewExt;
+use gtk4::prelude::*;
+
+use crate::client::Response;
+use glib::subclass::types::ObjectSubclassIsExt;
 
 mod imp {
     use glib::subclass::InitializingObject;
-    use gtk4::prelude::*;
     use gtk4::subclass::prelude::*;
+    use gtk4::{prelude::*, ScrolledWindow};
     use gtk4::{
         subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetImpl},
         Box, CompositeTemplate, Label, TemplateChild,
@@ -31,6 +36,8 @@ mod imp {
     #[derive(CompositeTemplate, Default)]
     #[template(resource = "/es/danirod/Cartero/response_panel.ui")]
     pub struct ResponsePanel {
+        #[template_child]
+        pub response_header_window: TemplateChild<ScrolledWindow>,
         #[template_child]
         pub response_body: TemplateChild<View>,
         #[template_child]
@@ -58,17 +65,7 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for ResponsePanel {
-        fn constructed(&self) {
-            self.response_body
-                .buffer()
-                .set_text("<xml>Under construction</xml>");
-            self.response_meta.set_visible(true);
-            self.status_code.set_label("HTTP 200");
-            self.duration.set_label("2 s");
-            self.response_size.set_label("400 B");
-        }
-    }
+    impl ObjectImpl for ResponsePanel {}
 
     impl WidgetImpl for ResponsePanel {}
 
@@ -90,5 +87,37 @@ impl Default for ResponsePanel {
 impl ResponsePanel {
     pub fn new() -> Self {
         Object::builder().build()
+    }
+
+    pub fn assign_from_response(&self, resp: &Response) {
+        let imp = self.imp();
+
+        let window = &imp.response_header_window;
+        let gtk_box = {
+            let gtk_box = gtk4::Box::builder()
+                .orientation(gtk4::Orientation::Vertical)
+                .build();
+
+            for (hn, hv) in &resp.headers {
+                let row = gtk4::Box::default();
+                row.set_orientation(gtk4::Orientation::Horizontal);
+                row.set_spacing(4);
+                let name = format!("{}:", &*hn);
+                let name = gtk4::Label::builder().label(&name).build();
+                let value = gtk4::Label::builder().label(&*hv).build();
+                row.append(&name);
+                row.append(&value);
+                gtk_box.append(&row);
+            }
+
+            gtk_box
+        };
+        window.set_child(Some(&gtk_box));
+
+        let status = format!("HTTP {}", resp.status_code);
+        imp.status_code.set_text(&status);
+        imp.status_code.set_visible(true);
+
+        imp.response_body.buffer().set_text(&resp.body_as_str());
     }
 }

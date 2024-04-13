@@ -80,17 +80,14 @@ mod imp {
         fn extract_request(&self) -> Result<Request, RequestError> {
             let url = String::from(self.request_url.buffer().text());
             let method = RequestMethod::try_from(self.request_method().as_str())?;
-
             let headers = {
                 let vector = self.header_pane.get_headers();
-                let map: Vec<(String, String)> = vector
+                vector
                     .iter()
-                    .filter(|h| h.active())
+                    .filter(|h| h.is_usable())
                     .map(|h| (h.header_name(), h.header_value()))
-                    .collect();
-                HashMap::from_iter(map)
+                    .collect()
             };
-
             let body = {
                 let buffer = self.request_body.buffer();
                 let (start, end) = buffer.bounds();

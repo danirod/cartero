@@ -50,6 +50,15 @@ glib::wrapper! {
     pub struct Header(ObjectSubclass<imp::Header>);
 }
 
+impl Header {
+    // For a header to be actually usable, it must be checked, and also it must have a header name
+    // properly set. We could argue that having an empty value is also dumb, but the spec
+    // technically allows this.
+    pub fn is_usable(&self) -> bool {
+        self.active() && !self.header_name().is_empty()
+    }
+}
+
 impl Default for Header {
     fn default() -> Self {
         Object::builder().build()

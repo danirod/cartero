@@ -82,12 +82,7 @@ pub struct Response {
 
 impl Response {
     pub fn body_as_str(&self) -> String {
-        if let Ok(s) = String::from_utf8(self.body.clone()) {
-            return s;
-        }
-        // Fallback to Latin1 in case the contents are not UTF-8
-        // TODO: This is not acceptable.
-        self.body.iter().map(|&c| c as char).collect()
+        String::from_utf8_lossy(&self.body).into_owned()
     }
 }
 

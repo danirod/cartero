@@ -46,21 +46,38 @@ endif
 
 cargo_env = [ 'CARGO_HOME=' + meson.project_build_root() / 'cargo-home' ]
 
+cartero_bin = meson.project_name()
+if host_machine.system() == 'windows'
+  cartero_bin = '@0@.exe'.format(cartero_bin)
+endif
+
 cargo_build = custom_target(
   'cargo-build',
+  build_by_default: true,
+  build_always_stale: true,
+  output: rust_target,
+  console: true,
+  depends: resources,
+  env: cargo_env,
+  command: [
+    cargo, 'build',
+    cargo_options
+  ]
+)
+
+cartero_copy = custom_target(
+  'cartero-copy-binary',
+  depends: cargo_build,
   build_by_default: true,
   build_always_stale: true,
   output: meson.project_name(),
   console: true,
   install: true,
   install_dir: bindir,
-  depends: resources,
+  output: cartero_bin,
   command: [
-    'env',
-    cargo_env,
-    cargo, 'build',
-    cargo_options,
-    '&&',
-    'cp', 'src' / rust_target / meson.project_name(), '@OUTPUT@',
+    'cp',
+    'src' / rust_target / cartero_bin,
+    '@OUTPUT@',
   ]
 )

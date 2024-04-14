@@ -15,6 +15,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+#![windows_subsystem = "windows"]
+
 mod app;
 mod client;
 mod widgets;

@@ -19,6 +19,7 @@
 
 mod app;
 mod client;
+mod file;
 mod widgets;
 #[rustfmt::skip]
 mod config;

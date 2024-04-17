@@ -47,6 +47,20 @@ impl TryFrom<&str> for RequestMethod {
     }
 }
 
+impl Into<&str> for RequestMethod {
+    fn into(self) -> &'static str {
+        match self {
+            RequestMethod::Get => "GET",
+            RequestMethod::Post => "POST",
+            RequestMethod::Put => "PUT",
+            RequestMethod::Patch => "PATCH",
+            RequestMethod::Delete => "DELETE",
+            RequestMethod::Head => "HEAD",
+            RequestMethod::Options => "OPTIONS",
+        }
+    }
+}
+
 #[derive(Debug, Clone)]
 pub struct Request {
     pub url: String,

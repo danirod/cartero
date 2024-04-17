@@ -16,14 +16,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use crate::app::CarteroApplication;
-use glib::{GString, Object};
-use gtk4::prelude::*;
-use gtk4::subclass::prelude::ObjectSubclassIsExt;
+use glib::Object;
 use gtk4::{gio, glib};
 
 mod imp {
-    use std::collections::HashMap;
-
     use glib::GString;
     use gtk4::prelude::*;
     use gtk4::subclass::prelude::*;
@@ -154,24 +150,5 @@ glib::wrapper! {
 impl CarteroWindow {
     pub fn new(app: &CarteroApplication) -> Self {
         Object::builder().property("application", Some(app)).build()
-    }
-
-    pub fn request_url(&self) -> GString {
-        self.imp().request_url.text()
-    }
-
-    pub fn request_headers(&self) -> Vec<(String, String)> {
-        let headers = self.imp().header_pane.get_headers();
-        headers
-            .iter()
-            .filter(|h| h.active())
-            .map(|h| (h.header_name(), h.header_value()))
-            .collect()
-    }
-
-    pub fn request_body(&self) -> GString {
-        let body = &self.imp().request_body;
-        let (start, end) = body.buffer().bounds();
-        body.buffer().text(&start, &end, true)
     }
 }

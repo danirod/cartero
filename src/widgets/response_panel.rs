@@ -26,7 +26,7 @@ use glib::subclass::types::ObjectSubclassIsExt;
 mod imp {
     use glib::subclass::InitializingObject;
     use gtk4::subclass::prelude::*;
-    use gtk4::{prelude::*, ScrolledWindow};
+    use gtk4::ScrolledWindow;
     use gtk4::{
         subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetImpl},
         Box, CompositeTemplate, Label, TemplateChild,

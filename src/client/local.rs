@@ -61,6 +61,13 @@ impl Into<&str> for RequestMethod {
     }
 }
 
+impl From<RequestMethod> for String {
+    fn from(value: RequestMethod) -> String {
+        let string: &str = value.into();
+        String::from(string)
+    }
+}
+
 #[derive(Debug, Clone)]
 pub struct Request {
     pub url: String,

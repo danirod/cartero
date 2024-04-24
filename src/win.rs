@@ -20,6 +20,8 @@ use glib::Object;
 use gtk4::{gio, glib};
 
 mod imp {
+    use std::collections::HashMap;
+
     use glib::GString;
     use gtk4::prelude::*;
     use gtk4::subclass::prelude::*;
@@ -61,6 +63,9 @@ mod imp {
 
         #[template_child]
         pub response: TemplateChild<ResponsePanel>,
+
+        #[template_child]
+        pub verbs_string_list: TemplateChild<gtk4::StringList>,
     }
 
     impl CarteroWindow {
@@ -73,6 +78,32 @@ mod imp {
                 .string()
         }
 
+        fn set_request_method(&self, rm: RequestMethod) {
+            let verb_to_find = String::from(rm);
+            let element_count = self.request_method.model().unwrap().n_items();
+            let target_position = (0..element_count).find(|i| {
+                if let Some(verb) = self.verbs_string_list.string(*i) {
+                    if verb.to_string() == verb_to_find {
+                        return true;
+                    }
+                }
+                false
+            });
+            if let Some(pos) = target_position {
+                self.request_method.set_selected(pos);
+            }
+        }
+
+        // Convert from a Request object into UI state
+        fn assign_request(&self, req: &Request) {
+            self.request_url.buffer().set_text(req.url.clone());
+            self.set_request_method(req.method.clone());
+            self.header_pane.set_headers(&req.headers);
+            let body = String::from_utf8_lossy(&req.body).to_owned();
+            self.request_body.buffer().set_text(&body);
+        }
+
+        // Convert from UI state into a Request object
         fn extract_request(&self) -> Result<Request, RequestError> {
             let url = String::from(self.request_url.buffer().text());
             let method = RequestMethod::try_from(self.request_method().as_str())?;

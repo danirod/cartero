@@ -57,17 +57,7 @@ template $CarteroWindow: ApplicationWindow {
 
       DropDown method {
         tooltip-text: _("Request method");
-
-        model: StringList {
-          strings [
-            "GET",
-            "POST",
-            "PUT",
-            "PATCH",
-            "DELETE",
-            "OPTIONS"
-          ]
-        };
+        model: verbs_string_list;
       }
 
       Entry url {
@@ -152,4 +142,15 @@ template $CarteroWindow: ApplicationWindow {
       }
     }
   }
+}
+
+StringList verbs_string_list {
+  strings [
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+    "OPTIONS"
+  ]
 }

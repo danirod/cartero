@@ -15,6 +15,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use std::collections::HashMap;
+
 use glib::{object::Cast, subclass::types::ObjectSubclassIsExt};
 use gtk4::{gio, glib};
 
@@ -190,5 +192,21 @@ impl RequestHeaderPane {
             }
         }
         v
+    }
+
+    pub fn set_headers(&self, headers: &HashMap<String, String>) {
+        let imp = self.imp();
+
+        let model = imp.selection_model.model().expect("Where is my ListModel?");
+        let list_store = model.downcast::<gio::ListStore>().unwrap().clone();
+        list_store.remove_all();
+
+        for (k, v) in headers {
+            let hdr = Header::default();
+            hdr.set_header_name(k.clone());
+            hdr.set_header_value(v.clone());
+            hdr.set_active(true);
+            list_store.append(&hdr);
+        }
     }
 }

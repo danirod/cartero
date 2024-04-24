@@ -20,14 +20,14 @@ use glib::Object;
 use gtk4::{gio, glib};
 
 mod imp {
-    use std::collections::HashMap;
-
     use glib::GString;
     use gtk4::prelude::*;
     use gtk4::subclass::prelude::*;
 
     use gtk4::gio::ActionEntry;
+    use gtk4::FileChooserAction;
     use gtk4::StringObject;
+    use gtk4::Window;
     use isahc::RequestExt;
 
     use crate::client::Request;
@@ -124,6 +124,25 @@ mod imp {
             Ok(Request::new(url, method, headers, body))
         }
 
+        async fn trigger_save(&self) {
+            let dialog = gtk4::FileDialog::builder()
+                .accept_label("Guardar")
+                .title("Guardar petición")
+                .modal(true)
+                .build();
+            let result = dialog
+                .save_future(gtk4::Window::NONE)
+                .await
+                .map_err(|e| println!("{:?}", e));
+            if let Ok(file) = result {
+                if let Some(path) = file.path() {
+                    let request = self.extract_request().unwrap();
+                    let serialized_payload = crate::file::store_toml(&request).unwrap();
+                    let _ = crate::file::write_file(&path, &serialized_payload);
+                }
+            }
+        }
+
         fn perform_request(&self) {
             let request = self.extract_request().unwrap();
             let request_obj = isahc::Request::try_from(request).unwrap();
@@ -159,9 +178,16 @@ mod imp {
                     window.perform_request();
                 }))
                 .build();
+            let action_save = ActionEntry::builder("save")
+                .activate(glib::clone!(@weak self as window => move |_, _, _| {
+                    glib::spawn_future_local(glib::clone!(@weak window => async move {
+                        window.trigger_save().await;
+                    }));
+                }))
+                .build();
 
             let obj = self.obj();
-            obj.add_action_entries([action_request]);
+            obj.add_action_entries([action_request, action_save]);
         }
     }
 

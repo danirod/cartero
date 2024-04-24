@@ -1,4 +1,7 @@
-use std::collections::HashMap;
+use std::error::Error;
+use std::io::Write;
+use std::path::PathBuf;
+use std::{collections::HashMap, fs::File};
 
 use serde::{Deserialize, Serialize};
 
@@ -69,6 +72,11 @@ pub fn parse_toml(file: &str) -> Result<Request, ()> {
 pub fn store_toml(req: &Request) -> Result<String, ()> {
     let file = RequestFile::from(req.clone());
     toml::to_string(&file).map_err(|_| ())
+}
+
+pub fn write_file(path: &PathBuf, contents: &str) -> std::io::Result<()> {
+    let mut file = File::create(path)?;
+    write!(file, "{}", contents)
 }
 
 #[cfg(test)]

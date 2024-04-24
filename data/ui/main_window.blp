@@ -22,9 +22,17 @@ template $CarteroWindow: ApplicationWindow {
   [titlebar]
   HeaderBar {
     [start]
-    MenuButton {
-      label: _("Open");
-      tooltip-text: _("UNDER CONSTRUCTION");
+    Box {
+      MenuButton open_dialog {
+        label: _("Open");
+        tooltip-text: _("UNDER CONSTRUCTION");
+      }
+
+      Button save_dialog {
+        action-name: "win.save";
+        icon-name: 'document-save-symbolic';
+        tooltip-text: _("Save");
+      }
     }
 
     [title]

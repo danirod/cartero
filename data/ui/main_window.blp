@@ -23,9 +23,24 @@ template $CarteroWindow: ApplicationWindow {
   HeaderBar {
     [start]
     Box {
-      MenuButton open_dialog {
-        label: _("Open");
-        tooltip-text: _("UNDER CONSTRUCTION");
+      spacing: 5;
+
+      Button open_dialog {
+        action-name: "win.open";
+        tooltip-text: _("Open");
+
+        [child]
+        Box {
+          spacing: 5;
+
+          Image {
+            icon-name: 'document-open-symbolic';
+          }
+
+          Label {
+            label: _("Open");
+          }
+        }
       }
 
       Button save_dialog {

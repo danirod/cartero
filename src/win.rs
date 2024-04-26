@@ -124,6 +124,25 @@ mod imp {
             Ok(Request::new(url, method, headers, body))
         }
 
+        async fn trigger_open(&self) {
+            let dialog = gtk4::FileDialog::builder()
+                .accept_label("Abrir")
+                .title("Abrir petición")
+                .modal(true)
+                .build();
+            let result = dialog
+                .open_future(gtk4::Window::NONE)
+                .await
+                .map_err(|e| println!("{:?}", e));
+            if let Ok(file) = result {
+                if let Some(path) = file.path() {
+                    let contents = crate::file::read_file(&path).unwrap();
+                    let request = crate::file::parse_toml(&contents).unwrap();
+                    self.assign_request(&request);
+                }
+            }
+        }
+
         async fn trigger_save(&self) {
             let dialog = gtk4::FileDialog::builder()
                 .accept_label("Guardar")
@@ -178,6 +197,13 @@ mod imp {
                     window.perform_request();
                 }))
                 .build();
+            let action_open = ActionEntry::builder("open")
+                .activate(glib::clone!(@weak self as window => move |_, _, _| {
+                    glib::spawn_future_local(glib::clone!(@weak window => async move {
+                        window.trigger_open().await;
+                    }));
+                }))
+                .build();
             let action_save = ActionEntry::builder("save")
                 .activate(glib::clone!(@weak self as window => move |_, _, _| {
                     glib::spawn_future_local(glib::clone!(@weak window => async move {
@@ -187,7 +213,7 @@ mod imp {
                 .build();
 
             let obj = self.obj();
-            obj.add_action_entries([action_request, action_save]);
+            obj.add_action_entries([action_request, action_open, action_save]);
         }
     }
 

@@ -74,6 +74,10 @@ pub fn store_toml(req: &Request) -> Result<String, ()> {
     toml::to_string(&file).map_err(|_| ())
 }
 
+pub fn read_file(path: &PathBuf) -> std::io::Result<String> {
+    std::fs::read_to_string(path)
+}
+
 pub fn write_file(path: &PathBuf, contents: &str) -> std::io::Result<()> {
     let mut file = File::create(path)?;
     write!(file, "{}", contents)

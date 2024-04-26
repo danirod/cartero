@@ -20,6 +20,8 @@ use glib::Object;
 use gtk4::{gio, glib};
 
 mod imp {
+    use std::error::Error;
+
     use glib::GString;
     use gtk4::prelude::*;
     use gtk4::subclass::prelude::*;
@@ -124,41 +126,47 @@ mod imp {
             Ok(Request::new(url, method, headers, body))
         }
 
-        async fn trigger_open(&self) {
+        async fn trigger_open(&self) -> Result<(), Box<dyn Error>> {
             let dialog = gtk4::FileDialog::builder()
                 .accept_label("Abrir")
                 .title("Abrir petición")
                 .modal(true)
                 .build();
-            let result = dialog
-                .open_future(gtk4::Window::NONE)
-                .await
-                .map_err(|e| println!("{:?}", e));
-            if let Ok(file) = result {
-                if let Some(path) = file.path() {
-                    let contents = crate::file::read_file(&path).unwrap();
-                    let request = crate::file::parse_toml(&contents).unwrap();
-                    self.assign_request(&request);
+            let result = dialog.open_future(gtk4::Window::NONE).await;
+            match result {
+                Ok(file) => {
+                    if let Some(path) = file.path() {
+                        let contents = crate::file::read_file(&path)?;
+                        let request = crate::file::parse_toml(&contents)?;
+                        self.assign_request(&request);
+                        Ok(())
+                    } else {
+                        Err("No path".into())
+                    }
                 }
+                Err(e) => Err(Box::new(e)),
             }
         }
 
-        async fn trigger_save(&self) {
+        async fn trigger_save(&self) -> Result<(), Box<dyn Error>> {
             let dialog = gtk4::FileDialog::builder()
                 .accept_label("Guardar")
                 .title("Guardar petición")
                 .modal(true)
                 .build();
-            let result = dialog
-                .save_future(gtk4::Window::NONE)
-                .await
-                .map_err(|e| println!("{:?}", e));
-            if let Ok(file) = result {
-                if let Some(path) = file.path() {
-                    let request = self.extract_request().unwrap();
-                    let serialized_payload = crate::file::store_toml(&request).unwrap();
-                    let _ = crate::file::write_file(&path, &serialized_payload);
+            let result = dialog.save_future(gtk4::Window::NONE).await;
+            match result {
+                Ok(file) => {
+                    if let Some(path) = file.path() {
+                        let request = self.extract_request()?;
+                        let serialized_payload = crate::file::store_toml(&request)?;
+                        crate::file::write_file(&path, &serialized_payload)?;
+                        Ok(())
+                    } else {
+                        Err("No path".into())
+                    }
                 }
+                Err(e) => Err(Box::new(e)),
             }
         }
 
@@ -200,14 +208,18 @@ mod imp {
             let action_open = ActionEntry::builder("open")
                 .activate(glib::clone!(@weak self as window => move |_, _, _| {
                     glib::spawn_future_local(glib::clone!(@weak window => async move {
-                        window.trigger_open().await;
+                        if let Err(e) = window.trigger_open().await {
+                            println!("TODO: Show toast {:?}", e);
+                        }
                     }));
                 }))
                 .build();
             let action_save = ActionEntry::builder("save")
                 .activate(glib::clone!(@weak self as window => move |_, _, _| {
                     glib::spawn_future_local(glib::clone!(@weak window => async move {
-                        window.trigger_save().await;
+                        if let Err(e) = window.trigger_save().await {
+                            println!("TODO: Show toast {:?}", e);
+                        }
                     }));
                 }))
                 .build();

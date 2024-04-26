@@ -62,16 +62,14 @@ impl From<Request> for RequestFile {
     }
 }
 
-pub fn parse_toml(file: &str) -> Result<Request, ()> {
-    let Ok(contents) = toml::from_str::<RequestFile>(file) else {
-        return Err(());
-    };
-    Request::try_from(contents).map_err(|_| ())
+pub fn parse_toml(file: &str) -> Result<Request, Box<dyn Error>> {
+    let contents = toml::from_str::<RequestFile>(file)?;
+    Request::try_from(contents).map_err(|e| e.into())
 }
 
-pub fn store_toml(req: &Request) -> Result<String, ()> {
+pub fn store_toml(req: &Request) -> Result<String, Box<dyn Error>> {
     let file = RequestFile::from(req.clone());
-    toml::to_string(&file).map_err(|_| ())
+    toml::to_string(&file).map_err(|e| e.into())
 }
 
 pub fn read_file(path: &PathBuf) -> std::io::Result<String> {

@@ -133,19 +133,12 @@ mod imp {
                 .modal(true)
                 .build();
             let result = dialog.open_future(gtk4::Window::NONE).await;
-            match result {
-                Ok(file) => {
-                    if let Some(path) = file.path() {
-                        let contents = crate::file::read_file(&path)?;
-                        let request = crate::file::parse_toml(&contents)?;
-                        self.assign_request(&request);
-                        Ok(())
-                    } else {
-                        Err("No path".into())
-                    }
-                }
-                Err(e) => Err(Box::new(e)),
-            }
+            let file = result.map_err(Box::new)?;
+            let path = file.path().ok_or("No path")?;
+            let contents = crate::file::read_file(&path)?;
+            let request = crate::file::parse_toml(&contents)?;
+            self.assign_request(&request);
+            Ok(())
         }
 
         async fn trigger_save(&self) -> Result<(), Box<dyn Error>> {
@@ -155,19 +148,12 @@ mod imp {
                 .modal(true)
                 .build();
             let result = dialog.save_future(gtk4::Window::NONE).await;
-            match result {
-                Ok(file) => {
-                    if let Some(path) = file.path() {
-                        let request = self.extract_request()?;
-                        let serialized_payload = crate::file::store_toml(&request)?;
-                        crate::file::write_file(&path, &serialized_payload)?;
-                        Ok(())
-                    } else {
-                        Err("No path".into())
-                    }
-                }
-                Err(e) => Err(Box::new(e)),
-            }
+            let file = result.map_err(Box::new)?;
+            let path = file.path().ok_or("No path")?;
+            let request = self.extract_request()?;
+            let serialized_payload = crate::file::store_toml(&request)?;
+            crate::file::write_file(&path, &serialized_payload)?;
+            Ok(())
         }
 
         fn perform_request(&self) {

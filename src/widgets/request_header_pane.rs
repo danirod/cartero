@@ -17,7 +17,10 @@
 
 use std::collections::HashMap;
 
-use glib::{object::Cast, subclass::types::ObjectSubclassIsExt};
+use glib::{
+    object::{Cast, CastNone},
+    subclass::types::ObjectSubclassIsExt,
+};
 use gtk4::{gio, glib};
 
 use crate::objects::Header;
@@ -186,16 +189,12 @@ impl RequestHeaderPane {
         let imp = self.imp();
 
         let model = imp.selection_model.model().expect("Where is my ListModel?");
-        let list_store = model.downcast::<gio::ListStore>().unwrap().clone();
+        let list_store = model.downcast::<gio::ListStore>().unwrap();
 
-        // TODO: Please use an iter, filters and maps.
-        let mut v = Vec::new();
-        for item in &list_store {
-            if let Ok(header) = item {
-                v.push(header.downcast::<Header>().expect("My header?"));
-            }
-        }
-        v
+        list_store
+            .into_iter()
+            .filter_map(|item| item.ok().and_downcast())
+            .collect()
     }
 
     pub fn set_headers(&self, headers: &HashMap<String, String>) {

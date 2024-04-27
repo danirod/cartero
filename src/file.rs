@@ -30,10 +30,7 @@ impl TryFrom<RequestFile> for Request {
             Some(b) => Vec::from(b.as_str()),
             None => Vec::new(),
         };
-        let headers: HashMap<String, String> = match value.headers {
-            Some(hdrs) => hdrs.clone(),
-            None => HashMap::new(),
-        };
+        let headers = value.headers.unwrap_or_default();
         let request = Request {
             url: value.url.clone(),
             method,

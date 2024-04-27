@@ -27,9 +27,7 @@ mod imp {
     use gtk4::subclass::prelude::*;
 
     use gtk4::gio::ActionEntry;
-    use gtk4::FileChooserAction;
     use gtk4::StringObject;
-    use gtk4::Window;
     use isahc::RequestExt;
 
     use crate::client::Request;
@@ -85,7 +83,7 @@ mod imp {
             let element_count = self.request_method.model().unwrap().n_items();
             let target_position = (0..element_count).find(|i| {
                 if let Some(verb) = self.verbs_string_list.string(*i) {
-                    if verb.to_string() == verb_to_find {
+                    if verb == verb_to_find {
                         return true;
                     }
                 }
@@ -101,7 +99,7 @@ mod imp {
             self.request_url.buffer().set_text(req.url.clone());
             self.set_request_method(req.method.clone());
             self.header_pane.set_headers(&req.headers);
-            let body = String::from_utf8_lossy(&req.body).to_owned();
+            let body = String::from_utf8_lossy(&req.body);
             self.request_body.buffer().set_text(&body);
         }
 

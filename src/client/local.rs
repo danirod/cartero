@@ -47,9 +47,9 @@ impl TryFrom<&str> for RequestMethod {
     }
 }
 
-impl Into<&str> for RequestMethod {
-    fn into(self) -> &'static str {
-        match self {
+impl From<RequestMethod> for &str {
+    fn from(val: RequestMethod) -> Self {
+        match val {
             RequestMethod::Get => "GET",
             RequestMethod::Post => "POST",
             RequestMethod::Put => "PUT",

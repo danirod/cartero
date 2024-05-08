@@ -27,9 +27,7 @@ mod imp {
     use gtk4::subclass::prelude::*;
 
     use gtk4::gio::ActionEntry;
-    use gtk4::FileChooserAction;
     use gtk4::StringObject;
-    use gtk4::Window;
     use isahc::RequestExt;
 
     use crate::client::Request;
@@ -85,7 +83,7 @@ mod imp {
             let element_count = self.request_method.model().unwrap().n_items();
             let target_position = (0..element_count).find(|i| {
                 if let Some(verb) = self.verbs_string_list.string(*i) {
-                    if verb.to_string() == verb_to_find {
+                    if verb == verb_to_find {
                         return true;
                     }
                 }
@@ -101,7 +99,7 @@ mod imp {
             self.request_url.buffer().set_text(req.url.clone());
             self.set_request_method(req.method.clone());
             self.header_pane.set_headers(&req.headers);
-            let body = String::from_utf8_lossy(&req.body).to_owned();
+            let body = String::from_utf8_lossy(&req.body);
             self.request_body.buffer().set_text(&body);
         }
 
@@ -133,19 +131,12 @@ mod imp {
                 .modal(true)
                 .build();
             let result = dialog.open_future(gtk4::Window::NONE).await;
-            match result {
-                Ok(file) => {
-                    if let Some(path) = file.path() {
-                        let contents = crate::file::read_file(&path)?;
-                        let request = crate::file::parse_toml(&contents)?;
-                        self.assign_request(&request);
-                        Ok(())
-                    } else {
-                        Err("No path".into())
-                    }
-                }
-                Err(e) => Err(Box::new(e)),
-            }
+            let file = result.map_err(Box::new)?;
+            let path = file.path().ok_or("No path")?;
+            let contents = crate::file::read_file(&path)?;
+            let request = crate::file::parse_toml(&contents)?;
+            self.assign_request(&request);
+            Ok(())
         }
 
         async fn trigger_save(&self) -> Result<(), Box<dyn Error>> {
@@ -155,19 +146,12 @@ mod imp {
                 .modal(true)
                 .build();
             let result = dialog.save_future(gtk4::Window::NONE).await;
-            match result {
-                Ok(file) => {
-                    if let Some(path) = file.path() {
-                        let request = self.extract_request()?;
-                        let serialized_payload = crate::file::store_toml(&request)?;
-                        crate::file::write_file(&path, &serialized_payload)?;
-                        Ok(())
-                    } else {
-                        Err("No path".into())
-                    }
-                }
-                Err(e) => Err(Box::new(e)),
-            }
+            let file = result.map_err(Box::new)?;
+            let path = file.path().ok_or("No path")?;
+            let request = self.extract_request()?;
+            let serialized_payload = crate::file::store_toml(&request)?;
+            crate::file::write_file(&path, &serialized_payload)?;
+            Ok(())
         }
 
         fn perform_request(&self) {

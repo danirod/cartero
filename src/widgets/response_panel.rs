@@ -102,9 +102,9 @@ impl ResponsePanel {
                 let row = gtk4::Box::default();
                 row.set_orientation(gtk4::Orientation::Horizontal);
                 row.set_spacing(4);
-                let name = format!("{}:", &*hn);
-                let name = gtk4::Label::builder().label(&name).build();
-                let value = gtk4::Label::builder().label(&*hv).build();
+                let name = format!("{}:", hn);
+                let name = gtk4::Label::builder().label(name).build();
+                let value = gtk4::Label::builder().label(hv).build();
                 row.append(&name);
                 row.append(&value);
                 gtk_box.append(&row);

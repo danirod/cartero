@@ -125,14 +125,8 @@ mod imp {
         }
 
         async fn trigger_open(&self) -> Result<(), Box<dyn Error>> {
-            let dialog = gtk4::FileDialog::builder()
-                .accept_label("Abrir")
-                .title("Abrir petición")
-                .modal(true)
-                .build();
-            let result = dialog.open_future(gtk4::Window::NONE).await;
-            let file = result.map_err(Box::new)?;
-            let path = file.path().ok_or("No path")?;
+            let obj = self.obj();
+            let path = crate::widgets::open_file(&obj).await?;
             let contents = crate::file::read_file(&path)?;
             let request = crate::file::parse_toml(&contents)?;
             self.assign_request(&request);
@@ -140,14 +134,8 @@ mod imp {
         }
 
         async fn trigger_save(&self) -> Result<(), Box<dyn Error>> {
-            let dialog = gtk4::FileDialog::builder()
-                .accept_label("Guardar")
-                .title("Guardar petición")
-                .modal(true)
-                .build();
-            let result = dialog.save_future(gtk4::Window::NONE).await;
-            let file = result.map_err(Box::new)?;
-            let path = file.path().ok_or("No path")?;
+            let obj = self.obj();
+            let path = crate::widgets::save_file(&obj).await?;
             let request = self.extract_request()?;
             let serialized_payload = crate::file::store_toml(&request)?;
             crate::file::write_file(&path, &serialized_payload)?;

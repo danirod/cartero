@@ -31,8 +31,8 @@ mod imp {
 
     use std::borrow::BorrowMut;
 
+    use glib::closure_local;
     use glib::subclass::InitializingObject;
-    use glib::{closure_local, Object};
     use gtk4::gio;
     use gtk4::subclass::box_::BoxImpl;
     use gtk4::subclass::widget::{CompositeTemplateClass, WidgetImpl};
@@ -102,22 +102,19 @@ mod imp {
             self.list_view.set_factory(Some(&factory));
 
             /* Called whenever the system wants a new empty widget. */
-            factory.connect_setup(|_, obj: &Object| {
-                let item = obj.downcast_ref::<gtk4::ListItem>().unwrap();
+            factory.connect_setup(|_, item: &gtk4::ListItem| {
                 let row = RequestHeaderRow::default();
                 item.set_child(Some(&row));
             });
 
             /* Called whenever the system wants to stop using a widget. */
-            factory.connect_teardown(|_, obj: &Object| {
-                let item = obj.downcast_ref::<gtk4::ListItem>().unwrap();
+            factory.connect_teardown(|_, item: &gtk4::ListItem| {
                 item.set_child(Option::<&gtk4::Widget>::None);
             });
 
             /* Called whenever the system will place a header in a widget. */
             factory.connect_bind(
-                glib::clone!(@weak self as pane => move |_, obj: &Object| {
-                    let item = obj.downcast_ref::<gtk4::ListItem>().unwrap();
+                glib::clone!(@weak self as pane => move |_, item: &gtk4::ListItem| {
                     let widget = item.child().and_downcast::<RequestHeaderRow>().unwrap();
                     let header = item.item().and_downcast::<Header>().unwrap();
 
@@ -153,8 +150,7 @@ mod imp {
             );
 
             /* Called whenever the system will stop using a header in a widget. */
-            factory.connect_unbind(|_, obj: &Object| {
-                let item = obj.downcast_ref::<gtk4::ListItem>().unwrap();
+            factory.connect_unbind(|_, item: &gtk4::ListItem| {
                 let widget = item.child().and_downcast::<RequestHeaderRow>().unwrap();
 
                 /* Disconnect the binds stored in the header. */

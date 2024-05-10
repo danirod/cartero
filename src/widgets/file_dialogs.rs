@@ -1,28 +1,62 @@
-use gtk4::prelude::FileExt;
+#[allow(deprecated)]
+use gtk4::{
+    prelude::FileChooserExt,
+    prelude::{DialogExt, FileExt, GtkWindowExt},
+    FileChooserAction, FileChooserDialog, ResponseType,
+};
 use std::{error::Error, path::PathBuf};
+use tokio::sync::mpsc;
 
 use crate::win::CarteroWindow;
 
-pub async fn open_file(win: &CarteroWindow) -> Result<PathBuf, Box<dyn Error>> {
-    let dialog = gtk4::FileDialog::builder()
-        .accept_label("Abrir")
-        .title("Abrir petición")
-        .modal(true)
-        .build();
-    let result = dialog.open_future(Some(win)).await;
-    let file = result.map_err(Box::new)?;
-    let path = file.path().ok_or("No path")?;
-    Ok(path)
+#[allow(deprecated)]
+async fn handle_dialog_path(dialog: FileChooserDialog) -> Result<Option<PathBuf>, Box<dyn Error>> {
+    let (tx, mut rx) = mpsc::channel::<Option<PathBuf>>(1);
+    dialog.present();
+    dialog.connect_response(move |dialog, res| {
+        glib::spawn_future_local(glib::clone!(@strong dialog, @strong tx => async move {
+            let path = if res == ResponseType::Accept {
+                dialog.file().and_then(|f| f.path())
+            } else {
+                None
+            };
+            let _ = tx.send(path).await;
+            dialog.destroy();
+        }));
+    });
+
+    let path = rx.recv().await;
+    if let Some(p) = path {
+        Ok(p)
+    } else {
+        Err("Something is wrong".into())
+    }
 }
 
-pub async fn save_file(win: &CarteroWindow) -> Result<PathBuf, Box<dyn Error>> {
-    let dialog = gtk4::FileDialog::builder()
-        .accept_label("Guardar")
-        .title("Guardar petición")
-        .modal(true)
-        .build();
-    let result = dialog.save_future(Some(win)).await;
-    let file = result.map_err(Box::new)?;
-    let path = file.path().ok_or("No path")?;
-    Ok(path)
+#[allow(deprecated)]
+pub async fn open_file(win: &CarteroWindow) -> Result<Option<PathBuf>, Box<dyn Error>> {
+    let dialog = FileChooserDialog::new(
+        Some("Open request"),
+        Some(win),
+        FileChooserAction::Open,
+        &[
+            ("Accept", ResponseType::Accept),
+            ("Cancel", ResponseType::Cancel),
+        ],
+    );
+    handle_dialog_path(dialog).await
+}
+
+#[allow(deprecated)]
+pub async fn save_file(win: &CarteroWindow) -> Result<Option<PathBuf>, Box<dyn Error>> {
+    let dialog = FileChooserDialog::new(
+        Some("Save request"),
+        Some(win),
+        FileChooserAction::Save,
+        &[
+            ("Save", ResponseType::Accept),
+            ("Cancel", ResponseType::Cancel),
+        ],
+    );
+    handle_dialog_path(dialog).await
 }

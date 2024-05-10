@@ -127,18 +127,22 @@ mod imp {
         async fn trigger_open(&self) -> Result<(), Box<dyn Error>> {
             let obj = self.obj();
             let path = crate::widgets::open_file(&obj).await?;
-            let contents = crate::file::read_file(&path)?;
-            let request = crate::file::parse_toml(&contents)?;
-            self.assign_request(&request);
+            if let Some(path) = path {
+                let contents = crate::file::read_file(&path)?;
+                let request = crate::file::parse_toml(&contents)?;
+                self.assign_request(&request);
+            }
             Ok(())
         }
 
         async fn trigger_save(&self) -> Result<(), Box<dyn Error>> {
             let obj = self.obj();
             let path = crate::widgets::save_file(&obj).await?;
-            let request = self.extract_request()?;
-            let serialized_payload = crate::file::store_toml(&request)?;
-            crate::file::write_file(&path, &serialized_payload)?;
+            if let Some(path) = path {
+                let request = self.extract_request()?;
+                let serialized_payload = crate::file::store_toml(&request)?;
+                crate::file::write_file(&path, &serialized_payload)?;
+            }
             Ok(())
         }
 

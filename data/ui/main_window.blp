@@ -86,12 +86,14 @@ template $CarteroWindow: ApplicationWindow {
       Entry url {
         hexpand: true;
         placeholder-text: _("Request URL");
+        changed => $on_url_changed() swapped;
       }
 
       Button send {
         action-name: "win.request";
         label: _("Send");
         tooltip-text: _("Execute this HTTP request");
+        sensitive: false;
       }
     }
 

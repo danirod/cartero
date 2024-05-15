@@ -68,7 +68,18 @@ mod imp {
         pub verbs_string_list: TemplateChild<gtk4::StringList>,
     }
 
+    #[gtk4::template_callbacks]
     impl CarteroWindow {
+        fn update_send_button_sensitivity(&self) {
+            let empty = self.request_url.buffer().text().is_empty();
+            self.send_button.set_sensitive(!empty);
+        }
+
+        #[template_callback]
+        fn on_url_changed(&self) {
+            self.update_send_button_sensitivity();
+        }
+
         fn request_method(&self) -> GString {
             self.request_method
                 .selected_item()
@@ -146,12 +157,13 @@ mod imp {
             Ok(())
         }
 
-        fn perform_request(&self) {
-            let request = self.extract_request().unwrap();
-            let request_obj = isahc::Request::try_from(request).unwrap();
-            let mut response_obj = request_obj.send().unwrap();
-            let response = Response::try_from(&mut response_obj).unwrap();
+        fn perform_request(&self) -> Result<(), Box<dyn Error>> {
+            let request = self.extract_request()?;
+            let request_obj = isahc::Request::try_from(request)?;
+            let mut response_obj = request_obj.send()?;
+            let response = Response::try_from(&mut response_obj)?;
             self.response.assign_from_response(&response);
+            Ok(())
         }
     }
 
@@ -165,6 +177,7 @@ mod imp {
             RequestHeaderRow::static_type();
             RequestHeaderPane::static_type();
             klass.bind_template();
+            klass.bind_template_callbacks();
         }
 
         fn instance_init(obj: &InitializingObject<Self>) {
@@ -178,7 +191,9 @@ mod imp {
 
             let action_request = ActionEntry::builder("request")
                 .activate(glib::clone!(@weak self as window => move |_, _, _| {
-                    window.perform_request();
+                    if let Err(e) = window.perform_request() {
+                        println!("TODO: Show toast {:?}", e)
+                    }
                 }))
                 .build();
             let action_open = ActionEntry::builder("open")
@@ -202,10 +217,19 @@ mod imp {
 
             let obj = self.obj();
             obj.add_action_entries([action_request, action_open, action_save]);
+
+            self.send_button.connect_sensitive_notify(|_| {
+                println!("Ha cambiado la sensitividad del botón");
+            });
         }
     }
 
-    impl WidgetImpl for CarteroWindow {}
+    impl WidgetImpl for CarteroWindow {
+        fn show(&self) {
+            self.parent_show();
+            self.update_send_button_sensitivity();
+        }
+    }
 
     impl WindowImpl for CarteroWindow {}
 

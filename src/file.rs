@@ -1,11 +1,11 @@
-use std::error::Error;
 use std::io::Write;
 use std::path::PathBuf;
 use std::{collections::HashMap, fs::File};
 
 use serde::{Deserialize, Serialize};
 
-use crate::client::{Request, RequestMethod};
+use crate::client::{Request, RequestError, RequestMethod};
+use crate::error::CarteroError;
 
 #[derive(Deserialize, Serialize)]
 struct RequestFile {
@@ -17,14 +17,14 @@ struct RequestFile {
 }
 
 impl TryFrom<RequestFile> for Request {
-    type Error = &'static str;
+    type Error = CarteroError;
 
     fn try_from(value: RequestFile) -> Result<Request, Self::Error> {
         if value.version != 1 {
-            return Err("Unsupported version, please upgrade the software");
+            return Err(CarteroError::OutdatedSchema);
         }
         let Ok(method) = RequestMethod::try_from(value.method.as_str()) else {
-            return Err("Invalid method");
+            return Err(RequestError::InvalidHttpVerb.into());
         };
         let body = match value.body {
             Some(b) => Vec::from(b.as_str()),
@@ -59,12 +59,12 @@ impl From<Request> for RequestFile {
     }
 }
 
-pub fn parse_toml(file: &str) -> Result<Request, Box<dyn Error>> {
+pub fn parse_toml(file: &str) -> Result<Request, CarteroError> {
     let contents = toml::from_str::<RequestFile>(file)?;
     Request::try_from(contents).map_err(|e| e.into())
 }
 
-pub fn store_toml(req: &Request) -> Result<String, Box<dyn Error>> {
+pub fn store_toml(req: &Request) -> Result<String, CarteroError> {
     let file = RequestFile::from(req.clone());
     toml::to_string(&file).map_err(|e| e.into())
 }

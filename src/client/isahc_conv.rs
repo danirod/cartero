@@ -42,7 +42,7 @@ impl TryFrom<Request> for isahc::Request<Vec<u8>> {
     fn try_from(req: Request) -> Result<Self, Self::Error> {
         let mut builder = isahc::Request::builder().uri(&req.url).method(&req.method);
         let Some(headers) = builder.headers_mut() else {
-            return Err(RequestError);
+            return Err(RequestError::InvalidHeaders);
         };
         for (h, v) in &req.headers {
             let key = HeaderName::from_str(h)?;

@@ -4,13 +4,13 @@ use gtk4::{
     prelude::{DialogExt, FileExt, GtkWindowExt},
     FileChooserAction, FileChooserDialog, ResponseType,
 };
-use std::{error::Error, path::PathBuf};
+use std::path::PathBuf;
 use tokio::sync::mpsc;
 
-use crate::win::CarteroWindow;
+use crate::{error::CarteroError, win::CarteroWindow};
 
 #[allow(deprecated)]
-async fn handle_dialog_path(dialog: FileChooserDialog) -> Result<Option<PathBuf>, Box<dyn Error>> {
+async fn handle_dialog_path(dialog: FileChooserDialog) -> Result<Option<PathBuf>, CarteroError> {
     let (tx, mut rx) = mpsc::channel::<Option<PathBuf>>(1);
     dialog.present();
     dialog.connect_response(move |dialog, res| {
@@ -29,12 +29,12 @@ async fn handle_dialog_path(dialog: FileChooserDialog) -> Result<Option<PathBuf>
     if let Some(p) = path {
         Ok(p)
     } else {
-        Err("Something is wrong".into())
+        Err(CarteroError::FileDialogError)
     }
 }
 
 #[allow(deprecated)]
-pub async fn open_file(win: &CarteroWindow) -> Result<Option<PathBuf>, Box<dyn Error>> {
+pub async fn open_file(win: &CarteroWindow) -> Result<Option<PathBuf>, CarteroError> {
     let dialog = FileChooserDialog::new(
         Some("Open request"),
         Some(win),
@@ -48,7 +48,7 @@ pub async fn open_file(win: &CarteroWindow) -> Result<Option<PathBuf>, Box<dyn E
 }
 
 #[allow(deprecated)]
-pub async fn save_file(win: &CarteroWindow) -> Result<Option<PathBuf>, Box<dyn Error>> {
+pub async fn save_file(win: &CarteroWindow) -> Result<Option<PathBuf>, CarteroError> {
     let dialog = FileChooserDialog::new(
         Some("Save request"),
         Some(win),

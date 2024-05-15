@@ -17,7 +17,7 @@
 
 use isahc::http::header::{InvalidHeaderName, InvalidHeaderValue};
 use std::collections::HashMap;
-use std::error::Error;
+use thiserror::Error;
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum RequestMethod {
@@ -42,7 +42,7 @@ impl TryFrom<&str> for RequestMethod {
             "delete" => Ok(RequestMethod::Delete),
             "options" => Ok(RequestMethod::Options),
             "head" => Ok(RequestMethod::Head),
-            _ => Err(RequestError),
+            _ => Err(RequestError::InvalidHttpVerb),
         }
     }
 }
@@ -107,45 +107,28 @@ impl Response {
     }
 }
 
-#[derive(Debug)]
-pub struct RequestError;
+#[derive(Error, Debug)]
+pub enum RequestError {
+    #[error("Illegal HTTP verb")]
+    InvalidHttpVerb,
 
-impl Error for RequestError {}
+    #[error("Invalid headers state")]
+    InvalidHeaders,
 
-impl std::fmt::Display for RequestError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "Request Error")
-    }
-}
+    #[error("Illegal header")]
+    InvalidHeaderName(#[from] InvalidHeaderName),
 
-impl From<InvalidHeaderName> for RequestError {
-    fn from(_: InvalidHeaderName) -> Self {
-        Self
-    }
-}
+    #[error("Illegal header value")]
+    InvalidHeaderValue(#[from] InvalidHeaderValue),
 
-impl From<InvalidHeaderValue> for RequestError {
-    fn from(_: InvalidHeaderValue) -> Self {
-        Self
-    }
-}
+    #[error("Request error")]
+    NetworkError(#[from] isahc::error::Error),
 
-impl From<&str> for RequestError {
-    fn from(_: &str) -> Self {
-        Self
-    }
-}
+    #[error("HTTP error")]
+    HttpError(#[from] isahc::http::Error),
 
-impl From<isahc::http::Error> for RequestError {
-    fn from(_: isahc::http::Error) -> Self {
-        Self
-    }
-}
-
-impl From<std::io::Error> for RequestError {
-    fn from(_: std::io::Error) -> Self {
-        Self
-    }
+    #[error("Unknown I/O error")]
+    IOError(#[from] std::io::Error),
 }
 
 #[cfg(test)]

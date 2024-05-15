@@ -20,8 +20,6 @@ use glib::Object;
 use gtk4::{gio, glib};
 
 mod imp {
-    use std::error::Error;
-
     use glib::GString;
     use gtk4::prelude::*;
     use gtk4::subclass::prelude::*;
@@ -34,6 +32,7 @@ mod imp {
     use crate::client::RequestError;
     use crate::client::RequestMethod;
     use crate::client::Response;
+    use crate::error::CarteroError;
     use crate::widgets::*;
     use glib::subclass::InitializingObject;
     use gtk4::{
@@ -135,7 +134,7 @@ mod imp {
             Ok(Request::new(url, method, headers, body))
         }
 
-        async fn trigger_open(&self) -> Result<(), Box<dyn Error>> {
+        async fn trigger_open(&self) -> Result<(), CarteroError> {
             let obj = self.obj();
             let path = crate::widgets::open_file(&obj).await?;
             if let Some(path) = path {
@@ -146,7 +145,7 @@ mod imp {
             Ok(())
         }
 
-        async fn trigger_save(&self) -> Result<(), Box<dyn Error>> {
+        async fn trigger_save(&self) -> Result<(), CarteroError> {
             let obj = self.obj();
             let path = crate::widgets::save_file(&obj).await?;
             if let Some(path) = path {
@@ -157,10 +156,10 @@ mod imp {
             Ok(())
         }
 
-        fn perform_request(&self) -> Result<(), Box<dyn Error>> {
+        fn perform_request(&self) -> Result<(), CarteroError> {
             let request = self.extract_request()?;
             let request_obj = isahc::Request::try_from(request)?;
-            let mut response_obj = request_obj.send()?;
+            let mut response_obj = request_obj.send().map_err(RequestError::NetworkError)?;
             let response = Response::try_from(&mut response_obj)?;
             self.response.assign_from_response(&response);
             Ok(())

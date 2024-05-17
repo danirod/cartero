@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-04-10 01:22+0200\n"
+"POT-Creation-Date: 2024-05-17 21:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,25 +17,40 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: data/ui/main_window.blp:26
+#: data/ui/main_window.blp:30 data/ui/main_window.blp:41
 msgid "Open"
 msgstr ""
 
-#: data/ui/main_window.blp:27 data/ui/main_window.blp:39
-#: data/ui/response_panel.blp:17
-msgid "UNDER CONSTRUCTION"
+#: data/ui/main_window.blp:49
+msgid "Save"
 msgstr ""
 
-#: data/ui/main_window.blp:78
+#: data/ui/main_window.blp:82
+msgid "Request method"
+msgstr ""
+
+#: data/ui/main_window.blp:88
+msgid "Request URL"
+msgstr ""
+
+#: data/ui/main_window.blp:94
 msgid "Send"
 msgstr ""
 
-#: data/ui/main_window.blp:101 data/ui/response_panel.blp:13
+#: data/ui/main_window.blp:95
+msgid "Execute this HTTP request"
+msgstr ""
+
+#: data/ui/main_window.blp:119 data/ui/response_panel.blp:13
 msgid "Headers"
 msgstr ""
 
-#: data/ui/main_window.blp:114 data/ui/response_panel.blp:27
+#: data/ui/main_window.blp:132 data/ui/response_panel.blp:24
 msgid "Body"
+msgstr ""
+
+#: data/ui/main_window.blp:186
+msgid "Wrap bodies"
 msgstr ""
 
 #: data/ui/request_header_pane.blp:33
@@ -50,6 +65,6 @@ msgstr ""
 msgid "Value"
 msgstr ""
 
-#: data/ui/request_header_row.blp:46
+#: data/ui/request_header_row.blp:49
 msgid "Delete header"
 msgstr ""

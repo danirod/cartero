@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-04-10 01:22+0200\n"
+"POT-Creation-Date: 2024-05-17 21:19+0200\n"
 "PO-Revision-Date: 2024-03-28 18:09+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,26 +17,41 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: data/ui/main_window.blp:26
+#: data/ui/main_window.blp:30 data/ui/main_window.blp:41
 msgid "Open"
 msgstr "Open"
 
-#: data/ui/main_window.blp:27 data/ui/main_window.blp:39
-#: data/ui/response_panel.blp:17
-msgid "UNDER CONSTRUCTION"
-msgstr "UNDER CONSTRUCTION"
+#: data/ui/main_window.blp:49
+msgid "Save"
+msgstr ""
 
-#: data/ui/main_window.blp:78
+#: data/ui/main_window.blp:82
+msgid "Request method"
+msgstr ""
+
+#: data/ui/main_window.blp:88
+msgid "Request URL"
+msgstr ""
+
+#: data/ui/main_window.blp:94
 msgid "Send"
 msgstr "Send"
 
-#: data/ui/main_window.blp:101 data/ui/response_panel.blp:13
+#: data/ui/main_window.blp:95
+msgid "Execute this HTTP request"
+msgstr ""
+
+#: data/ui/main_window.blp:119 data/ui/response_panel.blp:13
 msgid "Headers"
 msgstr "Headers"
 
-#: data/ui/main_window.blp:114 data/ui/response_panel.blp:27
+#: data/ui/main_window.blp:132 data/ui/response_panel.blp:24
 msgid "Body"
 msgstr "Body"
+
+#: data/ui/main_window.blp:186
+msgid "Wrap bodies"
+msgstr ""
 
 #: data/ui/request_header_pane.blp:33
 msgid "Add new header"
@@ -50,6 +65,9 @@ msgstr "Name"
 msgid "Value"
 msgstr "Value"
 
-#: data/ui/request_header_row.blp:46
+#: data/ui/request_header_row.blp:49
 msgid "Delete header"
 msgstr "Delete header"
+
+#~ msgid "UNDER CONSTRUCTION"
+#~ msgstr "UNDER CONSTRUCTION"

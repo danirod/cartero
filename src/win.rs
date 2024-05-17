@@ -226,10 +226,6 @@ mod imp {
 
             let obj = self.obj();
             obj.add_action_entries([action_request, action_open, action_save]);
-
-            self.send_button.connect_sensitive_notify(|_| {
-                println!("Ha cambiado la sensitividad del botón");
-            });
         }
     }
 

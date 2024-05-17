@@ -45,6 +45,15 @@ resources = gnome.compile_resources(
   install_dir: pkgdatadir,
 )
 
+install_data('es.danirod.Cartero.gschema.xml', install_dir: datadir / 'glib-2.0' / 'schemas')
+glib_compile_schemas = find_program('glib-compile-schemas', required: false)
+if glib_compile_schemas.found()
+  test('Validate schema file', glib_compile_schemas,
+    args: ['--strict', '--dry-run', meson.current_source_dir()]
+  )
+endif
+
+
 desktop_file = configure_file(
   input: 'cartero.desktop.in',
   output: '@0@.desktop'.format(application_id),

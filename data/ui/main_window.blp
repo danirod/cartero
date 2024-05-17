@@ -59,8 +59,8 @@ template $CarteroWindow: ApplicationWindow {
     [end]
     MenuButton {
       icon-name: "open-menu-symbolic";
-      tooltip-text: _("UNDER CONSTRUCTION");
       primary: true;
+      menu-model: main_menu;
     }
   }
 
@@ -178,4 +178,13 @@ StringList verbs_string_list {
     "DELETE",
     "OPTIONS"
   ]
+}
+
+menu main_menu {
+  section {
+    item {
+      label: _("Wrap bodies");
+      action: "win.body-wrap";
+    }
+  }
 }

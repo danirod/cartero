@@ -16,9 +16,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use glib::Object;
-use gtk4::glib;
+use gtk4::gio::{Settings, SettingsBindFlags};
 use gtk4::prelude::TextViewExt;
 use gtk4::prelude::*;
+use gtk4::{glib, WrapMode};
 
 use crate::client::Response;
 use glib::subclass::types::ObjectSubclassIsExt;
@@ -87,6 +88,24 @@ impl Default for ResponsePanel {
 impl ResponsePanel {
     pub fn new() -> Self {
         Object::builder().build()
+    }
+
+    pub fn assign_settings(&self, settings: &Settings) {
+        let imp = self.imp();
+
+        let body = imp.response_body.get();
+        settings
+            .bind("body-wrap", &body, "wrap-mode")
+            .flags(SettingsBindFlags::GET)
+            .mapping(|variant, _| {
+                let enabled = variant.get::<bool>().expect("The variant is not a boolean");
+                let mode = match enabled {
+                    true => WrapMode::Word,
+                    false => WrapMode::None,
+                };
+                Some(mode.to_value())
+            })
+            .build();
     }
 
     pub fn assign_from_response(&self, resp: &Response) {

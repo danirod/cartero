@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<schemalist>
+  <schema id="es.danirod.Cartero" path="/es/danirod/Cartero/">
+    <key name="body-wrap" type="b">
+      <default>true</default>
+      <summary>Wrap the body content</summary>
+    </key>
+  </schema>
+</schemalist>

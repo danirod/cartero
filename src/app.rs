@@ -15,28 +15,37 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
-use gtk4::gio;
+use gtk4::gio::{self, Settings};
 
 use crate::config::APP_ID;
 use crate::win::CarteroWindow;
 
 mod imp {
     use glib::subclass::{object::ObjectImpl, types::ObjectSubclass};
+    use gtk4::gio::Settings;
     use gtk4::prelude::*;
     use gtk4::subclass::prelude::*;
     use gtk4::subclass::{application::GtkApplicationImpl, prelude::ApplicationImpl};
 
     use super::*;
 
-    #[derive(Default)]
-    pub struct CarteroApplication;
+    pub struct CarteroApplication {
+        pub(super) settings: Settings,
+    }
 
     #[glib::object_subclass]
     impl ObjectSubclass for CarteroApplication {
         const NAME: &'static str = "CarteroApplication";
         type Type = super::CarteroApplication;
         type ParentType = gtk4::Application;
+
+        fn new() -> Self {
+            Self {
+                settings: Settings::new(APP_ID),
+            }
+        }
     }
 
     impl ObjectImpl for CarteroApplication {}
@@ -78,6 +87,12 @@ impl CarteroApplication {
     }
 
     pub fn get_window(&self) -> CarteroWindow {
-        CarteroWindow::new(self)
+        let win = CarteroWindow::new(self);
+        win.assign_settings(self.settings());
+        win
+    }
+
+    pub fn settings(&self) -> &Settings {
+        &self.imp().settings
     }
 }

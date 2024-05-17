@@ -17,7 +17,17 @@
 
 use crate::app::CarteroApplication;
 use glib::Object;
-use gtk4::{gio, glib};
+use glib::{subclass::types::ObjectSubclassIsExt, value::ToValue};
+use gtk4::gio::SettingsBindFlags;
+use gtk4::{
+    gio::{self, Settings},
+    glib,
+    prelude::SettingsExtManual,
+    WrapMode,
+};
+
+use gtk4::prelude::ActionMapExt;
+use gtk4::prelude::SettingsExt;
 
 mod imp {
     use glib::GString;
@@ -244,5 +254,28 @@ glib::wrapper! {
 impl CarteroWindow {
     pub fn new(app: &CarteroApplication) -> Self {
         Object::builder().property("application", Some(app)).build()
+    }
+
+    pub fn assign_settings(&self, settings: &Settings) {
+        let imp = &self.imp();
+
+        let wrap = settings.create_action("body-wrap");
+        self.add_action(&wrap);
+
+        imp.response.get().assign_settings(&settings);
+
+        let body = imp.request_body.get();
+        settings
+            .bind("body-wrap", &body, "wrap-mode")
+            .flags(SettingsBindFlags::GET)
+            .mapping(|variant, _| {
+                let enabled = variant.get::<bool>().expect("The variant is not a boolean");
+                let mode = match enabled {
+                    true => WrapMode::Word,
+                    false => WrapMode::None,
+                };
+                Some(mode.to_value())
+            })
+            .build();
     }
 }

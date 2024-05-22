@@ -21,22 +21,22 @@ use glib::{
     object::{Cast, CastNone},
     subclass::types::ObjectSubclassIsExt,
 };
-use gtk4::{gio, glib};
+use gtk::{gio, glib};
 
 use crate::objects::Header;
 
 mod imp {
-    use gtk4::prelude::*;
-    use gtk4::subclass::prelude::*;
+    use gtk::prelude::*;
+    use gtk::subclass::prelude::*;
 
     use std::borrow::BorrowMut;
 
     use glib::closure_local;
     use glib::subclass::InitializingObject;
-    use gtk4::gio;
-    use gtk4::subclass::box_::BoxImpl;
-    use gtk4::subclass::widget::{CompositeTemplateClass, WidgetImpl};
-    use gtk4::{glib, CompositeTemplate};
+    use gtk::gio;
+    use gtk::subclass::box_::BoxImpl;
+    use gtk::subclass::widget::{CompositeTemplateClass, WidgetImpl};
+    use gtk::{glib, CompositeTemplate};
 
     use crate::objects::Header;
     use crate::widgets::RequestHeaderRow;
@@ -45,14 +45,14 @@ mod imp {
     #[template(resource = "/es/danirod/Cartero/request_header_pane.ui")]
     pub struct RequestHeaderPane {
         #[template_child]
-        list_view: TemplateChild<gtk4::ListView>,
+        list_view: TemplateChild<gtk::ListView>,
         #[template_child]
-        pub selection_model: TemplateChild<gtk4::NoSelection>,
+        pub selection_model: TemplateChild<gtk::NoSelection>,
         #[template_child]
-        add_new: TemplateChild<gtk4::Button>,
+        add_new: TemplateChild<gtk::Button>,
     }
 
-    #[gtk4::template_callbacks]
+    #[gtk::template_callbacks]
     impl RequestHeaderPane {
         #[template_callback]
         fn on_add_new_header(&self) {
@@ -78,7 +78,7 @@ mod imp {
     impl ObjectSubclass for RequestHeaderPane {
         const NAME: &'static str = "CarteroRequestHeaderPane";
         type Type = super::RequestHeaderPane;
-        type ParentType = gtk4::Box;
+        type ParentType = gtk::Box;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -98,23 +98,23 @@ mod imp {
             self.selection_model.set_model(Some(&store));
 
             /* Build the factory used to link the headers and the widgets. */
-            let factory = gtk4::SignalListItemFactory::new();
+            let factory = gtk::SignalListItemFactory::new();
             self.list_view.set_factory(Some(&factory));
 
             /* Called whenever the system wants a new empty widget. */
-            factory.connect_setup(|_, item: &gtk4::ListItem| {
+            factory.connect_setup(|_, item: &gtk::ListItem| {
                 let row = RequestHeaderRow::default();
                 item.set_child(Some(&row));
             });
 
             /* Called whenever the system wants to stop using a widget. */
-            factory.connect_teardown(|_, item: &gtk4::ListItem| {
-                item.set_child(Option::<&gtk4::Widget>::None);
+            factory.connect_teardown(|_, item: &gtk::ListItem| {
+                item.set_child(Option::<&gtk::Widget>::None);
             });
 
             /* Called whenever the system will place a header in a widget. */
             factory.connect_bind(
-                glib::clone!(@weak self as pane => move |_, item: &gtk4::ListItem| {
+                glib::clone!(@weak self as pane => move |_, item: &gtk::ListItem| {
                     let widget = item.child().and_downcast::<RequestHeaderRow>().unwrap();
                     let header = item.item().and_downcast::<Header>().unwrap();
 
@@ -150,7 +150,7 @@ mod imp {
             );
 
             /* Called whenever the system will stop using a header in a widget. */
-            factory.connect_unbind(|_, item: &gtk4::ListItem| {
+            factory.connect_unbind(|_, item: &gtk::ListItem| {
                 let widget = item.child().and_downcast::<RequestHeaderRow>().unwrap();
 
                 /* Disconnect the binds stored in the header. */
@@ -176,8 +176,8 @@ mod imp {
 
 glib::wrapper! {
     pub struct RequestHeaderPane(ObjectSubclass<imp::RequestHeaderPane>)
-        @extends gtk4::Widget, gtk4::Box,
-        @implements gtk4::Accessible, gtk4::Buildable;
+        @extends gtk::Widget, gtk::Box,
+        @implements gtk::Accessible, gtk::Buildable;
 }
 
 impl RequestHeaderPane {

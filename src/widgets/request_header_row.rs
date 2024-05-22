@@ -18,8 +18,8 @@
 use glib::property::PropertySet;
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::{Binding, SignalHandlerId};
-use gtk4::glib;
-use gtk4::glib::Object;
+use gtk::glib;
+use gtk::glib::Object;
 
 mod imp {
     use std::cell::RefCell;
@@ -27,9 +27,9 @@ mod imp {
 
     use glib::subclass::{InitializingObject, Signal};
     use glib::{Properties, SignalHandlerId};
-    use gtk4::subclass::prelude::*;
-    use gtk4::{prelude::*, CompositeTemplate};
-    use gtk4::{Box, Entry};
+    use gtk::subclass::prelude::*;
+    use gtk::{prelude::*, CompositeTemplate};
+    use gtk::{Box, Entry};
 
     use super::HeaderRowBindings;
 
@@ -53,7 +53,7 @@ mod imp {
         pub delete_signal: RefCell<Option<SignalHandlerId>>,
     }
 
-    #[gtk4::template_callbacks]
+    #[gtk::template_callbacks]
     impl RequestHeaderRow {
         #[template_callback]
         fn on_delete_request(&self) {
@@ -91,9 +91,9 @@ mod imp {
 
 glib::wrapper! {
     pub struct RequestHeaderRow(ObjectSubclass<imp::RequestHeaderRow>)
-        @extends gtk4::Widget, gtk4::Box,
-        @implements gtk4::Accessible, gtk4::Buildable, gtk4::ConstraintTarget,
-                    gtk4::Actionable, gtk4::ActionBar, gtk4::ATContext;
+        @extends gtk::Widget, gtk::Box,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget,
+                    gtk::Actionable, gtk::ActionBar, gtk::ATContext;
 
 }
 

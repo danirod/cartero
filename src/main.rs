@@ -28,8 +28,8 @@ mod objects;
 mod win;
 
 use gettextrs::LocaleCategory;
-use gtk4::gio;
-use gtk4::prelude::*;
+use gtk::gio;
+use gtk::prelude::*;
 
 use self::app::CarteroApplication;
 use self::config::GETTEXT_PACKAGE;

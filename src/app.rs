@@ -17,18 +17,18 @@
 
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
-use gtk4::gio::{self, Settings};
+use gtk::gio::{self, Settings};
 
 use crate::config::APP_ID;
 use crate::win::CarteroWindow;
 
 mod imp {
     use glib::subclass::{object::ObjectImpl, types::ObjectSubclass};
-    use gtk4::gdk::Display;
-    use gtk4::gio::Settings;
-    use gtk4::subclass::prelude::*;
-    use gtk4::subclass::{application::GtkApplicationImpl, prelude::ApplicationImpl};
-    use gtk4::{prelude::*, CssProvider};
+    use gtk::gdk::Display;
+    use gtk::gio::Settings;
+    use gtk::subclass::prelude::*;
+    use gtk::subclass::{application::GtkApplicationImpl, prelude::ApplicationImpl};
+    use gtk::{prelude::*, CssProvider};
 
     use super::*;
 
@@ -40,7 +40,7 @@ mod imp {
     impl ObjectSubclass for CarteroApplication {
         const NAME: &'static str = "CarteroApplication";
         type Type = super::CarteroApplication;
-        type ParentType = gtk4::Application;
+        type ParentType = gtk::Application;
 
         fn new() -> Self {
             Self {
@@ -59,17 +59,17 @@ mod imp {
 
         fn startup(&self) {
             self.parent_startup();
-            gtk4::Window::set_default_icon_name(APP_ID);
+            gtk::Window::set_default_icon_name(APP_ID);
 
             let obj = self.obj();
             obj.set_accels_for_action("win.request", &["<Primary>Return"]);
 
             let provider = CssProvider::new();
             provider.load_from_resource("/es/danirod/Cartero/style.css");
-            gtk4::style_context_add_provider_for_display(
+            gtk::style_context_add_provider_for_display(
                 &Display::default().expect("Could not connect to a display."),
                 &provider,
-                gtk4::STYLE_PROVIDER_PRIORITY_APPLICATION,
+                gtk::STYLE_PROVIDER_PRIORITY_APPLICATION,
             );
         }
     }
@@ -79,7 +79,7 @@ mod imp {
 
 glib::wrapper! {
     pub struct CarteroApplication(ObjectSubclass<imp::CarteroApplication>)
-        @extends gio::Application, gtk4::Application,
+        @extends gio::Application, gtk::Application,
         @implements gio::ActionMap, gio::ActionGroup;
 
 }

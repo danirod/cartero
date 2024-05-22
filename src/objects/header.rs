@@ -21,9 +21,9 @@ mod imp {
     use std::cell::RefCell;
 
     use glib::Properties;
-    use gtk4::glib;
-    use gtk4::glib::prelude::*;
-    use gtk4::glib::subclass::prelude::*;
+    use gtk::glib;
+    use gtk::glib::prelude::*;
+    use gtk::glib::subclass::prelude::*;
 
     #[derive(Default, Debug, Properties)]
     #[properties(wrapper_type = super::Header)]

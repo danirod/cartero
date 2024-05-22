@@ -1,5 +1,5 @@
 #[allow(deprecated)]
-use gtk4::{
+use gtk::{
     prelude::FileChooserExt,
     prelude::{DialogExt, FileExt, GtkWindowExt},
     FileChooserAction, FileChooserDialog, ResponseType,

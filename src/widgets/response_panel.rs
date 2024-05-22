@@ -16,19 +16,19 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use glib::Object;
-use gtk4::gio::{Settings, SettingsBindFlags};
-use gtk4::prelude::TextViewExt;
-use gtk4::prelude::*;
-use gtk4::{glib, WrapMode};
+use gtk::gio::{Settings, SettingsBindFlags};
+use gtk::prelude::TextViewExt;
+use gtk::prelude::*;
+use gtk::{glib, WrapMode};
 
 use crate::client::Response;
 use glib::subclass::types::ObjectSubclassIsExt;
 
 mod imp {
     use glib::subclass::InitializingObject;
-    use gtk4::subclass::prelude::*;
-    use gtk4::ScrolledWindow;
-    use gtk4::{
+    use gtk::subclass::prelude::*;
+    use gtk::ScrolledWindow;
+    use gtk::{
         subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetImpl},
         Box, CompositeTemplate, Label, TemplateChild,
     };
@@ -75,8 +75,8 @@ mod imp {
 
 glib::wrapper! {
     pub struct ResponsePanel(ObjectSubclass<imp::ResponsePanel>)
-        @extends gtk4::Widget, gtk4::Overlay,
-        @implements gtk4::Accessible, gtk4::Buildable, gtk4::ConstraintTarget;
+        @extends gtk::Widget, gtk::Overlay,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl Default for ResponsePanel {
@@ -113,17 +113,17 @@ impl ResponsePanel {
 
         let window = &imp.response_header_window;
         let gtk_box = {
-            let gtk_box = gtk4::Box::builder()
-                .orientation(gtk4::Orientation::Vertical)
+            let gtk_box = gtk::Box::builder()
+                .orientation(gtk::Orientation::Vertical)
                 .build();
 
             for (hn, hv) in &resp.headers {
-                let row = gtk4::Box::default();
-                row.set_orientation(gtk4::Orientation::Horizontal);
+                let row = gtk::Box::default();
+                row.set_orientation(gtk::Orientation::Horizontal);
                 row.set_spacing(4);
                 let name = format!("{}:", hn);
-                let name = gtk4::Label::builder().label(name).build();
-                let value = gtk4::Label::builder().label(hv).build();
+                let name = gtk::Label::builder().label(name).build();
+                let value = gtk::Label::builder().label(hv).build();
                 row.append(&name);
                 row.append(&value);
                 gtk_box.append(&row);

@@ -18,26 +18,26 @@
 use crate::app::CarteroApplication;
 use glib::Object;
 use glib::{subclass::types::ObjectSubclassIsExt, value::ToValue};
-use gtk4::gio::SettingsBindFlags;
-use gtk4::{
+use gtk::gio::SettingsBindFlags;
+use gtk::{
     gio::{self, Settings},
     glib,
     prelude::SettingsExtManual,
     WrapMode,
 };
 
-use gtk4::prelude::ActionMapExt;
-use gtk4::prelude::SettingsExt;
+use gtk::prelude::ActionMapExt;
+use gtk::prelude::SettingsExt;
 
 mod imp {
     use glib::GString;
-    use gtk4::prelude::*;
-    use gtk4::subclass::prelude::*;
+    use gtk::prelude::*;
+    use gtk::subclass::prelude::*;
 
-    use gtk4::gio::ActionEntry;
-    use gtk4::Label;
-    use gtk4::Revealer;
-    use gtk4::StringObject;
+    use gtk::gio::ActionEntry;
+    use gtk::Label;
+    use gtk::Revealer;
+    use gtk::StringObject;
     use isahc::RequestExt;
 
     use crate::client::Request;
@@ -47,7 +47,7 @@ mod imp {
     use crate::error::CarteroError;
     use crate::widgets::*;
     use glib::subclass::InitializingObject;
-    use gtk4::{
+    use gtk::{
         subclass::{
             application_window::ApplicationWindowImpl, widget::WidgetImpl, window::WindowImpl,
         },
@@ -58,16 +58,16 @@ mod imp {
     #[template(resource = "/es/danirod/Cartero/main_window.ui")]
     pub struct CarteroWindow {
         #[template_child(id = "send")]
-        pub send_button: TemplateChild<gtk4::Button>,
+        pub send_button: TemplateChild<gtk::Button>,
 
         #[template_child]
         pub header_pane: TemplateChild<RequestHeaderPane>,
 
         #[template_child(id = "method")]
-        pub request_method: TemplateChild<gtk4::DropDown>,
+        pub request_method: TemplateChild<gtk::DropDown>,
 
         #[template_child(id = "url")]
-        pub request_url: TemplateChild<gtk4::Entry>,
+        pub request_url: TemplateChild<gtk::Entry>,
 
         #[template_child]
         pub request_body: TemplateChild<sourceview5::View>,
@@ -76,7 +76,7 @@ mod imp {
         pub response: TemplateChild<ResponsePanel>,
 
         #[template_child]
-        pub verbs_string_list: TemplateChild<gtk4::StringList>,
+        pub verbs_string_list: TemplateChild<gtk::StringList>,
 
         #[template_child]
         pub revealer: TemplateChild<Revealer>,
@@ -85,7 +85,7 @@ mod imp {
         pub revealer_text: TemplateChild<Label>,
     }
 
-    #[gtk4::template_callbacks]
+    #[gtk::template_callbacks]
     impl CarteroWindow {
         fn update_send_button_sensitivity(&self) {
             let empty = self.request_url.buffer().text().is_empty();
@@ -202,7 +202,7 @@ mod imp {
     impl ObjectSubclass for CarteroWindow {
         const NAME: &'static str = "CarteroWindow";
         type Type = super::CarteroWindow;
-        type ParentType = gtk4::ApplicationWindow;
+        type ParentType = gtk::ApplicationWindow;
 
         fn class_init(klass: &mut Self::Class) {
             RequestHeaderRow::static_type();
@@ -268,7 +268,7 @@ mod imp {
 
 glib::wrapper! {
     pub struct CarteroWindow(ObjectSubclass<imp::CarteroWindow>)
-        @extends gtk4::Widget, gtk4::Window, gtk4::ApplicationWindow,
+        @extends gtk::Widget, gtk::Window, gtk::ApplicationWindow,
         @implements gio::ActionGroup, gio::ActionMap;
 }
 

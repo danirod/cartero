@@ -35,6 +35,8 @@ mod imp {
     use gtk4::subclass::prelude::*;
 
     use gtk4::gio::ActionEntry;
+    use gtk4::Label;
+    use gtk4::Revealer;
     use gtk4::StringObject;
     use isahc::RequestExt;
 
@@ -75,6 +77,12 @@ mod imp {
 
         #[template_child]
         pub verbs_string_list: TemplateChild<gtk4::StringList>,
+
+        #[template_child]
+        pub revealer: TemplateChild<Revealer>,
+
+        #[template_child]
+        pub revealer_text: TemplateChild<Label>,
     }
 
     #[gtk4::template_callbacks]
@@ -87,6 +95,11 @@ mod imp {
         #[template_callback]
         fn on_url_changed(&self) {
             self.update_send_button_sensitivity();
+        }
+
+        #[template_callback]
+        fn on_close_revealer(&self) {
+            self.hide_revealer()
         }
 
         fn request_method(&self) -> GString {
@@ -174,6 +187,15 @@ mod imp {
             self.response.assign_from_response(&response);
             Ok(())
         }
+
+        pub(super) fn show_revealer(&self, str: &str) {
+            self.revealer_text.set_label(str);
+            self.revealer.set_reveal_child(true);
+        }
+
+        pub(super) fn hide_revealer(&self) {
+            self.revealer.set_reveal_child(false);
+        }
     }
 
     #[glib::object_subclass]
@@ -201,7 +223,8 @@ mod imp {
             let action_request = ActionEntry::builder("request")
                 .activate(glib::clone!(@weak self as window => move |_, _, _| {
                     if let Err(e) = window.perform_request() {
-                        println!("TODO: Show toast {:?}", e)
+                        let error_msg = format!("{}", e);
+                        window.show_revealer(&error_msg)
                     }
                 }))
                 .build();
@@ -209,7 +232,8 @@ mod imp {
                 .activate(glib::clone!(@weak self as window => move |_, _, _| {
                     glib::spawn_future_local(glib::clone!(@weak window => async move {
                         if let Err(e) = window.trigger_open().await {
-                            println!("TODO: Show toast {:?}", e);
+                            let error_msg = format!("{}", e);
+                            window.show_revealer(&error_msg);
                         }
                     }));
                 }))
@@ -218,7 +242,8 @@ mod imp {
                 .activate(glib::clone!(@weak self as window => move |_, _, _| {
                     glib::spawn_future_local(glib::clone!(@weak window => async move {
                         if let Err(e) = window.trigger_save().await {
-                            println!("TODO: Show toast {:?}", e);
+                            let error_msg = format!("{}", e);
+                            window.show_revealer(&error_msg);
                         }
                     }));
                 }))
@@ -273,5 +298,15 @@ impl CarteroWindow {
                 Some(mode.to_value())
             })
             .build();
+    }
+
+    pub fn show_revealer(&self, str: &str) {
+        let imp = &self.imp();
+        imp.show_revealer(str);
+    }
+
+    pub fn hide_revealer(&self) {
+        let imp = &self.imp();
+        imp.hide_revealer();
     }
 }

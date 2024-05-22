@@ -24,10 +24,11 @@ use crate::win::CarteroWindow;
 
 mod imp {
     use glib::subclass::{object::ObjectImpl, types::ObjectSubclass};
+    use gtk4::gdk::Display;
     use gtk4::gio::Settings;
-    use gtk4::prelude::*;
     use gtk4::subclass::prelude::*;
     use gtk4::subclass::{application::GtkApplicationImpl, prelude::ApplicationImpl};
+    use gtk4::{prelude::*, CssProvider};
 
     use super::*;
 
@@ -62,6 +63,14 @@ mod imp {
 
             let obj = self.obj();
             obj.set_accels_for_action("win.request", &["<Primary>Return"]);
+
+            let provider = CssProvider::new();
+            provider.load_from_resource("/es/danirod/Cartero/style.css");
+            gtk4::style_context_add_provider_for_display(
+                &Display::default().expect("Could not connect to a display."),
+                &provider,
+                gtk4::STYLE_PROVIDER_PRIORITY_APPLICATION,
+            );
         }
     }
 

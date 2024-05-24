@@ -1,3 +1,4 @@
+use srtemplate::SrTemplateError;
 use thiserror::Error;
 
 use crate::client::RequestError;
@@ -24,6 +25,9 @@ pub enum CarteroError {
 
     #[error("Error manipulating TOML")]
     SerializationError(#[from] toml::ser::Error),
+
+    #[error("Error during variable interpolation: {0}")]
+    VariableInterpolationError(#[from] SrTemplateError),
 
     #[error("Outdated schema, please update the software")]
     OutdatedSchema,

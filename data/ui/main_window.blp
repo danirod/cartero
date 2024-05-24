@@ -164,6 +164,19 @@ template $CarteroWindow: ApplicationWindow {
 
               NotebookPage {
                 tab: Label {
+                  label: _("Variables");
+                };
+
+                child: ScrolledWindow {
+                  hexpand: true;
+                  vexpand: true;
+
+                  $CarteroKeyValuePane variable_pane {}
+                };
+              }
+
+              NotebookPage {
+                tab: Label {
                   label: _("Body");
                 };
 

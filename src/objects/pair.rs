@@ -26,8 +26,8 @@ mod imp {
     use gtk::glib::subclass::prelude::*;
 
     #[derive(Default, Debug, Properties)]
-    #[properties(wrapper_type = super::Header)]
-    pub struct Header {
+    #[properties(wrapper_type = super::Pair)]
+    pub struct Pair {
         #[property(get, set)]
         active: RefCell<bool>,
         #[property(get, set)]
@@ -37,20 +37,20 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for Header {
-        const NAME: &'static str = "CarteroHeader";
-        type Type = super::Header;
+    impl ObjectSubclass for Pair {
+        const NAME: &'static str = "CarteroPair";
+        type Type = super::Pair;
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for Header {}
+    impl ObjectImpl for Pair {}
 }
 
 glib::wrapper! {
-    pub struct Header(ObjectSubclass<imp::Header>);
+    pub struct Pair(ObjectSubclass<imp::Pair>);
 }
 
-impl Header {
+impl Pair {
     // For a header to be actually usable, it must be checked, and also it must have a header name
     // properly set. We could argue that having an empty value is also dumb, but the spec
     // technically allows this.
@@ -59,7 +59,7 @@ impl Header {
     }
 }
 
-impl Default for Header {
+impl Default for Pair {
     fn default() -> Self {
         Object::builder().build()
     }
@@ -67,11 +67,11 @@ impl Default for Header {
 
 #[cfg(test)]
 mod tests {
-    use super::Header;
+    use super::Pair;
 
     #[test]
     pub fn test_header_properties() {
-        let header = Header::default();
+        let header = Pair::default();
         assert_eq!(header.header_name(), "");
         assert_eq!(header.header_value(), "");
         assert!(!header.active());

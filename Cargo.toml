@@ -12,6 +12,7 @@ gtk = { package = "gtk4", version = "0.8.2", features = ["v4_6"] }
 isahc = "1.7.2"
 serde = { version = "1.0.198", features = ["derive"] }
 sourceview5 = "0.8.0"
+srtemplate = { version = "0.3.0", features = [] }
 thiserror = "1.0.60"
 tokio = { version = "1.37.0", features = ["sync"] }
 toml = "0.8.12"

@@ -30,6 +30,8 @@ use gtk::prelude::ActionMapExt;
 use gtk::prelude::SettingsExt;
 
 mod imp {
+    use std::collections::HashMap;
+
     use glib::GString;
     use gtk::prelude::*;
     use gtk::subclass::prelude::*;
@@ -39,12 +41,15 @@ mod imp {
     use gtk::Revealer;
     use gtk::StringObject;
     use isahc::RequestExt;
+    use srtemplate::SrTemplate;
+    use srtemplate::SrTemplateError;
 
     use crate::client::Request;
     use crate::client::RequestError;
     use crate::client::RequestMethod;
     use crate::client::Response;
     use crate::error::CarteroError;
+    use crate::objects::Pair;
     use crate::widgets::*;
     use glib::subclass::InitializingObject;
     use gtk::{
@@ -62,6 +67,9 @@ mod imp {
 
         #[template_child]
         pub header_pane: TemplateChild<KeyValuePane>,
+
+        #[template_child]
+        pub variable_pane: TemplateChild<KeyValuePane>,
 
         #[template_child(id = "method")]
         pub request_method: TemplateChild<gtk::DropDown>,
@@ -131,30 +139,72 @@ mod imp {
         fn assign_request(&self, req: &Request) {
             self.request_url.buffer().set_text(req.url.clone());
             self.set_request_method(req.method.clone());
-            self.header_pane.set_headers(&req.headers);
+            self.header_pane.set_entries(&req.headers);
             let body = String::from_utf8_lossy(&req.body);
             self.request_body.buffer().set_text(&body);
         }
 
+        fn build_headers_map(
+            &self,
+            context: &SrTemplate,
+        ) -> Result<HashMap<String, String>, CarteroError> {
+            let vector = self.header_pane.get_entries();
+            let possible_entries: Vec<Result<(String, String), SrTemplateError>> = vector
+                .iter()
+                .filter(|h| h.is_usable())
+                .map(|h| {
+                    let header_name = context.render(h.header_name())?;
+                    let header_value = context.render(h.header_value())?;
+                    Ok((header_name, header_value))
+                })
+                .collect();
+
+            // TODO: I am pretty sure there is a way to collect() without having to do this.
+            let mut headers = HashMap::new();
+            for possible_entry in possible_entries {
+                match possible_entry {
+                    Ok((h, v)) => {
+                        headers.insert(h.clone(), v.clone());
+                    }
+                    Err(e) => return Err(e.into()),
+                }
+            }
+            Ok(headers)
+        }
+
         // Convert from UI state into a Request object
-        fn extract_request(&self) -> Result<Request, RequestError> {
-            let url = String::from(self.request_url.buffer().text());
+        fn extract_request(&self) -> Result<Request, CarteroError> {
+            let variables = self.variable_pane.get_entries();
+            let context = self.build_template_processor(&variables);
+
+            let url = {
+                let url = String::from(self.request_url.buffer().text());
+                context.render(url)
+            }?;
+
             let method = RequestMethod::try_from(self.request_method().as_str())?;
-            let headers = {
-                let vector = self.header_pane.get_headers();
-                vector
-                    .iter()
-                    .filter(|h| h.is_usable())
-                    .map(|h| (h.header_name(), h.header_value()))
-                    .collect()
-            };
+            let headers = self.build_headers_map(&context)?;
+
             let body = {
                 let buffer = self.request_body.buffer();
                 let (start, end) = buffer.bounds();
                 let text = buffer.text(&start, &end, true);
-                Vec::from(text.as_bytes())
+                let content = context.render(text.as_str())?;
+                Vec::from(content)
             };
             Ok(Request::new(url, method, headers, body))
+        }
+
+        fn build_template_processor(&self, variables: &[Pair]) -> SrTemplate {
+            let context = SrTemplate::default();
+            for variable in variables {
+                if variable.is_usable() {
+                    let header_name = variable.header_name();
+                    let header_value = variable.header_value();
+                    context.add_variable(header_name, &header_value);
+                }
+            }
+            context
         }
 
         async fn trigger_open(&self) -> Result<(), CarteroError> {

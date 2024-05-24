@@ -235,6 +235,7 @@ mod imp {
             let mut response_obj = request_obj.send().map_err(RequestError::NetworkError)?;
             let response = Response::try_from(&mut response_obj)?;
             self.response.assign_from_response(&response);
+            self.hide_revealer();
             Ok(())
         }
 

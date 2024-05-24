@@ -34,9 +34,9 @@ mod imp {
     use super::HeaderRowBindings;
 
     #[derive(CompositeTemplate, Default, Properties)]
-    #[properties(wrapper_type = super::RequestHeaderRow)]
-    #[template(resource = "/es/danirod/Cartero/request_header_row.ui")]
-    pub struct RequestHeaderRow {
+    #[properties(wrapper_type = super::KeyValueRow)]
+    #[template(resource = "/es/danirod/Cartero/key_value_row.ui")]
+    pub struct KeyValueRow {
         #[property(get, set)]
         active: RefCell<bool>,
         #[property(get, set)]
@@ -54,7 +54,7 @@ mod imp {
     }
 
     #[gtk::template_callbacks]
-    impl RequestHeaderRow {
+    impl KeyValueRow {
         #[template_callback]
         fn on_delete_request(&self) {
             let obj = self.obj();
@@ -63,9 +63,9 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for RequestHeaderRow {
-        const NAME: &'static str = "CarteroRequestHeaderRow";
-        type Type = super::RequestHeaderRow;
+    impl ObjectSubclass for KeyValueRow {
+        const NAME: &'static str = "CarteroKeyValueRow";
+        type Type = super::KeyValueRow;
         type ParentType = Box;
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -78,32 +78,32 @@ mod imp {
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for RequestHeaderRow {
+    impl ObjectImpl for KeyValueRow {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
             SIGNALS.get_or_init(|| vec![Signal::builder("delete").build()])
         }
     }
 
-    impl WidgetImpl for RequestHeaderRow {}
-    impl BoxImpl for RequestHeaderRow {}
+    impl WidgetImpl for KeyValueRow {}
+    impl BoxImpl for KeyValueRow {}
 }
 
 glib::wrapper! {
-    pub struct RequestHeaderRow(ObjectSubclass<imp::RequestHeaderRow>)
+    pub struct KeyValueRow(ObjectSubclass<imp::KeyValueRow>)
         @extends gtk::Widget, gtk::Box,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget,
                     gtk::Actionable, gtk::ActionBar, gtk::ATContext;
 
 }
 
-impl Default for RequestHeaderRow {
+impl Default for KeyValueRow {
     fn default() -> Self {
         Object::builder().build()
     }
 }
 
-impl RequestHeaderRow {
+impl KeyValueRow {
     pub fn set_bindings(&self, header_name: Binding, header_value: Binding, active: Binding) {
         let imp = self.imp();
 

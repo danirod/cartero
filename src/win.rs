@@ -61,7 +61,7 @@ mod imp {
         pub send_button: TemplateChild<gtk::Button>,
 
         #[template_child]
-        pub header_pane: TemplateChild<RequestHeaderPane>,
+        pub header_pane: TemplateChild<KeyValuePane>,
 
         #[template_child(id = "method")]
         pub request_method: TemplateChild<gtk::DropDown>,
@@ -205,8 +205,8 @@ mod imp {
         type ParentType = gtk::ApplicationWindow;
 
         fn class_init(klass: &mut Self::Class) {
-            RequestHeaderRow::static_type();
-            RequestHeaderPane::static_type();
+            KeyValueRow::static_type();
+            KeyValuePane::static_type();
             klass.bind_template();
             klass.bind_template_callbacks();
         }

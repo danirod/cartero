@@ -39,11 +39,11 @@ mod imp {
     use gtk::{glib, CompositeTemplate};
 
     use crate::objects::Header;
-    use crate::widgets::RequestHeaderRow;
+    use crate::widgets::KeyValueRow;
 
     #[derive(Default, CompositeTemplate)]
-    #[template(resource = "/es/danirod/Cartero/request_header_pane.ui")]
-    pub struct RequestHeaderPane {
+    #[template(resource = "/es/danirod/Cartero/key_value_pane.ui")]
+    pub struct KeyValuePane {
         #[template_child]
         list_view: TemplateChild<gtk::ListView>,
         #[template_child]
@@ -53,7 +53,7 @@ mod imp {
     }
 
     #[gtk::template_callbacks]
-    impl RequestHeaderPane {
+    impl KeyValuePane {
         #[template_callback]
         fn on_add_new_header(&self) {
             let empty_header = Header::default();
@@ -75,9 +75,9 @@ mod imp {
     }
 
     #[glib::object_subclass]
-    impl ObjectSubclass for RequestHeaderPane {
-        const NAME: &'static str = "CarteroRequestHeaderPane";
-        type Type = super::RequestHeaderPane;
+    impl ObjectSubclass for KeyValuePane {
+        const NAME: &'static str = "CarteroKeyValuePane";
+        type Type = super::KeyValuePane;
         type ParentType = gtk::Box;
 
         fn class_init(klass: &mut Self::Class) {
@@ -90,7 +90,7 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for RequestHeaderPane {
+    impl ObjectImpl for KeyValuePane {
         fn constructed(&self) {
             self.parent_constructed();
 
@@ -103,7 +103,7 @@ mod imp {
 
             /* Called whenever the system wants a new empty widget. */
             factory.connect_setup(|_, item: &gtk::ListItem| {
-                let row = RequestHeaderRow::default();
+                let row = KeyValueRow::default();
                 item.set_child(Some(&row));
             });
 
@@ -115,7 +115,7 @@ mod imp {
             /* Called whenever the system will place a header in a widget. */
             factory.connect_bind(
                 glib::clone!(@weak self as pane => move |_, item: &gtk::ListItem| {
-                    let widget = item.child().and_downcast::<RequestHeaderRow>().unwrap();
+                    let widget = item.child().and_downcast::<KeyValueRow>().unwrap();
                     let header = item.item().and_downcast::<Header>().unwrap();
 
                     /* Add the initial data to the header. */
@@ -142,7 +142,7 @@ mod imp {
                     widget.set_bindings(bind_name, bind_value, bind_active);
 
                     let pos = item.position();
-                    let delete_closure = widget.connect_closure("delete", false, closure_local!(@strong pane => move |_row: RequestHeaderRow| {
+                    let delete_closure = widget.connect_closure("delete", false, closure_local!(@strong pane => move |_row: KeyValueRow| {
                         pane.on_remove_row(pos);
                     }));
                     widget.set_delete_closure(delete_closure);
@@ -151,7 +151,7 @@ mod imp {
 
             /* Called whenever the system will stop using a header in a widget. */
             factory.connect_unbind(|_, item: &gtk::ListItem| {
-                let widget = item.child().and_downcast::<RequestHeaderRow>().unwrap();
+                let widget = item.child().and_downcast::<KeyValueRow>().unwrap();
 
                 /* Disconnect the binds stored in the header. */
                 widget.reset_bindings();
@@ -169,18 +169,18 @@ mod imp {
         }
     }
 
-    impl WidgetImpl for RequestHeaderPane {}
+    impl WidgetImpl for KeyValuePane {}
 
-    impl BoxImpl for RequestHeaderPane {}
+    impl BoxImpl for KeyValuePane {}
 }
 
 glib::wrapper! {
-    pub struct RequestHeaderPane(ObjectSubclass<imp::RequestHeaderPane>)
+    pub struct KeyValuePane(ObjectSubclass<imp::KeyValuePane>)
         @extends gtk::Widget, gtk::Box,
         @implements gtk::Accessible, gtk::Buildable;
 }
 
-impl RequestHeaderPane {
+impl KeyValuePane {
     pub fn get_headers(&self) -> Vec<Header> {
         let imp = self.imp();
 

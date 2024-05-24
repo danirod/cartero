@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-05-17 21:19+0200\n"
+"POT-Creation-Date: 2024-05-24 19:34+0200\n"
 "PO-Revision-Date: 2024-03-28 18:09+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -25,47 +25,51 @@ msgstr "Abrir"
 msgid "Save"
 msgstr "Guardar"
 
-#: data/ui/main_window.blp:82
+#: data/ui/main_window.blp:96
+msgid "Close"
+msgstr ""
+
+#: data/ui/main_window.blp:117
 msgid "Request method"
 msgstr "Método de petición"
 
-#: data/ui/main_window.blp:88
+#: data/ui/main_window.blp:123
 msgid "Request URL"
 msgstr "URL de petición"
 
-#: data/ui/main_window.blp:94
+#: data/ui/main_window.blp:129
 msgid "Send"
 msgstr "Enviar"
 
-#: data/ui/main_window.blp:95
+#: data/ui/main_window.blp:130
 msgid "Execute this HTTP request"
 msgstr "Ejecutar esta petición HTTP"
 
-#: data/ui/main_window.blp:119 data/ui/response_panel.blp:13
+#: data/ui/main_window.blp:154 data/ui/response_panel.blp:13
 msgid "Headers"
 msgstr "Cabeceras"
 
-#: data/ui/main_window.blp:132 data/ui/response_panel.blp:24
+#: data/ui/main_window.blp:167 data/ui/response_panel.blp:24
 msgid "Body"
 msgstr "Cuerpo"
 
-#: data/ui/main_window.blp:186
+#: data/ui/main_window.blp:222
 msgid "Wrap bodies"
 msgstr "Ajustar línea del cuerpo"
 
-#: data/ui/request_header_pane.blp:33
+#: data/ui/key_value_pane.blp:33
 msgid "Add new header"
 msgstr "Agregar cabecera"
 
-#: data/ui/request_header_row.blp:34
+#: data/ui/key_value_row.blp:34
 msgid "Name"
 msgstr "Nombre"
 
-#: data/ui/request_header_row.blp:40
+#: data/ui/key_value_row.blp:40
 msgid "Value"
 msgstr "Valor"
 
-#: data/ui/request_header_row.blp:49
+#: data/ui/key_value_row.blp:49
 msgid "Delete header"
 msgstr "Borrar cabecera"
 

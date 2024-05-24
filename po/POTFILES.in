@@ -1,6 +1,6 @@
 # Please, keep this file sorted alphabetically.
 #
 data/ui/main_window.blp
-data/ui/request_header_pane.blp
-data/ui/request_header_row.blp
+data/ui/key_value_pane.blp
+data/ui/key_value_row.blp
 data/ui/response_panel.blp

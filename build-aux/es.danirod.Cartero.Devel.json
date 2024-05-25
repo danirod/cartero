@@ -1,5 +1,5 @@
 {
-    "id" : "es.danirod.Cartero",
+    "id" : "es.danirod.Cartero.Devel",
     "runtime" : "org.gnome.Platform",
     "runtime-version" : "46",
     "sdk" : "org.gnome.Sdk",
@@ -15,7 +15,7 @@
         "--socket=wayland",
         "--filesystem=host",
         "--env=RUST_BACKTRACE=1",
-        "--env=RUST_LOG=cartero=info"
+        "--env=RUST_LOG=cartero=debug"
     ],
     "build-options" : {
         "append-path" : "/usr/lib/sdk/rust-stable/bin",
@@ -24,7 +24,7 @@
         ],
         "env" : {
             "RUST_BACKTRACE" : "1",
-            "RUST_LOG" : "flatrust=info"
+            "RUST_LOG" : "cartero=debug"
         }
     },
     "cleanup" : [
@@ -54,11 +54,13 @@
             "name" : "cartero",
             "builddir" : true,
             "buildsystem" : "meson",
+            "config-opts": [
+                "-Dprofile=development"
+            ],
             "sources" : [
                 {
-                    "type" : "git",
-                    "url" : "https://github.com/danirod/cartero",
-                    "branch" : "trunk"
+                    "type" : "dir",
+                    "path" : "../"
                 }
             ]
         }

@@ -19,7 +19,7 @@ use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
 use gtk::gio::{self, Settings};
 
-use crate::config::APP_ID;
+use crate::config::{APP_ID, BASE_ID};
 use crate::win::CarteroWindow;
 
 mod imp {
@@ -44,7 +44,7 @@ mod imp {
 
         fn new() -> Self {
             Self {
-                settings: Settings::new(APP_ID),
+                settings: Settings::new(BASE_ID),
             }
         }
     }

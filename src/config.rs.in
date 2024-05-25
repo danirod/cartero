@@ -1,3 +1,4 @@
 pub const APP_ID: &str = @APP_ID@;
+pub const BASE_ID: &str = @BASE_ID@;
 pub const GETTEXT_PACKAGE: &str = @GETTEXT_PACKAGE@;
 pub const VERSION: &str = @VERSION@;

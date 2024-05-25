@@ -42,7 +42,6 @@ mod imp {
     use gtk::StringObject;
     use isahc::RequestExt;
     use srtemplate::SrTemplate;
-    use srtemplate::SrTemplateError;
 
     use crate::client::Request;
     use crate::client::RequestError;
@@ -149,7 +148,7 @@ mod imp {
             context: &SrTemplate,
         ) -> Result<HashMap<String, String>, CarteroError> {
             let vector = self.header_pane.get_entries();
-            let possible_entries: Vec<Result<(String, String), SrTemplateError>> = vector
+            vector
                 .iter()
                 .filter(|h| h.is_usable())
                 .map(|h| {
@@ -157,19 +156,7 @@ mod imp {
                     let header_value = context.render(h.header_value())?;
                     Ok((header_name, header_value))
                 })
-                .collect();
-
-            // TODO: I am pretty sure there is a way to collect() without having to do this.
-            let mut headers = HashMap::new();
-            for possible_entry in possible_entries {
-                match possible_entry {
-                    Ok((h, v)) => {
-                        headers.insert(h.clone(), v.clone());
-                    }
-                    Err(e) => return Err(e.into()),
-                }
-            }
-            Ok(headers)
+                .collect()
         }
 
         // Convert from UI state into a Request object

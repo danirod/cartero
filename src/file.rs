@@ -6,6 +6,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::client::{Request, RequestError, RequestMethod};
 use crate::error::CarteroError;
+use crate::objects::Endpoint;
 
 #[derive(Deserialize, Serialize)]
 struct RequestFile {
@@ -14,6 +15,7 @@ struct RequestFile {
     method: String,
     body: Option<String>,
     headers: Option<HashMap<String, String>>,
+    variables: Option<HashMap<String, String>>,
 }
 
 impl TryFrom<RequestFile> for Request {
@@ -41,31 +43,36 @@ impl TryFrom<RequestFile> for Request {
     }
 }
 
-impl From<Request> for RequestFile {
-    fn from(value: Request) -> RequestFile {
-        let method: &str = value.method.into();
-        let body = if value.body.is_empty() {
+impl From<Endpoint> for RequestFile {
+    fn from(value: Endpoint) -> RequestFile {
+        let Endpoint(request, variables) = value;
+
+        let method: &str = request.method.into();
+        let body = if request.body.is_empty() {
             None
         } else {
-            Some(String::from_utf8_lossy(&value.body.clone()).to_string())
+            Some(String::from_utf8_lossy(&request.body.clone()).to_string())
         };
         RequestFile {
             version: 1,
-            url: value.url.clone(),
+            url: request.url.clone(),
             method: method.to_owned(),
             body,
-            headers: Some(value.headers.clone()),
+            headers: Some(request.headers.clone()),
+            variables: Some(variables.clone()),
         }
     }
 }
 
-pub fn parse_toml(file: &str) -> Result<Request, CarteroError> {
+pub fn parse_toml(file: &str) -> Result<Endpoint, CarteroError> {
     let contents = toml::from_str::<RequestFile>(file)?;
-    Request::try_from(contents).map_err(|e| e.into())
+    let variables = contents.variables.clone().unwrap_or(HashMap::new());
+    let request = Request::try_from(contents)?;
+    Ok(Endpoint(request, variables))
 }
 
-pub fn store_toml(req: &Request) -> Result<String, CarteroError> {
-    let file = RequestFile::from(req.clone());
+pub fn store_toml(endpoint: Endpoint) -> Result<String, CarteroError> {
+    let file = RequestFile::from(endpoint);
     toml::to_string(&file).map_err(|e| e.into())
 }
 

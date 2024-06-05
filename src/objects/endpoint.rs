@@ -15,8 +15,11 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-mod endpoint;
-mod pair;
+use std::collections::HashMap;
 
-pub use endpoint::{Endpoint, Variable};
-pub use pair::Pair;
+use crate::client::Request;
+
+// TODO: I am going to deeply regret this soon.
+pub type Variable = HashMap<String, String>;
+
+pub struct Endpoint(pub Request, pub Variable);

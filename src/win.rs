@@ -47,6 +47,7 @@ mod imp {
     use crate::client::RequestMethod;
     use crate::client::Response;
     use crate::error::CarteroError;
+    use crate::objects::Endpoint;
     use crate::widgets::*;
     use glib::subclass::InitializingObject;
     use gtk::{
@@ -133,10 +134,12 @@ mod imp {
         }
 
         // Convert from a Request object into UI state
-        fn assign_request(&self, req: &Request) {
+        fn assign_request(&self, ep: &Endpoint) {
+            let Endpoint(req, variables) = ep;
             self.request_url.buffer().set_text(req.url.clone());
             self.set_request_method(req.method.clone());
             self.header_pane.set_entries(&req.headers);
+            self.variable_pane.set_entries(&variables);
             let body = String::from_utf8_lossy(&req.body);
             self.request_body.buffer().set_text(&body);
         }
@@ -178,7 +181,9 @@ mod imp {
             let path = crate::widgets::save_file(&obj).await?;
             if let Some(path) = path {
                 let request = self.extract_request()?;
-                let serialized_payload = crate::file::store_toml(&request)?;
+                let variables = self.extract_variables();
+                let endpoint = Endpoint(request, variables);
+                let serialized_payload = crate::file::store_toml(endpoint)?;
                 crate::file::write_file(&path, &serialized_payload)?;
             }
             Ok(())

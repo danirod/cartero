@@ -15,12 +15,9 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-mod endpoint;
-mod folder;
-mod pair;
-mod tree;
+use super::{Endpoint, Folder};
 
-pub use endpoint::Endpoint;
-pub use folder::Folder;
-pub use pair::Pair;
-pub use tree::TreeNode;
+pub enum TreeNode {
+    Folder(Folder),
+    Endpoint(Endpoint),
+}

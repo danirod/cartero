@@ -89,7 +89,10 @@ pub fn write_file(path: &PathBuf, contents: &str) -> std::io::Result<()> {
 mod tests {
     use std::collections::HashMap;
 
-    use crate::client::{Request, RequestMethod};
+    use crate::{
+        client::{Request, RequestMethod},
+        objects::Endpoint,
+    };
 
     #[test]
     pub fn test_can_deserialize() {
@@ -103,7 +106,8 @@ body = 'hello'
 Accept = 'text/html'
 Accept-Encoding = 'gzip'
 ";
-        let doc = super::parse_toml(toml).unwrap();
+        let endpoint = super::parse_toml(toml).unwrap();
+        let Endpoint(doc, _) = endpoint;
         assert_eq!(doc.url, "https://www.google.com");
         assert_eq!(doc.method, RequestMethod::Get);
         assert_eq!(doc.body, vec![0x68, 0x65, 0x6c, 0x6c, 0x6f]);
@@ -169,7 +173,8 @@ method = 'GET'
 [headers]
 Accept = 'text/html'
 ";
-        let content = super::parse_toml(toml).unwrap();
+        let endpoint = super::parse_toml(toml).unwrap();
+        let Endpoint(content, _) = endpoint;
         assert_eq!(content.url, "https://www.google.com");
         assert_eq!(content.method, RequestMethod::Get);
         assert_eq!(content.body.len(), 0);
@@ -183,7 +188,8 @@ url = 'https://www.google.com'
 method = 'POST'
 body = 'hello'
 ";
-        let content = super::parse_toml(toml).unwrap();
+        let endpoint = super::parse_toml(toml).unwrap();
+        let Endpoint(content, _) = endpoint;
         assert_eq!(content.url, "https://www.google.com");
         assert_eq!(content.method, RequestMethod::Post);
         assert_eq!(content.body.len(), 5);
@@ -203,7 +209,7 @@ body = 'hello'
             body,
         );
 
-        let content = super::store_toml(&r).unwrap();
+        let content = super::store_toml(Endpoint(r, HashMap::default())).unwrap();
         assert!(content
             .as_str()
             .contains("url = \"https://www.google.com\""));
@@ -225,8 +231,9 @@ body = 'hello'
             body,
         );
 
-        let content = super::store_toml(&r).unwrap();
+        let content = super::store_toml(Endpoint(r.clone(), HashMap::default())).unwrap();
         let parsed = super::parse_toml(&content).unwrap();
+        let parsed = parsed.0;
         assert_eq!(r.url, parsed.url);
         assert_eq!(r.method, parsed.method);
         assert_eq!(r.body, parsed.body);

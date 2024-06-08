@@ -5,5 +5,13 @@
       <default>true</default>
       <summary>Wrap the body content</summary>
     </key>
+    <key name="window-width" type="i">
+      <default>1024</default>
+      <summary>How large should new windows be</summary>
+    </key>
+    <key name="window-height" type="i">
+      <default>640</default>
+      <summary>How tall should new windows be</summary>
+    </key>
   </schema>
 </schemalist>

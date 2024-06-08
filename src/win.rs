@@ -21,6 +21,7 @@ use glib::Object;
 use gtk::{
     gio::{self, Settings},
     glib,
+    prelude::SettingsExtManual,
 };
 
 use gtk::prelude::ActionMapExt;
@@ -154,7 +155,7 @@ mod imp {
 glib::wrapper! {
     pub struct CarteroWindow(ObjectSubclass<imp::CarteroWindow>)
         @extends gtk::Widget, gtk::Window, gtk::ApplicationWindow, adw::ApplicationWindow,
-        @implements gio::ActionGroup, gio::ActionMap;
+        @implements gio::ActionGroup, gio::ActionMap, gtk::Root;
 }
 
 impl CarteroWindow {
@@ -167,6 +168,11 @@ impl CarteroWindow {
 
         let wrap = settings.create_action("body-wrap");
         self.add_action(&wrap);
+
+        settings.bind("window-width", self, "default-width").build();
+        settings
+            .bind("window-height", self, "default-height")
+            .build();
 
         imp.current_pane().bind_settings(settings);
     }

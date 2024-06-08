@@ -1,12 +1,9 @@
-<div style="text-align: center;">
+<p align="center"><img src="data/icons/es.danirod.Cartero.svg" width="256" height="256" alt=""></p>
 
-<img src="data/icons/es.danirod.Cartero.svg" width="256" height="256">
+<h1 align="center">Cartero</h1>
+<p align="center">Make HTTP requests and test APIs.</p>
 
-# Cartero
-Make HTTP requests and test APIs.
-</div>
-
-<img src="doc/cartero-screenshot.png" alt="Screenshot of Cartero">
+<p align="center"><img src="doc/cartero-screenshot.png" alt="Screenshot of Cartero"></p>
 
 > 🚧 This is a work in progress and therefore you should expect that the
 > application may not have all the features at this moment.
@@ -29,12 +26,35 @@ graphically**, supporting only the most basic features:
 * Configure the payload and the request headers.
 * Get the response headers, body, status code, size and duration of a request.
 
-**[Check out the kanban for the progress pending until we reach first iteration](kanban).**
+**[Check out the kanban for the progress pending until we reach first iteration][kanban].**
 
 Once the first iteration is reached, more features from the
 [cool idea, saved for later][later] list will be implemented.
 
 ## How to build
+
+### Flatpak
+
+Install the runtime:
+
+```sh
+flatpak install --user org.gnome.Sdk//46 org.freedesktop.Sdk.Extension.rust-stable//23.08
+```
+
+Install the Flatpak, possibly passing the `--user` parameter.
+
+```sh
+flatpak-builder --user --install flatpak_app build-aux/es.danirod.Cartero.json
+```
+
+You will find Cartero in your application launcher, or you can launch it with
+`flatpak run es.danirod.Cartero`.
+
+### Meson
+
+Use this to build the application outside of a Flatpak image. Note that this method should
+only be used by power users, to package the application on build scripts for rolling-release
+distributions, or for development purposes. 
 
 Currently, to build the application you'll have to make sure that the required
 libraries are installed on your system.
@@ -44,7 +64,10 @@ libraries are installed on your system.
 * gtksourceview >= 5.4
 * libadwaita >= 1.1
 
-### Meson
+Versions are old because Cartero currently wants to support Ubuntu 22.04. Note that this is
+just a polite decission and that Cartero will eventually drop native support for Ubuntu 22.04
+and bump the dependencies. If you really cannot upgrade to Ubuntu 24.04, you are encouraged
+to switch to the Flatpak version of Cartero.
 
 Make sure that you have Meson in your system. For instance,
 
@@ -65,7 +88,7 @@ ninja -C build install
 To avoid installing system-wide the application, you can use a prefix:
 
 ```sh
-meson setup build --prefix=~/.local
+meson setup build --prefix=/usr
 ninja -C build
 ninja -C build install
 ```
@@ -76,7 +99,7 @@ are installed into specific locations, this may be a required step if you
 suddenly cannot run the application due to missing schemas or resources.
 
 ```sh
-meson setup build --prefix=install
+meson setup build --prefix=$PWD/install
 ninja -C build
 ninja -C build install
 install/bin/cartero
@@ -91,31 +114,6 @@ meson setup build -Dprofile=development
 It will also configure a Git hook so that the source code is checked prior to
 authoring a Git commit. The hook runs `cargo fmt` to assert that the code is
 formatted. Read `hooks/pre-commit.hook` to inspect what the script does.
-
-### Flatpak
-
-Install the runtime:
-
-```sh
-flatpak install --user org.gnome.Sdk//45 org.freedesktop.Sdk.Extension.rust-stable//23.08
-```
-
-To build and run the Flatpak:
-
-```sh
-flatpak-builder --user flatpak_app build-aux/es.danirod.Cartero.json
-flatpak-builder --run flatpak_app build-aux/es.danirod.Cartero.json cartero
-```
-
-To install the Flatpak into your system or user Flatpak, use the `--install`
-flag and maybe the `--user`:
-
-```sh
-flatpak-builder --user --install flatpak_app build-aux/es.danirod.Cartero.json
-```
-
-You will find Cartero in your application launcher, or you can launch it with
-`flatpak run es.danirod.Cartero`.
 
 ## Contributing
 

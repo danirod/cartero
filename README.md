@@ -1,8 +1,12 @@
-<img src="data/icons/es.danirod.Cartero.svg" width="128" height="128">
+<div style="text-align: center;">
+
+<img src="data/icons/es.danirod.Cartero.svg" width="256" height="256">
 
 # Cartero
-
 Make HTTP requests and test APIs.
+</div>
+
+<img src="doc/cartero-screenshot.png" alt="Screenshot of Cartero">
 
 > 🚧 This is a work in progress and therefore you should expect that the
 > application may not have all the features at this moment.
@@ -25,26 +29,12 @@ graphically**, supporting only the most basic features:
 * Configure the payload and the request headers.
 * Get the response headers, body, status code, size and duration of a request.
 
-To achieve version 0.1, the following has to be done:
+**[Check out the kanban for the progress pending until we reach first iteration](kanban).**
 
-* [ ] Settle on the project structure (translations, GTK, build tools...)
-* [ ] Design the user interface components (GTK 4, probably Adw 1).
-* [ ] Implement the internal HTTP client and connect it to the user interface.
-
-On future versions, more capabilities will be added:
-
-* Support for persisting requests to re-use them in future sessions.
-* Support for variables, which can be configured per environment, such as
-  production, staging or development.
-* Export a request as a cURL command or generate code for Axios, net/http and
-  other software libraries.
+Once the first iteration is reached, more features from the
+[cool idea, saved for later][later] list will be implemented.
 
 ## How to build
-
-Note that compiling via `cargo build` and `cargo run` is not supported anymore,
-since more build steps are required in order to compile the application
-(translate .blp files into .ui files...). While it may work if you run the
-commands on your own, it won't be pretty.
 
 Currently, to build the application you'll have to make sure that the required
 libraries are installed on your system.
@@ -211,3 +201,5 @@ Dani's [dev blog][blog] (in Spanish) of Cartero.
 [danirod]: https://github.com/danirod
 [fork]: https://github.com/danirod/cartero/fork
 [blog]: https://danirod.es/secciones/devlogs/cartero/
+[kanban]: https://github.com/users/danirod/projects/9/views/6
+[later]: https://github.com/users/danirod/projects/9/views/7

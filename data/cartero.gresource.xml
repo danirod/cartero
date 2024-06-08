@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/es/danirod/Cartero/">
+    <file alias="endpoint_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/endpoint_pane.ui</file>
     <file alias="key_value_row.ui" compressed="true" preprocess="xml-stripblanks">ui/key_value_row.ui</file>
     <file alias="key_value_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/key_value_pane.ui</file>
     <file alias="main_window.ui" compressed="true" preprocess="xml-stripblanks">ui/main_window.ui</file>

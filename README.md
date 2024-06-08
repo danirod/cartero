@@ -52,6 +52,7 @@ libraries are installed on your system.
 * glib >= 2.72
 * gtk >= 4.6
 * gtksourceview >= 5.4
+* libadwaita >= 1.1
 
 ### Meson
 

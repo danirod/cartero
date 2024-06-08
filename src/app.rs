@@ -23,12 +23,12 @@ use crate::config::{APP_ID, BASE_ID};
 use crate::win::CarteroWindow;
 
 mod imp {
+    use adw::prelude::*;
+    use adw::subclass::application::AdwApplicationImpl;
     use glib::subclass::{object::ObjectImpl, types::ObjectSubclass};
-    use gtk::gdk::Display;
     use gtk::gio::Settings;
     use gtk::subclass::prelude::*;
     use gtk::subclass::{application::GtkApplicationImpl, prelude::ApplicationImpl};
-    use gtk::{prelude::*, CssProvider};
 
     use super::*;
 
@@ -40,7 +40,7 @@ mod imp {
     impl ObjectSubclass for CarteroApplication {
         const NAME: &'static str = "CarteroApplication";
         type Type = super::CarteroApplication;
-        type ParentType = gtk::Application;
+        type ParentType = adw::Application;
 
         fn new() -> Self {
             Self {
@@ -63,23 +63,17 @@ mod imp {
 
             let obj = self.obj();
             obj.set_accels_for_action("win.request", &["<Primary>Return"]);
-
-            let provider = CssProvider::new();
-            provider.load_from_resource("/es/danirod/Cartero/style.css");
-            gtk::style_context_add_provider_for_display(
-                &Display::default().expect("Could not connect to a display."),
-                &provider,
-                gtk::STYLE_PROVIDER_PRIORITY_APPLICATION,
-            );
         }
     }
 
     impl GtkApplicationImpl for CarteroApplication {}
+
+    impl AdwApplicationImpl for CarteroApplication {}
 }
 
 glib::wrapper! {
     pub struct CarteroApplication(ObjectSubclass<imp::CarteroApplication>)
-        @extends gio::Application, gtk::Application,
+        @extends gio::Application, gtk::Application, adw::Application,
         @implements gio::ActionMap, gio::ActionGroup;
 
 }

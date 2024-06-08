@@ -31,6 +31,7 @@ base_id = 'es.danirod.Cartero'
 dependency('glib-2.0', version: '>= 2.72')
 dependency('gtk4', version: '>= 4.6')
 dependency('gtksourceview-5', version: '>= 5.4')
+dependency('libadwaita-1', version: '>= 1.1')
 
 glib_compile_resources = find_program('glib-compile-resources', required: true)
 cargo = find_program('cargo', required: true)

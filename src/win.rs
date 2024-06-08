@@ -27,6 +27,7 @@ use gtk::prelude::ActionMapExt;
 use gtk::prelude::SettingsExt;
 
 mod imp {
+    use adw::subclass::application_window::AdwApplicationWindowImpl;
     use gtk::gio::ActionEntry;
     use gtk::prelude::*;
     use gtk::subclass::prelude::*;
@@ -88,7 +89,7 @@ mod imp {
     impl ObjectSubclass for CarteroWindow {
         const NAME: &'static str = "CarteroWindow";
         type Type = super::CarteroWindow;
-        type ParentType = gtk::ApplicationWindow;
+        type ParentType = adw::ApplicationWindow;
 
         fn class_init(klass: &mut Self::Class) {
             KeyValueRow::static_type();
@@ -146,11 +147,13 @@ mod imp {
     impl WindowImpl for CarteroWindow {}
 
     impl ApplicationWindowImpl for CarteroWindow {}
+
+    impl AdwApplicationWindowImpl for CarteroWindow {}
 }
 
 glib::wrapper! {
     pub struct CarteroWindow(ObjectSubclass<imp::CarteroWindow>)
-        @extends gtk::Widget, gtk::Window, gtk::ApplicationWindow,
+        @extends gtk::Widget, gtk::Window, gtk::ApplicationWindow, adw::ApplicationWindow,
         @implements gio::ActionGroup, gio::ActionMap;
 }
 

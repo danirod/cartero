@@ -1,3 +1,4 @@
 .infobar-like {
-        background-color: @error_color;
+  background-color: @error_color;
+  color: @error_fg_color;
 }

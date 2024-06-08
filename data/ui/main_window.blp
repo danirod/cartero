@@ -16,54 +16,59 @@
  */
 // SPDX-License-Identifier: GPL-3.0-or-later
 using Gtk 4.0;
+using Adw 1;
 
-template $CarteroWindow: ApplicationWindow {
-  [titlebar]
-  HeaderBar {
-    [start]
-    Box {
-      spacing: 5;
+template $CarteroWindow: Adw.ApplicationWindow {
+  [content]
+  Box {
+    orientation: vertical;
 
-      Button open_dialog {
-        action-name: "win.open";
-        tooltip-text: _("Open");
+    Adw.HeaderBar {
+      [start]
+      Box {
+        spacing: 5;
 
-        [child]
-        Box {
-          spacing: 5;
+        Button open_dialog {
+          action-name: "win.open";
+          tooltip-text: _("Open");
 
-          Image {
-            icon-name: 'document-open-symbolic';
+          [child]
+          Box {
+            spacing: 5;
+
+            Image {
+              icon-name: 'document-open-symbolic';
+            }
+
+            Label {
+              label: _("Open");
+            }
           }
+        }
 
-          Label {
-            label: _("Open");
-          }
+        Button save_dialog {
+          action-name: "win.save";
+          icon-name: 'document-save-symbolic';
+          tooltip-text: _("Save");
         }
       }
 
-      Button save_dialog {
-        action-name: "win.save";
-        icon-name: 'document-save-symbolic';
-        tooltip-text: _("Save");
+      [title]
+      Label {
+        use-markup: true;
+        label: "<b>Cartero</b>";
+      }
+
+      [end]
+      MenuButton {
+        icon-name: "open-menu-symbolic";
+        primary: true;
+        menu-model: main_menu;
       }
     }
 
-    [title]
-    Label {
-      use-markup: true;
-      label: "<b>Cartero</b>";
-    }
-
-    [end]
-    MenuButton {
-      icon-name: "open-menu-symbolic";
-      primary: true;
-      menu-model: main_menu;
-    }
+    $CarteroEndpointPane pane {}
   }
-
-  $CarteroEndpointPane pane {}
 }
 
 menu main_menu {

@@ -38,15 +38,29 @@ template $CarteroKeyValueRow: Gtk.Box {
     hexpand: true;
     text: bind template.header-value bidirectional;
     placeholder-text: _("Value");
+    visibility: bind template.secret inverted;
   }
 
-  Gtk.Button delete {
-    styles [
-      "destructive-action"
-    ]
+  Gtk.MenuButton actions {
+    icon-name: "view-more-symbolic";
+    tooltip-text: _("Actions");
 
-    icon-name: "edit-delete-symbolic";
-    tooltip-text: _("Delete header");
-    clicked => $on_delete_request() swapped;
+    popover: Gtk.PopoverMenu {
+      menu-model: row_actions;
+    };
+  }
+}
+
+menu row_actions {
+  section {
+    item {
+      label: _("Toggle secret");
+      action: "row.toggle-secret";
+      hidden-when: "action-disabled";
+    }
+  }
+
+  section {
+    item (_("Delete"), "row.delete")
   }
 }

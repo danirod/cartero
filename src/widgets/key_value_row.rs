@@ -15,11 +15,14 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use glib::object::ObjectExt;
 use glib::property::PropertySet;
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::{Binding, SignalHandlerId};
-use gtk::glib;
+use gtk::gio::{self, PropertyAction, SimpleAction, SimpleActionGroup};
 use gtk::glib::Object;
+use gtk::prelude::WidgetExt;
+use gtk::prelude::*;
 
 mod imp {
     use std::cell::RefCell;
@@ -40,9 +43,13 @@ mod imp {
         #[property(get, set)]
         active: RefCell<bool>,
         #[property(get, set)]
+        secret: RefCell<bool>,
+
+        #[property(get, set)]
         header_name: RefCell<String>,
         #[property(get, set)]
         header_value: RefCell<String>,
+
         #[template_child]
         pub entry_key: TemplateChild<Entry>,
         #[template_child]
@@ -53,15 +60,6 @@ mod imp {
         pub delete_signal: RefCell<Option<SignalHandlerId>>,
     }
 
-    #[gtk::template_callbacks]
-    impl KeyValueRow {
-        #[template_callback]
-        fn on_delete_request(&self) {
-            let obj = self.obj();
-            obj.emit_by_name::<()>("delete", &[]);
-        }
-    }
-
     #[glib::object_subclass]
     impl ObjectSubclass for KeyValueRow {
         const NAME: &'static str = "CarteroKeyValueRow";
@@ -69,7 +67,6 @@ mod imp {
         type ParentType = Box;
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
-            klass.bind_template_callbacks();
         }
 
         fn instance_init(obj: &InitializingObject<Self>) {
@@ -79,6 +76,13 @@ mod imp {
 
     #[glib::derived_properties]
     impl ObjectImpl for KeyValueRow {
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = self.obj();
+            obj.setup_actions();
+        }
+
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
             SIGNALS.get_or_init(|| vec![Signal::builder("delete").build()])
@@ -92,8 +96,8 @@ mod imp {
 glib::wrapper! {
     pub struct KeyValueRow(ObjectSubclass<imp::KeyValueRow>)
         @extends gtk::Widget, gtk::Box,
-        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget,
-                    gtk::Actionable, gtk::ActionBar, gtk::ATContext;
+        @implements gio::ActionGroup, gio::ActionMap, gtk::Accessible, gtk::Buildable,
+                    gtk::ConstraintTarget, gtk::Actionable, gtk::ActionBar, gtk::ATContext;
 
 }
 
@@ -104,6 +108,21 @@ impl Default for KeyValueRow {
 }
 
 impl KeyValueRow {
+    pub(self) fn setup_actions(&self) {
+        let ag = SimpleActionGroup::new();
+        self.insert_action_group("row", Some(&ag));
+
+        let toggle_secret = PropertyAction::new("toggle-secret", self, "secret");
+
+        let delete = SimpleAction::new("delete", None);
+        delete.connect_activate(glib::clone!(@weak self as widget => move |_, _| {
+            widget.emit_by_name::<()>("delete", &[]);
+        }));
+
+        ag.add_action(&toggle_secret);
+        ag.add_action(&delete);
+    }
+
     pub fn set_bindings(&self, header_name: Binding, header_value: Binding, active: Binding) {
         let imp = self.imp();
 

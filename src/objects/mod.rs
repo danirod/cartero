@@ -17,10 +17,10 @@
 
 mod endpoint;
 mod folder;
-mod pair;
+mod key_value_item;
 mod tree;
 
 pub use endpoint::Endpoint;
 pub use folder::Folder;
-pub use pair::Pair;
+pub use key_value_item::KeyValueItem;
 pub use tree::TreeNode;

@@ -23,7 +23,7 @@ use glib::{
 };
 use gtk::{gio, glib};
 
-use crate::objects::Pair;
+use crate::objects::KeyValueItem;
 
 mod imp {
     use gtk::prelude::*;
@@ -38,7 +38,7 @@ mod imp {
     use gtk::subclass::widget::{CompositeTemplateClass, WidgetImpl};
     use gtk::{glib, CompositeTemplate};
 
-    use crate::objects::Pair;
+    use crate::objects::KeyValueItem;
     use crate::widgets::KeyValueRow;
 
     #[derive(Default, CompositeTemplate)]
@@ -56,7 +56,7 @@ mod imp {
     impl KeyValuePane {
         #[template_callback]
         fn on_add_new_header(&self) {
-            let empty_header = Pair::default();
+            let empty_header = KeyValueItem::default();
             empty_header.set_active(true);
             let store = self
                 .selection_model
@@ -94,7 +94,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let store = gio::ListStore::new::<Pair>();
+            let store = gio::ListStore::new::<KeyValueItem>();
             self.selection_model.set_model(Some(&store));
 
             /* Build the factory used to link the headers and the widgets. */
@@ -116,7 +116,7 @@ mod imp {
             factory.connect_bind(
                 glib::clone!(@weak self as pane => move |_, item: &gtk::ListItem| {
                     let widget = item.child().and_downcast::<KeyValueRow>().unwrap();
-                    let header = item.item().and_downcast::<Pair>().unwrap();
+                    let header = item.item().and_downcast::<KeyValueItem>().unwrap();
 
                     /* Add the initial data to the header. */
                     widget.set_header_name(header.header_name());
@@ -181,7 +181,7 @@ glib::wrapper! {
 }
 
 impl KeyValuePane {
-    pub fn get_entries(&self) -> Vec<Pair> {
+    pub fn get_entries(&self) -> Vec<KeyValueItem> {
         let imp = self.imp();
 
         let model = imp.selection_model.model().expect("Where is my ListModel?");
@@ -201,7 +201,7 @@ impl KeyValuePane {
         list_store.remove_all();
 
         for (k, v) in headers {
-            let hdr = Pair::default();
+            let hdr = KeyValueItem::default();
             hdr.set_header_name(k.clone());
             hdr.set_header_value(v.clone());
             hdr.set_active(true);

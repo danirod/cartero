@@ -124,22 +124,21 @@ mod imp {
                     widget.set_active(header.active());
 
                     /* Create some binds to put the data back in this header. */
-                    let bind_name = widget
+                    widget.add_binding(widget
                         .bind_property("header-name", &header, "header-name")
                         .bidirectional()
                         .sync_create()
-                        .build();
-                    let bind_value = widget
+                        .build());
+                    widget.add_binding(widget
                         .bind_property("header-value", &header, "header-value")
                         .bidirectional()
                         .sync_create()
-                        .build();
-                    let bind_active = widget
+                        .build());
+                    widget.add_binding(widget
                         .bind_property("active", &header, "active")
                         .bidirectional()
                         .sync_create()
-                        .build();
-                    widget.set_bindings(bind_name, bind_value, bind_active);
+                        .build());
 
                     let pos = item.position();
                     let delete_closure = widget.connect_closure("delete", false, closure_local!(@strong pane => move |_row: KeyValueRow| {

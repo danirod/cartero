@@ -29,12 +29,10 @@ mod imp {
     use std::sync::OnceLock;
 
     use glib::subclass::{InitializingObject, Signal};
-    use glib::{Properties, SignalHandlerId};
+    use glib::{Binding, Properties, SignalHandlerId};
     use gtk::subclass::prelude::*;
     use gtk::{prelude::*, CompositeTemplate};
     use gtk::{Box, Entry};
-
-    use super::HeaderRowBindings;
 
     #[derive(CompositeTemplate, Default, Properties)]
     #[properties(wrapper_type = super::KeyValueRow)]
@@ -55,8 +53,7 @@ mod imp {
         #[template_child]
         pub entry_value: TemplateChild<Entry>,
 
-        pub bindings: RefCell<Option<HeaderRowBindings>>,
-
+        pub bindings: RefCell<Vec<Binding>>,
         pub delete_signal: RefCell<Option<SignalHandlerId>>,
     }
 
@@ -123,24 +120,20 @@ impl KeyValueRow {
         ag.add_action(&delete);
     }
 
-    pub fn set_bindings(&self, header_name: Binding, header_value: Binding, active: Binding) {
+    pub fn add_binding(&self, binding: Binding) {
         let imp = self.imp();
-
-        let binds = HeaderRowBindings::new(header_name, header_value, active);
-        imp.bindings.set(Some(binds));
+        let mut bindings = imp.bindings.borrow_mut();
+        bindings.push(binding);
     }
 
     pub fn reset_bindings(&self) {
         let imp = self.imp();
-
-        {
-            let bindings = imp.bindings.borrow_mut();
-            if let Some(binds) = &*bindings {
-                binds.unbind();
+        let mut bindings = imp.bindings.borrow_mut();
+        while bindings.len() > 0 {
+            if let Some(binding) = bindings.pop() {
+                binding.unbind();
             }
         }
-
-        imp.bindings.set(None);
     }
 
     pub fn set_delete_closure(&self, hnd: SignalHandlerId) {
@@ -151,30 +144,5 @@ impl KeyValueRow {
     pub fn delete_closure(&self) -> Option<SignalHandlerId> {
         let imp = self.imp();
         imp.delete_signal.take()
-    }
-}
-
-/// Represents the bindings used by the HeaderRow component, which are required to
-/// persist so that I can unbind them later when the component is being cleaned
-/// to be reused with a different header later.
-pub struct HeaderRowBindings {
-    header_name: Binding,
-    header_value: Binding,
-    active: Binding,
-}
-
-impl HeaderRowBindings {
-    pub fn new(header_name: Binding, header_value: Binding, active: Binding) -> Self {
-        Self {
-            header_name,
-            header_value,
-            active,
-        }
-    }
-
-    pub fn unbind(&self) {
-        self.header_name.unbind();
-        self.header_value.unbind();
-        self.active.unbind();
     }
 }

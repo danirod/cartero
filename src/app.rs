@@ -19,6 +19,7 @@ use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
 use gtk::gio::{self, Settings};
 
+use crate::client::Request;
 use crate::config::{APP_ID, BASE_ID};
 use crate::win::CarteroWindow;
 
@@ -92,6 +93,8 @@ impl CarteroApplication {
     pub fn get_window(&self) -> CarteroWindow {
         let win = CarteroWindow::new(self);
         win.assign_settings(self.settings());
+
+        win.add_new_endpoint(None);
         win
     }
 

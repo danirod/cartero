@@ -15,7 +15,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use glib::{subclass::types::ObjectSubclassIsExt, value::ToValue};
+use glib::{subclass::types::ObjectSubclassIsExt, value::ToValue, Object};
 use gtk::{
     gio::{Settings, SettingsBindFlags},
     glib,
@@ -230,6 +230,12 @@ mod imp {
 glib::wrapper! {
     pub struct EndpointPane(ObjectSubclass<imp::EndpointPane>)
         @extends gtk::Widget, gtk::Box;
+}
+
+impl Default for EndpointPane {
+    fn default() -> Self {
+        Object::builder().build()
+    }
 }
 
 impl EndpointPane {

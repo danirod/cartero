@@ -15,7 +15,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use crate::app::CarteroApplication;
+use crate::{app::CarteroApplication, objects::Endpoint};
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
 use gtk::{
@@ -28,13 +28,16 @@ use gtk::prelude::ActionMapExt;
 use gtk::prelude::SettingsExt;
 
 mod imp {
+    use std::cell::RefCell;
+
     use adw::subclass::application_window::AdwApplicationWindowImpl;
-    use gtk::gio::ActionEntry;
+    use gtk::gio::{ActionEntry, Settings};
     use gtk::prelude::*;
     use gtk::subclass::prelude::*;
 
-    use crate::error::CarteroError;
+    use crate::app::CarteroApplication;
     use crate::widgets::*;
+    use crate::{error::CarteroError, objects::Endpoint};
     use glib::subclass::InitializingObject;
     use gtk::{
         subclass::{
@@ -47,7 +50,10 @@ mod imp {
     #[template(resource = "/es/danirod/Cartero/main_window.ui")]
     pub struct CarteroWindow {
         #[template_child]
-        pub pane: TemplateChild<EndpointPane>,
+        pub tabs: TemplateChild<adw::TabBar>,
+
+        #[template_child]
+        pub tabview: TemplateChild<adw::TabView>,
     }
 
     #[gtk::template_callbacks]
@@ -55,8 +61,32 @@ mod imp {
         /// Returns the pane currently visible in the window.
         ///
         /// This method will make more sense in the future once multiple panes can be visible in tabs.
-        pub fn current_pane(&self) -> &EndpointPane {
-            &self.pane
+        pub fn current_pane(&self) -> Option<EndpointPane> {
+            let Some(page) = self.tabview.selected_page() else {
+                return None;
+            };
+            let page = page.child().downcast::<EndpointPane>().unwrap();
+            Some(page)
+        }
+
+        pub fn add_new_endpoint(&self, ep: Option<Endpoint>) {
+            // Take the tour in order to get a reference to the application settings.
+            let obj = self.obj();
+            let application = obj
+                .application()
+                .and_downcast::<CarteroApplication>()
+                .unwrap();
+            let settings = application.settings();
+
+            let pane = EndpointPane::default();
+            if let Some(ep) = ep {
+                pane.assign_endpoint(ep);
+            }
+            pane.bind_settings(settings);
+
+            let page = self.tabview.add_page(&pane, None);
+            page.set_title("request");
+            self.tabview.set_selected_page(&page);
         }
 
         async fn trigger_open(&self) -> Result<(), CarteroError> {
@@ -67,7 +97,7 @@ mod imp {
             if let Some(path) = path {
                 let contents = crate::file::read_file(&path)?;
                 let endpoint = crate::file::parse_toml(&contents)?;
-                self.current_pane().assign_endpoint(endpoint);
+                self.add_new_endpoint(Some(endpoint));
             }
             Ok(())
         }
@@ -77,8 +107,12 @@ mod imp {
             let obj = self.obj();
             let path = crate::widgets::save_file(&obj).await?;
 
+            let endpoint = match self.current_pane() {
+                Some(pane) => pane.extract_endpoint()?,
+                None => return Err(CarteroError::FileDialogError),
+            };
+
             if let Some(path) = path {
-                let endpoint = self.current_pane().extract_endpoint()?;
                 let serialized_payload = crate::file::store_toml(endpoint)?;
                 crate::file::write_file(&path, &serialized_payload)?;
             }
@@ -109,11 +143,22 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
+            let action_new = ActionEntry::builder("new")
+                .activate(glib::clone!(@weak self as window => move |_, _, _| {
+                    window.add_new_endpoint(None);
+                }))
+                .build();
+
             let action_request = ActionEntry::builder("request")
                 .activate(glib::clone!(@weak self as window => move |_, _, _| {
-                    if let Err(e) = window.current_pane().perform_request() {
+                    let Some(pane) = window.current_pane() else {
+                        println!("No request");
+                        return;
+                    };
+
+                    if let Err(e) = pane.perform_request() {
                         let error_msg = format!("{}", e);
-                        window.current_pane().show_revealer(&error_msg)
+                        pane.show_revealer(&error_msg);
                     }
                 }))
                 .build();
@@ -122,7 +167,7 @@ mod imp {
                     glib::spawn_future_local(glib::clone!(@weak window => async move {
                         if let Err(e) = window.trigger_open().await {
                             let error_msg = format!("{}", e);
-                            window.current_pane().show_revealer(&error_msg);
+                            println!("{:?}", error_msg);
                         }
                     }));
                 }))
@@ -132,14 +177,14 @@ mod imp {
                     glib::spawn_future_local(glib::clone!(@weak window => async move {
                         if let Err(e) = window.trigger_save().await {
                             let error_msg = format!("{}", e);
-                            window.current_pane().show_revealer(&error_msg);
+                            println!("{:?}", error_msg);
                         }
                     }));
                 }))
                 .build();
 
             let obj = self.obj();
-            obj.add_action_entries([action_request, action_open, action_save]);
+            obj.add_action_entries([action_new, action_request, action_open, action_save]);
         }
     }
 
@@ -164,8 +209,6 @@ impl CarteroWindow {
     }
 
     pub fn assign_settings(&self, settings: &Settings) {
-        let imp = &self.imp();
-
         let wrap = settings.create_action("body-wrap");
         self.add_action(&wrap);
 
@@ -173,17 +216,24 @@ impl CarteroWindow {
         settings
             .bind("window-height", self, "default-height")
             .build();
-
-        imp.current_pane().bind_settings(settings);
     }
 
     pub fn show_revealer(&self, str: &str) {
         let imp = &self.imp();
-        imp.current_pane().show_revealer(str);
+        if let Some(pane) = imp.current_pane() {
+            pane.show_revealer(str);
+        }
     }
 
     pub fn hide_revealer(&self) {
         let imp = &self.imp();
-        imp.current_pane().hide_revealer();
+        if let Some(pane) = imp.current_pane() {
+            pane.hide_revealer();
+        }
+    }
+
+    pub fn add_new_endpoint(&self, ep: Option<Endpoint>) {
+        let imp = &self.imp();
+        imp.add_new_endpoint(ep);
     }
 }

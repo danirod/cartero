@@ -15,14 +15,14 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use adw::prelude::*;
 use adw::AboutWindow;
-use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
 use gtk::gio::{self, ActionEntryBuilder, Settings};
-use gtk::prelude::ActionMapExtManual;
+use gtk::prelude::*;
+use gtk::subclass::prelude::*;
 
 use crate::config::{self, APP_ID, BASE_ID};
+
 use crate::win::CarteroWindow;
 
 mod imp {
@@ -30,6 +30,7 @@ mod imp {
 
     use adw::prelude::*;
     use adw::subclass::application::AdwApplicationImpl;
+
     use glib::subclass::{object::ObjectImpl, types::ObjectSubclass};
     use gtk::gio::Settings;
     use gtk::subclass::prelude::*;

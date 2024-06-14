@@ -64,6 +64,7 @@ impl From<Endpoint> for RequestFile {
     }
 }
 
+#[allow(dead_code)]
 pub fn parse_toml(file: &str) -> Result<Endpoint, CarteroError> {
     let contents = toml::from_str::<RequestFile>(file)?;
     let variables = contents.variables.clone().unwrap_or(HashMap::new());
@@ -71,15 +72,18 @@ pub fn parse_toml(file: &str) -> Result<Endpoint, CarteroError> {
     Ok(Endpoint(request, variables))
 }
 
+#[allow(dead_code)]
 pub fn store_toml(endpoint: Endpoint) -> Result<String, CarteroError> {
     let file = RequestFile::from(endpoint);
     toml::to_string(&file).map_err(|e| e.into())
 }
 
+#[allow(dead_code)]
 pub fn read_file(path: &PathBuf) -> std::io::Result<String> {
     std::fs::read_to_string(path)
 }
 
+#[allow(dead_code)]
 pub fn write_file(path: &PathBuf, contents: &str) -> std::io::Result<()> {
     let mut file = File::create(path)?;
     write!(file, "{}", contents)

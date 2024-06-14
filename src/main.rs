@@ -24,6 +24,7 @@ mod file;
 mod widgets;
 #[rustfmt::skip]
 mod config;
+mod fs;
 mod objects;
 mod win;
 

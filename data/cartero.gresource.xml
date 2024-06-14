@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/es/danirod/Cartero/">
+    <file alias="collection_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/collection_pane.ui</file>
+    <file alias="sidebar.ui" compressed="true" preprocess="xml-stripblanks">ui/sidebar.ui</file>
+    <file alias="sidebar_row.ui" compressed="true" preprocess="xml-stripblanks">ui/sidebar_row.ui</file>
     <file alias="endpoint_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/endpoint_pane.ui</file>
     <file alias="key_value_row.ui" compressed="true" preprocess="xml-stripblanks">ui/key_value_row.ui</file>
     <file alias="key_value_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/key_value_pane.ui</file>
+    <file alias="new_collection_window.ui" compressed="true" preprocess="xml-stripblanks">ui/new_collection_window.ui</file>
     <file alias="main_window.ui" compressed="true" preprocess="xml-stripblanks">ui/main_window.ui</file>
     <file alias="response_headers.ui" compressed="true" preprocess="xml-stripblanks">ui/response_headers.ui</file>
     <file alias="response_panel.ui" compressed="true" preprocess="xml-stripblanks">ui/response_panel.ui</file>

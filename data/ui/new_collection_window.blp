@@ -1,0 +1,121 @@
+/*
+ * Copyright 2024 the Cartero authors
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+// SPDX-License-Identifier: GPL-3.0-or-later
+using Gtk 4.0;
+using Adw 1;
+
+template $CarteroNewCollectionWindow: Adw.Dialog {
+    width-request: 640;
+    title: _("Create Collection");
+
+    Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar { }
+
+        Adw.Clamp {
+            margin-top: 30;
+            margin-bottom: 30;
+            maximum-size: 500;
+
+            Box {
+                orientation: vertical;
+                spacing: 20;
+
+                ListBox {
+                    selection-mode: none;
+
+                    styles [
+                        "boxed-list",
+                    ]
+
+                    Adw.EntryRow collection_location {
+                        title: _("Location");
+                        changed => $on_collection_location_changed() swapped;
+
+                        [suffix]
+                        Button {
+                            styles [
+                                "flat"
+                            ]
+
+                            valign: center;
+                            icon-name: "folder-symbolic";
+
+                            clicked => $on_location_clicked() swapped;
+                        }
+                    }
+
+                    Adw.EntryRow collection_name {
+                        title: _("Collection name");
+
+                        changed => $on_collection_name_changed() swapped;
+
+                        [suffix]
+                        Image parent_directory_does_not_exist {
+                            visible: false;
+                            margin-start: 9;
+                            margin-end: 9;
+                            icon-name: "dialog-error-symbolic";
+                            tooltip-text: "The collection location does not exist";
+                        }
+
+                        [suffix]
+                          Image file_taken {
+                          visible: false;
+                            margin-start: 9;
+                            margin-end: 9;
+                            icon-name: "dialog-error-symbolic";
+                            tooltip-text: "The given collection is not valid";
+                          }
+                    }
+                }
+
+                Label {
+                    styles [
+                        "dim-label"
+                    ]
+
+                    wrap: true;
+                    label: _("A folder will be created in the given location with the requested name to store the requests and subfolders you add to this collection.");
+                }
+
+                Box {
+                    orientation: horizontal;
+                    halign: end;
+
+                    Button create_button {
+                        styles [
+                            "suggested-action"
+                        ]
+
+                        label: _("Create");
+                        halign: end;
+                        hexpand: false;
+
+                        clicked => $on_create_collection() swapped;
+                    }
+                }
+            }
+        }
+    }
+}
+
+FileDialog file_dialog {
+    accept-label: _("Select");
+    title: _("Collection location");
+    modal: true;
+}

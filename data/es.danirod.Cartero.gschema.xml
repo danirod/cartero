@@ -34,5 +34,13 @@
       <default>500</default>
       <summary>The position of the split between two windows</summary>
     </key>
+    <key name="open-collections" type="as">
+      <default>[]</default>
+      <summary>The collections that will be visible in the sidebar</summary>
+    </key>
+    <key name="last-directory-new-collection" type="ms">
+      <default>nothing</default>
+      <summary>The default directory to present when creating a new collection</summary>
+    </key>
   </schema>
 </schemalist>

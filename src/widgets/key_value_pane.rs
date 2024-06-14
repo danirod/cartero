@@ -31,8 +31,8 @@ mod imp {
 
     use std::borrow::BorrowMut;
 
-    use glib::closure_local;
     use glib::subclass::InitializingObject;
+    use glib::{closure_local, Object};
     use gtk::gio;
     use gtk::subclass::box_::BoxImpl;
     use gtk::subclass::widget::{CompositeTemplateClass, WidgetImpl};
@@ -102,19 +102,22 @@ mod imp {
             self.list_view.set_factory(Some(&factory));
 
             /* Called whenever the system wants a new empty widget. */
-            factory.connect_setup(|_, item: &gtk::ListItem| {
+            factory.connect_setup(|_, obj: &Object| {
+                let item = obj.downcast_ref::<gtk::ListItem>().unwrap();
                 let row = KeyValueRow::default();
                 item.set_child(Some(&row));
             });
 
             /* Called whenever the system wants to stop using a widget. */
-            factory.connect_teardown(|_, item: &gtk::ListItem| {
+            factory.connect_teardown(|_, obj: &Object| {
+                let item = obj.downcast_ref::<gtk::ListItem>().unwrap();
                 item.set_child(Option::<&gtk::Widget>::None);
             });
 
             /* Called whenever the system will place a header in a widget. */
             factory.connect_bind(
-                glib::clone!(@weak self as pane => move |_, item: &gtk::ListItem| {
+                glib::clone!(@weak self as pane => move |_, obj: &Object| {
+                    let item = obj.downcast_ref::<gtk::ListItem>().unwrap();
                     let widget = item.child().and_downcast::<KeyValueRow>().unwrap();
                     let header = item.item().and_downcast::<KeyValueItem>().unwrap();
 
@@ -149,7 +152,8 @@ mod imp {
             );
 
             /* Called whenever the system will stop using a header in a widget. */
-            factory.connect_unbind(|_, item: &gtk::ListItem| {
+            factory.connect_unbind(|_, obj: &Object| {
+                let item = obj.downcast_ref::<gtk::ListItem>().unwrap();
                 let widget = item.child().and_downcast::<KeyValueRow>().unwrap();
 
                 /* Disconnect the binds stored in the header. */

@@ -31,6 +31,7 @@ pub enum RequestMethod {
     Delete,
     Options,
     Head,
+    Trace,
 }
 
 impl TryFrom<&str> for RequestMethod {
@@ -45,6 +46,7 @@ impl TryFrom<&str> for RequestMethod {
             "delete" => Ok(RequestMethod::Delete),
             "options" => Ok(RequestMethod::Options),
             "head" => Ok(RequestMethod::Head),
+            "trace" => Ok(RequestMethod::Trace),
             _ => Err(RequestError::InvalidHttpVerb),
         }
     }
@@ -60,6 +62,7 @@ impl From<RequestMethod> for &str {
             RequestMethod::Delete => "DELETE",
             RequestMethod::Head => "HEAD",
             RequestMethod::Options => "OPTIONS",
+            RequestMethod::Trace => "TRACE",
         }
     }
 }

@@ -32,6 +32,7 @@ impl From<&RequestMethod> for isahc::http::Method {
             RequestMethod::Patch => isahc::http::Method::PATCH,
             RequestMethod::Options => isahc::http::Method::OPTIONS,
             RequestMethod::Delete => isahc::http::Method::DELETE,
+            RequestMethod::Trace => isahc::http::Method::TRACE,
         }
     }
 }

@@ -19,6 +19,8 @@ using Gtk 4.0;
 using Adw 1;
 
 template $CarteroWindow: Adw.ApplicationWindow {
+  title: "Cartero";
+
   [content]
   Box {
     orientation: vertical;
@@ -63,12 +65,6 @@ template $CarteroWindow: Adw.ApplicationWindow {
           icon-name: 'document-save-symbolic';
           tooltip-text: _("Save");
         }
-      }
-
-      [title]
-      Label {
-        use-markup: true;
-        label: "<b>Cartero</b>";
       }
 
       [end]

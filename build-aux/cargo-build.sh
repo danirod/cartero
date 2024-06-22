@@ -7,8 +7,6 @@
 
 cd "$(dirname "$0")/.."
 
-cargo build
-
 meson_opts="$@"
 if [ -d build ]; then
     meson_opts="--reconfigure $meson_opts"
@@ -26,3 +24,5 @@ cp -R data/es.danirod.Cartero.gschema.xml target/share/glib-2.0/schemas
 cp -R build/po target/share/locale
 
 glib-compile-schemas target/share/glib-2.0/schemas
+
+cargo build

@@ -8,53 +8,70 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-05-24 19:34+0200\n"
+"POT-Creation-Date: 2024-06-22 13:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: data/ui/main_window.blp:30 data/ui/main_window.blp:41
-msgid "Open"
+#: data/cartero.desktop.in:3
+msgid "Cartero"
 msgstr ""
 
-#: data/ui/main_window.blp:49
-msgid "Save"
+#: data/cartero.desktop.in:4
+msgid "Make HTTP requests and test APIs."
 msgstr ""
 
-#: data/ui/main_window.blp:96
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/cartero.desktop.in:10
+msgid "Gnome;GTK;HTTP;REST;"
+msgstr ""
+
+#: data/es.danirod.Cartero.gschema.xml:6
+msgid "Wrap the body content"
+msgstr ""
+
+#: data/es.danirod.Cartero.gschema.xml:10
+msgid "How large should new windows be"
+msgstr ""
+
+#: data/es.danirod.Cartero.gschema.xml:14
+msgid "How tall should new windows be"
+msgstr ""
+
+#: data/ui/endpoint_pane.blp:50
 msgid "Close"
 msgstr ""
 
-#: data/ui/main_window.blp:117
+#: data/ui/endpoint_pane.blp:71
 msgid "Request method"
 msgstr ""
 
-#: data/ui/main_window.blp:123
+#: data/ui/endpoint_pane.blp:77
 msgid "Request URL"
 msgstr ""
 
-#: data/ui/main_window.blp:129
+#: data/ui/endpoint_pane.blp:83
 msgid "Send"
 msgstr ""
 
-#: data/ui/main_window.blp:130
+#: data/ui/endpoint_pane.blp:84
 msgid "Execute this HTTP request"
 msgstr ""
 
-#: data/ui/main_window.blp:154 data/ui/response_panel.blp:13
+#: data/ui/endpoint_pane.blp:108 data/ui/response_panel.blp:13
 msgid "Headers"
 msgstr ""
 
-#: data/ui/main_window.blp:167 data/ui/response_panel.blp:24
-msgid "Body"
+#: data/ui/endpoint_pane.blp:121
+msgid "Variables"
 msgstr ""
 
-#: data/ui/main_window.blp:222
-msgid "Wrap bodies"
+#: data/ui/endpoint_pane.blp:134 data/ui/response_panel.blp:24
+msgid "Body"
 msgstr ""
 
 #: data/ui/key_value_pane.blp:33
@@ -69,6 +86,42 @@ msgstr ""
 msgid "Value"
 msgstr ""
 
-#: data/ui/key_value_row.blp:49
-msgid "Delete header"
+#: data/ui/key_value_row.blp:51
+msgid "Actions"
+msgstr ""
+
+#: data/ui/key_value_row.blp:62
+msgid "Toggle secret"
+msgstr ""
+
+#: data/ui/key_value_row.blp:69
+msgid "Delete"
+msgstr ""
+
+#: data/ui/main_window.blp:36
+msgid "New"
+msgstr ""
+
+#: data/ui/main_window.blp:47 data/ui/main_window.blp:58
+msgid "Open"
+msgstr ""
+
+#: data/ui/main_window.blp:66
+msgid "Save"
+msgstr ""
+
+#: data/ui/main_window.blp:89
+msgid "Wrap bodies"
+msgstr ""
+
+#: data/ui/main_window.blp:96
+msgid "About Cartero"
+msgstr ""
+
+#: src/app.rs:126
+msgid "The Cartero authors"
+msgstr ""
+
+#: src/app.rs:127
+msgid "© 2024 the Cartero authors"
 msgstr ""

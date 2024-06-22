@@ -90,12 +90,7 @@ mod imp {
 
     impl ObjectImpl for EndpointPane {}
 
-    impl WidgetImpl for EndpointPane {
-        fn show(&self) {
-            self.parent_show();
-            self.update_send_button_sensitivity();
-        }
-    }
+    impl WidgetImpl for EndpointPane {}
 
     impl BoxImpl for EndpointPane {}
 

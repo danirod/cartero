@@ -103,7 +103,7 @@ impl Request {
         let headers = self.bind_headers(&context)?;
         let body = {
             let string_body = String::from_utf8_lossy(&self.body);
-            let new_body = context.render(&string_body)?;
+            let new_body = context.render(string_body)?;
             Vec::from(new_body)
         };
 

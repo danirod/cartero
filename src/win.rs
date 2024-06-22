@@ -28,10 +28,9 @@ use gtk::prelude::ActionMapExt;
 use gtk::prelude::SettingsExt;
 
 mod imp {
-    use std::cell::RefCell;
 
     use adw::subclass::application_window::AdwApplicationWindowImpl;
-    use gtk::gio::{ActionEntry, Settings};
+    use gtk::gio::ActionEntry;
     use gtk::prelude::*;
     use gtk::subclass::prelude::*;
 

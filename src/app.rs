@@ -19,7 +19,6 @@ use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
 use gtk::gio::{self, Settings};
 
-use crate::client::Request;
 use crate::config::{APP_ID, BASE_ID};
 use crate::win::CarteroWindow;
 

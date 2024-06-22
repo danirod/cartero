@@ -61,9 +61,7 @@ mod imp {
         ///
         /// This method will make more sense in the future once multiple panes can be visible in tabs.
         pub fn current_pane(&self) -> Option<EndpointPane> {
-            let Some(page) = self.tabview.selected_page() else {
-                return None;
-            };
+            let page = self.tabview.selected_page()?;
             let page = page.child().downcast::<EndpointPane>().unwrap();
             Some(page)
         }

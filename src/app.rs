@@ -15,14 +15,19 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use adw::prelude::*;
+use adw::AboutWindow;
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
-use gtk::gio::{self, Settings};
+use gtk::gio::{self, ActionEntryBuilder, Settings};
+use gtk::prelude::ActionMapExtManual;
 
-use crate::config::{APP_ID, BASE_ID};
+use crate::config::{self, APP_ID, BASE_ID};
 use crate::win::CarteroWindow;
 
 mod imp {
+    use std::cell::OnceCell;
+
     use adw::prelude::*;
     use adw::subclass::application::AdwApplicationImpl;
     use glib::subclass::{object::ObjectImpl, types::ObjectSubclass};
@@ -32,8 +37,11 @@ mod imp {
 
     use super::*;
 
+    #[derive(Default)]
     pub struct CarteroApplication {
-        pub(super) settings: Settings,
+        pub(super) window: OnceCell<CarteroWindow>,
+
+        pub(super) settings: OnceCell<Settings>,
     }
 
     #[glib::object_subclass]
@@ -41,12 +49,6 @@ mod imp {
         const NAME: &'static str = "CarteroApplication";
         type Type = super::CarteroApplication;
         type ParentType = adw::Application;
-
-        fn new() -> Self {
-            Self {
-                settings: Settings::new(BASE_ID),
-            }
-        }
     }
 
     impl ObjectImpl for CarteroApplication {}
@@ -63,6 +65,8 @@ mod imp {
 
             let obj = self.obj();
             obj.set_accels_for_action("win.request", &["<Primary>Return"]);
+
+            obj.setup_app_actions();
         }
     }
 
@@ -89,15 +93,42 @@ impl CarteroApplication {
         Object::builder().property("application-id", APP_ID).build()
     }
 
-    pub fn get_window(&self) -> CarteroWindow {
-        let win = CarteroWindow::new(self);
-        win.assign_settings(self.settings());
+    pub fn get_window(&self) -> &CarteroWindow {
+        let imp = self.imp();
+        let settings = self.settings();
 
-        win.add_new_endpoint(None);
-        win
+        imp.window.get_or_init(|| {
+            let win = CarteroWindow::new(self);
+            win.assign_settings(settings);
+            win.add_new_endpoint(None);
+            win
+        })
     }
 
     pub fn settings(&self) -> &Settings {
-        &self.imp().settings
+        self.imp().settings.get_or_init(|| Settings::new(BASE_ID))
+    }
+
+    fn setup_app_actions(&self) {
+        let about = ActionEntryBuilder::new("about")
+            .activate(|app: &CarteroApplication, _, _| {
+                let win = app.get_window();
+                let about = AboutWindow::builder()
+                    .transient_for(win)
+                    .modal(true)
+                    .application_name("Cartero")
+                    .application_icon(config::APP_ID)
+                    .version(config::VERSION)
+                    .website("https://github.com/danirod/cartero")
+                    .issue_url("https://github.com/danirod/cartero/issues")
+                    .support_url("https://github.com/danirod/cartero/discussions")
+                    .developer_name("The Cartero authors")
+                    .copyright("© 2024 the Cartero authors")
+                    .license_type(gtk::License::Gpl30)
+                    .build();
+                about.present();
+            })
+            .build();
+        self.add_action_entries([about]);
     }
 }

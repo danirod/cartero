@@ -27,6 +27,8 @@ honest, I don't want to.
    * `mingw-w64-x86_64-librsvg`
    * `mingw-w64-x86_64-meson`
    * `mingw-w64-x86_64-pkgconf`
+   * `mingw-w64-x86_64-libadwaita`
+   * `mingw-w64-x86_64-blueprint-compiler`
    * `meson`
 6. Once the repository is cloned, you should be able to compile from inside a
 MSYS2 shell. Instructions in the README.md file apply here as well.

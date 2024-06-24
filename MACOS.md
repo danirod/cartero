@@ -17,6 +17,7 @@ At the moment, just use macOS.
      first, although I hate having to make this suggestion).
    * `desktop-file-utils`
    * `pygobject3`
+   * `libadwaita`
 4. Before compiling, you have to export the following environment variable,
    `export GETTEXT_DIR=$(brew --prefix)/opt/gettext`, so that it can actually
    pick your gettext library.

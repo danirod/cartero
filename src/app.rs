@@ -65,8 +65,8 @@ mod imp {
             gtk::Window::set_default_icon_name(APP_ID);
 
             let obj = self.obj();
+            obj.set_accels_for_action("win.open-collection", &["<Primary><Shift>o"]);
             obj.set_accels_for_action("win.request", &["<Primary>Return"]);
-
             obj.setup_app_actions();
         }
     }

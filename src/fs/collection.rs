@@ -36,6 +36,11 @@ pub fn save_collection(path: &Path, collection: &Collection) -> Result<(), Carte
 
 pub fn open_collection(path: &Path) -> Result<Collection, CarteroError> {
     let metadata_file = path.join("cartero-metadata");
+
+    // make sure that this is an actual collection
+    if !metadata_file.exists() {
+        return Err(CarteroError::NotValidCollection);
+    }
     let metadata_content = std::fs::read_to_string(metadata_file)?;
     let metadata: Metadata = toml::from_str(&metadata_content)?;
     Ok(metadata.into())

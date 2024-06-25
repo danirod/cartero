@@ -68,6 +68,11 @@ template $CarteroWindow: Adw.ApplicationWindow {
 }
 
 menu main_menu {
+  item {
+    label: _("Open collection...");
+    action: "win.open-collection";
+  }
+
   section {
     submenu {
       label: _("Body appearance");

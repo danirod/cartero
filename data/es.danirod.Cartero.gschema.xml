@@ -42,5 +42,9 @@
       <default>nothing</default>
       <summary>The default directory to present when creating a new collection</summary>
     </key>
+    <key name="last-directory-open-collection" type="ms">
+      <default>nothing</default>
+      <summary>The default directory to present when opening a new collection</summary>
+    </key>
   </schema>
 </schemalist>

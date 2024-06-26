@@ -44,11 +44,12 @@ pub struct Metadata {
 
 impl From<Metadata> for Collection {
     fn from(val: Metadata) -> Self {
-        let col: Collection = Object::builder()
-            .property("title", val.info.title)
-            .property("description", val.info.description)
-            .property("version", val.info.version)
-            .build();
+        let col: Collection = Collection::new();
+        col.set_properties(&[
+            ("title", &val.info.title),
+            ("description", &val.info.description),
+            ("version", &val.info.version),
+        ]);
 
         if let Some(variables) = val.variables {
             for (variable_name, variable_info) in variables {

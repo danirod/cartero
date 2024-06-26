@@ -26,6 +26,8 @@ use crate::{
 };
 
 mod imp {
+    use std::path::PathBuf;
+
     use adw::subclass::bin::BinImpl;
     use glib::subclass::InitializingObject;
     use glib::Object;
@@ -33,11 +35,13 @@ mod imp {
     use gtk::subclass::prelude::*;
     use gtk::{
         prelude::*, CompositeTemplate, ListView, SignalListItemFactory, SingleSelection,
-        TreeExpander, TreeListModel,
+        TreeExpander, TreeListModel, TreeListRow,
     };
 
-    use crate::objects::{KeyValueItem, TreeNode, TreeNodeKind};
+    use crate::fs::collection::{list_endpoints, list_folders};
+    use crate::objects::{TreeNode, TreeNodeKind};
     use crate::widgets::sidebar_row::SidebarRow;
+    use crate::win::CarteroWindow;
 
     #[derive(CompositeTemplate, Default)]
     #[template(resource = "/es/danirod/Cartero/sidebar.ui")]
@@ -81,10 +85,41 @@ mod imp {
             let root_model: ListStore = Object::builder()
                 .property("item-type", TreeNode::static_type())
                 .build();
-            TreeListModel::new(root_model, false, false, |_obj: &Object| {
+            TreeListModel::new(root_model, false, false, |obj: &Object| {
+                let tree_node = obj.downcast_ref::<TreeNode>()?;
+
+                if tree_node.node_type() == TreeNodeKind::Endpoint {
+                    return None;
+                }
+
+                let path_buf = PathBuf::from(tree_node.path());
+                let folders = list_folders(&path_buf);
+                let child = list_endpoints(&path_buf);
+                println!("{:?}", child);
+
                 let children: ListStore = Object::builder()
-                    .property("item-type", KeyValueItem::static_type())
+                    .property("item-type", TreeNode::static_type())
                     .build();
+
+                if let Ok(folders) = folders {
+                    for f in folders {
+                        let node = TreeNode::default();
+                        node.set_path(f.to_str().unwrap());
+                        node.set_title(f.file_name().unwrap().to_str().unwrap());
+                        node.set_node_type(TreeNodeKind::Folder);
+                        children.append(&node);
+                    }
+                }
+                if let Ok(child) = child {
+                    for c in child {
+                        let node = TreeNode::default();
+                        node.set_path(c.to_str().unwrap());
+                        node.set_title(c.file_name().unwrap().to_str().unwrap());
+                        node.set_node_type(TreeNodeKind::Endpoint);
+                        children.append(&node);
+                    }
+                }
+
                 let model = children.upcast::<ListModel>();
                 Some(model)
             })
@@ -100,8 +135,23 @@ mod imp {
 
         #[template_callback]
         fn on_activate(list: ListView, pos: u32, data: &Object) {
-            println!("activate()");
-            println!("list = {:?} \n pos = {:?} \n data = {:?}", list, pos, data);
+            let window = list.root().and_downcast::<CarteroWindow>().unwrap();
+            let Some(model) = list.model() else {
+                return;
+            };
+
+            let row = model.item(pos).and_downcast::<TreeListRow>().unwrap();
+            let inner_value = row.item().and_downcast::<TreeNode>().unwrap();
+
+            let path = inner_value.path();
+            let path_buf = PathBuf::from(&path);
+
+            match inner_value.node_type() {
+                TreeNodeKind::Endpoint => {
+                    window.add_endpoint(Some(&path_buf));
+                }
+                _ => println!("Not implemented yet, wait a minute"),
+            }
         }
 
         #[template_callback]

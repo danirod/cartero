@@ -17,7 +17,7 @@
 
 use std::collections::HashMap;
 
-use glib::Object;
+use glib::{object::ObjectExt, Object};
 use serde::{Deserialize, Serialize};
 
 use crate::objects::{Collection, KeyValueItem};

@@ -48,16 +48,19 @@ template $CarteroWindow: Adw.ApplicationWindow {
       $CarteroSidebar collections {}
     };
 
-    content: Gtk.Box {
-      orientation: vertical;
+    content: Adw.ToolbarView {
+      [top]
+      Gtk.Box {
+        orientation: vertical;
 
-      Adw.HeaderBar {
-        [title]
-        Label main_label {}
-      }
+        Adw.HeaderBar {
+          [title]
+          Label main_label {}
+        }
 
-      Adw.TabBar tabs {
-        view: tabview;
+        Adw.TabBar tabs {
+          view: tabview;
+        }
       }
 
       Adw.ToastOverlay toaster {

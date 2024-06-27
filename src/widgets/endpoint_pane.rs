@@ -37,7 +37,7 @@ mod imp {
 
     use crate::client::{Request, RequestError, RequestMethod, Response};
     use crate::error::CarteroError;
-    use crate::objects::Endpoint;
+    use crate::objects::{Endpoint, KeyValueItem};
     use crate::widgets::{KeyValuePane, ResponsePanel};
 
     #[derive(CompositeTemplate, Default)]
@@ -157,7 +157,17 @@ mod imp {
             let Endpoint(req, variables) = ep;
             self.request_url.buffer().set_text(req.url.clone());
             self.set_request_method(req.method.clone());
-            self.header_pane.set_entries(&req.headers);
+
+            let headers: Vec<KeyValueItem> = req
+                .headers
+                .iter()
+                .map(|(k, v)| KeyValueItem::new_with_value(k, v))
+                .collect();
+            let variables: Vec<KeyValueItem> = variables
+                .iter()
+                .map(|(k, v)| KeyValueItem::new_with_value(k, v))
+                .collect();
+            self.header_pane.set_entries(&headers);
             self.variable_pane.set_entries(&variables);
             let body = String::from_utf8_lossy(&req.body);
             self.request_body.buffer().set_text(&body);

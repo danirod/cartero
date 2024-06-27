@@ -54,6 +54,18 @@ glib::wrapper! {
 }
 
 impl KeyValueItem {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn new_with_value(name: &str, value: &str) -> Self {
+        let header = Self::new();
+        header.set_header_name(name);
+        header.set_header_value(value);
+        header.set_active(true);
+        header
+    }
+
     // For a header to be actually usable, it must be checked, and also it must have a header name
     // properly set. We could argue that having an empty value is also dumb, but the spec
     // technically allows this.

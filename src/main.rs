@@ -54,3 +54,13 @@ fn main() -> glib::ExitCode {
     let app = CarteroApplication::new();
     app.run()
 }
+
+/// This function does some nasty things in order to get the Gio resources file loaded during tests.
+/// It is closely based on what gio::resources_register_include!() macro does, but without requiring
+/// to set the OUT_DIR variable. However, make sure to build the gresource file first into build.
+#[cfg(test)]
+pub fn init_test_resources() {
+    let bytes = glib::Bytes::from_static(include_bytes!("../build/data/cartero.gresource"));
+    let resource = gio::Resource::from_data(&bytes).unwrap();
+    gio::resources_register(&resource);
+}

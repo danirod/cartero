@@ -21,11 +21,13 @@ template $CarteroKeyValuePane: Gtk.Box {
   orientation: vertical;
   spacing: 10;
 
-  Gtk.ListView list_view {
-    hexpand: true;
-    single-click-activate: false;
+  Gtk.ListBox list_box {
+    styles [
+      "rich-list"
+    ]
 
-    model: Gtk.NoSelection selection_model {};
+    hexpand: true;
+    selection-mode: none;
   }
 
   Button add_new {

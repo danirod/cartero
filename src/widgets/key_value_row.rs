@@ -31,8 +31,8 @@ mod imp {
     use glib::subclass::{InitializingObject, Signal};
     use glib::{Binding, Properties, SignalHandlerId};
     use gtk::subclass::prelude::*;
+    use gtk::Entry;
     use gtk::{prelude::*, CompositeTemplate};
-    use gtk::{Box, Entry};
 
     #[derive(CompositeTemplate, Default, Properties)]
     #[properties(wrapper_type = super::KeyValueRow)]
@@ -61,7 +61,7 @@ mod imp {
     impl ObjectSubclass for KeyValueRow {
         const NAME: &'static str = "CarteroKeyValueRow";
         type Type = super::KeyValueRow;
-        type ParentType = Box;
+        type ParentType = gtk::ListBoxRow;
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
         }
@@ -87,7 +87,7 @@ mod imp {
     }
 
     impl WidgetImpl for KeyValueRow {}
-    impl BoxImpl for KeyValueRow {}
+    impl ListBoxRowImpl for KeyValueRow {}
 }
 
 glib::wrapper! {

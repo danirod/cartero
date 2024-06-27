@@ -155,7 +155,7 @@ mod imp {
 
                     if let Err(e) = pane.perform_request() {
                         let error_msg = format!("{}", e);
-                        pane.show_revealer(&error_msg);
+                        pane.show_banner(&error_msg);
                     }
                 }))
                 .build();
@@ -215,17 +215,17 @@ impl CarteroWindow {
             .build();
     }
 
-    pub fn show_revealer(&self, str: &str) {
+    pub fn show_banner(&self, str: &str) {
         let imp = &self.imp();
         if let Some(pane) = imp.current_pane() {
-            pane.show_revealer(str);
+            pane.show_banner(str);
         }
     }
 
-    pub fn hide_revealer(&self) {
+    pub fn hide_banner(&self) {
         let imp = &self.imp();
         if let Some(pane) = imp.current_pane() {
-            pane.hide_revealer();
+            pane.hide_banner();
         }
     }
 

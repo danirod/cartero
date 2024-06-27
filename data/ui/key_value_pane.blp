@@ -19,6 +19,7 @@ using Gtk 4.0;
 
 template $CarteroKeyValuePane: Gtk.Box {
   orientation: vertical;
+  spacing: 10;
 
   Gtk.ListView list_view {
     hexpand: true;
@@ -28,12 +29,14 @@ template $CarteroKeyValuePane: Gtk.Box {
   }
 
   Button add_new {
+    styles [
+      "pill"
+    ]
+
     clicked => $on_add_new_header() swapped;
     icon-name: 'list-add-symbolic';
     tooltip-text: _("Add new header");
-    margin-start: 10;
-    margin-end: 10;
-    margin-top: 10;
-    margin-bottom: 10;
+    hexpand: false;
+    halign: center;
   }
 }

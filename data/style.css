@@ -1,4 +1,8 @@
-.infobar-like {
+.error-banner {
   background-color: @error_color;
   color: @error_fg_color;
+}
+
+paned.endpoint-pane > box notebook {
+  border-width: 0;
 }

@@ -16,91 +16,96 @@
  */
 // SPDX-License-Identifier: GPL-3.0-or-later
 using Gtk 4.0;
+using Adw 1;
 using GtkSource 5;
 
-template $CarteroEndpointPane: Box {
-  orientation: vertical;
+template $CarteroEndpointPane: Adw.BreakpointBin {
+  width-request: 400;
+  height-request: 450;
 
-  Revealer revealer {
-    reveal-child: false;
-    transition-type: slide_down;
-    transition-duration: 250;
+  Adw.Breakpoint {
+    condition ("max-width: 820sp")
 
-    styles [
-      "infobar-like"
-    ]
-
-    Box {
-      orientation: horizontal;
-      hexpand: true;
-      margin-start: 10;
-      margin-end: 10;
-      margin-top: 3;
-      margin-bottom: 3;
-      spacing: 10;
-
-      Label revealer_text {
-        hexpand: true;
-        halign: start;
-        valign: center;
-        wrap: true;
-      }
-
-      Button {
-        label: _("Close");
-        clicked => $on_close_revealer() swapped;
-      }
+    setters {
+      paned.orientation: vertical;
+      request_pane.width-request: -1;
+      request_pane.height-request: 170;
+      response_pane.width-request: -1;
+      response_pane.height-request: 170;
     }
   }
 
   Box {
     orientation: vertical;
-    margin-top: 6;
-    margin-bottom: 6;
-    margin-start: 6;
-    margin-end: 6;
-    spacing: 6;
 
-    Box {
-      orientation: horizontal;
-      margin-start: 6;
-      margin-end: 6;
-      spacing: 6;
+    Adw.Banner banner {
+      styles [
+        "error-banner"
+      ]
 
-      DropDown method {
-        tooltip-text: _("Request method");
-        model: verbs_string_list;
-      }
-
-      Entry url {
-        hexpand: true;
-        placeholder-text: _("Request URL");
-        changed => $on_url_changed() swapped;
-      }
-
-      Button send {
-        action-name: "win.request";
-        label: _("Send");
-        tooltip-text: _("Execute this HTTP request");
-        sensitive: false;
-      }
+      button-label: _("Close");
+      button-clicked => $on_close_banner();
     }
 
-    FlowBox {
-      orientation: horizontal;
-      homogeneous: true;
-      max-children-per-line: 2;
-      min-children-per-line: 1;
-      row-spacing: 6;
-      column-spacing: 6;
-      selection-mode: none;
+    Box {
+      orientation: vertical;
 
-      FlowBoxChild {
-        focusable: false;
+      Box {
+        styles [
+          "linked"
+        ]
 
-        Box {
-          width-request: 480;
-          height-request: 200;
+        margin-top: 6;
+        margin-bottom: 6;
+        margin-start: 6;
+        margin-end: 6;
+        orientation: horizontal;
+
+        DropDown method {
+          tooltip-text: _("Request method");
+          model: verbs_string_list;
+        }
+
+        Entry url {
+          hexpand: true;
+          placeholder-text: _("Request URL");
+          changed => $on_url_changed() swapped;
+        }
+
+        Button send {
+          styles [
+            "suggested-action"
+          ]
+
+          action-name: "win.request";
+          label: _("Send");
+          tooltip-text: _("Execute this HTTP request");
+          sensitive: false;
+        }
+      }
+
+      Separator {
+        orientation: horizontal;
+      }
+
+      Paned paned {
+        styles [
+          "endpoint-pane"
+        ]
+
+        orientation: horizontal;
+        shrink-start-child: false;
+        shrink-end-child: false;
+        resize-start-child: true;
+        resize-end-child: true;
+        position: 500;
+
+        start-child: Box request_pane {
+          styles [
+            "request-pane"
+          ]
+
+          width-request: 500;
 
           Notebook {
             NotebookPage {
@@ -112,7 +117,11 @@ template $CarteroEndpointPane: Box {
                 hexpand: true;
                 vexpand: true;
 
-                $CarteroKeyValuePane header_pane {}
+                Adw.Clamp {
+                  maximum-size: 720;
+
+                  $CarteroKeyValuePane header_pane {}
+                }
               };
             }
 
@@ -125,7 +134,11 @@ template $CarteroEndpointPane: Box {
                 hexpand: true;
                 vexpand: true;
 
-                $CarteroKeyValuePane variable_pane {}
+                Adw.Clamp {
+                  maximum-size: 720;
+
+                  $CarteroKeyValuePane variable_pane {}
+                }
               };
             }
 
@@ -154,18 +167,17 @@ template $CarteroEndpointPane: Box {
               };
             }
           }
-        }
-      }
+        };
 
-      FlowBoxChild {
-        focusable: false;
+        end-child: Box response_pane {
+          styles [
+            "response-pane"
+          ]
 
-        Box {
-          width-request: 480;
-          height-request: 200;
+          width-request: 300;
 
           $CarteroResponsePanel response {}
-        }
+        };
       }
     }
   }

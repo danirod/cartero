@@ -13,5 +13,9 @@
       <default>640</default>
       <summary>How tall should new windows be</summary>
     </key>
+    <key name="paned-position" type="i">
+      <default>500</default>
+      <summary>The position of the split between two windows</summary>
+    </key>
   </schema>
 </schemalist>

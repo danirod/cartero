@@ -19,40 +19,39 @@ using Gtk 4.0;
 
 template $CarteroKeyValueRow: Gtk.Box {
   spacing: 10;
-  margin_start: 10;
-  margin_end: 10;
-  margin_top: 5;
-  margin_bottom: 5;
 
   Gtk.CheckButton active {
     active: bind template.active bidirectional;
   }
 
-  Gtk.Entry entry_key {
-    hexpand: true;
-    text: bind template.header-name bidirectional;
-    placeholder-text: _("Name");
-  }
-
-  Gtk.Entry entry_value {
-    hexpand: true;
-    text: bind template.header-value bidirectional;
-    placeholder-text: _("Value");
-    visibility: bind template.secret inverted;
-  }
-
-  Gtk.MenuButton actions {
+  Gtk.Box {
     styles [
-      "circular",
-      "flat",
+      "linked"
     ]
 
-    icon-name: "view-more-symbolic";
-    tooltip-text: _("Actions");
+    hexpand: true;
 
-    popover: Gtk.PopoverMenu {
-      menu-model: row_actions;
-    };
+    Gtk.Entry entry_key {
+      hexpand: true;
+      text: bind template.header-name bidirectional;
+      placeholder-text: _("Name");
+    }
+
+    Gtk.Entry entry_value {
+      hexpand: true;
+      text: bind template.header-value bidirectional;
+      placeholder-text: _("Value");
+      visibility: bind template.secret inverted;
+    }
+
+    Gtk.MenuButton actions {
+      icon-name: "view-more-symbolic";
+      tooltip-text: _("Actions");
+
+      popover: Gtk.PopoverMenu {
+        menu-model: row_actions;
+      };
+    }
   }
 }
 

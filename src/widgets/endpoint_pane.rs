@@ -28,9 +28,11 @@ use crate::{error::CarteroError, objects::Endpoint};
 mod imp {
     use std::collections::HashMap;
 
+    use adw::subclass::breakpoint_bin::BreakpointBinImpl;
+    use adw::Banner;
     use glib::subclass::InitializingObject;
     use gtk::subclass::prelude::*;
-    use gtk::{prelude::*, CompositeTemplate, Label, Revealer, StringObject};
+    use gtk::{prelude::*, CompositeTemplate, StringObject};
     use isahc::RequestExt;
 
     use crate::client::{Request, RequestError, RequestMethod, Response};
@@ -66,17 +68,17 @@ mod imp {
         pub verbs_string_list: TemplateChild<gtk::StringList>,
 
         #[template_child]
-        pub revealer: TemplateChild<Revealer>,
+        banner: TemplateChild<adw::Banner>,
 
         #[template_child]
-        pub revealer_text: TemplateChild<Label>,
+        pub paned: TemplateChild<gtk::Paned>,
     }
 
     #[glib::object_subclass]
     impl ObjectSubclass for EndpointPane {
         const NAME: &'static str = "CarteroEndpointPane";
         type Type = super::EndpointPane;
-        type ParentType = gtk::Box;
+        type ParentType = adw::BreakpointBin;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -92,7 +94,7 @@ mod imp {
 
     impl WidgetImpl for EndpointPane {}
 
-    impl BoxImpl for EndpointPane {}
+    impl BreakpointBinImpl for EndpointPane {}
 
     #[gtk::template_callbacks]
     impl EndpointPane {
@@ -112,8 +114,8 @@ mod imp {
         }
 
         #[template_callback]
-        fn on_close_revealer(&self) {
-            self.hide_revealer()
+        fn on_close_banner(banner: &Banner) {
+            banner.set_revealed(false);
         }
 
         /// Decodes the HTTP method that has been picked by the user in the dropdown.
@@ -205,19 +207,18 @@ mod imp {
             let mut response_obj = request_obj.send().map_err(RequestError::NetworkError)?;
             let response = Response::try_from(&mut response_obj)?;
             self.response.assign_from_response(&response);
-            self.hide_revealer();
+            self.hide_banner();
             Ok(())
         }
 
-        /// Shows the revealer and presents the given error message.
-        pub(super) fn show_revealer(&self, message: &str) {
-            self.revealer_text.set_label(message);
-            self.revealer.set_reveal_child(true);
+        pub(super) fn show_banner(&self, message: &str) {
+            self.banner.set_title(message);
+            self.banner.set_revealed(true);
         }
 
-        pub(super) fn hide_revealer(&self) {
-            self.revealer_text.set_label("");
-            self.revealer.set_reveal_child(false);
+        pub(super) fn hide_banner(&self) {
+            self.banner.set_title("");
+            self.banner.set_revealed(false);
         }
     }
 }
@@ -258,15 +259,15 @@ impl EndpointPane {
     }
 
     /// Shows the error message revealer to disclose an error message.
-    pub fn show_revealer(&self, message: &str) {
+    pub fn show_banner(&self, message: &str) {
         let imp = self.imp();
-        imp.show_revealer(message)
+        imp.show_banner(message)
     }
 
     /// Hides the error message revealer if previously was visible.
-    pub fn hide_revealer(&self) {
+    pub fn hide_banner(&self) {
         let imp = self.imp();
-        imp.hide_revealer()
+        imp.hide_banner()
     }
 
     /// Bind the widgets in this pane to the application settings.
@@ -290,6 +291,10 @@ impl EndpointPane {
                 };
                 Some(mode.to_value())
             })
+            .build();
+
+        settings
+            .bind("paned-position", &*imp.paned, "position")
             .build();
     }
 }

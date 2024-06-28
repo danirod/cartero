@@ -171,6 +171,7 @@ impl KeyValuePane {
         let store = ListStore::with_type(KeyValueItem::static_type());
         store.extend_from_slice(entries);
         self.set_model(&store);
+        self.assert_always_placeholder();
     }
 }
 

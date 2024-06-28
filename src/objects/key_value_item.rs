@@ -15,11 +15,13 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use glib::Object;
+use glib::{object::ObjectExt, Object};
 
 mod imp {
     use std::cell::RefCell;
+    use std::sync::OnceLock;
 
+    use glib::subclass::Signal;
     use glib::Properties;
     use gtk::glib;
     use gtk::glib::prelude::*;
@@ -37,6 +39,8 @@ mod imp {
         header_name: RefCell<String>,
         #[property(get, set)]
         header_value: RefCell<String>,
+        #[property(get, set)]
+        dirty: RefCell<bool>,
     }
 
     #[glib::object_subclass]
@@ -46,7 +50,19 @@ mod imp {
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for KeyValueItem {}
+    impl ObjectImpl for KeyValueItem {
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = self.obj();
+            obj.setup_signals();
+        }
+
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| vec![Signal::builder("changed").build()])
+        }
+    }
 }
 
 glib::wrapper! {
@@ -54,6 +70,29 @@ glib::wrapper! {
 }
 
 impl KeyValueItem {
+    pub(self) fn setup_signals(&self) {
+        self.connect_header_name_notify(glib::clone!(@weak self as item => move |_| {
+            if !item.dirty() {
+                item.set_dirty(true);
+                item.set_active(true);
+            }
+            item.emit_by_name::<()>("changed", &[]);
+        }));
+        self.connect_header_value_notify(glib::clone!(@weak self as item => move |_| {
+            if !item.dirty() {
+                item.set_dirty(true);
+                item.set_active(true);
+            }
+            item.emit_by_name::<()>("changed", &[]);
+        }));
+        self.connect_active_notify(glib::clone!(@weak self as item => move |_| {
+            item.emit_by_name::<()>("changed", &[]);
+        }));
+        self.connect_secret_notify(glib::clone!(@weak self as item => move |_| {
+            item.emit_by_name::<()>("changed", &[]);
+        }));
+    }
+
     pub fn new() -> Self {
         Self::default()
     }

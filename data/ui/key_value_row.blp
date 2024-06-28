@@ -21,24 +21,30 @@ template $CarteroKeyValueRow: Gtk.ListBoxRow {
   activatable: false;
 
   Box {
+    spacing: 5;
+
     Gtk.CheckButton active {
       active: bind template.active bidirectional;
     }
 
     Gtk.Box {
-      styles [
-        "linked"
-      ]
-
       hexpand: true;
 
       Gtk.Entry entry_key {
+        styles [
+          "flat"
+        ]
+
         hexpand: true;
         text: bind template.header-name bidirectional;
         placeholder-text: _("Name");
       }
 
       Gtk.Entry entry_value {
+        styles [
+          "flat"
+        ]
+
         hexpand: true;
         text: bind template.header-value bidirectional;
         placeholder-text: _("Value");
@@ -46,6 +52,11 @@ template $CarteroKeyValueRow: Gtk.ListBoxRow {
       }
 
       Gtk.MenuButton actions {
+        styles [
+          "flat",
+          "circular",
+        ]
+
         icon-name: "view-more-symbolic";
         tooltip-text: _("Actions");
 

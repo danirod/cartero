@@ -21,6 +21,7 @@ use gtk::{gio::ListStore, prelude::*};
 use crate::objects::KeyValueItem;
 
 mod imp {
+    use adw::subclass::bin::BinImpl;
     use gtk::prelude::*;
     use gtk::subclass::prelude::*;
 
@@ -29,7 +30,6 @@ mod imp {
     use glib::subclass::InitializingObject;
     use glib::{closure_local, Properties};
     use gtk::gio::ListStore;
-    use gtk::subclass::box_::BoxImpl;
     use gtk::subclass::widget::{CompositeTemplateClass, WidgetImpl};
     use gtk::{glib, CompositeTemplate};
 
@@ -42,8 +42,6 @@ mod imp {
     pub struct KeyValuePane {
         #[template_child]
         list_box: TemplateChild<gtk::ListBox>,
-        #[template_child]
-        add_new: TemplateChild<gtk::Button>,
 
         #[property(get, set = Self::set_model)]
         model: OnceCell<ListStore>,
@@ -60,20 +58,13 @@ mod imp {
             this_model.remove_all();
             this_model.splice(0, 0, &items);
         }
-
-        #[template_callback]
-        fn on_add_new_header(&self) {
-            let item = KeyValueItem::default();
-            item.set_active(true);
-            self.model.get().unwrap().append(&item);
-        }
     }
 
     #[glib::object_subclass]
     impl ObjectSubclass for KeyValuePane {
         const NAME: &'static str = "CarteroKeyValuePane";
         type Type = super::KeyValuePane;
-        type ParentType = gtk::Box;
+        type ParentType = adw::Bin;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -113,11 +104,21 @@ mod imp {
                     .bidirectional()
                     .sync_create()
                     .build());
+                let pane_delete = pane.clone();
                 row.connect_closure("delete", false, closure_local!(@strong item => move |_: KeyValueRow| {
-                    let model = pane.model.get().unwrap();
+                    let model = pane_delete.model.get().unwrap();
                     if let Some(pos) = model.find(&item) {
                         model.remove(pos);
+
+                        let obj = pane_delete.obj();
+                        obj.assert_always_placeholder();
                     }
+                }));
+
+                let pane_changed = pane.clone();
+                item.connect_closure("changed", false, closure_local!(move |_: KeyValueItem| {
+                    let obj = pane_changed.obj();
+                    obj.assert_always_placeholder();
                 }));
                 row.upcast::<gtk::Widget>()
             }));
@@ -126,12 +127,12 @@ mod imp {
 
     impl WidgetImpl for KeyValuePane {}
 
-    impl BoxImpl for KeyValuePane {}
+    impl BinImpl for KeyValuePane {}
 }
 
 glib::wrapper! {
     pub struct KeyValuePane(ObjectSubclass<imp::KeyValuePane>)
-        @extends gtk::Widget, gtk::Box,
+        @extends gtk::Widget, adw::Bin,
         @implements gtk::Accessible, gtk::Buildable;
 }
 
@@ -144,6 +145,20 @@ impl Default for KeyValuePane {
 impl KeyValuePane {
     pub fn new() -> Self {
         Self::default()
+    }
+
+    pub fn assert_always_placeholder(&self) {
+        let model = &self.model();
+        let empty = model.iter::<KeyValueItem>().any(|row| {
+            let Ok(row) = row else {
+                return false;
+            };
+            row.header_name().is_empty() && row.header_value().is_empty()
+        });
+        if !empty {
+            let new_row = KeyValueItem::new();
+            model.append(&new_row);
+        }
     }
 
     pub fn get_entries(&self) -> Vec<KeyValueItem> {

@@ -90,7 +90,14 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for EndpointPane {}
+    impl ObjectImpl for EndpointPane {
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            self.variable_pane.assert_always_placeholder();
+            self.header_pane.assert_always_placeholder();
+        }
+    }
 
     impl WidgetImpl for EndpointPane {}
 

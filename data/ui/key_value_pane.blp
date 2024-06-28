@@ -16,29 +16,20 @@
  */
 // SPDX-License-Identifier: GPL-3.0-or-later
 using Gtk 4.0;
+using Adw 1;
 
-template $CarteroKeyValuePane: Gtk.Box {
-  orientation: vertical;
-  spacing: 10;
+template $CarteroKeyValuePane: Adw.Bin {
+  margin-start: 10;
+  margin-end: 10;
+  margin-top: 10;
+  margin-bottom: 10;
+  valign: start;
 
   Gtk.ListBox list_box {
     styles [
-      "rich-list"
+      "boxed-list"
     ]
 
-    hexpand: true;
     selection-mode: none;
-  }
-
-  Button add_new {
-    styles [
-      "pill"
-    ]
-
-    clicked => $on_add_new_header() swapped;
-    icon-name: 'list-add-symbolic';
-    tooltip-text: _("Add new header");
-    hexpand: false;
-    halign: center;
   }
 }

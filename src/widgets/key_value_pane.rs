@@ -265,7 +265,7 @@ mod tests {
                 connected.set(true);
             }));
         pane.set_model(&list);
-        assert_eq!(true, connected.get());
+        assert!(connected.get());
     }
 
     #[gtk::test]

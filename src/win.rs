@@ -15,7 +15,9 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use crate::{app::CarteroApplication, objects::Endpoint};
+use std::path::PathBuf;
+
+use crate::app::CarteroApplication;
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
 use gtk::{
@@ -29,14 +31,14 @@ use gtk::prelude::SettingsExt;
 
 mod imp {
 
-    use adw::subclass::application_window::AdwApplicationWindowImpl;
+    use std::path::{Path, PathBuf};
+
+    use adw::{subclass::prelude::*, TabPage};
     use gtk::gio::ActionEntry;
     use gtk::prelude::*;
-    use gtk::subclass::prelude::*;
 
-    use crate::app::CarteroApplication;
+    use crate::error::CarteroError;
     use crate::widgets::*;
-    use crate::{error::CarteroError, objects::Endpoint};
     use glib::subclass::InitializingObject;
     use gtk::{
         subclass::{
@@ -53,6 +55,9 @@ mod imp {
 
         #[template_child]
         pub tabview: TemplateChild<adw::TabView>,
+
+        #[template_child]
+        pub window_title: TemplateChild<adw::WindowTitle>,
     }
 
     #[gtk::template_callbacks]
@@ -60,59 +65,92 @@ mod imp {
         /// Returns the pane currently visible in the window.
         ///
         /// This method will make more sense in the future once multiple panes can be visible in tabs.
-        pub fn current_pane(&self) -> Option<EndpointPane> {
+        pub fn current_pane(&self) -> Option<ItemPane> {
             let page = self.tabview.selected_page()?;
-            let page = page.child().downcast::<EndpointPane>().unwrap();
+            let page = page.child().downcast::<ItemPane>().unwrap();
             Some(page)
         }
 
-        pub fn add_new_endpoint(&self, ep: Option<Endpoint>) {
-            // Take the tour in order to get a reference to the application settings.
-            let obj = self.obj();
-            let application = obj
-                .application()
-                .and_downcast::<CarteroApplication>()
-                .unwrap();
-            let settings = application.settings();
+        fn find_pane_by_path(&self, path: &Path) -> Option<TabPage> {
+            let path_str = path.to_str().unwrap();
+            self.tabview
+                .pages()
+                .iter::<TabPage>()
+                .filter(Result::is_ok)
+                .flatten()
+                .find(|page| {
+                    let item = page.child().downcast::<ItemPane>().unwrap();
+                    let item_path = item.path();
+                    item_path.is_some_and(|p| p == path_str)
+                })
+        }
 
-            let pane = EndpointPane::default();
-            if let Some(ep) = ep {
-                pane.assign_endpoint(ep);
+        pub fn add_endpoint(&self, path: Option<&PathBuf>) {
+            if let Some(path) = path {
+                if let Some(tab) = self.find_pane_by_path(path) {
+                    self.tabview.set_selected_page(&tab);
+                    return;
+                }
             }
-            pane.bind_settings(settings);
 
-            let page = self.tabview.add_page(&pane, None);
-            page.set_title("request");
-            self.tabview.set_selected_page(&page);
+            match ItemPane::new_for_endpoint(path) {
+                Ok(pane) => {
+                    let page = self.tabview.add_page(&pane, None);
+                    pane.bind_property("title", &page, "title")
+                        .sync_create()
+                        .build();
+                    pane.bind_property("path", &page, "tooltip")
+                        .sync_create()
+                        .build();
+                    self.tabview.set_selected_page(&page);
+                }
+                Err(e) => {
+                    println!("TODO: Show global error -- {}", e);
+                }
+            };
         }
 
         async fn trigger_open(&self) -> Result<(), CarteroError> {
             // In order to place the modal, we need a reference to the public type.
             let obj = self.obj();
             let path = crate::widgets::open_file(&obj).await?;
-
-            if let Some(path) = path {
-                let contents = crate::file::read_file(&path)?;
-                let endpoint = crate::file::parse_toml(&contents)?;
-                self.add_new_endpoint(Some(endpoint));
+            if path.is_some() {
+                self.add_endpoint(path.as_ref());
             }
             Ok(())
         }
 
         async fn trigger_save(&self) -> Result<(), CarteroError> {
             // In order to place the modal, we need a reference to the public type.
-            let obj = self.obj();
-            let path = crate::widgets::save_file(&obj).await?;
+            let Some(pane) = self.current_pane() else {
+                return Ok(());
+            };
 
-            let endpoint = match self.current_pane() {
-                Some(pane) => pane.extract_endpoint()?,
-                None => return Err(CarteroError::FileDialogError),
+            let Some(endpoint) = pane.endpoint() else {
+                return Ok(());
+            };
+
+            let path = match pane.path() {
+                Some(path) => Some(PathBuf::from(path)),
+                None => {
+                    let obj = self.obj();
+                    crate::widgets::save_file(&obj).await?
+                }
             };
 
             if let Some(path) = path {
+                println!("Saving as {:?}", path);
+
+                let endpoint = endpoint.extract_endpoint()?;
                 let serialized_payload = crate::file::store_toml(endpoint)?;
                 crate::file::write_file(&path, &serialized_payload)?;
+                pane.update_title_and_path(&path);
+
+                self.window_title.set_title(&pane.title());
+                self.window_title
+                    .set_subtitle(&pane.path().unwrap_or("Draft".into()));
             }
+
             Ok(())
         }
     }
@@ -140,9 +178,19 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
+            self.tabview.connect_selected_page_notify(
+                glib::clone!(@weak self as window => move |tabview| {
+                    if let Some(page) = tabview.selected_page() {
+                        let item_pane = page.child().downcast::<ItemPane>().unwrap();
+                        window.window_title.set_title(&item_pane.title());
+                        window.window_title.set_subtitle(&item_pane.path().unwrap_or("Draft".into()));
+                    }
+                }),
+            );
+
             let action_new = ActionEntry::builder("new")
                 .activate(glib::clone!(@weak self as window => move |_, _, _| {
-                    window.add_new_endpoint(None);
+                    window.add_endpoint(None);
                 }))
                 .build();
 
@@ -150,6 +198,11 @@ mod imp {
                 .activate(glib::clone!(@weak self as window => move |_, _, _| {
                     let Some(pane) = window.current_pane() else {
                         println!("No request");
+                        return;
+                    };
+
+                    let Some(pane) = pane.endpoint() else {
+                        println!("Not a request");
                         return;
                     };
 
@@ -218,6 +271,10 @@ impl CarteroWindow {
     pub fn show_banner(&self, str: &str) {
         let imp = &self.imp();
         if let Some(pane) = imp.current_pane() {
+            let Some(pane) = pane.endpoint() else {
+                println!("Not a request");
+                return;
+            };
             pane.show_banner(str);
         }
     }
@@ -225,12 +282,16 @@ impl CarteroWindow {
     pub fn hide_banner(&self) {
         let imp = &self.imp();
         if let Some(pane) = imp.current_pane() {
+            let Some(pane) = pane.endpoint() else {
+                println!("Not a request");
+                return;
+            };
             pane.hide_banner();
         }
     }
 
-    pub fn add_new_endpoint(&self, ep: Option<Endpoint>) {
+    pub fn add_endpoint(&self, ep: Option<&PathBuf>) {
         let imp = &self.imp();
-        imp.add_new_endpoint(ep);
+        imp.add_endpoint(ep)
     }
 }

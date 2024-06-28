@@ -17,12 +17,14 @@
 
 mod endpoint_pane;
 mod file_dialogs;
+mod item_pane;
 mod key_value_pane;
 mod key_value_row;
 mod response_panel;
 
 pub use endpoint_pane::EndpointPane;
 pub use file_dialogs::*;
+pub use item_pane::ItemPane;
 pub use key_value_pane::KeyValuePane;
 pub use key_value_row::KeyValueRow;
 pub use response_panel::ResponsePanel;

@@ -100,7 +100,7 @@ impl CarteroApplication {
         imp.window.get_or_init(|| {
             let win = CarteroWindow::new(self);
             win.assign_settings(settings);
-            win.add_new_endpoint(None);
+            win.add_endpoint(None);
             win
         })
     }

@@ -26,6 +26,10 @@ template $CarteroWindow: Adw.ApplicationWindow {
     orientation: vertical;
 
     Adw.HeaderBar {
+      title-widget: Adw.WindowTitle window_title {
+        title: 'Cartero';
+      };
+
       [start]
       Box {
         spacing: 5;

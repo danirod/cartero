@@ -29,7 +29,6 @@ mod imp {
     use std::collections::HashMap;
 
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
-    use adw::Banner;
     use glib::subclass::InitializingObject;
     use gtk::subclass::prelude::*;
     use gtk::{prelude::*, CompositeTemplate, StringObject};
@@ -66,9 +65,6 @@ mod imp {
 
         #[template_child]
         pub verbs_string_list: TemplateChild<gtk::StringList>,
-
-        #[template_child]
-        banner: TemplateChild<adw::Banner>,
 
         #[template_child]
         pub paned: TemplateChild<gtk::Paned>,
@@ -118,11 +114,6 @@ mod imp {
         #[template_callback]
         fn on_url_changed(&self) {
             self.update_send_button_sensitivity();
-        }
-
-        #[template_callback]
-        fn on_close_banner(banner: &Banner) {
-            banner.set_revealed(false);
         }
 
         /// Decodes the HTTP method that has been picked by the user in the dropdown.
@@ -224,18 +215,7 @@ mod imp {
             let mut response_obj = request_obj.send().map_err(RequestError::NetworkError)?;
             let response = Response::try_from(&mut response_obj)?;
             self.response.assign_from_response(&response);
-            self.hide_banner();
             Ok(())
-        }
-
-        pub(super) fn show_banner(&self, message: &str) {
-            self.banner.set_title(message);
-            self.banner.set_revealed(true);
-        }
-
-        pub(super) fn hide_banner(&self) {
-            self.banner.set_title("");
-            self.banner.set_revealed(false);
         }
     }
 }
@@ -273,18 +253,6 @@ impl EndpointPane {
     pub fn perform_request(&self) -> Result<(), CarteroError> {
         let imp = self.imp();
         imp.perform_request()
-    }
-
-    /// Shows the error message revealer to disclose an error message.
-    pub fn show_banner(&self, message: &str) {
-        let imp = self.imp();
-        imp.show_banner(message)
-    }
-
-    /// Hides the error message revealer if previously was visible.
-    pub fn hide_banner(&self) {
-        let imp = self.imp();
-        imp.hide_banner()
     }
 
     /// Bind the widgets in this pane to the application settings.

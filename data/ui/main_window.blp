@@ -83,7 +83,9 @@ template $CarteroWindow: Adw.ApplicationWindow {
       view: tabview;
     }
 
-    Adw.TabView tabview {}
+    Adw.ToastOverlay toaster {
+      Adw.TabView tabview {}
+    }
   }
 }
 

@@ -51,6 +51,9 @@ mod imp {
     #[template(resource = "/es/danirod/Cartero/main_window.ui")]
     pub struct CarteroWindow {
         #[template_child]
+        toaster: TemplateChild<adw::ToastOverlay>,
+
+        #[template_child]
         pub tabs: TemplateChild<adw::TabBar>,
 
         #[template_child]
@@ -153,6 +156,11 @@ mod imp {
 
             Ok(())
         }
+
+        fn toast_error(&self, error: CarteroError) {
+            let toast = adw::Toast::new(&error.to_string());
+            self.toaster.add_toast(toast);
+        }
     }
 
     #[glib::object_subclass]
@@ -197,18 +205,15 @@ mod imp {
             let action_request = ActionEntry::builder("request")
                 .activate(glib::clone!(@weak self as window => move |_, _, _| {
                     let Some(pane) = window.current_pane() else {
-                        println!("No request");
                         return;
                     };
 
                     let Some(pane) = pane.endpoint() else {
-                        println!("Not a request");
                         return;
                     };
 
                     if let Err(e) = pane.perform_request() {
-                        let error_msg = format!("{}", e);
-                        pane.show_banner(&error_msg);
+                        window.toast_error(e);
                     }
                 }))
                 .build();
@@ -216,8 +221,7 @@ mod imp {
                 .activate(glib::clone!(@weak self as window => move |_, _, _| {
                     glib::spawn_future_local(glib::clone!(@weak window => async move {
                         if let Err(e) = window.trigger_open().await {
-                            let error_msg = format!("{}", e);
-                            println!("{:?}", error_msg);
+                            window.toast_error(e);
                         }
                     }));
                 }))
@@ -226,8 +230,7 @@ mod imp {
                 .activate(glib::clone!(@weak self as window => move |_, _, _| {
                     glib::spawn_future_local(glib::clone!(@weak window => async move {
                         if let Err(e) = window.trigger_save().await {
-                            let error_msg = format!("{}", e);
-                            println!("{:?}", error_msg);
+                            window.toast_error(e);
                         }
                     }));
                 }))
@@ -266,28 +269,6 @@ impl CarteroWindow {
         settings
             .bind("window-height", self, "default-height")
             .build();
-    }
-
-    pub fn show_banner(&self, str: &str) {
-        let imp = &self.imp();
-        if let Some(pane) = imp.current_pane() {
-            let Some(pane) = pane.endpoint() else {
-                println!("Not a request");
-                return;
-            };
-            pane.show_banner(str);
-        }
-    }
-
-    pub fn hide_banner(&self) {
-        let imp = &self.imp();
-        if let Some(pane) = imp.current_pane() {
-            let Some(pane) = pane.endpoint() else {
-                println!("Not a request");
-                return;
-            };
-            pane.hide_banner();
-        }
     }
 
     pub fn add_endpoint(&self, ep: Option<&PathBuf>) {

@@ -20,6 +20,7 @@ mod file_dialogs;
 mod item_pane;
 mod key_value_pane;
 mod key_value_row;
+mod response_headers;
 mod response_panel;
 
 pub use endpoint_pane::EndpointPane;
@@ -27,4 +28,5 @@ pub use file_dialogs::*;
 pub use item_pane::ItemPane;
 pub use key_value_pane::KeyValuePane;
 pub use key_value_row::KeyValueRow;
+pub use response_headers::ResponseHeaders;
 pub use response_panel::ResponsePanel;

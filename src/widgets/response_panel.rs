@@ -16,12 +16,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use glib::Object;
-use gtk::gio::{Settings, SettingsBindFlags};
+use gtk::gio::{ListModel, ListStore, Settings, SettingsBindFlags};
 use gtk::prelude::TextViewExt;
 use gtk::prelude::*;
 use gtk::{glib, WrapMode};
 
 use crate::client::Response;
+use crate::objects::KeyValueItem;
 use glib::subclass::types::ObjectSubclassIsExt;
 
 mod imp {
@@ -36,15 +37,17 @@ mod imp {
         subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetImpl},
         Box, CompositeTemplate, Label, TemplateChild,
     };
-    use gtk::{ScrolledWindow, Spinner, Stack};
+    use gtk::{Spinner, Stack};
     use sourceview5::View;
+
+    use crate::widgets::ResponseHeaders;
 
     #[derive(CompositeTemplate, Default, Properties)]
     #[properties(wrapper_type = super::ResponsePanel)]
     #[template(resource = "/es/danirod/Cartero/response_panel.ui")]
     pub struct ResponsePanel {
         #[template_child]
-        pub response_header_window: TemplateChild<ScrolledWindow>,
+        pub response_headers: TemplateChild<ResponseHeaders>,
         #[template_child]
         pub response_body: TemplateChild<View>,
         #[template_child]
@@ -148,27 +151,16 @@ impl ResponsePanel {
     pub fn assign_from_response(&self, resp: &Response) {
         let imp = self.imp();
 
-        let window = &imp.response_header_window;
-        let gtk_box = {
-            let gtk_box = gtk::Box::builder()
-                .orientation(gtk::Orientation::Vertical)
-                .build();
+        let key_values: Vec<KeyValueItem> = resp
+            .headers
+            .iter()
+            .map(|(name, value)| KeyValueItem::new_with_value(name, value))
+            .collect();
 
-            for (hn, hv) in &resp.headers {
-                let row = gtk::Box::default();
-                row.set_orientation(gtk::Orientation::Horizontal);
-                row.set_spacing(4);
-                let name = format!("{}:", hn);
-                let name = gtk::Label::builder().label(name).build();
-                let value = gtk::Label::builder().label(hv).build();
-                row.append(&name);
-                row.append(&value);
-                gtk_box.append(&row);
-            }
-
-            gtk_box
-        };
-        window.set_child(Some(&gtk_box));
+        let store = ListStore::with_type(KeyValueItem::static_type());
+        store.extend_from_slice(&key_values);
+        let model = store.upcast::<ListModel>();
+        imp.response_headers.set_headers(Some(&model));
 
         let status = format!("HTTP {}", resp.status_code);
         imp.status_code.set_text(&status);

@@ -22,6 +22,7 @@ blueprint_files = [
   'ui/main_window.blp',
   'ui/key_value_pane.blp',
   'ui/key_value_row.blp',
+  'ui/response_headers.blp',
   'ui/response_panel.blp',
 ]
 

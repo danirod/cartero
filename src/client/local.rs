@@ -149,6 +149,13 @@ impl Response {
     pub fn body_as_str(&self) -> String {
         String::from_utf8_lossy(&self.body).into_owned()
     }
+
+    pub fn header(&self, header: &str) -> Option<&'_ str> {
+        self.headers
+            .iter()
+            .find(|entry| entry.0.to_lowercase() == header.to_lowercase())
+            .map(|entry| entry.1.as_str())
+    }
 }
 
 #[derive(Error, Debug)]
@@ -235,5 +242,22 @@ mod tests {
 
         // Should panic here.
         let _ = rq.bind(&variables).unwrap();
+    }
+
+    #[test]
+    pub fn test_response_header() {
+        let response = Response {
+            status_code: 200,
+            duration: 2400,
+            size: 150,
+            headers: HashMap::from([("Content-Type".into(), "text/html".into())]),
+            body: Vec::new(),
+        };
+
+        assert!(response.header("Accept").is_none());
+        assert_eq!(response.header("Content-Type"), Some("text/html"));
+        assert_eq!(response.header("content-type"), Some("text/html"));
+        assert_eq!(response.header("Content-type"), Some("text/html"));
+        assert_eq!(response.header("CONTENT-TYPE"), Some("text/html"));
     }
 }

@@ -91,9 +91,61 @@ template $CarteroWindow: Adw.ApplicationWindow {
 
 menu main_menu {
   section {
-    item {
-      label: _("Wrap bodies");
-      action: "win.body-wrap";
+    submenu {
+      label: _("Body appearance");
+
+      section {
+        item {
+          label: _("Wrap content");
+          action: "win.body-wrap";
+        }
+
+        item {
+          label: _("Show line numbers");
+          action: "win.show-line-numbers";
+        }
+      }
+
+      section {
+        item {
+          label: _("Automatic indentation");
+          action: "win.auto-indent";
+        }
+
+        item {
+          label: _("Indent with spaces");
+          action: "win.indent-style";
+          target: "spaces";
+        }
+
+        item {
+          label: _("Indent with tabs");
+          action: "win.indent-style";
+          target: "tabs";
+        }
+
+        submenu {
+          label: _("Spaces per tab");
+
+          item {
+            label: _("2");
+            action: "win.tab-width";
+            target: "2";
+          }
+
+          item {
+            label: _("4");
+            action: "win.tab-width";
+            target: "4";
+          }
+
+          item {
+            label: _("8");
+            action: "win.tab-width";
+            target: "8";
+          }
+        }
+      }
     }
   }
 

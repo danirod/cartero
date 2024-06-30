@@ -1,10 +1,27 @@
 <?xml version="1.0" ?>
 <schemalist>
   <schema id="es.danirod.Cartero" path="/es/danirod/Cartero/">
+    <key name="auto-indent" type="b">
+      <default>false</default>
+      <summary>Automatically indent new lines for the request body</summary>
+    </key>
     <key name="body-wrap" type="b">
       <default>true</default>
       <summary>Wrap the body content</summary>
     </key>
+    <key name="indent-style" type="s">
+      <default>'spaces'</default>
+      <summary>Whether to indent the request body with spaces or tabs</summary>
+    </key>
+    <key name="show-line-numbers" type="b">
+      <default>false</default>
+      <summary>Show line numbers in the request and response bodies</summary>
+    </key>
+    <key name="tab-width" type="s">
+      <default>'4'</default>
+      <summary>How many characters to pad when indenting the request body</summary>
+    </key>
+
     <key name="window-width" type="i">
       <default>1024</default>
       <summary>How large should new windows be</summary>

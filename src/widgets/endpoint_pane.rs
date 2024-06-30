@@ -29,6 +29,8 @@ mod imp {
     use gtk::subclass::prelude::*;
     use gtk::{prelude::*, CompositeTemplate, StringObject, WrapMode};
     use isahc::RequestExt;
+    use sourceview5::prelude::BufferExt;
+    use sourceview5::StyleSchemeManager;
 
     use crate::app::CarteroApplication;
     use crate::client::{Request, RequestError, RequestMethod};
@@ -90,6 +92,7 @@ mod imp {
             self.init_settings();
             self.variable_pane.assert_always_placeholder();
             self.header_pane.assert_always_placeholder();
+            self.init_source_view_style();
         }
     }
 
@@ -117,8 +120,85 @@ mod imp {
                 .build();
 
             settings
+                .bind(
+                    "show-line-numbers",
+                    &*self.request_body,
+                    "show-line-numbers",
+                )
+                .flags(SettingsBindFlags::GET)
+                .build();
+            settings
+                .bind("auto-indent", &*self.request_body, "auto-indent")
+                .flags(SettingsBindFlags::GET)
+                .build();
+            settings
+                .bind(
+                    "indent-style",
+                    &*self.request_body,
+                    "insert-spaces-instead-of-tabs",
+                )
+                .flags(SettingsBindFlags::GET)
+                .mapping(|variant, _| {
+                    let mode = variant
+                        .get::<String>()
+                        .expect("The variant is not a string");
+                    let use_spaces = mode == "spaces";
+                    Some(use_spaces.to_value())
+                })
+                .build();
+            settings
+                .bind("tab-width", &*self.request_body, "tab-width")
+                .flags(SettingsBindFlags::GET)
+                .mapping(|variant, _| {
+                    let width = variant.get::<String>().unwrap_or("4".into());
+                    println!("Width: {width}");
+                    let value = width.parse::<i32>().unwrap_or(4);
+                    Some(value.to_value())
+                })
+                .build();
+            settings
+                .bind("tab-width", &*self.request_body, "indent-width")
+                .flags(SettingsBindFlags::GET)
+                .mapping(|variant, _| {
+                    let width = variant.get::<String>().unwrap_or("4".into());
+                    println!("Width: {width}");
+                    let value = width.parse::<i32>().unwrap_or(4);
+                    Some(value.to_value())
+                })
+                .build();
+
+            settings
                 .bind("paned-position", &*self.paned, "position")
                 .build();
+        }
+
+        fn update_source_view_style(&self) {
+            let dark_mode = adw::StyleManager::default().is_dark();
+            let color_theme = if dark_mode { "Adwaita-dark" } else { "Adwaita" };
+            let theme = StyleSchemeManager::default().scheme(color_theme);
+
+            let buffer = self
+                .request_body
+                .buffer()
+                .downcast::<sourceview5::Buffer>()
+                .unwrap();
+            match theme {
+                Some(theme) => {
+                    buffer.set_style_scheme(Some(&theme));
+                    buffer.set_highlight_syntax(true);
+                }
+                None => {
+                    buffer.set_highlight_syntax(false);
+                }
+            }
+        }
+        fn init_source_view_style(&self) {
+            self.update_source_view_style();
+            adw::StyleManager::default().connect_dark_notify(
+                glib::clone!(@weak self as panel => move |_| {
+                    panel.update_source_view_style();
+                }),
+            );
         }
 
         /// Syncs whether the Send button can be clicked based on whether the request is formed.

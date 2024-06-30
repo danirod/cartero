@@ -63,9 +63,17 @@ mod imp {
             let settings = app.settings();
             let obj = self.obj();
 
-            let wrap = settings.create_action("body-wrap");
-            obj.add_action(&wrap);
-
+            let actions = [
+                "auto-indent",
+                "body-wrap",
+                "indent-style",
+                "show-line-numbers",
+                "tab-width",
+            ];
+            for action in actions {
+                let action = settings.create_action(action);
+                obj.add_action(&action);
+            }
             settings
                 .bind("window-width", &*obj, "default-width")
                 .build();

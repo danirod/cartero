@@ -278,7 +278,7 @@ mod tests {
         pane.set_entries(slice);
 
         let model = pane.model();
-        assert_eq!(model.n_items(), 2);
+        assert_eq!(model.n_items(), 3);
         let keys: Vec<String> = pane
             .model()
             .iter::<KeyValueItem>()
@@ -288,7 +288,7 @@ mod tests {
         assert_eq!("Content-Length", keys[1]);
 
         let entries = pane.get_entries();
-        assert_eq!(2, entries.len());
+        assert_eq!(3, entries.len());
         assert_eq!("Content-Type", entries[0].header_name());
         assert_eq!("Content-Length", entries[1].header_name());
     }

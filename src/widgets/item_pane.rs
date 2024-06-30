@@ -19,7 +19,6 @@ use std::path::{Path, PathBuf};
 
 use adw::prelude::*;
 use glib::Object;
-use gtk::glib;
 
 use crate::error::CarteroError;
 

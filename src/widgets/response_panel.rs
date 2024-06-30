@@ -15,11 +15,15 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use std::path::PathBuf;
+
 use glib::Object;
 use gtk::gio::{ListModel, ListStore};
 use gtk::glib;
 use gtk::prelude::TextViewExt;
 use gtk::prelude::*;
+use sourceview5::prelude::BufferExt;
+use sourceview5::LanguageManager;
 
 use crate::client::Response;
 use crate::objects::KeyValueItem;
@@ -39,7 +43,8 @@ mod imp {
         Box, CompositeTemplate, Label, TemplateChild,
     };
     use gtk::{Spinner, Stack, WrapMode};
-    use sourceview5::View;
+    use sourceview5::prelude::BufferExt;
+    use sourceview5::StyleSchemeManager;
 
     use crate::app::CarteroApplication;
     use crate::widgets::ResponseHeaders;
@@ -51,7 +56,7 @@ mod imp {
         #[template_child]
         pub response_headers: TemplateChild<ResponseHeaders>,
         #[template_child]
-        pub response_body: TemplateChild<View>,
+        pub response_body: TemplateChild<sourceview5::View>,
         #[template_child]
         pub response_meta: TemplateChild<Box>,
         #[template_child]
@@ -90,6 +95,7 @@ mod imp {
             self.parent_constructed();
 
             self.init_settings();
+            self.init_source_view_style();
         }
     }
 
@@ -114,6 +120,44 @@ mod imp {
                     Some(mode.to_value())
                 })
                 .build();
+            settings
+                .bind(
+                    "show-line-numbers",
+                    &*self.response_body,
+                    "show-line-numbers",
+                )
+                .flags(SettingsBindFlags::GET)
+                .build();
+        }
+
+        fn update_source_view_style(&self) {
+            let dark_mode = adw::StyleManager::default().is_dark();
+            let color_theme = if dark_mode { "Adwaita-dark" } else { "Adwaita" };
+            let theme = StyleSchemeManager::default().scheme(color_theme);
+
+            let buffer = self
+                .response_body
+                .buffer()
+                .downcast::<sourceview5::Buffer>()
+                .unwrap();
+            match theme {
+                Some(theme) => {
+                    buffer.set_style_scheme(Some(&theme));
+                    buffer.set_highlight_syntax(true);
+                }
+                None => {
+                    buffer.set_highlight_syntax(false);
+                }
+            }
+        }
+
+        fn init_source_view_style(&self) {
+            self.update_source_view_style();
+            adw::StyleManager::default().connect_dark_notify(
+                glib::clone!(@weak self as panel => move |_| {
+                    panel.update_source_view_style();
+                }),
+            );
         }
 
         fn spinning(&self) -> bool {
@@ -176,6 +220,25 @@ impl ResponsePanel {
 
         imp.metadata_stack.set_visible_child(&*imp.response_meta);
 
-        imp.response_body.buffer().set_text(&resp.body_as_str());
+        let buffer = imp
+            .response_body
+            .buffer()
+            .downcast::<sourceview5::Buffer>()
+            .unwrap();
+
+        buffer.set_text(&resp.body_as_str());
+
+        let language = resp.header("Content-Type").and_then(|ctype| {
+            let ctype = match ctype.split_once(';') {
+                Some((c, _)) => c,
+                None => ctype,
+            };
+            LanguageManager::default().guess_language(Option::<PathBuf>::None, Some(ctype))
+        });
+
+        match language {
+            Some(language) => buffer.set_language(Some(&language)),
+            None => buffer.set_language(None),
+        };
     }
 }

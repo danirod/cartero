@@ -17,7 +17,7 @@
 
 use std::path::PathBuf;
 
-use crate::app::CarteroApplication;
+use crate::{app::CarteroApplication, error::CarteroError};
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
 use gtk::{
@@ -157,7 +157,7 @@ mod imp {
             Ok(())
         }
 
-        fn toast_error(&self, error: CarteroError) {
+        pub(super) fn toast_error(&self, error: CarteroError) {
             let toast = adw::Toast::new(&error.to_string());
             self.toaster.add_toast(toast);
         }
@@ -204,17 +204,15 @@ mod imp {
 
             let action_request = ActionEntry::builder("request")
                 .activate(glib::clone!(@weak self as window => move |_, _, _| {
-                    let Some(pane) = window.current_pane() else {
-                        return;
-                    };
-
-                    let Some(pane) = pane.endpoint() else {
-                        return;
-                    };
-
-                    if let Err(e) = pane.perform_request() {
-                        window.toast_error(e);
-                    }
+                    glib::spawn_future_local(glib::clone!(@weak window => async move {
+                        if let Some(pane) = window.current_pane().and_then(|e| e.endpoint()) {
+                            pane.set_sensitive(false);
+                            if let Err(e) = pane.perform_request().await {
+                                window.toast_error(e);
+                            }
+                            pane.set_sensitive(true);
+                        }
+                    }));
                 }))
                 .build();
             let action_open = ActionEntry::builder("open")
@@ -274,5 +272,10 @@ impl CarteroWindow {
     pub fn add_endpoint(&self, ep: Option<&PathBuf>) {
         let imp = &self.imp();
         imp.add_endpoint(ep)
+    }
+
+    pub fn toast_error(&self, e: CarteroError) {
+        let imp = self.imp();
+        imp.toast_error(e);
     }
 }

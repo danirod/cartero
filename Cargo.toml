@@ -7,6 +7,7 @@ edition = "2021"
 
 [dependencies]
 adw = { version = "0.6.0", package = "libadwaita", features = ["v1_5", "gtk_v4_12"] }
+futures-lite = "2.3.0"
 gettext-rs = { version = "0.7.0", features = ["gettext-system"] }
 glib = "0.19.3"
 gtk = { package = "gtk4", version = "0.8.2", features = ["v4_12"] }

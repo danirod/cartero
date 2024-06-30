@@ -47,23 +47,31 @@ template $CarteroResponsePanel: Box {
     }
 
     [overlay]
-    Box response_meta {
+    Stack metadata_stack {
       halign: end;
       valign: start;
       margin-top: 10;
       margin-end: 10;
-      spacing: 13;
 
-      Label status_code {
-        visible: false;
+      Box response_meta {
+        spacing: 10;
+
+        Label status_code {
+          visible: false;
+        }
+
+        Label duration {
+          visible: false;
+        }
+
+        Label response_size {
+          visible: false;
+        }
       }
 
-      Label duration {
-        visible: false;
-      }
-
-      Label response_size {
-        visible: false;
+      Spinner spinner {
+        halign: end;
+        spinning: true;
       }
     }
   }

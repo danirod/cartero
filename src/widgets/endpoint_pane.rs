@@ -34,7 +34,7 @@ mod imp {
     use gtk::{prelude::*, CompositeTemplate, StringObject};
     use isahc::RequestExt;
 
-    use crate::client::{Request, RequestError, RequestMethod, Response};
+    use crate::client::{Request, RequestError, RequestMethod};
     use crate::error::CarteroError;
     use crate::objects::{Endpoint, KeyValueItem};
     use crate::widgets::{KeyValuePane, ResponsePanel};
@@ -208,12 +208,15 @@ mod imp {
         }
 
         /// Executes an HTTP request based on the current contents of the pane.
-        pub(super) fn perform_request(&self) -> Result<(), CarteroError> {
+        pub(super) async fn perform_request(&self) -> Result<(), CarteroError> {
             let request = self.extract_request()?;
             let request = request.bind(&self.extract_variables())?;
             let request_obj = isahc::Request::try_from(request)?;
-            let mut response_obj = request_obj.send().map_err(RequestError::NetworkError)?;
-            let response = Response::try_from(&mut response_obj)?;
+            let mut response_obj = request_obj
+                .send_async()
+                .await
+                .map_err(RequestError::NetworkError)?;
+            let response = crate::client::extract_isahc_response(&mut response_obj).await?;
             self.response.assign_from_response(&response);
             Ok(())
         }
@@ -250,9 +253,12 @@ impl EndpointPane {
     /// TODO: Should actually the EndpointPane do the requests? This method
     /// will probably change once collections are correctly implemented,
     /// since the EndpointPane would be probably bound to an Endpoint object.
-    pub fn perform_request(&self) -> Result<(), CarteroError> {
+    pub async fn perform_request(&self) -> Result<(), CarteroError> {
         let imp = self.imp();
-        imp.perform_request()
+        imp.response.set_spinning(true);
+        let outcome = imp.perform_request().await;
+        imp.response.set_spinning(false);
+        outcome
     }
 
     /// Bind the widgets in this pane to the application settings.

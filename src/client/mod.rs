@@ -18,4 +18,5 @@
 mod isahc_conv;
 mod local;
 
+pub use isahc_conv::extract_isahc_response;
 pub use local::*;

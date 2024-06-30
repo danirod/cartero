@@ -16,9 +16,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use super::{Request, RequestError, RequestMethod, Response};
+use futures_lite::io::AsyncReadExt;
 use isahc::{
     http::{HeaderName, HeaderValue},
-    Body,
+    AsyncBody, Body,
 };
 use std::{io::Read, str::FromStr};
 
@@ -83,4 +84,32 @@ impl TryFrom<&mut isahc::Response<Body>> for Response {
             body,
         })
     }
+}
+
+pub async fn extract_isahc_response(
+    value: &mut isahc::Response<AsyncBody>,
+) -> Result<Response, RequestError> {
+    let status_code: u16 = value.status().as_u16();
+    let headers = value
+        .headers()
+        .iter()
+        .map(|(k, v)| {
+            let header_name = k.to_string();
+            let header_value = String::from(v.to_str().unwrap());
+            (header_name, header_value)
+        })
+        .collect();
+    let body = {
+        let mut buffer = Vec::new();
+        let body = value.body_mut();
+        body.read_to_end(&mut buffer).await?;
+        buffer
+    };
+    Ok(Response {
+        duration: 0,
+        size: 0,
+        status_code,
+        headers,
+        body,
+    })
 }

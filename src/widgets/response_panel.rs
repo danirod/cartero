@@ -25,16 +25,22 @@ use crate::client::Response;
 use glib::subclass::types::ObjectSubclassIsExt;
 
 mod imp {
+    use std::cell::RefCell;
+
+    use adw::prelude::*;
+    use glib::object::Cast;
     use glib::subclass::InitializingObject;
+    use glib::Properties;
     use gtk::subclass::prelude::*;
-    use gtk::ScrolledWindow;
     use gtk::{
         subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetImpl},
         Box, CompositeTemplate, Label, TemplateChild,
     };
+    use gtk::{ScrolledWindow, Spinner, Stack};
     use sourceview5::View;
 
-    #[derive(CompositeTemplate, Default)]
+    #[derive(CompositeTemplate, Default, Properties)]
+    #[properties(wrapper_type = super::ResponsePanel)]
     #[template(resource = "/es/danirod/Cartero/response_panel.ui")]
     pub struct ResponsePanel {
         #[template_child]
@@ -49,6 +55,13 @@ mod imp {
         pub duration: TemplateChild<Label>,
         #[template_child]
         pub response_size: TemplateChild<Label>,
+        #[template_child]
+        pub spinner: TemplateChild<Spinner>,
+        #[template_child]
+        pub metadata_stack: TemplateChild<Stack>,
+
+        #[property(get = Self::spinning, set = Self::set_spinning)]
+        _spinning: RefCell<bool>,
     }
 
     #[glib::object_subclass]
@@ -66,11 +79,29 @@ mod imp {
         }
     }
 
+    #[glib::derived_properties]
     impl ObjectImpl for ResponsePanel {}
 
     impl WidgetImpl for ResponsePanel {}
 
     impl BoxImpl for ResponsePanel {}
+
+    impl ResponsePanel {
+        fn spinning(&self) -> bool {
+            self.metadata_stack
+                .visible_child()
+                .is_some_and(|w| w.is::<Spinner>())
+        }
+
+        fn set_spinning(&self, spinning: bool) {
+            let widget: &gtk::Widget = if spinning {
+                self.spinner.upcast_ref()
+            } else {
+                self.response_meta.upcast_ref()
+            };
+            self.metadata_stack.set_visible_child(widget);
+        }
+    }
 }
 
 glib::wrapper! {
@@ -108,6 +139,12 @@ impl ResponsePanel {
             .build();
     }
 
+    pub fn start_request(&self) {
+        let imp = self.imp();
+
+        imp.metadata_stack.set_visible_child(&*imp.spinner);
+    }
+
     pub fn assign_from_response(&self, resp: &Response) {
         let imp = self.imp();
 
@@ -136,6 +173,8 @@ impl ResponsePanel {
         let status = format!("HTTP {}", resp.status_code);
         imp.status_code.set_text(&status);
         imp.status_code.set_visible(true);
+
+        imp.metadata_stack.set_visible_child(&*imp.response_meta);
 
         imp.response_body.buffer().set_text(&resp.body_as_str());
     }

@@ -89,17 +89,20 @@ impl Default for CarteroApplication {
 }
 
 impl CarteroApplication {
+    pub fn get() -> Self {
+        gio::Application::default()
+            .and_downcast::<CarteroApplication>()
+            .unwrap()
+    }
+
     pub fn new() -> Self {
         Object::builder().property("application-id", APP_ID).build()
     }
 
     pub fn get_window(&self) -> &CarteroWindow {
         let imp = self.imp();
-        let settings = self.settings();
-
         imp.window.get_or_init(|| {
             let win = CarteroWindow::new(self);
-            win.assign_settings(settings);
             win.add_endpoint(None);
             win
         })

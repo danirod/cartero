@@ -15,13 +15,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use glib::{subclass::types::ObjectSubclassIsExt, value::ToValue, Object};
-use gtk::{
-    gio::{Settings, SettingsBindFlags},
-    glib,
-    prelude::SettingsExtManual,
-    WrapMode,
-};
+use glib::{subclass::types::ObjectSubclassIsExt, Object};
+use gtk::glib;
 
 use crate::{error::CarteroError, objects::Endpoint};
 
@@ -30,10 +25,12 @@ mod imp {
 
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
     use glib::subclass::InitializingObject;
+    use gtk::gio::SettingsBindFlags;
     use gtk::subclass::prelude::*;
-    use gtk::{prelude::*, CompositeTemplate, StringObject};
+    use gtk::{prelude::*, CompositeTemplate, StringObject, WrapMode};
     use isahc::RequestExt;
 
+    use crate::app::CarteroApplication;
     use crate::client::{Request, RequestError, RequestMethod};
     use crate::error::CarteroError;
     use crate::objects::{Endpoint, KeyValueItem};
@@ -90,6 +87,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
+            self.init_settings();
             self.variable_pane.assert_always_placeholder();
             self.header_pane.assert_always_placeholder();
         }
@@ -101,6 +99,28 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl EndpointPane {
+        fn init_settings(&self) {
+            let app = CarteroApplication::get();
+            let settings = app.settings();
+
+            settings
+                .bind("body-wrap", &*self.request_body, "wrap-mode")
+                .flags(SettingsBindFlags::GET)
+                .mapping(|variant, _| {
+                    let enabled = variant.get::<bool>().expect("The variant is not a boolean");
+                    let mode = match enabled {
+                        true => WrapMode::Word,
+                        false => WrapMode::None,
+                    };
+                    Some(mode.to_value())
+                })
+                .build();
+
+            settings
+                .bind("paned-position", &*self.paned, "position")
+                .build();
+        }
+
         /// Syncs whether the Send button can be clicked based on whether the request is formed.
         ///
         /// For a request to be formed, an URL has to be set. You cannot submit a request if
@@ -259,33 +279,5 @@ impl EndpointPane {
         let outcome = imp.perform_request().await;
         imp.response.set_spinning(false);
         outcome
-    }
-
-    /// Bind the widgets in this pane to the application settings.
-    ///
-    /// This method has to be called during instantiation so that the application
-    /// settings can be bound, the widget can use the values currently defined in
-    /// the settings, and updating the settings automatically refreshes the pane.
-    pub fn bind_settings(&self, settings: &Settings) {
-        let imp = self.imp();
-        imp.response.get().assign_settings(settings);
-
-        let body = imp.request_body.get();
-        settings
-            .bind("body-wrap", &body, "wrap-mode")
-            .flags(SettingsBindFlags::GET)
-            .mapping(|variant, _| {
-                let enabled = variant.get::<bool>().expect("The variant is not a boolean");
-                let mode = match enabled {
-                    true => WrapMode::Word,
-                    false => WrapMode::None,
-                };
-                Some(mode.to_value())
-            })
-            .build();
-
-        settings
-            .bind("paned-position", &*imp.paned, "position")
-            .build();
     }
 }

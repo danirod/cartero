@@ -16,10 +16,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use glib::Object;
-use gtk::gio::{ListModel, ListStore, Settings, SettingsBindFlags};
+use gtk::gio::{ListModel, ListStore};
+use gtk::glib;
 use gtk::prelude::TextViewExt;
 use gtk::prelude::*;
-use gtk::{glib, WrapMode};
 
 use crate::client::Response;
 use crate::objects::KeyValueItem;
@@ -32,14 +32,16 @@ mod imp {
     use glib::object::Cast;
     use glib::subclass::InitializingObject;
     use glib::Properties;
+    use gtk::gio::SettingsBindFlags;
     use gtk::subclass::prelude::*;
     use gtk::{
         subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetImpl},
         Box, CompositeTemplate, Label, TemplateChild,
     };
-    use gtk::{Spinner, Stack};
+    use gtk::{Spinner, Stack, WrapMode};
     use sourceview5::View;
 
+    use crate::app::CarteroApplication;
     use crate::widgets::ResponseHeaders;
 
     #[derive(CompositeTemplate, Default, Properties)]
@@ -83,13 +85,37 @@ mod imp {
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for ResponsePanel {}
+    impl ObjectImpl for ResponsePanel {
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            self.init_settings();
+        }
+    }
 
     impl WidgetImpl for ResponsePanel {}
 
     impl BoxImpl for ResponsePanel {}
 
     impl ResponsePanel {
+        fn init_settings(&self) {
+            let app = CarteroApplication::get();
+            let settings = app.settings();
+
+            settings
+                .bind("body-wrap", &*self.response_body, "wrap-mode")
+                .flags(SettingsBindFlags::GET)
+                .mapping(|variant, _| {
+                    let enabled = variant.get::<bool>().expect("The variant is not a boolean");
+                    let mode = match enabled {
+                        true => WrapMode::Word,
+                        false => WrapMode::None,
+                    };
+                    Some(mode.to_value())
+                })
+                .build();
+        }
+
         fn spinning(&self) -> bool {
             self.metadata_stack
                 .visible_child()
@@ -122,24 +148,6 @@ impl Default for ResponsePanel {
 impl ResponsePanel {
     pub fn new() -> Self {
         Object::builder().build()
-    }
-
-    pub fn assign_settings(&self, settings: &Settings) {
-        let imp = self.imp();
-
-        let body = imp.response_body.get();
-        settings
-            .bind("body-wrap", &body, "wrap-mode")
-            .flags(SettingsBindFlags::GET)
-            .mapping(|variant, _| {
-                let enabled = variant.get::<bool>().expect("The variant is not a boolean");
-                let mode = match enabled {
-                    true => WrapMode::Word,
-                    false => WrapMode::None,
-                };
-                Some(mode.to_value())
-            })
-            .build();
     }
 
     pub fn start_request(&self) {

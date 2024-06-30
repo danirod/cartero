@@ -20,14 +20,7 @@ use std::path::PathBuf;
 use crate::{app::CarteroApplication, error::CarteroError};
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
-use gtk::{
-    gio::{self, Settings},
-    glib,
-    prelude::SettingsExtManual,
-};
-
-use gtk::prelude::ActionMapExt;
-use gtk::prelude::SettingsExt;
+use gtk::{gio, glib};
 
 mod imp {
 
@@ -37,8 +30,8 @@ mod imp {
     use gtk::gio::ActionEntry;
     use gtk::prelude::*;
 
-    use crate::error::CarteroError;
     use crate::widgets::*;
+    use crate::{app::CarteroApplication, error::CarteroError};
     use glib::subclass::InitializingObject;
     use gtk::{
         subclass::{
@@ -65,6 +58,22 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl CarteroWindow {
+        fn init_settings(&self) {
+            let app = CarteroApplication::get();
+            let settings = app.settings();
+            let obj = self.obj();
+
+            let wrap = settings.create_action("body-wrap");
+            obj.add_action(&wrap);
+
+            settings
+                .bind("window-width", &*obj, "default-width")
+                .build();
+            settings
+                .bind("window-height", &*obj, "default-height")
+                .build();
+        }
+
         /// Returns the pane currently visible in the window.
         ///
         /// This method will make more sense in the future once multiple panes can be visible in tabs.
@@ -186,6 +195,8 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
+            self.init_settings();
+
             self.tabview.connect_selected_page_notify(
                 glib::clone!(@weak self as window => move |tabview| {
                     if let Some(page) = tabview.selected_page() {
@@ -257,16 +268,6 @@ glib::wrapper! {
 impl CarteroWindow {
     pub fn new(app: &CarteroApplication) -> Self {
         Object::builder().property("application", Some(app)).build()
-    }
-
-    pub fn assign_settings(&self, settings: &Settings) {
-        let wrap = settings.create_action("body-wrap");
-        self.add_action(&wrap);
-
-        settings.bind("window-width", self, "default-width").build();
-        settings
-            .bind("window-height", self, "default-height")
-            .build();
     }
 
     pub fn add_endpoint(&self, ep: Option<&PathBuf>) {

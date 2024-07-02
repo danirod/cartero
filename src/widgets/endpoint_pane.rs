@@ -151,7 +151,6 @@ mod imp {
                 .flags(SettingsBindFlags::GET)
                 .mapping(|variant, _| {
                     let width = variant.get::<String>().unwrap_or("4".into());
-                    println!("Width: {width}");
                     let value = width.parse::<i32>().unwrap_or(4);
                     Some(value.to_value())
                 })
@@ -161,7 +160,6 @@ mod imp {
                 .flags(SettingsBindFlags::GET)
                 .mapping(|variant, _| {
                     let width = variant.get::<String>().unwrap_or("4".into());
-                    println!("Width: {width}");
                     let value = width.parse::<i32>().unwrap_or(4);
                     Some(value.to_value())
                 })

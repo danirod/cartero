@@ -27,29 +27,58 @@ mod config;
 mod objects;
 mod win;
 
+use std::path::PathBuf;
+
 use gettextrs::LocaleCategory;
 use gtk::gio;
 use gtk::prelude::*;
 
 use self::app::CarteroApplication;
-use self::config::GETTEXT_PACKAGE;
+use self::config::{APP_ID, GETTEXT_PACKAGE};
 
-fn main() -> glib::ExitCode {
-    // Infer the location of DATADIR and PKGDATADIR from the executable location
-    let exe = std::env::current_exe().expect("Cannot get current_exe() for app");
-    let path = exe
-        .parent()
-        .and_then(|p| p.to_str())
-        .expect("Cannot get current_exe() location");
-    let locale_dir = format!("{}/../share/locale", path);
-    let resource_file = format!("{}/../share/cartero/cartero.gresource", path);
+fn app_rel_path(dir: &str) -> PathBuf {
+    let root_dir = std::env::current_exe()
+        .map(|p| p.parent().unwrap().parent().unwrap().to_path_buf())
+        .unwrap();
+    root_dir.join(dir)
+}
 
+fn init_data_dir() {
+    let datadir = app_rel_path("share");
+    let xdg_data_dirs: Vec<PathBuf> = match std::env::var("XDG_DATA_DIRS") {
+        Ok(dirs) => std::env::split_paths(&dirs).collect(),
+        Err(_) => vec![],
+    };
+    if !xdg_data_dirs.iter().any(|d| d == &datadir) {
+        let mut xdg_final_dirs = vec![datadir];
+        xdg_final_dirs.extend(xdg_data_dirs);
+        let xdg_data_dir = std::env::join_paths(&xdg_final_dirs).unwrap();
+        std::env::set_var("XDG_DATA_DIRS", xdg_data_dir);
+    }
+}
+
+fn init_locale() {
+    let localedir = app_rel_path("share/locale");
     gettextrs::setlocale(LocaleCategory::LcAll, "");
-    gettextrs::bindtextdomain(GETTEXT_PACKAGE, locale_dir).expect("Unable to bind the text domain");
+    gettextrs::bindtextdomain(GETTEXT_PACKAGE, localedir).expect("Unable to bind the text domain");
     gettextrs::textdomain(GETTEXT_PACKAGE).expect("Unable to switch to the text domain");
+}
 
+fn init_glib() {
+    glib::set_application_name(APP_ID);
+}
+
+fn init_gio_resources() {
+    let resource_file = app_rel_path("share/cartero/cartero.gresource");
     let res = gio::Resource::load(resource_file).expect("Could not load gresource file");
     gio::resources_register(&res);
+}
+
+fn main() -> glib::ExitCode {
+    init_data_dir();
+    init_locale();
+    init_glib();
+    init_gio_resources();
 
     let app = CarteroApplication::new();
     app.run()

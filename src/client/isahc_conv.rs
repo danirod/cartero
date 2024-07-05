@@ -48,7 +48,7 @@ impl TryFrom<Request> for isahc::Request<Vec<u8>> {
         };
         for (h, v) in &req.headers {
             let key = HeaderName::from_str(h)?;
-            let value = HeaderValue::from_str(v)?;
+            let value = HeaderValue::from_str(&v.value)?;
             headers.insert(key, value);
         }
         let req = builder.body(req.body.clone())?;

@@ -17,6 +17,8 @@
 
 use glib::{object::ObjectExt, Object};
 
+use crate::client::KeyValueData;
+
 mod imp {
     use std::cell::RefCell;
     use std::sync::OnceLock;
@@ -95,6 +97,15 @@ impl KeyValueItem {
 
     pub fn new() -> Self {
         Self::default()
+    }
+
+    pub fn new_with_data(name: &str, value: &KeyValueData) -> Self {
+        let header = Self::new();
+        header.set_header_name(name);
+        header.set_header_value(value.value.clone());
+        header.set_active(value.active);
+        header.set_secret(value.secret);
+        header
     }
 
     pub fn new_with_value(name: &str, value: &str) -> Self {

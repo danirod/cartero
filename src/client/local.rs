@@ -74,11 +74,18 @@ impl From<RequestMethod> for String {
     }
 }
 
+#[derive(Debug, PartialEq, Clone)]
+pub struct KeyValueData {
+    pub value: String,
+    pub active: bool,
+    pub secret: bool,
+}
+
 #[derive(Debug, Clone)]
 pub struct Request {
     pub url: String,
     pub method: RequestMethod,
-    pub headers: HashMap<String, String>,
+    pub headers: HashMap<String, KeyValueData>,
     pub body: Vec<u8>,
 }
 
@@ -86,7 +93,7 @@ impl Request {
     pub fn new(
         url: String,
         method: RequestMethod,
-        headers: HashMap<String, String>,
+        headers: HashMap<String, KeyValueData>,
         body: Vec<u8>,
     ) -> Self {
         Self {
@@ -97,8 +104,13 @@ impl Request {
         }
     }
 
-    pub fn bind(&self, variables: &HashMap<String, String>) -> Result<Self, CarteroError> {
-        let context = self.build_template_processor(variables);
+    pub fn bind(&self, variables: &HashMap<String, KeyValueData>) -> Result<Self, CarteroError> {
+        let variables = variables
+            .into_iter()
+            .filter(|(_, data)| data.active)
+            .map(|(k, data)| (String::from(k), data.value.clone()))
+            .collect();
+        let context = self.build_template_processor(&variables);
         let url = context.render(self.url.clone())?;
         let headers = self.bind_headers(&context)?;
         let body = {
@@ -124,13 +136,18 @@ impl Request {
         context
     }
 
-    fn bind_headers(&self, context: &SrTemplate) -> Result<HashMap<String, String>, CarteroError> {
+    fn bind_headers(
+        &self,
+        context: &SrTemplate,
+    ) -> Result<HashMap<String, KeyValueData>, CarteroError> {
         self.headers
             .iter()
-            .map(|(k, v)| {
+            .map(|(k, data)| {
                 let header_name = context.render(k)?;
-                let header_value = context.render(v)?;
-                Ok((header_name, header_value))
+                let header_value = context.render(&data.value)?;
+                let mut new_value = data.clone();
+                new_value.value = header_value;
+                Ok((header_name, new_value))
             })
             .collect()
     }

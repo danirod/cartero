@@ -4,9 +4,71 @@ use std::{collections::HashMap, fs::File};
 
 use serde::{Deserialize, Serialize};
 
-use crate::client::{Request, RequestError, RequestMethod};
+use crate::client::{KeyValueData, Request, RequestError, RequestMethod};
 use crate::error::CarteroError;
 use crate::objects::Endpoint;
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct KeyValueDetail {
+    value: String,
+    active: bool,
+    secret: bool,
+}
+
+impl Default for KeyValueDetail {
+    fn default() -> Self {
+        Self {
+            value: String::default(),
+            active: true,
+            secret: false,
+        }
+    }
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+enum KeyValuedValue {
+    Simple(String),
+    Complex(KeyValueDetail),
+}
+
+impl Default for KeyValuedValue {
+    fn default() -> Self {
+        Self::Simple(String::default())
+    }
+}
+
+impl From<KeyValuedValue> for KeyValueData {
+    fn from(value: KeyValuedValue) -> KeyValueData {
+        match value {
+            KeyValuedValue::Simple(str) => KeyValueData {
+                value: str.clone(),
+                active: true,
+                secret: false,
+            },
+            KeyValuedValue::Complex(kd) => KeyValueData {
+                value: kd.value.clone(),
+                active: kd.active,
+                secret: kd.secret,
+            },
+        }
+    }
+}
+
+impl From<KeyValueData> for KeyValuedValue {
+    fn from(value: KeyValueData) -> Self {
+        let def = KeyValueDetail::default();
+        if value.active == def.active && value.secret == def.secret {
+            Self::Simple(value.value)
+        } else {
+            Self::Complex(KeyValueDetail {
+                active: value.active,
+                secret: value.secret,
+                value: value.value,
+            })
+        }
+    }
+}
 
 #[derive(Deserialize, Serialize)]
 struct RequestFile {
@@ -14,8 +76,8 @@ struct RequestFile {
     url: String,
     method: String,
     body: Option<String>,
-    headers: Option<HashMap<String, String>>,
-    variables: Option<HashMap<String, String>>,
+    headers: Option<HashMap<String, KeyValuedValue>>,
+    variables: Option<HashMap<String, KeyValuedValue>>,
 }
 
 impl TryFrom<RequestFile> for Request {
@@ -32,7 +94,12 @@ impl TryFrom<RequestFile> for Request {
             Some(b) => Vec::from(b.as_str()),
             None => Vec::new(),
         };
-        let headers = value.headers.unwrap_or_default();
+        let headers = value
+            .headers
+            .unwrap_or_default()
+            .into_iter()
+            .map(|(k, data)| (k.clone(), KeyValueData::from(data)))
+            .collect();
         let request = Request {
             url: value.url.clone(),
             method,
@@ -53,13 +120,24 @@ impl From<Endpoint> for RequestFile {
         } else {
             Some(String::from_utf8_lossy(&request.body.clone()).to_string())
         };
+
+        let headers = request
+            .headers
+            .into_iter()
+            .map(|(k, data)| (k.clone(), KeyValuedValue::from(data)))
+            .collect();
+        let variables = variables
+            .into_iter()
+            .map(|(k, data)| (k.clone(), KeyValuedValue::from(data)))
+            .collect();
+
         RequestFile {
             version: 1,
             url: request.url.clone(),
             method: method.to_owned(),
             body,
-            headers: Some(request.headers.clone()),
-            variables: Some(variables.clone()),
+            headers: Some(headers),
+            variables: Some(variables),
         }
     }
 }
@@ -68,6 +146,10 @@ pub fn parse_toml(file: &str) -> Result<Endpoint, CarteroError> {
     let contents = toml::from_str::<RequestFile>(file)?;
     let variables = contents.variables.clone().unwrap_or(HashMap::new());
     let request = Request::try_from(contents)?;
+    let variables = variables
+        .into_iter()
+        .map(|(k, d)| (k.clone(), KeyValueData::from(d)))
+        .collect();
     Ok(Endpoint(request, variables))
 }
 

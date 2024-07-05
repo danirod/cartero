@@ -17,9 +17,9 @@
 
 use std::collections::HashMap;
 
-use crate::client::Request;
+use crate::client::{KeyValueData, Request};
 
 // TODO: I am going to deeply regret this soon.
-pub type Variable = HashMap<String, String>;
+pub type Variable = HashMap<String, KeyValueData>;
 
 pub struct Endpoint(pub Request, pub Variable);

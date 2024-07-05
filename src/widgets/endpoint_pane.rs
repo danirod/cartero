@@ -33,7 +33,7 @@ mod imp {
     use sourceview5::StyleSchemeManager;
 
     use crate::app::CarteroApplication;
-    use crate::client::{Request, RequestError, RequestMethod};
+    use crate::client::{KeyValueData, Request, RequestError, RequestMethod};
     use crate::error::CarteroError;
     use crate::objects::{Endpoint, KeyValueItem};
     use crate::widgets::{KeyValuePane, ResponsePanel};
@@ -257,11 +257,11 @@ mod imp {
             let headers: Vec<KeyValueItem> = req
                 .headers
                 .iter()
-                .map(|(k, v)| KeyValueItem::new_with_value(k, v))
+                .map(|(k, v)| KeyValueItem::new_with_data(k, v))
                 .collect();
             let variables: Vec<KeyValueItem> = variables
                 .iter()
-                .map(|(k, v)| KeyValueItem::new_with_value(k, v))
+                .map(|(k, v)| KeyValueItem::new_with_data(k, v))
                 .collect();
             self.header_pane.set_entries(&headers);
             self.variable_pane.set_entries(&variables);
@@ -277,7 +277,14 @@ mod imp {
             let headers = header_list
                 .iter()
                 .filter(|pair| pair.is_usable())
-                .map(|pair| (pair.header_name(), pair.header_value()))
+                .map(|pair| {
+                    let value = KeyValueData {
+                        value: pair.header_value(),
+                        active: pair.active(),
+                        secret: pair.secret(),
+                    };
+                    (pair.header_name(), value)
+                })
                 .collect();
 
             let body = {
@@ -289,12 +296,19 @@ mod imp {
             Ok(Request::new(url, method, headers, body))
         }
 
-        fn extract_variables(&self) -> HashMap<String, String> {
+        fn extract_variables(&self) -> HashMap<String, KeyValueData> {
             let variables = self.variable_pane.get_entries();
             variables
                 .iter()
                 .filter(|v| v.is_usable())
-                .map(|v| (v.header_name(), v.header_value()))
+                .map(|pair| {
+                    let value = KeyValueData {
+                        value: pair.header_value(),
+                        active: pair.active(),
+                        secret: pair.secret(),
+                    };
+                    (pair.header_name(), value)
+                })
                 .collect()
         }
 

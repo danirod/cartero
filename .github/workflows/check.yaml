@@ -25,6 +25,22 @@ on:
 name: Check
 jobs:
   test:
+    name: Test
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Install dependencies
+      run: sudo apt update && sudo apt install -y --no-install-recommends meson libgtk-4-dev libadwaita-1-dev libgtksourceview-5-dev desktop-file-utils xvfb
+    - uses: actions/checkout@v4
+    - name: Build with Meson
+      run: |
+        meson setup build
+        ninja -C build
+    - name: Test
+      run: CARGO_HOME=build/cargo-home xvfb-run cargo test
+    - name: Clippy
+      run: CARGO_HOME=build/cargo-home cargo clippy
+  lint:
+    name: Lint
     runs-on: ubuntu-24.04
     steps:
     - name: Install dependencies
@@ -36,9 +52,5 @@ jobs:
         ninja -C build
     - name: Format
       run: cargo fmt -- --check
-    - name: Test
-      run: CARGO_HOME=build/cargo-home xvfb-run cargo test
-    - name: Clippy
-      run: cargo clippy
     - name: Blueprint
       run: subprojects/blueprint-compiler/blueprint-compiler.py format data/ui

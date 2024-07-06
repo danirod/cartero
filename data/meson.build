@@ -26,6 +26,7 @@ blueprint_files = [
   'ui/response_headers.blp',
   'ui/response_panel.blp',
   'ui/save_dialog.blp',
+  'ui/raw_payload_pane.blp',
 ]
 
 blueprint_targets = []

@@ -5,9 +5,6 @@
 
 <p align="center"><img src="doc/cartero-screenshot.png" alt="Screenshot of Cartero"></p>
 
-> 🚧 This is a work in progress and therefore you should expect that the
-> application may not have all the features at this moment.
-
 ## Motivation
 
 This project exists because there aren't many native graphical HTTP testing
@@ -16,22 +13,22 @@ I think the world has had enough of Electron / non-native applications that are
 anonymously accesible until one day you are forced to create an account and
 log in to use.
 
-## Roadmap
+## Download
 
-v0.1 is the first iteration and development is in progress. **The goal with
-version v0.1 is to have a basic user interface to make HTTP requests
-graphically**, supporting only the most basic features:
+**Coming soon to Flathub**. I cannot submit the app until there is a first version.
+And I won't release a version until [every task on its milestone][milestone] is cleared.
+**[Also check out my kanban][kanban].** Once the first iteration is reached,
+more features from the [cool idea, saved for later][later] list will be implemented.
 
-* Make HTTP requests setting the endpoint URL and the HTTP verb to use.
-* Configure the payload and the request headers.
-* Get the response headers, body, status code, size and duration of a request.
+You can also download a development version.
 
-**[Check out the kanban for the progress pending until we reach first iteration][kanban].**
+|                             | Platform                   | Nightly                            |
+|-----------------------------|----------------------------|------------------------------------|
+| ![Flatpak](doc/flatpak.png) | Flatpak GNU/Linux, x86_64  | [Nightly][nightly-flatpak-x86_64]  |
+| ![Flatpak](doc/flatpak.png) | Flatpak GNU/Linux, aarch64 | [Nightly][nightly-flatpak-aarch64] |
+| ![Windows](doc/windows.png) | Windows, x86_64            | [Nightly][nightly-windows-x86_64]  |
 
-Once the first iteration is reached, more features from the
-[cool idea, saved for later][later] list will be implemented.
-
-## How to build
+## Building
 
 ### Flatpak
 
@@ -197,4 +194,8 @@ Dani's [dev blog][blog] (in Spanish) of Cartero.
 [fork]: https://github.com/danirod/cartero/fork
 [blog]: https://danirod.es/secciones/devlogs/cartero/
 [kanban]: https://github.com/users/danirod/projects/9/views/6
+[milestone]: https://github.com/danirod/cartero/issues?q=is%3Aopen+is%3Aissue+milestone%3A0.1
 [later]: https://github.com/users/danirod/projects/9/views/7
+[nightly-flatpak-x86_64]: https://nightly.link/danirod/cartero/workflows/nightly.yaml/trunk/es.danirod.Cartero.Devel-x86_64.zip
+[nightly-flatpak-aarch64]: https://nightly.link/danirod/cartero/workflows/nightly.yaml/trunk/es.danirod.Cartero.Devel-aarch64.zip
+[nightly-windows-x86_64]: https://nightly.link/danirod/cartero/workflows/nightly.yaml/trunk/es.danirod.Cartero-windows-x86_64.zip

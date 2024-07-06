@@ -24,11 +24,11 @@ mod imp {
     use gtk::subclass::prelude::*;
     use gtk::{gio::SettingsBindFlags, CompositeTemplate};
     use gtk::{prelude::*, WrapMode};
-    use sourceview5::prelude::*;
+    use sourceview5::{prelude::*, LanguageManager};
     use sourceview5::{Buffer, StyleSchemeManager, View};
 
     use crate::app::CarteroApplication;
-    use crate::widgets::{BasePayloadPane, BasePayloadPaneImpl};
+    use crate::widgets::{BasePayloadPane, BasePayloadPaneImpl, PayloadType};
 
     #[derive(Default, CompositeTemplate, Properties)]
     #[properties(wrapper_type = super::RawPayloadPane)]
@@ -42,6 +42,9 @@ mod imp {
 
         #[property(get = Self::payload, set = Self::set_payload, nullable, type = Option<glib::Bytes>)]
         _payload: RefCell<Option<glib::Bytes>>,
+
+        #[property(get = Self::format, set = Self::set_format, builder(PayloadType::default()))]
+        _format: RefCell<PayloadType>,
     }
 
     #[glib::object_subclass]
@@ -52,7 +55,7 @@ mod imp {
         type ParentType = BasePayloadPane;
 
         fn class_init(klass: &mut Self::Class) {
-            Self::bind_template(klass);
+            klass.bind_template();
         }
 
         fn instance_init(obj: &InitializingObject<Self>) {
@@ -92,6 +95,33 @@ mod imp {
                 None => {
                     self.buffer.set_text("");
                 }
+            }
+        }
+
+        fn format(&self) -> PayloadType {
+            if let Some(language) = self.buffer.language() {
+                if language.name() == "JSON" {
+                    PayloadType::Json
+                } else if language.name() == "XML" {
+                    PayloadType::Xml
+                } else {
+                    PayloadType::Raw
+                }
+            } else {
+                PayloadType::Raw
+            }
+        }
+
+        fn set_format(&self, format: PayloadType) {
+            let manager = LanguageManager::default();
+            let language = match format {
+                PayloadType::Json => manager.language("json"),
+                PayloadType::Xml => manager.language("xml"),
+                _ => None,
+            };
+            match language {
+                Some(lang) => self.buffer.set_language(Some(&lang)),
+                None => self.buffer.set_language(None),
             }
         }
 

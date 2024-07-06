@@ -36,7 +36,7 @@ mod imp {
     use crate::entities::{EndpointData, KeyValue, RequestMethod};
     use crate::error::CarteroError;
     use crate::objects::KeyValueItem;
-    use crate::widgets::{ItemPane, KeyValuePane, RawPayloadPane, ResponsePanel};
+    use crate::widgets::{ItemPane, KeyValuePane, PayloadTab, ResponsePanel};
 
     #[derive(CompositeTemplate, Properties, Default)]
     #[template(resource = "/es/danirod/Cartero/endpoint_pane.ui")]
@@ -58,7 +58,7 @@ mod imp {
         pub request_url: TemplateChild<gtk::Entry>,
 
         #[template_child]
-        pub payload_pane: TemplateChild<RawPayloadPane>,
+        pub payload_pane: TemplateChild<PayloadTab>,
 
         #[template_child]
         pub response: TemplateChild<ResponsePanel>,
@@ -222,8 +222,12 @@ mod imp {
                 .collect();
             self.header_pane.set_entries(&headers);
             self.variable_pane.set_entries(&variables);
-            let body = endpoint.body.clone().map(|body| glib::Bytes::from(&body));
-            self.payload_pane.set_payload(body);
+            if let Some(body) = endpoint.body.clone() {
+                let body = glib::Bytes::from(&body);
+                self.payload_pane.set_payload(Some(&body));
+            } else {
+                self.payload_pane.set_payload(None);
+            }
         }
 
         /// Takes the current state of the pane and extracts it into an Endpoint value.

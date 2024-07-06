@@ -1,0 +1,77 @@
+# Copyright 2024 the Cartero authors
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+on:
+  push:
+    branches:
+      - trunk
+name: Nightly build
+jobs:
+  flatpak:
+    runs-on: ubuntu-latest
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:gnome-46
+      options: --privileged
+    strategy:
+      matrix:
+        arch: [x86_64, aarch64]
+      fail-fast: false
+    name: "Flatpak (${{ matrix.arch }})"
+    steps:
+      - uses: actions/checkout@v4
+      - name: (ARM) Install Docker
+        if: ${{ matrix.arch != 'x86_64' }}
+        run: |
+          dnf -y install docker
+      - name: (ARM) Set up QEMU
+        if: ${{ matrix.arch != 'x86_64' }}
+        id: qemu
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: arm64
+      - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        with:
+          bundle: es.danirod.Cartero.Devel.flatpak
+          manifest-path: build-aux/es.danirod.Cartero.Devel.json
+          cache-key: flatpak-builder-${{ github.sha }}
+          build-bundle: true
+          arch: ${{ matrix.arch }}
+  windows:
+    name: "Windows"
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+    - uses: msys2/setup-msys2@v2
+      with:
+        update: true
+        install: >-
+          git
+        msystem: ucrt64
+    - uses: actions/checkout@v4
+    - name: Build Windows version
+      run: |
+        export PATH=/c/Users/$USER/.cargo/bin:$PATH
+        rustup toolchain install stable-gnu
+        rustup default stable-gnu
+        build-aux/msys-build.sh
+    - uses: actions/upload-artifact@v4
+      name: Upload Windows version
+      with:
+        name: es.danirod.Cartero-windows-x86_64
+        path: build/cartero-win32

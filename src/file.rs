@@ -194,8 +194,8 @@ Accept-Encoding = 'gzip'
         assert_eq!(doc.method, RequestMethod::Get);
         assert_eq!(doc.body, vec![0x68, 0x65, 0x6c, 0x6c, 0x6f]);
         assert_eq!(doc.headers.len(), 2);
-        assert_eq!(doc.headers["Accept"], "text/html");
-        assert_eq!(doc.headers["Accept-Encoding"], "gzip");
+        assert_eq!(doc.headers["Accept"].value, "text/html");
+        assert_eq!(doc.headers["Accept-Encoding"].value, "gzip");
     }
 
     #[test]
@@ -281,8 +281,8 @@ body = 'hello'
     #[test]
     pub fn test_serialize_correctly() {
         let mut headers = HashMap::default();
-        headers.insert("User-Agent".to_string(), "Cartero".to_string());
-        headers.insert("Host".to_string(), "google.com".to_string());
+        headers.insert("User-Agent".to_string(), "Cartero".into());
+        headers.insert("Host".to_string(), "google.com".into());
         let body = Vec::from("Hello");
         let r = Request::new(
             "https://www.google.com".to_string(),
@@ -303,8 +303,8 @@ body = 'hello'
     #[test]
     pub fn test_just_for_fun() {
         let mut headers = HashMap::default();
-        headers.insert("User-Agent".to_string(), "Cartero".to_string());
-        headers.insert("Host".to_string(), "google.com".to_string());
+        headers.insert("User-Agent".to_string(), "Cartero".into());
+        headers.insert("Host".to_string(), "google.com".into());
         let body = Vec::from("Hello");
         let r = Request::new(
             "https://www.google.com".to_string(),

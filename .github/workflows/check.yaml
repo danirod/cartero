@@ -1,0 +1,44 @@
+# Copyright 2024 the Cartero authors
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+on:
+  push:
+    branches:
+      - trunk
+  pull_request:
+    branches:
+      - trunk
+name: Check
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Install dependencies
+      run: sudo apt update && sudo apt install -y --no-install-recommends meson libgtk-4-dev libadwaita-1-dev libgtksourceview-5-dev desktop-file-utils xvfb
+    - uses: actions/checkout@v4
+    - name: Build with Meson
+      run: |
+        meson setup build
+        ninja -C build
+    - name: Format
+      run: cargo fmt -- --check
+    - name: Test
+      run: CARGO_HOME=build/cargo-home xvfb-run cargo test
+    - name: Clippy
+      run: cargo clippy
+    - name: Blueprint
+      run: subprojects/blueprint-compiler/blueprint-compiler.py format data/ui

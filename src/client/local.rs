@@ -81,6 +81,16 @@ pub struct KeyValueData {
     pub secret: bool,
 }
 
+impl From<&str> for KeyValueData {
+    fn from(value: &str) -> Self {
+        Self {
+            value: String::from(value),
+            active: true,
+            secret: false,
+        }
+    }
+}
+
 #[derive(Debug, Clone)]
 pub struct Request {
     pub url: String,
@@ -106,7 +116,7 @@ impl Request {
 
     pub fn bind(&self, variables: &HashMap<String, KeyValueData>) -> Result<Self, CarteroError> {
         let variables = variables
-            .into_iter()
+            .iter()
             .filter(|(_, data)| data.active)
             .map(|(k, data)| (String::from(k), data.value.clone()))
             .collect();
@@ -234,7 +244,10 @@ mod tests {
 
         assert_eq!(rq.url, "https://{{API_ROOT}}/v1/books");
         assert_eq!(bound_rq.url, "https://api.example.com/v1/books");
-        assert_eq!(bound_rq.headers["Authorization"], "Bearer 789078907890");
+        assert_eq!(
+            bound_rq.headers["Authorization"].value,
+            "Bearer 789078907890"
+        );
     }
 
     #[test]

@@ -53,6 +53,31 @@ jobs:
           cache-key: flatpak-builder-${{ github.sha }}
           build-bundle: true
           arch: ${{ matrix.arch }}
+  windows:
+    name: "Windows"
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+    - uses: msys2/setup-msys2@v2
+      with:
+        update: true
+        install: >-
+          git
+        msystem: ucrt64
+    - uses: actions/checkout@v4
+    - name: Build Windows version
+      run: |
+        export PATH=/c/Users/$USER/.cargo/bin:$PATH
+        rustup toolchain install stable-gnu
+        rustup default stable-gnu
+        build-aux/msys-build.sh
+    - uses: actions/upload-artifact@v4
+      name: Upload Windows version
+      with:
+        name: es.danirod.Cartero-windows-x86_64
+        path: build/cartero-win32/
   # Deliver:
   #   name: "Deliver Package"
   #   runs-on: ubuntu-latest

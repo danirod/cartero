@@ -16,11 +16,11 @@ pacman -Sy --noconfirm --needed \
     ${MINGW_PACKAGE_PREFIX}-blueprint-compiler \
     meson
 
-MSYS2_ARG_CONV_EXCL="--prefix=" meson setup build --prefix="${MINGW_PREFIX}"
+MSYS2_ARG_CONV_EXCL="--prefix=" meson setup build --prefix="/" -Dprofile=development
 ninja -C build
-DESTDIR=$PWD/install ninja -C build install
+DESTDIR=$PWD/build/cartero-win32 ninja -C build install
 
-cd $PWD/install/$MINGW_PREFIX
+cd $PWD/build/cartero-win32
 mkdir -p {lib,share}
 
 cp $(ldd bin/cartero.exe | grep "$MINGW_PREFIX" | awk '{ print $3 }') bin/
@@ -37,7 +37,3 @@ cp $(ldd lib/gdk-pixbuf-2.0/2.10.0/loaders/*.dll | grep "$MINGW_PREFIX" | awk '{
 
 glib-compile-schemas.exe share/glib-2.0/schemas
 gtk4-update-icon-cache.exe -t share/icons/hicolor
-
-cd ..
-mv .${MINGW_PREFIX} cartero
-zip -r cartero.zip cartero

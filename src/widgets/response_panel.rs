@@ -206,8 +206,8 @@ impl ResponsePanel {
         let mut headers = resp.headers.clone();
         headers.sort();
         let headers: Vec<KeyValueItem> = headers
-            .into_iter()
-            .map(|KeyValue((name, value))| KeyValueItem::new_with_value(&name, &value))
+            .iter()
+            .map(|KeyValue((name, value))| KeyValueItem::new_with_value(name, value))
             .collect();
 
         let store = ListStore::with_type(KeyValueItem::static_type());
@@ -230,6 +230,7 @@ impl ResponsePanel {
         buffer.set_text(&resp.body_str());
 
         let language = resp
+            .headers
             .header("Content-Type")
             .map(|ctypes| ctypes[0])
             .and_then(|ctype| {

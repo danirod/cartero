@@ -15,6 +15,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use std::ops::{Deref, DerefMut};
+
 #[derive(Debug, Clone, Eq, PartialEq)]
 pub struct KeyValue(pub (String, String));
 
@@ -50,24 +52,14 @@ impl From<(&str, &str)> for KeyValue {
     }
 }
 
-#[derive(Debug, Clone, Eq, PartialEq)]
-pub struct ResponseData {
-    pub status_code: u32,
-    pub duration: u64,
-    pub size: u64,
-    pub headers: Vec<KeyValue>,
-    pub body: Vec<u8>,
-}
+#[derive(Debug, Clone, Default, Eq, PartialEq)]
+pub struct KeyValueTable(Vec<KeyValue>);
 
-impl ResponseData {
-    pub fn body_str(&self) -> String {
-        String::from_utf8_lossy(&self.body).into_owned()
-    }
-
+impl KeyValueTable {
     pub fn header(&self, key: &str) -> Option<Vec<&str>> {
-        let compare_key = key.to_lowercase();
+        let compare_key: String = key.to_lowercase();
         let mut headers: Vec<&str> = self
-            .headers
+            .0
             .iter()
             .filter_map(|KeyValue((k, v))| {
                 if k.to_lowercase() == compare_key {
@@ -86,31 +78,64 @@ impl ResponseData {
     }
 }
 
+impl Deref for KeyValueTable {
+    type Target = Vec<KeyValue>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl DerefMut for KeyValueTable {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+impl<A> FromIterator<A> for KeyValueTable
+where
+    Vec<KeyValue>: FromIterator<A>,
+{
+    fn from_iter<T: IntoIterator<Item = A>>(iter: T) -> Self {
+        Self(FromIterator::from_iter(iter))
+    }
+}
+
+#[derive(Debug, Clone, Eq, PartialEq)]
+pub struct ResponseData {
+    pub status_code: u32,
+    pub duration: u64,
+    pub size: u64,
+    pub headers: KeyValueTable,
+    pub body: Vec<u8>,
+}
+
+impl ResponseData {
+    pub fn body_str(&self) -> String {
+        String::from_utf8_lossy(&self.body).into_owned()
+    }
+}
+
 #[cfg(test)]
 mod tests {
-    use super::ResponseData;
+    use super::KeyValueTable;
 
     #[test]
-    fn test_header() {
-        let response = ResponseData {
-            status_code: 200,
-            duration: 2400,
-            size: 150,
-            headers: vec![
-                ("Content-Type", "application/json").into(),
-                ("Set-Cookie", "cookie2=value2").into(),
-                ("Set-Cookie", "cookie1=value1").into(),
-            ],
-            body: Vec::from(b"{}"),
-        };
+    fn test_key_value_table_header() {
+        let headers = vec![
+            ("Content-Type", "application/json").into(),
+            ("Set-Cookie", "cookie2=value2").into(),
+            ("Set-Cookie", "cookie1=value1").into(),
+        ];
+        let table = KeyValueTable(headers);
 
-        let ctype = response.header("content-type");
+        let ctype = table.header("content-type");
         assert_eq!(ctype, Some(vec!["application/json"]));
 
-        let cookie = response.header("Set-cookie");
+        let cookie = table.header("Set-cookie");
         assert_eq!(cookie, Some(vec!["cookie1=value1", "cookie2=value2"]));
 
-        let empty = response.header("Accept");
+        let empty = table.header("Accept");
         assert_eq!(empty, None);
     }
 }

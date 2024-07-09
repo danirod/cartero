@@ -15,6 +15,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use std::collections::HashMap;
+
 use glib::Object;
 use gtk::{gio::ListStore, prelude::*};
 
@@ -104,6 +106,10 @@ mod imp {
                     .bidirectional()
                     .sync_create()
                     .build());
+                row.add_binding(item.bind_property("ignored", &row, "ignored")
+                    .bidirectional()
+                    .sync_create()
+                    .build());
                 let pane_delete = pane.clone();
                 row.connect_closure("delete", false, closure_local!(@strong item => move |_: KeyValueRow| {
                     let model = pane_delete.model.get().unwrap();
@@ -118,6 +124,7 @@ mod imp {
                 let pane_changed = pane.clone();
                 item.connect_closure("changed", false, closure_local!(move |_: KeyValueItem| {
                     let obj = pane_changed.obj();
+                    obj.mark_duplicates();
                     obj.assert_always_placeholder();
                 }));
                 row.upcast::<gtk::Widget>()
@@ -145,6 +152,25 @@ impl Default for KeyValuePane {
 impl KeyValuePane {
     pub fn new() -> Self {
         Self::default()
+    }
+
+    pub fn mark_duplicates(&self) {
+        let model = &self.model();
+        let mut headers: HashMap<String, KeyValueItem> = HashMap::new();
+        let count = model.n_items();
+        for i in 0..count {
+            if let Some(header) = model.item(i).and_downcast::<KeyValueItem>() {
+                // First, reset the ignored bit for this header.
+                header.set_ignored(false);
+
+                if header.is_usable() {
+                    let name = header.header_name().to_lowercase();
+                    if let Some(old) = headers.insert(name, header.clone()) {
+                        old.set_ignored(true);
+                    }
+                }
+            }
+        }
     }
 
     pub fn assert_always_placeholder(&self) {

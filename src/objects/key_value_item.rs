@@ -36,6 +36,8 @@ mod imp {
         active: RefCell<bool>,
         #[property(get, set)]
         secret: RefCell<bool>,
+        #[property(get, set)]
+        ignored: RefCell<bool>,
 
         #[property(get, set)]
         header_name: RefCell<String>,
@@ -73,26 +75,26 @@ glib::wrapper! {
 
 impl KeyValueItem {
     pub(self) fn setup_signals(&self) {
-        self.connect_header_name_notify(glib::clone!(@weak self as item => move |_| {
+        self.connect_header_name_notify(|item| {
             if !item.dirty() {
                 item.set_dirty(true);
                 item.set_active(true);
             }
             item.emit_by_name::<()>("changed", &[]);
-        }));
-        self.connect_header_value_notify(glib::clone!(@weak self as item => move |_| {
+        });
+        self.connect_header_value_notify(|item| {
             if !item.dirty() {
                 item.set_dirty(true);
                 item.set_active(true);
             }
             item.emit_by_name::<()>("changed", &[]);
-        }));
-        self.connect_active_notify(glib::clone!(@weak self as item => move |_| {
+        });
+        self.connect_active_notify(|item| {
             item.emit_by_name::<()>("changed", &[]);
-        }));
-        self.connect_secret_notify(glib::clone!(@weak self as item => move |_| {
+        });
+        self.connect_secret_notify(|item| {
             item.emit_by_name::<()>("changed", &[]);
-        }));
+        });
     }
 
     pub fn new() -> Self {

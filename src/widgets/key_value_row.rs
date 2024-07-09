@@ -42,6 +42,8 @@ mod imp {
         active: RefCell<bool>,
         #[property(get, set)]
         secret: RefCell<bool>,
+        #[property(get, set)]
+        ignored: RefCell<bool>,
 
         #[property(get, set)]
         header_name: RefCell<String>,
@@ -78,6 +80,7 @@ mod imp {
 
             let obj = self.obj();
             obj.setup_actions();
+            obj.setup_signals();
         }
 
         fn signals() -> &'static [Signal] {
@@ -105,6 +108,23 @@ impl Default for KeyValueRow {
 }
 
 impl KeyValueRow {
+    pub(self) fn setup_signals(&self) {
+        self.connect_active_notify(|row| {
+            if row.active() {
+                row.remove_css_class("inactive-header");
+            } else {
+                row.add_css_class("inactive-header");
+            }
+        });
+        self.connect_ignored_notify(|row| {
+            if row.ignored() {
+                row.add_css_class("ignored-header");
+            } else {
+                row.remove_css_class("ignored-header");
+            }
+        });
+    }
+
     pub(self) fn setup_actions(&self) {
         let ag = SimpleActionGroup::new();
         self.insert_action_group("row", Some(&ag));

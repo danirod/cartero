@@ -25,7 +25,7 @@ use gtk::prelude::*;
 use sourceview5::prelude::BufferExt;
 use sourceview5::LanguageManager;
 
-use crate::client::Response;
+use crate::entities::{Header, ResponseData};
 use crate::objects::KeyValueItem;
 use glib::subclass::types::ObjectSubclassIsExt;
 
@@ -200,17 +200,18 @@ impl ResponsePanel {
         imp.metadata_stack.set_visible_child(&*imp.spinner);
     }
 
-    pub fn assign_from_response(&self, resp: &Response) {
+    pub fn assign_from_response(&self, resp: &ResponseData) {
         let imp = self.imp();
 
-        let key_values: Vec<KeyValueItem> = resp
-            .headers
-            .iter()
-            .map(|(name, value)| KeyValueItem::new_with_value(name, value))
+        let mut headers = resp.headers.clone();
+        headers.sort();
+        let headers: Vec<KeyValueItem> = headers
+            .into_iter()
+            .map(|Header((name, value))| KeyValueItem::new_with_value(&name, &value))
             .collect();
 
         let store = ListStore::with_type(KeyValueItem::static_type());
-        store.extend_from_slice(&key_values);
+        store.extend_from_slice(&headers);
         let model = store.upcast::<ListModel>();
         imp.response_headers.set_headers(Some(&model));
 
@@ -226,15 +227,18 @@ impl ResponsePanel {
             .downcast::<sourceview5::Buffer>()
             .unwrap();
 
-        buffer.set_text(&resp.body_as_str());
+        buffer.set_text(&resp.body_str());
 
-        let language = resp.header("Content-Type").and_then(|ctype| {
-            let ctype = match ctype.split_once(';') {
-                Some((c, _)) => c,
-                None => ctype,
-            };
-            LanguageManager::default().guess_language(Option::<PathBuf>::None, Some(ctype))
-        });
+        let language = resp
+            .header("Content-Type")
+            .and_then(|ctypes| ctypes.first().map(|f| *f))
+            .and_then(|ctype| {
+                let ctype = match ctype.split_once(';') {
+                    Some((c, _)) => c,
+                    None => ctype,
+                };
+                LanguageManager::default().guess_language(Option::<PathBuf>::None, Some(ctype))
+            });
 
         match language {
             Some(language) => buffer.set_language(Some(&language)),

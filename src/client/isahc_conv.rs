@@ -15,7 +15,9 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use super::{Request, RequestError, RequestMethod, Response};
+use crate::entities::ResponseData;
+
+use super::{Request, RequestError, RequestMethod};
 use futures_lite::io::AsyncReadExt;
 use isahc::{
     http::{HeaderName, HeaderValue},
@@ -56,18 +58,18 @@ impl TryFrom<Request> for isahc::Request<Vec<u8>> {
     }
 }
 
-impl TryFrom<&mut isahc::Response<Body>> for Response {
+impl TryFrom<&mut isahc::Response<Body>> for ResponseData {
     type Error = RequestError;
 
     fn try_from(value: &mut isahc::Response<Body>) -> Result<Self, Self::Error> {
-        let status_code: u16 = value.status().as_u16();
+        let status_code = value.status().as_u16() as u32;
         let headers = value
             .headers()
             .iter()
             .map(|(k, v)| {
                 let header_name = k.to_string();
                 let header_value = String::from(v.to_str().unwrap());
-                (header_name, header_value)
+                (header_name, header_value).into()
             })
             .collect();
         let body = {
@@ -76,7 +78,7 @@ impl TryFrom<&mut isahc::Response<Body>> for Response {
             body.read_to_end(&mut buffer)?;
             buffer
         };
-        Ok(Response {
+        Ok(ResponseData {
             duration: 0,
             size: 0,
             status_code,
@@ -88,15 +90,15 @@ impl TryFrom<&mut isahc::Response<Body>> for Response {
 
 pub async fn extract_isahc_response(
     value: &mut isahc::Response<AsyncBody>,
-) -> Result<Response, RequestError> {
-    let status_code: u16 = value.status().as_u16();
+) -> Result<ResponseData, RequestError> {
+    let status_code: u32 = value.status().as_u16() as u32;
     let headers = value
         .headers()
         .iter()
         .map(|(k, v)| {
             let header_name = k.to_string();
             let header_value = String::from(v.to_str().unwrap());
-            (header_name, header_value)
+            (header_name, header_value).into()
         })
         .collect();
     let body = {
@@ -105,7 +107,7 @@ pub async fn extract_isahc_response(
         body.read_to_end(&mut buffer).await?;
         buffer
     };
-    Ok(Response {
+    Ok(ResponseData {
         duration: 0,
         size: 0,
         status_code,

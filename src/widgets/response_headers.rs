@@ -67,6 +67,7 @@ mod imp {
                     self.list_box.bind_model(Some(model), |item| {
                         let item = item.downcast_ref::<KeyValueItem>().unwrap();
                         let widget = adw::ActionRow::new();
+                        widget.set_use_markup(false);
                         widget.set_title(&item.header_name());
                         widget.set_title_selectable(true);
                         widget.set_subtitle(&item.header_value());

@@ -16,22 +16,15 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #[derive(Debug, Clone, Eq, PartialEq)]
-pub struct Header(pub (String, String));
+pub struct KeyValue(pub (String, String));
 
-impl PartialOrd for Header {
+impl PartialOrd for KeyValue {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
-        let (this_h, this_v) = &self.0;
-        let (other_h, other_v) = &other.0;
-        let value = this_h.partial_cmp(other_h);
-        if value == Some(std::cmp::Ordering::Equal) {
-            this_v.partial_cmp(other_v)
-        } else {
-            value
-        }
+        Some(self.cmp(other))
     }
 }
 
-impl Ord for Header {
+impl Ord for KeyValue {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
         let (this_h, this_v) = &self.0;
         let (other_h, other_v) = &other.0;
@@ -44,16 +37,16 @@ impl Ord for Header {
     }
 }
 
-impl From<(String, String)> for Header {
+impl From<(String, String)> for KeyValue {
     fn from(value: (String, String)) -> Self {
-        Header(value)
+        KeyValue(value)
     }
 }
 
-impl From<(&str, &str)> for Header {
+impl From<(&str, &str)> for KeyValue {
     fn from(value: (&str, &str)) -> Self {
         let (k, v) = value;
-        Header((k.into(), v.into()))
+        KeyValue((k.into(), v.into()))
     }
 }
 
@@ -62,7 +55,7 @@ pub struct ResponseData {
     pub status_code: u32,
     pub duration: u64,
     pub size: u64,
-    pub headers: Vec<Header>,
+    pub headers: Vec<KeyValue>,
     pub body: Vec<u8>,
 }
 
@@ -76,7 +69,7 @@ impl ResponseData {
         let mut headers: Vec<&str> = self
             .headers
             .iter()
-            .filter_map(|Header((k, v))| {
+            .filter_map(|KeyValue((k, v))| {
                 if k.to_lowercase() == compare_key {
                     Some(v.as_str())
                 } else {
@@ -86,9 +79,9 @@ impl ResponseData {
             .collect();
         headers.sort();
         if headers.is_empty() {
-            Some(headers)
-        } else {
             None
+        } else {
+            Some(headers)
         }
     }
 }

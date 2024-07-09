@@ -25,7 +25,7 @@ use gtk::prelude::*;
 use sourceview5::prelude::BufferExt;
 use sourceview5::LanguageManager;
 
-use crate::entities::{Header, ResponseData};
+use crate::entities::{KeyValue, ResponseData};
 use crate::objects::KeyValueItem;
 use glib::subclass::types::ObjectSubclassIsExt;
 
@@ -207,7 +207,7 @@ impl ResponsePanel {
         headers.sort();
         let headers: Vec<KeyValueItem> = headers
             .into_iter()
-            .map(|Header((name, value))| KeyValueItem::new_with_value(&name, &value))
+            .map(|KeyValue((name, value))| KeyValueItem::new_with_value(&name, &value))
             .collect();
 
         let store = ListStore::with_type(KeyValueItem::static_type());
@@ -231,7 +231,7 @@ impl ResponsePanel {
 
         let language = resp
             .header("Content-Type")
-            .and_then(|ctypes| ctypes.first().map(|f| *f))
+            .map(|ctypes| ctypes[0])
             .and_then(|ctype| {
                 let ctype = match ctype.split_once(';') {
                     Some((c, _)) => c,

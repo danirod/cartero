@@ -59,6 +59,7 @@ mod imp {
     use gtk::{CompositeTemplate, Stack};
 
     use crate::widgets::BasePayloadPane;
+    use crate::widgets::FormdataPayloadPane;
     use crate::widgets::RawPayloadPane;
     use crate::widgets::UrlencodedPayloadPane;
 
@@ -82,6 +83,9 @@ mod imp {
 
         #[template_child]
         urlencoded: TemplateChild<UrlencodedPayloadPane>,
+
+        #[template_child]
+        formdata: TemplateChild<FormdataPayloadPane>,
 
         #[property(get = Self::payload_type, set = Self::set_payload_type, builder(PayloadType::default()))]
         _payload_type: RefCell<PayloadType>,
@@ -126,7 +130,7 @@ mod imp {
                 PayloadType::Json => "raw",
                 PayloadType::Xml => "raw",
                 PayloadType::UrlEncoded => "urlencoded",
-                _ => "none",
+                PayloadType::MultipartFormData => "formdata",
             };
             self.stack.set_visible_child_name(tab);
 

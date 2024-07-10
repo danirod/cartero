@@ -56,6 +56,12 @@ template $CarteroPayloadTab: Gtk.Box {
       }
 
       Gtk.StackPage {
+        name: "formdata";
+
+        child: $CarteroFormdataPayloadPane formdata {};
+      }
+
+      Gtk.StackPage {
         name: "raw";
 
         child: $CarteroRawPayloadPane raw {};

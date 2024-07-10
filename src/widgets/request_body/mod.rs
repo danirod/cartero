@@ -16,12 +16,14 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 mod base;
+mod formdata;
 mod none;
 mod raw;
 mod tab;
 mod urlencoded;
 
 pub use base::*;
+pub use formdata::*;
 pub use none::*;
 pub use raw::*;
 pub use tab::*;

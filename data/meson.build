@@ -19,6 +19,7 @@ subdir('icons')
 
 blueprint_files = [
   'ui/endpoint_pane.blp',
+  'ui/formdata_payload_pane.blp',
   'ui/main_window.blp',
   'ui/main_window_no_csd.blp',
   'ui/key_value_pane.blp',

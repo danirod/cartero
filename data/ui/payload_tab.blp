@@ -50,6 +50,12 @@ template $CarteroPayloadTab: Gtk.Box {
       }
 
       Gtk.StackPage {
+        name: "urlencoded";
+
+        child: $CarteroUrlencodedPayloadPane urlencoded {};
+      }
+
+      Gtk.StackPage {
         name: "raw";
 
         child: $CarteroRawPayloadPane raw {};

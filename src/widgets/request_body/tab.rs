@@ -60,6 +60,7 @@ mod imp {
 
     use crate::widgets::BasePayloadPane;
     use crate::widgets::RawPayloadPane;
+    use crate::widgets::UrlencodedPayloadPane;
 
     use super::PayloadType;
 
@@ -78,6 +79,9 @@ mod imp {
 
         #[template_child]
         raw: TemplateChild<RawPayloadPane>,
+
+        #[template_child]
+        urlencoded: TemplateChild<UrlencodedPayloadPane>,
 
         #[property(get = Self::payload_type, set = Self::set_payload_type, builder(PayloadType::default()))]
         _payload_type: RefCell<PayloadType>,
@@ -121,6 +125,7 @@ mod imp {
                 PayloadType::Raw => "raw",
                 PayloadType::Json => "raw",
                 PayloadType::Xml => "raw",
+                PayloadType::UrlEncoded => "urlencoded",
                 _ => "none",
             };
             self.stack.set_visible_child_name(tab);

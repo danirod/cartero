@@ -19,8 +19,10 @@ mod base;
 mod none;
 mod raw;
 mod tab;
+mod urlencoded;
 
 pub use base::*;
 pub use none::*;
 pub use raw::*;
 pub use tab::*;
+pub use urlencoded::*;

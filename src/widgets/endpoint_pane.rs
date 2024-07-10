@@ -18,11 +18,9 @@
 use glib::{subclass::types::ObjectSubclassIsExt, Object};
 use gtk::glib;
 
-use crate::{error::CarteroError, objects::Endpoint};
+use crate::{entities::EndpointData, error::CarteroError};
 
 mod imp {
-    use std::collections::HashMap;
-
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
     use glib::subclass::InitializingObject;
     use gtk::gio::SettingsBindFlags;
@@ -33,9 +31,10 @@ mod imp {
     use sourceview5::StyleSchemeManager;
 
     use crate::app::CarteroApplication;
-    use crate::client::{KeyValueData, Request, RequestError, RequestMethod};
+    use crate::client::{BoundRequest, RequestError};
+    use crate::entities::{EndpointData, KeyValue, RequestMethod};
     use crate::error::CarteroError;
-    use crate::objects::{Endpoint, KeyValueItem};
+    use crate::objects::KeyValueItem;
     use crate::widgets::{KeyValuePane, ResponsePanel};
 
     #[derive(CompositeTemplate, Default)]
@@ -249,41 +248,54 @@ mod imp {
         }
 
         /// Sets the value of every widget in the pane into whatever is set by the given endpoint.
-        pub fn assign_request(&self, ep: Endpoint) {
-            let Endpoint(req, variables) = ep;
-            self.request_url.buffer().set_text(req.url.clone());
-            self.set_request_method(req.method.clone());
+        pub fn assign_request(&self, endpoint: &EndpointData) {
+            self.request_url.buffer().set_text(endpoint.url.clone());
+            self.set_request_method(endpoint.method.clone());
 
-            let headers: Vec<KeyValueItem> = req
+            let headers: Vec<KeyValueItem> = endpoint
                 .headers
                 .iter()
-                .map(|(k, v)| KeyValueItem::new_with_data(k, v))
+                .map(|item| KeyValueItem::from(item.clone()))
                 .collect();
-            let variables: Vec<KeyValueItem> = variables
+            let variables: Vec<KeyValueItem> = endpoint
+                .variables
                 .iter()
-                .map(|(k, v)| KeyValueItem::new_with_data(k, v))
+                .map(|item| KeyValueItem::from(item.clone()))
                 .collect();
             self.header_pane.set_entries(&headers);
             self.variable_pane.set_entries(&variables);
-            let body = String::from_utf8_lossy(&req.body);
+            let body = match &endpoint.body {
+                Some(text) => String::from_utf8_lossy(text).into(),
+                None => String::default(),
+            };
             self.request_body.buffer().set_text(&body);
         }
 
-        fn extract_request(&self) -> Result<Request, CarteroError> {
+        /// Takes the current state of the pane and extracts it into an Endpoint value.
+        pub(super) fn extract_endpoint(&self) -> Result<EndpointData, CarteroError> {
             let header_list = self.header_pane.get_entries();
+            let variable_list = self.variable_pane.get_entries();
 
             let url = String::from(self.request_url.buffer().text());
             let method = self.request_method();
             let headers = header_list
                 .iter()
                 .filter(|pair| pair.is_usable())
-                .map(|pair| {
-                    let value = KeyValueData {
-                        value: pair.header_value(),
-                        active: pair.active(),
-                        secret: pair.secret(),
-                    };
-                    (pair.header_name(), value)
+                .map(|pair| KeyValue {
+                    name: pair.header_name(),
+                    value: pair.header_value(),
+                    active: pair.active(),
+                    secret: pair.secret(),
+                })
+                .collect();
+            let variables = variable_list
+                .iter()
+                .filter(|v| v.is_usable())
+                .map(|pair| KeyValue {
+                    name: pair.header_name(),
+                    value: pair.header_value(),
+                    active: pair.active(),
+                    secret: pair.secret(),
                 })
                 .collect();
 
@@ -293,36 +305,20 @@ mod imp {
                 let text = buffer.text(&start, &end, true);
                 Vec::from(text)
             };
-            Ok(Request::new(url, method, headers, body))
-        }
-
-        fn extract_variables(&self) -> HashMap<String, KeyValueData> {
-            let variables = self.variable_pane.get_entries();
-            variables
-                .iter()
-                .filter(|v| v.is_usable())
-                .map(|pair| {
-                    let value = KeyValueData {
-                        value: pair.header_value(),
-                        active: pair.active(),
-                        secret: pair.secret(),
-                    };
-                    (pair.header_name(), value)
-                })
-                .collect()
-        }
-
-        /// Takes the current state of the pane and extracts it into an Endpoint value.
-        pub(super) fn extract_endpoint(&self) -> Result<Endpoint, CarteroError> {
-            let request = self.extract_request()?;
-            let variables = self.extract_variables();
-            Ok(Endpoint(request, variables))
+            let body = Some(body);
+            Ok(EndpointData {
+                url,
+                method,
+                headers,
+                variables,
+                body,
+            })
         }
 
         /// Executes an HTTP request based on the current contents of the pane.
         pub(super) async fn perform_request(&self) -> Result<(), CarteroError> {
-            let request = self.extract_request()?;
-            let request = request.bind(&self.extract_variables())?;
+            let request = self.extract_endpoint()?;
+            let request = BoundRequest::try_from(request)?;
             let request_obj = isahc::Request::try_from(request)?;
             let mut response_obj = request_obj
                 .send_async()
@@ -350,12 +346,12 @@ impl EndpointPane {
     /// Updates the contents of the widget so that they reflect the endpoint data.
     ///
     /// TODO: Should enable a binding system?
-    pub fn assign_endpoint(&self, endpoint: Endpoint) {
+    pub fn assign_endpoint(&self, endpoint: &EndpointData) {
         let imp = self.imp();
         imp.assign_request(endpoint)
     }
 
-    pub fn extract_endpoint(&self) -> Result<Endpoint, CarteroError> {
+    pub fn extract_endpoint(&self) -> Result<EndpointData, CarteroError> {
         let imp = self.imp();
         imp.extract_endpoint()
     }

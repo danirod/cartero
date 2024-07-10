@@ -25,7 +25,7 @@ use gtk::prelude::*;
 use sourceview5::prelude::BufferExt;
 use sourceview5::LanguageManager;
 
-use crate::entities::{KeyValue, ResponseData};
+use crate::entities::ResponseData;
 use crate::objects::KeyValueItem;
 use glib::subclass::types::ObjectSubclassIsExt;
 
@@ -207,7 +207,7 @@ impl ResponsePanel {
         headers.sort();
         let headers: Vec<KeyValueItem> = headers
             .iter()
-            .map(|KeyValue((name, value))| KeyValueItem::new_with_value(name, value))
+            .map(|kv| KeyValueItem::from(kv.clone()))
             .collect();
 
         let store = ListStore::with_type(KeyValueItem::static_type());

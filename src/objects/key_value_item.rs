@@ -17,7 +17,7 @@
 
 use glib::{object::ObjectExt, Object};
 
-use crate::client::KeyValueData;
+use crate::entities::KeyValue;
 
 mod imp {
     use std::cell::RefCell;
@@ -101,23 +101,6 @@ impl KeyValueItem {
         Self::default()
     }
 
-    pub fn new_with_data(name: &str, value: &KeyValueData) -> Self {
-        let header = Self::new();
-        header.set_header_name(name);
-        header.set_header_value(value.value.clone());
-        header.set_active(value.active);
-        header.set_secret(value.secret);
-        header
-    }
-
-    pub fn new_with_value(name: &str, value: &str) -> Self {
-        let header = Self::new();
-        header.set_header_name(name);
-        header.set_header_value(value);
-        header.set_active(true);
-        header
-    }
-
     // For a header to be actually usable, it must be checked, and also it must have a header name
     // properly set. We could argue that having an empty value is also dumb, but the spec
     // technically allows this.
@@ -129,6 +112,27 @@ impl KeyValueItem {
 impl Default for KeyValueItem {
     fn default() -> Self {
         Object::builder().build()
+    }
+}
+
+impl From<KeyValue> for KeyValueItem {
+    fn from(value: KeyValue) -> Self {
+        let header = Self::new();
+        header.set_header_name(value.name.clone());
+        header.set_header_value(value.value.clone());
+        header.set_active(value.active);
+        header.set_secret(value.secret);
+        header
+    }
+}
+
+impl From<(&str, &str)> for KeyValueItem {
+    fn from(value: (&str, &str)) -> Self {
+        let header = Self::new();
+        header.set_header_name(value.0);
+        header.set_header_value(value.1);
+        header.set_active(true);
+        header
     }
 }
 

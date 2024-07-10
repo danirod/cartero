@@ -15,8 +15,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-mod endpoint;
 mod key_value_item;
 
-pub use endpoint::Endpoint;
 pub use key_value_item::KeyValueItem;

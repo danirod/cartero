@@ -15,9 +15,9 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use crate::entities::ResponseData;
+use crate::entities::{RequestMethod, ResponseData};
 
-use super::{Request, RequestError, RequestMethod};
+use super::{BoundRequest, RequestError};
 use futures_lite::io::AsyncReadExt;
 use isahc::{
     http::{HeaderName, HeaderValue},
@@ -40,20 +40,21 @@ impl From<&RequestMethod> for isahc::http::Method {
     }
 }
 
-impl TryFrom<Request> for isahc::Request<Vec<u8>> {
+impl TryFrom<BoundRequest> for isahc::Request<Vec<u8>> {
     type Error = RequestError;
 
-    fn try_from(req: Request) -> Result<Self, Self::Error> {
+    fn try_from(req: BoundRequest) -> Result<Self, Self::Error> {
         let mut builder = isahc::Request::builder().uri(&req.url).method(&req.method);
         let Some(headers) = builder.headers_mut() else {
             return Err(RequestError::InvalidHeaders);
         };
         for (h, v) in &req.headers {
             let key = HeaderName::from_str(h)?;
-            let value = HeaderValue::from_str(&v.value)?;
+            let value = HeaderValue::from_str(v)?;
             headers.insert(key, value);
         }
-        let req = builder.body(req.body.clone())?;
+        let body = req.body.unwrap_or_default();
+        let req = builder.body(body)?;
         Ok(req)
     }
 }

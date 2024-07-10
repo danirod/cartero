@@ -16,150 +16,55 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use isahc::http::header::{InvalidHeaderName, InvalidHeaderValue};
-use srtemplate::SrTemplate;
 use std::collections::HashMap;
 use thiserror::Error;
 
-use crate::error::CarteroError;
+use crate::{
+    entities::{EndpointData, RequestMethod},
+    error::CarteroError,
+};
 
-#[derive(Debug, Clone, PartialEq)]
-pub enum RequestMethod {
-    Get,
-    Post,
-    Put,
-    Patch,
-    Delete,
-    Options,
-    Head,
-    Trace,
-}
-
-impl TryFrom<&str> for RequestMethod {
-    type Error = RequestError;
-
-    fn try_from(value: &str) -> Result<Self, Self::Error> {
-        match value.to_lowercase().as_str() {
-            "get" => Ok(RequestMethod::Get),
-            "post" => Ok(RequestMethod::Post),
-            "put" => Ok(RequestMethod::Put),
-            "patch" => Ok(RequestMethod::Patch),
-            "delete" => Ok(RequestMethod::Delete),
-            "options" => Ok(RequestMethod::Options),
-            "head" => Ok(RequestMethod::Head),
-            "trace" => Ok(RequestMethod::Trace),
-            _ => Err(RequestError::InvalidHttpVerb),
-        }
-    }
-}
-
-impl From<RequestMethod> for &str {
-    fn from(val: RequestMethod) -> Self {
-        match val {
-            RequestMethod::Get => "GET",
-            RequestMethod::Post => "POST",
-            RequestMethod::Put => "PUT",
-            RequestMethod::Patch => "PATCH",
-            RequestMethod::Delete => "DELETE",
-            RequestMethod::Head => "HEAD",
-            RequestMethod::Options => "OPTIONS",
-            RequestMethod::Trace => "TRACE",
-        }
-    }
-}
-
-impl From<RequestMethod> for String {
-    fn from(value: RequestMethod) -> String {
-        let string: &str = value.into();
-        String::from(string)
-    }
-}
-
-#[derive(Debug, PartialEq, Clone)]
-pub struct KeyValueData {
-    pub value: String,
-    pub active: bool,
-    pub secret: bool,
-}
-
-impl From<&str> for KeyValueData {
-    fn from(value: &str) -> Self {
-        Self {
-            value: String::from(value),
-            active: true,
-            secret: false,
-        }
-    }
-}
-
-#[derive(Debug, Clone)]
-pub struct Request {
+#[derive(Default, Debug, Clone)]
+pub struct BoundRequest {
     pub url: String,
     pub method: RequestMethod,
-    pub headers: HashMap<String, KeyValueData>,
-    pub body: Vec<u8>,
+    pub headers: HashMap<String, String>,
+    pub body: Option<Vec<u8>>,
 }
 
-impl Request {
-    pub fn new(
-        url: String,
-        method: RequestMethod,
-        headers: HashMap<String, KeyValueData>,
-        body: Vec<u8>,
-    ) -> Self {
-        Self {
-            url,
-            method,
-            headers,
-            body,
-        }
-    }
+impl TryFrom<EndpointData> for BoundRequest {
+    type Error = CarteroError;
 
-    pub fn bind(&self, variables: &HashMap<String, KeyValueData>) -> Result<Self, CarteroError> {
-        let variables = variables
+    fn try_from(value: EndpointData) -> Result<Self, Self::Error> {
+        let processor = value.template_processor();
+
+        let url = processor.render(&value.url)?;
+        let method = value.method.clone();
+        let headers: Result<HashMap<String, String>, CarteroError> = value
+            .process_headers()
             .iter()
-            .filter(|(_, data)| data.active)
-            .map(|(k, data)| (String::from(k), data.value.clone()))
+            .map(|(k, v)| {
+                let header_name = processor.render(k)?;
+                let header_value = processor.render(v)?;
+                Ok((header_name, header_value))
+            })
             .collect();
-        let context = self.build_template_processor(&variables);
-        let url = context.render(self.url.clone())?;
-        let headers = self.bind_headers(&context)?;
-        let body = {
-            let string_body = String::from_utf8_lossy(&self.body);
-            let new_body = context.render(string_body)?;
-            Vec::from(new_body)
+        let headers = headers?;
+        let body = match &value.body {
+            Some(content) => {
+                let string = String::from_utf8_lossy(content);
+                let rendered = processor.render(string)?;
+                Some(Vec::from(rendered))
+            }
+            None => None,
         };
 
         Ok(Self {
             url,
-            method: self.method.clone(),
+            method,
             headers,
             body,
         })
-    }
-
-    fn build_template_processor(&self, variables: &HashMap<String, String>) -> SrTemplate {
-        let context = SrTemplate::default();
-        for (name, value) in variables {
-            // TODO: Check that the ownership doesn't break.
-            context.add_variable(name.clone(), &value);
-        }
-        context
-    }
-
-    fn bind_headers(
-        &self,
-        context: &SrTemplate,
-    ) -> Result<HashMap<String, KeyValueData>, CarteroError> {
-        self.headers
-            .iter()
-            .map(|(k, data)| {
-                let header_name = context.render(k)?;
-                let header_value = context.render(&data.value)?;
-                let mut new_value = data.clone();
-                new_value.value = header_value;
-                Ok((header_name, new_value))
-            })
-            .collect()
     }
 }
 
@@ -189,42 +94,44 @@ pub enum RequestError {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use crate::entities::KeyValueTable;
 
-    #[test]
-    pub fn test_convert_str_to_method() {
-        assert!(RequestMethod::try_from("GET").is_ok_and(|x| x == RequestMethod::Get));
-        assert!(RequestMethod::try_from("post").is_ok_and(|x| x == RequestMethod::Post));
-        assert!(RequestMethod::try_from("Patch").is_ok_and(|x| x == RequestMethod::Patch));
-        assert!(RequestMethod::try_from("Juan").is_err());
-    }
+    use super::*;
 
     #[test]
     pub fn test_bind_of_parameters() {
         // Build a request.
         let url = "https://{{API_ROOT}}/v1/books".into();
         let method = RequestMethod::Get;
-        let headers = HashMap::from([
-            ("X-Client-Id".into(), "{{CLIENT_ID}}".into()),
-            ("Authorization".into(), "Bearer {{CLIENT_SECRET}}".into()),
-            ("Accept".into(), "application/html".into()),
-        ]);
-        let body = Vec::new();
-        let rq = Request::new(url, method, headers, body);
+        let headers = vec![
+            ("X-Client-Id", "{{CLIENT_ID}}").into(),
+            ("Authorization", "Bearer {{CLIENT_SECRET}}").into(),
+            ("Accept", "application/html").into(),
+        ];
+        let headers = KeyValueTable::new(&headers);
+        let variables = vec![
+            ("API_ROOT", "api.example.com").into(),
+            ("CLIENT_ID", "123412341234").into(),
+            ("CLIENT_SECRET", "789078907890").into(),
+        ];
+        let variables = KeyValueTable::new(&variables);
+        let body = Some(Vec::from(b"<client_id>{{ CLIENT_ID }}</client_id>"));
+        let endpoint = EndpointData {
+            url,
+            method,
+            headers,
+            variables,
+            body,
+        };
 
         // Bind the request.
-        let variables = HashMap::from([
-            ("API_ROOT".into(), "api.example.com".into()),
-            ("CLIENT_ID".into(), "123412341234".into()),
-            ("CLIENT_SECRET".into(), "789078907890".into()),
-        ]);
-        let bound_rq = rq.bind(&variables).unwrap();
+        let bound = BoundRequest::try_from(endpoint).unwrap();
 
-        assert_eq!(rq.url, "https://{{API_ROOT}}/v1/books");
-        assert_eq!(bound_rq.url, "https://api.example.com/v1/books");
+        assert_eq!(bound.url, "https://api.example.com/v1/books");
+        assert_eq!(bound.headers["Authorization"], "Bearer 789078907890");
         assert_eq!(
-            bound_rq.headers["Authorization"].value,
-            "Bearer 789078907890"
+            bound.body,
+            Some(Vec::from(b"<client_id>123412341234</client_id>"))
         );
     }
 
@@ -234,21 +141,27 @@ mod tests {
         // Build a request.
         let url = "https://{{API_ROOT}}/v1/books".into();
         let method = RequestMethod::Get;
-        let headers = HashMap::from([
-            ("X-Client-Id".into(), "{{CLIENT_ID}}".into()),
-            ("Authorization".into(), "Bearer {{CLIENT_SECRET}}".into()),
-            ("Accept".into(), "application/html".into()),
-        ]);
-        let body = Vec::new();
-        let rq = Request::new(url, method, headers, body);
+        let headers = vec![
+            ("X-Client-Id", "{{CLIENT_ID}}").into(),
+            ("Authorization", "Bearer {{CLIENT_SECRET}}").into(),
+            ("Accept", "application/html").into(),
+        ];
+        let headers = KeyValueTable::new(&headers);
+        let variables = vec![
+            ("API_ROOT", "api.example.com").into(),
+            ("CLIENT_SECRET", "789078907890").into(),
+        ];
+        let variables = KeyValueTable::new(&variables);
+        let body = Some(Vec::new());
+        let endpoint = EndpointData {
+            url,
+            method,
+            headers,
+            variables,
+            body,
+        };
 
         // Bind the request.
-        let variables = HashMap::from([
-            ("API_ROOT".into(), "api.example.com".into()),
-            ("CLIENT_ID".into(), "123412341234".into()),
-        ]);
-
-        // Should panic here.
-        let _ = rq.bind(&variables).unwrap();
+        let _ = BoundRequest::try_from(endpoint).unwrap();
     }
 }

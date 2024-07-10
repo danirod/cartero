@@ -4,9 +4,9 @@ use std::{collections::HashMap, fs::File};
 
 use serde::{Deserialize, Serialize};
 
-use crate::client::{KeyValueData, Request, RequestError, RequestMethod};
+use crate::client::RequestError;
+use crate::entities::{EndpointData, KeyValue, KeyValueTable, RequestMethod};
 use crate::error::CarteroError;
-use crate::objects::Endpoint;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 struct KeyValueDetail {
@@ -38,15 +38,17 @@ impl Default for KeyValuedValue {
     }
 }
 
-impl From<KeyValuedValue> for KeyValueData {
-    fn from(value: KeyValuedValue) -> KeyValueData {
+impl From<KeyValuedValue> for KeyValue {
+    fn from(value: KeyValuedValue) -> KeyValue {
         match value {
-            KeyValuedValue::Simple(str) => KeyValueData {
+            KeyValuedValue::Simple(str) => KeyValue {
+                name: String::default(),
                 value: str.clone(),
                 active: true,
                 secret: false,
             },
-            KeyValuedValue::Complex(kd) => KeyValueData {
+            KeyValuedValue::Complex(kd) => KeyValue {
+                name: String::default(),
                 value: kd.value.clone(),
                 active: kd.active,
                 secret: kd.secret,
@@ -55,8 +57,8 @@ impl From<KeyValuedValue> for KeyValueData {
     }
 }
 
-impl From<KeyValueData> for KeyValuedValue {
-    fn from(value: KeyValueData) -> Self {
+impl From<KeyValue> for KeyValuedValue {
+    fn from(value: KeyValue) -> Self {
         let def = KeyValueDetail::default();
         if value.active == def.active && value.secret == def.secret {
             Self::Simple(value.value)
@@ -80,60 +82,78 @@ struct RequestFile {
     variables: Option<HashMap<String, KeyValuedValue>>,
 }
 
-impl TryFrom<RequestFile> for Request {
+impl TryFrom<RequestFile> for EndpointData {
     type Error = CarteroError;
 
-    fn try_from(value: RequestFile) -> Result<Request, Self::Error> {
+    fn try_from(value: RequestFile) -> Result<EndpointData, Self::Error> {
         if value.version != 1 {
             return Err(CarteroError::OutdatedSchema);
         }
         let Ok(method) = RequestMethod::try_from(value.method.as_str()) else {
             return Err(RequestError::InvalidHttpVerb.into());
         };
-        let body = match value.body {
-            Some(b) => Vec::from(b.as_str()),
-            None => Vec::new(),
-        };
-        let headers = value
+        let body = value.body.map(|b| Vec::from(b.as_str()));
+        let p_headers: KeyValueTable = value
             .headers
             .unwrap_or_default()
             .into_iter()
-            .map(|(k, data)| (k.clone(), KeyValueData::from(data)))
+            .map(|(k, data)| {
+                let mut kv = KeyValue::from(data);
+                kv.name = k;
+                kv
+            })
             .collect();
-        let request = Request {
+        let p_variables: KeyValueTable = value
+            .variables
+            .unwrap_or_default()
+            .into_iter()
+            .map(|(k, data)| {
+                let mut kv = KeyValue::from(data);
+                kv.name = k;
+                kv
+            })
+            .collect();
+
+        let mut headers = p_headers.clone();
+        headers.sort();
+        let mut variables = p_variables.clone();
+        variables.sort();
+
+        let request = EndpointData {
             url: value.url.clone(),
             method,
             body,
+            variables,
             headers,
         };
         Ok(request)
     }
 }
 
-impl From<Endpoint> for RequestFile {
-    fn from(value: Endpoint) -> RequestFile {
-        let Endpoint(request, variables) = value;
+impl From<EndpointData> for RequestFile {
+    fn from(value: EndpointData) -> RequestFile {
+        let method: &str = value.method.into();
+        let body = value
+            .body
+            .map(|body| String::from_utf8_lossy(&body).to_string());
 
-        let method: &str = request.method.into();
-        let body = if request.body.is_empty() {
-            None
-        } else {
-            Some(String::from_utf8_lossy(&request.body.clone()).to_string())
-        };
+        let mut ep_headers = value.headers.clone();
+        ep_headers.sort();
+        let mut ep_variables = value.variables.clone();
+        ep_variables.sort();
 
-        let headers = request
-            .headers
-            .into_iter()
-            .map(|(k, data)| (k.clone(), KeyValuedValue::from(data)))
+        let headers = ep_headers
+            .iter()
+            .map(|kv| (kv.name.clone(), KeyValuedValue::from(kv.clone())))
             .collect();
-        let variables = variables
-            .into_iter()
-            .map(|(k, data)| (k.clone(), KeyValuedValue::from(data)))
+        let variables = ep_variables
+            .iter()
+            .map(|kv| (kv.name.clone(), KeyValuedValue::from(kv.clone())))
             .collect();
 
         RequestFile {
             version: 1,
-            url: request.url.clone(),
+            url: value.url.clone(),
             method: method.to_owned(),
             body,
             headers: Some(headers),
@@ -142,19 +162,13 @@ impl From<Endpoint> for RequestFile {
     }
 }
 
-pub fn parse_toml(file: &str) -> Result<Endpoint, CarteroError> {
+pub fn parse_toml(file: &str) -> Result<EndpointData, CarteroError> {
     let contents = toml::from_str::<RequestFile>(file)?;
-    let variables = contents.variables.clone().unwrap_or(HashMap::new());
-    let request = Request::try_from(contents)?;
-    let variables = variables
-        .into_iter()
-        .map(|(k, d)| (k.clone(), KeyValueData::from(d)))
-        .collect();
-    Ok(Endpoint(request, variables))
+    EndpointData::try_from(contents)
 }
 
-pub fn store_toml(endpoint: Endpoint) -> Result<String, CarteroError> {
-    let file = RequestFile::from(endpoint);
+pub fn store_toml(endpoint: &EndpointData) -> Result<String, CarteroError> {
+    let file = RequestFile::from(endpoint.clone());
     toml::to_string(&file).map_err(|e| e.into())
 }
 
@@ -169,12 +183,7 @@ pub fn write_file(path: &PathBuf, contents: &str) -> std::io::Result<()> {
 
 #[cfg(test)]
 mod tests {
-    use std::collections::HashMap;
-
-    use crate::{
-        client::{Request, RequestMethod},
-        objects::Endpoint,
-    };
+    use crate::entities::{EndpointData, KeyValue, KeyValueTable, RequestMethod};
 
     #[test]
     pub fn test_can_deserialize() {
@@ -189,13 +198,28 @@ Accept = 'text/html'
 Accept-Encoding = 'gzip'
 ";
         let endpoint = super::parse_toml(toml).unwrap();
-        let Endpoint(doc, _) = endpoint;
-        assert_eq!(doc.url, "https://www.google.com");
-        assert_eq!(doc.method, RequestMethod::Get);
-        assert_eq!(doc.body, vec![0x68, 0x65, 0x6c, 0x6c, 0x6f]);
-        assert_eq!(doc.headers.len(), 2);
-        assert_eq!(doc.headers["Accept"].value, "text/html");
-        assert_eq!(doc.headers["Accept-Encoding"].value, "gzip");
+        assert_eq!(endpoint.url, "https://www.google.com");
+        assert_eq!(endpoint.method, RequestMethod::Get);
+        assert_eq!(endpoint.body, Some(Vec::from(b"hello")));
+        assert_eq!(endpoint.headers.len(), 2);
+        assert_eq!(
+            endpoint.headers[0],
+            KeyValue {
+                name: "Accept".into(),
+                value: "text/html".into(),
+                active: true,
+                secret: false
+            }
+        );
+        assert_eq!(
+            endpoint.headers[1],
+            KeyValue {
+                name: "Accept-Encoding".into(),
+                value: "gzip".into(),
+                active: true,
+                secret: false
+            }
+        );
     }
 
     #[test]
@@ -256,10 +280,9 @@ method = 'GET'
 Accept = 'text/html'
 ";
         let endpoint = super::parse_toml(toml).unwrap();
-        let Endpoint(content, _) = endpoint;
-        assert_eq!(content.url, "https://www.google.com");
-        assert_eq!(content.method, RequestMethod::Get);
-        assert_eq!(content.body.len(), 0);
+        assert_eq!(endpoint.url, "https://www.google.com");
+        assert_eq!(endpoint.method, RequestMethod::Get);
+        assert!(endpoint.body.is_none());
     }
 
     #[test]
@@ -271,27 +294,29 @@ method = 'POST'
 body = 'hello'
 ";
         let endpoint = super::parse_toml(toml).unwrap();
-        let Endpoint(content, _) = endpoint;
-        assert_eq!(content.url, "https://www.google.com");
-        assert_eq!(content.method, RequestMethod::Post);
-        assert_eq!(content.body.len(), 5);
-        assert_eq!(content.headers.len(), 0);
+        assert_eq!(endpoint.url, "https://www.google.com");
+        assert_eq!(endpoint.method, RequestMethod::Post);
+        assert_eq!(endpoint.body.unwrap().len(), 5);
+        assert_eq!(endpoint.headers.len(), 0);
     }
 
     #[test]
     pub fn test_serialize_correctly() {
-        let mut headers = HashMap::default();
-        headers.insert("User-Agent".to_string(), "Cartero".into());
-        headers.insert("Host".to_string(), "google.com".into());
-        let body = Vec::from("Hello");
-        let r = Request::new(
-            "https://www.google.com".to_string(),
-            RequestMethod::Post,
+        let headers = vec![
+            ("User-Agent", "Cartero").into(),
+            ("Host", "google.com").into(),
+        ];
+        let headers = KeyValueTable::new(&headers);
+        let body = Some(Vec::from("Hello"));
+        let r = EndpointData {
+            url: "https://www.google.com".to_string(),
+            method: RequestMethod::Post,
             headers,
+            variables: KeyValueTable::default(),
             body,
-        );
+        };
 
-        let content = super::store_toml(Endpoint(r, HashMap::default())).unwrap();
+        let content = super::store_toml(&r).unwrap();
         assert!(content
             .as_str()
             .contains("url = \"https://www.google.com\""));
@@ -302,20 +327,22 @@ body = 'hello'
 
     #[test]
     pub fn test_just_for_fun() {
-        let mut headers = HashMap::default();
-        headers.insert("User-Agent".to_string(), "Cartero".into());
-        headers.insert("Host".to_string(), "google.com".into());
-        let body = Vec::from("Hello");
-        let r = Request::new(
-            "https://www.google.com".to_string(),
-            RequestMethod::Post,
+        let headers = vec![
+            ("Host", "google.com").into(),
+            ("User-Agent", "Cartero").into(),
+        ];
+        let headers = KeyValueTable::new(&headers);
+        let body = Some(Vec::from("Hello"));
+        let r = EndpointData {
+            url: "https://www.google.com".to_string(),
+            method: RequestMethod::Post,
             headers,
+            variables: KeyValueTable::default(),
             body,
-        );
+        };
 
-        let content = super::store_toml(Endpoint(r.clone(), HashMap::default())).unwrap();
+        let content = super::store_toml(&r).unwrap();
         let parsed = super::parse_toml(&content).unwrap();
-        let parsed = parsed.0;
         assert_eq!(r.url, parsed.url);
         assert_eq!(r.method, parsed.method);
         assert_eq!(r.body, parsed.body);

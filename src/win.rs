@@ -162,7 +162,7 @@ mod imp {
                 println!("Saving as {:?}", path);
 
                 let endpoint = endpoint.extract_endpoint()?;
-                let serialized_payload = crate::file::store_toml(endpoint)?;
+                let serialized_payload = crate::file::store_toml(&endpoint)?;
                 crate::file::write_file(&path, &serialized_payload)?;
                 pane.update_title_and_path(&path);
 

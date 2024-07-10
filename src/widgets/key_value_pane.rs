@@ -218,7 +218,7 @@ mod tests {
         let model = &key_value_pane.model();
         assert_eq!(model.n_items(), 0);
 
-        let accept = KeyValueItem::new_with_value("Accept", "application/html");
+        let accept = KeyValueItem::from(("Accept", "application/html"));
         model.append(&accept);
         assert_eq!(model.n_items(), 1);
     }
@@ -227,8 +227,8 @@ mod tests {
     pub fn test_set_model() {
         crate::init_test_resources();
 
-        let ctype = KeyValueItem::new_with_value("Content-Type", "application/json");
-        let clen = KeyValueItem::new_with_value("Content-Length", "42");
+        let ctype = KeyValueItem::from(("Content-Type", "application/json"));
+        let clen = KeyValueItem::from(("Content-Length", "42"));
         let list = ListStore::with_type(KeyValueItem::static_type());
         list.append(&ctype);
         list.append(&clen);
@@ -244,7 +244,7 @@ mod tests {
         crate::init_test_resources();
 
         let key_value_pane = KeyValuePane::default();
-        let accept = KeyValueItem::new_with_value("Accept", "application/html");
+        let accept = KeyValueItem::from(("Accept", "application/html"));
         key_value_pane.model().append(&accept);
 
         let keys: Vec<String> = key_value_pane
@@ -255,8 +255,8 @@ mod tests {
         assert_eq!(keys.len(), 1);
         assert_eq!(keys[0], "Accept");
 
-        let ctype = KeyValueItem::new_with_value("Content-Type", "application/json");
-        let clen = KeyValueItem::new_with_value("Content-Length", "42");
+        let ctype = KeyValueItem::from(("Content-Type", "application/json"));
+        let clen = KeyValueItem::from(("Content-Length", "42"));
         let list = ListStore::with_type(KeyValueItem::static_type());
         list.append(&ctype);
         list.append(&clen);
@@ -276,8 +276,8 @@ mod tests {
     pub fn test_set_model_emits_signal() {
         crate::init_test_resources();
 
-        let ctype = KeyValueItem::new_with_value("Content-Type", "application/json");
-        let clen = KeyValueItem::new_with_value("Content-Length", "42");
+        let ctype = KeyValueItem::from(("Content-Type", "application/json"));
+        let clen = KeyValueItem::from(("Content-Length", "42"));
         let list = ListStore::with_type(KeyValueItem::static_type());
         list.append(&ctype);
         list.append(&clen);
@@ -296,8 +296,10 @@ mod tests {
 
     #[gtk::test]
     pub fn test_model_get_set_entries() {
-        let ctype = KeyValueItem::new_with_value("Content-Type", "application/json");
-        let clen = KeyValueItem::new_with_value("Content-Length", "42");
+        crate::init_test_resources();
+
+        let ctype = KeyValueItem::from(("Content-Type", "application/json"));
+        let clen = KeyValueItem::from(("Content-Length", "42"));
         let slice = &[ctype, clen];
 
         let pane = KeyValuePane::default();

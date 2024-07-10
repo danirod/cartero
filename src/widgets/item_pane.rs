@@ -83,7 +83,7 @@ impl ItemPane {
         if let Some(path) = path {
             let contents = crate::file::read_file(path)?;
             let endpoint = crate::file::parse_toml(&contents)?;
-            child_pane.assign_endpoint(endpoint);
+            child_pane.assign_endpoint(&endpoint);
         }
 
         Ok(pane)

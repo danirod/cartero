@@ -15,10 +15,20 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use std::ops::{Deref, DerefMut};
+use std::{
+    collections::HashMap,
+    ops::{Deref, DerefMut},
+};
+
+use srtemplate::SrTemplate;
 
 #[derive(Debug, Clone, Eq, PartialEq)]
-pub struct KeyValue(pub (String, String));
+pub struct KeyValue {
+    pub name: String,
+    pub value: String,
+    pub active: bool,
+    pub secret: bool,
+}
 
 impl PartialOrd for KeyValue {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
@@ -28,11 +38,9 @@ impl PartialOrd for KeyValue {
 
 impl Ord for KeyValue {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
-        let (this_h, this_v) = &self.0;
-        let (other_h, other_v) = &other.0;
-        let value = this_h.cmp(other_h);
+        let value = self.name.cmp(&other.name);
         if value == std::cmp::Ordering::Equal {
-            this_v.cmp(other_v)
+            self.value.cmp(&other.value)
         } else {
             value
         }
@@ -41,14 +49,25 @@ impl Ord for KeyValue {
 
 impl From<(String, String)> for KeyValue {
     fn from(value: (String, String)) -> Self {
-        KeyValue(value)
+        let (name, value) = value;
+        KeyValue {
+            name,
+            value,
+            active: true,
+            secret: false,
+        }
     }
 }
 
 impl From<(&str, &str)> for KeyValue {
     fn from(value: (&str, &str)) -> Self {
         let (k, v) = value;
-        KeyValue((k.into(), v.into()))
+        KeyValue {
+            name: k.into(),
+            value: v.into(),
+            active: true,
+            secret: false,
+        }
     }
 }
 
@@ -56,14 +75,18 @@ impl From<(&str, &str)> for KeyValue {
 pub struct KeyValueTable(Vec<KeyValue>);
 
 impl KeyValueTable {
+    pub fn new(entries: &[KeyValue]) -> Self {
+        Self(entries.to_vec())
+    }
+
     pub fn header(&self, key: &str) -> Option<Vec<&str>> {
         let compare_key: String = key.to_lowercase();
         let mut headers: Vec<&str> = self
             .0
             .iter()
-            .filter_map(|KeyValue((k, v))| {
-                if k.to_lowercase() == compare_key {
-                    Some(v.as_str())
+            .filter_map(|kv| {
+                if kv.name.to_lowercase() == compare_key {
+                    Some(kv.value.as_str())
                 } else {
                     None
                 }
@@ -101,6 +124,88 @@ where
     }
 }
 
+#[derive(Default, Debug, Clone, Eq, PartialEq)]
+pub enum RequestMethod {
+    #[default]
+    Get,
+    Post,
+    Put,
+    Patch,
+    Delete,
+    Options,
+    Head,
+    Trace,
+}
+
+impl TryFrom<&str> for RequestMethod {
+    type Error = ();
+
+    fn try_from(value: &str) -> Result<Self, Self::Error> {
+        match value.to_lowercase().as_str() {
+            "get" => Ok(RequestMethod::Get),
+            "post" => Ok(RequestMethod::Post),
+            "put" => Ok(RequestMethod::Put),
+            "patch" => Ok(RequestMethod::Patch),
+            "delete" => Ok(RequestMethod::Delete),
+            "options" => Ok(RequestMethod::Options),
+            "head" => Ok(RequestMethod::Head),
+            "trace" => Ok(RequestMethod::Trace),
+            _ => Err(()),
+        }
+    }
+}
+
+impl From<RequestMethod> for &str {
+    fn from(val: RequestMethod) -> Self {
+        match val {
+            RequestMethod::Get => "GET",
+            RequestMethod::Post => "POST",
+            RequestMethod::Put => "PUT",
+            RequestMethod::Patch => "PATCH",
+            RequestMethod::Delete => "DELETE",
+            RequestMethod::Head => "HEAD",
+            RequestMethod::Options => "OPTIONS",
+            RequestMethod::Trace => "TRACE",
+        }
+    }
+}
+
+impl From<RequestMethod> for String {
+    fn from(value: RequestMethod) -> String {
+        let string: &str = value.into();
+        String::from(string)
+    }
+}
+
+#[derive(Debug, Default, Clone, Eq, PartialEq)]
+pub struct EndpointData {
+    pub url: String,
+    pub method: RequestMethod,
+    pub headers: KeyValueTable,
+    pub variables: KeyValueTable,
+    pub body: Option<Vec<u8>>,
+}
+
+impl EndpointData {
+    pub fn template_processor(&self) -> SrTemplate {
+        let context = SrTemplate::default();
+        for item in self.variables.iter() {
+            context.add_variable(item.name.clone(), &item.value);
+        }
+        context
+    }
+
+    pub fn process_headers(&self) -> HashMap<String, String> {
+        let mut headers = HashMap::new();
+        for item in self.headers.iter() {
+            if item.active {
+                headers.insert(item.name.clone(), item.value.clone());
+            }
+        }
+        headers
+    }
+}
+
 #[derive(Debug, Clone, Eq, PartialEq)]
 pub struct ResponseData {
     pub status_code: u32,
@@ -118,7 +223,17 @@ impl ResponseData {
 
 #[cfg(test)]
 mod tests {
+    use crate::entities::RequestMethod;
+
     use super::KeyValueTable;
+
+    #[test]
+    pub fn test_convert_str_to_method() {
+        assert!(RequestMethod::try_from("GET").is_ok_and(|x| x == RequestMethod::Get));
+        assert!(RequestMethod::try_from("post").is_ok_and(|x| x == RequestMethod::Post));
+        assert!(RequestMethod::try_from("Patch").is_ok_and(|x| x == RequestMethod::Patch));
+        assert!(RequestMethod::try_from("Juan").is_err());
+    }
 
     #[test]
     fn test_key_value_table_header() {

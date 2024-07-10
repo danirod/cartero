@@ -28,6 +28,8 @@ mod imp {
     use gtk::subclass::prelude::*;
     use gtk::{prelude::*, CompositeTemplate};
 
+    use crate::entities::KeyValue;
+    use crate::entities::KeyValueTable;
     use crate::widgets::{BasePayloadPane, BasePayloadPaneImpl, KeyValuePane};
 
     #[derive(Default, Properties, CompositeTemplate)]
@@ -39,6 +41,12 @@ mod imp {
 
         #[property(get = Self::payload, set = Self::set_payload, nullable, type = Option<glib::Bytes>)]
         _payload: RefCell<Option<glib::Bytes>>,
+
+        #[property(get = Self::headers, type = KeyValueTable)]
+        _headers: RefCell<KeyValueTable>,
+
+        #[property(get, set)]
+        boundary: RefCell<String>,
     }
 
     #[glib::object_subclass]
@@ -61,6 +69,10 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
             self.data.assert_always_placeholder();
+
+            let boundary = formdata::generate_boundary();
+            let boundary = String::from_utf8_lossy(&boundary).to_string();
+            self.boundary.set(boundary);
         }
     }
 
@@ -82,7 +94,8 @@ mod imp {
                 fields: variables,
                 files: vec![],
             };
-            let boundary = Vec::from(b"--HOLA_MUNDO--");
+            let boundary = self.boundary.borrow();
+            let boundary = Vec::from(boundary.as_bytes());
             let mut stream = BufWriter::new(Vec::new());
             let _ = formdata::write_formdata(&mut stream, &boundary, &data);
 
@@ -94,6 +107,13 @@ mod imp {
 
         pub fn set_payload(&self, _: Option<&glib::Bytes>) {
             // NOOP
+        }
+
+        pub fn headers(&self) -> KeyValueTable {
+            let boundary = self.boundary.borrow();
+            let content_type = format!("multipart/form-data; boundary={boundary}");
+            let content_type = KeyValue::from(("Content-Type", content_type.as_str()));
+            KeyValueTable::new(&[content_type])
         }
     }
 }

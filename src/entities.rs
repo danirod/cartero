@@ -66,7 +66,8 @@ impl From<(&str, &str)> for KeyValue {
     }
 }
 
-#[derive(Debug, Clone, Default, Eq, PartialEq)]
+#[derive(Debug, Clone, Default, Eq, PartialEq, glib::Boxed)]
+#[boxed_type(name = "GKeyValueTable")]
 pub struct KeyValueTable(Vec<KeyValue>);
 
 impl KeyValueTable {

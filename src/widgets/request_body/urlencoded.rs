@@ -25,6 +25,7 @@ mod imp {
     use gtk::subclass::prelude::*;
     use gtk::{prelude::*, CompositeTemplate};
 
+    use crate::entities::{KeyValue, KeyValueTable};
     use crate::widgets::{BasePayloadPane, BasePayloadPaneImpl, KeyValuePane};
 
     #[derive(Default, Properties, CompositeTemplate)]
@@ -36,6 +37,9 @@ mod imp {
 
         #[property(get = Self::payload, set = Self::set_payload, nullable, type = Option<glib::Bytes>)]
         _payload: RefCell<Option<glib::Bytes>>,
+
+        #[property(get = Self::headers, type = KeyValueTable)]
+        _headers: RefCell<KeyValueTable>,
     }
 
     #[glib::object_subclass]
@@ -66,6 +70,11 @@ mod imp {
     impl BasePayloadPaneImpl for UrlencodedPayloadPane {}
 
     impl UrlencodedPayloadPane {
+        pub fn headers(&self) -> KeyValueTable {
+            let row = KeyValue::from(("Content-Type", "application/x-www-form-urlencoded"));
+            KeyValueTable::new(&[row])
+        }
+
         pub fn payload(&self) -> Option<glib::Bytes> {
             let entries = self.data.get_entries();
             let variables: Vec<(String, String)> = entries

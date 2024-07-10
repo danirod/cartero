@@ -25,13 +25,19 @@ mod imp {
     use gtk::prelude::*;
     use gtk::subclass::prelude::*;
 
-    use crate::widgets::{BasePayloadPane, BasePayloadPaneImpl};
+    use crate::{
+        entities::KeyValueTable,
+        widgets::{BasePayloadPane, BasePayloadPaneImpl},
+    };
 
     #[derive(Default, Properties)]
     #[properties(wrapper_type = super::NonePayloadPane)]
     pub struct NonePayloadPane {
         #[property(get = Self::payload, set = Self::set_payload, nullable, type = Option<glib::Bytes>)]
         _payload: RefCell<Option<glib::Bytes>>,
+
+        #[property(get = Self::headers, type = KeyValueTable)]
+        _headers: RefCell<KeyValueTable>,
     }
 
     #[glib::object_subclass]
@@ -51,6 +57,10 @@ mod imp {
     impl BasePayloadPaneImpl for NonePayloadPane {}
 
     impl NonePayloadPane {
+        fn headers(&self) -> KeyValueTable {
+            KeyValueTable::default()
+        }
+
         fn payload(&self) -> Option<glib::Bytes> {
             None
         }

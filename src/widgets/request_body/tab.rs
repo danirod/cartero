@@ -19,6 +19,8 @@ use std::sync::OnceLock;
 
 use gtk::subclass::prelude::*;
 
+use crate::entities::KeyValueTable;
+
 #[derive(Debug, Copy, Clone, Default, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "CarteroPayloadType")]
 pub enum PayloadType {
@@ -171,5 +173,12 @@ impl PayloadTab {
     pub fn payload(&self) -> Option<glib::Bytes> {
         let imp = self.imp();
         imp.current_child().and_then(|child| child.payload())
+    }
+
+    pub fn get_headers(&self) -> KeyValueTable {
+        let imp = self.imp();
+        imp.current_child()
+            .map(|child| child.headers())
+            .unwrap_or_default()
     }
 }

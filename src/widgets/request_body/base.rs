@@ -27,11 +27,16 @@ mod imp {
     use gtk::subclass::widget::WidgetImpl;
     use std::cell::RefCell;
 
+    use crate::entities::KeyValueTable;
+
     #[derive(Default, Properties)]
     #[properties(wrapper_type = super::BasePayloadPane)]
     pub struct BasePayloadPane {
         #[property(get, set, nullable, type = Option<glib::Bytes>)]
         _payload: RefCell<Option<glib::Bytes>>,
+
+        #[property(get, type = KeyValueTable)]
+        _headers: RefCell<KeyValueTable>,
     }
 
     #[glib::object_subclass]

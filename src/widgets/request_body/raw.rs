@@ -28,6 +28,7 @@ mod imp {
     use sourceview5::{Buffer, StyleSchemeManager, View};
 
     use crate::app::CarteroApplication;
+    use crate::entities::{KeyValue, KeyValueTable};
     use crate::widgets::{BasePayloadPane, BasePayloadPaneImpl, PayloadType};
 
     #[derive(Default, CompositeTemplate, Properties)]
@@ -45,6 +46,9 @@ mod imp {
 
         #[property(get = Self::format, set = Self::set_format, builder(PayloadType::default()))]
         _format: RefCell<PayloadType>,
+
+        #[property(get = Self::headers, type = KeyValueTable)]
+        _headers: RefCell<KeyValueTable>,
     }
 
     #[glib::object_subclass]
@@ -96,6 +100,17 @@ mod imp {
                     self.buffer.set_text("");
                 }
             }
+        }
+
+        fn headers(&self) -> KeyValueTable {
+            let format = self.format();
+            let content_type = match format {
+                PayloadType::Json => "application/json",
+                PayloadType::Xml => "application/xml",
+                _ => "application/octet-stream",
+            };
+            let header = KeyValue::from(("Content-Type", content_type));
+            KeyValueTable::new(&[header])
         }
 
         fn format(&self) -> PayloadType {

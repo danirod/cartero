@@ -62,6 +62,7 @@ fn init_locale() {
     let localedir = app_rel_path("share/locale");
     gettextrs::setlocale(LocaleCategory::LcAll, "");
     gettextrs::bindtextdomain(GETTEXT_PACKAGE, localedir).expect("Unable to bind the text domain");
+    gettextrs::bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8").unwrap();
     gettextrs::textdomain(GETTEXT_PACKAGE).expect("Unable to switch to the text domain");
 }
 
@@ -80,6 +81,11 @@ fn main() -> glib::ExitCode {
     init_locale();
     init_glib();
     init_gio_resources();
+
+    #[cfg(windows)]
+    {
+        std::env::set_var("GSK_RENDERER", "cairo");
+    }
 
     let app = CarteroApplication::new();
     app.run()

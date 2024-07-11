@@ -17,6 +17,7 @@
 
 use adw::prelude::*;
 use adw::AboutWindow;
+use gettextrs::gettext;
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
 use gtk::gio::{self, ActionEntryBuilder, Settings};
@@ -125,8 +126,8 @@ impl CarteroApplication {
                     .website("https://github.com/danirod/cartero")
                     .issue_url("https://github.com/danirod/cartero/issues")
                     .support_url("https://github.com/danirod/cartero/discussions")
-                    .developer_name("The Cartero authors")
-                    .copyright("© 2024 the Cartero authors")
+                    .developer_name(gettext("The Cartero authors"))
+                    .copyright(gettext("© 2024 the Cartero authors"))
                     .license_type(gtk::License::Gpl30)
                     .build();
                 about.present();

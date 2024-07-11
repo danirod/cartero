@@ -18,6 +18,7 @@
 use std::path::{Path, PathBuf};
 
 use adw::prelude::*;
+use gettextrs::gettext;
 use glib::Object;
 
 use crate::error::CarteroError;
@@ -74,7 +75,9 @@ impl ItemPane {
                     .property("path", Some(path.clone()))
                     .build()
             }
-            None => Object::builder().property("title", "(untitled)").build(),
+            None => Object::builder()
+                .property("title", gettext("(untitled)"))
+                .build(),
         };
 
         let child_pane = EndpointPane::default();

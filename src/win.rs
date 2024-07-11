@@ -27,6 +27,7 @@ mod imp {
     use std::path::{Path, PathBuf};
 
     use adw::{subclass::prelude::*, TabPage};
+    use gettextrs::gettext;
     use gtk::gio::ActionEntry;
     use gtk::prelude::*;
 
@@ -168,7 +169,7 @@ mod imp {
 
                 self.window_title.set_title(&pane.title());
                 self.window_title
-                    .set_subtitle(&pane.path().unwrap_or("Draft".into()));
+                    .set_subtitle(&pane.path().unwrap_or(gettext("Draft")));
             }
 
             Ok(())
@@ -210,7 +211,7 @@ mod imp {
                     if let Some(page) = tabview.selected_page() {
                         let item_pane = page.child().downcast::<ItemPane>().unwrap();
                         window.window_title.set_title(&item_pane.title());
-                        window.window_title.set_subtitle(&item_pane.path().unwrap_or("Draft".into()));
+                        window.window_title.set_subtitle(&item_pane.path().unwrap_or(gettext("Draft")));
                     }
                 }),
             );

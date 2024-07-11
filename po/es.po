@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-06-22 13:39+0200\n"
+"POT-Creation-Date: 2024-07-12 00:13+0200\n"
 "PO-Revision-Date: 2024-06-22 13:16+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -31,97 +31,179 @@ msgid "Gnome;GTK;HTTP;REST;"
 msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:6
+msgid "Automatically indent new lines for the request body"
+msgstr "Indentar automáticamente nuevas líneas el cuerpo de la petición"
+
+#: data/es.danirod.Cartero.gschema.xml:10
 msgid "Wrap the body content"
 msgstr "Saltos de línea en el cuerpo"
 
-#: data/es.danirod.Cartero.gschema.xml:10
+#: data/es.danirod.Cartero.gschema.xml:14
+msgid "Whether to indent the request body with spaces or tabs"
+msgstr "Indentar el cuerpo de la petición con espacios o con tabuladores"
+
+#: data/es.danirod.Cartero.gschema.xml:18
+msgid "Show line numbers in the request and response bodies"
+msgstr "Mostrar los números de línea en los cuerpos de petición y respuesta"
+
+#: data/es.danirod.Cartero.gschema.xml:22
+msgid "How many characters to pad when indenting the request body"
+msgstr "Cuántos caracteres usar al indentar el cuerpo de la petición"
+
+#: data/es.danirod.Cartero.gschema.xml:27
 msgid "How large should new windows be"
 msgstr "Cómo de largas deben ser las ventanas nuevas"
 
-#: data/es.danirod.Cartero.gschema.xml:14
+#: data/es.danirod.Cartero.gschema.xml:31
 msgid "How tall should new windows be"
 msgstr "Cómo de altas deben ser las ventanas nuevas"
 
-#: data/ui/endpoint_pane.blp:50
-msgid "Close"
-msgstr "Cerrar"
+#: data/es.danirod.Cartero.gschema.xml:35
+msgid "The position of the split between two windows"
+msgstr "La posición del separador entre ambas ventanas"
 
-#: data/ui/endpoint_pane.blp:71
+#: data/ui/endpoint_pane.blp:56
 msgid "Request method"
 msgstr "Método de petición"
 
-#: data/ui/endpoint_pane.blp:77
+#: data/ui/endpoint_pane.blp:62
 msgid "Request URL"
 msgstr "URL de petición"
 
-#: data/ui/endpoint_pane.blp:83
+#: data/ui/endpoint_pane.blp:72
 msgid "Send"
 msgstr "Enviar"
 
-#: data/ui/endpoint_pane.blp:84
+#: data/ui/endpoint_pane.blp:73
 msgid "Execute this HTTP request"
 msgstr "Ejecutar esta petición HTTP"
 
-#: data/ui/endpoint_pane.blp:108 data/ui/response_panel.blp:13
+#: data/ui/endpoint_pane.blp:106 data/ui/response_panel.blp:33
 msgid "Headers"
 msgstr "Cabeceras"
 
-#: data/ui/endpoint_pane.blp:121
+#: data/ui/endpoint_pane.blp:127
 msgid "Variables"
 msgstr "Variables"
 
-#: data/ui/endpoint_pane.blp:134 data/ui/response_panel.blp:24
+#: data/ui/endpoint_pane.blp:148 data/ui/response_panel.blp:54
 msgid "Body"
 msgstr "Cuerpo"
 
-#: data/ui/key_value_pane.blp:33
-msgid "Add new header"
-msgstr "Agregar cabecera"
-
-#: data/ui/key_value_row.blp:34
+#: data/ui/key_value_row.blp:40
 msgid "Name"
 msgstr "Nombre"
 
-#: data/ui/key_value_row.blp:40
+#: data/ui/key_value_row.blp:50
 msgid "Value"
 msgstr "Valor"
 
-#: data/ui/key_value_row.blp:51
+#: data/ui/key_value_row.blp:61
 msgid "Actions"
 msgstr "Acciones"
 
-#: data/ui/key_value_row.blp:62
+#: data/ui/key_value_row.blp:74
 msgid "Toggle secret"
 msgstr "Alternar secreto"
 
-#: data/ui/key_value_row.blp:69
+#: data/ui/key_value_row.blp:81
 msgid "Delete"
 msgstr "Borrar"
 
-#: data/ui/main_window.blp:36
+#: data/ui/main_window.blp:40
 msgid "New"
 msgstr "Nuevo"
 
-#: data/ui/main_window.blp:47 data/ui/main_window.blp:58
+#: data/ui/main_window.blp:51 data/ui/main_window.blp:62
+#: src/widgets/file_dialogs.rs:44
 msgid "Open"
 msgstr "Abrir"
 
-#: data/ui/main_window.blp:66
+#: data/ui/main_window.blp:70 src/widgets/file_dialogs.rs:58
 msgid "Save"
 msgstr "Guardar"
 
-#: data/ui/main_window.blp:89
-msgid "Wrap bodies"
-msgstr "Ajustar línea del cuerpo"
+#: data/ui/main_window.blp:95
+msgid "Body appearance"
+msgstr "Apariencia del cuerpo"
 
-#: data/ui/main_window.blp:96
+#: data/ui/main_window.blp:99
+#, fuzzy
+msgid "Wrap content"
+msgstr "Saltos de línea en el cuerpo"
+
+#: data/ui/main_window.blp:104
+msgid "Show line numbers"
+msgstr "Mostrar números de línea"
+
+#: data/ui/main_window.blp:111
+msgid "Automatic indentation"
+msgstr "Indentar automáticamente"
+
+#: data/ui/main_window.blp:116
+msgid "Indent with spaces"
+msgstr "Indentar con espacios"
+
+#: data/ui/main_window.blp:122
+msgid "Indent with tabs"
+msgstr "Indentar con tabuladores"
+
+#: data/ui/main_window.blp:128
+msgid "Spaces per tab"
+msgstr "Espacios por tabulador"
+
+#: data/ui/main_window.blp:131
+msgid "2"
+msgstr "2"
+
+#: data/ui/main_window.blp:137
+msgid "4"
+msgstr "4"
+
+#: data/ui/main_window.blp:143
+msgid "8"
+msgstr "8"
+
+#: data/ui/main_window.blp:154
 msgid "About Cartero"
 msgstr "Acerca de Cartero"
 
-#: src/app.rs:126
-msgid "The Cartero authors"
-msgstr ""
+#: src/widgets/file_dialogs.rs:40
+msgid "Open request"
+msgstr "Abrir petición"
 
-#: src/app.rs:127
+#: src/widgets/file_dialogs.rs:45 src/widgets/file_dialogs.rs:59
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: src/widgets/file_dialogs.rs:54
+msgid "Save request"
+msgstr "Guardar petición"
+
+#: src/widgets/item_pane.rs:78
+msgid "(untitled)"
+msgstr "(sin título)"
+
+#: src/app.rs:129
+msgid "The Cartero authors"
+msgstr "Los autores de Cartero"
+
+#: src/app.rs:130
 msgid "© 2024 the Cartero authors"
-msgstr ""
+msgstr "© 2024 los autores de Cartero"
+
+#: src/win.rs:172 src/win.rs:214
+msgid "Draft"
+msgstr "Borrador"
+
+#~ msgid "Accept"
+#~ msgstr "Aceptar"
+
+#~ msgid "Close"
+#~ msgstr "Cerrar"
+
+#~ msgid "Add new header"
+#~ msgstr "Agregar cabecera"
+
+#~ msgid "Wrap bodies"
+#~ msgstr "Ajustar línea del cuerpo"

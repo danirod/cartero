@@ -7,3 +7,8 @@ data/ui/key_value_pane.blp
 data/ui/key_value_row.blp
 data/ui/main_window.blp
 data/ui/response_panel.blp
+
+src/widgets/file_dialogs.rs
+src/widgets/item_pane.rs
+src/app.rs
+src/win.rs

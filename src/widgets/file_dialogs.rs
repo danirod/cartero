@@ -1,3 +1,4 @@
+use gettextrs::gettext;
 #[allow(deprecated)]
 use gtk::{
     prelude::FileChooserExt,
@@ -36,12 +37,12 @@ async fn handle_dialog_path(dialog: FileChooserDialog) -> Result<Option<PathBuf>
 #[allow(deprecated)]
 pub async fn open_file(win: &CarteroWindow) -> Result<Option<PathBuf>, CarteroError> {
     let dialog = FileChooserDialog::new(
-        Some("Open request"),
+        Some(gettext("Open request")),
         Some(win),
         FileChooserAction::Open,
         &[
-            ("Accept", ResponseType::Accept),
-            ("Cancel", ResponseType::Cancel),
+            (&gettext("Open"), ResponseType::Accept),
+            (&gettext("Cancel"), ResponseType::Cancel),
         ],
     );
     handle_dialog_path(dialog).await
@@ -50,12 +51,12 @@ pub async fn open_file(win: &CarteroWindow) -> Result<Option<PathBuf>, CarteroEr
 #[allow(deprecated)]
 pub async fn save_file(win: &CarteroWindow) -> Result<Option<PathBuf>, CarteroError> {
     let dialog = FileChooserDialog::new(
-        Some("Save request"),
+        Some(gettext("Save request")),
         Some(win),
         FileChooserAction::Save,
         &[
-            ("Save", ResponseType::Accept),
-            ("Cancel", ResponseType::Cancel),
+            (&gettext("Save"), ResponseType::Accept),
+            (&gettext("Cancel"), ResponseType::Cancel),
         ],
     );
     handle_dialog_path(dialog).await

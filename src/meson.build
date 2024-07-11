@@ -36,7 +36,7 @@ run_command(
 cargo_options = [ '--manifest-path', meson.project_source_root() / 'Cargo.toml' ]
 cargo_options += [ '--target-dir', meson.project_build_root() / 'src' ]
 
-if get_option('profile') == 'default'
+if get_option('profile') == 'default' or host_machine.system() == 'windows'
   cargo_options += [ '--release' ]
   rust_target = 'release'
   message('Building in release mode')

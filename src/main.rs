@@ -41,6 +41,16 @@ fn app_rel_path(dir: &str) -> PathBuf {
     let root_dir = std::env::current_exe()
         .map(|p| p.parent().unwrap().parent().unwrap().to_path_buf())
         .unwrap();
+    #[cfg(target_os = "macos")]
+    let root_dir = {
+        // Still don't hardcode the Resources directory so that build-aux/cargo-build.sh still works on macOS.
+        let resources_dir = root_dir.join("Resources");
+        if resources_dir.exists() && resources_dir.is_dir() {
+            resources_dir
+        } else {
+            root_dir
+        }
+    };
     root_dir.join(dir)
 }
 

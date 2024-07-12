@@ -32,6 +32,13 @@ enum KeyValuedValue {
     Complex(KeyValueDetail),
 }
 
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+enum KeyValuedValueContainer {
+    Unique(KeyValuedValue),
+    Multiple(Vec<KeyValuedValue>),
+}
+
 impl Default for KeyValuedValue {
     fn default() -> Self {
         Self::Simple(String::default())
@@ -72,14 +79,63 @@ impl From<KeyValue> for KeyValuedValue {
     }
 }
 
+impl From<Vec<KeyValue>> for KeyValuedValueContainer {
+    fn from(value: Vec<KeyValue>) -> Self {
+        if value.len() == 1 {
+            KeyValuedValueContainer::Unique(value[0].clone().into())
+        } else {
+            let multiple: Vec<KeyValuedValue> =
+                value.into_iter().map(KeyValuedValue::from).collect();
+            KeyValuedValueContainer::Multiple(multiple)
+        }
+    }
+}
+
+fn extract_kv_entry(value: KeyValuedValue, key: &str) -> KeyValue {
+    let mut value = KeyValue::from(value);
+    value.name = key.into();
+    value
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug, Default)]
+pub struct KeyValuedFileTable(HashMap<String, KeyValuedValueContainer>);
+
+impl From<KeyValuedFileTable> for KeyValueTable {
+    fn from(value: KeyValuedFileTable) -> Self {
+        let vector: Vec<KeyValue> = value
+            .0
+            .into_iter()
+            .flat_map(|(header, values)| match values {
+                KeyValuedValueContainer::Unique(x) => vec![extract_kv_entry(x, &header)],
+                KeyValuedValueContainer::Multiple(mult) => mult
+                    .into_iter()
+                    .map(|v| extract_kv_entry(v, &header))
+                    .collect(),
+            })
+            .collect();
+        KeyValueTable::new(&vector)
+    }
+}
+
+impl From<KeyValueTable> for KeyValuedFileTable {
+    fn from(value: KeyValueTable) -> Self {
+        let group = value.group_by();
+        let inner = group
+            .into_iter()
+            .map(|(key, vector)| (key, vector.into()))
+            .collect();
+        Self(inner)
+    }
+}
+
 #[derive(Deserialize, Serialize)]
 struct RequestFile {
     version: usize,
     url: String,
     method: String,
     body: Option<String>,
-    headers: Option<HashMap<String, KeyValuedValue>>,
-    variables: Option<HashMap<String, KeyValuedValue>>,
+    headers: Option<KeyValuedFileTable>,
+    variables: Option<KeyValuedFileTable>,
 }
 
 impl TryFrom<RequestFile> for EndpointData {
@@ -93,31 +149,8 @@ impl TryFrom<RequestFile> for EndpointData {
             return Err(RequestError::InvalidHttpVerb.into());
         };
         let body = value.body.map(|b| Vec::from(b.as_str()));
-        let p_headers: KeyValueTable = value
-            .headers
-            .unwrap_or_default()
-            .into_iter()
-            .map(|(k, data)| {
-                let mut kv = KeyValue::from(data);
-                kv.name = k;
-                kv
-            })
-            .collect();
-        let p_variables: KeyValueTable = value
-            .variables
-            .unwrap_or_default()
-            .into_iter()
-            .map(|(k, data)| {
-                let mut kv = KeyValue::from(data);
-                kv.name = k;
-                kv
-            })
-            .collect();
-
-        let mut headers = p_headers.clone();
-        headers.sort();
-        let mut variables = p_variables.clone();
-        variables.sort();
+        let headers = value.headers.unwrap_or_default().into();
+        let variables = value.variables.unwrap_or_default().into();
 
         let request = EndpointData {
             url: value.url.clone(),
@@ -136,21 +169,8 @@ impl From<EndpointData> for RequestFile {
         let body = value
             .body
             .map(|body| String::from_utf8_lossy(&body).to_string());
-
-        let mut ep_headers = value.headers.clone();
-        ep_headers.sort();
-        let mut ep_variables = value.variables.clone();
-        ep_variables.sort();
-
-        let headers = ep_headers
-            .iter()
-            .map(|kv| (kv.name.clone(), KeyValuedValue::from(kv.clone())))
-            .collect();
-        let variables = ep_variables
-            .iter()
-            .map(|kv| (kv.name.clone(), KeyValuedValue::from(kv.clone())))
-            .collect();
-
+        let headers = value.headers.into();
+        let variables = value.variables.into();
         RequestFile {
             version: 1,
             url: value.url.clone(),
@@ -202,23 +222,25 @@ Accept-Encoding = 'gzip'
         assert_eq!(endpoint.method, RequestMethod::Get);
         assert_eq!(endpoint.body, Some(Vec::from(b"hello")));
         assert_eq!(endpoint.headers.len(), 2);
+
+        let mut given_headers = endpoint.headers.clone();
+        given_headers.sort();
         assert_eq!(
-            endpoint.headers[0],
-            KeyValue {
-                name: "Accept".into(),
-                value: "text/html".into(),
-                active: true,
-                secret: false
-            }
-        );
-        assert_eq!(
-            endpoint.headers[1],
-            KeyValue {
-                name: "Accept-Encoding".into(),
-                value: "gzip".into(),
-                active: true,
-                secret: false
-            }
+            given_headers,
+            KeyValueTable::new(&vec![
+                KeyValue {
+                    name: "Accept".into(),
+                    value: "text/html".into(),
+                    active: true,
+                    secret: false
+                },
+                KeyValue {
+                    name: "Accept-Encoding".into(),
+                    value: "gzip".into(),
+                    active: true,
+                    secret: false
+                },
+            ]),
         );
     }
 
@@ -286,6 +308,61 @@ Accept = 'text/html'
     }
 
     #[test]
+    pub fn test_multiple_headers_serialization() {
+        let headers = vec![
+            ("Host", "google.com").into(),
+            ("User-Agent", "Cartero").into(),
+            ("User-Agent", "Cartero/0.1").into(),
+        ];
+        let headers = KeyValueTable::new(&headers);
+        let body = Some(Vec::from("Hello"));
+        let r = EndpointData {
+            url: "https://www.google.com".to_string(),
+            method: RequestMethod::Post,
+            headers,
+            variables: KeyValueTable::default(),
+            body,
+        };
+
+        let content = super::store_toml(&r).unwrap();
+        let content = content.as_str();
+        assert!(content.contains("url = \"https://www.google.com\""));
+        assert!(content.contains("Host = \"google.com\""));
+        assert!(content.contains("User-Agent = ["));
+    }
+
+    #[test]
+    pub fn test_multiple_headers_serialization_with_meta() {
+        let headers = vec![
+            ("Host", "google.com").into(),
+            ("User-Agent", "Cartero").into(),
+            KeyValue {
+                name: "User-Agent".into(),
+                value: "Cartero/devel".into(),
+                active: false,
+                secret: false,
+            },
+            ("User-Agent", "Cartero/0.1").into(),
+        ];
+        let headers = KeyValueTable::new(&headers);
+        let body = Some(Vec::from("Hello"));
+        let r = EndpointData {
+            url: "https://www.google.com".to_string(),
+            method: RequestMethod::Post,
+            headers,
+            variables: KeyValueTable::default(),
+            body,
+        };
+
+        let content = super::store_toml(&r).unwrap();
+        let content = content.as_str();
+        assert!(content.contains("url = \"https://www.google.com\""));
+        assert!(content.contains("Host = \"google.com\""));
+        assert!(content.contains("User-Agent = ["));
+        assert!(content.contains("active = false"));
+    }
+
+    #[test]
     pub fn test_empty_headers() {
         let toml = "
 version = 1
@@ -346,6 +423,11 @@ body = 'hello'
         assert_eq!(r.url, parsed.url);
         assert_eq!(r.method, parsed.method);
         assert_eq!(r.body, parsed.body);
-        assert_eq!(r.headers, parsed.headers);
+
+        let mut r_headers = r.headers.clone();
+        r_headers.sort();
+        let mut p_headers = parsed.headers.clone();
+        p_headers.sort();
+        assert_eq!(r_headers, p_headers);
     }
 }

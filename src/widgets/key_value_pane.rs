@@ -190,7 +190,10 @@ impl KeyValuePane {
     pub fn get_entries(&self) -> Vec<KeyValueItem> {
         let model = &self.model();
         let iter = model.iter::<KeyValueItem>();
-        iter.filter(|value| value.is_ok()).flatten().collect()
+        iter.filter(|value| value.is_ok())
+            .flatten()
+            .filter(|value| !value.header_name().is_empty() && !value.header_value().is_empty())
+            .collect()
     }
 
     pub fn set_entries(&self, entries: &[KeyValueItem]) {
@@ -316,7 +319,7 @@ mod tests {
         assert_eq!("Content-Length", keys[1]);
 
         let entries = pane.get_entries();
-        assert_eq!(3, entries.len());
+        assert_eq!(2, entries.len());
         assert_eq!("Content-Type", entries[0].header_name());
         assert_eq!("Content-Length", entries[1].header_name());
     }

@@ -79,6 +79,17 @@ impl KeyValueTable {
         Self(entries.to_vec())
     }
 
+    pub fn group_by(&self) -> HashMap<String, Vec<KeyValue>> {
+        let mut hash_map: HashMap<String, Vec<KeyValue>> = HashMap::new();
+        for row in &self.0 {
+            hash_map
+                .entry(row.name.clone())
+                .or_default()
+                .push(row.clone());
+        }
+        hash_map
+    }
+
     pub fn header(&self, key: &str) -> Option<Vec<&str>> {
         let compare_key: String = key.to_lowercase();
         let mut headers: Vec<&str> = self
@@ -223,7 +234,7 @@ impl ResponseData {
 
 #[cfg(test)]
 mod tests {
-    use crate::entities::RequestMethod;
+    use crate::entities::{KeyValue, RequestMethod};
 
     use super::KeyValueTable;
 
@@ -252,5 +263,48 @@ mod tests {
 
         let empty = table.header("Accept");
         assert_eq!(empty, None);
+    }
+
+    #[test]
+    fn test_group_by_table_header() {
+        let headers = vec![
+            ("Content-Type", "application/json").into(),
+            ("Set-Cookie", "cookie2=value2").into(),
+            ("Set-Cookie", "cookie1=value1").into(),
+        ];
+        let table = KeyValueTable(headers);
+
+        let grouped = table.group_by();
+        assert_eq!(grouped.len(), 2);
+
+        let ctype = grouped.get("Content-Type").unwrap();
+        assert_eq!(
+            ctype,
+            &vec![KeyValue {
+                name: "Content-Type".into(),
+                value: "application/json".into(),
+                active: true,
+                secret: false
+            },]
+        );
+
+        let cookies = grouped.get("Set-Cookie").unwrap();
+        assert_eq!(
+            cookies,
+            &vec![
+                KeyValue {
+                    name: "Set-Cookie".into(),
+                    value: "cookie2=value2".into(),
+                    active: true,
+                    secret: false
+                },
+                KeyValue {
+                    name: "Set-Cookie".into(),
+                    value: "cookie1=value1".into(),
+                    active: true,
+                    secret: false
+                },
+            ]
+        );
     }
 }

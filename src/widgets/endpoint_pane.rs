@@ -280,7 +280,6 @@ mod imp {
             let method = self.request_method();
             let headers = header_list
                 .iter()
-                .filter(|pair| pair.is_usable())
                 .map(|pair| KeyValue {
                     name: pair.header_name(),
                     value: pair.header_value(),
@@ -290,7 +289,6 @@ mod imp {
                 .collect();
             let variables = variable_list
                 .iter()
-                .filter(|v| v.is_usable())
                 .map(|pair| KeyValue {
                     name: pair.header_name(),
                     value: pair.header_value(),

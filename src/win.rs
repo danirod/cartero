@@ -34,13 +34,9 @@ mod imp {
     use crate::widgets::*;
     use crate::{app::CarteroApplication, error::CarteroError};
     use glib::subclass::InitializingObject;
-    use gtk::{
-        subclass::{
-            application_window::ApplicationWindowImpl, widget::WidgetImpl, window::WindowImpl,
-        },
-        CompositeTemplate, TemplateChild,
-    };
+    use gtk::{CompositeTemplate, TemplateChild};
 
+    #[cfg(feature = "csd")]
     #[derive(CompositeTemplate, Default)]
     #[template(resource = "/es/danirod/Cartero/main_window.ui")]
     pub struct CarteroWindow {
@@ -57,8 +53,35 @@ mod imp {
         pub window_title: TemplateChild<adw::WindowTitle>,
     }
 
+    #[cfg(not(feature = "csd"))]
+    #[derive(CompositeTemplate, Default)]
+    #[template(resource = "/es/danirod/Cartero/main_window_no_csd.ui")]
+    pub struct CarteroWindow {
+        #[template_child]
+        toaster: TemplateChild<adw::ToastOverlay>,
+
+        #[template_child]
+        pub tabs: TemplateChild<adw::TabBar>,
+
+        #[template_child]
+        pub tabview: TemplateChild<adw::TabView>,
+    }
+
     #[gtk::template_callbacks]
     impl CarteroWindow {
+        #[cfg(feature = "csd")]
+        fn set_window_title(&self, title: &str, subtitle: &str) {
+            self.window_title.set_title(title);
+            self.window_title.set_subtitle(subtitle);
+        }
+
+        #[cfg(not(feature = "csd"))]
+        fn set_window_title(&self, title: &str, _: &str) {
+            let title = format!("Cartero - {title}");
+            let obj = self.obj();
+            obj.set_title(Some(&title));
+        }
+
         fn init_settings(&self) {
             let app = CarteroApplication::get();
             let settings = app.settings();
@@ -167,9 +190,8 @@ mod imp {
                 crate::file::write_file(&path, &serialized_payload)?;
                 pane.update_title_and_path(&path);
 
-                self.window_title.set_title(&pane.title());
-                self.window_title
-                    .set_subtitle(&pane.path().unwrap_or(gettext("Draft")));
+                let subtitle = pane.path().unwrap_or(gettext("Draft"));
+                self.set_window_title(&pane.title(), &subtitle);
             }
 
             Ok(())
@@ -185,7 +207,12 @@ mod imp {
     impl ObjectSubclass for CarteroWindow {
         const NAME: &'static str = "CarteroWindow";
         type Type = super::CarteroWindow;
+
+        #[cfg(feature = "csd")]
         type ParentType = adw::ApplicationWindow;
+
+        #[cfg(not(feature = "csd"))]
+        type ParentType = gtk::ApplicationWindow;
 
         fn class_init(klass: &mut Self::Class) {
             KeyValueRow::static_type();
@@ -210,8 +237,8 @@ mod imp {
                 glib::clone!(@weak self as window => move |tabview| {
                     if let Some(page) = tabview.selected_page() {
                         let item_pane = page.child().downcast::<ItemPane>().unwrap();
-                        window.window_title.set_title(&item_pane.title());
-                        window.window_title.set_subtitle(&item_pane.path().unwrap_or(gettext("Draft")));
+                        let subtitle = item_pane.path().unwrap_or(gettext("Draft"));
+                        window.set_window_title(&item_pane.title(), &subtitle);
                     }
                 }),
             );
@@ -265,12 +292,21 @@ mod imp {
 
     impl ApplicationWindowImpl for CarteroWindow {}
 
+    #[cfg(feature = "csd")]
     impl AdwApplicationWindowImpl for CarteroWindow {}
 }
 
+#[cfg(feature = "csd")]
 glib::wrapper! {
     pub struct CarteroWindow(ObjectSubclass<imp::CarteroWindow>)
         @extends gtk::Widget, gtk::Window, gtk::ApplicationWindow, adw::ApplicationWindow,
+        @implements gio::ActionGroup, gio::ActionMap, gtk::Root;
+}
+
+#[cfg(not(feature = "csd"))]
+glib::wrapper! {
+    pub struct CarteroWindow(ObjectSubclass<imp::CarteroWindow>)
+        @extends gtk::Widget, gtk::Window, gtk::ApplicationWindow,
         @implements gio::ActionGroup, gio::ActionMap, gtk::Root;
 }
 

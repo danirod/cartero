@@ -95,6 +95,7 @@ fn main() -> glib::ExitCode {
     #[cfg(windows)]
     {
         std::env::set_var("GSK_RENDERER", "cairo");
+        std::env::set_var("GTK_CSD", "0");
     }
 
     let app = CarteroApplication::new();

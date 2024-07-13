@@ -16,7 +16,7 @@ pacman -Sy --noconfirm --needed \
     ${MINGW_PACKAGE_PREFIX}-blueprint-compiler \
     meson
 
-MSYS2_ARG_CONV_EXCL="--prefix=" meson setup build --prefix="/" -Dprofile=development
+MSYS2_ARG_CONV_EXCL="--prefix=" meson setup build --prefix="/" -Dprofile=development -Ddecorations=no-csd
 ninja -C build
 DESTDIR=$PWD/build/cartero-win32 ninja -C build install
 

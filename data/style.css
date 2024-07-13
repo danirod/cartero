@@ -1,0 +1,8 @@
+.ignored-header text {
+  text-decoration: line-through;
+  opacity: 0.75;
+}
+
+.inactive-header text {
+  opacity: 0.65;
+}

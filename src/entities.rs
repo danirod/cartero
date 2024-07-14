@@ -38,12 +38,7 @@ impl PartialOrd for KeyValue {
 
 impl Ord for KeyValue {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
-        let value = self.name.cmp(&other.name);
-        if value == std::cmp::Ordering::Equal {
-            self.value.cmp(&other.value)
-        } else {
-            value
-        }
+        self.name.cmp(&other.name)
     }
 }
 

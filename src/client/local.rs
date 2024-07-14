@@ -136,6 +136,50 @@ mod tests {
     }
 
     #[test]
+    fn test_bind_with_duplicate_headers() {
+        let url = "https://www.example.com/v1/books".into();
+        let method = RequestMethod::Get;
+        let headers = KeyValueTable::new(&vec![
+            ("Accept", "application/html").into(),
+            ("Accept", "application/xml").into(),
+        ]);
+        let variables = KeyValueTable::default();
+        let body = None;
+        let endpoint = EndpointData {
+            url,
+            method,
+            headers,
+            variables,
+            body,
+        };
+
+        let bound = BoundRequest::try_from(endpoint).unwrap();
+        assert_eq!(bound.headers["Accept"], "application/xml")
+    }
+
+    #[test]
+    fn test_bind_with_duplicate_variables() {
+        let url = "https://www.example.com/v1/books".into();
+        let method = RequestMethod::Get;
+        let headers = KeyValueTable::new(&vec![("Accept", "{{TYPE}}").into()]);
+        let variables = KeyValueTable::new(&vec![
+            ("TYPE", "text/html").into(),
+            ("TYPE", "application/json").into(),
+        ]);
+        let body = None;
+        let endpoint = EndpointData {
+            url,
+            method,
+            headers,
+            variables,
+            body,
+        };
+
+        let bound = BoundRequest::try_from(endpoint).unwrap();
+        assert_eq!(bound.headers["Accept"], "application/json")
+    }
+
+    #[test]
     #[should_panic]
     pub fn test_panics_if_wrong_variable() {
         // Build a request.

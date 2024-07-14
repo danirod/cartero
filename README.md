@@ -11,7 +11,8 @@ This project exists because there aren't many native graphical HTTP testing
 applications / graphical alternatives to cURL that are fully free software, and
 I think the world has had enough of Electron / non-native applications that are
 anonymously accesible until one day you are forced to create an account and
-log in to use.
+log in to use just to make some investor happy with their numbers or to chug
+some unwanted artificial intelligence at users.
 
 ## Download
 
@@ -27,6 +28,8 @@ You can also download a development version.
 | ![Flatpak](doc/flatpak.png) | Flatpak GNU/Linux, x86_64  | [Nightly][nightly-flatpak-x86_64]  |
 | ![Flatpak](doc/flatpak.png) | Flatpak GNU/Linux, aarch64 | [Nightly][nightly-flatpak-aarch64] |
 | ![Windows](doc/windows.png) | Windows, x86_64            | [Nightly][nightly-windows-x86_64]  |
+
+_Eventually available as well: macOS (x86_64), macOS (aarch64)._
 
 ## Building
 

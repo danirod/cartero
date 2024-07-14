@@ -10,4 +10,8 @@
     <file alias="response_panel.ui" compressed="true" preprocess="xml-stripblanks">ui/response_panel.ui</file>
     <file alias="style.css" compressed="true">style.css</file>
   </gresource>
+
+  <gresource prefix="/es/danirod/Cartero/icons/scalable/actions/">
+      <file alias="horizontal-arrows-symbolic.svg" preprocess="xml-stripblanks">icons/horizontal-arrows-symbolic.svg</file>
+  </gresource>
 </gresources>

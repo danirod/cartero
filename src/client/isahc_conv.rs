@@ -23,7 +23,7 @@ use isahc::{
     http::{HeaderName, HeaderValue},
     AsyncBody, Body,
 };
-use std::{io::Read, str::FromStr};
+use std::{io::Read, str::FromStr, time::Instant};
 
 impl From<&RequestMethod> for isahc::http::Method {
     fn from(value: &RequestMethod) -> Self {
@@ -91,6 +91,7 @@ impl TryFrom<&mut isahc::Response<Body>> for ResponseData {
 
 pub async fn extract_isahc_response(
     value: &mut isahc::Response<AsyncBody>,
+    start: &Instant,
 ) -> Result<ResponseData, RequestError> {
     let status_code: u32 = value.status().as_u16() as u32;
     let headers = value
@@ -108,9 +109,10 @@ pub async fn extract_isahc_response(
         body.read_to_end(&mut buffer).await?;
         buffer
     };
+    let duration = start.elapsed();
     Ok(ResponseData {
-        duration: 0,
-        size: 0,
+        duration: duration.as_millis(),
+        size: body.len(),
         status_code,
         headers,
         body,

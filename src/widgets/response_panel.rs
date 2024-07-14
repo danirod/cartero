@@ -33,6 +33,7 @@ mod imp {
     use std::cell::RefCell;
 
     use adw::prelude::*;
+    use adw::subclass::bin::BinImpl;
     use glib::object::Cast;
     use glib::subclass::InitializingObject;
     use glib::Properties;
@@ -53,6 +54,8 @@ mod imp {
     #[properties(wrapper_type = super::ResponsePanel)]
     #[template(resource = "/es/danirod/Cartero/response_panel.ui")]
     pub struct ResponsePanel {
+        #[template_child]
+        stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub response_headers: TemplateChild<ResponseHeaders>,
         #[template_child]
@@ -78,7 +81,7 @@ mod imp {
     impl ObjectSubclass for ResponsePanel {
         const NAME: &'static str = "CarteroResponsePanel";
         type Type = super::ResponsePanel;
-        type ParentType = Box;
+        type ParentType = adw::Bin;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -101,7 +104,7 @@ mod imp {
 
     impl WidgetImpl for ResponsePanel {}
 
-    impl BoxImpl for ResponsePanel {}
+    impl BinImpl for ResponsePanel {}
 
     impl ResponsePanel {
         fn init_settings(&self) {
@@ -167,6 +170,7 @@ mod imp {
         }
 
         fn set_spinning(&self, spinning: bool) {
+            self.stack.set_visible_child_name("response");
             let widget: &gtk::Widget = if spinning {
                 self.spinner.upcast_ref()
             } else {
@@ -186,6 +190,24 @@ glib::wrapper! {
 impl Default for ResponsePanel {
     fn default() -> Self {
         Self::new()
+    }
+}
+
+// TODO: Whether to use SI units or base 2 units?
+fn format_bytes(count: usize) -> String {
+    let units = ["B", "KiB", "MiB", "GiB", "TiB", "PiB"];
+    let mut total = count as f64;
+    let mut unit = 0;
+
+    while total > 1024.0 {
+        total = total / 1024.0;
+        unit = unit + 1;
+    }
+
+    if unit > 0 {
+        format!("{:.3} {}", total, units[unit])
+    } else {
+        format!("{} {}", total, units[unit])
     }
 }
 
@@ -218,6 +240,14 @@ impl ResponsePanel {
         let status = format!("HTTP {}", resp.status_code);
         imp.status_code.set_text(&status);
         imp.status_code.set_visible(true);
+
+        let duration = format!("{} s", resp.seconds());
+        imp.duration.set_text(&duration);
+        imp.duration.set_visible(true);
+
+        let size = format_bytes(resp.size);
+        imp.response_size.set_text(&size);
+        imp.response_size.set_visible(true);
 
         imp.metadata_stack.set_visible_child(&*imp.response_meta);
 

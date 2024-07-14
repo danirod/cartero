@@ -215,8 +215,8 @@ impl EndpointData {
 #[derive(Debug, Clone, Eq, PartialEq)]
 pub struct ResponseData {
     pub status_code: u32,
-    pub duration: u64,
-    pub size: u64,
+    pub duration: u128,
+    pub size: usize,
     pub headers: KeyValueTable,
     pub body: Vec<u8>,
 }
@@ -224,6 +224,11 @@ pub struct ResponseData {
 impl ResponseData {
     pub fn body_str(&self) -> String {
         String::from_utf8_lossy(&self.body).into_owned()
+    }
+
+    pub fn seconds(&self) -> String {
+        let seconds = (self.duration as f64) / 1000.0;
+        format!("{seconds}")
     }
 }
 

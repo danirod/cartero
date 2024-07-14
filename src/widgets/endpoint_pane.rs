@@ -21,6 +21,8 @@ use gtk::glib;
 use crate::{entities::EndpointData, error::CarteroError};
 
 mod imp {
+    use std::time::Instant;
+
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
     use glib::subclass::InitializingObject;
     use gtk::gio::SettingsBindFlags;
@@ -318,11 +320,13 @@ mod imp {
             let request = self.extract_endpoint()?;
             let request = BoundRequest::try_from(request)?;
             let request_obj = isahc::Request::try_from(request)?;
+
+            let start = Instant::now();
             let mut response_obj = request_obj
                 .send_async()
                 .await
                 .map_err(RequestError::NetworkError)?;
-            let response = crate::client::extract_isahc_response(&mut response_obj).await?;
+            let response = crate::client::extract_isahc_response(&mut response_obj, &start).await?;
             self.response.assign_from_response(&response);
             Ok(())
         }

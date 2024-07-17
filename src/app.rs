@@ -15,6 +15,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use std::path::PathBuf;
+
 use adw::prelude::*;
 use adw::AboutWindow;
 use gettextrs::gettext;
@@ -103,8 +105,21 @@ impl CarteroApplication {
     pub fn get_window(&self) -> &CarteroWindow {
         let imp = self.imp();
         imp.window.get_or_init(|| {
+            let settings = self.settings();
+            let open_files = settings.get::<Vec<String>>("open-files");
+
             let win = CarteroWindow::new(self);
-            win.add_endpoint(None);
+            if open_files.is_empty() {
+                win.add_endpoint(None);
+            } else {
+                for open_file in open_files {
+                    let typed = open_file.split_once(':');
+                    if let Some((_type, path)) = typed {
+                        let path = PathBuf::from(path);
+                        win.add_endpoint(Some(&path));
+                    }
+                }
+            }
             win
         })
     }

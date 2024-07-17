@@ -34,5 +34,9 @@
       <default>500</default>
       <summary>The position of the split between two windows</summary>
     </key>
+    <key name="open-files" type="as">
+      <default>[]</default>
+      <summary>The current list of opened files</summary>
+    </key>
   </schema>
 </schemalist>

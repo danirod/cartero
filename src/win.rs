@@ -106,6 +106,25 @@ mod imp {
                 .build();
         }
 
+        pub fn save_visible_tabs(&self) {
+            let pages = self.tabview.pages();
+            let count = pages.n_items();
+            let mut paths = Vec::new();
+            for i in 0..count {
+                let page = pages.item(i).and_downcast::<TabPage>().unwrap();
+                let child = page.child().downcast::<ItemPane>().unwrap();
+                let path = child.path();
+                if let Some(path) = path {
+                    let path = format!("endpoint:{path}");
+                    paths.push(path);
+                }
+            }
+
+            let app = CarteroApplication::get();
+            let settings = app.settings();
+            settings.set("open-files", paths).unwrap();
+        }
+
         /// Returns the pane currently visible in the window.
         ///
         /// This method will make more sense in the future once multiple panes can be visible in tabs.
@@ -147,6 +166,7 @@ mod imp {
                         .sync_create()
                         .build();
                     self.tabview.set_selected_page(&page);
+                    self.save_visible_tabs();
                 }
                 Err(e) => {
                     println!("TODO: Show global error -- {}", e);
@@ -160,6 +180,7 @@ mod imp {
             let path = crate::widgets::open_file(&obj).await?;
             if path.is_some() {
                 self.add_endpoint(path.as_ref());
+                self.save_visible_tabs();
             }
             Ok(())
         }
@@ -192,6 +213,7 @@ mod imp {
 
                 let subtitle = pane.path().unwrap_or(gettext("Draft"));
                 self.set_window_title(&pane.title(), &subtitle);
+                self.save_visible_tabs();
             }
 
             Ok(())
@@ -242,6 +264,20 @@ mod imp {
                     }
                 }),
             );
+
+            self.tabview.connect_close_page(move |_, tabpage| {
+                let item_pane = tabpage.child().downcast::<ItemPane>().unwrap();
+                item_pane.set_path(Option::<String>::None);
+                let app = CarteroApplication::get();
+                app.get_window().sync_open_files();
+                false
+            });
+
+            self.tabview.connect_page_reordered(
+                glib::clone!(@weak self as window => move |_, _, _| {
+                    window.save_visible_tabs();
+                }
+            ));
 
             let action_new = ActionEntry::builder("new")
                 .activate(glib::clone!(@weak self as window => move |_, _, _| {
@@ -323,5 +359,10 @@ impl CarteroWindow {
     pub fn toast_error(&self, e: CarteroError) {
         let imp = self.imp();
         imp.toast_error(e);
+    }
+
+    pub fn sync_open_files(&self) {
+        let imp = self.imp();
+        imp.save_visible_tabs();
     }
 }

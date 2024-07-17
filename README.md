@@ -168,7 +168,8 @@ home.packages = with pkgs; [
 ];
 ```
 
-> [!NOTE] You may need to reboot the system or relogin to be able to see cartero on your launcher
+> [!NOTE]
+> You may need to reboot the system or relogin to be able to see cartero on your launcher
 
 ## Contributing
 

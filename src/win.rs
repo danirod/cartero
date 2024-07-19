@@ -24,10 +24,13 @@ use gtk::{gio, glib};
 
 mod imp {
 
+    use std::cell::RefCell;
     use std::path::{Path, PathBuf};
 
     use adw::{subclass::prelude::*, TabPage};
     use gettextrs::gettext;
+    use glib::property::PropertySet;
+    use glib::Binding;
     use gtk::gio::ActionEntry;
     use gtk::prelude::*;
 
@@ -51,6 +54,8 @@ mod imp {
 
         #[template_child]
         pub window_title: TemplateChild<adw::WindowTitle>,
+
+        window_title_binding: RefCell<Option<Binding>>,
     }
 
     #[cfg(not(feature = "csd"))]
@@ -65,21 +70,52 @@ mod imp {
 
         #[template_child]
         pub tabview: TemplateChild<adw::TabView>,
+
+        window_title_binding: RefCell<Option<ExpressionWatch>>,
     }
 
     #[gtk::template_callbacks]
     impl CarteroWindow {
         #[cfg(feature = "csd")]
-        fn set_window_title(&self, title: &str, subtitle: &str) {
-            self.window_title.set_title(title);
-            self.window_title.set_subtitle(subtitle);
+        fn bind_current_tab(&self, tab: &ItemPane) {
+            {
+                let value: &Option<Binding> = &self.window_title_binding.borrow();
+                if let Some(binding) = value {
+                    binding.unbind();
+                }
+            }
+
+            let new_binding = tab
+                .bind_property("window-title", &*self.window_title, "title")
+                .sync_create()
+                .build();
+            let subtitle = tab.path().unwrap_or(gettext("Draft"));
+            self.window_title.set_subtitle(&subtitle);
+            self.window_title_binding.set(Some(new_binding));
         }
 
         #[cfg(not(feature = "csd"))]
-        fn set_window_title(&self, title: &str, _: &str) {
-            let title = format!("Cartero - {title}");
+        fn bind_current_tab(&self, tab: &ItemPane) {
+            {
+                let value: &Option<ExpressionWatch> = &self.window_title_binding.borrow();
+                if let Some(binding) = value {
+                    binding.unwatch();
+                }
+            }
+
             let obj = self.obj();
-            obj.set_title(Some(&title));
+            let title_watch = tab
+                .property_expression("window-title")
+                .chain_closure::<String>(glib::closure!(
+                    |_: Option<glib::Object>, title: Option<&str>| {
+                        match title {
+                            Some(t) => format!("{t} - Cartero"),
+                            None => "Cartero".to_string(),
+                        }
+                    }
+                ))
+                .bind(&*obj, "title", Some(tab));
+            self.window_title_binding.set(Some(title_watch));
         }
 
         fn init_settings(&self) {
@@ -159,7 +195,7 @@ mod imp {
             match ItemPane::new_for_endpoint(path) {
                 Ok(pane) => {
                     let page = self.tabview.add_page(&pane, None);
-                    pane.bind_property("title", &page, "title")
+                    pane.bind_property("window-title", &page, "title")
                         .sync_create()
                         .build();
                     pane.bind_property("path", &page, "tooltip")
@@ -211,8 +247,7 @@ mod imp {
                 crate::file::write_file(&path, &serialized_payload)?;
                 pane.update_title_and_path(&path);
 
-                let subtitle = pane.path().unwrap_or(gettext("Draft"));
-                self.set_window_title(&pane.title(), &subtitle);
+                self.bind_current_tab(&pane);
                 self.save_visible_tabs();
             }
 
@@ -259,8 +294,7 @@ mod imp {
                 glib::clone!(@weak self as window => move |tabview| {
                     if let Some(page) = tabview.selected_page() {
                         let item_pane = page.child().downcast::<ItemPane>().unwrap();
-                        let subtitle = item_pane.path().unwrap_or(gettext("Draft"));
-                        window.set_window_title(&item_pane.title(), &subtitle);
+                        window.bind_current_tab(&item_pane);
                     }
                 }),
             );

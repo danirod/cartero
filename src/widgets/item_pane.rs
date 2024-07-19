@@ -41,6 +41,12 @@ mod imp {
 
         #[property(get, set, nullable)]
         path: RefCell<Option<String>>,
+
+        #[property(get, set)]
+        pub dirty: RefCell<bool>,
+
+        #[property(get = Self::window_title)]
+        pub _window_title: RefCell<String>,
     }
 
     #[glib::object_subclass]
@@ -51,13 +57,33 @@ mod imp {
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for ItemPane {}
+    impl ObjectImpl for ItemPane {
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let obj = self.obj();
+            obj.connect_dirty_notify(glib::clone!(@weak obj as window => move |_| {
+                window.notify_window_title();
+            }));
+            obj.connect_title_notify(glib::clone!(@weak obj as window => move |_| {
+                window.notify_window_title();
+            }));
+        }
+    }
 
     impl WidgetImpl for ItemPane {}
 
     impl BinImpl for ItemPane {}
 
-    impl ItemPane {}
+    impl ItemPane {
+        fn window_title(&self) -> String {
+            if *self.dirty.borrow() {
+                format!("• {}", *self.title.borrow())
+            } else {
+                (*self.title.borrow()).clone()
+            }
+        }
+    }
 }
 
 glib::wrapper! {
@@ -82,6 +108,7 @@ impl ItemPane {
 
         let child_pane = EndpointPane::default();
         pane.set_child(Some(&child_pane));
+        child_pane.set_item_pane(Some(&pane));
 
         if let Some(path) = path {
             let contents = crate::file::read_file(path)?;

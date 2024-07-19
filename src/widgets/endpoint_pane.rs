@@ -21,10 +21,12 @@ use gtk::glib;
 use crate::{entities::EndpointData, error::CarteroError};
 
 mod imp {
+    use std::cell::RefCell;
     use std::time::Instant;
 
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
     use glib::subclass::InitializingObject;
+    use glib::Properties;
     use gtk::gio::SettingsBindFlags;
     use gtk::subclass::prelude::*;
     use gtk::{prelude::*, CompositeTemplate, StringObject, WrapMode};
@@ -37,10 +39,11 @@ mod imp {
     use crate::entities::{EndpointData, KeyValue, RequestMethod};
     use crate::error::CarteroError;
     use crate::objects::KeyValueItem;
-    use crate::widgets::{KeyValuePane, ResponsePanel};
+    use crate::widgets::{ItemPane, KeyValuePane, ResponsePanel};
 
-    #[derive(CompositeTemplate, Default)]
+    #[derive(CompositeTemplate, Properties, Default)]
     #[template(resource = "/es/danirod/Cartero/endpoint_pane.ui")]
+    #[properties(wrapper_type = super::EndpointPane)]
     pub struct EndpointPane {
         #[template_child(id = "send")]
         pub send_button: TemplateChild<gtk::Button>,
@@ -68,6 +71,9 @@ mod imp {
 
         #[template_child]
         pub paned: TemplateChild<gtk::Paned>,
+
+        #[property(get, set, nullable)]
+        pub item_pane: RefCell<Option<ItemPane>>,
     }
 
     #[glib::object_subclass]
@@ -86,6 +92,7 @@ mod imp {
         }
     }
 
+    #[glib::derived_properties]
     impl ObjectImpl for EndpointPane {
         fn constructed(&self) {
             self.parent_constructed();

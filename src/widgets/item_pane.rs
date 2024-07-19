@@ -108,13 +108,14 @@ impl ItemPane {
 
         let child_pane = EndpointPane::default();
         pane.set_child(Some(&child_pane));
-        child_pane.set_item_pane(Some(&pane));
 
         if let Some(path) = path {
             let contents = crate::file::read_file(path)?;
             let endpoint = crate::file::parse_toml(&contents)?;
             child_pane.assign_endpoint(&endpoint);
         }
+
+        child_pane.set_item_pane(Some(&pane));
 
         Ok(pane)
     }

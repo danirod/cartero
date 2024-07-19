@@ -28,8 +28,9 @@ mod imp {
     use gtk::subclass::prelude::*;
 
     use std::cell::{OnceCell, RefCell};
+    use std::sync::OnceLock;
 
-    use glib::subclass::InitializingObject;
+    use glib::subclass::{InitializingObject, Signal};
     use glib::{closure_local, Properties};
     use gtk::gio::ListStore;
     use gtk::subclass::widget::{CompositeTemplateClass, WidgetImpl};
@@ -80,6 +81,11 @@ mod imp {
 
     #[glib::derived_properties]
     impl ObjectImpl for KeyValuePane {
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| vec![Signal::builder("changed").build()])
+        }
+
         fn constructed(&self) {
             self.parent_constructed();
 
@@ -118,6 +124,7 @@ mod imp {
 
                         let obj = pane_delete.obj();
                         obj.assert_always_placeholder();
+                        obj.emit_by_name::<()>("changed", &[]);
                     }
                 }));
 
@@ -126,6 +133,7 @@ mod imp {
                     let obj = pane_changed.obj();
                     obj.mark_duplicates();
                     obj.assert_always_placeholder();
+                    obj.emit_by_name::<()>("changed", &[]);
                 }));
                 row.upcast::<gtk::Widget>()
             }));
@@ -152,6 +160,16 @@ impl Default for KeyValuePane {
 impl KeyValuePane {
     pub fn new() -> Self {
         Self::default()
+    }
+
+    pub fn connect_changed<F: Fn(&Self) + 'static>(&self, f: F) -> glib::SignalHandlerId {
+        self.connect_closure(
+            "changed",
+            true,
+            glib::closure_local!(|ref pane| {
+                f(pane);
+            }),
+        )
     }
 
     pub fn mark_duplicates(&self) {

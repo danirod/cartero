@@ -97,6 +97,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
+            self.init_dirty_events();
             self.init_settings();
             self.variable_pane.assert_always_placeholder();
             self.header_pane.assert_always_placeholder();
@@ -110,6 +111,54 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl EndpointPane {
+        fn init_dirty_events(&self) {
+            self.request_method.connect_selected_item_notify(
+                glib::clone!(@weak self as pane => move |_| {
+                    let item_pane: &Option<ItemPane> = &pane.item_pane.borrow();
+                    let Some(item_pane) = item_pane else {
+                        return;
+                    };
+                    item_pane.set_dirty(true);
+                }),
+            );
+
+            self.request_url
+                .connect_changed(glib::clone!(@weak self as pane => move |_| {
+                    let item_pane: &Option<ItemPane> = &pane.item_pane.borrow();
+                    let Some(item_pane) = item_pane else {
+                        return;
+                    };
+                    item_pane.set_dirty(true);
+                }));
+
+            self.request_body.buffer().connect_changed(
+                glib::clone!(@weak self as pane => move |_| {
+                    let item_pane: &Option<ItemPane> = &pane.item_pane.borrow();
+                    let Some(item_pane) = item_pane else {
+                        return;
+                    };
+                    item_pane.set_dirty(true);
+                }),
+            );
+
+            self.header_pane
+                .connect_changed(glib::clone!(@weak self as pane => move |_| {
+                    let item_pane: &Option<ItemPane> = &pane.item_pane.borrow();
+                    let Some(item_pane) = item_pane else {
+                        return;
+                    };
+                    item_pane.set_dirty(true);
+                }));
+            self.variable_pane
+                .connect_changed(glib::clone!(@weak self as pane => move |_| {
+                    let item_pane: &Option<ItemPane> = &pane.item_pane.borrow();
+                    let Some(item_pane) = item_pane else {
+                        return;
+                    };
+                    item_pane.set_dirty(true);
+                }));
+        }
+
         fn init_settings(&self) {
             let app = CarteroApplication::get();
             let settings = app.settings();

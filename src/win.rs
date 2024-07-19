@@ -275,9 +275,10 @@ mod imp {
 
             self.tabview.connect_page_reordered(
                 glib::clone!(@weak self as window => move |_, _, _| {
-                    window.save_visible_tabs();
-                }
-            ));
+                        window.save_visible_tabs();
+                    }
+                ),
+            );
 
             let action_new = ActionEntry::builder("new")
                 .activate(glib::clone!(@weak self as window => move |_, _, _| {

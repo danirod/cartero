@@ -139,7 +139,7 @@ mod tests {
     fn test_bind_with_duplicate_headers() {
         let url = "https://www.example.com/v1/books".into();
         let method = RequestMethod::Get;
-        let headers = KeyValueTable::new(&vec![
+        let headers = KeyValueTable::new(&[
             ("Accept", "application/html").into(),
             ("Accept", "application/xml").into(),
         ]);
@@ -161,8 +161,8 @@ mod tests {
     fn test_bind_with_duplicate_variables() {
         let url = "https://www.example.com/v1/books".into();
         let method = RequestMethod::Get;
-        let headers = KeyValueTable::new(&vec![("Accept", "{{TYPE}}").into()]);
-        let variables = KeyValueTable::new(&vec![
+        let headers = KeyValueTable::new(&[("Accept", "{{TYPE}}").into()]);
+        let variables = KeyValueTable::new(&[
             ("TYPE", "text/html").into(),
             ("TYPE", "application/json").into(),
         ]);

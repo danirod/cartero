@@ -22,6 +22,7 @@ mod key_value_pane;
 mod key_value_row;
 mod response_headers;
 mod response_panel;
+mod save_dialog;
 
 pub use endpoint_pane::EndpointPane;
 pub use file_dialogs::*;
@@ -30,3 +31,4 @@ pub use key_value_pane::KeyValuePane;
 pub use key_value_row::KeyValueRow;
 pub use response_headers::ResponseHeaders;
 pub use response_panel::ResponsePanel;
+pub use save_dialog::SaveDialog;

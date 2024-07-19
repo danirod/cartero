@@ -200,8 +200,8 @@ fn format_bytes(count: usize) -> String {
     let mut unit = 0;
 
     while total > 1024.0 {
-        total = total / 1024.0;
-        unit = unit + 1;
+        total /= 1024.0;
+        unit += 1;
     }
 
     if unit > 0 {

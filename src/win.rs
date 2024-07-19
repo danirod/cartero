@@ -28,9 +28,7 @@ mod imp {
 
     use adw::prelude::AlertDialogExtManual;
     use adw::{subclass::prelude::*, TabPage};
-    use gettextrs::gettext;
     use glib::property::PropertySet;
-    use glib::Binding;
     use gtk::gio::ActionEntry;
     use gtk::prelude::*;
 
@@ -38,6 +36,13 @@ mod imp {
     use crate::{app::CarteroApplication, error::CarteroError};
     use glib::subclass::InitializingObject;
     use gtk::{CompositeTemplate, TemplateChild};
+
+    #[cfg(feature = "csd")]
+    use gettextrs::gettext;
+    #[cfg(feature = "csd")]
+    use glib::Binding;
+    #[cfg(not(feature = "csd"))]
+    use gtk::ExpressionWatch;
 
     #[cfg(feature = "csd")]
     #[derive(CompositeTemplate, Default)]
@@ -54,9 +59,6 @@ mod imp {
 
         #[template_child]
         pub window_title: TemplateChild<adw::WindowTitle>,
-
-        #[template_child]
-        pub save_changes: TemplateChild<adw::AlertDialog>,
 
         window_title_binding: RefCell<Option<Binding>>,
     }
@@ -243,7 +245,7 @@ mod imp {
                 crate::file::write_file(&path, &serialized_payload)?;
                 pane.update_title_and_path(&path);
                 pane.set_dirty(false);
-                self.bind_current_tab(&pane);
+                self.bind_current_tab(pane);
                 self.save_visible_tabs();
             }
 
@@ -282,16 +284,14 @@ mod imp {
         async fn show_save_changes(&self) -> String {
             let app = CarteroApplication::get();
             let window = app.get_window();
-            let dialog: adw::AlertDialog = self.save_changes.clone();
+            let dialog = SaveDialog::default();
             dialog.choose_future(window).await.as_str().to_string()
         }
 
         async fn save_all_tabs(&self) -> Result<(), CarteroError> {
             let panes = self.get_modified_panes();
             for pane in panes {
-                if let Err(e) = self.save_pane(&pane).await {
-                    return Err(e);
-                }
+                self.save_pane(&pane).await?
             }
             Ok(())
         }
@@ -341,7 +341,7 @@ mod imp {
                 let outcome = if item_pane.dirty() {
                     let app = CarteroApplication::get();
                     let win = app.get_window();
-                    let dialog = window.save_changes.get();
+                    let dialog = SaveDialog::default();
                     let response = glib::MainContext::default().block_on(dialog.choose_future(win));
                     match response.as_str() {
                         "save" => {
@@ -366,7 +366,7 @@ mod imp {
                     false
                 };
 
-                tabview.close_page_finish(&tabpage, !outcome);
+                tabview.close_page_finish(tabpage, !outcome);
                 true
             }));
 

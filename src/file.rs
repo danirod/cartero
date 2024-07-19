@@ -236,9 +236,9 @@ mod tests {
         assert_eq!(table.len(), 2);
         assert_eq!(
             table,
-            KeyValueTable::new(&vec![
+            KeyValueTable::new(&[
                 ("Host", "www.google.com").into(),
-                ("User-Agent", "Cartero/0.1").into(),
+                ("User-Agent", "Cartero/0.1").into()
             ])
         );
     }
@@ -268,14 +268,14 @@ mod tests {
         assert_eq!(table.len(), 2);
         assert_eq!(
             table,
-            KeyValueTable::new(&vec![
+            KeyValueTable::new(&[
                 ("Host", "www.google.com").into(),
                 KeyValue {
                     name: "User-Agent".into(),
                     value: "Cartero/0.1".into(),
                     active: false,
                     secret: true,
-                },
+                }
             ])
         );
     }
@@ -343,7 +343,7 @@ Accept-Encoding = 'gzip'
         given_headers.sort();
         assert_eq!(
             given_headers,
-            KeyValueTable::new(&vec![
+            KeyValueTable::new(&[
                 KeyValue {
                     name: "Accept".into(),
                     value: "text/html".into(),
@@ -355,7 +355,7 @@ Accept-Encoding = 'gzip'
                     value: "gzip".into(),
                     active: true,
                     secret: false
-                },
+                }
             ]),
         );
     }
@@ -382,7 +382,7 @@ Accept-Encoding = 'gzip'
         given_headers.sort();
         assert_eq!(
             given_headers,
-            KeyValueTable::new(&vec![
+            KeyValueTable::new(&[
                 KeyValue {
                     name: "Accept".into(),
                     value: "text/html".into(),
@@ -394,7 +394,7 @@ Accept-Encoding = 'gzip'
                     value: "gzip".into(),
                     active: true,
                     secret: false
-                },
+                }
             ]),
         );
     }
@@ -421,7 +421,7 @@ Accept-Encoding = 'gzip'
         given_headers.sort();
         assert_eq!(
             given_headers,
-            KeyValueTable::new(&vec![
+            KeyValueTable::new(&[
                 KeyValue {
                     name: "Accept".into(),
                     value: "application/json".into(),
@@ -439,7 +439,7 @@ Accept-Encoding = 'gzip'
                     value: "gzip".into(),
                     active: true,
                     secret: false
-                },
+                }
             ]),
         );
     }
@@ -687,7 +687,7 @@ body = 'hello'
                 active: false,
             },
         ]);
-        let variables = KeyValueTable::new(&vec![
+        let variables = KeyValueTable::new(&[
             KeyValue {
                 name: "CLIENT_SECRET".into(),
                 value: "101010".into(),
@@ -727,10 +727,10 @@ body = 'hello'
             parsed.headers
         );
         assert_eq!(
-            KeyValueTable::new(&vec![
+            KeyValueTable::new(&[
                 r.variables[1].clone(),
                 r.variables[0].clone(),
-                r.variables[2].clone(),
+                r.variables[2].clone()
             ]),
             parsed.variables
         );

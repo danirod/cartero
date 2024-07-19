@@ -23,10 +23,10 @@ use glib::Object;
 use gtk::{gio, glib};
 
 mod imp {
-
     use std::cell::RefCell;
     use std::path::{Path, PathBuf};
 
+    use adw::prelude::AlertDialogExtManual;
     use adw::{subclass::prelude::*, TabPage};
     use gettextrs::gettext;
     use glib::property::PropertySet;
@@ -54,6 +54,9 @@ mod imp {
 
         #[template_child]
         pub window_title: TemplateChild<adw::WindowTitle>,
+
+        #[template_child]
+        pub save_changes: TemplateChild<adw::AlertDialog>,
 
         window_title_binding: RefCell<Option<Binding>>,
     }
@@ -221,12 +224,7 @@ mod imp {
             Ok(())
         }
 
-        async fn trigger_save(&self) -> Result<(), CarteroError> {
-            // In order to place the modal, we need a reference to the public type.
-            let Some(pane) = self.current_pane() else {
-                return Ok(());
-            };
-
+        async fn save_pane(&self, pane: &ItemPane) -> Result<(), CarteroError> {
             let Some(endpoint) = pane.endpoint() else {
                 return Ok(());
             };
@@ -240,13 +238,11 @@ mod imp {
             };
 
             if let Some(path) = path {
-                println!("Saving as {:?}", path);
-
                 let endpoint = endpoint.extract_endpoint()?;
                 let serialized_payload = crate::file::store_toml(&endpoint)?;
                 crate::file::write_file(&path, &serialized_payload)?;
                 pane.update_title_and_path(&path);
-
+                pane.set_dirty(false);
                 self.bind_current_tab(&pane);
                 self.save_visible_tabs();
             }
@@ -254,9 +250,50 @@ mod imp {
             Ok(())
         }
 
+        async fn trigger_save(&self) -> Result<(), CarteroError> {
+            // In order to place the modal, we need a reference to the public type.
+            let Some(pane) = self.current_pane() else {
+                return Ok(());
+            };
+            self.save_pane(&pane).await
+        }
+
         pub(super) fn toast_error(&self, error: CarteroError) {
             let toast = adw::Toast::new(&error.to_string());
             self.toaster.add_toast(toast);
+        }
+
+        fn get_modified_panes(&self) -> Vec<ItemPane> {
+            let pages = self.tabview.pages();
+            let count = pages.n_items();
+            let mut panes = Vec::new();
+
+            for i in 0..count {
+                let page = pages.item(i).and_downcast::<TabPage>().unwrap();
+                let child = page.child().downcast::<ItemPane>().unwrap();
+                if child.dirty() {
+                    panes.push(child.clone());
+                }
+            }
+
+            panes
+        }
+
+        async fn show_save_changes(&self) -> String {
+            let app = CarteroApplication::get();
+            let window = app.get_window();
+            let dialog: adw::AlertDialog = self.save_changes.clone();
+            dialog.choose_future(window).await.as_str().to_string()
+        }
+
+        async fn save_all_tabs(&self) -> Result<(), CarteroError> {
+            let panes = self.get_modified_panes();
+            for pane in panes {
+                if let Err(e) = self.save_pane(&pane).await {
+                    return Err(e);
+                }
+            }
+            Ok(())
         }
     }
 
@@ -299,13 +336,39 @@ mod imp {
                 }),
             );
 
-            self.tabview.connect_close_page(move |_, tabpage| {
+            self.tabview.connect_close_page(glib::clone!(@weak self as window => @default-return true, move |tabview, tabpage| {
                 let item_pane = tabpage.child().downcast::<ItemPane>().unwrap();
-                item_pane.set_path(Option::<String>::None);
-                let app = CarteroApplication::get();
-                app.get_window().sync_open_files();
-                false
-            });
+                let outcome = if item_pane.dirty() {
+                    let app = CarteroApplication::get();
+                    let win = app.get_window();
+                    let dialog = window.save_changes.get();
+                    let response = glib::MainContext::default().block_on(dialog.choose_future(win));
+                    match response.as_str() {
+                        "save" => {
+                            let resp = glib::MainContext::default().block_on(window.save_pane(&item_pane));
+                            match resp {
+                                Ok(_) => false,
+                                Err(e) => {
+                                    window.toast_error(e);
+                                    true
+                                },
+                            }
+                        },
+                        "discard" => false,
+                        _ => true,
+
+
+                    }
+                } else {
+                    item_pane.set_path(Option::<String>::None);
+                    let app = CarteroApplication::get();
+                    app.get_window().sync_open_files();
+                    false
+                };
+
+                tabview.close_page_finish(&tabpage, !outcome);
+                true
+            }));
 
             self.tabview.connect_page_reordered(
                 glib::clone!(@weak self as window => move |_, _, _| {
@@ -359,7 +422,30 @@ mod imp {
 
     impl WidgetImpl for CarteroWindow {}
 
-    impl WindowImpl for CarteroWindow {}
+    impl WindowImpl for CarteroWindow {
+        fn close_request(&self) -> glib::Propagation {
+            let panes = self.get_modified_panes();
+            if panes.is_empty() {
+                glib::Propagation::Proceed
+            } else {
+                let response = glib::MainContext::default().block_on(self.show_save_changes());
+                match response.as_str() {
+                    "discard" => glib::Propagation::Proceed,
+                    "save" => {
+                        let result = glib::MainContext::default().block_on(self.save_all_tabs());
+                        match result {
+                            Ok(_) => glib::Propagation::Proceed,
+                            Err(e) => {
+                                self.toast_error(e);
+                                glib::Propagation::Stop
+                            }
+                        }
+                    }
+                    _ => glib::Propagation::Stop,
+                }
+            }
+        }
+    }
 
     impl ApplicationWindowImpl for CarteroWindow {}
 

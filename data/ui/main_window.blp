@@ -156,3 +156,16 @@ menu main_menu {
     }
   }
 }
+
+Adw.AlertDialog save_changes {
+  heading: _("Save changes?");
+  body: _("There are changes that have not been saved yet. What do you want to do?");
+  close-response: "cancel";
+  default-response: "save";
+
+  responses [
+    cancel: _("_Cancel"),
+    discard: _("_Discard") destructive,
+    save: _("_Save") suggested,
+  ]
+}

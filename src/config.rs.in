@@ -1,4 +1,5 @@
 pub const APP_ID: &str = @APP_ID@;
 pub const BASE_ID: &str = @BASE_ID@;
 pub const GETTEXT_PACKAGE: &str = @GETTEXT_PACKAGE@;
+pub const RESOURCE_PATH: &str = @RESOURCE_PATH@;
 pub const VERSION: &str = @VERSION@;

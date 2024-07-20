@@ -14,5 +14,6 @@
 
   <gresource prefix="/es/danirod/Cartero/icons/scalable/actions/">
       <file alias="horizontal-arrows-symbolic.svg" preprocess="xml-stripblanks">icons/horizontal-arrows-symbolic.svg</file>
+      <file alias="tab-new-symbolic.svg" preprocess="xml-stripblanks">icons/tab-new-symbolic.svg</file>
   </gresource>
 </gresources>

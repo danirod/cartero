@@ -16,9 +16,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 global_conf = configuration_data()
-global_conf.set_quoted('BASE_ID', base_id)
 global_conf.set_quoted('APP_ID', application_id)
+global_conf.set_quoted('BASE_ID', base_id)
 global_conf.set_quoted('GETTEXT_PACKAGE', gettext_package)
+global_conf.set_quoted('RESOURCE_PATH', '/es/danirod/Cartero/')
 global_conf.set_quoted('VERSION', version + version_suffix)
 configure_file(
   input: 'config.rs.in',

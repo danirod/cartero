@@ -25,7 +25,7 @@ use glib::Object;
 use gtk::gio::{self, ActionEntryBuilder, Settings};
 use gtk::prelude::ActionMapExtManual;
 
-use crate::config::{self, APP_ID, BASE_ID};
+use crate::config::{self, APP_ID, BASE_ID, RESOURCE_PATH};
 use crate::win::CarteroWindow;
 
 mod imp {
@@ -99,7 +99,10 @@ impl CarteroApplication {
     }
 
     pub fn new() -> Self {
-        Object::builder().property("application-id", APP_ID).build()
+        Object::builder()
+            .property("application-id", APP_ID)
+            .property("resource-base-path", RESOURCE_PATH)
+            .build()
     }
 
     pub fn get_window(&self) -> &CarteroWindow {

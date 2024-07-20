@@ -32,8 +32,8 @@ mod imp {
     use gtk::gio::ActionEntry;
     use gtk::prelude::*;
 
-    use crate::widgets::*;
     use crate::{app::CarteroApplication, error::CarteroError};
+    use crate::{config, widgets::*};
     use glib::subclass::InitializingObject;
     use gtk::{CompositeTemplate, TemplateChild};
 
@@ -324,6 +324,11 @@ mod imp {
     impl ObjectImpl for CarteroWindow {
         fn constructed(&self) {
             self.parent_constructed();
+
+            if config::PROFILE == "Devel" {
+                let obj = self.obj();
+                obj.add_css_class("devel");
+            }
 
             self.init_settings();
 

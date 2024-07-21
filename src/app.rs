@@ -38,8 +38,6 @@ mod imp {
     use gtk::subclass::prelude::*;
     use gtk::subclass::{application::GtkApplicationImpl, prelude::ApplicationImpl};
 
-    use crate::widgets::{BasePayloadPane, NonePayloadPane, RawPayloadPane};
-
     use super::*;
 
     #[derive(Default)]
@@ -70,12 +68,7 @@ mod imp {
 
             let obj = self.obj();
             obj.set_accels_for_action("win.request", &["<Primary>Return"]);
-
             obj.setup_app_actions();
-
-            BasePayloadPane::static_type();
-            NonePayloadPane::static_type();
-            RawPayloadPane::static_type();
         }
     }
 

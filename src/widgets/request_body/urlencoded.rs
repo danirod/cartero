@@ -15,31 +15,26 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use super::BasePayloadPane;
+use glib::subclass::types::ObjectSubclassIsExt;
+
+use crate::entities::RequestPayload;
+
+use super::{BasePayloadPane, BasePayloadPaneExt};
 
 mod imp {
-    use std::cell::RefCell;
-
     use glib::subclass::InitializingObject;
-    use glib::Properties;
     use gtk::subclass::prelude::*;
-    use gtk::{prelude::*, CompositeTemplate};
+    use gtk::CompositeTemplate;
 
     use crate::entities::{KeyValue, KeyValueTable};
+    use crate::objects::KeyValueItem;
     use crate::widgets::{BasePayloadPane, BasePayloadPaneImpl, KeyValuePane};
 
-    #[derive(Default, Properties, CompositeTemplate)]
-    #[properties(wrapper_type = super::UrlencodedPayloadPane)]
+    #[derive(Default, CompositeTemplate)]
     #[template(resource = "/es/danirod/Cartero/urlencoded_payload_pane.ui")]
     pub struct UrlencodedPayloadPane {
         #[template_child]
         data: TemplateChild<KeyValuePane>,
-
-        #[property(get = Self::payload, set = Self::set_payload, nullable, type = Option<glib::Bytes>)]
-        _payload: RefCell<Option<glib::Bytes>>,
-
-        #[property(get = Self::headers, type = KeyValueTable)]
-        _headers: RefCell<KeyValueTable>,
     }
 
     #[glib::object_subclass]
@@ -57,7 +52,6 @@ mod imp {
         }
     }
 
-    #[glib::derived_properties]
     impl ObjectImpl for UrlencodedPayloadPane {
         fn constructed(&self) {
             self.parent_constructed();
@@ -70,29 +64,18 @@ mod imp {
     impl BasePayloadPaneImpl for UrlencodedPayloadPane {}
 
     impl UrlencodedPayloadPane {
-        pub fn headers(&self) -> KeyValueTable {
-            let row = KeyValue::from(("Content-Type", "application/x-www-form-urlencoded"));
-            KeyValueTable::new(&[row])
-        }
-
-        pub fn payload(&self) -> Option<glib::Bytes> {
+        pub(super) fn get_table(&self) -> KeyValueTable {
             let entries = self.data.get_entries();
-            let variables: Vec<(String, String)> = entries
-                .iter()
-                .filter(|entry| entry.is_usable())
-                .map(|entry| (entry.header_name(), entry.header_value()))
-                .collect();
-            match serde_urlencoded::to_string(variables) {
-                Ok(cod) => {
-                    let bytes = glib::Bytes::from_owned(cod);
-                    Some(bytes)
-                }
-                Err(_) => None,
-            }
+            let key_values: Vec<KeyValue> = entries.into_iter().map(KeyValue::from).collect();
+            KeyValueTable::new(&key_values)
         }
 
-        pub fn set_payload(&self, _: Option<&glib::Bytes>) {
-            // NOOP
+        pub(super) fn set_table(&self, table: &KeyValueTable) {
+            let key_values: Vec<KeyValueItem> = table
+                .iter()
+                .map(|row| KeyValueItem::from(row.clone()))
+                .collect();
+            self.data.set_entries(&key_values);
         }
     }
 }
@@ -101,4 +84,19 @@ glib::wrapper! {
     pub struct UrlencodedPayloadPane(ObjectSubclass<imp::UrlencodedPayloadPane>)
         @extends gtk::Widget, BasePayloadPane,
     @implements gtk::Accessible, gtk::Buildable;
+}
+
+impl BasePayloadPaneExt for UrlencodedPayloadPane {
+    fn payload(&self) -> RequestPayload {
+        let imp = self.imp();
+        let table = imp.get_table();
+        RequestPayload::Urlencoded(table)
+    }
+
+    fn set_payload(&self, payload: &RequestPayload) {
+        let imp = self.imp();
+        if let RequestPayload::Urlencoded(params) = payload {
+            imp.set_table(params);
+        }
+    }
 }

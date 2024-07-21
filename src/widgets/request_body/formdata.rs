@@ -15,21 +15,22 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use super::BasePayloadPane;
+use glib::subclass::types::ObjectSubclassIsExt;
+
+use crate::entities::RequestPayload;
+
+use super::{BasePayloadPane, BasePayloadPaneExt};
 
 mod imp {
-    use std::cell::RefCell;
-    use std::io::BufWriter;
-    use std::io::Write;
-
-    use formdata::FormData;
     use glib::subclass::InitializingObject;
     use glib::Properties;
     use gtk::subclass::prelude::*;
     use gtk::{prelude::*, CompositeTemplate};
+    use std::cell::RefCell;
 
     use crate::entities::KeyValue;
     use crate::entities::KeyValueTable;
+    use crate::objects::KeyValueItem;
     use crate::widgets::{BasePayloadPane, BasePayloadPaneImpl, KeyValuePane};
 
     #[derive(Default, Properties, CompositeTemplate)]
@@ -38,12 +39,6 @@ mod imp {
     pub struct FormdataPayloadPane {
         #[template_child]
         data: TemplateChild<KeyValuePane>,
-
-        #[property(get = Self::payload, set = Self::set_payload, nullable, type = Option<glib::Bytes>)]
-        _payload: RefCell<Option<glib::Bytes>>,
-
-        #[property(get = Self::headers, type = KeyValueTable)]
-        _headers: RefCell<KeyValueTable>,
 
         #[property(get, set)]
         boundary: RefCell<String>,
@@ -81,39 +76,18 @@ mod imp {
     impl BasePayloadPaneImpl for FormdataPayloadPane {}
 
     impl FormdataPayloadPane {
-        pub fn payload(&self) -> Option<glib::Bytes> {
+        pub(super) fn get_table(&self) -> KeyValueTable {
             let entries = self.data.get_entries();
-            let variables: Vec<(String, String)> = entries
+            let key_values: Vec<KeyValue> = entries.into_iter().map(KeyValue::from).collect();
+            KeyValueTable::new(&key_values)
+        }
+
+        pub(super) fn set_table(&self, table: &KeyValueTable) {
+            let key_values: Vec<KeyValueItem> = table
                 .iter()
-                .filter(|entry| entry.is_usable())
-                .map(|entry| (entry.header_name(), entry.header_value()))
+                .map(|row| KeyValueItem::from(row.clone()))
                 .collect();
-
-            // Build response
-            let data = FormData {
-                fields: variables,
-                files: vec![],
-            };
-            let boundary = self.boundary.borrow();
-            let boundary = Vec::from(boundary.as_bytes());
-            let mut stream = BufWriter::new(Vec::new());
-            let _ = formdata::write_formdata(&mut stream, &boundary, &data);
-
-            let _ = stream.flush();
-            let copy = stream.get_ref().clone();
-            let contents = glib::Bytes::from(&copy);
-            Some(contents)
-        }
-
-        pub fn set_payload(&self, _: Option<&glib::Bytes>) {
-            // NOOP
-        }
-
-        pub fn headers(&self) -> KeyValueTable {
-            let boundary = self.boundary.borrow();
-            let content_type = format!("multipart/form-data; boundary={boundary}");
-            let content_type = KeyValue::from(("Content-Type", content_type.as_str()));
-            KeyValueTable::new(&[content_type])
+            self.data.set_entries(&key_values);
         }
     }
 }
@@ -122,4 +96,19 @@ glib::wrapper! {
     pub struct FormdataPayloadPane(ObjectSubclass<imp::FormdataPayloadPane>)
         @extends gtk::Widget, BasePayloadPane,
     @implements gtk::Accessible, gtk::Buildable;
+}
+
+impl BasePayloadPaneExt for FormdataPayloadPane {
+    fn payload(&self) -> RequestPayload {
+        let imp = self.imp();
+        let table = imp.get_table();
+        RequestPayload::Multipart { params: table }
+    }
+
+    fn set_payload(&self, payload: &RequestPayload) {
+        let imp = self.imp();
+        if let RequestPayload::Multipart { params } = payload {
+            imp.set_table(params);
+        }
+    }
 }

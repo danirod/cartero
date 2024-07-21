@@ -15,6 +15,12 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use glib::subclass::types::ObjectSubclassIsExt;
+
+use crate::entities::{RawEncoding, RequestPayload};
+
+use super::{BasePayloadPaneExt, PayloadType};
+
 mod imp {
     use std::cell::RefCell;
 
@@ -28,7 +34,6 @@ mod imp {
     use sourceview5::{Buffer, StyleSchemeManager, View};
 
     use crate::app::CarteroApplication;
-    use crate::entities::{KeyValue, KeyValueTable};
     use crate::widgets::{BasePayloadPane, BasePayloadPaneImpl, PayloadType};
 
     #[derive(Default, CompositeTemplate, Properties)]
@@ -41,14 +46,8 @@ mod imp {
         #[template_child]
         buffer: TemplateChild<Buffer>,
 
-        #[property(get = Self::payload, set = Self::set_payload, nullable, type = Option<glib::Bytes>)]
-        _payload: RefCell<Option<glib::Bytes>>,
-
         #[property(get = Self::format, set = Self::set_format, builder(PayloadType::default()))]
         _format: RefCell<PayloadType>,
-
-        #[property(get = Self::headers, type = KeyValueTable)]
-        _headers: RefCell<KeyValueTable>,
     }
 
     #[glib::object_subclass]
@@ -83,34 +82,15 @@ mod imp {
     impl BasePayloadPaneImpl for RawPayloadPane {}
 
     impl RawPayloadPane {
-        fn payload(&self) -> Option<glib::Bytes> {
+        pub(super) fn payload(&self) -> Vec<u8> {
             let (start, end) = self.buffer.bounds();
             let text = self.buffer.text(&start, &end, true);
-            let bytes = glib::Bytes::from_owned(text);
-            Some(bytes)
+            Vec::from(text)
         }
 
-        fn set_payload(&self, payload: Option<&glib::Bytes>) {
-            match payload {
-                Some(payload) => {
-                    let body = String::from_utf8_lossy(payload);
-                    self.buffer.set_text(&body);
-                }
-                None => {
-                    self.buffer.set_text("");
-                }
-            }
-        }
-
-        fn headers(&self) -> KeyValueTable {
-            let format = self.format();
-            let content_type = match format {
-                PayloadType::Json => "application/json",
-                PayloadType::Xml => "application/xml",
-                _ => "application/octet-stream",
-            };
-            let header = KeyValue::from(("Content-Type", content_type));
-            KeyValueTable::new(&[header])
+        pub(super) fn set_payload(&self, payload: &[u8]) {
+            let body = String::from_utf8_lossy(payload);
+            self.buffer.set_text(&body);
         }
 
         fn format(&self) -> PayloadType {
@@ -227,4 +207,30 @@ glib::wrapper! {
     pub struct RawPayloadPane(ObjectSubclass<imp::RawPayloadPane>)
         @extends gtk::Widget, adw::Bin, super::BasePayloadPane,
         @implements gtk::Accessible, gtk::Buildable;
+}
+
+impl BasePayloadPaneExt for RawPayloadPane {
+    fn payload(&self) -> RequestPayload {
+        let imp = self.imp();
+        let content = imp.payload();
+        let encoding = match self.format() {
+            super::PayloadType::Json => RawEncoding::Json,
+            super::PayloadType::Xml => RawEncoding::Xml,
+            _ => RawEncoding::OctetStream,
+        };
+        RequestPayload::Raw { encoding, content }
+    }
+
+    fn set_payload(&self, payload: &RequestPayload) {
+        if let RequestPayload::Raw { encoding, content } = payload {
+            let imp = self.imp();
+            imp.set_payload(content);
+            let format = match encoding {
+                RawEncoding::Json => PayloadType::Json,
+                RawEncoding::Xml => PayloadType::Xml,
+                _ => PayloadType::Raw,
+            };
+            self.set_format(format);
+        }
+    }
 }

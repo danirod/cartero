@@ -17,9 +17,12 @@
 
 use std::sync::OnceLock;
 
+use glib::object::CastNone;
 use gtk::subclass::prelude::*;
 
-use crate::entities::KeyValueTable;
+use crate::entities::{RawEncoding, RequestPayload};
+
+use super::{BasePayloadPaneExt, FormdataPayloadPane, RawPayloadPane, UrlencodedPayloadPane};
 
 #[derive(Debug, Copy, Clone, Default, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "CarteroPayloadType")]
@@ -55,7 +58,7 @@ mod imp {
     use adw::prelude::*;
     use adw::subclass::prelude::*;
     use adw::ComboRow;
-    use glib::{object::CastNone, subclass::InitializingObject, Properties};
+    use glib::{subclass::InitializingObject, Properties};
     use gtk::template_callbacks;
     use gtk::Separator;
     use gtk::{CompositeTemplate, Stack};
@@ -140,10 +143,6 @@ mod imp {
             self.raw.set_format(payload_type);
         }
 
-        pub(super) fn current_child(&self) -> Option<BasePayloadPane> {
-            self.stack.visible_child().and_downcast::<BasePayloadPane>()
-        }
-
         fn payload_type(&self) -> PayloadType {
             let n_item = self.combo.selected();
             PayloadType::types()[n_item as usize]
@@ -152,6 +151,21 @@ mod imp {
         fn set_payload_type(&self, pt: PayloadType) {
             let pos = PayloadType::types().iter().position(|&t| t == pt).unwrap();
             self.combo.set_selected(pos as u32);
+        }
+
+        pub(super) fn get_active_widget(&self) -> Option<BasePayloadPane> {
+            match self.payload_type() {
+                PayloadType::None => None,
+                PayloadType::UrlEncoded => {
+                    Some(self.urlencoded.upcast_ref::<BasePayloadPane>().clone())
+                }
+                PayloadType::MultipartFormData => {
+                    Some(self.formdata.upcast_ref::<BasePayloadPane>().clone())
+                }
+                PayloadType::Json | PayloadType::Xml | PayloadType::Raw => {
+                    Some(self.raw.upcast_ref::<BasePayloadPane>().clone())
+                }
+            }
         }
     }
 }
@@ -163,22 +177,56 @@ glib::wrapper! {
 }
 
 impl PayloadTab {
-    pub fn set_payload(&self, payload: Option<&glib::Bytes>) {
-        let imp = self.imp();
-        if let Some(child) = imp.current_child() {
-            child.set_payload(payload);
+    pub fn set_payload(&self, payload: &RequestPayload) {
+        let payload_type = match payload {
+            RequestPayload::None => PayloadType::None,
+            RequestPayload::Urlencoded(_) => PayloadType::UrlEncoded,
+            RequestPayload::Multipart { params: _ } => PayloadType::MultipartFormData,
+            RequestPayload::Raw {
+                encoding,
+                content: _,
+            } => match encoding {
+                RawEncoding::Json => PayloadType::Json,
+                RawEncoding::Xml => PayloadType::Xml,
+                RawEncoding::OctetStream => PayloadType::Raw,
+            },
+        };
+        self.set_payload_type(payload_type);
+
+        let widget = self.imp().get_active_widget();
+        match self.payload_type() {
+            PayloadType::None => {}
+            PayloadType::UrlEncoded => {
+                let widget = widget.and_downcast::<UrlencodedPayloadPane>().unwrap();
+                widget.set_payload(payload);
+            }
+            PayloadType::MultipartFormData => {
+                let widget = widget.and_downcast::<FormdataPayloadPane>().unwrap();
+                widget.set_payload(payload);
+            }
+            PayloadType::Json | PayloadType::Xml | PayloadType::Raw => {
+                let widget = widget.and_downcast::<RawPayloadPane>().unwrap();
+                widget.set_payload(payload);
+            }
         }
     }
 
-    pub fn payload(&self) -> Option<glib::Bytes> {
-        let imp = self.imp();
-        imp.current_child().and_then(|child| child.payload())
-    }
-
-    pub fn get_headers(&self) -> KeyValueTable {
-        let imp = self.imp();
-        imp.current_child()
-            .map(|child| child.headers())
-            .unwrap_or_default()
+    pub fn payload(&self) -> RequestPayload {
+        let widget = self.imp().get_active_widget();
+        match self.payload_type() {
+            PayloadType::None => RequestPayload::None,
+            PayloadType::UrlEncoded => {
+                let widget = widget.and_downcast::<UrlencodedPayloadPane>().unwrap();
+                widget.payload()
+            }
+            PayloadType::MultipartFormData => {
+                let widget = widget.and_downcast::<FormdataPayloadPane>().unwrap();
+                widget.payload()
+            }
+            PayloadType::Json | PayloadType::Xml | PayloadType::Raw => {
+                let widget = widget.and_downcast::<RawPayloadPane>().unwrap();
+                widget.payload()
+            }
+        }
     }
 }

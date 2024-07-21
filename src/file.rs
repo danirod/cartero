@@ -5,7 +5,9 @@ use std::{collections::HashMap, fs::File};
 use serde::{Deserialize, Serialize};
 
 use crate::client::RequestError;
-use crate::entities::{EndpointData, KeyValue, KeyValueTable, RequestMethod};
+use crate::entities::{
+    EndpointData, KeyValue, KeyValueTable, RawEncoding, RequestMethod, RequestPayload,
+};
 use crate::error::CarteroError;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -129,12 +131,124 @@ impl From<KeyValueTable> for KeyValuedFileTable {
     }
 }
 
+#[derive(Default, Serialize, Deserialize, Debug)]
+pub enum FilePayloadRawFormat {
+    #[default]
+    #[serde(rename = "octet-stream")]
+    OctetStream,
+    #[serde(rename = "json")]
+    Json,
+    #[serde(rename = "xml")]
+    Xml,
+}
+
+impl From<RawEncoding> for FilePayloadRawFormat {
+    fn from(value: RawEncoding) -> Self {
+        match value {
+            RawEncoding::Json => Self::Json,
+            RawEncoding::OctetStream => Self::OctetStream,
+            RawEncoding::Xml => Self::Xml,
+        }
+    }
+}
+
+impl From<FilePayloadRawFormat> for RawEncoding {
+    fn from(value: FilePayloadRawFormat) -> Self {
+        match value {
+            FilePayloadRawFormat::Json => Self::Json,
+            FilePayloadRawFormat::OctetStream => Self::OctetStream,
+            FilePayloadRawFormat::Xml => Self::Xml,
+        }
+    }
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(tag = "type")]
+pub enum FilePayload {
+    #[serde(rename = "none")]
+    None,
+    #[serde(rename = "urlencoded")]
+    UrlEncoded {
+        variables: Option<KeyValuedFileTable>,
+    },
+    #[serde(rename = "multipart")]
+    Multipart {
+        variables: Option<KeyValuedFileTable>,
+    },
+    #[serde(rename = "raw")]
+    Raw {
+        format: Option<FilePayloadRawFormat>,
+        body: String,
+    },
+}
+
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Body {
+    ClassicRaw(String),
+    Structured(FilePayload),
+}
+
+impl From<RequestPayload> for FilePayload {
+    fn from(value: RequestPayload) -> Self {
+        match value {
+            RequestPayload::None => Self::None,
+            RequestPayload::Urlencoded(payload) => Self::UrlEncoded {
+                variables: Some(payload.into()),
+            },
+            RequestPayload::Multipart { params } => Self::Multipart {
+                variables: Some(params.into()),
+            },
+            RequestPayload::Raw { encoding, content } => Self::Raw {
+                format: Some(encoding.into()),
+                body: String::from_utf8_lossy(&content.clone()).to_string(),
+            },
+        }
+    }
+}
+
+impl From<FilePayload> for RequestPayload {
+    fn from(value: FilePayload) -> Self {
+        match value {
+            FilePayload::None => Self::None,
+            FilePayload::Multipart { variables } => Self::Multipart {
+                params: variables.unwrap_or_default().into(),
+            },
+            FilePayload::UrlEncoded { variables } => {
+                Self::Urlencoded(variables.unwrap_or_default().into())
+            }
+            FilePayload::Raw { format, body } => Self::Raw {
+                encoding: format.unwrap_or_default().into(),
+                content: Vec::from(body.clone()),
+            },
+        }
+    }
+}
+
+impl From<RequestPayload> for Body {
+    fn from(value: RequestPayload) -> Self {
+        Self::Structured(value.into())
+    }
+}
+
+impl From<Body> for RequestPayload {
+    fn from(value: Body) -> Self {
+        match value {
+            Body::ClassicRaw(payload) => Self::Raw {
+                encoding: RawEncoding::OctetStream,
+                content: Vec::from(payload.clone().as_str()),
+            },
+            Body::Structured(payload) => payload.into(),
+        }
+    }
+}
+
 #[derive(Deserialize, Serialize)]
 struct RequestFile {
     version: usize,
     url: String,
     method: String,
-    body: Option<String>,
+    body: Option<Body>,
     headers: Option<KeyValuedFileTable>,
     variables: Option<KeyValuedFileTable>,
 }
@@ -149,7 +263,7 @@ impl TryFrom<RequestFile> for EndpointData {
         let Ok(method) = RequestMethod::try_from(value.method.as_str()) else {
             return Err(RequestError::InvalidHttpVerb.into());
         };
-        let body = value.body.map(|b| Vec::from(b.as_str()));
+        let body = value.body.map(RequestPayload::from).unwrap_or_default();
         let headers = value.headers.unwrap_or_default().into();
         let variables = value.variables.unwrap_or_default().into();
 
@@ -167,9 +281,10 @@ impl TryFrom<RequestFile> for EndpointData {
 impl From<EndpointData> for RequestFile {
     fn from(value: EndpointData) -> RequestFile {
         let method: &str = value.method.into();
-        let body = value
-            .body
-            .map(|body| String::from_utf8_lossy(&body).to_string());
+        let body = match value.body {
+            RequestPayload::None => None,
+            otherwise => Some(otherwise.into()),
+        };
         let headers = value.headers.into();
         let variables = value.variables.into();
         RequestFile {
@@ -207,7 +322,9 @@ mod tests {
     use std::collections::HashMap;
 
     use crate::{
-        entities::{EndpointData, KeyValue, KeyValueTable, RequestMethod},
+        entities::{
+            EndpointData, KeyValue, KeyValueTable, RawEncoding, RequestMethod, RequestPayload,
+        },
         file::KeyValueDetail,
     };
 
@@ -322,7 +439,7 @@ mod tests {
     }
 
     #[test]
-    pub fn test_can_deserialize() {
+    pub fn test_can_deserialize_classic() {
         let toml = "
 version = 1
 url = 'https://www.google.com'
@@ -336,7 +453,13 @@ Accept-Encoding = 'gzip'
         let endpoint = super::parse_toml(toml).unwrap();
         assert_eq!(endpoint.url, "https://www.google.com");
         assert_eq!(endpoint.method, RequestMethod::Get);
-        assert_eq!(endpoint.body, Some(Vec::from(b"hello")));
+        assert_eq!(
+            endpoint.body,
+            RequestPayload::Raw {
+                encoding: RawEncoding::OctetStream,
+                content: Vec::from(b"hello"),
+            }
+        );
         assert_eq!(endpoint.headers.len(), 2);
 
         let mut given_headers = endpoint.headers.clone();
@@ -375,7 +498,13 @@ Accept-Encoding = 'gzip'
         let endpoint = super::parse_toml(toml).unwrap();
         assert_eq!(endpoint.url, "https://www.google.com");
         assert_eq!(endpoint.method, RequestMethod::Get);
-        assert_eq!(endpoint.body, Some(Vec::from(b"hello")));
+        assert_eq!(
+            endpoint.body,
+            RequestPayload::Raw {
+                encoding: RawEncoding::OctetStream,
+                content: Vec::from(b"hello"),
+            }
+        );
         assert_eq!(endpoint.headers.len(), 2);
 
         let mut given_headers = endpoint.headers.clone();
@@ -414,7 +543,13 @@ Accept-Encoding = 'gzip'
         let endpoint = super::parse_toml(toml).unwrap();
         assert_eq!(endpoint.url, "https://www.google.com");
         assert_eq!(endpoint.method, RequestMethod::Get);
-        assert_eq!(endpoint.body, Some(Vec::from(b"hello")));
+        assert_eq!(
+            endpoint.body,
+            RequestPayload::Raw {
+                encoding: RawEncoding::OctetStream,
+                content: Vec::from(b"hello"),
+            }
+        );
         assert_eq!(endpoint.headers.len(), 3);
 
         let mut given_headers = endpoint.headers.clone();
@@ -466,7 +601,13 @@ Accept-Encoding = 'gzip'
         let endpoint = super::parse_toml(toml).unwrap();
         assert_eq!(endpoint.url, "https://www.google.com");
         assert_eq!(endpoint.method, RequestMethod::Get);
-        assert_eq!(endpoint.body, Some(Vec::from(b"hello")));
+        assert_eq!(
+            endpoint.body,
+            RequestPayload::Raw {
+                encoding: RawEncoding::OctetStream,
+                content: Vec::from(b"hello"),
+            }
+        );
         assert_eq!(endpoint.headers.len(), 5);
 
         let mut given_headers = endpoint.headers.clone();
@@ -568,7 +709,7 @@ Accept = 'text/html'
         let endpoint = super::parse_toml(toml).unwrap();
         assert_eq!(endpoint.url, "https://www.google.com");
         assert_eq!(endpoint.method, RequestMethod::Get);
-        assert!(endpoint.body.is_none());
+        assert_eq!(endpoint.body, RequestPayload::None);
     }
 
     #[test]
@@ -579,7 +720,7 @@ Accept = 'text/html'
             ("User-Agent", "Cartero/0.1").into(),
         ];
         let headers = KeyValueTable::new(&headers);
-        let body = Some(Vec::from("Hello"));
+        let body = RequestPayload::None;
         let r = EndpointData {
             url: "https://www.google.com".to_string(),
             method: RequestMethod::Post,
@@ -609,7 +750,7 @@ Accept = 'text/html'
             ("User-Agent", "Cartero/0.1").into(),
         ];
         let headers = KeyValueTable::new(&headers);
-        let body = Some(Vec::from("Hello"));
+        let body = RequestPayload::None;
         let r = EndpointData {
             url: "https://www.google.com".to_string(),
             method: RequestMethod::Post,
@@ -637,7 +778,13 @@ body = 'hello'
         let endpoint = super::parse_toml(toml).unwrap();
         assert_eq!(endpoint.url, "https://www.google.com");
         assert_eq!(endpoint.method, RequestMethod::Post);
-        assert_eq!(endpoint.body.unwrap().len(), 5);
+        assert_eq!(
+            endpoint.body,
+            RequestPayload::Raw {
+                content: Vec::from(b"hello"),
+                encoding: RawEncoding::OctetStream,
+            }
+        );
         assert_eq!(endpoint.headers.len(), 0);
     }
 
@@ -648,7 +795,10 @@ body = 'hello'
             ("Host", "google.com").into(),
         ];
         let headers = KeyValueTable::new(&headers);
-        let body = Some(Vec::from("Hello"));
+        let body = RequestPayload::Raw {
+            content: Vec::from(b"Hello"),
+            encoding: RawEncoding::OctetStream,
+        };
         let r = EndpointData {
             url: "https://www.google.com".to_string(),
             method: RequestMethod::Post,
@@ -702,7 +852,10 @@ body = 'hello'
                 active: true,
             },
         ]);
-        let body = Some(Vec::from("Hello"));
+        let body = RequestPayload::Raw {
+            content: Vec::from(b"Hello"),
+            encoding: RawEncoding::OctetStream,
+        };
         let r = EndpointData {
             url: "https://www.google.com".to_string(),
             method: RequestMethod::Post,

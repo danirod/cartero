@@ -19,6 +19,10 @@ using Gtk 4.0;
 using Adw 1;
 
 template $CarteroPayloadTab: Gtk.Box {
+  styles [
+    "background"
+  ]
+
   orientation: vertical;
   spacing: 15;
 
@@ -46,7 +50,7 @@ template $CarteroPayloadTab: Gtk.Box {
       Gtk.StackPage {
         name: "none";
 
-        child: $CarteroNonePayloadPane {};
+        child: Adw.Bin {};
       }
 
       Gtk.StackPage {

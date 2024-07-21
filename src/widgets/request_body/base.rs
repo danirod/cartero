@@ -19,25 +19,15 @@ use gtk::glib;
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 
+use crate::entities::RequestPayload;
+
 mod imp {
     use adw::subclass::bin::BinImpl;
-    use glib::Properties;
-    use gtk::prelude::*;
     use gtk::subclass::prelude::*;
     use gtk::subclass::widget::WidgetImpl;
-    use std::cell::RefCell;
 
-    use crate::entities::KeyValueTable;
-
-    #[derive(Default, Properties)]
-    #[properties(wrapper_type = super::BasePayloadPane)]
-    pub struct BasePayloadPane {
-        #[property(get, set, nullable, type = Option<glib::Bytes>)]
-        _payload: RefCell<Option<glib::Bytes>>,
-
-        #[property(get, type = KeyValueTable)]
-        _headers: RefCell<KeyValueTable>,
-    }
+    #[derive(Default)]
+    pub struct BasePayloadPane;
 
     #[glib::object_subclass]
     impl ObjectSubclass for BasePayloadPane {
@@ -48,7 +38,6 @@ mod imp {
         type ParentType = adw::Bin;
     }
 
-    #[glib::derived_properties]
     impl ObjectImpl for BasePayloadPane {}
 
     impl WidgetImpl for BasePayloadPane {}
@@ -62,9 +51,10 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable;
 }
 
-pub trait BasePayloadPaneExt:
-    glib::object::IsClass + IsA<glib::Object> + IsA<gtk::Widget> + IsA<adw::Bin> + IsA<BasePayloadPane>
-{
+pub trait BasePayloadPaneExt: IsA<BasePayloadPane> {
+    fn payload(&self) -> RequestPayload;
+
+    fn set_payload(&self, payload: &RequestPayload);
 }
 
 pub trait BasePayloadPaneImpl: WidgetImpl + ObjectImpl + 'static {}

@@ -222,12 +222,7 @@ mod imp {
                 .collect();
             self.header_pane.set_entries(&headers);
             self.variable_pane.set_entries(&variables);
-            if let Some(body) = endpoint.body.clone() {
-                let body = glib::Bytes::from(&body);
-                self.payload_pane.set_payload(Some(&body));
-            } else {
-                self.payload_pane.set_payload(None);
-            }
+            self.payload_pane.set_payload(&endpoint.body);
         }
 
         /// Takes the current state of the pane and extracts it into an Endpoint value.
@@ -238,8 +233,7 @@ mod imp {
             let url = String::from(self.request_url.buffer().text());
             let method = self.request_method();
 
-            let mut headers = self.payload_pane.get_headers();
-            let mut extra_headers = header_list
+            let headers = header_list
                 .iter()
                 .map(|pair| KeyValue {
                     name: pair.header_name(),
@@ -248,7 +242,6 @@ mod imp {
                     secret: pair.secret(),
                 })
                 .collect();
-            headers.append(&mut extra_headers);
             let variables = variable_list
                 .iter()
                 .map(|pair| KeyValue {
@@ -260,7 +253,6 @@ mod imp {
                 .collect();
 
             let body = self.payload_pane.payload();
-            let body = body.map(|body| Vec::from(&body as &[u8]));
             Ok(EndpointData {
                 url,
                 method,

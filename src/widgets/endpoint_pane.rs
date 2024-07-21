@@ -127,7 +127,14 @@ mod imp {
                     item_pane.set_dirty(true);
                 }));
 
-            // TODO: Restore dirty event listener for payload once the API is stable.
+            self.payload_pane
+                .connect_changed(glib::clone!(@weak self as pane => move |_| {
+                    let item_pane: &Option<ItemPane> = &pane.item_pane.borrow();
+                    let Some(item_pane) = item_pane else {
+                        return;
+                    };
+                    item_pane.set_dirty(true);
+                }));
 
             self.header_pane
                 .connect_changed(glib::clone!(@weak self as pane => move |_| {

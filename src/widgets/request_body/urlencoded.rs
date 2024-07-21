@@ -15,14 +15,17 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use glib::subclass::types::ObjectSubclassIsExt;
+use glib::{object::ObjectExt, subclass::types::ObjectSubclassIsExt};
 
 use crate::entities::RequestPayload;
 
 use super::{BasePayloadPane, BasePayloadPaneExt};
 
 mod imp {
-    use glib::subclass::InitializingObject;
+    use std::sync::OnceLock;
+
+    use glib::object::ObjectExt;
+    use glib::subclass::{InitializingObject, Signal};
     use gtk::subclass::prelude::*;
     use gtk::CompositeTemplate;
 
@@ -53,9 +56,19 @@ mod imp {
     }
 
     impl ObjectImpl for UrlencodedPayloadPane {
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| vec![Signal::builder("changed").build()])
+        }
+
         fn constructed(&self) {
             self.parent_constructed();
             self.data.assert_always_placeholder();
+
+            self.data
+                .connect_changed(glib::clone!(@weak self as pane => move |_| {
+                    pane.obj().emit_by_name::<()>("changed", &[]);
+                }));
         }
     }
 
@@ -84,6 +97,18 @@ glib::wrapper! {
     pub struct UrlencodedPayloadPane(ObjectSubclass<imp::UrlencodedPayloadPane>)
         @extends gtk::Widget, BasePayloadPane,
     @implements gtk::Accessible, gtk::Buildable;
+}
+
+impl UrlencodedPayloadPane {
+    pub fn connect_changed<F: Fn(&Self) + 'static>(&self, f: F) -> glib::SignalHandlerId {
+        self.connect_closure(
+            "changed",
+            true,
+            glib::closure_local!(|ref pane| {
+                f(pane);
+            }),
+        )
+    }
 }
 
 impl BasePayloadPaneExt for UrlencodedPayloadPane {

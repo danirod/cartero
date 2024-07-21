@@ -17,7 +17,7 @@
 
 use std::sync::OnceLock;
 
-use glib::object::CastNone;
+use glib::object::{CastNone, ObjectExt};
 use gtk::subclass::prelude::*;
 
 use crate::entities::{RawEncoding, RequestPayload};
@@ -54,10 +54,12 @@ impl PayloadType {
 
 mod imp {
     use std::cell::RefCell;
+    use std::sync::OnceLock;
 
     use adw::prelude::*;
     use adw::subclass::prelude::*;
     use adw::ComboRow;
+    use glib::subclass::Signal;
     use glib::{subclass::InitializingObject, Properties};
     use gtk::template_callbacks;
     use gtk::Separator;
@@ -117,6 +119,31 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
             self.on_selection_changed();
+
+            self.combo
+                .connect_selected_notify(glib::clone!(@weak self as pane => move |_| {
+                    pane.obj().emit_by_name::<()>("changed", &[]);
+                }));
+
+            self.raw
+                .connect_changed(glib::clone!(@weak self as pane => move |_| {
+                    pane.obj().emit_by_name::<()>("changed", &[]);
+                }));
+
+            self.urlencoded
+                .connect_changed(glib::clone!(@weak self as pane => move |_| {
+                    pane.obj().emit_by_name::<()>("changed", &[]);
+                }));
+
+            self.formdata
+                .connect_changed(glib::clone!(@weak self as pane => move |_| {
+                    pane.obj().emit_by_name::<()>("changed", &[]);
+                }));
+        }
+
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| vec![Signal::builder("changed").build()])
         }
     }
 
@@ -177,6 +204,16 @@ glib::wrapper! {
 }
 
 impl PayloadTab {
+    pub fn connect_changed<F: Fn(&Self) + 'static>(&self, f: F) -> glib::SignalHandlerId {
+        self.connect_closure(
+            "changed",
+            true,
+            glib::closure_local!(|ref pane| {
+                f(pane);
+            }),
+        )
+    }
+
     pub fn set_payload(&self, payload: &RequestPayload) {
         let payload_type = match payload {
             RequestPayload::None => PayloadType::None,

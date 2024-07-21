@@ -15,7 +15,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use glib::subclass::types::ObjectSubclassIsExt;
+use glib::{object::ObjectExt, subclass::types::ObjectSubclassIsExt};
 
 use crate::entities::{RawEncoding, RequestPayload};
 
@@ -23,9 +23,10 @@ use super::{BasePayloadPaneExt, PayloadType};
 
 mod imp {
     use std::cell::RefCell;
+    use std::sync::OnceLock;
 
     use adw::subclass::bin::BinImpl;
-    use glib::subclass::InitializingObject;
+    use glib::subclass::{InitializingObject, Signal};
     use glib::Properties;
     use gtk::subclass::prelude::*;
     use gtk::{gio::SettingsBindFlags, CompositeTemplate};
@@ -68,10 +69,20 @@ mod imp {
 
     #[glib::derived_properties]
     impl ObjectImpl for RawPayloadPane {
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| vec![Signal::builder("changed").build()])
+        }
+
         fn constructed(&self) {
             self.parent_constructed();
             self.init_settings();
             self.init_source_view_style();
+
+            self.buffer
+                .connect_changed(glib::clone!(@weak self as pane => move |_| {
+                    pane.obj().emit_by_name::<()>("changed", &[]);
+                }));
         }
     }
 
@@ -207,6 +218,18 @@ glib::wrapper! {
     pub struct RawPayloadPane(ObjectSubclass<imp::RawPayloadPane>)
         @extends gtk::Widget, adw::Bin, super::BasePayloadPane,
         @implements gtk::Accessible, gtk::Buildable;
+}
+
+impl RawPayloadPane {
+    pub fn connect_changed<F: Fn(&Self) + 'static>(&self, f: F) -> glib::SignalHandlerId {
+        self.connect_closure(
+            "changed",
+            true,
+            glib::closure_local!(|ref pane| {
+                f(pane);
+            }),
+        )
+    }
 }
 
 impl BasePayloadPaneExt for RawPayloadPane {

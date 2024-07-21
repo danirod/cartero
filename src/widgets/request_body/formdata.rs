@@ -15,18 +15,19 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use glib::subclass::types::ObjectSubclassIsExt;
+use glib::{object::ObjectExt, subclass::types::ObjectSubclassIsExt};
 
 use crate::entities::RequestPayload;
 
 use super::{BasePayloadPane, BasePayloadPaneExt};
 
 mod imp {
-    use glib::subclass::InitializingObject;
+    use glib::subclass::{InitializingObject, Signal};
     use glib::Properties;
     use gtk::subclass::prelude::*;
     use gtk::{prelude::*, CompositeTemplate};
     use std::cell::RefCell;
+    use std::sync::OnceLock;
 
     use crate::entities::KeyValue;
     use crate::entities::KeyValueTable;
@@ -61,6 +62,11 @@ mod imp {
 
     #[glib::derived_properties]
     impl ObjectImpl for FormdataPayloadPane {
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| vec![Signal::builder("changed").build()])
+        }
+
         fn constructed(&self) {
             self.parent_constructed();
             self.data.assert_always_placeholder();
@@ -68,6 +74,11 @@ mod imp {
             let boundary = formdata::generate_boundary();
             let boundary = String::from_utf8_lossy(&boundary).to_string();
             self.boundary.set(boundary);
+
+            self.data
+                .connect_changed(glib::clone!(@weak self as pane => move |_| {
+                    pane.obj().emit_by_name::<()>("changed", &[]);
+                }));
         }
     }
 
@@ -96,6 +107,18 @@ glib::wrapper! {
     pub struct FormdataPayloadPane(ObjectSubclass<imp::FormdataPayloadPane>)
         @extends gtk::Widget, BasePayloadPane,
     @implements gtk::Accessible, gtk::Buildable;
+}
+
+impl FormdataPayloadPane {
+    pub fn connect_changed<F: Fn(&Self) + 'static>(&self, f: F) -> glib::SignalHandlerId {
+        self.connect_closure(
+            "changed",
+            true,
+            glib::closure_local!(|ref pane| {
+                f(pane);
+            }),
+        )
+    }
 }
 
 impl BasePayloadPaneExt for FormdataPayloadPane {

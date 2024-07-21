@@ -68,7 +68,6 @@ mod imp {
 
             let obj = self.obj();
             obj.set_accels_for_action("win.request", &["<Primary>Return"]);
-
             obj.setup_app_actions();
         }
     }

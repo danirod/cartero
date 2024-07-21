@@ -148,21 +148,7 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
                 label: _("Body");
               };
 
-              child: ScrolledWindow {
-                hexpand: true;
-                vexpand: true;
-
-                GtkSource.View request_body {
-                  top-margin: 10;
-                  bottom-margin: 10;
-                  left-margin: 10;
-                  right-margin: 10;
-                  smart-backspace: true;
-                  monospace: true;
-
-                  buffer: GtkSource.Buffer {};
-                }
-              };
+              child: $CarteroPayloadTab payload_pane {};
             }
           }
         };

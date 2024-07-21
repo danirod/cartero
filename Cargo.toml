@@ -11,12 +11,14 @@ csd = []
 
 [dependencies]
 adw = { version = "0.6.0", package = "libadwaita", features = ["v1_5", "gtk_v4_12"] }
+formdata = "0.13.0"
 futures-lite = "2.3.0"
 gettext-rs = { version = "0.7.0", features = ["gettext-system"] }
 glib = "0.19.3"
 gtk = { package = "gtk4", version = "0.8.2", features = ["v4_12"] }
 isahc = "1.7.2"
 serde = { version = "1.0.198", features = ["derive"] }
+serde_urlencoded = "0.7.1"
 sourceview5 = "0.8.0"
 srtemplate = { version = "0.3.0", features = [] }
 thiserror = "1.0.60"

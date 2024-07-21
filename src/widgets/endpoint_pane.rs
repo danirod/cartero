@@ -27,19 +27,16 @@ mod imp {
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
     use glib::subclass::InitializingObject;
     use glib::Properties;
-    use gtk::gio::SettingsBindFlags;
     use gtk::subclass::prelude::*;
-    use gtk::{prelude::*, CompositeTemplate, StringObject, WrapMode};
+    use gtk::{prelude::*, CompositeTemplate, StringObject};
     use isahc::RequestExt;
-    use sourceview5::prelude::BufferExt;
-    use sourceview5::StyleSchemeManager;
 
     use crate::app::CarteroApplication;
     use crate::client::{BoundRequest, RequestError};
     use crate::entities::{EndpointData, KeyValue, RequestMethod};
     use crate::error::CarteroError;
     use crate::objects::KeyValueItem;
-    use crate::widgets::{ItemPane, KeyValuePane, ResponsePanel};
+    use crate::widgets::{ItemPane, KeyValuePane, PayloadTab, ResponsePanel};
 
     #[derive(CompositeTemplate, Properties, Default)]
     #[template(resource = "/es/danirod/Cartero/endpoint_pane.ui")]
@@ -61,7 +58,7 @@ mod imp {
         pub request_url: TemplateChild<gtk::Entry>,
 
         #[template_child]
-        pub request_body: TemplateChild<sourceview5::View>,
+        pub payload_pane: TemplateChild<PayloadTab>,
 
         #[template_child]
         pub response: TemplateChild<ResponsePanel>,
@@ -101,7 +98,6 @@ mod imp {
             self.init_settings();
             self.variable_pane.assert_always_placeholder();
             self.header_pane.assert_always_placeholder();
-            self.init_source_view_style();
         }
     }
 
@@ -131,15 +127,14 @@ mod imp {
                     item_pane.set_dirty(true);
                 }));
 
-            self.request_body.buffer().connect_changed(
-                glib::clone!(@weak self as pane => move |_| {
+            self.payload_pane
+                .connect_changed(glib::clone!(@weak self as pane => move |_| {
                     let item_pane: &Option<ItemPane> = &pane.item_pane.borrow();
                     let Some(item_pane) = item_pane else {
                         return;
                     };
                     item_pane.set_dirty(true);
-                }),
-            );
+                }));
 
             self.header_pane
                 .connect_changed(glib::clone!(@weak self as pane => move |_| {
@@ -164,96 +159,8 @@ mod imp {
             let settings = app.settings();
 
             settings
-                .bind("body-wrap", &*self.request_body, "wrap-mode")
-                .flags(SettingsBindFlags::GET)
-                .mapping(|variant, _| {
-                    let enabled = variant.get::<bool>().expect("The variant is not a boolean");
-                    let mode = match enabled {
-                        true => WrapMode::Word,
-                        false => WrapMode::None,
-                    };
-                    Some(mode.to_value())
-                })
-                .build();
-
-            settings
-                .bind(
-                    "show-line-numbers",
-                    &*self.request_body,
-                    "show-line-numbers",
-                )
-                .flags(SettingsBindFlags::GET)
-                .build();
-            settings
-                .bind("auto-indent", &*self.request_body, "auto-indent")
-                .flags(SettingsBindFlags::GET)
-                .build();
-            settings
-                .bind(
-                    "indent-style",
-                    &*self.request_body,
-                    "insert-spaces-instead-of-tabs",
-                )
-                .flags(SettingsBindFlags::GET)
-                .mapping(|variant, _| {
-                    let mode = variant
-                        .get::<String>()
-                        .expect("The variant is not a string");
-                    let use_spaces = mode == "spaces";
-                    Some(use_spaces.to_value())
-                })
-                .build();
-            settings
-                .bind("tab-width", &*self.request_body, "tab-width")
-                .flags(SettingsBindFlags::GET)
-                .mapping(|variant, _| {
-                    let width = variant.get::<String>().unwrap_or("4".into());
-                    let value = width.parse::<i32>().unwrap_or(4);
-                    Some(value.to_value())
-                })
-                .build();
-            settings
-                .bind("tab-width", &*self.request_body, "indent-width")
-                .flags(SettingsBindFlags::GET)
-                .mapping(|variant, _| {
-                    let width = variant.get::<String>().unwrap_or("4".into());
-                    let value = width.parse::<i32>().unwrap_or(4);
-                    Some(value.to_value())
-                })
-                .build();
-
-            settings
                 .bind("paned-position", &*self.paned, "position")
                 .build();
-        }
-
-        fn update_source_view_style(&self) {
-            let dark_mode = adw::StyleManager::default().is_dark();
-            let color_theme = if dark_mode { "Adwaita-dark" } else { "Adwaita" };
-            let theme = StyleSchemeManager::default().scheme(color_theme);
-
-            let buffer = self
-                .request_body
-                .buffer()
-                .downcast::<sourceview5::Buffer>()
-                .unwrap();
-            match theme {
-                Some(theme) => {
-                    buffer.set_style_scheme(Some(&theme));
-                    buffer.set_highlight_syntax(true);
-                }
-                None => {
-                    buffer.set_highlight_syntax(false);
-                }
-            }
-        }
-        fn init_source_view_style(&self) {
-            self.update_source_view_style();
-            adw::StyleManager::default().connect_dark_notify(
-                glib::clone!(@weak self as panel => move |_| {
-                    panel.update_source_view_style();
-                }),
-            );
         }
 
         /// Syncs whether the Send button can be clicked based on whether the request is formed.
@@ -322,11 +229,7 @@ mod imp {
                 .collect();
             self.header_pane.set_entries(&headers);
             self.variable_pane.set_entries(&variables);
-            let body = match &endpoint.body {
-                Some(text) => String::from_utf8_lossy(text).into(),
-                None => String::default(),
-            };
-            self.request_body.buffer().set_text(&body);
+            self.payload_pane.set_payload(&endpoint.body);
         }
 
         /// Takes the current state of the pane and extracts it into an Endpoint value.
@@ -336,6 +239,7 @@ mod imp {
 
             let url = String::from(self.request_url.buffer().text());
             let method = self.request_method();
+
             let headers = header_list
                 .iter()
                 .map(|pair| KeyValue {
@@ -355,13 +259,7 @@ mod imp {
                 })
                 .collect();
 
-            let body = {
-                let buffer = self.request_body.buffer();
-                let (start, end) = buffer.bounds();
-                let text = buffer.text(&start, &end, true);
-                Vec::from(text)
-            };
-            let body = Some(body);
+            let body = self.payload_pane.payload();
             Ok(EndpointData {
                 url,
                 method,

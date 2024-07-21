@@ -19,13 +19,17 @@ subdir('icons')
 
 blueprint_files = [
   'ui/endpoint_pane.blp',
+  'ui/formdata_payload_pane.blp',
   'ui/main_window.blp',
   'ui/main_window_no_csd.blp',
   'ui/key_value_pane.blp',
   'ui/key_value_row.blp',
+  'ui/payload_tab.blp',
+  'ui/raw_payload_pane.blp',
   'ui/response_headers.blp',
   'ui/response_panel.blp',
   'ui/save_dialog.blp',
+  'ui/urlencoded_payload_pane.blp',
 ]
 
 blueprint_targets = []

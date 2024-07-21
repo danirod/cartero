@@ -22,6 +22,8 @@ use std::{
 
 use srtemplate::SrTemplate;
 
+use crate::objects::KeyValueItem;
+
 #[derive(Debug, Clone, Eq, PartialEq)]
 pub struct KeyValue {
     pub name: String,
@@ -66,7 +68,19 @@ impl From<(&str, &str)> for KeyValue {
     }
 }
 
-#[derive(Debug, Clone, Default, Eq, PartialEq)]
+impl From<KeyValueItem> for KeyValue {
+    fn from(value: KeyValueItem) -> Self {
+        Self {
+            name: value.header_name().clone(),
+            value: value.header_value().clone(),
+            active: value.active(),
+            secret: value.secret(),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Default, Eq, PartialEq, glib::Boxed)]
+#[boxed_type(name = "GKeyValueTable")]
 pub struct KeyValueTable(Vec<KeyValue>);
 
 impl KeyValueTable {
@@ -184,12 +198,34 @@ impl From<RequestMethod> for String {
 }
 
 #[derive(Debug, Default, Clone, Eq, PartialEq)]
+pub enum RawEncoding {
+    Json,
+    Xml,
+    #[default]
+    OctetStream,
+}
+
+#[derive(Debug, Default, Clone, Eq, PartialEq)]
+pub enum RequestPayload {
+    #[default]
+    None,
+    Urlencoded(KeyValueTable),
+    Multipart {
+        params: KeyValueTable,
+    },
+    Raw {
+        encoding: RawEncoding,
+        content: Vec<u8>,
+    },
+}
+
+#[derive(Debug, Default, Clone, Eq, PartialEq)]
 pub struct EndpointData {
     pub url: String,
     pub method: RequestMethod,
     pub headers: KeyValueTable,
     pub variables: KeyValueTable,
-    pub body: Option<Vec<u8>>,
+    pub body: RequestPayload,
 }
 
 impl EndpointData {

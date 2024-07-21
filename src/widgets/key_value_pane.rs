@@ -49,6 +49,9 @@ mod imp {
         #[property(get, set = Self::set_model)]
         model: OnceCell<ListStore>,
 
+        #[property(get, set)]
+        avoid_duplicates: RefCell<bool>,
+
         #[property(get)]
         valid: RefCell<bool>,
     }
@@ -88,6 +91,11 @@ mod imp {
 
         fn constructed(&self) {
             self.parent_constructed();
+
+            let obj = self.obj();
+            obj.connect_avoid_duplicates_notify(glib::clone!(@weak obj as pane => move |_| {
+                pane.mark_duplicates();
+            }));
 
             self.model
                 .set(ListStore::with_type(KeyValueItem::static_type()))
@@ -181,7 +189,7 @@ impl KeyValuePane {
                 // First, reset the ignored bit for this header.
                 header.set_ignored(false);
 
-                if header.is_usable() {
+                if self.avoid_duplicates() && header.is_usable() {
                     let name = header.header_name().to_lowercase();
                     if let Some(old) = headers.insert(name, header.clone()) {
                         old.set_ignored(true);

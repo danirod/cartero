@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-07-12 00:13+0200\n"
+"POT-Creation-Date: 2024-07-22 08:24+0200\n"
 "PO-Revision-Date: 2024-06-22 13:31+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -63,6 +63,10 @@ msgstr "Kiel altaj novajn fenestrojn estos"
 msgid "The position of the split between two windows"
 msgstr ""
 
+#: data/es.danirod.Cartero.gschema.xml:39
+msgid "The current list of opened files"
+msgstr ""
+
 #: data/ui/endpoint_pane.blp:56
 msgid "Request method"
 msgstr "HTTP-metodo"
@@ -79,7 +83,7 @@ msgstr "Petu"
 msgid "Execute this HTTP request"
 msgstr "Sendu ĉi tiun http-peton"
 
-#: data/ui/endpoint_pane.blp:106 data/ui/response_panel.blp:33
+#: data/ui/endpoint_pane.blp:106 data/ui/response_panel.blp:47
 msgid "Headers"
 msgstr "Kapoj"
 
@@ -87,7 +91,7 @@ msgstr "Kapoj"
 msgid "Variables"
 msgstr "Variabloj"
 
-#: data/ui/endpoint_pane.blp:148 data/ui/response_panel.blp:54
+#: data/ui/endpoint_pane.blp:148 data/ui/response_panel.blp:68
 msgid "Body"
 msgstr "Korpo"
 
@@ -111,63 +115,123 @@ msgstr "Baskuli sekreton"
 msgid "Delete"
 msgstr "Forigi kapo"
 
-#: data/ui/main_window.blp:40
+#: data/ui/main_window.blp:40 data/ui/main_window_no_csd.blp:40
 msgid "New"
 msgstr "Nova peto"
 
 #: data/ui/main_window.blp:51 data/ui/main_window.blp:62
+#: data/ui/main_window_no_csd.blp:51 data/ui/main_window_no_csd.blp:62
 #: src/widgets/file_dialogs.rs:44
 msgid "Open"
 msgstr "Malfermi"
 
-#: data/ui/main_window.blp:70 src/widgets/file_dialogs.rs:58
+#: data/ui/main_window.blp:70 data/ui/main_window_no_csd.blp:70
+#: src/widgets/file_dialogs.rs:58
 msgid "Save"
 msgstr "Konservi"
 
-#: data/ui/main_window.blp:95
+#: data/ui/main_window.blp:95 data/ui/main_window_no_csd.blp:95
 msgid "Body appearance"
 msgstr ""
 
-#: data/ui/main_window.blp:99
+#: data/ui/main_window.blp:99 data/ui/main_window_no_csd.blp:99
 #, fuzzy
 msgid "Wrap content"
 msgstr "Se la korpoj de la HTTP-petoj devus esti envolvita"
 
-#: data/ui/main_window.blp:104
+#: data/ui/main_window.blp:104 data/ui/main_window_no_csd.blp:104
 msgid "Show line numbers"
 msgstr ""
 
-#: data/ui/main_window.blp:111
+#: data/ui/main_window.blp:111 data/ui/main_window_no_csd.blp:111
 msgid "Automatic indentation"
 msgstr ""
 
-#: data/ui/main_window.blp:116
+#: data/ui/main_window.blp:116 data/ui/main_window_no_csd.blp:116
 msgid "Indent with spaces"
 msgstr ""
 
-#: data/ui/main_window.blp:122
+#: data/ui/main_window.blp:122 data/ui/main_window_no_csd.blp:122
 msgid "Indent with tabs"
 msgstr ""
 
-#: data/ui/main_window.blp:128
+#: data/ui/main_window.blp:128 data/ui/main_window_no_csd.blp:128
 msgid "Spaces per tab"
 msgstr ""
 
-#: data/ui/main_window.blp:131
+#: data/ui/main_window.blp:131 data/ui/main_window_no_csd.blp:131
 msgid "2"
 msgstr ""
 
-#: data/ui/main_window.blp:137
+#: data/ui/main_window.blp:137 data/ui/main_window_no_csd.blp:137
 msgid "4"
 msgstr ""
 
-#: data/ui/main_window.blp:143
+#: data/ui/main_window.blp:143 data/ui/main_window_no_csd.blp:143
 msgid "8"
 msgstr ""
 
-#: data/ui/main_window.blp:154
+#: data/ui/main_window.blp:154 data/ui/main_window_no_csd.blp:154
 msgid "About Cartero"
 msgstr "Pri Cartero"
+
+#: data/ui/payload_tab.blp:35
+#, fuzzy
+msgid "Body type"
+msgstr "Korpo"
+
+#: data/ui/payload_tab.blp:81
+msgid "(none)"
+msgstr ""
+
+#: data/ui/payload_tab.blp:82
+msgid "URL Encoded"
+msgstr ""
+
+#: data/ui/payload_tab.blp:83
+msgid "Multipart Form Data"
+msgstr ""
+
+#: data/ui/payload_tab.blp:86
+msgid "Raw"
+msgstr ""
+
+#: data/ui/response_panel.blp:29
+msgid "Ready to request"
+msgstr ""
+
+#: data/ui/response_panel.blp:30
+msgid "Use the Send button to send a network request and it will show here."
+msgstr ""
+
+#: data/ui/save_dialog.blp:22
+msgid "Save changes?"
+msgstr ""
+
+#: data/ui/save_dialog.blp:23
+msgid "There are changes that have not been saved yet. What do you want to do?"
+msgstr ""
+
+#: data/ui/save_dialog.blp:28
+msgid "_Cancel"
+msgstr ""
+
+#: data/ui/save_dialog.blp:29
+msgid "_Discard"
+msgstr ""
+
+#: data/ui/save_dialog.blp:30
+#, fuzzy
+msgid "_Save"
+msgstr "Konservi"
+
+#: src/app.rs:146
+msgid "The Cartero authors"
+msgstr ""
+
+#: src/app.rs:147
+msgid "© 2024 the Cartero authors"
+msgstr ""
 
 #: src/widgets/file_dialogs.rs:40
 msgid "Open request"
@@ -181,19 +245,11 @@ msgstr ""
 msgid "Save request"
 msgstr ""
 
-#: src/widgets/item_pane.rs:78
+#: src/widgets/item_pane.rs:105
 msgid "(untitled)"
 msgstr ""
 
-#: src/app.rs:129
-msgid "The Cartero authors"
-msgstr ""
-
-#: src/app.rs:130
-msgid "© 2024 the Cartero authors"
-msgstr ""
-
-#: src/win.rs:172 src/win.rs:214
+#: src/win.rs:97
 msgid "Draft"
 msgstr ""
 

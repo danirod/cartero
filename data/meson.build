@@ -15,8 +15,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-subdir('icons')
-
 blueprint_files = [
   'ui/endpoint_pane.blp',
   'ui/formdata_payload_pane.blp',
@@ -61,6 +59,14 @@ if glib_compile_schemas.found()
   )
 endif
 
+install_data(
+  'icons/scalable/apps/@0@.svg'.format(application_id),
+  install_dir: iconsdir / 'hicolor' / 'scalable' / 'apps'
+)
+install_data(
+  'icons/symbolic/apps/@0@-symbolic.svg'.format(base_id),
+  install_dir: iconsdir / 'hicolor' / 'symbolic' / 'apps'
+)
 
 desktop_file = configure_file(
   input: 'cartero.desktop.in',

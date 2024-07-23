@@ -9,6 +9,7 @@ data/ui/key_value_pane.blp
 data/ui/key_value_row.blp
 data/ui/main_window.blp
 data/ui/main_window_no_csd.blp
+data/ui/method_dropdown.blp
 data/ui/payload_tab.blp
 data/ui/raw_payload_pane.blp
 data/ui/response_headers.blp
@@ -31,6 +32,7 @@ src/widgets/file_dialogs.rs
 src/widgets/item_pane.rs
 src/widgets/key_value_pane.rs
 src/widgets/key_value_row.rs
+src/widgets/method_dropdown.rs
 src/widgets/mod.rs
 src/widgets/request_body/base.rs
 src/widgets/request_body/formdata.rs

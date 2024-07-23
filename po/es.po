@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-07-22 08:24+0200\n"
+"POT-Creation-Date: 2024-07-23 23:43+0200\n"
 "PO-Revision-Date: 2024-07-22 08:26+0200\n"
 "Last-Translator:  <>\n"
 "Language-Team: Spanish\n"
@@ -65,31 +65,27 @@ msgstr "La posición del separador entre ambas ventanas"
 msgid "The current list of opened files"
 msgstr "La lista actual de archivos abiertos"
 
-#: data/ui/endpoint_pane.blp:56
-msgid "Request method"
-msgstr "Método de petición"
-
-#: data/ui/endpoint_pane.blp:62
+#: data/ui/endpoint_pane.blp:59
 msgid "Request URL"
 msgstr "URL de petición"
 
-#: data/ui/endpoint_pane.blp:72
+#: data/ui/endpoint_pane.blp:69
 msgid "Send"
 msgstr "Enviar"
 
-#: data/ui/endpoint_pane.blp:73
+#: data/ui/endpoint_pane.blp:70
 msgid "Execute this HTTP request"
 msgstr "Ejecutar esta petición HTTP"
 
-#: data/ui/endpoint_pane.blp:106 data/ui/response_panel.blp:47
+#: data/ui/endpoint_pane.blp:103 data/ui/response_panel.blp:47
 msgid "Headers"
 msgstr "Cabeceras"
 
-#: data/ui/endpoint_pane.blp:127
+#: data/ui/endpoint_pane.blp:124
 msgid "Variables"
 msgstr "Variables"
 
-#: data/ui/endpoint_pane.blp:148 data/ui/response_panel.blp:68
+#: data/ui/endpoint_pane.blp:145 data/ui/response_panel.blp:68
 msgid "Body"
 msgstr "Cuerpo"
 
@@ -171,6 +167,10 @@ msgstr "8"
 #: data/ui/main_window.blp:154 data/ui/main_window_no_csd.blp:154
 msgid "About Cartero"
 msgstr "Acerca de Cartero"
+
+#: data/ui/method_dropdown.blp:24
+msgid "Request method"
+msgstr "Método de petición"
 
 #: data/ui/payload_tab.blp:35
 msgid "Body type"

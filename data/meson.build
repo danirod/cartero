@@ -22,6 +22,7 @@ blueprint_files = [
   'ui/main_window_no_csd.blp',
   'ui/key_value_pane.blp',
   'ui/key_value_row.blp',
+  'ui/method_dropdown.blp',
   'ui/payload_tab.blp',
   'ui/raw_payload_pane.blp',
   'ui/response_headers.blp',

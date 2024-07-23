@@ -52,10 +52,7 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
         margin-end: 6;
         orientation: horizontal;
 
-        DropDown method {
-          tooltip-text: _("Request method");
-          model: verbs_string_list;
-        }
+        $CarteroMethodDropdown method {}
 
         Entry url {
           hexpand: true;
@@ -165,17 +162,4 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
       }
     }
   }
-}
-
-StringList verbs_string_list {
-  strings [
-    "GET",
-    "POST",
-    "PUT",
-    "PATCH",
-    "DELETE",
-    "OPTIONS",
-    "HEAD",
-    "TRACE",
-  ]
 }

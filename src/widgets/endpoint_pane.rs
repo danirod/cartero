@@ -28,15 +28,15 @@ mod imp {
     use glib::subclass::InitializingObject;
     use glib::Properties;
     use gtk::subclass::prelude::*;
-    use gtk::{prelude::*, CompositeTemplate, StringObject};
+    use gtk::{prelude::*, CompositeTemplate};
     use isahc::RequestExt;
 
     use crate::app::CarteroApplication;
     use crate::client::{BoundRequest, RequestError};
-    use crate::entities::{EndpointData, KeyValue, RequestMethod};
+    use crate::entities::{EndpointData, KeyValue};
     use crate::error::CarteroError;
     use crate::objects::KeyValueItem;
-    use crate::widgets::{ItemPane, KeyValuePane, PayloadTab, ResponsePanel};
+    use crate::widgets::{ItemPane, KeyValuePane, MethodDropdown, PayloadTab, ResponsePanel};
 
     #[derive(CompositeTemplate, Properties, Default)]
     #[template(resource = "/es/danirod/Cartero/endpoint_pane.ui")]
@@ -52,7 +52,7 @@ mod imp {
         pub variable_pane: TemplateChild<KeyValuePane>,
 
         #[template_child(id = "method")]
-        pub request_method: TemplateChild<gtk::DropDown>,
+        pub request_method: TemplateChild<MethodDropdown>,
 
         #[template_child(id = "url")]
         pub request_url: TemplateChild<gtk::Entry>,
@@ -62,9 +62,6 @@ mod imp {
 
         #[template_child]
         pub response: TemplateChild<ResponsePanel>,
-
-        #[template_child]
-        pub verbs_string_list: TemplateChild<gtk::StringList>,
 
         #[template_child]
         pub paned: TemplateChild<gtk::Paned>,
@@ -107,60 +104,36 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl EndpointPane {
+        fn mark_dirty(&self) {
+            if let Some(item_pane) = self.obj().item_pane() {
+                item_pane.set_dirty(true);
+            }
+        }
+
         fn init_dirty_events(&self) {
-            self.request_method.connect_selected_item_notify(
-                glib::clone!(@weak self as pane => move |_| {
-                    let item_pane: &Option<ItemPane> = &pane.item_pane.borrow();
-                    let Some(item_pane) = item_pane else {
-                        return;
-                    };
-                    item_pane.set_dirty(true);
-                }),
-            );
-
+            self.request_method
+                .connect_changed(glib::clone!(@weak self as pane => move |_| pane.mark_dirty()));
             self.request_url
-                .connect_changed(glib::clone!(@weak self as pane => move |_| {
-                    let item_pane: &Option<ItemPane> = &pane.item_pane.borrow();
-                    let Some(item_pane) = item_pane else {
-                        return;
-                    };
-                    item_pane.set_dirty(true);
-                }));
-
+                .connect_changed(glib::clone!(@weak self as pane => move |_| pane.mark_dirty()));
             self.payload_pane
-                .connect_changed(glib::clone!(@weak self as pane => move |_| {
-                    let item_pane: &Option<ItemPane> = &pane.item_pane.borrow();
-                    let Some(item_pane) = item_pane else {
-                        return;
-                    };
-                    item_pane.set_dirty(true);
-                }));
-
+                .connect_changed(glib::clone!(@weak self as pane => move |_| pane.mark_dirty()));
             self.header_pane
-                .connect_changed(glib::clone!(@weak self as pane => move |_| {
-                    let item_pane: &Option<ItemPane> = &pane.item_pane.borrow();
-                    let Some(item_pane) = item_pane else {
-                        return;
-                    };
-                    item_pane.set_dirty(true);
-                }));
+                .connect_changed(glib::clone!(@weak self as pane => move |_| pane.mark_dirty()));
             self.variable_pane
-                .connect_changed(glib::clone!(@weak self as pane => move |_| {
-                    let item_pane: &Option<ItemPane> = &pane.item_pane.borrow();
-                    let Some(item_pane) = item_pane else {
-                        return;
-                    };
-                    item_pane.set_dirty(true);
-                }));
+                .connect_changed(glib::clone!(@weak self as pane => move |_| pane.mark_dirty()));
         }
 
         fn init_settings(&self) {
             let app = CarteroApplication::get();
             let settings = app.settings();
+            let initial_position = SettingsExtManual::get(settings, "paned-position");
+            self.paned.set_position(initial_position);
 
-            settings
-                .bind("paned-position", &*self.paned, "position")
-                .build();
+            self.paned
+                .connect_position_notify(glib::clone!(@weak settings => move |paned| {
+                    let new_position = paned.position();
+                    let _ = settings.set("paned-position", new_position);
+                }));
         }
 
         /// Syncs whether the Send button can be clicked based on whether the request is formed.
@@ -178,45 +151,11 @@ mod imp {
             self.update_send_button_sensitivity();
         }
 
-        /// Decodes the HTTP method that has been picked by the user in the dropdown.
-        fn request_method(&self) -> RequestMethod {
-            let method = self
-                .request_method
-                .selected_item()
-                .unwrap()
-                .downcast::<StringObject>()
-                .unwrap()
-                .string();
-            // Note: we should probably be safe from unwrapping here, since it would
-            // be impossible to have a method that is not an acceptable value without
-            // completely hacking and wrecking the user interface.
-            RequestMethod::try_from(method.as_str()).unwrap()
-        }
-
-        /// Sets the currently picked HTTP method for the method dropdown.
-        ///
-        /// TODO: This method should probably be part of its own widget.
-        fn set_request_method(&self, rm: RequestMethod) {
-            let verb_to_find = String::from(rm);
-            let element_count = self.request_method.model().unwrap().n_items();
-            let target_position = (0..element_count).find(|i| {
-                if let Some(verb) = self.verbs_string_list.string(*i) {
-                    if verb == verb_to_find {
-                        return true;
-                    }
-                }
-                false
-            });
-            if let Some(pos) = target_position {
-                self.request_method.set_selected(pos);
-            }
-        }
-
         /// Sets the value of every widget in the pane into whatever is set by the given endpoint.
         pub fn assign_request(&self, endpoint: &EndpointData) {
             self.request_url.buffer().set_text(endpoint.url.clone());
-            self.set_request_method(endpoint.method.clone());
-
+            self.request_method
+                .set_request_method(endpoint.method.clone());
             let headers: Vec<KeyValueItem> = endpoint
                 .headers
                 .iter()
@@ -238,7 +177,7 @@ mod imp {
             let variable_list = self.variable_pane.get_entries();
 
             let url = String::from(self.request_url.buffer().text());
-            let method = self.request_method();
+            let method = self.request_method.request_method();
 
             let headers = header_list
                 .iter()

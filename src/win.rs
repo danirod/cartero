@@ -30,7 +30,7 @@ mod imp {
     use adw::{subclass::prelude::*, TabPage};
     use glib::property::PropertySet;
     use gtk::gio::ActionEntry;
-    use gtk::prelude::*;
+    use gtk::{prelude::*, ExpressionWatch};
 
     use crate::{app::CarteroApplication, error::CarteroError};
     use crate::{config, widgets::*};
@@ -39,10 +39,6 @@ mod imp {
 
     #[cfg(feature = "csd")]
     use gettextrs::gettext;
-    #[cfg(feature = "csd")]
-    use glib::Binding;
-    #[cfg(not(feature = "csd"))]
-    use gtk::ExpressionWatch;
 
     #[cfg(feature = "csd")]
     #[derive(CompositeTemplate, Default)]
@@ -60,7 +56,7 @@ mod imp {
         #[template_child]
         pub window_title: TemplateChild<adw::WindowTitle>,
 
-        window_title_binding: RefCell<Option<Binding>>,
+        window_title_binding: RefCell<Option<ExpressionWatch>>,
     }
 
     #[cfg(not(feature = "csd"))]
@@ -84,16 +80,15 @@ mod imp {
         #[cfg(feature = "csd")]
         fn bind_current_tab(&self, tab: &ItemPane) {
             {
-                let value: &Option<Binding> = &self.window_title_binding.borrow();
+                let value: &Option<ExpressionWatch> = &self.window_title_binding.borrow();
                 if let Some(binding) = value {
-                    binding.unbind();
+                    binding.unwatch();
                 }
             }
 
-            let new_binding = tab
-                .bind_property("window-title", &*self.window_title, "title")
-                .sync_create()
-                .build();
+            let new_binding =
+                tab.window_title_binding()
+                    .bind(&*self.window_title, "title", Some(tab));
             let subtitle = tab.path().unwrap_or(gettext("Draft"));
             self.window_title.set_subtitle(&subtitle);
             self.window_title_binding.set(Some(new_binding));
@@ -110,15 +105,10 @@ mod imp {
 
             let obj = self.obj();
             let title_watch = tab
-                .property_expression("window-title")
-                .chain_closure::<String>(glib::closure!(
-                    |_: Option<glib::Object>, title: Option<&str>| {
-                        match title {
-                            Some(t) => format!("{t} - Cartero"),
-                            None => "Cartero".to_string(),
-                        }
-                    }
-                ))
+                .window_title_binding()
+                .chain_closure::<String>(glib::closure!(|_: &ItemPane, title: &str| {
+                    format!("{title} - Cartero")
+                }))
                 .bind(&*obj, "title", Some(tab));
             self.window_title_binding.set(Some(title_watch));
         }
@@ -200,9 +190,8 @@ mod imp {
             match ItemPane::new_for_endpoint(path) {
                 Ok(pane) => {
                     let page = self.tabview.add_page(&pane, None);
-                    pane.bind_property("window-title", &page, "title")
-                        .sync_create()
-                        .build();
+                    pane.window_title_binding()
+                        .bind(&page, "title", Some(&pane));
                     pane.bind_property("path", &page, "tooltip")
                         .sync_create()
                         .build();

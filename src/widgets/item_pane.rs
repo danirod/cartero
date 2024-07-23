@@ -20,6 +20,7 @@ use std::path::{Path, PathBuf};
 use adw::prelude::*;
 use gettextrs::gettext;
 use glib::Object;
+use gtk::ClosureExpression;
 
 use crate::error::CarteroError;
 
@@ -44,9 +45,6 @@ mod imp {
 
         #[property(get, set)]
         pub dirty: RefCell<bool>,
-
-        #[property(get = Self::window_title)]
-        pub _window_title: RefCell<String>,
     }
 
     #[glib::object_subclass]
@@ -57,33 +55,13 @@ mod imp {
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for ItemPane {
-        fn constructed(&self) {
-            self.parent_constructed();
-
-            let obj = self.obj();
-            obj.connect_dirty_notify(glib::clone!(@weak obj as window => move |_| {
-                window.notify_window_title();
-            }));
-            obj.connect_title_notify(glib::clone!(@weak obj as window => move |_| {
-                window.notify_window_title();
-            }));
-        }
-    }
+    impl ObjectImpl for ItemPane {}
 
     impl WidgetImpl for ItemPane {}
 
     impl BinImpl for ItemPane {}
 
-    impl ItemPane {
-        fn window_title(&self) -> String {
-            if *self.dirty.borrow() {
-                format!("• {}", *self.title.borrow())
-            } else {
-                (*self.title.borrow()).clone()
-            }
-        }
-    }
+    impl ItemPane {}
 }
 
 glib::wrapper! {
@@ -128,5 +106,21 @@ impl ItemPane {
         let file_name = path.file_stem().unwrap().to_str().unwrap();
         self.set_title(file_name);
         self.set_path(Some(path.to_str().unwrap()));
+    }
+
+    pub fn window_title_binding(&self) -> ClosureExpression {
+        ClosureExpression::new::<String>(
+            [
+                &self.property_expression("title"),
+                &self.property_expression("dirty"),
+            ],
+            glib::closure!(|_: ItemPane, title: String, dirty: bool| {
+                if dirty {
+                    format!("• {}", &title)
+                } else {
+                    title.clone()
+                }
+            }),
+        )
     }
 }

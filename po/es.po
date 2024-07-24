@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-07-23 23:43+0200\n"
-"PO-Revision-Date: 2024-07-22 08:26+0200\n"
+"POT-Creation-Date: 2024-07-24 21:42+0200\n"
+"PO-Revision-Date: 2024-07-24 21:43+0200\n"
 "Last-Translator:  <>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -115,58 +115,88 @@ msgstr "Nuevo"
 
 #: data/ui/main_window.blp:51 data/ui/main_window.blp:62
 #: data/ui/main_window_no_csd.blp:51 data/ui/main_window_no_csd.blp:62
-#: src/widgets/file_dialogs.rs:44
+#: src/widgets/file_dialogs.rs:9
 msgid "Open"
 msgstr "Abrir"
 
 #: data/ui/main_window.blp:70 data/ui/main_window_no_csd.blp:70
-#: src/widgets/file_dialogs.rs:58
+#: src/widgets/file_dialogs.rs:29
 msgid "Save"
 msgstr "Guardar"
 
-#: data/ui/main_window.blp:95 data/ui/main_window_no_csd.blp:95
+#: data/ui/main_window.blp:99 data/ui/main_window_no_csd.blp:99
+msgid "Try making a new request"
+msgstr "Prueba a hacer una nueva petición"
+
+#: data/ui/main_window.blp:100 data/ui/main_window_no_csd.blp:100
+msgid "Use the button in the toolbar to create or open a request."
+msgstr ""
+"Usa el botón de la barra de herramientas para crear o abrir una petición."
+
+#: data/ui/main_window.blp:112 data/ui/main_window_no_csd.blp:112
+msgid "New tab"
+msgstr "Nueva pestaña"
+
+#: data/ui/main_window.blp:117 data/ui/main_window_no_csd.blp:117
+msgid "Open request..."
+msgstr "Abrir petición..."
+
+#: data/ui/main_window.blp:122 data/ui/main_window_no_csd.blp:122
+#: src/widgets/file_dialogs.rs:30
+msgid "Save request"
+msgstr "Guardar petición"
+
+#: data/ui/main_window.blp:127 data/ui/main_window_no_csd.blp:127
+msgid "Close tab"
+msgstr "Cerrar pestaña"
+
+#: data/ui/main_window.blp:134 data/ui/main_window_no_csd.blp:134
 msgid "Body appearance"
 msgstr "Apariencia del cuerpo"
 
-#: data/ui/main_window.blp:99 data/ui/main_window_no_csd.blp:99
+#: data/ui/main_window.blp:138 data/ui/main_window_no_csd.blp:138
 msgid "Wrap content"
 msgstr "Adaptar contenido"
 
-#: data/ui/main_window.blp:104 data/ui/main_window_no_csd.blp:104
+#: data/ui/main_window.blp:143 data/ui/main_window_no_csd.blp:143
 msgid "Show line numbers"
 msgstr "Mostrar números de línea"
 
-#: data/ui/main_window.blp:111 data/ui/main_window_no_csd.blp:111
+#: data/ui/main_window.blp:150 data/ui/main_window_no_csd.blp:150
 msgid "Automatic indentation"
 msgstr "Indentar automáticamente"
 
-#: data/ui/main_window.blp:116 data/ui/main_window_no_csd.blp:116
+#: data/ui/main_window.blp:155 data/ui/main_window_no_csd.blp:155
 msgid "Indent with spaces"
 msgstr "Indentar con espacios"
 
-#: data/ui/main_window.blp:122 data/ui/main_window_no_csd.blp:122
+#: data/ui/main_window.blp:161 data/ui/main_window_no_csd.blp:161
 msgid "Indent with tabs"
 msgstr "Indentar con tabuladores"
 
-#: data/ui/main_window.blp:128 data/ui/main_window_no_csd.blp:128
+#: data/ui/main_window.blp:167 data/ui/main_window_no_csd.blp:167
 msgid "Spaces per tab"
 msgstr "Espacios por tabulador"
 
-#: data/ui/main_window.blp:131 data/ui/main_window_no_csd.blp:131
+#: data/ui/main_window.blp:170 data/ui/main_window_no_csd.blp:170
 msgid "2"
 msgstr "2"
 
-#: data/ui/main_window.blp:137 data/ui/main_window_no_csd.blp:137
+#: data/ui/main_window.blp:176 data/ui/main_window_no_csd.blp:176
 msgid "4"
 msgstr "4"
 
-#: data/ui/main_window.blp:143 data/ui/main_window_no_csd.blp:143
+#: data/ui/main_window.blp:182 data/ui/main_window_no_csd.blp:182
 msgid "8"
 msgstr "8"
 
-#: data/ui/main_window.blp:154 data/ui/main_window_no_csd.blp:154
+#: data/ui/main_window.blp:193 data/ui/main_window_no_csd.blp:193
 msgid "About Cartero"
 msgstr "Acerca de Cartero"
+
+#: data/ui/main_window.blp:198 data/ui/main_window_no_csd.blp:198
+msgid "Quit"
+msgstr "Salir"
 
 #: data/ui/method_dropdown.blp:24
 msgid "Request method"
@@ -221,39 +251,31 @@ msgstr "_Descartar"
 msgid "_Save"
 msgstr "_Guardar"
 
-#: src/app.rs:146
+#: src/app.rs:151
 msgid "The Cartero authors"
 msgstr "Los autores de Cartero"
 
-#: src/app.rs:147
+#: src/app.rs:152
 msgid "© 2024 the Cartero authors"
 msgstr "© 2024 los autores de Cartero"
 
-#: src/widgets/file_dialogs.rs:40
+#: src/widgets/file_dialogs.rs:10
 msgid "Open request"
 msgstr "Abrir petición"
 
-#: src/widgets/file_dialogs.rs:45 src/widgets/file_dialogs.rs:59
-msgid "Cancel"
-msgstr "Cancelar"
-
-#: src/widgets/file_dialogs.rs:54
-msgid "Save request"
-msgstr "Guardar petición"
-
-#: src/widgets/item_pane.rs:105
+#: src/widgets/item_pane.rs:83
 msgid "(untitled)"
 msgstr "(sin título)"
 
-#: src/win.rs:97
+#: src/win.rs:100
 msgid "Draft"
 msgstr "Borrador"
 
+#~ msgid "Cancel"
+#~ msgstr "Cancelar"
+
 #~ msgid "Accept"
 #~ msgstr "Aceptar"
-
-#~ msgid "Close"
-#~ msgstr "Cerrar"
 
 #~ msgid "Add new header"
 #~ msgstr "Agregar cabecera"

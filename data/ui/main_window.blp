@@ -91,6 +91,28 @@ template $CarteroWindow: Adw.ApplicationWindow {
 
 menu main_menu {
   section {
+    item {
+      label: _("New tab");
+      action: "win.new";
+    }
+
+    item {
+      label: _("Open request...");
+      action: "win.open";
+    }
+
+    item {
+      label: _("Save request");
+      action: "win.save";
+    }
+
+    item {
+      label: _("Close tab");
+      action: "win.close";
+    }
+  }
+
+  section {
     submenu {
       label: _("Body appearance");
 
@@ -153,6 +175,11 @@ menu main_menu {
     item {
       label: _("About Cartero");
       action: "app.about";
+    }
+
+    item {
+      label: _("Quit");
+      action: "app.quit";
     }
   }
 }

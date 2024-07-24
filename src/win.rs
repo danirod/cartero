@@ -78,7 +78,7 @@ mod imp {
     #[gtk::template_callbacks]
     impl CarteroWindow {
         #[cfg(feature = "csd")]
-        fn bind_current_tab(&self, tab: &ItemPane) {
+        fn bind_current_tab(&self, tab: Option<&ItemPane>) {
             {
                 let value: &Option<ExpressionWatch> = &self.window_title_binding.borrow();
                 if let Some(binding) = value {
@@ -86,16 +86,25 @@ mod imp {
                 }
             }
 
-            let new_binding =
-                tab.window_title_binding()
-                    .bind(&*self.window_title, "title", Some(tab));
-            let subtitle = tab.path().unwrap_or(gettext("Draft"));
-            self.window_title.set_subtitle(&subtitle);
-            self.window_title_binding.set(Some(new_binding));
+            match tab {
+                Some(tab) => {
+                    let new_binding =
+                        tab.window_title_binding()
+                            .bind(&*self.window_title, "title", Some(tab));
+                    let subtitle = tab.path().unwrap_or(gettext("Draft"));
+                    self.window_title.set_subtitle(&subtitle);
+                    self.window_title_binding.set(Some(new_binding));
+                }
+                None => {
+                    self.window_title.set_title("Cartero");
+                    self.window_title.set_subtitle("");
+                    self.window_title_binding.set(None);
+                }
+            };
         }
 
         #[cfg(not(feature = "csd"))]
-        fn bind_current_tab(&self, tab: &ItemPane) {
+        fn bind_current_tab(&self, tab: Option<&ItemPane>) {
             {
                 let value: &Option<ExpressionWatch> = &self.window_title_binding.borrow();
                 if let Some(binding) = value {
@@ -104,13 +113,21 @@ mod imp {
             }
 
             let obj = self.obj();
-            let title_watch = tab
-                .window_title_binding()
-                .chain_closure::<String>(glib::closure!(|_: &ItemPane, title: &str| {
-                    format!("{title} - Cartero")
-                }))
-                .bind(&*obj, "title", Some(tab));
-            self.window_title_binding.set(Some(title_watch));
+            match tab {
+                Some(tab) => {
+                    let title_watch = tab
+                        .window_title_binding()
+                        .chain_closure::<String>(glib::closure!(|_: &ItemPane, title: &str| {
+                            format!("{title} - Cartero")
+                        }))
+                        .bind(&*obj, "title", Some(tab));
+                    self.window_title_binding.set(Some(title_watch));
+                }
+                None => {
+                    obj.set_title(Some("Cartero"));
+                    self.window_title_binding.set(None);
+                }
+            }
         }
 
         fn init_settings(&self) {
@@ -234,7 +251,7 @@ mod imp {
                 crate::file::write_file(&path, &serialized_payload)?;
                 pane.update_title_and_path(&path);
                 pane.set_dirty(false);
-                self.bind_current_tab(pane);
+                self.bind_current_tab(Some(pane));
                 self.save_visible_tabs();
             }
 
@@ -325,7 +342,7 @@ mod imp {
                 glib::clone!(@weak self as window => move |tabview| {
                     if let Some(page) = tabview.selected_page() {
                         let item_pane = page.child().downcast::<ItemPane>().unwrap();
-                        window.bind_current_tab(&item_pane);
+                        window.bind_current_tab(Some(&item_pane));
                     }
                 }),
             );
@@ -408,9 +425,25 @@ mod imp {
                     }));
                 }))
                 .build();
+            let action_close = ActionEntry::builder("close")
+                .activate(glib::clone!(@weak self as window => move |_, _, _| {
+                    if let Some(page) = window.tabview.selected_page() {
+                        window.tabview.close_page(&page);
+                        if window.tabview.n_pages() == 0 {
+                            window.bind_current_tab(None);
+                        }
+                    }
+                }))
+                .build();
 
             let obj = self.obj();
-            obj.add_action_entries([action_new, action_request, action_open, action_save]);
+            obj.add_action_entries([
+                action_new,
+                action_request,
+                action_open,
+                action_save,
+                action_close,
+            ]);
         }
     }
 

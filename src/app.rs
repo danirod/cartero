@@ -67,7 +67,12 @@ mod imp {
             gtk::Window::set_default_icon_name(APP_ID);
 
             let obj = self.obj();
+            obj.set_accels_for_action("win.new", &["<Primary>t"]);
+            obj.set_accels_for_action("win.open", &["<Primary>o"]);
+            obj.set_accels_for_action("win.save", &["<Primary>s"]);
+            obj.set_accels_for_action("win.close", &["<Primary>w"]);
             obj.set_accels_for_action("win.request", &["<Primary>Return"]);
+            obj.set_accels_for_action("app.quit", &["<Primary>q"]);
             obj.setup_app_actions();
         }
     }
@@ -150,6 +155,13 @@ impl CarteroApplication {
                 about.present();
             })
             .build();
-        self.add_action_entries([about]);
+
+        let quit = ActionEntryBuilder::new("quit")
+            .activate(glib::clone!(@weak self as app => move |_, _, _| {
+                app.get_window().close();
+            }))
+            .build();
+
+        self.add_action_entries([about, quit]);
     }
 }

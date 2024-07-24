@@ -216,7 +216,7 @@ mod imp {
                     self.save_visible_tabs();
                 }
                 Err(e) => {
-                    println!("TODO: Show global error -- {}", e);
+                    self.obj().toast_error(e);
                 }
             };
         }
@@ -225,10 +225,8 @@ mod imp {
             // In order to place the modal, we need a reference to the public type.
             let obj = self.obj();
             let path = crate::widgets::open_file(&obj).await?;
-            if path.is_some() {
-                self.add_endpoint(path.as_ref());
-                self.save_visible_tabs();
-            }
+            self.add_endpoint(Some(&path));
+            self.save_visible_tabs();
             Ok(())
         }
 
@@ -238,22 +236,18 @@ mod imp {
             };
 
             let path = match pane.path() {
-                Some(path) => Some(PathBuf::from(path)),
+                Some(path) => PathBuf::from(path),
                 None => {
                     let obj = self.obj();
                     crate::widgets::save_file(&obj).await?
                 }
             };
 
-            if let Some(path) = path {
-                let endpoint = endpoint.extract_endpoint()?;
-                let serialized_payload = crate::file::store_toml(&endpoint)?;
-                crate::file::write_file(&path, &serialized_payload)?;
-                pane.update_title_and_path(&path);
-                pane.set_dirty(false);
-                self.bind_current_tab(Some(pane));
-                self.save_visible_tabs();
-            }
+            let endpoint = endpoint.extract_endpoint()?;
+            let serialized_payload = crate::file::store_toml(&endpoint)?;
+            crate::file::write_file(&path, &serialized_payload)?;
+            pane.update_title_and_path(&path);
+            pane.set_dirty(false);
 
             Ok(())
         }
@@ -263,7 +257,12 @@ mod imp {
             let Some(pane) = self.current_pane() else {
                 return Ok(());
             };
-            self.save_pane(&pane).await
+            let res = self.save_pane(&pane).await;
+            if let Ok(_) = res {
+                self.bind_current_tab(Some(&pane));
+                self.save_visible_tabs();
+            }
+            res
         }
 
         pub(super) fn toast_error(&self, error: CarteroError) {
@@ -411,7 +410,10 @@ mod imp {
                 .activate(glib::clone!(@weak self as window => move |_, _, _| {
                     glib::spawn_future_local(glib::clone!(@weak window => async move {
                         if let Err(e) = window.trigger_open().await {
-                            window.toast_error(e);
+                            match e {
+                                CarteroError::NoFilePicked => {},
+                                e => window.toast_error(e),
+                            };
                         }
                     }));
                 }))

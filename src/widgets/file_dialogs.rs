@@ -1,63 +1,45 @@
 use gettextrs::gettext;
-#[allow(deprecated)]
-use gtk::{
-    prelude::FileChooserExt,
-    prelude::{DialogExt, FileExt, GtkWindowExt},
-    FileChooserAction, FileChooserDialog, ResponseType,
-};
+use gtk::{prelude::FileExt, DialogError, FileDialog};
 use std::path::PathBuf;
-use tokio::sync::mpsc;
 
 use crate::{error::CarteroError, win::CarteroWindow};
 
-#[allow(deprecated)]
-async fn handle_dialog_path(dialog: FileChooserDialog) -> Result<Option<PathBuf>, CarteroError> {
-    let (tx, mut rx) = mpsc::channel::<Option<PathBuf>>(1);
-    dialog.present();
-    dialog.connect_response(move |dialog, res| {
-        glib::spawn_future_local(glib::clone!(@strong dialog, @strong tx => async move {
-            let path = if res == ResponseType::Accept {
-                dialog.file().and_then(|f| f.path())
-            } else {
-                None
-            };
-            let _ = tx.send(path).await;
-            dialog.destroy();
-        }));
-    });
-
-    let path = rx.recv().await;
-    if let Some(p) = path {
-        Ok(p)
-    } else {
-        Err(CarteroError::FileDialogError)
-    }
+pub async fn open_file(win: &CarteroWindow) -> Result<PathBuf, CarteroError> {
+    let dialog = FileDialog::builder()
+        .accept_label(&gettext("Open"))
+        .title(&gettext("Open request"))
+        .modal(true)
+        .build();
+    let file = dialog.open_future(Some(win)).await.map_err(|e| {
+        if let Some(file_error) = e.kind::<DialogError>() {
+            match file_error {
+                DialogError::Dismissed => CarteroError::NoFilePicked,
+                _ => CarteroError::FileDialogError,
+            }
+        } else {
+            CarteroError::FileDialogError
+        }
+    })?;
+    let path = file.path().ok_or(CarteroError::FileDialogError)?;
+    Ok(path)
 }
 
-#[allow(deprecated)]
-pub async fn open_file(win: &CarteroWindow) -> Result<Option<PathBuf>, CarteroError> {
-    let dialog = FileChooserDialog::new(
-        Some(gettext("Open request")),
-        Some(win),
-        FileChooserAction::Open,
-        &[
-            (&gettext("Open"), ResponseType::Accept),
-            (&gettext("Cancel"), ResponseType::Cancel),
-        ],
-    );
-    handle_dialog_path(dialog).await
-}
-
-#[allow(deprecated)]
-pub async fn save_file(win: &CarteroWindow) -> Result<Option<PathBuf>, CarteroError> {
-    let dialog = FileChooserDialog::new(
-        Some(gettext("Save request")),
-        Some(win),
-        FileChooserAction::Save,
-        &[
-            (&gettext("Save"), ResponseType::Accept),
-            (&gettext("Cancel"), ResponseType::Cancel),
-        ],
-    );
-    handle_dialog_path(dialog).await
+pub async fn save_file(win: &CarteroWindow) -> Result<PathBuf, CarteroError> {
+    let dialog = FileDialog::builder()
+        .accept_label(&gettext("Save"))
+        .title(&gettext("Save request"))
+        .modal(true)
+        .build();
+    let file = dialog.save_future(Some(win)).await.map_err(|e| {
+        if let Some(file_error) = e.kind::<DialogError>() {
+            match file_error {
+                DialogError::Dismissed => CarteroError::NoFilePicked,
+                _ => CarteroError::FileDialogError,
+            }
+        } else {
+            CarteroError::FileDialogError
+        }
+    })?;
+    let path = file.path().ok_or(CarteroError::FileDialogError)?;
+    Ok(path)
 }

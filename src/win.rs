@@ -56,6 +56,9 @@ mod imp {
         #[template_child]
         pub window_title: TemplateChild<adw::WindowTitle>,
 
+        #[template_child]
+        stack: TemplateChild<gtk::Stack>,
+
         window_title_binding: RefCell<Option<ExpressionWatch>>,
     }
 
@@ -71,6 +74,9 @@ mod imp {
 
         #[template_child]
         pub tabview: TemplateChild<adw::TabView>,
+
+        #[template_child]
+        stack: TemplateChild<gtk::Stack>,
 
         window_title_binding: RefCell<Option<ExpressionWatch>>,
     }
@@ -206,6 +212,7 @@ mod imp {
 
             match ItemPane::new_for_endpoint(path) {
                 Ok(pane) => {
+                    self.stack.set_visible_child_name("tabview");
                     let page = self.tabview.add_page(&pane, None);
                     pane.window_title_binding()
                         .bind(&page, "title", Some(&pane));
@@ -433,6 +440,7 @@ mod imp {
                         window.tabview.close_page(&page);
                         if window.tabview.n_pages() == 0 {
                             window.bind_current_tab(None);
+                            window.stack.set_visible_child_name("welcome");
                         }
                     }
                 }))

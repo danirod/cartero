@@ -84,7 +84,24 @@ template $CarteroWindow: Gtk.ApplicationWindow {
     }
 
     Adw.ToastOverlay toaster {
-      Adw.TabView tabview {}
+      Stack stack {
+        StackPage {
+          name: "tabview";
+
+          child: Adw.TabView tabview {};
+        }
+
+        StackPage {
+          name: "welcome";
+
+          child: Adw.StatusPage {
+            vexpand: true;
+            title: _("Try making a new request");
+            description: _("Use the button in the toolbar to create or open a request.");
+            icon-name: "es.danirod.Cartero-symbolic";
+          };
+        }
+      }
     }
   }
 }

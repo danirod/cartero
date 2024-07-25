@@ -21,15 +21,12 @@ using Adw 1;
 template $CarteroWindow: Gtk.ApplicationWindow {
   title: "Cartero";
 
-  Box {
-    orientation: vertical;
+  Adw.ToolbarView {
+    top-bar-style: raised;
 
+    [top]
     Box {
       orientation: horizontal;
-
-      styles [
-        "raised"
-      ]
 
       Box {
         styles [
@@ -76,10 +73,6 @@ template $CarteroWindow: Gtk.ApplicationWindow {
       }
 
       Adw.TabBar tabs {
-        styles [
-          "inline"
-        ]
-
         autohide: false;
         view: tabview;
       }
@@ -102,20 +95,55 @@ template $CarteroWindow: Gtk.ApplicationWindow {
     Adw.ToastOverlay toaster {
       Stack stack {
         StackPage {
-          name: "tabview";
-
-          child: Adw.TabView tabview {};
-        }
-
-        StackPage {
           name: "welcome";
 
           child: Adw.StatusPage {
             vexpand: true;
-            title: _("Try making a new request");
-            description: _("Use the button in the toolbar to create or open a request.");
+            title: _("Welcome to Cartero");
+            description: _("Create or open a request and start testing APIs now.");
             icon-name: "es.danirod.Cartero-symbolic";
+
+            child: Adw.Clamp {
+              maximum-size: 500;
+
+              Gtk.Box {
+                orientation: vertical;
+
+                Gtk.Button {
+                  styles [
+                    "pill",
+                    "suggested-action"
+                  ]
+
+                  action-name: "win.new";
+
+                  child: Adw.ButtonContent {
+                    icon-name: "tab-new-symbolic";
+                    label: _("New tab");
+                  };
+                }
+
+                Gtk.Button {
+                  styles [
+                    "pill"
+                  ]
+
+                  action-name: "win.open";
+
+                  child: Adw.ButtonContent {
+                    icon-name: "document-open-symbolic";
+                    label: _("Open request...");
+                  };
+                }
+              }
+            };
           };
+        }
+
+        StackPage {
+          name: "tabview";
+
+          child: Adw.TabView tabview {};
         }
       }
     }

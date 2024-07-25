@@ -6,3 +6,13 @@
 .inactive-header text {
   opacity: 0.65;
 }
+
+.raised {
+  box-shadow: 0 1px rgba(0, 0, 0, 0.12);
+}
+
+/* So that the request method can keep the linked appearance even when inside another widget. */
+.inline-linked button {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}

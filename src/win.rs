@@ -23,14 +23,12 @@ use glib::Object;
 use gtk::{gio, glib};
 
 mod imp {
-    use std::cell::RefCell;
     use std::path::{Path, PathBuf};
 
     use adw::prelude::AlertDialogExtManual;
     use adw::{subclass::prelude::*, TabPage};
-    use glib::property::PropertySet;
     use gtk::gio::ActionEntry;
-    use gtk::{prelude::*, ExpressionWatch};
+    use gtk::prelude::*;
 
     use crate::{app::CarteroApplication, error::CarteroError};
     use crate::{config, widgets::*};
@@ -39,6 +37,12 @@ mod imp {
 
     #[cfg(feature = "csd")]
     use gettextrs::gettext;
+    #[cfg(feature = "csd")]
+    use glib::property::PropertySet;
+    #[cfg(feature = "csd")]
+    use gtk::ExpressionWatch;
+    #[cfg(feature = "csd")]
+    use std::cell::RefCell;
 
     #[cfg(feature = "csd")]
     #[derive(CompositeTemplate, Default)]
@@ -77,8 +81,6 @@ mod imp {
 
         #[template_child]
         stack: TemplateChild<gtk::Stack>,
-
-        window_title_binding: RefCell<Option<ExpressionWatch>>,
     }
 
     #[gtk::template_callbacks]
@@ -110,31 +112,7 @@ mod imp {
         }
 
         #[cfg(not(feature = "csd"))]
-        fn bind_current_tab(&self, tab: Option<&ItemPane>) {
-            {
-                let value: &Option<ExpressionWatch> = &self.window_title_binding.borrow();
-                if let Some(binding) = value {
-                    binding.unwatch();
-                }
-            }
-
-            let obj = self.obj();
-            match tab {
-                Some(tab) => {
-                    let title_watch = tab
-                        .window_title_binding()
-                        .chain_closure::<String>(glib::closure!(|_: &ItemPane, title: &str| {
-                            format!("{title} - Cartero")
-                        }))
-                        .bind(&*obj, "title", Some(tab));
-                    self.window_title_binding.set(Some(title_watch));
-                }
-                None => {
-                    obj.set_title(Some("Cartero"));
-                    self.window_title_binding.set(None);
-                }
-            }
-        }
+        fn bind_current_tab(&self, _: Option<&ItemPane>) {}
 
         fn init_settings(&self) {
             let app = CarteroApplication::get();
@@ -212,7 +190,7 @@ mod imp {
 
             /* If the current tab is a new document, replace it. */
             if let Some(pane) = self.current_pane() {
-                if !pane.dirty() && pane.path().is_none() {
+                if path.is_some() && !pane.dirty() && pane.path().is_none() {
                     let tp = self.tabview.page(&pane);
                     self.tabview.close_page(&tp);
                 }

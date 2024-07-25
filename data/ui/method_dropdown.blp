@@ -19,6 +19,12 @@ using Gtk 4.0;
 using Adw 1;
 
 template $CarteroMethodDropdown: Adw.Bin {
+  css-name: "inline-bin";
+
+  styles [
+    "inline-linked"
+  ]
+
   Gtk.DropDown dropdown {
     notify::selected-item => $on_selection_changed() swapped;
     tooltip-text: _("Request method");

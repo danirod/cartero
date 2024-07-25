@@ -21,18 +21,20 @@ using Adw 1;
 template $CarteroWindow: Gtk.ApplicationWindow {
   title: "Cartero";
 
-  [content]
   Box {
     orientation: vertical;
 
-    Adw.HeaderBar {
-      show-end-title-buttons: false;
-      show-start-title-buttons: false;
-      show-title: false;
+    Box {
+      orientation: horizontal;
 
-      [start]
+      styles [
+        "raised"
+      ]
+
       Box {
-        spacing: 5;
+        styles [
+          "toolbar"
+        ]
 
         Button {
           action-name: "win.new";
@@ -69,18 +71,32 @@ template $CarteroWindow: Gtk.ApplicationWindow {
           icon-name: 'document-save-symbolic';
           tooltip-text: _("Save");
         }
+
+        Separator {}
       }
 
-      [end]
-      MenuButton {
-        icon-name: "open-menu-symbolic";
-        primary: true;
-        menu-model: main_menu;
-      }
-    }
+      Adw.TabBar tabs {
+        styles [
+          "inline"
+        ]
 
-    Adw.TabBar tabs {
-      view: tabview;
+        autohide: false;
+        view: tabview;
+      }
+
+      Box {
+        styles [
+          "toolbar"
+        ]
+
+        Separator {}
+
+        MenuButton {
+          icon-name: "open-menu-symbolic";
+          primary: true;
+          menu-model: main_menu;
+        }
+      }
     }
 
     Adw.ToastOverlay toaster {

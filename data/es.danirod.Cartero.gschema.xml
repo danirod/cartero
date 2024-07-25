@@ -38,5 +38,13 @@
       <default>[]</default>
       <summary>The current list of opened files</summary>
     </key>
+    <key name="last-open-dir" type="ms">
+      <default>nothing</default>
+      <summary>The last location where a file was opened</summary>
+    </key>
+    <key name="last-save-dir" type="ms">
+      <default>nothing</default>
+      <summary>The last location where a file was saved</summary>
+    </key>
   </schema>
 </schemalist>

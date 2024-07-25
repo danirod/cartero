@@ -87,16 +87,24 @@ fn init_gio_resources() {
 }
 
 fn main() -> glib::ExitCode {
-    init_data_dir();
-    init_locale();
-    init_glib();
-    init_gio_resources();
-
-    #[cfg(windows)]
+    #[cfg(target_os = "windows")]
     {
         std::env::set_var("GSK_RENDERER", "cairo");
         std::env::set_var("GTK_CSD", "0");
     }
+
+    #[cfg(target_os = "macos")]
+    {
+        let gdk_pixbuf = app_rel_path("lib/gdk-pixbuf-2.0/2.10.0/loaders.cache");
+        if let Ok(true) = gdk_pixbuf.try_exists() {
+            std::env::set_var("GDK_PIXBUF_MODULE_FILE", gdk_pixbuf);
+        }
+    }
+
+    init_data_dir();
+    init_locale();
+    init_glib();
+    init_gio_resources();
 
     let app = CarteroApplication::new();
     app.run()

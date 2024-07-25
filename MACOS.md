@@ -10,14 +10,15 @@ At the moment, just use macOS.
 1. [Homebrew](https://brew.sh) should be installed.
 2. Install Rust (suggestion: rustup)
 3. The following packages should be installed via Homebrew. They have a lot of
-   dependencies, so take your time.
+   dependencies, so take your time. (Note: you may need to install `svn` if you
+   build these packages from source).
    * `meson`
    * `gtk4`
-   * `gtksourceview5` (note: if this fails to install, run `brew install svn`
-     first, although I hate having to make this suggestion).
+   * `gtksourceview5`
    * `desktop-file-utils`
    * `pygobject3`
    * `libadwaita`
+   * `adwaita-icon-theme`
 4. Before compiling, you have to export the following environment variable,
    `export GETTEXT_DIR=$(brew --prefix)/opt/gettext`, so that it can actually
    pick your gettext library.

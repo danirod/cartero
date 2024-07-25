@@ -4,8 +4,6 @@ set -e
 cd "$(dirname "$0")/.."
 export GETTEXT_DIR=$(brew --prefix)/opt/gettext
 
-brew install meson gtk4 gtksourceview5 desktop-file-utils pygobject3 libadwaita adwaita-icon-theme gettext
-
 case "$1" in
   devel)
     BUNDLE_ID="es.danirod.Cartero.Devel"
@@ -196,17 +194,17 @@ EOF
 
 # Create icon
 mkdir -p "$RESOURCES_ROOT/Cartero.iconset"
-convert -background none -resize '!16x16' "$ICON_PATH" "$RESOURCES_ROOT/Cartero.iconset/icon_16x16.png"
-convert -background none -resize '!32x32' "$ICON_PATH" "$RESOURCES_ROOT/Cartero.iconset/icon_32x32.png"
-convert -background none -resize '!64x64' "$ICON_PATH" "$RESOURCES_ROOT/Cartero.iconset/icon_64x64.png"
-convert -background none -resize '!128x128' "$ICON_PATH" "$RESOURCES_ROOT/Cartero.iconset/icon_128x128.png"
-convert -background none -resize '!256x256' "$ICON_PATH" "$RESOURCES_ROOT/Cartero.iconset/icon_256x256.png"
-convert -background none -resize '!512x512' "$ICON_PATH" "$RESOURCES_ROOT/Cartero.iconset/icon_512x512.png"
+magick -background none "$ICON_PATH" -resize '!16x16'   "$RESOURCES_ROOT/Cartero.iconset/icon_16x16.png"
+magick -background none "$ICON_PATH" -resize '!32x32'   "$RESOURCES_ROOT/Cartero.iconset/icon_32x32.png"
+magick -background none "$ICON_PATH" -resize '!64x64'   "$RESOURCES_ROOT/Cartero.iconset/icon_64x64.png"
+magick -background none "$ICON_PATH" -resize '!128x128' "$RESOURCES_ROOT/Cartero.iconset/icon_128x128.png"
+magick -background none "$ICON_PATH" -resize '!256x256' "$RESOURCES_ROOT/Cartero.iconset/icon_256x256.png"
+magick -background none "$ICON_PATH" -resize '!512x512' "$RESOURCES_ROOT/Cartero.iconset/icon_512x512.png"
 cp "$RESOURCES_ROOT/Cartero.iconset/icon_32x32.png" "$RESOURCES_ROOT/Cartero.iconset/icon_16x16@2x.png"
 cp "$RESOURCES_ROOT/Cartero.iconset/icon_64x64.png" "$RESOURCES_ROOT/Cartero.iconset/icon_32x32@2x.png"
 cp "$RESOURCES_ROOT/Cartero.iconset/icon_128x128.png" "$RESOURCES_ROOT/Cartero.iconset/icon_64x64@2x.png"
 cp "$RESOURCES_ROOT/Cartero.iconset/icon_256x256.png" "$RESOURCES_ROOT/Cartero.iconset/icon_128x128@2x.png"
 cp "$RESOURCES_ROOT/Cartero.iconset/icon_512x512.png" "$RESOURCES_ROOT/Cartero.iconset/icon_256x256@2x.png"
-convert -background none -resize '!1024x1024' "$ICON_PATH" "$RESOURCES_ROOT/Cartero.iconset/icon_512x512@2x.png"
+magick -background none "$ICON_PATH" -resize '!1024x1024' "$RESOURCES_ROOT/Cartero.iconset/icon_512x512@2x.png"
 iconutil -c icns "$RESOURCES_ROOT/Cartero.iconset"
 rm -rf "$RESOURCES_ROOT/Cartero.iconset"

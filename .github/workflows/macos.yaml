@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Install dependencies
-      run: brew install meson gtk4 gtksourceview5 desktop-file-utils pygobject3 libadwaita adwaita-icon-theme gettext imagemagick
+      run: brew install meson gtk4 gtksourceview5 desktop-file-utils pygobject3 libadwaita adwaita-icon-theme gettext imagemagick inkscape
     - name: Fix PYTHONPATH for blueprint-compiler
       run: echo "PYTHONPATH=$(brew --prefix)/lib/python3.12/site-packages:$PYTHONPATH" >> $GITHUB_ENV
     - name: Build macOS version

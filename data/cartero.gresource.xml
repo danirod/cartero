@@ -2,6 +2,7 @@
 <gresources>
   <gresource prefix="/es/danirod/Cartero/">
     <file alias="style.css" compressed="true">style.css</file>
+    <file alias="gtk/help-overlay.ui" compressed="true" preprocess="xml-stripblanks">gtk/help_overlay.ui</file>
 
     <file alias="endpoint_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/endpoint_pane.ui</file>
     <file alias="formdata_payload_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/formdata_payload_pane.ui</file>

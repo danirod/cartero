@@ -16,6 +16,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 blueprint_files = [
+  'gtk/help_overlay.blp',
   'ui/endpoint_pane.blp',
   'ui/formdata_payload_pane.blp',
   'ui/main_window.blp',

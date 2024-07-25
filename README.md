@@ -28,8 +28,8 @@ You can also download a development version.
 | ![Flatpak](doc/flatpak.png) | Flatpak GNU/Linux, x86_64  | [Nightly][nightly-flatpak-x86_64]  |
 | ![Flatpak](doc/flatpak.png) | Flatpak GNU/Linux, aarch64 | [Nightly][nightly-flatpak-aarch64] |
 | ![Windows](doc/windows.png) | Windows, x86_64            | [Nightly][nightly-windows-x86_64]  |
-
-_Eventually available as well: macOS (x86_64), macOS (aarch64)._
+| ![macOS](doc/macos.png)     | macOS, Apple Sillicon      | [Nightly][nightly-macos-sillicon]  |
+| ![macOS](doc/macos.png)     | macOS, Intel               | [Nightly][nightly-macos-intel]  |
 
 ## Building
 
@@ -112,7 +112,7 @@ executable, but you will still need to use Meson to build the data files
 compiles the data files and copies them in `target/share`, so that during
 application startup those files can be picked.
 
-## Nix/NixOS
+### Nix/NixOS
 
 Use this approach to install, build or try cartero on a nixos system. Instructions
 assume you're using a flakes nixos system, but you could install it in a regular
@@ -261,3 +261,5 @@ Dani's [dev blog][blog] (in Spanish) of Cartero.
 [nightly-flatpak-x86_64]: https://nightly.link/danirod/cartero/workflows/nightly.yaml/trunk/es.danirod.Cartero.Devel-x86_64.zip
 [nightly-flatpak-aarch64]: https://nightly.link/danirod/cartero/workflows/nightly.yaml/trunk/es.danirod.Cartero.Devel-aarch64.zip
 [nightly-windows-x86_64]: https://nightly.link/danirod/cartero/workflows/nightly.yaml/trunk/es.danirod.Cartero-windows-x86_64.zip
+[nightly-macos-sillicon]: https://nightly.link/danirod/cartero/workflows/nightly.yaml/trunk/es.danirod.Cartero-macOS-ARM64.zip
+[nightly-macos-intel]: https://nightly.link/danirod/cartero/workflows/nightly.yaml/trunk/es.danirod.Cartero-macOS-X64.zip

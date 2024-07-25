@@ -65,15 +65,26 @@ install_data(
   install_dir: iconsdir / 'hicolor' / 'scalable' / 'apps'
 )
 install_data(
-  'icons/symbolic/apps/@0@-symbolic.svg'.format(base_id),
+  'icons/scalable/mimetypes/@0@-request.svg'.format(application_id),
+  install_dir: iconsdir / 'hicolor' / 'scalable' / 'mimetypes'
+)
+install_data(
+  'icons/symbolic/apps/@0@-symbolic.svg'.format(application_id),
   install_dir: iconsdir / 'hicolor' / 'symbolic' / 'apps'
+)
+
+mimetype = configure_file(
+  input: 'es.danirod.Cartero.mimetype.xml.in',
+  output: '@0@.xml'.format(application_id),
+  configuration: { 'app_id': application_id },
+  install_dir: datadir / 'mime' / 'packages',
 )
 
 desktop_file = configure_file(
   input: 'cartero.desktop.in',
   output: '@0@.desktop'.format(application_id),
   configuration: { 'app_id': application_id },
-  install_dir: join_paths(get_option('datadir'), 'applications')
+  install_dir: datadir / 'applications'
 )
 desktop_utils = find_program('desktop-file-validate', required: true)
 test('Validate desktop file', desktop_utils, args: [desktop_file])

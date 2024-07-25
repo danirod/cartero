@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-07-24 21:42+0200\n"
+"POT-Creation-Date: 2024-07-25 22:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgid "Make HTTP requests and test APIs."
 msgstr ""
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/cartero.desktop.in:10
+#: data/cartero.desktop.in:11
 msgid "Gnome;GTK;HTTP;REST;"
 msgstr ""
 
@@ -116,12 +116,12 @@ msgstr ""
 
 #: data/ui/main_window.blp:51 data/ui/main_window.blp:62
 #: data/ui/main_window_no_csd.blp:51 data/ui/main_window_no_csd.blp:62
-#: src/widgets/file_dialogs.rs:9
+#: src/widgets/file_dialogs.rs:28
 msgid "Open"
 msgstr ""
 
 #: data/ui/main_window.blp:70 data/ui/main_window_no_csd.blp:70
-#: src/widgets/file_dialogs.rs:29
+#: src/widgets/file_dialogs.rs:54
 msgid "Save"
 msgstr ""
 
@@ -142,7 +142,7 @@ msgid "Open request..."
 msgstr ""
 
 #: data/ui/main_window.blp:122 data/ui/main_window_no_csd.blp:122
-#: src/widgets/file_dialogs.rs:30
+#: src/widgets/file_dialogs.rs:55
 msgid "Save request"
 msgstr ""
 
@@ -250,15 +250,19 @@ msgstr ""
 msgid "_Save"
 msgstr ""
 
-#: src/app.rs:151
+#: src/app.rs:167
 msgid "The Cartero authors"
 msgstr ""
 
-#: src/app.rs:152
+#: src/app.rs:168
 msgid "© 2024 the Cartero authors"
 msgstr ""
 
-#: src/widgets/file_dialogs.rs:10
+#: src/widgets/file_dialogs.rs:18
+msgid "Request (.cartero)"
+msgstr ""
+
+#: src/widgets/file_dialogs.rs:29
 msgid "Open request"
 msgstr ""
 

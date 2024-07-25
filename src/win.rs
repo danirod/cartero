@@ -210,6 +210,14 @@ mod imp {
                 }
             }
 
+            /* If the current tab is a new document, replace it. */
+            if let Some(pane) = self.current_pane() {
+                if !pane.dirty() && pane.path() == Option::None {
+                    let tp = self.tabview.page(&pane);
+                    self.tabview.close_page(&tp);
+                }
+            }
+
             match ItemPane::new_for_endpoint(path) {
                 Ok(pane) => {
                     self.stack.set_visible_child_name("tabview");

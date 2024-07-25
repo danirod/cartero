@@ -75,6 +75,19 @@ mod imp {
             obj.set_accels_for_action("app.quit", &["<Primary>q"]);
             obj.setup_app_actions();
         }
+
+        fn open(&self, files: &[gio::File], hint: &str) {
+            self.parent_open(files, hint);
+            let obj = self.obj();
+            let window = obj.get_window();
+            for file in files {
+                if let Some(path) = file.path() {
+                    println!("Opening {:?}", path);
+                    window.add_endpoint(Some(&path));
+                }
+            }
+            window.present();
+        }
     }
 
     impl GtkApplicationImpl for CarteroApplication {}
@@ -105,6 +118,7 @@ impl CarteroApplication {
     pub fn new() -> Self {
         Object::builder()
             .property("application-id", APP_ID)
+            .property("flags", gio::ApplicationFlags::HANDLES_OPEN)
             .property("resource-base-path", RESOURCE_PATH)
             .build()
     }

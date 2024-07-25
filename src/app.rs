@@ -70,6 +70,7 @@ mod imp {
             obj.set_accels_for_action("win.new", &["<Primary>t"]);
             obj.set_accels_for_action("win.open", &["<Primary>o"]);
             obj.set_accels_for_action("win.save", &["<Primary>s"]);
+            obj.set_accels_for_action("win.save-as", &["<Primary><Shift>s"]);
             obj.set_accels_for_action("win.close", &["<Primary>w"]);
             obj.set_accels_for_action("win.request", &["<Primary>Return"]);
             obj.set_accels_for_action("app.quit", &["<Primary>q"]);

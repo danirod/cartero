@@ -25,8 +25,8 @@ pub async fn open_file(win: &CarteroWindow) -> Result<PathBuf, CarteroError> {
     filters.append(&cartero);
 
     let dialog = FileDialog::builder()
-        .accept_label(&gettext("Open"))
-        .title(&gettext("Open request"))
+        .accept_label(gettext("Open"))
+        .title(gettext("Open request"))
         .filters(&filters)
         .default_filter(&cartero)
         .modal(true)
@@ -51,11 +51,12 @@ pub async fn save_file(win: &CarteroWindow) -> Result<PathBuf, CarteroError> {
     filters.append(&cartero);
 
     let dialog = FileDialog::builder()
-        .accept_label(&gettext("Save"))
-        .title(&gettext("Save request"))
+        .accept_label(gettext("Save"))
+        .title(gettext("Save request"))
         .modal(true)
         .filters(&filters)
         .default_filter(&cartero)
+        .initial_name("request.cartero")
         .build();
     let file = dialog.save_future(Some(win)).await.map_err(|e| {
         if let Some(file_error) = e.kind::<DialogError>() {

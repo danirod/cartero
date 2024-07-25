@@ -212,7 +212,7 @@ mod imp {
 
             /* If the current tab is a new document, replace it. */
             if let Some(pane) = self.current_pane() {
-                if !pane.dirty() && pane.path() == Option::None {
+                if !pane.dirty() && pane.path().is_none() {
                     let tp = self.tabview.page(&pane);
                     self.tabview.close_page(&tp);
                 }
@@ -267,13 +267,41 @@ mod imp {
             Ok(())
         }
 
+        async fn save_pane_as(&self, pane: &ItemPane) -> Result<(), CarteroError> {
+            let Some(endpoint) = pane.endpoint() else {
+                return Ok(());
+            };
+
+            let obj = self.obj();
+            let path = crate::widgets::save_file(&obj).await?;
+
+            let endpoint = endpoint.extract_endpoint()?;
+            let serialized_payload = crate::file::store_toml(&endpoint)?;
+            crate::file::write_file(&path, &serialized_payload)?;
+            pane.update_title_and_path(&path);
+            pane.set_dirty(false);
+
+            Ok(())
+        }
+
         async fn trigger_save(&self) -> Result<(), CarteroError> {
-            // In order to place the modal, we need a reference to the public type.
             let Some(pane) = self.current_pane() else {
                 return Ok(());
             };
             let res = self.save_pane(&pane).await;
-            if let Ok(_) = res {
+            if res.is_ok() {
+                self.bind_current_tab(Some(&pane));
+                self.save_visible_tabs();
+            }
+            res
+        }
+
+        async fn trigger_save_as(&self) -> Result<(), CarteroError> {
+            let Some(pane) = self.current_pane() else {
+                return Ok(());
+            };
+            let res = self.save_pane_as(&pane).await;
+            if res.is_ok() {
                 self.bind_current_tab(Some(&pane));
                 self.save_visible_tabs();
             }
@@ -442,6 +470,15 @@ mod imp {
                     }));
                 }))
                 .build();
+            let action_save_as = ActionEntry::builder("save-as")
+                .activate(glib::clone!(@weak self as window => move |_, _, _| {
+                    glib::spawn_future_local(glib::clone!(@weak window => async move {
+                        if let Err(e) = window.trigger_save_as().await {
+                            window.toast_error(e);
+                        }
+                    }));
+                }))
+                .build();
             let action_close = ActionEntry::builder("close")
                 .activate(glib::clone!(@weak self as window => move |_, _, _| {
                     if let Some(page) = window.tabview.selected_page() {
@@ -460,6 +497,7 @@ mod imp {
                 action_request,
                 action_open,
                 action_save,
+                action_save_as,
                 action_close,
             ]);
         }

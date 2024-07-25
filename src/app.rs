@@ -28,6 +28,17 @@ use gtk::prelude::ActionMapExtManual;
 use crate::config::{self, APP_ID, BASE_ID, RESOURCE_PATH};
 use crate::win::CarteroWindow;
 
+#[macro_export]
+macro_rules! accelerator {
+    ($accel:expr) => {
+        if cfg!(target_os = "macos") {
+            concat!("<Meta>", $accel)
+        } else {
+            concat!("<Primary>", $accel)
+        }
+    };
+}
+
 mod imp {
     use std::cell::OnceCell;
 
@@ -67,13 +78,14 @@ mod imp {
             gtk::Window::set_default_icon_name(APP_ID);
 
             let obj = self.obj();
-            obj.set_accels_for_action("win.new", &["<Primary>t"]);
-            obj.set_accels_for_action("win.open", &["<Primary>o"]);
-            obj.set_accels_for_action("win.save", &["<Primary>s"]);
-            obj.set_accels_for_action("win.save-as", &["<Primary><Shift>s"]);
-            obj.set_accels_for_action("win.close", &["<Primary>w"]);
-            obj.set_accels_for_action("win.request", &["<Primary>Return"]);
-            obj.set_accels_for_action("app.quit", &["<Primary>q"]);
+            obj.set_accels_for_action("win.new", &[accelerator!("t")]);
+            obj.set_accels_for_action("win.open", &[accelerator!("o")]);
+            obj.set_accels_for_action("win.save", &[accelerator!("s")]);
+            obj.set_accels_for_action("win.save-as", &[accelerator!("<Shift>s")]);
+            obj.set_accels_for_action("win.close", &[accelerator!("w")]);
+            obj.set_accels_for_action("win.request", &[accelerator!("Return")]);
+            obj.set_accels_for_action("app.quit", &[accelerator!("q")]);
+            obj.set_accels_for_action("win.show-help-overlay", &[accelerator!("question")]);
             obj.setup_app_actions();
         }
 

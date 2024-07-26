@@ -28,9 +28,9 @@ mod imp {
     use adw::prelude::AlertDialogExtManual;
     use adw::AboutWindow;
     use adw::{subclass::prelude::*, TabPage};
+    use gettextrs::gettext;
     use gtk::gio::ActionEntry;
     use gtk::prelude::*;
-    use gettextrs::gettext;
 
     use crate::{app::CarteroApplication, error::CarteroError};
     use crate::{config, widgets::*};

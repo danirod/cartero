@@ -259,15 +259,13 @@ impl ResponsePanel {
             .unwrap();
 
         buffer.set_text(&resp.body_str());
-        // Check is response have '{}', this should be a json
-        if resp.body_str().starts_with("{") && resp.body_str().ends_with("}") {
-            // Extract content and assign to variable text,
-            // If no indicate type :Value then fails to compile
-            let text: Value = serde_json::from_str(&resp.body_str()).unwrap();
-            // Format to json usint to_string_pretty from serde_json
-            let json = serde_json::to_string_pretty(&text).unwrap();
-            // Set the formated json to panel
-            buffer.set_text(&json);
+
+        if resp.is_json() {
+            let json = serde_json::from_str(&resp.body_str())
+                .and_then(|text: Value| serde_json::to_string_pretty(&text));
+            if let Ok(json) = json {
+                buffer.set_text(&json);
+            }
         }
 
         let language = resp

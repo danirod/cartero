@@ -89,7 +89,9 @@ fn init_gio_resources() {
 fn main() -> glib::ExitCode {
     #[cfg(target_os = "windows")]
     {
-        std::env::set_var("GSK_RENDERER", "cairo");
+        if let Err(_) = std::env::var("GSK_RENDERER") {
+            std::env::set_var("GSK_RENDERER", "cairo");
+        }
         std::env::set_var("GTK_CSD", "0");
     }
 

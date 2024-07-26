@@ -12,9 +12,13 @@ use crate::{app::CarteroApplication, error::CarteroError, win::CarteroWindow};
 fn get_cartero_file_filter() -> FileFilter {
     let filter = FileFilter::new();
     filter.add_pattern("*.cartero");
-    filter.add_mime_type("application/cartero");
-    filter.add_suffix("cartero");
-    filter.set_name(Some(&gettext("Request (.cartero)")));
+    if cfg!(not(target_os = "windows")) {
+        filter.add_mime_type("application/cartero");
+        filter.add_suffix("cartero");
+        filter.set_name(Some(&gettext("Request (.cartero)")));
+    } else {
+        filter.set_name(Some(&gettext("Request")));
+    }
     filter
 }
 

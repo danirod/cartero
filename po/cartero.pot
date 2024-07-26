@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-07-26 01:41+0200\n"
+"POT-Creation-Date: 2024-07-26 09:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,18 +59,22 @@ msgid "How tall should new windows be"
 msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:35
-msgid "The position of the split between two windows"
+msgid "Whether the application should open maximized"
 msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:39
-msgid "The current list of opened files"
+msgid "The position of the split between two windows"
 msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:43
-msgid "The last location where a file was opened"
+msgid "The current list of opened files"
 msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:47
+msgid "The last location where a file was opened"
+msgstr ""
+
+#: data/es.danirod.Cartero.gschema.xml:51
 msgid "The last location where a file was saved"
 msgstr ""
 
@@ -118,101 +122,101 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: data/ui/main_window.blp:40 data/ui/main_window_no_csd.blp:42
+#: data/ui/main_window.blp:41 data/ui/main_window_no_csd.blp:39
 msgid "New"
 msgstr ""
 
-#: data/ui/main_window.blp:51 data/ui/main_window.blp:62
-#: data/ui/main_window_no_csd.blp:53 data/ui/main_window_no_csd.blp:64
-#: src/widgets/file_dialogs.rs:32
+#: data/ui/main_window.blp:52 data/ui/main_window.blp:63
+#: data/ui/main_window_no_csd.blp:50 data/ui/main_window_no_csd.blp:61
+#: src/widgets/file_dialogs.rs:31
 msgid "Open"
 msgstr ""
 
-#: data/ui/main_window.blp:70 data/ui/main_window_no_csd.blp:72
-#: src/widgets/file_dialogs.rs:73
+#: data/ui/main_window.blp:71 data/ui/main_window_no_csd.blp:69
+#: src/widgets/file_dialogs.rs:72
 msgid "Save"
 msgstr ""
 
-#: data/ui/main_window.blp:99 data/ui/main_window_no_csd.blp:115
+#: data/ui/main_window.blp:95 data/ui/main_window_no_csd.blp:102
 msgid "Welcome to Cartero"
 msgstr ""
 
-#: data/ui/main_window.blp:100 data/ui/main_window_no_csd.blp:116
+#: data/ui/main_window.blp:96 data/ui/main_window_no_csd.blp:103
 msgid "Create or open a request and start testing APIs now."
 msgstr ""
 
-#: data/ui/main_window.blp:118 data/ui/main_window.blp:145
-#: data/ui/main_window_no_csd.blp:134 data/ui/main_window_no_csd.blp:162
+#: data/ui/main_window.blp:115 data/ui/main_window.blp:149
+#: data/ui/main_window_no_csd.blp:122 data/ui/main_window_no_csd.blp:156
 msgid "New tab"
 msgstr ""
 
-#: data/ui/main_window.blp:130 data/ui/main_window.blp:150
-#: data/ui/main_window_no_csd.blp:146 data/ui/main_window_no_csd.blp:167
+#: data/ui/main_window.blp:128 data/ui/main_window.blp:154
+#: data/ui/main_window_no_csd.blp:135 data/ui/main_window_no_csd.blp:161
 msgid "Open request..."
 msgstr ""
 
-#: data/ui/main_window.blp:155 data/ui/main_window_no_csd.blp:172
-#: src/widgets/file_dialogs.rs:74
+#: data/ui/main_window.blp:159 data/ui/main_window_no_csd.blp:166
+#: src/widgets/file_dialogs.rs:73
 msgid "Save request"
 msgstr ""
 
-#: data/ui/main_window.blp:160 data/ui/main_window_no_csd.blp:177
+#: data/ui/main_window.blp:164 data/ui/main_window_no_csd.blp:171
 msgid "Save request as..."
 msgstr ""
 
-#: data/ui/main_window.blp:165 data/ui/main_window_no_csd.blp:182
+#: data/ui/main_window.blp:169 data/ui/main_window_no_csd.blp:176
 msgid "Close tab"
 msgstr ""
 
-#: data/ui/main_window.blp:172 data/ui/main_window_no_csd.blp:189
+#: data/ui/main_window.blp:176 data/ui/main_window_no_csd.blp:183
 msgid "Body appearance"
 msgstr ""
 
-#: data/ui/main_window.blp:176 data/ui/main_window_no_csd.blp:193
+#: data/ui/main_window.blp:180 data/ui/main_window_no_csd.blp:187
 msgid "Wrap content"
 msgstr ""
 
-#: data/ui/main_window.blp:181 data/ui/main_window_no_csd.blp:198
+#: data/ui/main_window.blp:185 data/ui/main_window_no_csd.blp:192
 msgid "Show line numbers"
 msgstr ""
 
-#: data/ui/main_window.blp:188 data/ui/main_window_no_csd.blp:205
+#: data/ui/main_window.blp:192 data/ui/main_window_no_csd.blp:199
 msgid "Automatic indentation"
 msgstr ""
 
-#: data/ui/main_window.blp:193 data/ui/main_window_no_csd.blp:210
+#: data/ui/main_window.blp:197 data/ui/main_window_no_csd.blp:204
 msgid "Indent with spaces"
 msgstr ""
 
-#: data/ui/main_window.blp:199 data/ui/main_window_no_csd.blp:216
+#: data/ui/main_window.blp:203 data/ui/main_window_no_csd.blp:210
 msgid "Indent with tabs"
 msgstr ""
 
-#: data/ui/main_window.blp:205 data/ui/main_window_no_csd.blp:222
+#: data/ui/main_window.blp:209 data/ui/main_window_no_csd.blp:216
 msgid "Spaces per tab"
 msgstr ""
 
-#: data/ui/main_window.blp:208 data/ui/main_window_no_csd.blp:225
+#: data/ui/main_window.blp:212 data/ui/main_window_no_csd.blp:219
 msgid "2"
 msgstr ""
 
-#: data/ui/main_window.blp:214 data/ui/main_window_no_csd.blp:231
+#: data/ui/main_window.blp:218 data/ui/main_window_no_csd.blp:225
 msgid "4"
 msgstr ""
 
-#: data/ui/main_window.blp:220 data/ui/main_window_no_csd.blp:237
+#: data/ui/main_window.blp:224 data/ui/main_window_no_csd.blp:231
 msgid "8"
 msgstr ""
 
-#: data/ui/main_window.blp:231 data/ui/main_window_no_csd.blp:248
+#: data/ui/main_window.blp:235 data/ui/main_window_no_csd.blp:242
 msgid "Keyboard shortcuts"
 msgstr ""
 
-#: data/ui/main_window.blp:236 data/ui/main_window_no_csd.blp:253
+#: data/ui/main_window.blp:240 data/ui/main_window_no_csd.blp:247
 msgid "About Cartero"
 msgstr ""
 
-#: data/ui/main_window.blp:241 data/ui/main_window_no_csd.blp:258
+#: data/ui/main_window.blp:245 data/ui/main_window_no_csd.blp:252
 msgid "Quit"
 msgstr ""
 
@@ -268,19 +272,15 @@ msgstr ""
 msgid "_Save"
 msgstr ""
 
-#: src/app.rs:178
-msgid "The Cartero authors"
-msgstr ""
-
-#: src/app.rs:179
-msgid "© 2024 the Cartero authors"
-msgstr ""
-
-#: src/widgets/file_dialogs.rs:22
+#: src/widgets/file_dialogs.rs:18
 msgid "Request (.cartero)"
 msgstr ""
 
-#: src/widgets/file_dialogs.rs:33
+#: src/widgets/file_dialogs.rs:20
+msgid "Request"
+msgstr ""
+
+#: src/widgets/file_dialogs.rs:32
 msgid "Open request"
 msgstr ""
 
@@ -290,4 +290,12 @@ msgstr ""
 
 #: src/win.rs:102
 msgid "Draft"
+msgstr ""
+
+#: src/win.rs:498
+msgid "The Cartero authors"
+msgstr ""
+
+#: src/win.rs:499
+msgid "© 2024 the Cartero authors"
 msgstr ""

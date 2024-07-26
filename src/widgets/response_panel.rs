@@ -22,6 +22,7 @@ use gtk::gio::{ListModel, ListStore};
 use gtk::glib;
 use gtk::prelude::TextViewExt;
 use gtk::prelude::*;
+use serde_json::Value;
 use sourceview5::prelude::BufferExt;
 use sourceview5::LanguageManager;
 
@@ -258,6 +259,16 @@ impl ResponsePanel {
             .unwrap();
 
         buffer.set_text(&resp.body_str());
+        // Check is response have '{}', this should be a json
+        if resp.body_str().starts_with("{") && resp.body_str().ends_with("}") {
+            // Extract content and assign to variable text,
+            // If no indicate type :Value then fails to compile
+            let text: Value = serde_json::from_str(&resp.body_str()).unwrap();
+            // Format to json usint to_string_pretty from serde_json
+            let json = serde_json::to_string_pretty(&text).unwrap();
+            // Set the formated json to panel
+            buffer.set_text(&json);
+        }
 
         let language = resp
             .headers

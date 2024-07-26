@@ -16,10 +16,8 @@ some unwanted artificial intelligence at users.
 
 ## Download
 
-**Coming soon to Flathub**. I cannot submit the app until there is a first version.
-And I won't release a version until [every task on its milestone][milestone] is cleared.
-**[Also check out my kanban][kanban].** Once the first iteration is reached,
-more features from the [cool idea, saved for later][later] list will be implemented.
+**Coming soon to Flathub**. I am still figuring out how to deploy to Flathub.
+Come back later, or download a bundle file.
 
 You can also download a development version.
 
@@ -255,9 +253,6 @@ Dani's [dev blog][blog] (in Spanish) of Cartero.
 [danirod]: https://github.com/danirod
 [fork]: https://github.com/danirod/cartero/fork
 [blog]: https://danirod.es/secciones/devlogs/cartero/
-[kanban]: https://github.com/users/danirod/projects/9/views/6
-[milestone]: https://github.com/danirod/cartero/issues?q=is%3Aopen+is%3Aissue+milestone%3A0.1
-[later]: https://github.com/users/danirod/projects/9/views/7
 [nightly-flatpak-x86_64]: https://nightly.link/danirod/cartero/workflows/nightly.yaml/trunk/es.danirod.Cartero.Devel-x86_64.zip
 [nightly-flatpak-aarch64]: https://nightly.link/danirod/cartero/workflows/nightly.yaml/trunk/es.danirod.Cartero.Devel-aarch64.zip
 [nightly-windows-x86_64]: https://nightly.link/danirod/cartero/workflows/nightly.yaml/trunk/es.danirod.Cartero-windows-x86_64.zip

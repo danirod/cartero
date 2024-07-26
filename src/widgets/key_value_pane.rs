@@ -216,7 +216,10 @@ impl KeyValuePane {
     pub fn get_entries(&self) -> Vec<KeyValueItem> {
         let model = &self.model();
         let iter = model.iter::<KeyValueItem>();
-        iter.filter(|value| value.is_ok()).flatten().collect()
+        iter.filter(|value| value.is_ok())
+            .flatten()
+            .filter(|value| !(value.header_name().is_empty() && value.header_value().is_empty()))
+            .collect()
     }
 
     pub fn set_entries(&self, entries: &[KeyValueItem]) {

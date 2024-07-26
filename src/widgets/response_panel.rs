@@ -268,17 +268,22 @@ impl ResponsePanel {
             }
         }
 
-        let language = resp
-            .headers
-            .header("Content-Type")
-            .map(|ctypes| ctypes[0])
-            .and_then(|ctype| {
-                let ctype = match ctype.split_once(';') {
-                    Some((c, _)) => c,
-                    None => ctype,
-                };
-                LanguageManager::default().guess_language(Option::<PathBuf>::None, Some(ctype))
-            });
+        let language = if resp.is_json() {
+            LanguageManager::default().language("json")
+        } else if resp.is_xml() {
+            LanguageManager::default().language("xml")
+        } else {
+            resp.headers
+                .header("Content-Type")
+                .map(|ctypes| ctypes[0])
+                .and_then(|ctype| {
+                    let ctype = match ctype.split_once(';') {
+                        Some((c, _)) => c,
+                        None => ctype,
+                    };
+                    LanguageManager::default().guess_language(Option::<PathBuf>::None, Some(ctype))
+                })
+        };
 
         match language {
             Some(language) => buffer.set_language(Some(&language)),

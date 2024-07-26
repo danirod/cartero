@@ -30,14 +30,13 @@ mod imp {
     use adw::{subclass::prelude::*, TabPage};
     use gtk::gio::ActionEntry;
     use gtk::prelude::*;
+    use gettextrs::gettext;
 
     use crate::{app::CarteroApplication, error::CarteroError};
     use crate::{config, widgets::*};
     use glib::subclass::InitializingObject;
     use gtk::{CompositeTemplate, TemplateChild};
 
-    #[cfg(feature = "csd")]
-    use gettextrs::gettext;
     #[cfg(feature = "csd")]
     use glib::property::PropertySet;
     #[cfg(feature = "csd")]

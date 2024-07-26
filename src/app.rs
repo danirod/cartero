@@ -18,14 +18,12 @@
 use std::path::PathBuf;
 
 use adw::prelude::*;
-use adw::AboutWindow;
-use gettextrs::gettext;
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
 use gtk::gio::{self, ActionEntryBuilder, Settings};
 use gtk::prelude::ActionMapExtManual;
 
-use crate::config::{self, APP_ID, BASE_ID, RESOURCE_PATH};
+use crate::config::{APP_ID, BASE_ID, RESOURCE_PATH};
 use crate::win::CarteroWindow;
 
 #[macro_export]
@@ -53,8 +51,6 @@ mod imp {
 
     #[derive(Default)]
     pub struct CarteroApplication {
-        pub(super) window: OnceCell<CarteroWindow>,
-
         pub(super) settings: OnceCell<Settings>,
     }
 
@@ -70,7 +66,13 @@ mod imp {
     impl ApplicationImpl for CarteroApplication {
         fn activate(&self) {
             self.parent_activate();
-            self.obj().get_window().present();
+
+            let window = match self.obj().active_window() {
+                Some(window) => window.downcast::<CarteroWindow>().unwrap(),
+                None => self.initial_window(),
+            };
+
+            window.present();
         }
 
         fn startup(&self) {
@@ -91,8 +93,10 @@ mod imp {
 
         fn open(&self, files: &[gio::File], hint: &str) {
             self.parent_open(files, hint);
-            let obj = self.obj();
-            let window = obj.get_window();
+            let window = match self.obj().active_window() {
+                Some(window) => window.downcast::<CarteroWindow>().unwrap(),
+                None => self.initial_window(),
+            };
             for file in files {
                 if let Some(path) = file.path() {
                     println!("Opening {:?}", path);
@@ -106,6 +110,26 @@ mod imp {
     impl GtkApplicationImpl for CarteroApplication {}
 
     impl AdwApplicationImpl for CarteroApplication {}
+
+    impl CarteroApplication {
+        fn initial_window(&self) -> CarteroWindow {
+            let win = CarteroWindow::new(&self.obj());
+
+            // Because this is the first window, let's populate the list of opened files.
+            let app = self.obj();
+            let settings = app.settings();
+            let open_files = settings.get::<Vec<String>>("open-files");
+            for open_file in open_files {
+                let typed = open_file.split_once(':');
+                if let Some((_type, path)) = typed {
+                    let path = PathBuf::from(path);
+                    win.add_endpoint(Some(&path));
+                }
+            }
+
+            win
+        }
+    }
 }
 
 glib::wrapper! {
@@ -136,55 +160,23 @@ impl CarteroApplication {
             .build()
     }
 
-    pub fn get_window(&self) -> &CarteroWindow {
-        let imp = self.imp();
-        imp.window.get_or_init(|| {
-            let settings = self.settings();
-            let open_files = settings.get::<Vec<String>>("open-files");
-
-            let win = CarteroWindow::new(self);
-            for open_file in open_files {
-                let typed = open_file.split_once(':');
-                if let Some((_type, path)) = typed {
-                    let path = PathBuf::from(path);
-                    win.add_endpoint(Some(&path));
-                }
-            }
-            win
-        })
-    }
-
     pub fn settings(&self) -> &Settings {
         self.imp().settings.get_or_init(|| Settings::new(BASE_ID))
     }
 
     fn setup_app_actions(&self) {
-        let about = ActionEntryBuilder::new("about")
-            .activate(|app: &CarteroApplication, _, _| {
-                let win = app.get_window();
-                let about = AboutWindow::builder()
-                    .transient_for(win)
-                    .modal(true)
-                    .application_name("Cartero")
-                    .application_icon(config::APP_ID)
-                    .version(config::VERSION)
-                    .website("https://github.com/danirod/cartero")
-                    .issue_url("https://github.com/danirod/cartero/issues")
-                    .support_url("https://github.com/danirod/cartero/discussions")
-                    .developer_name(gettext("The Cartero authors"))
-                    .copyright(gettext("© 2024 the Cartero authors"))
-                    .license_type(gtk::License::Gpl30)
-                    .build();
-                about.present();
-            })
-            .build();
-
         let quit = ActionEntryBuilder::new("quit")
             .activate(glib::clone!(@weak self as app => move |_, _, _| {
-                app.get_window().close();
+                for window in app.windows() {
+                    window.close();
+                }
+
+                if app.windows().is_empty() {
+                    app.quit();
+                }
             }))
             .build();
 
-        self.add_action_entries([about, quit]);
+        self.add_action_entries([quit]);
     }
 }

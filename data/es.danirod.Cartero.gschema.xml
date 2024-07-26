@@ -30,6 +30,10 @@
       <default>640</default>
       <summary>How tall should new windows be</summary>
     </key>
+    <key name="is-maximized" type="b">
+      <default>false</default>
+      <summary>Whether the application should open maximized</summary>
+    </key>
     <key name="paned-position" type="i">
       <default>500</default>
       <summary>The position of the split between two windows</summary>

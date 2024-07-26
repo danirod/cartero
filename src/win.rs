@@ -26,6 +26,7 @@ mod imp {
     use std::path::{Path, PathBuf};
 
     use adw::prelude::AlertDialogExtManual;
+    use adw::AboutWindow;
     use adw::{subclass::prelude::*, TabPage};
     use gtk::gio::ActionEntry;
     use gtk::prelude::*;
@@ -130,12 +131,29 @@ mod imp {
                 let action = settings.create_action(action);
                 obj.add_action(&action);
             }
-            settings
-                .bind("window-width", &*obj, "default-width")
-                .build();
-            settings
-                .bind("window-height", &*obj, "default-height")
-                .build();
+
+            // The following settings are only read once. They will be saved when the window closes.
+            let width = settings.get::<i32>("window-width");
+            let height = settings.get::<i32>("window-height");
+            let maximized = settings.get::<bool>("is-maximized");
+            obj.set_default_width(width);
+            obj.set_default_height(height);
+            obj.set_maximized(maximized);
+        }
+
+        fn save_window_state(&self) {
+            let app = CarteroApplication::get();
+            let settings = app.settings();
+            let obj = self.obj();
+
+            let _ = settings.set("window-width", obj.width());
+            let _ = settings.set("window-height", obj.height());
+            let _ = settings.set("is-maximized", obj.is_maximized());
+        }
+
+        fn finish_window_close(&self) -> glib::Propagation {
+            self.save_window_state();
+            glib::Propagation::Proceed
         }
 
         pub fn save_visible_tabs(&self) {
@@ -308,10 +326,9 @@ mod imp {
         }
 
         async fn show_save_changes(&self) -> String {
-            let app = CarteroApplication::get();
-            let window = app.get_window();
+            let window = self.obj();
             let dialog = SaveDialog::default();
-            dialog.choose_future(window).await.as_str().to_string()
+            dialog.choose_future(&*window).await.as_str().to_string()
         }
 
         async fn save_all_tabs(&self) -> Result<(), CarteroError> {
@@ -367,16 +384,16 @@ mod imp {
                 }),
             );
 
-            self.tabview.connect_close_page(glib::clone!(@weak self as window => @default-return true, move |tabview, tabpage| {
+            let obj = self.obj();
+            self.tabview.connect_close_page(glib::clone!(@weak obj as window => @default-return true, move |tabview, tabpage| {
                 let item_pane = tabpage.child().downcast::<ItemPane>().unwrap();
+                let imp = window.imp();
                 let outcome = if item_pane.dirty() {
-                    let app = CarteroApplication::get();
-                    let win = app.get_window();
                     let dialog = SaveDialog::default();
-                    let response = glib::MainContext::default().block_on(dialog.choose_future(win));
+                    let response = glib::MainContext::default().block_on(dialog.choose_future(&window));
                     match response.as_str() {
                         "save" => {
-                            let resp = glib::MainContext::default().block_on(window.save_pane(&item_pane));
+                            let resp = glib::MainContext::default().block_on(imp.save_pane(&item_pane));
                             match resp {
                                 Ok(_) => false,
                                 Err(e) => {
@@ -392,8 +409,7 @@ mod imp {
                     }
                 } else {
                     item_pane.set_path(Option::<String>::None);
-                    let app = CarteroApplication::get();
-                    app.get_window().sync_open_files();
+                    window.sync_open_files();
                     false
                 };
 
@@ -469,6 +485,25 @@ mod imp {
                 }))
                 .build();
 
+            let action_about = ActionEntry::builder("about")
+                .activate(glib::clone!(@weak self as window => move |_, _, _| {
+                    let about = AboutWindow::builder()
+                        .transient_for(&*window.obj())
+                        .modal(true)
+                        .application_name("Cartero")
+                        .application_icon(config::APP_ID)
+                        .version(config::VERSION)
+                        .website("https://github.com/danirod/cartero")
+                        .issue_url("https://github.com/danirod/cartero/issues")
+                        .support_url("https://github.com/danirod/cartero/discussions")
+                        .developer_name(gettext("The Cartero authors"))
+                        .copyright(gettext("© 2024 the Cartero authors"))
+                        .license_type(gtk::License::Gpl30)
+                        .build();
+                    about.present();
+                }))
+                .build();
+
             let obj = self.obj();
             obj.add_action_entries([
                 action_new,
@@ -477,6 +512,7 @@ mod imp {
                 action_save,
                 action_save_as,
                 action_close,
+                action_about,
             ]);
         }
     }
@@ -487,15 +523,15 @@ mod imp {
         fn close_request(&self) -> glib::Propagation {
             let panes = self.get_modified_panes();
             if panes.is_empty() {
-                glib::Propagation::Proceed
+                self.finish_window_close()
             } else {
                 let response = glib::MainContext::default().block_on(self.show_save_changes());
                 match response.as_str() {
-                    "discard" => glib::Propagation::Proceed,
+                    "discard" => self.finish_window_close(),
                     "save" => {
                         let result = glib::MainContext::default().block_on(self.save_all_tabs());
                         match result {
-                            Ok(_) => glib::Propagation::Proceed,
+                            Ok(_) => self.finish_window_close(),
                             Err(e) => {
                                 self.toast_error(e);
                                 glib::Propagation::Stop

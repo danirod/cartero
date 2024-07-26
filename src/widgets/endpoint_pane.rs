@@ -22,6 +22,7 @@ use crate::{entities::EndpointData, error::CarteroError};
 
 mod imp {
     use std::cell::RefCell;
+    use std::sync::{Arc, Mutex};
     use std::time::Instant;
 
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
@@ -30,6 +31,7 @@ mod imp {
     use gtk::subclass::prelude::*;
     use gtk::{prelude::*, CompositeTemplate};
     use isahc::RequestExt;
+    use url::Url;
 
     use crate::app::CarteroApplication;
     use crate::client::{BoundRequest, RequestError};
@@ -44,6 +46,9 @@ mod imp {
     pub struct EndpointPane {
         #[template_child(id = "send")]
         pub send_button: TemplateChild<gtk::Button>,
+
+        #[template_child]
+        pub parameter_pane: TemplateChild<KeyValuePane>,
 
         #[template_child]
         pub header_pane: TemplateChild<KeyValuePane>,
@@ -68,6 +73,8 @@ mod imp {
 
         #[property(get, set, nullable)]
         pub item_pane: RefCell<Option<ItemPane>>,
+
+        variable_changing: Arc<Mutex<bool>>,
     }
 
     #[glib::object_subclass]
@@ -95,6 +102,33 @@ mod imp {
             self.init_settings();
             self.variable_pane.assert_always_placeholder();
             self.header_pane.assert_always_placeholder();
+            self.parameter_pane.assert_always_placeholder();
+
+            let url_arc = self.variable_changing.clone();
+            self.request_url
+                .connect_changed(glib::clone!(@weak self as window => move |_| {
+                    // It is important to allow the redundant pattern matching because
+                    // is_ok() does not capture the mutex and will cause sync issues.
+                    #[allow(clippy::redundant_pattern_matching)]
+                    if let Ok(_) = url_arc.try_lock() {
+                        if let Err(err) = window.update_query_params() {
+                            println!("{err}");
+                        }
+                    }
+                }));
+
+            let parameter_arc = self.variable_changing.clone();
+            self.parameter_pane
+                .connect_changed(glib::clone!(@weak self as window => move |_| {
+                    // It is important to allow the redundant pattern matching because
+                    // is_ok() does not capture the mutex and will cause sync issues.
+                    #[allow(clippy::redundant_pattern_matching)]
+                    if let Ok(_) = parameter_arc.try_lock() {
+                        if let Err(err) = window.update_url_from_query_params() {
+                            println!("{err}");
+                        }
+                    }
+                }));
         }
     }
 
@@ -104,6 +138,46 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl EndpointPane {
+        fn update_url_from_query_params(&self) -> Result<(), url::ParseError> {
+            let table = self.parameter_pane.get_entries();
+
+            let parsed_url = self.request_url.text().to_string();
+            let mut url = Url::parse(&parsed_url)?;
+            {
+                let mut pairs = url.query_pairs_mut();
+                pairs.clear();
+                for item in table {
+                    if item.active() {
+                        let key = item.header_name();
+                        let value = item.header_value();
+                        pairs.append_pair(&key, &value);
+                    }
+                }
+            }
+            self.request_url.set_text(url.as_str());
+            Ok(())
+        }
+
+        fn update_query_params(&self) -> Result<(), url::ParseError> {
+            let parsed_url = self.request_url.text().to_string();
+            let url = Url::parse(&parsed_url)?;
+            let pairs = url.query_pairs();
+
+            let entries: Vec<KeyValueItem> = pairs
+                .map(|(key, value)| {
+                    let key = String::from(key);
+                    let value = String::from(value);
+                    let entry = KeyValue::from((key, value));
+                    let value = KeyValueItem::from(entry);
+                    value.set_active(true);
+                    value.set_secret(false);
+                    value
+                })
+                .collect();
+            self.parameter_pane.set_entries(&entries);
+            Ok(())
+        }
+
         fn mark_dirty(&self) {
             if let Some(item_pane) = self.obj().item_pane() {
                 item_pane.set_dirty(true);

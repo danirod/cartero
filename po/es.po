@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-07-26 09:25+0200\n"
-"PO-Revision-Date: 2024-07-26 01:40+0200\n"
+"POT-Creation-Date: 2024-07-26 21:32+0200\n"
+"PO-Revision-Date: 2024-07-26 21:32+0200\n"
 "Last-Translator:  <>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -89,15 +89,19 @@ msgstr "Enviar"
 msgid "Execute this HTTP request"
 msgstr "Ejecutar esta petición HTTP"
 
-#: data/ui/endpoint_pane.blp:103 data/ui/response_panel.blp:47
+#: data/ui/endpoint_pane.blp:103
+msgid "Parameters"
+msgstr "Parámetros"
+
+#: data/ui/endpoint_pane.blp:124 data/ui/response_panel.blp:47
 msgid "Headers"
 msgstr "Cabeceras"
 
-#: data/ui/endpoint_pane.blp:124
+#: data/ui/endpoint_pane.blp:145
 msgid "Variables"
 msgstr "Variables"
 
-#: data/ui/endpoint_pane.blp:145 data/ui/response_panel.blp:68
+#: data/ui/endpoint_pane.blp:166 data/ui/response_panel.blp:68
 msgid "Body"
 msgstr "Cuerpo"
 

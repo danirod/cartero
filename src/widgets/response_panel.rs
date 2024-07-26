@@ -22,6 +22,7 @@ use gtk::gio::{ListModel, ListStore};
 use gtk::glib;
 use gtk::prelude::TextViewExt;
 use gtk::prelude::*;
+use serde_json::Value;
 use sourceview5::prelude::BufferExt;
 use sourceview5::LanguageManager;
 
@@ -259,17 +260,30 @@ impl ResponsePanel {
 
         buffer.set_text(&resp.body_str());
 
-        let language = resp
-            .headers
-            .header("Content-Type")
-            .map(|ctypes| ctypes[0])
-            .and_then(|ctype| {
-                let ctype = match ctype.split_once(';') {
-                    Some((c, _)) => c,
-                    None => ctype,
-                };
-                LanguageManager::default().guess_language(Option::<PathBuf>::None, Some(ctype))
-            });
+        if resp.is_json() {
+            let json = serde_json::from_str(&resp.body_str())
+                .and_then(|text: Value| serde_json::to_string_pretty(&text));
+            if let Ok(json) = json {
+                buffer.set_text(&json);
+            }
+        }
+
+        let language = if resp.is_json() {
+            LanguageManager::default().language("json")
+        } else if resp.is_xml() {
+            LanguageManager::default().language("xml")
+        } else {
+            resp.headers
+                .header("Content-Type")
+                .map(|ctypes| ctypes[0])
+                .and_then(|ctype| {
+                    let ctype = match ctype.split_once(';') {
+                        Some((c, _)) => c,
+                        None => ctype,
+                    };
+                    LanguageManager::default().guess_language(Option::<PathBuf>::None, Some(ctype))
+                })
+        };
 
         match language {
             Some(language) => buffer.set_language(Some(&language)),

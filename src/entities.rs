@@ -258,6 +258,26 @@ pub struct ResponseData {
 }
 
 impl ResponseData {
+    pub fn is_json(&self) -> bool {
+        match self.headers.header("content-type") {
+            Some(header) => match header[..] {
+                [value] => value.contains("/json") || value.contains("+json"),
+                _ => false,
+            },
+            None => false,
+        }
+    }
+
+    pub fn is_xml(&self) -> bool {
+        match self.headers.header("content-type") {
+            Some(header) => match header[..] {
+                [value] => value.contains("/xml") || value.contains("+xml"),
+                _ => false,
+            },
+            None => false,
+        }
+    }
+
     pub fn body_str(&self) -> String {
         String::from_utf8_lossy(&self.body).into_owned()
     }
@@ -272,7 +292,71 @@ impl ResponseData {
 mod tests {
     use crate::entities::{KeyValue, RequestMethod};
 
-    use super::KeyValueTable;
+    use super::{KeyValueTable, ResponseData};
+
+    #[test]
+    fn test_response_is_json() {
+        let json_item = KeyValue::from(("Content-Type", "application/json"));
+        let jsonld_item = KeyValue::from(("Content-Type", "application/ld+json; charset=utf8"));
+        let textjson_item = KeyValue::from(("Content-Type", "text/json"));
+        let vendor_item = KeyValue::from(("Content-Type", "application/vnd.github.raw+json"));
+        let xml_item = KeyValue::from(("Content-Type", "application/xml"));
+        let atom_item = KeyValue::from(("Content-Type", "application/atom+xml"));
+        let jpeg_item = KeyValue::from(("Content-Type", "image/jpeg"));
+
+        let cases = vec![
+            (json_item, true),
+            (jsonld_item, true),
+            (textjson_item, true),
+            (vendor_item, true),
+            (xml_item, false),
+            (atom_item, false),
+            (jpeg_item, false),
+        ];
+
+        for (header, expected) in cases {
+            let response = ResponseData {
+                status_code: 200,
+                duration: 0,
+                size: 0,
+                headers: KeyValueTable(vec![header]),
+                body: Vec::new(),
+            };
+            assert_eq!(response.is_json(), expected);
+        }
+    }
+
+    #[test]
+    fn test_response_is_xml() {
+        let json_item = KeyValue::from(("Content-Type", "application/json"));
+        let jsonld_item = KeyValue::from(("Content-Type", "application/ld+json; charset=utf8"));
+        let textjson_item = KeyValue::from(("Content-Type", "text/json"));
+        let vendor_item = KeyValue::from(("Content-Type", "application/vnd.github.raw+json"));
+        let xml_item = KeyValue::from(("Content-Type", "application/xml"));
+        let atom_item = KeyValue::from(("Content-Type", "application/atom+xml"));
+        let jpeg_item = KeyValue::from(("Content-Type", "image/jpeg"));
+
+        let cases = vec![
+            (json_item, false),
+            (jsonld_item, false),
+            (textjson_item, false),
+            (vendor_item, false),
+            (xml_item, true),
+            (atom_item, true),
+            (jpeg_item, false),
+        ];
+
+        for (header, expected) in cases {
+            let response = ResponseData {
+                status_code: 200,
+                duration: 0,
+                size: 0,
+                headers: KeyValueTable(vec![header]),
+                body: Vec::new(),
+            };
+            assert_eq!(response.is_xml(), expected);
+        }
+    }
 
     #[test]
     pub fn test_convert_str_to_method() {

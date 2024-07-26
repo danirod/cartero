@@ -19,7 +19,7 @@ case "$1" in
     APP_VERSION="0.1.0"
     MESON_FLAGS="-Dprofile=default"
     ICON_PATH="$PWD/data/icons/scalable/apps/es.danirod.Cartero.svg"
-    DOC_ICON_PATH="$PWD/data/icons/scalable/mimetypes/es.danirod.Cartero.request.svg"
+    DOC_ICON_PATH="$PWD/data/icons/scalable/mimetypes/es.danirod.Cartero-request.svg"
     ;;
   *)
     echo "Usage: $0 [devel / stable]"

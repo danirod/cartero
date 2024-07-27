@@ -1,9 +1,6 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the cartero package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
+#  <>, 2024.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
@@ -11,11 +8,12 @@ msgstr ""
 "POT-Creation-Date: 2024-07-26 21:32+0200\n"
 "PO-Revision-Date: 2024-07-27 15:08+0200\n"
 "Last-Translator: \n"
-"Language-Team: \n"
+"Language-Team: Romanian\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.4.4\n"
 
 #: data/cartero.desktop.in:3
@@ -29,7 +27,7 @@ msgstr "Folosește Cartero pentru a face cereri HTTP și a testa API-urile."
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/cartero.desktop.in:11
 msgid "Gnome;GTK;HTTP;REST;"
-msgstr "Gnome;GTK;HTTP;REST;"
+msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:6
 msgid "Automatically indent new lines for the request body"

@@ -131,9 +131,8 @@ First of all, add cartero to your flake inputs so you can import the package.
 > This examples assume you're passing `inputs` in the `specialArgs` so you can utilize it
 > in others modules if you're splitting your config in multiple files.
 
-Then in your `home.packages` (when using home manager) or
-`environment.systemPackages` (global nix packages), add the
-derivation.
+Then in your `home.packages` (when using home manager) or `environment.systemPackages`
+(global nix packages), add the derivation.
 
 ```nix
 environment.systemPackages = [

@@ -237,9 +237,16 @@ impl ResponsePanel {
         let model = store.upcast::<ListModel>();
         imp.response_headers.set_headers(Some(&model));
 
-        let status = format!("HTTP {}", resp.status_code);
+        let status = format!("• HTTP {}", resp.status_code);
         imp.status_code.set_text(&status);
         imp.status_code.set_visible(true);
+        let status_color = match resp.status_code {
+            200..=299 => "success",
+            400..=499 => "warning",
+            500..=599 => "error",
+            _ => "neutral",
+        };
+        imp.status_code.add_css_class(&status_color);
 
         let duration = format!("{} s", resp.seconds());
         imp.duration.set_text(&duration);

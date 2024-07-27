@@ -16,6 +16,7 @@ pkgs.rustPlatform.buildRustPackage rec {
     blueprint-compiler
     desktop-file-utils
     gtk4
+    shared-mime-info
     glib
     wrapGAppsHook
     hicolor-icon-theme

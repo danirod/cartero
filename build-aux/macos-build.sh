@@ -159,6 +159,7 @@ done
 mkdir -p "$RESOURCES_ROOT/en.lproj"
 mkdir -p "$RESOURCES_ROOT/es.lproj"
 mkdir -p "$RESOURCES_ROOT/eo.lproj"
+mkdir -p "$RESOURCES_ROOT/ro.lproj"
 
 # Create Info.plist
 cat > "$APP_ROOT/Contents/Info.plist" << EOF

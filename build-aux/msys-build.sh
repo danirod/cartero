@@ -39,6 +39,7 @@ mkdir -p {lib,share}
 cp $(ldd bin/cartero.exe | grep "$MINGW_PREFIX" | awk '{ print $3 }') bin/
 
 cp $MINGW_PREFIX/bin/gdbus.exe bin/
+cp $MINGW_PREFIX/bin/gspawn-win64-helper.exe bin/
 
 cp -RTn $MINGW_PREFIX/lib/gdk-pixbuf-2.0 lib/gdk-pixbuf-2.0
 cp -RTn $MINGW_PREFIX/share/glib-2.0 share/glib-2.0

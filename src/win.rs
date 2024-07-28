@@ -15,34 +15,24 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use std::path::PathBuf;
-
 use crate::{app::CarteroApplication, error::CarteroError};
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
-use gtk::{gio, glib};
+use gtk::{gio, glib, prelude::SettingsExtManual};
 
 mod imp {
-    use std::path::{Path, PathBuf};
-
     use adw::prelude::AlertDialogExtManual;
     use adw::AboutWindow;
     use adw::{subclass::prelude::*, TabPage};
     use gettextrs::gettext;
-    use gtk::gio::ActionEntry;
+    use gtk::gio::{self, ActionEntry};
     use gtk::prelude::*;
 
+    use crate::utils::SingleExpressionWatch;
     use crate::{app::CarteroApplication, error::CarteroError};
     use crate::{config, widgets::*};
     use glib::subclass::InitializingObject;
     use gtk::{CompositeTemplate, TemplateChild};
-
-    #[cfg(feature = "csd")]
-    use glib::property::PropertySet;
-    #[cfg(feature = "csd")]
-    use gtk::ExpressionWatch;
-    #[cfg(feature = "csd")]
-    use std::cell::RefCell;
 
     #[cfg(feature = "csd")]
     #[derive(CompositeTemplate, Default)]
@@ -63,7 +53,9 @@ mod imp {
         #[template_child]
         stack: TemplateChild<gtk::Stack>,
 
-        window_title_binding: RefCell<Option<ExpressionWatch>>,
+        window_title_binding: SingleExpressionWatch,
+
+        window_subtitle_binding: SingleExpressionWatch,
     }
 
     #[cfg(not(feature = "csd"))]
@@ -87,26 +79,26 @@ mod imp {
     impl CarteroWindow {
         #[cfg(feature = "csd")]
         fn bind_current_tab(&self, tab: Option<&ItemPane>) {
-            {
-                let value: &Option<ExpressionWatch> = &self.window_title_binding.borrow();
-                if let Some(binding) = value {
-                    binding.unwatch();
-                }
-            }
-
+            self.window_title_binding.clear();
+            self.window_subtitle_binding.clear();
             match tab {
                 Some(tab) => {
-                    let new_binding =
+                    let title_bind =
                         tab.window_title_binding()
                             .bind(&*self.window_title, "title", Some(tab));
-                    let subtitle = tab.path().unwrap_or(gettext("Draft"));
-                    self.window_title.set_subtitle(&subtitle);
-                    self.window_title_binding.set(Some(new_binding));
+                    let subtitle_bind = tab.window_subtitle_binding().bind(
+                        &*self.window_title,
+                        "subtitle",
+                        Some(tab),
+                    );
+                    self.window_title_binding.replace(title_bind);
+                    self.window_subtitle_binding.replace(subtitle_bind);
                 }
                 None => {
                     self.window_title.set_title("Cartero");
                     self.window_title.set_subtitle("");
-                    self.window_title_binding.set(None);
+                    self.window_title_binding.clear();
+                    self.window_subtitle_binding.clear();
                 }
             };
         }
@@ -162,8 +154,11 @@ mod imp {
             for i in 0..count {
                 let page = pages.item(i).and_downcast::<TabPage>().unwrap();
                 let child = page.child().downcast::<ItemPane>().unwrap();
-                let path = child.path();
-                if let Some(path) = path {
+                let path = child.file();
+                let file = path
+                    .and_then(|f| f.path())
+                    .map(|pb| pb.display().to_string());
+                if let Some(path) = file {
                     let path = format!("endpoint:{path}");
                     paths.push(path);
                 }
@@ -183,8 +178,7 @@ mod imp {
             Some(page)
         }
 
-        fn find_pane_by_path(&self, path: &Path) -> Option<TabPage> {
-            let path_str = path.to_str().unwrap();
+        fn find_pane_by_path(&self, file: &gio::File) -> Option<TabPage> {
             self.tabview
                 .pages()
                 .iter::<TabPage>()
@@ -192,14 +186,16 @@ mod imp {
                 .flatten()
                 .find(|page| {
                     let item = page.child().downcast::<ItemPane>().unwrap();
-                    let item_path = item.path();
-                    item_path.is_some_and(|p| p == path_str)
+                    match item.file() {
+                        Some(f) => f.equal(file),
+                        None => false,
+                    }
                 })
         }
 
-        pub fn add_endpoint(&self, path: Option<&PathBuf>) {
-            if let Some(path) = path {
-                if let Some(tab) = self.find_pane_by_path(path) {
+        pub async fn add_endpoint(&self, file: Option<&gio::File>) {
+            if let Some(file) = file {
+                if let Some(tab) = self.find_pane_by_path(file) {
                     self.tabview.set_selected_page(&tab);
                     return;
                 }
@@ -207,21 +203,20 @@ mod imp {
 
             /* If the current tab is a new document, replace it. */
             if let Some(pane) = self.current_pane() {
-                if path.is_some() && !pane.dirty() && pane.path().is_none() {
+                if file.is_some() && !pane.dirty() && pane.file().is_none() {
                     let tp = self.tabview.page(&pane);
                     self.tabview.close_page(&tp);
                 }
             }
 
-            match ItemPane::new_for_endpoint(path) {
+            match ItemPane::new_for_endpoint(file).await {
                 Ok(pane) => {
                     self.stack.set_visible_child_name("tabview");
                     let page = self.tabview.add_page(&pane, None);
                     pane.window_title_binding()
                         .bind(&page, "title", Some(&pane));
-                    pane.bind_property("path", &page, "tooltip")
-                        .sync_create()
-                        .build();
+                    pane.window_subtitle_binding()
+                        .bind(&page, "tooltip", Some(&pane));
                     self.tabview.set_selected_page(&page);
                     self.save_visible_tabs();
                 }
@@ -235,7 +230,7 @@ mod imp {
             // In order to place the modal, we need a reference to the public type.
             let obj = self.obj();
             let path = crate::widgets::open_file(&obj).await?;
-            self.add_endpoint(Some(&path));
+            self.add_endpoint(Some(&path)).await;
             self.save_visible_tabs();
             Ok(())
         }
@@ -245,8 +240,8 @@ mod imp {
                 return Ok(());
             };
 
-            let path = match pane.path() {
-                Some(path) => PathBuf::from(path),
+            let file = match pane.file() {
+                Some(file) => file,
                 None => {
                     let obj = self.obj();
                     crate::widgets::save_file(&obj).await?
@@ -255,8 +250,8 @@ mod imp {
 
             let endpoint = endpoint.extract_endpoint()?;
             let serialized_payload = crate::file::store_toml(&endpoint)?;
-            crate::file::write_file(&path, &serialized_payload)?;
-            pane.update_title_and_path(&path);
+            crate::file::write_file(&file, &serialized_payload).await?;
+            pane.set_file(Some(file.clone()));
             pane.set_dirty(false);
 
             Ok(())
@@ -268,12 +263,12 @@ mod imp {
             };
 
             let obj = self.obj();
-            let path = crate::widgets::save_file(&obj).await?;
+            let file = crate::widgets::save_file(&obj).await?;
 
             let endpoint = endpoint.extract_endpoint()?;
             let serialized_payload = crate::file::store_toml(&endpoint)?;
-            crate::file::write_file(&path, &serialized_payload)?;
-            pane.update_title_and_path(&path);
+            crate::file::write_file(&file, &serialized_payload).await?;
+            pane.set_file(Some(file.clone()));
             pane.set_dirty(false);
 
             Ok(())
@@ -407,7 +402,7 @@ mod imp {
 
                     }
                 } else {
-                    item_pane.set_path(Option::<String>::None);
+                    item_pane.set_file(Option::<gio::File>::None);
                     window.sync_open_files();
                     false
                 };
@@ -425,7 +420,9 @@ mod imp {
 
             let action_new = ActionEntry::builder("new")
                 .activate(glib::clone!(@weak self as window => move |_, _, _| {
-                    window.add_endpoint(None);
+                    glib::spawn_future_local(async move {
+                        window.add_endpoint(None).await;
+                    });
                 }))
                 .build();
 
@@ -568,9 +565,9 @@ impl CarteroWindow {
         Object::builder().property("application", Some(app)).build()
     }
 
-    pub fn add_endpoint(&self, ep: Option<&PathBuf>) {
+    pub async fn add_endpoint(&self, ep: Option<&gio::File>) {
         let imp = &self.imp();
-        imp.add_endpoint(ep)
+        imp.add_endpoint(ep).await
     }
 
     pub fn toast_error(&self, e: CarteroError) {
@@ -581,5 +578,18 @@ impl CarteroWindow {
     pub fn sync_open_files(&self) {
         let imp = self.imp();
         imp.save_visible_tabs();
+    }
+
+    pub async fn open_last_session(&self) {
+        let app = CarteroApplication::get();
+        let settings = app.settings();
+        let open_files = settings.get::<Vec<String>>("open-files");
+        for open_file in open_files {
+            let typed = open_file.split_once(':');
+            if let Some((_type, path)) = typed {
+                let path = gio::File::for_path(path);
+                self.add_endpoint(Some(&path)).await;
+            }
+        }
     }
 }

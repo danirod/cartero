@@ -15,12 +15,10 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use std::path::{Path, PathBuf};
-
 use adw::prelude::*;
 use gettextrs::gettext;
 use glib::Object;
-use gtk::ClosureExpression;
+use gtk::{gio, ClosureExpression};
 
 use crate::error::CarteroError;
 
@@ -32,16 +30,13 @@ mod imp {
     use adw::prelude::*;
     use adw::subclass::prelude::*;
     use glib::Properties;
-    use gtk::glib;
+    use gtk::{gio, glib};
 
     #[derive(Default, Properties)]
     #[properties(wrapper_type = super::ItemPane)]
     pub struct ItemPane {
-        #[property(get, set)]
-        title: RefCell<String>,
-
         #[property(get, set, nullable)]
-        path: RefCell<Option<String>>,
+        file: RefCell<Option<gio::File>>,
 
         #[property(get, set)]
         pub dirty: RefCell<bool>,
@@ -70,25 +65,14 @@ glib::wrapper! {
 }
 
 impl ItemPane {
-    pub fn new_for_endpoint(path: Option<&PathBuf>) -> Result<Self, CarteroError> {
-        let pane: Self = match path {
-            Some(path) => {
-                let file_name = path.file_stem().unwrap().to_str().unwrap();
-                Object::builder()
-                    .property("title", file_name)
-                    .property("path", Some(path.clone()))
-                    .build()
-            }
-            None => Object::builder()
-                .property("title", gettext("(untitled)"))
-                .build(),
-        };
+    pub async fn new_for_endpoint(file: Option<&gio::File>) -> Result<Self, CarteroError> {
+        let pane: Self = Object::builder().property("file", file).build();
 
         let child_pane = EndpointPane::default();
         pane.set_child(Some(&child_pane));
 
-        if let Some(path) = path {
-            let contents = crate::file::read_file(path)?;
+        if let Some(path) = file {
+            let contents = crate::file::read_file(path).await?;
             let endpoint = crate::file::parse_toml(&contents)?;
             child_pane.assign_endpoint(&endpoint);
         }
@@ -102,24 +86,33 @@ impl ItemPane {
         self.child().and_downcast::<EndpointPane>()
     }
 
-    pub fn update_title_and_path(&self, path: &Path) {
-        let file_name = path.file_stem().unwrap().to_str().unwrap();
-        self.set_title(file_name);
-        self.set_path(Some(path.to_str().unwrap()));
-    }
-
     pub fn window_title_binding(&self) -> ClosureExpression {
         ClosureExpression::new::<String>(
             [
-                &self.property_expression("title"),
+                &self.property_expression("file"),
                 &self.property_expression("dirty"),
             ],
-            glib::closure!(|_: ItemPane, title: String, dirty: bool| {
+            glib::closure!(|_: ItemPane, file: Option<gio::File>, dirty: bool| {
+                let title = file
+                    .and_then(|f| f.basename())
+                    .map(|bn| bn.file_stem().unwrap().to_str().unwrap().to_string())
+                    .unwrap_or(gettext("(untitled)"));
                 if dirty {
                     format!("• {}", &title)
                 } else {
-                    title.clone()
+                    title
                 }
+            }),
+        )
+    }
+
+    pub fn window_subtitle_binding(&self) -> ClosureExpression {
+        ClosureExpression::new::<String>(
+            [&self.property_expression("file")],
+            glib::closure!(|_: ItemPane, file: Option<gio::File>| {
+                file.and_then(|f| f.path())
+                    .map(|bn| bn.display().to_string())
+                    .unwrap_or(gettext("Draft"))
             }),
         )
     }

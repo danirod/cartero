@@ -15,8 +15,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use std::path::PathBuf;
-
 use adw::prelude::*;
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
@@ -66,13 +64,16 @@ mod imp {
     impl ApplicationImpl for CarteroApplication {
         fn activate(&self) {
             self.parent_activate();
-
-            let window = match self.obj().active_window() {
-                Some(window) => window.downcast::<CarteroWindow>().unwrap(),
-                None => self.initial_window(),
+            let (window, is_new_window) = match self.obj().active_window() {
+                Some(window) => (window.downcast::<CarteroWindow>().unwrap(), false),
+                None => (CarteroWindow::new(&self.obj()), true),
             };
-
-            window.present();
+            glib::spawn_future_local(glib::clone!(@weak window => async move {
+                if is_new_window {
+                    window.open_last_session().await;
+                }
+                window.present();
+            }));
         }
 
         fn startup(&self) {
@@ -93,43 +94,27 @@ mod imp {
 
         fn open(&self, files: &[gio::File], hint: &str) {
             self.parent_open(files, hint);
-            let window = match self.obj().active_window() {
-                Some(window) => window.downcast::<CarteroWindow>().unwrap(),
-                None => self.initial_window(),
+
+            let (window, is_new_window) = match self.obj().active_window() {
+                Some(window) => (window.downcast::<CarteroWindow>().unwrap(), false),
+                None => (CarteroWindow::new(&self.obj()), true),
             };
-            for file in files {
-                if let Some(path) = file.path() {
-                    println!("Opening {:?}", path);
-                    window.add_endpoint(Some(&path));
+            let thread_files: Vec<gio::File> = files.to_vec();
+            glib::spawn_future_local(async move {
+                if is_new_window {
+                    window.open_last_session().await;
                 }
-            }
-            window.present();
+                for file in thread_files {
+                    window.add_endpoint(Some(&file)).await;
+                }
+                window.present();
+            });
         }
     }
 
     impl GtkApplicationImpl for CarteroApplication {}
 
     impl AdwApplicationImpl for CarteroApplication {}
-
-    impl CarteroApplication {
-        fn initial_window(&self) -> CarteroWindow {
-            let win = CarteroWindow::new(&self.obj());
-
-            // Because this is the first window, let's populate the list of opened files.
-            let app = self.obj();
-            let settings = app.settings();
-            let open_files = settings.get::<Vec<String>>("open-files");
-            for open_file in open_files {
-                let typed = open_file.split_once(':');
-                if let Some((_type, path)) = typed {
-                    let path = PathBuf::from(path);
-                    win.add_endpoint(Some(&path));
-                }
-            }
-
-            win
-        }
-    }
 }
 
 glib::wrapper! {

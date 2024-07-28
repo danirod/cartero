@@ -26,6 +26,7 @@ mod widgets;
 mod config;
 mod entities;
 mod objects;
+mod utils;
 mod win;
 
 use std::path::PathBuf;

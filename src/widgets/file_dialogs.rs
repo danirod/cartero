@@ -1,7 +1,7 @@
 use gettextrs::gettext;
 use glib::types::StaticType;
 use gtk::{
-    gio::ListStore,
+    gio::{self, ListStore},
     prelude::{FileExt, SettingsExtManual},
     DialogError, FileDialog, FileFilter,
 };
@@ -22,7 +22,7 @@ fn get_cartero_file_filter() -> FileFilter {
     filter
 }
 
-pub async fn open_file(win: &CarteroWindow) -> Result<PathBuf, CarteroError> {
+pub async fn open_file(win: &CarteroWindow) -> Result<gio::File, CarteroError> {
     let filters = ListStore::with_type(FileFilter::static_type());
     let cartero = get_cartero_file_filter();
     filters.append(&cartero);
@@ -53,17 +53,20 @@ pub async fn open_file(win: &CarteroWindow) -> Result<PathBuf, CarteroError> {
             CarteroError::FileDialogError
         }
     })?;
-    let path = file.path().ok_or(CarteroError::FileDialogError)?;
-    if let Some(folder) = path.parent() {
-        let location = folder.to_str().ok_or(CarteroError::FileDialogError)?;
-        settings
-            .set("last-open-dir", Some(location))
-            .map_err(|_| CarteroError::FileDialogError)?;
+
+    if let Some(folder) = file.parent() {
+        if let Some(location) = folder.path() {
+            let string = location.to_str().ok_or(CarteroError::FileDialogError)?;
+            settings
+                .set("last-open-dir", Some(string))
+                .map_err(|_| CarteroError::FileDialogError)?;
+        }
     }
-    Ok(path)
+
+    Ok(file)
 }
 
-pub async fn save_file(win: &CarteroWindow) -> Result<PathBuf, CarteroError> {
+pub async fn save_file(win: &CarteroWindow) -> Result<gio::File, CarteroError> {
     let filters = ListStore::with_type(FileFilter::static_type());
     let cartero = get_cartero_file_filter();
     filters.append(&cartero);
@@ -95,12 +98,15 @@ pub async fn save_file(win: &CarteroWindow) -> Result<PathBuf, CarteroError> {
             CarteroError::FileDialogError
         }
     })?;
-    let path = file.path().ok_or(CarteroError::FileDialogError)?;
-    if let Some(folder) = path.parent() {
-        let location = folder.to_str().ok_or(CarteroError::FileDialogError)?;
-        settings
-            .set("last-save-dir", Some(location))
-            .map_err(|_| CarteroError::FileDialogError)?;
+
+    if let Some(folder) = file.parent() {
+        if let Some(location) = folder.path() {
+            let string = location.to_str().ok_or(CarteroError::FileDialogError)?;
+            settings
+                .set("last-save-dir", Some(string))
+                .map_err(|_| CarteroError::FileDialogError)?;
+        }
     }
-    Ok(path)
+
+    Ok(file)
 }

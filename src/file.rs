@@ -1,7 +1,7 @@
-use std::io::Write;
-use std::path::PathBuf;
-use std::{collections::HashMap, fs::File};
+use std::collections::HashMap;
 
+use gtk::gio;
+use gtk::prelude::FileExtManual;
 use serde::{Deserialize, Serialize};
 
 use crate::client::RequestError;
@@ -308,13 +308,25 @@ pub fn store_toml(endpoint: &EndpointData) -> Result<String, CarteroError> {
     toml::to_string(&file).map_err(|e| e.into())
 }
 
-pub fn read_file(path: &PathBuf) -> std::io::Result<String> {
-    std::fs::read_to_string(path)
+pub async fn read_file(file: &gio::File) -> Result<String, CarteroError> {
+    file.load_contents_future()
+        .await
+        .map(|data| String::from_utf8_lossy(&data.0).to_string())
+        .map_err(|err| {
+            println!("{err:?}");
+            CarteroError::FileDialogError
+        })
 }
 
-pub fn write_file(path: &PathBuf, contents: &str) -> std::io::Result<()> {
-    let mut file = File::create(path)?;
-    write!(file, "{}", contents)
+pub async fn write_file(file: &gio::File, contents: &str) -> Result<(), CarteroError> {
+    file.replace_contents_future(contents.to_string(), None, true, gio::FileCreateFlags::NONE)
+        .await
+        .map_err(|result| {
+            let error = result.1;
+            println!("{error:?}");
+            CarteroError::FileDialogError
+        })?;
+    Ok(())
 }
 
 #[cfg(test)]

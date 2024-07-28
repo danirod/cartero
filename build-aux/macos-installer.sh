@@ -19,5 +19,5 @@ function package_app() {
         rm -rf build/cartero-darwin-dmg
 }
 
-package_app "build/cartero-darwin/Cartero.app" "build/Cartero-0.1.dmg"
-package_app "build/cartero-darwin/Cartero (Devel).app" "build/Cartero-0.1-devel.dmg"
+package_app "build/cartero-darwin/Cartero.app" "build/Cartero-0.2.0.dmg"
+package_app "build/cartero-darwin/Cartero (Devel).app" "build/Cartero-0.2.0-devel.dmg"

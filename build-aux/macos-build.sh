@@ -8,7 +8,7 @@ case "$1" in
   devel)
     BUNDLE_ID="es.danirod.Cartero.Devel"
     APP_NAME="Cartero (Devel)"
-    APP_VERSION="0.1.0"
+    APP_VERSION="0.2.0"
     MESON_FLAGS="-Dprofile=development"
     ICON_PATH="$PWD/data/icons/scalable/apps/es.danirod.Cartero.Devel.svg"
     DOC_ICON_PATH="$PWD/data/icons/scalable/mimetypes/es.danirod.Cartero.Devel-request.svg"
@@ -16,7 +16,7 @@ case "$1" in
   stable)
     BUNDLE_ID="es.danirod.Cartero"
     APP_NAME="Cartero"
-    APP_VERSION="0.1.0"
+    APP_VERSION="0.2.0"
     MESON_FLAGS="-Dprofile=default"
     ICON_PATH="$PWD/data/icons/scalable/apps/es.danirod.Cartero.svg"
     DOC_ICON_PATH="$PWD/data/icons/scalable/mimetypes/es.danirod.Cartero-request.svg"

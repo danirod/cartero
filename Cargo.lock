@@ -142,7 +142,7 @@ dependencies = [
 
 [[package]]
 name = "cartero"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "formdata",
  "futures-lite 2.3.0",

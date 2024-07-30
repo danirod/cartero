@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-07-30 15:08+0200\n"
+"POT-Creation-Date: 2024-07-30 15:27+0200\n"
 "PO-Revision-Date: 2024-06-22 13:31+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -47,6 +47,18 @@ msgstr ""
 
 #: data/cartero.appdata.xml.in.in:20
 msgid "Variable binding for API keys and other secret information."
+msgstr ""
+
+#: data/cartero.appdata.xml.in.in:28
+msgid "Main window of Cartero"
+msgstr ""
+
+#: data/cartero.appdata.xml.in.in:33
+msgid "Modifying HTTP headers"
+msgstr ""
+
+#: data/cartero.appdata.xml.in.in:38
+msgid "Setting the request payload"
 msgstr ""
 
 #: data/cartero.desktop.in.in:3

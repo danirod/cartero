@@ -5,11 +5,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-07-30 14:06+0200\n"
-"PO-Revision-Date: 2024-07-25 22:08+0200\n"
+"POT-Creation-Date: 2024-07-30 14:53+0200\n"
+"PO-Revision-Date: 2024-07-30 15:00+0200\n"
 "Last-Translator:  <>\n"
-"Language-Team: Spanish\n"
-"Language: es\n"
+"Language-Team: Esperanto\n"
+"Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,8 +21,8 @@ msgid "Cartero"
 msgstr "Cartero"
 
 #: data/cartero.desktop.in.in:4
-msgid "Make HTTP requests and test APIs."
-msgstr "Sendu HTTP-petojn kaj testu retaj API-oj."
+msgid "Make HTTP requests and test APIs"
+msgstr "Sendu HTTP-petojn kaj testu retaj API-oj"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/cartero.desktop.in.in:11
@@ -81,27 +81,27 @@ msgstr ""
 msgid "Request URL"
 msgstr "URL"
 
-#: data/ui/endpoint_pane.blp:69
+#: data/ui/endpoint_pane.blp:70
 msgid "Send"
 msgstr "Petu"
 
-#: data/ui/endpoint_pane.blp:70
+#: data/ui/endpoint_pane.blp:71
 msgid "Execute this HTTP request"
 msgstr "Sendu ĉi tiun http-peton"
 
-#: data/ui/endpoint_pane.blp:103
+#: data/ui/endpoint_pane.blp:104
 msgid "Parameters"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:124 data/ui/response_panel.blp:47
+#: data/ui/endpoint_pane.blp:125 data/ui/response_panel.blp:70
 msgid "Headers"
 msgstr "Kapoj"
 
-#: data/ui/endpoint_pane.blp:145
+#: data/ui/endpoint_pane.blp:146
 msgid "Variables"
 msgstr "Variabloj"
 
-#: data/ui/endpoint_pane.blp:166 data/ui/response_panel.blp:68
+#: data/ui/endpoint_pane.blp:167 data/ui/response_panel.blp:47
 msgid "Body"
 msgstr "Korpo"
 

@@ -1,7 +1,7 @@
 <p align="center"><img src="data/icons/scalable/apps/es.danirod.Cartero.svg" width="256" height="256" alt=""></p>
 
 <h1 align="center">Cartero</h1>
-<p align="center">Make HTTP requests and test APIs.</p>
+<p align="center">Make HTTP requests and test APIs</p>
 
 <p align="center">
 <img src="data/screenshots/cartero-default.png" alt="Screenshot of Cartero">

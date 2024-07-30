@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Cartero
-Comment=Make HTTP requests and test APIs.
+Comment=Make HTTP requests and test APIs
 Type=Application
 Exec=cartero
 Terminal=false

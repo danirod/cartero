@@ -35,7 +35,7 @@ pkgs.rustPlatform.buildRustPackage rec {
     (makeDesktopItem rec {
       desktopName = "Cartero";
       name = lib.toLower desktopName;
-      comment = "Make HTTP requests and test APIs.";
+      comment = "Make HTTP requests and test APIs";
       exec = "cartero";
       tryExec = exec;
       icon = "es.danirod.Cartero.svg";

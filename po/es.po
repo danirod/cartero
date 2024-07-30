@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-07-30 14:06+0200\n"
-"PO-Revision-Date: 2024-07-26 21:32+0200\n"
+"POT-Creation-Date: 2024-07-30 14:53+0200\n"
+"PO-Revision-Date: 2024-07-30 15:00+0200\n"
 "Last-Translator:  <>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -21,8 +21,8 @@ msgid "Cartero"
 msgstr "Cartero"
 
 #: data/cartero.desktop.in.in:4
-msgid "Make HTTP requests and test APIs."
-msgstr "Haz peticiones HTTP y prueba APIs."
+msgid "Make HTTP requests and test APIs"
+msgstr "Haz peticiones HTTP y prueba APIs"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/cartero.desktop.in.in:11
@@ -81,27 +81,27 @@ msgstr "La última ubicación donde se guardó un archivo"
 msgid "Request URL"
 msgstr "URL de petición"
 
-#: data/ui/endpoint_pane.blp:69
+#: data/ui/endpoint_pane.blp:70
 msgid "Send"
 msgstr "Enviar"
 
-#: data/ui/endpoint_pane.blp:70
+#: data/ui/endpoint_pane.blp:71
 msgid "Execute this HTTP request"
 msgstr "Ejecutar esta petición HTTP"
 
-#: data/ui/endpoint_pane.blp:103
+#: data/ui/endpoint_pane.blp:104
 msgid "Parameters"
 msgstr "Parámetros"
 
-#: data/ui/endpoint_pane.blp:124 data/ui/response_panel.blp:47
+#: data/ui/endpoint_pane.blp:125 data/ui/response_panel.blp:70
 msgid "Headers"
 msgstr "Cabeceras"
 
-#: data/ui/endpoint_pane.blp:145
+#: data/ui/endpoint_pane.blp:146
 msgid "Variables"
 msgstr "Variables"
 
-#: data/ui/endpoint_pane.blp:166 data/ui/response_panel.blp:68
+#: data/ui/endpoint_pane.blp:167 data/ui/response_panel.blp:47
 msgid "Body"
 msgstr "Cuerpo"
 

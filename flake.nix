@@ -1,5 +1,5 @@
 {
-  description = "Make HTTP requests and test APIs.";
+  description = "Make HTTP requests and test APIs";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";

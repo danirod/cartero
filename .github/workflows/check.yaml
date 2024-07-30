@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
     - name: Install dependencies
-      run: sudo apt update && sudo apt install -y --no-install-recommends meson libgtk-4-dev libadwaita-1-dev libgtksourceview-5-dev desktop-file-utils xvfb
+      run: sudo apt update && sudo apt install -y --no-install-recommends gettext meson libgtk-4-dev libadwaita-1-dev libgtksourceview-5-dev desktop-file-utils xvfb
     - uses: actions/checkout@v4
     - name: Build with Meson
       run: |
@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
     - name: Install dependencies
-      run: sudo apt update && sudo apt install -y --no-install-recommends meson libgtk-4-dev libadwaita-1-dev libgtksourceview-5-dev desktop-file-utils xvfb
+      run: sudo apt update && sudo apt install -y --no-install-recommends gettext meson libgtk-4-dev libadwaita-1-dev libgtksourceview-5-dev desktop-file-utils xvfb
     - uses: actions/checkout@v4
     - name: Build with Meson
       run: |

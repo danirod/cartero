@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2024 Dani Rodríguez <dani@danirod.es> -->
+<component type="desktop-application">
+  <id>@app_id@</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name translatable="no">Cartero</name>
+  <summary>Make HTTP requests and test APIs.</summary>
+  <launchable type="desktop-id">@app_id@.desktop</launchable>
+
+  <description>
+    <p>Cartero is a graphical HTTP client that can be used as a developer tool to test web APIs
+      and perform all kind of HTTP requests to web servers. It is compatible with any REST,
+      SOAP or XML-RPC API and it supports multiple request methods as well as attaching body
+      payloads to compatible requests.</p>
+    <p>Features:</p>
+    <ul>
+      <li>Loads and saves to plain Git-friendly TOML files, so that you can own your data.</li>
+      <li>Customization and modification of the request headers and body payloads.</li>
+      <li>Variable binding for API keys and other secret information.</li>
+    </ul>
+  </description>
+
+  <screenshots>
+    <screenshot type="default">
+      <image>
+        https://raw.githubusercontent.com/danirod/cartero/trunk/data/screenshots/cartero-default.png</image>
+    </screenshot>
+    <screenshot>
+      <image>
+        https://raw.githubusercontent.com/danirod/cartero/trunk/data/screenshots/cartero-headers.png</image>
+    </screenshot>
+    <screenshot>
+      <image>
+        https://raw.githubusercontent.com/danirod/cartero/trunk/data/screenshots/cartero-payload.png</image>
+    </screenshot>
+  </screenshots>
+
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+    <display_length compare="ge">480</display_length>
+  </recommends>
+
+  <url type="homepage">https://cartero.danirod.es</url>
+  <url type="vcs-browser">https://github.com/danirod/cartero</url>
+  <url type="bugtracker">https://github.com/danirod/cartero/issues</url>
+  <developer_name translatable="no">Dani Rodríguez</developer_name>
+
+  <developer id="com.github.danirod">
+    <name>Dani Rodríguez</name>
+  </developer>
+  <update_contact>dani@danirod.es</update_contact>
+  <content_rating type="oars-1.0" />
+  <translation type="gettext">cartero</translation>
+
+  <branding>
+    <color type="primary" scheme_preference="light">#edf0f1</color>
+    <color type="primary" scheme_preference="dark">#465563</color>
+  </branding>
+
+  <releases>
+    <release version="0.1.0" date="2024-07-26">
+      <description>
+        <p>Initial release. I've crafted a MVP that consolidates the most important features to start using Cartero. Some features has been delayed for a future release, but there is already enough features for it to be useful.</p>
+        <p>Added:</p>
+        <ul>
+          <li>A fully functional HTTP client with support for multiple request methods, and payload types.</li>
+          <li>A variable engine that allows to move things such as API keys, passwords or hostnames into a variable that can be injected later into the URL or other headers.</li>
+          <li>File support to load and store requests for a future session.</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
+</component>

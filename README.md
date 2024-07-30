@@ -3,7 +3,20 @@
 <h1 align="center">Cartero</h1>
 <p align="center">Make HTTP requests and test APIs.</p>
 
-<p align="center"><img src="doc/cartero-screenshot.png" alt="Screenshot of Cartero"></p>
+<p align="center">
+<img src="data/screenshots/cartero-default.png" alt="Screenshot of Cartero">
+</p>
+
+Cartero is a graphical HTTP client that can be used as a developer tool to
+test web APIs and perform all kind of HTTP requests to web servers. It is
+compatible with any REST, SOAP or XML-RPC API and it supports multiple request
+methods as well as attaching body payloads to compatible requests.
+
+Features:
+
+* Loads and saves to plain Git-friendly TOML files, so that you can own your data.
+* Customization and modification of the request headers and body payloads.
+* Variable binding for API keys and other secret information.
 
 ## Motivation
 
@@ -19,15 +32,22 @@ some unwanted artificial intelligence at users.
 **Coming soon to Flathub**. I am still figuring out how to deploy to Flathub.
 Come back later, or download a bundle file.
 
-You can also download a development version.
+You can also download a version from the table below or from the releases section.
 
-|                             | Platform                   | Nightly                            |
-|-----------------------------|----------------------------|------------------------------------|
-| ![Flatpak](doc/flatpak.png) | Flatpak GNU/Linux, x86_64  | [Nightly][nightly-flatpak-x86_64]  |
-| ![Flatpak](doc/flatpak.png) | Flatpak GNU/Linux, aarch64 | [Nightly][nightly-flatpak-aarch64] |
-| ![Windows](doc/windows.png) | Windows, x86_64            | [Nightly][nightly-windows-x86_64]  |
-| ![macOS](doc/macos.png)     | macOS, Apple Sillicon      | [Nightly][nightly-macos-sillicon]  |
-| ![macOS](doc/macos.png)     | macOS, Intel               | [Nightly][nightly-macos-intel]  |
+> [!WARNING]
+> **The Windows and macOS versions are currently not notarized or signed.**
+> On first run on Windows, you'll need to confirm the SmartScreen warning.
+> On first run on macOS, you'll need to right click the app and use the Open menu.
+> If you don't trust these binary distributions, you can always build from sources.
+
+
+|                             | Platform                   | Latest version                                    | Nightly                                        |
+|-----------------------------|----------------------------|---------------------------------------------------|------------------------------------------------|
+| ![Flatpak](doc/flatpak.png) | Flatpak GNU/Linux, x86_64  | [v0.1.0 (Flatpak bundle)][stable-flatpak-x86_64]  | [Nightly (unstable!)][nightly-flatpak-x86_64]  |
+| ![Flatpak](doc/flatpak.png) | Flatpak GNU/Linux, aarch64 | [v0.1.0 (Flatpak bundle)][stable-flatpak-aarch64] | [Nightly (unstable!)][nightly-flatpak-aarch64] |
+| ![Windows](doc/windows.png) | Windows, x86_64            | [v0.1.0 (.zip)][stable-windows-x86_64]            | [Nightly (unstable!)][nightly-windows-x86_64]  |
+| ![macOS](doc/macos.png)     | macOS, Apple Sillicon      | [v0.1.0 (.dmg)][stable-macos-sillicon]            | [Nightly (unstable!)][nightly-macos-sillicon]  |
+| ![macOS](doc/macos.png)     | macOS, Intel               | [v0.1.0 (.dmg)][stable-macos-intel]               | [Nightly (unstable!)][nightly-macos-intel]     |
 
 ## Building
 
@@ -257,3 +277,8 @@ Dani's [dev blog][blog] (in Spanish) of Cartero.
 [nightly-windows-x86_64]: https://nightly.link/danirod/cartero/workflows/nightly.yaml/trunk/es.danirod.Cartero-windows-x86_64.zip
 [nightly-macos-sillicon]: https://nightly.link/danirod/cartero/workflows/nightly.yaml/trunk/es.danirod.Cartero-macOS-ARM64.zip
 [nightly-macos-intel]: https://nightly.link/danirod/cartero/workflows/nightly.yaml/trunk/es.danirod.Cartero-macOS-X64.zip
+[stable-flatpak-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.0/Cartero-0.1.0-flatpak-linux-x86_64.flatpak
+[stable-flatpak-aarch64]: https://github.com/danirod/cartero/releases/download/v0.1.0/Cartero-0.1.0-flatpak-linux-aarch64.flatpak
+[stable-windows-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.0/Cartero-0.1.0-windows-x64.zip
+[stable-macos-sillicon]: https://github.com/danirod/cartero/releases/download/v0.1.0/Cartero-0.1.0-macOS-ARM64.dmg
+[stable-macos-intel]: https://github.com/danirod/cartero/releases/download/v0.1.0/Cartero-0.1.0-macOS-Intel.dmg

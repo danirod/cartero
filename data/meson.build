@@ -74,6 +74,26 @@ install_data(
   install_dir: iconsdir / 'hicolor' / 'symbolic' / 'apps'
 )
 
+if host_machine.system() != 'windows'
+  appstream_file = i18n.merge_file(
+    input: configure_file(
+      input: 'cartero.appdata.xml.in.in',
+      output: 'cartero.appdata.xml.in',
+      configuration: { 'app_id': application_id },
+    ),
+    output: '@0@.appdata.xml'.format(application_id),
+    po_dir: '../po',
+    install: true,
+    install_dir: datadir / 'appdata'
+  )
+  appstreamcli = find_program('appstreamcli', required: false)
+  if appstreamcli.found()
+    test('Validate appstream file', appstreamcli,
+      args: ['validate', '--no-net', '--explain', appstream_file]
+    )
+  endif
+endif
+
 mimetype = configure_file(
   input: 'es.danirod.Cartero.mimetype.xml.in',
   output: '@0@.xml'.format(application_id),
@@ -81,10 +101,16 @@ mimetype = configure_file(
   install_dir: datadir / 'mime' / 'packages',
 )
 
-desktop_file = configure_file(
-  input: 'cartero.desktop.in',
+desktop_file = i18n.merge_file(
+  type: 'desktop',
+  input: configure_file(
+    input: 'cartero.desktop.in.in',
+    output: 'cartero.desktop.in',
+    configuration: { 'app_id': application_id },
+  ),
   output: '@0@.desktop'.format(application_id),
-  configuration: { 'app_id': application_id },
+  po_dir: '../po',
+  install: true,
   install_dir: datadir / 'applications'
 )
 desktop_utils = find_program('desktop-file-validate', required: true)

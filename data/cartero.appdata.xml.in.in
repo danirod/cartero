@@ -4,7 +4,7 @@
   <id>@app_id@</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
-  <name translatable="no">Cartero</name>
+  <name translate="no">Cartero</name>
   <summary>Make HTTP requests and test APIs</summary>
   <launchable type="desktop-id">@app_id@.desktop</launchable>
 
@@ -45,10 +45,10 @@
   <url type="homepage">https://cartero.danirod.es</url>
   <url type="vcs-browser">https://github.com/danirod/cartero</url>
   <url type="bugtracker">https://github.com/danirod/cartero/issues</url>
-  <developer_name translatable="no">Dani Rodríguez</developer_name>
+  <developer_name translate="no">Dani Rodríguez</developer_name>
 
   <developer id="com.github.danirod">
-    <name>Dani Rodríguez</name>
+    <name translate="no">Dani Rodríguez</name>
   </developer>
   <update_contact>dani@danirod.es</update_contact>
   <content_rating type="oars-1.0" />
@@ -61,7 +61,7 @@
 
   <releases>
     <release version="0.1.0" date="2024-07-26">
-      <description>
+      <description translate="no">
         <p>Initial release. I've crafted a MVP that consolidates the most important features to start using Cartero. Some features has been delayed for a future release, but there is already enough features for it to be useful.</p>
         <p>Added:</p>
         <ul>

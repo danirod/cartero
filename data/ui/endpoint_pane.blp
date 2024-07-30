@@ -58,6 +58,7 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
           hexpand: true;
           placeholder-text: _("Request URL");
           changed => $on_url_changed() swapped;
+          activate => $on_url_activated() swapped;
         }
 
         Button send {

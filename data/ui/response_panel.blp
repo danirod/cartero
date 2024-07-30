@@ -44,27 +44,6 @@ template $CarteroResponsePanel: Adw.Bin {
 
           NotebookPage {
             tab: Label {
-              label: _("Headers");
-            };
-
-            child: ScrolledWindow {
-              hexpand: true;
-              vexpand: true;
-
-              Adw.Clamp {
-                styles [
-                  "background"
-                ]
-
-                maximum-size: 720;
-
-                $CarteroResponseHeaders response_headers {}
-              }
-            };
-          }
-
-          NotebookPage {
-            tab: Label {
               label: _("Body");
             };
 
@@ -82,6 +61,27 @@ template $CarteroResponsePanel: Adw.Bin {
                 editable: false;
 
                 buffer: GtkSource.Buffer {};
+              }
+            };
+          }
+
+          NotebookPage {
+            tab: Label {
+              label: _("Headers");
+            };
+
+            child: ScrolledWindow {
+              hexpand: true;
+              vexpand: true;
+
+              Adw.Clamp {
+                styles [
+                  "background"
+                ]
+
+                maximum-size: 720;
+
+                $CarteroResponseHeaders response_headers {}
               }
             };
           }

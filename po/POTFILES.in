@@ -1,5 +1,6 @@
 # Please, keep this file sorted alphabetically.
 #
+data/cartero.appdata.xml.in.in
 data/cartero.desktop.in.in
 data/es.danirod.Cartero.gschema.xml
 

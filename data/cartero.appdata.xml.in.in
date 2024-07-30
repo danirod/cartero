@@ -25,14 +25,17 @@
     <screenshot type="default">
       <image>
         https://raw.githubusercontent.com/danirod/cartero/trunk/data/screenshots/cartero-default.png</image>
+      <caption>Main window of Cartero</caption>
     </screenshot>
     <screenshot>
       <image>
         https://raw.githubusercontent.com/danirod/cartero/trunk/data/screenshots/cartero-headers.png</image>
+      <caption>Modifying HTTP headers</caption>
     </screenshot>
     <screenshot>
       <image>
         https://raw.githubusercontent.com/danirod/cartero/trunk/data/screenshots/cartero-payload.png</image>
+      <caption>Setting the request payload</caption>
     </screenshot>
   </screenshots>
 
@@ -62,11 +65,15 @@
   <releases>
     <release version="0.1.0" date="2024-07-26">
       <description translate="no">
-        <p>Initial release. I've crafted a MVP that consolidates the most important features to start using Cartero. Some features has been delayed for a future release, but there is already enough features for it to be useful.</p>
+        <p>Initial release. I've crafted a MVP that consolidates the most important features to
+          start using Cartero. Some features has been delayed for a future release, but there is
+          already enough features for it to be useful.</p>
         <p>Added:</p>
         <ul>
-          <li>A fully functional HTTP client with support for multiple request methods, and payload types.</li>
-          <li>A variable engine that allows to move things such as API keys, passwords or hostnames into a variable that can be injected later into the URL or other headers.</li>
+          <li>A fully functional HTTP client with support for multiple request methods, and payload
+            types.</li>
+          <li>A variable engine that allows to move things such as API keys, passwords or hostnames
+            into a variable that can be injected later into the URL or other headers.</li>
           <li>File support to load and store requests for a future session.</li>
         </ul>
       </description>

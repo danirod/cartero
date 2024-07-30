@@ -11,6 +11,7 @@ This is a minor release that addresses some issues and small changes found in th
 * The HTTP status code will now use semantic colors to report the status code category (success, client error, server error...)
 * Provided a Metainfo file for submission into Flathub
 * Translation updates
+  * Catalan
   * Romanian
   * Spanish
 

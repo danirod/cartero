@@ -74,6 +74,26 @@ install_data(
   install_dir: iconsdir / 'hicolor' / 'symbolic' / 'apps'
 )
 
+if host_machine.system() != 'windows'
+  appstream_file = i18n.merge_file(
+    input: configure_file(
+      input: 'cartero.appdata.xml.in.in',
+      output: 'cartero.appdata.xml.in',
+      configuration: { 'app_id': application_id },
+    ),
+    output: '@0@.appdata.xml'.format(application_id),
+    po_dir: '../po',
+    install: true,
+    install_dir: datadir / 'appdata'
+  )
+  appstreamcli = find_program('appstreamcli', required: false)
+  if appstreamcli.found()
+    test('Validate appstream file', appstreamcli,
+      args: ['validate', '--no-net', '--explain', appstream_file]
+    )
+  endif
+endif
+
 mimetype = configure_file(
   input: 'es.danirod.Cartero.mimetype.xml.in',
   output: '@0@.xml'.format(application_id),

@@ -1,6 +1,7 @@
 # Please, keep this file sorted alphabetically.
 # If you add new locales here, remember to update build-aux/macos-build.sh
 #
+ca
 en
 eo
 es

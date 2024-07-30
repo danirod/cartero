@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-07-30 15:27+0200\n"
+"POT-Creation-Date: 2024-07-30 16:10+0200\n"
 "PO-Revision-Date: 2024-06-22 13:31+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Make HTTP requests and test APIs"
 msgstr ""
 
-#: data/cartero.appdata.xml.in.in:12
+#: data/cartero.appdata.xml.in.in:11
 msgid ""
 "Cartero is a graphical HTTP client that can be used as a developer tool to "
 "test web APIs and perform all kind of HTTP requests to web servers. It is "
@@ -30,34 +30,34 @@ msgid ""
 "request methods as well as attaching body payloads to compatible requests."
 msgstr ""
 
-#: data/cartero.appdata.xml.in.in:16
+#: data/cartero.appdata.xml.in.in:12
 msgid "Features:"
 msgstr ""
 
-#: data/cartero.appdata.xml.in.in:18
+#: data/cartero.appdata.xml.in.in:14
 msgid ""
 "Loads and saves to plain Git-friendly TOML files, so that you can own your "
 "data."
 msgstr ""
 
-#: data/cartero.appdata.xml.in.in:19
+#: data/cartero.appdata.xml.in.in:15
 msgid ""
 "Customization and modification of the request headers and body payloads."
 msgstr ""
 
-#: data/cartero.appdata.xml.in.in:20
+#: data/cartero.appdata.xml.in.in:16
 msgid "Variable binding for API keys and other secret information."
 msgstr ""
 
-#: data/cartero.appdata.xml.in.in:28
+#: data/cartero.appdata.xml.in.in:22
 msgid "Main window of Cartero"
 msgstr ""
 
-#: data/cartero.appdata.xml.in.in:33
+#: data/cartero.appdata.xml.in.in:26
 msgid "Modifying HTTP headers"
 msgstr ""
 
-#: data/cartero.appdata.xml.in.in:38
+#: data/cartero.appdata.xml.in.in:30
 msgid "Setting the request payload"
 msgstr ""
 

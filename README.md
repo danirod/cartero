@@ -43,11 +43,11 @@ You can also download a version from the table below or from the releases sectio
 
 |                             | Platform                   | Latest version                                    | Nightly                                        |
 |-----------------------------|----------------------------|---------------------------------------------------|------------------------------------------------|
-| ![Flatpak](doc/flatpak.png) | Flatpak GNU/Linux, x86_64  | [v0.1.0 (Flatpak bundle)][stable-flatpak-x86_64]  | [Nightly (unstable!)][nightly-flatpak-x86_64]  |
+| ![Flatpak](doc/flatpak.png) | Flatpak GNU/Linux, x86_64  | [v0.1.1 (Flatpak bundle)][stable-flatpak-x86_64]  | [Nightly (unstable!)][nightly-flatpak-x86_64]  |
 | ![Flatpak](doc/flatpak.png) | Flatpak GNU/Linux, aarch64 | [v0.1.0 (Flatpak bundle)][stable-flatpak-aarch64] | [Nightly (unstable!)][nightly-flatpak-aarch64] |
-| ![Windows](doc/windows.png) | Windows, x86_64            | [v0.1.0 (.zip)][stable-windows-x86_64]            | [Nightly (unstable!)][nightly-windows-x86_64]  |
-| ![macOS](doc/macos.png)     | macOS, Apple Sillicon      | [v0.1.0 (.dmg)][stable-macos-sillicon]            | [Nightly (unstable!)][nightly-macos-sillicon]  |
-| ![macOS](doc/macos.png)     | macOS, Intel               | [v0.1.0 (.dmg)][stable-macos-intel]               | [Nightly (unstable!)][nightly-macos-intel]     |
+| ![Windows](doc/windows.png) | Windows, x86_64            | [v0.1.1 (.zip)][stable-windows-x86_64]            | [Nightly (unstable!)][nightly-windows-x86_64]  |
+| ![macOS](doc/macos.png)     | macOS, Apple Sillicon      | [v0.1.1 (.dmg)][stable-macos-sillicon]            | [Nightly (unstable!)][nightly-macos-sillicon]  |
+| ![macOS](doc/macos.png)     | macOS, Intel               | [v0.1.1 (.dmg)][stable-macos-intel]               | [Nightly (unstable!)][nightly-macos-intel]     |
 
 ## Building
 
@@ -277,8 +277,8 @@ Dani's [dev blog][blog] (in Spanish) of Cartero.
 [nightly-windows-x86_64]: https://nightly.link/danirod/cartero/workflows/nightly.yaml/trunk/es.danirod.Cartero-windows-x86_64.zip
 [nightly-macos-sillicon]: https://nightly.link/danirod/cartero/workflows/nightly.yaml/trunk/es.danirod.Cartero-macOS-ARM64.zip
 [nightly-macos-intel]: https://nightly.link/danirod/cartero/workflows/nightly.yaml/trunk/es.danirod.Cartero-macOS-X64.zip
-[stable-flatpak-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.0/Cartero-0.1.0-flatpak-linux-x86_64.flatpak
+[stable-flatpak-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.1/Cartero-0.1.1-flatpak-x86_64.flatpak
 [stable-flatpak-aarch64]: https://github.com/danirod/cartero/releases/download/v0.1.0/Cartero-0.1.0-flatpak-linux-aarch64.flatpak
-[stable-windows-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.0/Cartero-0.1.0-windows-x64.zip
-[stable-macos-sillicon]: https://github.com/danirod/cartero/releases/download/v0.1.0/Cartero-0.1.0-macOS-ARM64.dmg
-[stable-macos-intel]: https://github.com/danirod/cartero/releases/download/v0.1.0/Cartero-0.1.0-macOS-Intel.dmg
+[stable-windows-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.1/Cartero-0.1.1-windows-x64.zip
+[stable-macos-sillicon]: https://github.com/danirod/cartero/releases/download/v0.1.1/Cartero-0.1.1-macOS-ARM64.dmg
+[stable-macos-intel]: https://github.com/danirod/cartero/releases/download/v0.1.1/Cartero-0.1.1-macOS-Intel.dmg

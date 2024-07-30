@@ -156,9 +156,10 @@ find "$RESOURCES_ROOT/lib/gdk-pixbuf-2.0/2.10.0/loaders" -name '*.so' | while re
 done
 
 # These directories must exist for macOS to pick the locales (they can be empty)
+mkdir -p "$RESOURCES_ROOT/ca.lproj"
 mkdir -p "$RESOURCES_ROOT/en.lproj"
-mkdir -p "$RESOURCES_ROOT/es.lproj"
 mkdir -p "$RESOURCES_ROOT/eo.lproj"
+mkdir -p "$RESOURCES_ROOT/es.lproj"
 mkdir -p "$RESOURCES_ROOT/ro.lproj"
 
 # Create Info.plist

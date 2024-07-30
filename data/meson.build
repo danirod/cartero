@@ -101,10 +101,16 @@ mimetype = configure_file(
   install_dir: datadir / 'mime' / 'packages',
 )
 
-desktop_file = configure_file(
-  input: 'cartero.desktop.in',
+desktop_file = i18n.merge_file(
+  type: 'desktop',
+  input: configure_file(
+    input: 'cartero.desktop.in.in',
+    output: 'cartero.desktop.in',
+    configuration: { 'app_id': application_id },
+  ),
   output: '@0@.desktop'.format(application_id),
-  configuration: { 'app_id': application_id },
+  po_dir: '../po',
+  install: true,
   install_dir: datadir / 'applications'
 )
 desktop_utils = find_program('desktop-file-validate', required: true)

@@ -225,6 +225,11 @@ mod imp {
             self.update_send_button_sensitivity();
         }
 
+        #[template_callback]
+        fn on_url_activated(&self) {
+            let _ = self.obj().activate_action("win.request", None);
+        }
+
         /// Sets the value of every widget in the pane into whatever is set by the given endpoint.
         pub fn assign_request(&self, endpoint: &EndpointData) {
             self.request_url.buffer().set_text(endpoint.url.clone());

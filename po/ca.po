@@ -90,43 +90,43 @@ msgstr "Indentar el cos de la petició amb espais o tabuladors"
 
 #: data/es.danirod.Cartero.gschema.xml:18
 msgid "Show line numbers in the request and response bodies"
-msgstr "Mostrar los números de línea en los cuerpos de petición y respuesta"
+msgstr "Mostrar els números de línia en els cossos de petició i resposta"
 
 #: data/es.danirod.Cartero.gschema.xml:22
 msgid "How many characters to pad when indenting the request body"
-msgstr "Cuántos caracteres usar al indentar el cuerpo de la petición"
+msgstr "Quants caràcters utilitzar al indentar el cos de la petició"
 
 #: data/es.danirod.Cartero.gschema.xml:27
 msgid "How large should new windows be"
-msgstr "Cómo de largas deben ser las ventanas nuevas"
+msgstr "Que llargues han de ser les finestres noves"
 
 #: data/es.danirod.Cartero.gschema.xml:31
 msgid "How tall should new windows be"
-msgstr "Cómo de altas deben ser las ventanas nuevas"
+msgstr "Que altes han de ser les finestres noves"
 
 #: data/es.danirod.Cartero.gschema.xml:35
 msgid "Whether the application should open maximized"
-msgstr "Si la aplicación se debe abrir maximizada"
+msgstr "Si l'aplicació hauria d'obrir-se maximitzada"
 
 #: data/es.danirod.Cartero.gschema.xml:39
 msgid "The position of the split between two windows"
-msgstr "La posición del separador entre ambas ventanas"
+msgstr "La posició del separador entre ambdues finestres"
 
 #: data/es.danirod.Cartero.gschema.xml:43
 msgid "The current list of opened files"
-msgstr "La lista actual de archivos abiertos"
+msgstr "La llista actual d'arxius oberts"
 
 #: data/es.danirod.Cartero.gschema.xml:47
 msgid "The last location where a file was opened"
-msgstr "La última ubicación donde se abrió un archivo"
+msgstr "L'última ubicació on es va obrir un arxiu"
 
 #: data/es.danirod.Cartero.gschema.xml:51
 msgid "The last location where a file was saved"
-msgstr "La última ubicación donde se guardó un archivo"
+msgstr "L'última ubicació on es va guardar un arxiu"
 
 #: data/ui/endpoint_pane.blp:59
 msgid "Request URL"
-msgstr "URL de petición"
+msgstr "URL de petició"
 
 #: data/ui/endpoint_pane.blp:70
 msgid "Send"
@@ -134,15 +134,15 @@ msgstr "Enviar"
 
 #: data/ui/endpoint_pane.blp:71
 msgid "Execute this HTTP request"
-msgstr "Ejecutar esta petición HTTP"
+msgstr "Executar aquesta petició HTTP"
 
 #: data/ui/endpoint_pane.blp:104
 msgid "Parameters"
-msgstr "Parámetros"
+msgstr "Paràmetres"
 
 #: data/ui/endpoint_pane.blp:125 data/ui/response_panel.blp:70
 msgid "Headers"
-msgstr "Cabeceras"
+msgstr "Capçaleres"
 
 #: data/ui/endpoint_pane.blp:146
 msgid "Variables"
@@ -150,11 +150,11 @@ msgstr "Variables"
 
 #: data/ui/endpoint_pane.blp:167 data/ui/response_panel.blp:47
 msgid "Body"
-msgstr "Cuerpo"
+msgstr "Cos"
 
 #: data/ui/key_value_row.blp:40
 msgid "Name"
-msgstr "Nombre"
+msgstr "Nom"
 
 #: data/ui/key_value_row.blp:50
 msgid "Value"
@@ -162,25 +162,25 @@ msgstr "Valor"
 
 #: data/ui/key_value_row.blp:61
 msgid "Actions"
-msgstr "Acciones"
+msgstr "Accions"
 
 #: data/ui/key_value_row.blp:74
 msgid "Toggle secret"
-msgstr "Alternar secreto"
+msgstr "Alternar secret"
 
 #: data/ui/key_value_row.blp:81
 msgid "Delete"
-msgstr "Borrar"
+msgstr "Esborrar"
 
 #: data/ui/main_window.blp:41 data/ui/main_window_no_csd.blp:39
 msgid "New"
-msgstr "Nuevo"
+msgstr "Nou"
 
 #: data/ui/main_window.blp:52 data/ui/main_window.blp:63
 #: data/ui/main_window_no_csd.blp:50 data/ui/main_window_no_csd.blp:61
 #: src/widgets/file_dialogs.rs:31
 msgid "Open"
-msgstr "Abrir"
+msgstr "Obrir"
 
 #: data/ui/main_window.blp:71 data/ui/main_window_no_csd.blp:69
 #: src/widgets/file_dialogs.rs:75
@@ -189,62 +189,62 @@ msgstr "Guardar"
 
 #: data/ui/main_window.blp:95 data/ui/main_window_no_csd.blp:102
 msgid "Welcome to Cartero"
-msgstr "Bienvenido a Cartero"
+msgstr "Benvolgut a Cartero"
 
 #: data/ui/main_window.blp:96 data/ui/main_window_no_csd.blp:103
 msgid "Create or open a request and start testing APIs now."
-msgstr "Crea o abre una petición y empieza a probar APIs ahora."
+msgstr "Crea o obre una petició i comença a provar APIs ara."
 
 #: data/ui/main_window.blp:115 data/ui/main_window.blp:149
 #: data/ui/main_window_no_csd.blp:122 data/ui/main_window_no_csd.blp:156
 msgid "New tab"
-msgstr "Nueva pestaña"
+msgstr "Nova pestanya"
 
 #: data/ui/main_window.blp:128 data/ui/main_window.blp:154
 #: data/ui/main_window_no_csd.blp:135 data/ui/main_window_no_csd.blp:161
 msgid "Open request..."
-msgstr "Abrir petición..."
+msgstr "Obrir petició..."
 
 #: data/ui/main_window.blp:159 data/ui/main_window_no_csd.blp:166
 #: src/widgets/file_dialogs.rs:76
 msgid "Save request"
-msgstr "Guardar petición"
+msgstr "Guardar petició"
 
 #: data/ui/main_window.blp:164 data/ui/main_window_no_csd.blp:171
 msgid "Save request as..."
-msgstr "Guardar petición como..."
+msgstr "Guardar petició com..."
 
 #: data/ui/main_window.blp:169 data/ui/main_window_no_csd.blp:176
 msgid "Close tab"
-msgstr "Cerrar pestaña"
+msgstr "Tancar pestanya"
 
 #: data/ui/main_window.blp:176 data/ui/main_window_no_csd.blp:183
 msgid "Body appearance"
-msgstr "Apariencia del cuerpo"
+msgstr "Aparença del cos"
 
 #: data/ui/main_window.blp:180 data/ui/main_window_no_csd.blp:187
 msgid "Wrap content"
-msgstr "Adaptar contenido"
+msgstr "Adaptar contingut"
 
 #: data/ui/main_window.blp:185 data/ui/main_window_no_csd.blp:192
 msgid "Show line numbers"
-msgstr "Mostrar números de línea"
+msgstr "Mostrar números de línia"
 
 #: data/ui/main_window.blp:192 data/ui/main_window_no_csd.blp:199
 msgid "Automatic indentation"
-msgstr "Indentar automáticamente"
+msgstr "Indentar automàticament"
 
 #: data/ui/main_window.blp:197 data/ui/main_window_no_csd.blp:204
 msgid "Indent with spaces"
-msgstr "Indentar con espacios"
+msgstr "Indentar amb espais"
 
 #: data/ui/main_window.blp:203 data/ui/main_window_no_csd.blp:210
 msgid "Indent with tabs"
-msgstr "Indentar con tabuladores"
+msgstr "Indentar amb tabuladors"
 
 #: data/ui/main_window.blp:209 data/ui/main_window_no_csd.blp:216
 msgid "Spaces per tab"
-msgstr "Espacios por tabulador"
+msgstr "Espais per tabulador"
 
 #: data/ui/main_window.blp:212 data/ui/main_window_no_csd.blp:219
 msgid "2"
@@ -260,23 +260,23 @@ msgstr "8"
 
 #: data/ui/main_window.blp:235 data/ui/main_window_no_csd.blp:242
 msgid "Keyboard shortcuts"
-msgstr "Atajos de teclado"
+msgstr "Dreceres de teclat"
 
 #: data/ui/main_window.blp:240 data/ui/main_window_no_csd.blp:247
 msgid "About Cartero"
-msgstr "Acerca de Cartero"
+msgstr "Quant a Cartero"
 
 #: data/ui/main_window.blp:245 data/ui/main_window_no_csd.blp:252
 msgid "Quit"
-msgstr "Salir"
+msgstr "Sortir"
 
 #: data/ui/method_dropdown.blp:30
 msgid "Request method"
-msgstr "Método de petición"
+msgstr "Mètode de petició"
 
 #: data/ui/payload_tab.blp:35
 msgid "Body type"
-msgstr "Tipo de cuerpo"
+msgstr "Tipus de cos"
 
 #: data/ui/payload_tab.blp:81
 msgid "(none)"
@@ -288,32 +288,32 @@ msgstr "URL Encoded"
 
 #: data/ui/payload_tab.blp:83
 msgid "Multipart Form Data"
-msgstr "Formulario Multipart"
+msgstr "Formulari Multipart"
 
 #: data/ui/payload_tab.blp:86
 msgid "Raw"
-msgstr "En bruto"
+msgstr "En brut"
 
 #: data/ui/response_panel.blp:29
 msgid "Ready to request"
-msgstr "Listo para enviar"
+msgstr "Preparat per enviar"
 
 #: data/ui/response_panel.blp:30
 msgid "Use the Send button to send a network request and it will show here."
 msgstr ""
-"Usa el botón Enviar para enviar una petición de red y ver el resultado aquí."
+"Utilitza el botó Enviar per enviar una petició de xarxa i veure el resultat aquí."
 
 #: data/ui/save_dialog.blp:22
 msgid "Save changes?"
-msgstr "¿Guardar cambios?"
+msgstr "¿Guardar cambis?"
 
 #: data/ui/save_dialog.blp:23
 msgid "There are changes that have not been saved yet. What do you want to do?"
-msgstr "Hay cambios que todavía no han sido guardados. ¿Qué quieres hacer?"
+msgstr "Hi ha canvis que encara no han sigut guardats. ¿Què vols fer?"
 
 #: data/ui/save_dialog.blp:28
 msgid "_Cancel"
-msgstr "_Cancelar"
+msgstr "_Cancel·lar"
 
 #: data/ui/save_dialog.blp:29
 msgid "_Discard"
@@ -325,42 +325,42 @@ msgstr "_Guardar"
 
 #: src/widgets/file_dialogs.rs:18
 msgid "Request (.cartero)"
-msgstr "Petición (.cartero)"
+msgstr "Petició (.cartero)"
 
 #: src/widgets/file_dialogs.rs:20
 msgid "Request"
-msgstr "Petición"
+msgstr "Petició"
 
 #: src/widgets/file_dialogs.rs:32
 msgid "Open request"
-msgstr "Abrir petición"
+msgstr "Obir petició"
 
 #: src/widgets/item_pane.rs:99
 msgid "(untitled)"
-msgstr "(sin título)"
+msgstr "(sense títol)"
 
 #: src/widgets/item_pane.rs:115
 msgid "Draft"
-msgstr "Borrador"
+msgstr "Esborrany"
 
 #: src/win.rs:495
 msgid "The Cartero authors"
-msgstr "Los autores de Cartero"
+msgstr "Els autors de Cartero"
 
 #: src/win.rs:496
 msgid "© 2024 the Cartero authors"
-msgstr "© 2024 los autores de Cartero"
+msgstr "© 2024 Els autors de Cartero"
 
 #, fuzzy
 #~ msgid "Cartero request"
-#~ msgstr "Guardar petición"
+#~ msgstr "Guardar petició"
 
 #~ msgid "Try making a new request"
-#~ msgstr "Prueba a hacer una nueva petición"
+#~ msgstr "Prova de fer una nova petició"
 
 #~ msgid "Use the button in the toolbar to create or open a request."
 #~ msgstr ""
-#~ "Usa el botón de la barra de herramientas para crear o abrir una petición."
+#~ "Utilitza el botó de la barra d'eines per crear o obrir una petició."
 
 #~ msgid "Cancel"
 #~ msgstr "Cancel·lar"
@@ -372,4 +372,4 @@ msgstr "© 2024 los autores de Cartero"
 #~ msgstr "Afegir capçalera"
 
 #~ msgid "Wrap bodies"
-#~ msgstr "Ajustar línea del cuerpo"
+#~ msgstr "Ajustar línia del cos"

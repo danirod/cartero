@@ -1,6 +1,6 @@
 # Please, keep this file sorted alphabetically.
 #
-data/cartero.desktop.in
+data/cartero.desktop.in.in
 data/es.danirod.Cartero.gschema.xml
 
 data/ui/endpoint_pane.blp

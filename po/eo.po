@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-07-26 21:32+0200\n"
+"POT-Creation-Date: 2024-07-30 14:06+0200\n"
 "PO-Revision-Date: 2024-07-25 22:08+0200\n"
 "Last-Translator:  <>\n"
 "Language-Team: Spanish\n"
@@ -16,16 +16,16 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Gtranslator 46.1\n"
 
-#: data/cartero.desktop.in:3
+#: data/cartero.desktop.in.in:3
 msgid "Cartero"
 msgstr "Cartero"
 
-#: data/cartero.desktop.in:4
+#: data/cartero.desktop.in.in:4
 msgid "Make HTTP requests and test APIs."
 msgstr "Sendu HTTP-petojn kaj testu retaj API-oj."
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/cartero.desktop.in:11
+#: data/cartero.desktop.in.in:11
 msgid "Gnome;GTK;HTTP;REST;"
 msgstr ""
 
@@ -136,7 +136,7 @@ msgid "Open"
 msgstr "Malfermi"
 
 #: data/ui/main_window.blp:71 data/ui/main_window_no_csd.blp:69
-#: src/widgets/file_dialogs.rs:72
+#: src/widgets/file_dialogs.rs:75
 msgid "Save"
 msgstr "Konservi"
 
@@ -161,7 +161,7 @@ msgid "Open request..."
 msgstr ""
 
 #: data/ui/main_window.blp:159 data/ui/main_window_no_csd.blp:166
-#: src/widgets/file_dialogs.rs:73
+#: src/widgets/file_dialogs.rs:76
 msgid "Save request"
 msgstr ""
 
@@ -294,19 +294,19 @@ msgstr "URL"
 msgid "Open request"
 msgstr ""
 
-#: src/widgets/item_pane.rs:83
+#: src/widgets/item_pane.rs:99
 msgid "(untitled)"
 msgstr ""
 
-#: src/win.rs:102
+#: src/widgets/item_pane.rs:115
 msgid "Draft"
 msgstr ""
 
-#: src/win.rs:498
+#: src/win.rs:495
 msgid "The Cartero authors"
 msgstr ""
 
-#: src/win.rs:499
+#: src/win.rs:496
 msgid "© 2024 the Cartero authors"
 msgstr ""
 

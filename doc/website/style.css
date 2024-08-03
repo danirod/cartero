@@ -1,0 +1,190 @@
+:root {
+  --brand-link-color: black;
+  --brand-background-color: #bbd1e5;
+  --brand-foreground-color: black;
+
+  --link-color: #0461be;
+  --background-color: #fafafa;
+  --foreground-color: rgb(0 0 0 / 80%);
+
+  --wip-foreground: #1e1e1e;
+  --wip-background: #ffffff;
+  --wip-border: rgb(0 0 0 / 12%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --brand-link-color: white;
+    --brand-background-color: #526678;
+    --brand-foreground-color: #ffffff;
+
+    --link-color: #81d0ff;
+    --background-color: #242424;
+    --foreground-color: #ffffff;
+
+    --wip-foreground: #ffffff;
+    --wip-background: #404040;
+    --wip-border: rgb(0 0 0 / 36%);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  font-size: 14pt;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--background-color);
+  color: var(--foreground-color);
+}
+
+.wrapper {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+header, .download {
+  background-color: var(--brand-background-color);
+  color: var(--brand-foreground-color);
+}
+
+a {
+  color: var(--link-color);
+}
+
+
+header a, .download a {
+  color: var(--brand-link-color);
+}
+
+p {
+  line-height: 1.3;
+}
+
+header {
+  text-align: center;
+  margin-top: 0;
+  padding-top: 3rem;
+  padding-bottom: 1rem;
+}
+
+h1 {
+  font-size: 30pt;
+}
+
+.title {
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 1;
+  text-shadow: 0 1pt 0 black;
+}
+
+.logo {
+  vertical-align: bottom;
+  height: 1em;
+}
+
+.lead {
+  font-weight: 300;
+  font-size: 18pt;
+}
+
+.download {
+  text-align: center;
+}
+
+.extra-download {
+  list-style: none;
+  padding-left: 0;
+}
+
+.extra-download li {
+  margin-bottom: 0.4rem;
+}
+
+.features {
+  margin-top: 0;
+  padding: 2rem;
+}
+
+.features img {
+  max-width: 100%;
+}
+
+.feature {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+footer {
+  text-align: center;
+  font-size: 0.9rem;
+  margin-bottom: 3rem;
+}
+
+.wip {
+  border-radius: 10px;
+  overflow: hidden;
+  margin-left: 0;
+  margin-right: 0;
+  background-color: var(--wip-background);
+  color: var(--wip-foreground);
+  border: 1px solid var(--wip-border);
+  box-shadow: 0 2px 4px var(--wip-border);
+  font-size: 0.9rem;
+  padding: 10px;
+}
+
+.feature-text {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.feature-text h2 {
+  margin-top: 0;
+}
+
+@media screen and (min-width: 800px) {
+  body {
+    font-size: 16pt;
+  }
+
+  .wrapper {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  header {
+    padding-top: 5rem;
+  }
+
+  .download {
+    padding-bottom: 4rem;
+  }
+
+  h1 {
+    font-size: 48pt;
+  }
+
+  .download-container {
+    display: grid;
+    grid-template-columns: 4fr 3fr;
+    gap: 3rem;
+    font-size: 12pt;
+  }
+
+  .download-linux {
+    text-align: right;
+  }
+
+  .download-other {
+    text-align: left;
+  }
+}

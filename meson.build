@@ -85,3 +85,15 @@ gnome.post_install(
   update_desktop_database: true,
   update_mime_database: true,
 )
+
+if host_machine.system() == 'windows'
+  windows_setup = configure_file(
+    input: 'build-aux/win32-installer/installer.iss.in',
+    output: 'win32-installer.iss',
+    configuration: {
+      'MESON_SOURCE_ROOT': meson.project_source_root(),
+      'MESON_BUILD_ROOT': meson.project_build_root(),
+      'VERSION': version,
+    },
+  )
+endif

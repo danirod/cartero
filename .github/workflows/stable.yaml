@@ -70,11 +70,20 @@ jobs:
         rustup toolchain install stable-gnu
         rustup default stable-gnu
         build-aux/msys-build.sh stable
+    - uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
+      name: Create Windows installer
+      with:
+        path: build/win32-installer.iss
     - uses: actions/upload-artifact@v4
       name: Upload Windows version
       with:
         name: es.danirod.Cartero-windows-x86_64
         path: build/cartero-win32
+    - uses: actions/upload-artifact@v4
+      name: Upload Windows version
+      with:
+        name: es.danirod.Cartero-windows-x86_64-installer
+        path: build/Output/cartero.exe
   macos:
     strategy:
       matrix:

@@ -2,6 +2,7 @@
   --brand-link-color: black;
   --brand-background-color: #bbd1e5;
   --brand-foreground-color: black;
+  --brand-shadow-color: white;
 
   --link-color: #0461be;
   --background-color: #fafafa;
@@ -17,6 +18,7 @@
     --brand-link-color: white;
     --brand-background-color: #526678;
     --brand-foreground-color: #ffffff;
+    --brand-shadow-color: black;
 
     --link-color: #81d0ff;
     --background-color: #242424;
@@ -34,7 +36,7 @@
 
 body {
   font-family: system-ui, sans-serif;
-  font-size: 14pt;
+  font-size: 13pt;
   margin: 0;
   padding: 0;
   display: flex;
@@ -44,8 +46,8 @@ body {
 }
 
 .wrapper {
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
 header, .download {
@@ -81,7 +83,7 @@ h1 {
   margin-top: 0;
   margin-bottom: 0;
   line-height: 1;
-  text-shadow: 0 1pt 0 black;
+  text-shadow: 0 1pt 0 var(--brand-shadow-color);
 }
 
 .logo {
@@ -92,10 +94,15 @@ h1 {
 .lead {
   font-weight: 300;
   font-size: 18pt;
+  text-wrap: balance;
 }
 
 .download {
   text-align: center;
+}
+
+.download-linux {
+  text-wrap: balance;
 }
 
 .extra-download {
@@ -110,6 +117,7 @@ h1 {
 .features {
   margin-top: 0;
   padding: 2rem;
+  padding-top: 0;
 }
 
 .features img {
@@ -148,11 +156,12 @@ footer {
 
 .feature-text h2 {
   margin-top: 0;
+  text-wrap: balance;
 }
 
 @media screen and (min-width: 800px) {
   body {
-    font-size: 16pt;
+    font-size: 14pt;
   }
 
   .wrapper {
@@ -166,7 +175,11 @@ footer {
   }
 
   .download {
-    padding-bottom: 4rem;
+    padding-bottom: 14rem;
+  }
+
+  .features {
+    margin-top: -14rem;
   }
 
   h1 {

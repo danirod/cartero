@@ -29,10 +29,11 @@ some unwanted artificial intelligence at users.
 
 ## Download
 
-**Coming soon to Flathub**. I am still figuring out how to deploy to Flathub.
-Come back later, or download a bundle file.
+<a href="https://flathub.org/apps/es.danirod.Cartero">
+<img width="240" alt="Get it on Flathub" src="https://flathub.org/api/badge?svg&locale=en">
+</a>
 
-You can also download a version from the table below or from the releases section.
+You can also download a version for Windows or macOS.
 
 > [!WARNING]
 > **The Windows and macOS versions are currently not notarized or signed.**
@@ -40,14 +41,11 @@ You can also download a version from the table below or from the releases sectio
 > On first run on macOS, you'll need to right click the app and use the Open menu.
 > If you don't trust these binary distributions, you can always build from sources.
 
-
-|                             | Platform                   | Latest version                                    | Nightly                                        |
-|-----------------------------|----------------------------|---------------------------------------------------|------------------------------------------------|
-| ![Flatpak](doc/flatpak.png) | Flatpak GNU/Linux, x86_64  | [v0.1.1 (Flatpak bundle)][stable-flatpak-x86_64]  | [Nightly (unstable!)][nightly-flatpak-x86_64]  |
-| ![Flatpak](doc/flatpak.png) | Flatpak GNU/Linux, aarch64 | [v0.1.0 (Flatpak bundle)][stable-flatpak-aarch64] | [Nightly (unstable!)][nightly-flatpak-aarch64] |
-| ![Windows](doc/windows.png) | Windows, x86_64            | [v0.1.1 (.zip)][stable-windows-x86_64]            | [Nightly (unstable!)][nightly-windows-x86_64]  |
-| ![macOS](doc/macos.png)     | macOS, Apple Sillicon      | [v0.1.1 (.dmg)][stable-macos-sillicon]            | [Nightly (unstable!)][nightly-macos-sillicon]  |
-| ![macOS](doc/macos.png)     | macOS, Intel               | [v0.1.1 (.dmg)][stable-macos-intel]               | [Nightly (unstable!)][nightly-macos-intel]     |
+|                             | Platform                   | Latest version                         |
+|-----------------------------|----------------------------|----------------------------------------|
+| ![Windows](doc/windows.png) | Windows, x86_64            | [v0.1.1 (.zip)][windows-x86_64] |
+| ![macOS](doc/macos.png)     | macOS, Apple Sillicon      | [v0.1.1 (.dmg)][macos-sillicon] |
+| ![macOS](doc/macos.png)     | macOS, Intel               | [v0.1.1 (.dmg)][macos-intel]    |
 
 ## Building
 
@@ -272,13 +270,6 @@ Dani's [dev blog][blog] (in Spanish) of Cartero.
 [danirod]: https://github.com/danirod
 [fork]: https://github.com/danirod/cartero/fork
 [blog]: https://danirod.es/secciones/devlogs/cartero/
-[nightly-flatpak-x86_64]: https://nightly.link/danirod/cartero/workflows/nightly.yaml/trunk/es.danirod.Cartero.Devel-x86_64.zip
-[nightly-flatpak-aarch64]: https://nightly.link/danirod/cartero/workflows/nightly.yaml/trunk/es.danirod.Cartero.Devel-aarch64.zip
-[nightly-windows-x86_64]: https://nightly.link/danirod/cartero/workflows/nightly.yaml/trunk/es.danirod.Cartero-windows-x86_64.zip
-[nightly-macos-sillicon]: https://nightly.link/danirod/cartero/workflows/nightly.yaml/trunk/es.danirod.Cartero-macOS-ARM64.zip
-[nightly-macos-intel]: https://nightly.link/danirod/cartero/workflows/nightly.yaml/trunk/es.danirod.Cartero-macOS-X64.zip
-[stable-flatpak-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.1/Cartero-0.1.1-flatpak-x86_64.flatpak
-[stable-flatpak-aarch64]: https://github.com/danirod/cartero/releases/download/v0.1.0/Cartero-0.1.0-flatpak-linux-aarch64.flatpak
-[stable-windows-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.1/Cartero-0.1.1-windows-x64.zip
-[stable-macos-sillicon]: https://github.com/danirod/cartero/releases/download/v0.1.1/Cartero-0.1.1-macOS-ARM64.dmg
-[stable-macos-intel]: https://github.com/danirod/cartero/releases/download/v0.1.1/Cartero-0.1.1-macOS-Intel.dmg
+[windows-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.1/Cartero-0.1.1-windows-x64.zip
+[macos-sillicon]: https://github.com/danirod/cartero/releases/download/v0.1.1/Cartero-0.1.1-macOS-ARM64.dmg
+[macos-intel]: https://github.com/danirod/cartero/releases/download/v0.1.1/Cartero-0.1.1-macOS-Intel.dmg

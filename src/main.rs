@@ -109,6 +109,16 @@ fn main() -> glib::ExitCode {
     init_glib();
     init_gio_resources();
 
+    // This is dirty, but because adw_init() calls bindtextdomain() and uses a hardcoded static path,
+    // I need to actually re-bind libadwaita against my own localedir on Windows so that it can use
+    // a path relative to the application executable again.
+    #[cfg(target_os = "windows")]
+    {
+        adw::init().expect("Failed to initialize system runtimes");
+        let localedir = app_rel_path("share/locale");
+        gettextrs::bindtextdomain("libadwaita", localedir).expect("Unable to bind the text domain");
+    }
+
     let app = CarteroApplication::new();
     app.run()
 }

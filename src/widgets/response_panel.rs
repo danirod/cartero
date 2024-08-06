@@ -118,7 +118,7 @@ mod imp {
                 .mapping(|variant, _| {
                     let enabled = variant.get::<bool>().expect("The variant is not a boolean");
                     let mode = match enabled {
-                        true => WrapMode::Word,
+                        true => WrapMode::WordChar,
                         false => WrapMode::None,
                     };
                     Some(mode.to_value())

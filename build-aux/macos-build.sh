@@ -50,6 +50,11 @@ glib-compile-schemas "$RESOURCES_ROOT/share/glib-2.0/schemas"
 gtk4-update-icon-cache -q -t -f "$RESOURCES_ROOT/share/icons/hicolor"
 gtk4-update-icon-cache -q -t -f "$RESOURCES_ROOT/share/icons/Adwaita"
 
+# Add extra locales
+for lang in $(cat "po/LINGUAS" | grep -v '^#\|en'); do
+        cp -f $(brew --prefix)/share/locale/$lang/LC_MESSAGES/{gdk-pixbuf,gettext-runtime,glib20,gtk40,gtksourceview-5,libadwaita,shared-mime-info}.mo "$RESOURCES_ROOT/share/locale/$lang/LC_MESSAGES"
+done
+
 # Mangle bin directory
 mv "$RESOURCES_ROOT/bin" "$APP_ROOT/Contents/MacOS"
 

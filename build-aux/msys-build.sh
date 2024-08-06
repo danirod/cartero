@@ -33,6 +33,8 @@ ninja -C build
 rm -rf $PWD/build/cartero-win32
 DESTDIR=$PWD/build/cartero-win32 ninja -C build install
 
+CARTERO_ROOT_DIR="$PWD"
+
 cd $PWD/build/cartero-win32
 mkdir -p {lib,share}
 
@@ -46,6 +48,10 @@ cp -RTn $MINGW_PREFIX/share/glib-2.0 share/glib-2.0
 cp -RTn $MINGW_PREFIX/share/icons/Adwaita share/icons/Adwaita
 cp -RTn $MINGW_PREFIX/share/icons/hicolor share/icons/hicolor
 cp -RTn $MINGW_PREFIX/share/gtksourceview-5 share/gtksourceview-5
+
+for lang in $(cat "$CARTERO_ROOT_DIR/po/LINGUAS" | grep -v '^#\|en'); do
+        cp -f $MINGW_PREFIX/share/locale/$lang/LC_MESSAGES/{gdk-pixbuf,gettext-runtime,glib20,gtk40,gtksourceview-5,libadwaita,shared-mime-info}.mo share/locale/$lang/LC_MESSAGES
+done
 
 cp $(ldd lib/gdk-pixbuf-2.0/2.10.0/loaders/*.dll | grep "$MINGW_PREFIX" | awk '{ print $3 }' | sort | uniq) bin/
 

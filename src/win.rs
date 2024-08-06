@@ -77,6 +77,17 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl CarteroWindow {
+        fn update_tab_actions(&self) {
+            let has_tabs = self.tabview.n_pages() > 0;
+            let obj = self.obj();
+            let actions = vec!["save", "save-as", "close"];
+            for action in actions {
+                if let Some(action) = obj.lookup_action(action) {
+                    action.set_property("enabled", has_tabs);
+                }
+            }
+        }
+
         #[cfg(feature = "csd")]
         fn bind_current_tab(&self, tab: Option<&ItemPane>) {
             self.window_title_binding.clear();
@@ -374,6 +385,7 @@ mod imp {
                     if let Some(page) = tabview.selected_page() {
                         let item_pane = page.child().downcast::<ItemPane>().unwrap();
                         window.bind_current_tab(Some(&item_pane));
+                        window.update_tab_actions();
                     }
                 }),
             );
@@ -408,6 +420,12 @@ mod imp {
                 };
 
                 tabview.close_page_finish(tabpage, !outcome);
+                let imp = window.imp();
+                imp.update_tab_actions();
+                if imp.tabview.n_pages() == 0 {
+                    imp.bind_current_tab(None);
+                    imp.stack.set_visible_child_name("welcome");
+                }
                 true
             }));
 
@@ -473,10 +491,6 @@ mod imp {
                 .activate(glib::clone!(@weak self as window => move |_, _, _| {
                     if let Some(page) = window.tabview.selected_page() {
                         window.tabview.close_page(&page);
-                        if window.tabview.n_pages() == 0 {
-                            window.bind_current_tab(None);
-                            window.stack.set_visible_child_name("welcome");
-                        }
                     }
                 }))
                 .build();
@@ -510,6 +524,7 @@ mod imp {
                 action_close,
                 action_about,
             ]);
+            self.update_tab_actions();
         }
     }
 

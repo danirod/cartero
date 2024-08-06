@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-07-30 16:10+0200\n"
+"POT-Creation-Date: 2024-08-05 17:30+0200\n"
 "PO-Revision-Date: 2024-07-30 15:26+0200\n"
 "Last-Translator:  <>\n"
 "Language-Team: Spanish\n"
@@ -123,6 +123,61 @@ msgstr "La última ubicación donde se abrió un archivo"
 #: data/es.danirod.Cartero.gschema.xml:51
 msgid "The last location where a file was saved"
 msgstr "La última ubicación donde se guardó un archivo"
+
+#: data/gtk/help_overlay.blp:26
+msgctxt "shortcuts window"
+msgid "General shortcuts"
+msgstr "Atajos generales"
+
+#: data/gtk/help_overlay.blp:29
+msgctxt "shortcuts window"
+msgid "Show Keyboard Shortcuts"
+msgstr "Mostrar atajos de teclado"
+
+#: data/gtk/help_overlay.blp:34
+msgctxt "shortcuts window"
+msgid "Quit"
+msgstr "Salir"
+
+#: data/gtk/help_overlay.blp:40
+msgctxt "shortcuts window"
+msgid "Tab operations"
+msgstr "Operaciones de pestaña"
+
+#: data/gtk/help_overlay.blp:43
+msgctxt "shortcuts window"
+msgid "New request tab"
+msgstr "Nueva pestaña de petición"
+
+#: data/gtk/help_overlay.blp:48
+msgctxt "shortcuts window"
+msgid "Open request"
+msgstr "Abrir petición"
+
+#: data/gtk/help_overlay.blp:53
+msgctxt "shortcuts window"
+msgid "Save request"
+msgstr "Guardar petición"
+
+#: data/gtk/help_overlay.blp:58
+msgctxt "shortcuts window"
+msgid "Save request as"
+msgstr "Guardar petición como"
+
+#: data/gtk/help_overlay.blp:63
+msgctxt "shortcuts window"
+msgid "Close request tab"
+msgstr "Cerrar pestaña de petición"
+
+#: data/gtk/help_overlay.blp:69
+msgctxt "shortcuts window"
+msgid "Request operations"
+msgstr "Operaciones de petición"
+
+#: data/gtk/help_overlay.blp:72
+msgctxt "shortcuts window"
+msgid "Send request"
+msgstr "Enviar petición"
 
 #: data/ui/endpoint_pane.blp:59
 msgid "Request URL"

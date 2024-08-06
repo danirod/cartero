@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-07-30 16:10+0200\n"
+"POT-Creation-Date: 2024-08-05 17:30+0200\n"
 "PO-Revision-Date: 2024-06-22 13:31+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -116,6 +116,61 @@ msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:51
 msgid "The last location where a file was saved"
+msgstr ""
+
+#: data/gtk/help_overlay.blp:26
+msgctxt "shortcuts window"
+msgid "General shortcuts"
+msgstr ""
+
+#: data/gtk/help_overlay.blp:29
+msgctxt "shortcuts window"
+msgid "Show Keyboard Shortcuts"
+msgstr ""
+
+#: data/gtk/help_overlay.blp:34
+msgctxt "shortcuts window"
+msgid "Quit"
+msgstr ""
+
+#: data/gtk/help_overlay.blp:40
+msgctxt "shortcuts window"
+msgid "Tab operations"
+msgstr ""
+
+#: data/gtk/help_overlay.blp:43
+msgctxt "shortcuts window"
+msgid "New request tab"
+msgstr ""
+
+#: data/gtk/help_overlay.blp:48
+msgctxt "shortcuts window"
+msgid "Open request"
+msgstr ""
+
+#: data/gtk/help_overlay.blp:53
+msgctxt "shortcuts window"
+msgid "Save request"
+msgstr ""
+
+#: data/gtk/help_overlay.blp:58
+msgctxt "shortcuts window"
+msgid "Save request as"
+msgstr ""
+
+#: data/gtk/help_overlay.blp:63
+msgctxt "shortcuts window"
+msgid "Close request tab"
+msgstr ""
+
+#: data/gtk/help_overlay.blp:69
+msgctxt "shortcuts window"
+msgid "Request operations"
+msgstr ""
+
+#: data/gtk/help_overlay.blp:72
+msgctxt "shortcuts window"
+msgid "Send request"
 msgstr ""
 
 #: data/ui/endpoint_pane.blp:59

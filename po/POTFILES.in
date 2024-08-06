@@ -4,6 +4,7 @@ data/cartero.appdata.xml.in.in
 data/cartero.desktop.in.in
 data/es.danirod.Cartero.gschema.xml
 
+data/gtk/help_overlay.blp
 data/ui/endpoint_pane.blp
 data/ui/formdata_payload_pane.blp
 data/ui/key_value_pane.blp

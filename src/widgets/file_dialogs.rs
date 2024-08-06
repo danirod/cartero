@@ -1,8 +1,8 @@
 use gettextrs::gettext;
-use glib::types::StaticType;
+use glib::{prelude::Cast, types::StaticType};
 use gtk::{
     gio::{self, ListStore},
-    prelude::{FileExt, SettingsExtManual},
+    prelude::{FileExt, ListModelExtManual, SettingsExtManual},
     DialogError, FileDialog, FileFilter,
 };
 use std::path::PathBuf;
@@ -22,6 +22,8 @@ fn get_cartero_file_filter() -> FileFilter {
     filter
 }
 
+// Allowing dead_code here because I am going to use this later.
+#[allow(dead_code)]
 pub async fn open_file(win: &CarteroWindow) -> Result<gio::File, CarteroError> {
     let filters = ListStore::with_type(FileFilter::static_type());
     let cartero = get_cartero_file_filter();
@@ -64,6 +66,62 @@ pub async fn open_file(win: &CarteroWindow) -> Result<gio::File, CarteroError> {
     }
 
     Ok(file)
+}
+
+pub async fn open_files(win: &CarteroWindow) -> Result<Vec<gio::File>, CarteroError> {
+    let filters = ListStore::with_type(FileFilter::static_type());
+    let cartero = get_cartero_file_filter();
+    filters.append(&cartero);
+
+    let dialog = FileDialog::builder()
+        .accept_label(gettext("Open"))
+        .title(gettext("Open request"))
+        .filters(&filters)
+        .default_filter(&cartero)
+        .modal(true)
+        .build();
+
+    let app = CarteroApplication::get();
+    let settings = app.settings();
+    if let Some(dir) = settings.get::<Option<String>>("last-open-dir") {
+        let path = PathBuf::from(&dir);
+        let file = gtk::gio::File::for_path(path);
+        dialog.set_initial_folder(Some(&file));
+    }
+
+    let files = dialog.open_multiple_future(Some(win)).await.map_err(|e| {
+        if let Some(file_error) = e.kind::<DialogError>() {
+            match file_error {
+                DialogError::Dismissed => CarteroError::NoFilePicked,
+                _ => CarteroError::FileDialogError,
+            }
+        } else {
+            CarteroError::FileDialogError
+        }
+    })?;
+
+    let files: Result<Vec<gio::File>, _> = files
+        .snapshot()
+        .into_iter()
+        .map(|obj| obj.downcast::<gio::File>())
+        .collect::<Result<Vec<gio::File>, _>>();
+
+    match files {
+        Ok(files) => {
+            let parents = files
+                .iter()
+                .filter_map(gio::File::parent)
+                .collect::<Vec<gio::File>>();
+            if let Some(location) = parents.first().and_then(gio::File::path) {
+                let string = location.to_str().ok_or(CarteroError::FileDialogError)?;
+                settings
+                    .set("last-open-dir", Some(string))
+                    .map_err(|_| CarteroError::FileDialogError)?;
+            }
+            Ok(files)
+        }
+        Err(_) => Err(CarteroError::FileDialogError),
+    }
 }
 
 pub async fn save_file(win: &CarteroWindow) -> Result<gio::File, CarteroError> {

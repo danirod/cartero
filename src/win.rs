@@ -240,8 +240,10 @@ mod imp {
         async fn trigger_open(&self) -> Result<(), CarteroError> {
             // In order to place the modal, we need a reference to the public type.
             let obj = self.obj();
-            let path = crate::widgets::open_file(&obj).await?;
-            self.add_endpoint(Some(&path)).await;
+            let paths = crate::widgets::open_files(&obj).await?;
+            for path in paths {
+                self.add_endpoint(Some(&path)).await;
+            }
             self.save_visible_tabs();
             Ok(())
         }

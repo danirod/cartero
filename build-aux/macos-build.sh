@@ -51,7 +51,7 @@ gtk4-update-icon-cache -q -t -f "$RESOURCES_ROOT/share/icons/hicolor"
 gtk4-update-icon-cache -q -t -f "$RESOURCES_ROOT/share/icons/Adwaita"
 
 # Add extra locales
-for lang in $(cat "po/LINGUAS" | grep -v '^#\|en'); do
+for lang in $(cat "po/LINGUAS" | grep -v '^#'); do
         cp -f $(brew --prefix)/share/locale/$lang/LC_MESSAGES/{gdk-pixbuf,gettext-runtime,glib20,gtk40,gtksourceview-5,libadwaita,shared-mime-info}.mo "$RESOURCES_ROOT/share/locale/$lang/LC_MESSAGES"
 done
 
@@ -161,11 +161,10 @@ find "$RESOURCES_ROOT/lib/gdk-pixbuf-2.0/2.10.0/loaders" -name '*.so' | while re
 done
 
 # These directories must exist for macOS to pick the locales (they can be empty)
-mkdir -p "$RESOURCES_ROOT/ca.lproj"
 mkdir -p "$RESOURCES_ROOT/en.lproj"
-mkdir -p "$RESOURCES_ROOT/eo.lproj"
-mkdir -p "$RESOURCES_ROOT/es.lproj"
-mkdir -p "$RESOURCES_ROOT/ro.lproj"
+for lang in $(cat "po/LINGUAS" | grep -v '^#'); do
+        mkdir -p "$RESOURCES_ROOT/$lang.lproj"
+done
 
 # Create Info.plist
 cat > "$APP_ROOT/Contents/Info.plist" << EOF

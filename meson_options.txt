@@ -8,3 +8,14 @@ option(
   value: 'default',
   description: 'The build profile for Cartero. One of "default" or "development".'
 )
+
+option(
+  'decorations',
+  type: 'combo',
+  choices: [
+    'csd',
+    'no-csd',
+  ],
+  value: 'csd',
+  description: 'Whether to use client side decorations. One of "csd" or "no-csd"'
+)

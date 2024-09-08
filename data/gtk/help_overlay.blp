@@ -1,0 +1,77 @@
+/*
+ * Copyright 2024 the Cartero authors
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+using Gtk 4.0;
+
+Gtk.ShortcutsWindow help_overlay {
+    modal: true;
+
+    Gtk.ShortcutsSection {
+        Gtk.ShortcutsGroup {
+            title: C_("shortcuts window", "General shortcuts");
+
+            Gtk.ShortcutsShortcut {
+                title: C_("shortcuts window", "Show Keyboard Shortcuts");
+                action-name: "win.show-help-overlay";
+            }
+
+            Gtk.ShortcutsShortcut {
+                title: C_("shortcuts window", "Quit");
+                action-name: "app.quit";
+            }
+        }
+
+        Gtk.ShortcutsGroup {
+            title: C_("shortcuts window", "Tab operations");
+
+            Gtk.ShortcutsShortcut {
+                title: C_("shortcuts window", "New request tab");
+                action-name: "win.new";
+            }
+
+            Gtk.ShortcutsShortcut {
+                title: C_("shortcuts window", "Open request");
+                action-name: "win.open";
+            }
+
+            Gtk.ShortcutsShortcut {
+                title: C_("shortcuts window", "Save request");
+                action-name: "win.save";
+            }
+
+            Gtk.ShortcutsShortcut {
+                title: C_("shortcuts window", "Save request as");
+                action-name: "win.save-as";
+            }
+
+            Gtk.ShortcutsShortcut {
+                title: C_("shortcuts window", "Close request tab");
+                action-name: "win.close";
+            }
+        }
+
+        Gtk.ShortcutsGroup {
+            title: C_("shortcuts window", "Request operations");
+
+            Gtk.ShortcutsShortcut {
+                title: C_("shortcuts window", "Send request");
+                action-name: "win.request";
+            }
+        }
+    }
+}

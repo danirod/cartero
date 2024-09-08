@@ -13,26 +13,34 @@ honest, I don't want to.
 
 1. Install Rust (suggestion: rustup)
 2. Install MSYS2 from https://www.msys2.org.
-3. You will use MSYS2 MINGW64. Do not use neither MSYS2 CLANG64 nor MSYS2
-   UCRT64.
+3. You are encouraged to use MSYS UCRT64, since UCRT is preinstalled on Windows
+   10 and Windows 11, and thus will not require so many dependencies. Either way,
+   you can also use MINGW64 and probably CLANG64 as well.
 4. Make sure that your Rust compiler is added to the MSYS PATH. For instance,
    `export PATH=/c/Users/[username]/.cargo/bin:$PATH`.
-5. The list of packages that you should install include:
-   * `mingw-w64-x86_64-desktop-file-utils`
-   * `mingw-w64-x86_64-gcc`
-   * `mingw-w64-x86_64-gettext`
-   * `mingw-w64-x86_64-gtk4`
-   * `mingw-w64-x86_64-gtksourceview5`
-   * `mingw-w64-x86_64-libxml2`
-   * `mingw-w64-x86_64-librsvg`
-   * `mingw-w64-x86_64-meson`
-   * `mingw-w64-x86_64-pkgconf`
-   * `mingw-w64-x86_64-libadwaita`
-   * `mingw-w64-x86_64-blueprint-compiler`
+
+Then, you can either use `build-aux/msys-build.sh` in order to automatically build
+the application. **This is the recommended step, and it's the one that will be
+faster for you**, because it will already have all the dependencies packaged.
+
+If you still want to do it manually you can do the following extra steps:
+
+1. The list of packages that you should install include:
+   * `${MINGW_PACKAGE_PREFIX}-desktop-file-utils`
+   * `${MINGW_PACKAGE_PREFIX}-gcc`
+   * `${MINGW_PACKAGE_PREFIX}-gettext`
+   * `${MINGW_PACKAGE_PREFIX}-gtk4`
+   * `${MINGW_PACKAGE_PREFIX}-gtksourceview5`
+   * `${MINGW_PACKAGE_PREFIX}-libxml2`
+   * `${MINGW_PACKAGE_PREFIX}-librsvg`
+   * `${MINGW_PACKAGE_PREFIX}-meson`
+   * `${MINGW_PACKAGE_PREFIX}-pkgconf`
+   * `${MINGW_PACKAGE_PREFIX}-libadwaita`
+   * `${MINGW_PACKAGE_PREFIX}-blueprint-compiler`
    * `meson`
-6. Once the repository is cloned, you should be able to compile from inside a
-MSYS2 shell. Instructions in the README.md file apply here as well.
-7. If you plan on distributing the application, remember to pack all the DLLs.
+2. Once the repository is cloned, you should be able to compile from inside a
+MSYS2 shell using the same instructions that are present in README.md.
+3. If you plan on distributing the application, remember to pack all the DLLs.
 
 # Including dependencies
 

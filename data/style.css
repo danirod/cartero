@@ -1,8 +1,14 @@
-.error-banner {
-  background-color: @error_color;
-  color: @error_fg_color;
+.ignored-header text {
+  text-decoration: line-through;
+  opacity: 0.75;
 }
 
-paned.endpoint-pane > box notebook {
-  border-width: 0;
+.inactive-header text {
+  opacity: 0.65;
+}
+
+/* So that the request method can keep the linked appearance even when inside another widget. */
+.inline-linked button {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }

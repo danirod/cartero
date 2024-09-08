@@ -25,7 +25,9 @@ mod widgets;
 #[rustfmt::skip]
 mod config;
 mod fs;
+mod entities;
 mod objects;
+mod utils;
 mod win;
 
 use std::path::PathBuf;
@@ -41,6 +43,16 @@ fn app_rel_path(dir: &str) -> PathBuf {
     let root_dir = std::env::current_exe()
         .map(|p| p.parent().unwrap().parent().unwrap().to_path_buf())
         .unwrap();
+    #[cfg(target_os = "macos")]
+    let root_dir = {
+        // Still don't hardcode the Resources directory so that build-aux/cargo-build.sh still works on macOS.
+        let resources_dir = root_dir.join("Resources");
+        if resources_dir.exists() && resources_dir.is_dir() {
+            resources_dir
+        } else {
+            root_dir
+        }
+    };
     root_dir.join(dir)
 }
 
@@ -54,7 +66,7 @@ fn init_data_dir() {
         let mut xdg_final_dirs = vec![datadir];
         xdg_final_dirs.extend(xdg_data_dirs);
         let xdg_data_dir = std::env::join_paths(&xdg_final_dirs).unwrap();
-        std::env::set_var("XDG_DATA_DIRS", xdg_data_dir);
+        unsafe { std::env::set_var("XDG_DATA_DIRS", xdg_data_dir) };
     }
 }
 
@@ -62,6 +74,7 @@ fn init_locale() {
     let localedir = app_rel_path("share/locale");
     gettextrs::setlocale(LocaleCategory::LcAll, "");
     gettextrs::bindtextdomain(GETTEXT_PACKAGE, localedir).expect("Unable to bind the text domain");
+    gettextrs::bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8").unwrap();
     gettextrs::textdomain(GETTEXT_PACKAGE).expect("Unable to switch to the text domain");
 }
 
@@ -76,10 +89,37 @@ fn init_gio_resources() {
 }
 
 fn main() -> glib::ExitCode {
+    #[cfg(target_os = "windows")]
+    {
+        if let Err(_) = std::env::var("GSK_RENDERER") {
+            std::env::set_var("GSK_RENDERER", "cairo");
+        }
+        std::env::set_var("GTK_CSD", "0");
+    }
+
+    #[cfg(target_os = "macos")]
+    {
+        let gdk_pixbuf = app_rel_path("lib/gdk-pixbuf-2.0/2.10.0/loaders.cache");
+        if let Ok(true) = gdk_pixbuf.try_exists() {
+            std::env::set_var("GDK_PIXBUF_MODULE_FILE", gdk_pixbuf);
+        }
+    }
+
     init_data_dir();
     init_locale();
     init_glib();
     init_gio_resources();
+
+    // This is dirty, but because adw_init() calls bindtextdomain() and uses a hardcoded static
+    // path, I need to actually re-bind libadwaita against my own localedir on platforms where the
+    // datadir is not fixed, so that it can use a path relative to the application executable
+    // again.
+    #[cfg(any(target_os = "windows", target_os = "macos"))]
+    {
+        adw::init().expect("Failed to initialize system runtimes");
+        let localedir = app_rel_path("share/locale");
+        gettextrs::bindtextdomain("libadwaita", localedir).expect("Unable to bind the text domain");
+    }
 
     let app = CarteroApplication::new();
     app.run()

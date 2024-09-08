@@ -16,14 +16,26 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use adw::AboutWindow;
+use adw::prelude::*;
+use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
 use gtk::gio::{self, ActionEntryBuilder, Settings};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 
-use crate::config::{self, APP_ID, BASE_ID};
-
+use crate::config::{self, APP_ID, BASE_ID, RESOURCE_PATH};
 use crate::win::CarteroWindow;
+
+#[macro_export]
+macro_rules! accelerator {
+    ($accel:expr) => {
+        if cfg!(target_os = "macos") {
+            concat!("<Meta>", $accel)
+        } else {
+            concat!("<Primary>", $accel)
+        }
+    };
+}
 
 mod imp {
     use std::cell::OnceCell;
@@ -40,8 +52,6 @@ mod imp {
 
     #[derive(Default)]
     pub struct CarteroApplication {
-        pub(super) window: OnceCell<CarteroWindow>,
-
         pub(super) settings: OnceCell<Settings>,
     }
 
@@ -57,7 +67,16 @@ mod imp {
     impl ApplicationImpl for CarteroApplication {
         fn activate(&self) {
             self.parent_activate();
-            self.obj().get_window().present();
+            let (window, is_new_window) = match self.obj().active_window() {
+                Some(window) => (window.downcast::<CarteroWindow>().unwrap(), false),
+                None => (CarteroWindow::new(&self.obj()), true),
+            };
+            glib::spawn_future_local(glib::clone!(@weak window => async move {
+                if is_new_window {
+                    window.open_last_session().await;
+                }
+                window.present();
+            }));
         }
 
         fn startup(&self) {
@@ -66,8 +85,35 @@ mod imp {
 
             let obj = self.obj();
             obj.set_accels_for_action("win.open-collection", &["<Primary><Shift>o"]);
-            obj.set_accels_for_action("win.request", &["<Primary>Return"]);
+            obj.set_accels_for_action("win.new", &[accelerator!("t")]);
+            obj.set_accels_for_action("win.open", &[accelerator!("o")]);
+            obj.set_accels_for_action("win.save", &[accelerator!("s")]);
+            obj.set_accels_for_action("win.save-as", &[accelerator!("<Shift>s")]);
+            obj.set_accels_for_action("win.close", &[accelerator!("w")]);
+            // obj.set_accels_for_action("win.request", &["<Primary>Return"]);
+            obj.set_accels_for_action("win.request", &[accelerator!("Return")]);
+            obj.set_accels_for_action("app.quit", &[accelerator!("q")]);
+            obj.set_accels_for_action("win.show-help-overlay", &[accelerator!("question")]);
             obj.setup_app_actions();
+        }
+
+        fn open(&self, files: &[gio::File], hint: &str) {
+            self.parent_open(files, hint);
+
+            let (window, is_new_window) = match self.obj().active_window() {
+                Some(window) => (window.downcast::<CarteroWindow>().unwrap(), false),
+                None => (CarteroWindow::new(&self.obj()), true),
+            };
+            let thread_files: Vec<gio::File> = files.to_vec();
+            glib::spawn_future_local(async move {
+                if is_new_window {
+                    window.open_last_session().await;
+                }
+                for file in thread_files {
+                    window.add_endpoint(Some(&file)).await;
+                }
+                window.present();
+            });
         }
     }
 
@@ -97,16 +143,11 @@ impl CarteroApplication {
     }
 
     pub fn new() -> Self {
-        Object::builder().property("application-id", APP_ID).build()
-    }
-
-    pub fn get_window(&self) -> &CarteroWindow {
-        let imp = self.imp();
-        imp.window.get_or_init(|| {
-            let win = CarteroWindow::new(self);
-            win.add_endpoint(None);
-            win
-        })
+        Object::builder()
+            .property("application-id", APP_ID)
+            .property("flags", gio::ApplicationFlags::HANDLES_OPEN)
+            .property("resource-base-path", RESOURCE_PATH)
+            .build()
     }
 
     pub fn settings(&self) -> &Settings {
@@ -114,25 +155,18 @@ impl CarteroApplication {
     }
 
     fn setup_app_actions(&self) {
-        let about = ActionEntryBuilder::new("about")
-            .activate(|app: &CarteroApplication, _, _| {
-                let win = app.get_window();
-                let about = AboutWindow::builder()
-                    .transient_for(win)
-                    .modal(true)
-                    .application_name("Cartero")
-                    .application_icon(config::APP_ID)
-                    .version(config::VERSION)
-                    .website("https://github.com/danirod/cartero")
-                    .issue_url("https://github.com/danirod/cartero/issues")
-                    .support_url("https://github.com/danirod/cartero/discussions")
-                    .developer_name("The Cartero authors")
-                    .copyright("© 2024 the Cartero authors")
-                    .license_type(gtk::License::Gpl30)
-                    .build();
-                about.present();
-            })
+        let quit = ActionEntryBuilder::new("quit")
+            .activate(glib::clone!(@weak self as app => move |_, _, _| {
+                for window in app.windows() {
+                    window.close();
+                }
+
+                if app.windows().is_empty() {
+                    app.quit();
+                }
+            }))
             .build();
-        self.add_action_entries([about]);
+
+        self.add_action_entries([quit]);
     }
 }

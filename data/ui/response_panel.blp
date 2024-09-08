@@ -19,85 +19,103 @@ using Gtk 4.0;
 using GtkSource 5;
 using Adw 1;
 
-template $CarteroResponsePanel: Box {
-  Overlay {
-    hexpand: true;
-    vexpand: true;
+template $CarteroResponsePanel: Adw.Bin {
+  Stack stack {
+    StackPage {
+      name: "placeholder";
 
-    [overlay]
-    Notebook {
-      NotebookPage {
-        tab: Label {
-          label: _("Headers");
-        };
-
-        child: ScrolledWindow {
-          hexpand: true;
-          vexpand: true;
-
-          Adw.Clamp {
-            styles [
-              "background"
-            ]
-
-            maximum-size: 720;
-
-            $CarteroResponseHeaders response_headers {}
-          }
-        };
-      }
-
-      NotebookPage {
-        tab: Label {
-          label: _("Body");
-        };
-
-        child: ScrolledWindow {
-          hexpand: true;
-          vexpand: true;
-
-          GtkSource.View response_body {
-            top-margin: 10;
-            bottom-margin: 10;
-            left-margin: 10;
-            right-margin: 10;
-            smart-backspace: true;
-            monospace: true;
-            editable: false;
-
-            buffer: GtkSource.Buffer {};
-          }
-        };
-      }
+      child: Adw.StatusPage {
+        icon-name: "horizontal-arrows-symbolic";
+        title: _("Ready to request");
+        description: _("Use the Send button to send a network request and it will show here.");
+      };
     }
 
-    [overlay]
-    Stack metadata_stack {
-      halign: end;
-      valign: start;
-      margin-top: 10;
-      margin-end: 10;
+    StackPage {
+      name: "response";
 
-      Box response_meta {
-        spacing: 10;
+      child: Overlay {
+        hexpand: true;
+        vexpand: true;
 
-        Label status_code {
-          visible: false;
+        [overlay]
+        Notebook {
+          show-border: false;
+
+          NotebookPage {
+            tab: Label {
+              label: _("Body");
+            };
+
+            child: ScrolledWindow {
+              hexpand: true;
+              vexpand: true;
+
+              GtkSource.View response_body {
+                top-margin: 10;
+                bottom-margin: 10;
+                left-margin: 10;
+                right-margin: 10;
+                smart-backspace: true;
+                monospace: true;
+                editable: false;
+
+                buffer: GtkSource.Buffer {};
+              }
+            };
+          }
+
+          NotebookPage {
+            tab: Label {
+              label: _("Headers");
+            };
+
+            child: ScrolledWindow {
+              hexpand: true;
+              vexpand: true;
+
+              Adw.Clamp {
+                styles [
+                  "background"
+                ]
+
+                maximum-size: 720;
+
+                $CarteroResponseHeaders response_headers {}
+              }
+            };
+          }
         }
 
-        Label duration {
-          visible: false;
-        }
+        [overlay]
+        Stack metadata_stack {
+          halign: end;
+          valign: start;
+          margin-top: 10;
+          margin-end: 10;
 
-        Label response_size {
-          visible: false;
-        }
-      }
+          Box response_meta {
+            spacing: 10;
 
-      Spinner spinner {
-        halign: end;
-        spinning: true;
-      }
+            Label status_code {
+              visible: false;
+            }
+
+            Label duration {
+              visible: false;
+            }
+
+            Label response_size {
+              visible: false;
+            }
+          }
+
+          Spinner spinner {
+            halign: end;
+            spinning: true;
+          }
+        }
+      };
     }
   }
 }

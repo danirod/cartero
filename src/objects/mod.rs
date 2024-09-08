@@ -16,12 +16,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 mod collection;
-mod endpoint;
 mod key_value_item;
 mod tree_node;
 
 pub use collection::Collection;
-pub use endpoint::Endpoint;
 pub use key_value_item::KeyValueItem;
 pub use tree_node::TreeNode;
 pub use tree_node::TreeNodeKind;

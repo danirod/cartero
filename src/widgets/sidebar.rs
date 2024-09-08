@@ -37,6 +37,7 @@ mod imp {
         prelude::*, CompositeTemplate, ListView, SignalListItemFactory, SingleSelection,
         TreeExpander, TreeListModel, TreeListRow,
     };
+    use gtk::gio::File;
 
     use crate::fs::collection::{list_endpoints, list_folders};
     use crate::objects::{TreeNode, TreeNodeKind};
@@ -148,7 +149,7 @@ mod imp {
 
             match inner_value.node_type() {
                 TreeNodeKind::Endpoint => {
-                    window.add_endpoint(Some(&path_buf));
+                    window.add_endpoint(Some(&File::for_path(&path_buf)));
                 }
                 _ => println!("Not implemented yet, wait a minute"),
             }

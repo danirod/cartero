@@ -15,6 +15,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use std::collections::HashMap;
+
 use glib::Object;
 use gtk::{gio::ListStore, prelude::*};
 
@@ -26,8 +28,9 @@ mod imp {
     use gtk::subclass::prelude::*;
 
     use std::cell::{OnceCell, RefCell};
+    use std::sync::OnceLock;
 
-    use glib::subclass::InitializingObject;
+    use glib::subclass::{InitializingObject, Signal};
     use glib::{closure_local, Properties};
     use gtk::gio::ListStore;
     use gtk::subclass::widget::{CompositeTemplateClass, WidgetImpl};
@@ -45,6 +48,9 @@ mod imp {
 
         #[property(get, set = Self::set_model)]
         model: OnceCell<ListStore>,
+
+        #[property(get, set)]
+        avoid_duplicates: RefCell<bool>,
 
         #[property(get)]
         valid: RefCell<bool>,
@@ -78,8 +84,18 @@ mod imp {
 
     #[glib::derived_properties]
     impl ObjectImpl for KeyValuePane {
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| vec![Signal::builder("changed").build()])
+        }
+
         fn constructed(&self) {
             self.parent_constructed();
+
+            let obj = self.obj();
+            obj.connect_avoid_duplicates_notify(glib::clone!(@weak obj as pane => move |_| {
+                pane.mark_duplicates();
+            }));
 
             self.model
                 .set(ListStore::with_type(KeyValueItem::static_type()))
@@ -104,6 +120,10 @@ mod imp {
                     .bidirectional()
                     .sync_create()
                     .build());
+                row.add_binding(item.bind_property("ignored", &row, "ignored")
+                    .bidirectional()
+                    .sync_create()
+                    .build());
                 let pane_delete = pane.clone();
                 row.connect_closure("delete", false, closure_local!(@strong item => move |_: KeyValueRow| {
                     let model = pane_delete.model.get().unwrap();
@@ -112,13 +132,16 @@ mod imp {
 
                         let obj = pane_delete.obj();
                         obj.assert_always_placeholder();
+                        obj.emit_by_name::<()>("changed", &[]);
                     }
                 }));
 
                 let pane_changed = pane.clone();
                 item.connect_closure("changed", false, closure_local!(move |_: KeyValueItem| {
                     let obj = pane_changed.obj();
+                    obj.mark_duplicates();
                     obj.assert_always_placeholder();
+                    obj.emit_by_name::<()>("changed", &[]);
                 }));
                 row.upcast::<gtk::Widget>()
             }));
@@ -147,6 +170,35 @@ impl KeyValuePane {
         Self::default()
     }
 
+    pub fn connect_changed<F: Fn(&Self) + 'static>(&self, f: F) -> glib::SignalHandlerId {
+        self.connect_closure(
+            "changed",
+            true,
+            glib::closure_local!(|ref pane| {
+                f(pane);
+            }),
+        )
+    }
+
+    pub fn mark_duplicates(&self) {
+        let model = &self.model();
+        let mut headers: HashMap<String, KeyValueItem> = HashMap::new();
+        let count = model.n_items();
+        for i in 0..count {
+            if let Some(header) = model.item(i).and_downcast::<KeyValueItem>() {
+                // First, reset the ignored bit for this header.
+                header.set_ignored(false);
+
+                if self.avoid_duplicates() && header.is_usable() {
+                    let name = header.header_name().to_lowercase();
+                    if let Some(old) = headers.insert(name, header.clone()) {
+                        old.set_ignored(true);
+                    }
+                }
+            }
+        }
+    }
+
     pub fn assert_always_placeholder(&self) {
         let model = &self.model();
         let empty = model.iter::<KeyValueItem>().any(|row| {
@@ -164,7 +216,10 @@ impl KeyValuePane {
     pub fn get_entries(&self) -> Vec<KeyValueItem> {
         let model = &self.model();
         let iter = model.iter::<KeyValueItem>();
-        iter.filter(|value| value.is_ok()).flatten().collect()
+        iter.filter(|value| value.is_ok())
+            .flatten()
+            .filter(|value| !(value.header_name().is_empty() && value.header_value().is_empty()))
+            .collect()
     }
 
     pub fn set_entries(&self, entries: &[KeyValueItem]) {
@@ -192,7 +247,7 @@ mod tests {
         let model = &key_value_pane.model();
         assert_eq!(model.n_items(), 0);
 
-        let accept = KeyValueItem::new_with_value("Accept", "application/html");
+        let accept = KeyValueItem::from(("Accept", "application/html"));
         model.append(&accept);
         assert_eq!(model.n_items(), 1);
     }
@@ -201,8 +256,8 @@ mod tests {
     pub fn test_set_model() {
         crate::init_test_resources();
 
-        let ctype = KeyValueItem::new_with_value("Content-Type", "application/json");
-        let clen = KeyValueItem::new_with_value("Content-Length", "42");
+        let ctype = KeyValueItem::from(("Content-Type", "application/json"));
+        let clen = KeyValueItem::from(("Content-Length", "42"));
         let list = ListStore::with_type(KeyValueItem::static_type());
         list.append(&ctype);
         list.append(&clen);
@@ -218,7 +273,7 @@ mod tests {
         crate::init_test_resources();
 
         let key_value_pane = KeyValuePane::default();
-        let accept = KeyValueItem::new_with_value("Accept", "application/html");
+        let accept = KeyValueItem::from(("Accept", "application/html"));
         key_value_pane.model().append(&accept);
 
         let keys: Vec<String> = key_value_pane
@@ -229,8 +284,8 @@ mod tests {
         assert_eq!(keys.len(), 1);
         assert_eq!(keys[0], "Accept");
 
-        let ctype = KeyValueItem::new_with_value("Content-Type", "application/json");
-        let clen = KeyValueItem::new_with_value("Content-Length", "42");
+        let ctype = KeyValueItem::from(("Content-Type", "application/json"));
+        let clen = KeyValueItem::from(("Content-Length", "42"));
         let list = ListStore::with_type(KeyValueItem::static_type());
         list.append(&ctype);
         list.append(&clen);
@@ -250,8 +305,8 @@ mod tests {
     pub fn test_set_model_emits_signal() {
         crate::init_test_resources();
 
-        let ctype = KeyValueItem::new_with_value("Content-Type", "application/json");
-        let clen = KeyValueItem::new_with_value("Content-Length", "42");
+        let ctype = KeyValueItem::from(("Content-Type", "application/json"));
+        let clen = KeyValueItem::from(("Content-Length", "42"));
         let list = ListStore::with_type(KeyValueItem::static_type());
         list.append(&ctype);
         list.append(&clen);
@@ -270,8 +325,10 @@ mod tests {
 
     #[gtk::test]
     pub fn test_model_get_set_entries() {
-        let ctype = KeyValueItem::new_with_value("Content-Type", "application/json");
-        let clen = KeyValueItem::new_with_value("Content-Length", "42");
+        crate::init_test_resources();
+
+        let ctype = KeyValueItem::from(("Content-Type", "application/json"));
+        let clen = KeyValueItem::from(("Content-Length", "42"));
         let slice = &[ctype, clen];
 
         let pane = KeyValuePane::default();
@@ -288,7 +345,7 @@ mod tests {
         assert_eq!("Content-Length", keys[1]);
 
         let entries = pane.get_entries();
-        assert_eq!(3, entries.len());
+        assert_eq!(2, entries.len());
         assert_eq!("Content-Type", entries[0].header_name());
         assert_eq!("Content-Length", entries[1].header_name());
     }

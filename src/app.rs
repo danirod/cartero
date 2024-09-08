@@ -15,8 +15,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use adw::AboutWindow;
 use adw::prelude::*;
+use adw::AboutWindow;
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
 use gtk::gio::{self, ActionEntryBuilder, Settings};

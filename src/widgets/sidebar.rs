@@ -231,7 +231,7 @@ impl Sidebar {
             if let Ok(collection_obj) = open_collection(&collection_path) {
                 let tree_node = TreeNode::new();
                 tree_node.set_path(collection.clone());
-                tree_node.set_title(collection_obj.title());
+                tree_node.set_title(collection_obj.title().replace(".cartero", ""));
                 tree_node.set_node_type(TreeNodeKind::Collection);
                 store.append(&tree_node);
             }

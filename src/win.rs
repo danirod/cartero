@@ -19,28 +19,28 @@ use std::path::PathBuf;
 
 use crate::{app::CarteroApplication, error::CarteroError, objects::Collection};
 use glib::subclass::types::ObjectSubclassIsExt;
-use gtk::prelude::*;
 use glib::Object;
+use gtk::prelude::*;
 use gtk::{gio, glib, prelude::SettingsExtManual};
 
 mod imp {
-    use std::path::PathBuf;
     use std::path::Path;
+    use std::path::PathBuf;
 
-    use adw::prelude::*;
     use adw::prelude::AlertDialogExtManual;
+    use adw::prelude::*;
     use adw::AboutWindow;
     use adw::{subclass::prelude::*, TabPage};
+    use gettextrs::gettext;
     use glib::closure_local;
     use gtk::gio::File;
-    use gettextrs::gettext;
     use gtk::gio::{self, ActionEntry};
     use gtk::prelude::*;
 
     use crate::fs::collection::open_collection;
     use crate::objects::Collection;
-    use crate::widgets::*;
     use crate::utils::SingleExpressionWatch;
+    use crate::widgets::*;
     use crate::{app::CarteroApplication, error::CarteroError};
     use crate::{config, widgets::*};
     use glib::subclass::InitializingObject;
@@ -61,7 +61,7 @@ mod imp {
 
         #[template_child]
         pub window_title: TemplateChild<adw::WindowTitle>,
-        
+
         #[template_child]
         pub collections: TemplateChild<Sidebar>,
 
@@ -92,7 +92,6 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl CarteroWindow {
-       
         fn update_tab_actions(&self) {
             let has_tabs = self.tabview.n_pages() > 0;
             let obj = self.obj();
@@ -345,9 +344,7 @@ mod imp {
             let _ = settings.set("last-directory-open-collection", parent_dir);
 
             match open_collection(&path) {
-                Ok(_) => {
-                    self.finish_open_collection(&path)
-                }
+                Ok(_) => self.finish_open_collection(&path),
                 Err(e) => Err(e),
             }
         }
@@ -541,7 +538,6 @@ mod imp {
             }
             Ok(())
         }
-
     }
 
     #[glib::object_subclass]
@@ -578,7 +574,6 @@ mod imp {
                 let obj = self.obj();
                 obj.add_css_class("devel");
             }
-
 
             self.tabview.connect_selected_page_notify(
                 glib::clone!(@weak self as window => move |tabview| {

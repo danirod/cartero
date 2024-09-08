@@ -24,6 +24,7 @@
 
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/horizontal-arrows-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/tab-new-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/tab-new-filled-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/apps/es.danirod.Cartero.Devel.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/apps/es.danirod.Cartero.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/symbolic/apps/es.danirod.Cartero-symbolic.svg</file>

@@ -30,8 +30,8 @@ mod imp {
     use gtk::{prelude::*, CompositeTemplate};
 
     use crate::objects::Collection;
-    use crate::widgets::KeyValuePane;
     use crate::objects::KeyValueItem;
+    use crate::widgets::KeyValuePane;
 
     #[derive(CompositeTemplate, Default, Properties)]
     #[template(resource = "/es/danirod/Cartero/collection_pane.ui")]

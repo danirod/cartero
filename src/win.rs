@@ -66,6 +66,9 @@ mod imp {
         pub collections: TemplateChild<Sidebar>,
 
         #[template_child]
+        pub split_view: TemplateChild<adw::OverlaySplitView>,
+
+        #[template_child]
         stack: TemplateChild<gtk::Stack>,
 
         window_title_binding: SingleExpressionWatch,
@@ -85,6 +88,9 @@ mod imp {
 
         #[template_child]
         pub tabview: TemplateChild<adw::TabView>,
+
+        #[template_child]
+        pub split_view: TemplateChild<adw::OverlaySplitView>,
 
         #[template_child]
         stack: TemplateChild<gtk::Stack>,
@@ -234,9 +240,9 @@ mod imp {
                     self.tabview.close_page(&tp);
                 }
             }
-
             match ItemPane::new_for_endpoint(file).await {
                 Ok(pane) => {
+                    self.split_view.set_property("show-sidebar", true);
                     self.stack.set_visible_child_name("tabview");
                     let page = self.tabview.add_page(&pane, None);
                     pane.window_title_binding()
@@ -619,6 +625,7 @@ mod imp {
                 imp.update_tab_actions();
                 if imp.tabview.n_pages() == 0 {
                     imp.bind_current_tab(None);
+                    imp.split_view.set_property("show-sidebar", false);
                     imp.stack.set_visible_child_name("welcome");
                 }
                 true
@@ -776,6 +783,7 @@ impl CarteroWindow {
 
         let imp = win.imp();
         imp.finish_init();
+        imp.split_view.set_property("show-sidebar", false);
 
         win
     }

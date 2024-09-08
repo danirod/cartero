@@ -31,13 +31,13 @@ mod imp {
     use adw::subclass::bin::BinImpl;
     use glib::subclass::InitializingObject;
     use glib::Object;
+    use gtk::gio::File;
     use gtk::gio::{ListModel, ListStore};
     use gtk::subclass::prelude::*;
     use gtk::{
         prelude::*, CompositeTemplate, ListView, SignalListItemFactory, SingleSelection,
         TreeExpander, TreeListModel, TreeListRow,
     };
-    use gtk::gio::File;
 
     use crate::fs::collection::{list_endpoints, list_folders};
     use crate::objects::{TreeNode, TreeNodeKind};

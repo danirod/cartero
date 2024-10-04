@@ -15,13 +15,15 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use super::{Request, RequestError, RequestMethod, Response};
+use crate::entities::{RequestMethod, ResponseData};
+
+use super::{BoundRequest, RequestError};
 use futures_lite::io::AsyncReadExt;
 use isahc::{
     http::{HeaderName, HeaderValue},
     AsyncBody, Body,
 };
-use std::{io::Read, str::FromStr};
+use std::{io::Read, str::FromStr, time::Instant};
 
 impl From<&RequestMethod> for isahc::http::Method {
     fn from(value: &RequestMethod) -> Self {
@@ -38,10 +40,10 @@ impl From<&RequestMethod> for isahc::http::Method {
     }
 }
 
-impl TryFrom<Request> for isahc::Request<Vec<u8>> {
+impl TryFrom<BoundRequest> for isahc::Request<Vec<u8>> {
     type Error = RequestError;
 
-    fn try_from(req: Request) -> Result<Self, Self::Error> {
+    fn try_from(req: BoundRequest) -> Result<Self, Self::Error> {
         let mut builder = isahc::Request::builder().uri(&req.url).method(&req.method);
         let Some(headers) = builder.headers_mut() else {
             return Err(RequestError::InvalidHeaders);
@@ -51,23 +53,24 @@ impl TryFrom<Request> for isahc::Request<Vec<u8>> {
             let value = HeaderValue::from_str(v)?;
             headers.insert(key, value);
         }
-        let req = builder.body(req.body.clone())?;
+        let body = req.body.unwrap_or_default();
+        let req = builder.body(body)?;
         Ok(req)
     }
 }
 
-impl TryFrom<&mut isahc::Response<Body>> for Response {
+impl TryFrom<&mut isahc::Response<Body>> for ResponseData {
     type Error = RequestError;
 
     fn try_from(value: &mut isahc::Response<Body>) -> Result<Self, Self::Error> {
-        let status_code: u16 = value.status().as_u16();
+        let status_code = value.status().as_u16() as u32;
         let headers = value
             .headers()
             .iter()
             .map(|(k, v)| {
                 let header_name = k.to_string();
                 let header_value = String::from(v.to_str().unwrap());
-                (header_name, header_value)
+                (header_name, header_value).into()
             })
             .collect();
         let body = {
@@ -76,7 +79,7 @@ impl TryFrom<&mut isahc::Response<Body>> for Response {
             body.read_to_end(&mut buffer)?;
             buffer
         };
-        Ok(Response {
+        Ok(ResponseData {
             duration: 0,
             size: 0,
             status_code,
@@ -88,15 +91,16 @@ impl TryFrom<&mut isahc::Response<Body>> for Response {
 
 pub async fn extract_isahc_response(
     value: &mut isahc::Response<AsyncBody>,
-) -> Result<Response, RequestError> {
-    let status_code: u16 = value.status().as_u16();
+    start: &Instant,
+) -> Result<ResponseData, RequestError> {
+    let status_code: u32 = value.status().as_u16() as u32;
     let headers = value
         .headers()
         .iter()
         .map(|(k, v)| {
             let header_name = k.to_string();
             let header_value = String::from(v.to_str().unwrap());
-            (header_name, header_value)
+            (header_name, header_value).into()
         })
         .collect();
     let body = {
@@ -105,9 +109,10 @@ pub async fn extract_isahc_response(
         body.read_to_end(&mut buffer).await?;
         buffer
     };
-    Ok(Response {
-        duration: 0,
-        size: 0,
+    let duration = start.elapsed();
+    Ok(ResponseData {
+        duration: duration.as_millis(),
+        size: body.len(),
         status_code,
         headers,
         body,

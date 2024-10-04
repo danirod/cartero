@@ -15,11 +15,14 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use std::collections::HashMap;
+mod base;
+mod formdata;
+mod raw;
+mod tab;
+mod urlencoded;
 
-use crate::client::Request;
-
-// TODO: I am going to deeply regret this soon.
-pub type Variable = HashMap<String, String>;
-
-pub struct Endpoint(pub Request, pub Variable);
+pub use base::*;
+pub use formdata::*;
+pub use raw::*;
+pub use tab::*;
+pub use urlencoded::*;

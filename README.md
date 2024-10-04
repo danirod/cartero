@@ -1,12 +1,22 @@
-<p align="center"><img src="data/icons/es.danirod.Cartero.svg" width="256" height="256" alt=""></p>
+<p align="center"><img src="data/icons/scalable/apps/es.danirod.Cartero.svg" width="256" height="256" alt=""></p>
 
 <h1 align="center">Cartero</h1>
-<p align="center">Make HTTP requests and test APIs.</p>
+<p align="center">Make HTTP requests and test APIs</p>
 
-<p align="center"><img src="doc/cartero-screenshot.png" alt="Screenshot of Cartero"></p>
+<p align="center">
+<img src="data/screenshots/cartero-default.png" alt="Screenshot of Cartero">
+</p>
 
-> 🚧 This is a work in progress and therefore you should expect that the
-> application may not have all the features at this moment.
+Cartero is a graphical HTTP client that can be used as a developer tool to
+test web APIs and perform all kind of HTTP requests to web servers. It is
+compatible with any REST, SOAP or XML-RPC API and it supports multiple request
+methods as well as attaching body payloads to compatible requests.
+
+Features:
+
+* Loads and saves to plain Git-friendly TOML files, so that you can own your data.
+* Customization and modification of the request headers and body payloads.
+* Variable binding for API keys and other secret information.
 
 ## Motivation
 
@@ -14,24 +24,30 @@ This project exists because there aren't many native graphical HTTP testing
 applications / graphical alternatives to cURL that are fully free software, and
 I think the world has had enough of Electron / non-native applications that are
 anonymously accesible until one day you are forced to create an account and
-log in to use.
+log in to use just to make some investor happy with their numbers or to chug
+some unwanted artificial intelligence at users.
 
-## Roadmap
+## Download
 
-v0.1 is the first iteration and development is in progress. **The goal with
-version v0.1 is to have a basic user interface to make HTTP requests
-graphically**, supporting only the most basic features:
+<a href="https://flathub.org/apps/es.danirod.Cartero">
+<img width="240" alt="Get it on Flathub" src="https://flathub.org/api/badge?svg&locale=en">
+</a>
 
-* Make HTTP requests setting the endpoint URL and the HTTP verb to use.
-* Configure the payload and the request headers.
-* Get the response headers, body, status code, size and duration of a request.
+You can also download a version for Windows or macOS.
 
-**[Check out the kanban for the progress pending until we reach first iteration][kanban].**
+> [!WARNING]
+> **The Windows and macOS versions are currently not notarized or signed.**
+> On first run on Windows, you'll need to confirm the SmartScreen warning.
+> On first run on macOS, you'll need to right click the app and use the Open menu.
+> If you don't trust these binary distributions, you can always build from sources.
 
-Once the first iteration is reached, more features from the
-[cool idea, saved for later][later] list will be implemented.
+|                             | Platform                   | Latest version                       |
+|-----------------------------|----------------------------|--------------------------------------|
+| ![Windows](doc/windows.png) | Windows, x86_64            | [v0.1.1 (installer)][windows-x86_64] |
+| ![macOS](doc/macos.png)     | macOS, Apple Sillicon      | [v0.1.1 (.dmg)][macos-sillicon]      |
+| ![macOS](doc/macos.png)     | macOS, Intel               | [v0.1.1 (.dmg)][macos-intel]         |
 
-## How to build
+## Building
 
 ### Flatpak
 
@@ -111,6 +127,64 @@ executable, but you will still need to use Meson to build the data files
 **You should use `build-aux/cargo-build.sh`**. It wraps `cargo build`, but also
 compiles the data files and copies them in `target/share`, so that during
 application startup those files can be picked.
+
+### Nix/NixOS
+
+Use this approach to install, build or try cartero on a nixos system. Instructions
+assume you're using a flakes nixos system, but you could install it in a regular
+nixos system aswell by importing the derivation and adding the appropiate src attribute
+on it, note that this may require some manual intervation though.
+
+First of all, add cartero to your flake inputs so you can import the package.
+
+```nix
+{
+  inputs = {
+    cartero.url = "github:danirod/cartero";
+  };
+}
+```
+
+> [!WARNING]
+> This examples assume you're passing `inputs` in the `specialArgs` so you can utilize it
+> in others modules if you're splitting your config in multiple files.
+
+Then in your `home.packages` (when using home manager) or `environment.systemPackages`
+(global nix packages), add the derivation.
+
+```nix
+environment.systemPackages = [
+  inputs.cartero.packages.x86_64-linux.default
+];
+```
+
+> [!TIP]
+> You can try changing the architecture, not tested in every arch atm though.
+
+Another way is by making a nixpkgs overlay to add cartero and then install it
+easily.
+
+```nix
+nixpkgs.overlays = [
+  (_: final: let
+    inherit (inputs) cartero;
+    inherit (final) system;
+  in {
+    cartero = cartero.packages.${system}.default
+  })
+];
+```
+
+And then in the packages list of your choice.
+
+```nix
+home.packages = with pkgs; [
+  cartero
+];
+```
+
+> [!NOTE]
+> You may need to reboot the system or relogin to be able to see cartero on your launcher
 
 ## Contributing
 
@@ -196,5 +270,6 @@ Dani's [dev blog][blog] (in Spanish) of Cartero.
 [danirod]: https://github.com/danirod
 [fork]: https://github.com/danirod/cartero/fork
 [blog]: https://danirod.es/secciones/devlogs/cartero/
-[kanban]: https://github.com/users/danirod/projects/9/views/6
-[later]: https://github.com/users/danirod/projects/9/views/7
+[windows-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.1/Cartero-0.1.1-windows-x64.exe
+[macos-sillicon]: https://github.com/danirod/cartero/releases/download/v0.1.1/Cartero-0.1.1-macOS-ARM64.dmg
+[macos-intel]: https://github.com/danirod/cartero/releases/download/v0.1.1/Cartero-0.1.1-macOS-Intel.dmg

@@ -31,6 +31,7 @@ mod imp {
     use adw::subclass::bin::BinImpl;
     use glib::subclass::InitializingObject;
     use glib::Object;
+    use gtk::gio::File;
     use gtk::gio::{ListModel, ListStore};
     use gtk::subclass::prelude::*;
     use gtk::{
@@ -148,7 +149,7 @@ mod imp {
 
             match inner_value.node_type() {
                 TreeNodeKind::Endpoint => {
-                    window.add_endpoint(Some(&path_buf));
+                    window.add_endpoint(Some(&File::for_path(&path_buf)));
                 }
                 _ => println!("Not implemented yet, wait a minute"),
             }
@@ -230,7 +231,7 @@ impl Sidebar {
             if let Ok(collection_obj) = open_collection(&collection_path) {
                 let tree_node = TreeNode::new();
                 tree_node.set_path(collection.clone());
-                tree_node.set_title(collection_obj.title());
+                tree_node.set_title(collection_obj.title().replace(".cartero", ""));
                 tree_node.set_node_type(TreeNodeKind::Collection);
                 store.append(&tree_node);
             }

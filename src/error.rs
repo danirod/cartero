@@ -5,6 +5,9 @@ use crate::client::RequestError;
 
 #[derive(Debug, Error)]
 pub enum CarteroError {
+    #[error("No file has been picked")]
+    NoFilePicked,
+
     #[error("Internal error on file dialog")]
     FileDialogError,
 

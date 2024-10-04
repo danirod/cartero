@@ -15,19 +15,25 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-subdir('icons')
-
 blueprint_files = [
   'ui/collection_pane.blp',
+  'gtk/help_overlay.blp',
   'ui/endpoint_pane.blp',
+  'ui/formdata_payload_pane.blp',
   'ui/main_window.blp',
+  'ui/main_window_no_csd.blp',
   'ui/key_value_pane.blp',
   'ui/key_value_row.blp',
+  'ui/method_dropdown.blp',
+  'ui/payload_tab.blp',
+  'ui/raw_payload_pane.blp',
   'ui/response_headers.blp',
   'ui/response_panel.blp',
   'ui/new_collection_window.blp',
   'ui/sidebar.blp',
   'ui/sidebar_row.blp',
+  'ui/save_dialog.blp',
+  'ui/urlencoded_payload_pane.blp',
 ]
 
 blueprint_targets = []
@@ -59,12 +65,57 @@ if glib_compile_schemas.found()
   )
 endif
 
+install_data(
+  'icons/scalable/apps/@0@.svg'.format(application_id),
+  install_dir: iconsdir / 'hicolor' / 'scalable' / 'apps'
+)
+install_data(
+  'icons/scalable/mimetypes/@0@-request.svg'.format(application_id),
+  install_dir: iconsdir / 'hicolor' / 'scalable' / 'mimetypes'
+)
+install_data(
+  'icons/symbolic/apps/@0@-symbolic.svg'.format(application_id),
+  install_dir: iconsdir / 'hicolor' / 'symbolic' / 'apps'
+)
 
-desktop_file = configure_file(
-  input: 'cartero.desktop.in',
-  output: '@0@.desktop'.format(application_id),
+if host_machine.system() != 'windows'
+  appstream_file = i18n.merge_file(
+    input: configure_file(
+      input: 'cartero.appdata.xml.in.in',
+      output: 'cartero.appdata.xml.in',
+      configuration: { 'app_id': application_id },
+    ),
+    output: '@0@.appdata.xml'.format(application_id),
+    po_dir: '../po',
+    install: true,
+    install_dir: datadir / 'appdata'
+  )
+  appstreamcli = find_program('appstreamcli', required: false)
+  if appstreamcli.found()
+    test('Validate appstream file', appstreamcli,
+      args: ['validate', '--no-net', '--explain', appstream_file]
+    )
+  endif
+endif
+
+mimetype = configure_file(
+  input: 'es.danirod.Cartero.mimetype.xml.in',
+  output: '@0@.xml'.format(application_id),
   configuration: { 'app_id': application_id },
-  install_dir: join_paths(get_option('datadir'), 'applications')
+  install_dir: datadir / 'mime' / 'packages',
+)
+
+desktop_file = i18n.merge_file(
+  type: 'desktop',
+  input: configure_file(
+    input: 'cartero.desktop.in.in',
+    output: 'cartero.desktop.in',
+    configuration: { 'app_id': application_id },
+  ),
+  output: '@0@.desktop'.format(application_id),
+  po_dir: '../po',
+  install: true,
+  install_dir: datadir / 'applications'
 )
 desktop_utils = find_program('desktop-file-validate', required: true)
 test('Validate desktop file', desktop_utils, args: [desktop_file])

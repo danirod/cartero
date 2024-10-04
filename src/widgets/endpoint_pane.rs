@@ -18,31 +18,37 @@
 use glib::{subclass::types::ObjectSubclassIsExt, Object};
 use gtk::glib;
 
-use crate::{error::CarteroError, objects::Endpoint};
+use crate::{entities::EndpointData, error::CarteroError};
 
 mod imp {
-    use std::collections::HashMap;
+    use std::cell::RefCell;
+    use std::sync::{Arc, Mutex};
+    use std::time::Instant;
 
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
     use glib::subclass::InitializingObject;
-    use gtk::gio::SettingsBindFlags;
+    use glib::Properties;
     use gtk::subclass::prelude::*;
-    use gtk::{prelude::*, CompositeTemplate, StringObject, WrapMode};
+    use gtk::{prelude::*, CompositeTemplate};
     use isahc::RequestExt;
-    use sourceview5::prelude::BufferExt;
-    use sourceview5::StyleSchemeManager;
+    use url::Url;
 
     use crate::app::CarteroApplication;
-    use crate::client::{Request, RequestError, RequestMethod};
+    use crate::client::{BoundRequest, RequestError};
+    use crate::entities::{EndpointData, KeyValue};
     use crate::error::CarteroError;
-    use crate::objects::{Endpoint, KeyValueItem};
-    use crate::widgets::{KeyValuePane, ResponsePanel};
+    use crate::objects::KeyValueItem;
+    use crate::widgets::{ItemPane, KeyValuePane, MethodDropdown, PayloadTab, ResponsePanel};
 
-    #[derive(CompositeTemplate, Default)]
+    #[derive(CompositeTemplate, Properties, Default)]
     #[template(resource = "/es/danirod/Cartero/endpoint_pane.ui")]
+    #[properties(wrapper_type = super::EndpointPane)]
     pub struct EndpointPane {
         #[template_child(id = "send")]
         pub send_button: TemplateChild<gtk::Button>,
+
+        #[template_child]
+        pub parameter_pane: TemplateChild<KeyValuePane>,
 
         #[template_child]
         pub header_pane: TemplateChild<KeyValuePane>,
@@ -51,22 +57,24 @@ mod imp {
         pub variable_pane: TemplateChild<KeyValuePane>,
 
         #[template_child(id = "method")]
-        pub request_method: TemplateChild<gtk::DropDown>,
+        pub request_method: TemplateChild<MethodDropdown>,
 
         #[template_child(id = "url")]
         pub request_url: TemplateChild<gtk::Entry>,
 
         #[template_child]
-        pub request_body: TemplateChild<sourceview5::View>,
+        pub payload_pane: TemplateChild<PayloadTab>,
 
         #[template_child]
         pub response: TemplateChild<ResponsePanel>,
 
         #[template_child]
-        pub verbs_string_list: TemplateChild<gtk::StringList>,
-
-        #[template_child]
         pub paned: TemplateChild<gtk::Paned>,
+
+        #[property(get, set, nullable)]
+        pub item_pane: RefCell<Option<ItemPane>>,
+
+        variable_changing: Arc<Mutex<bool>>,
     }
 
     #[glib::object_subclass]
@@ -85,14 +93,42 @@ mod imp {
         }
     }
 
+    #[glib::derived_properties]
     impl ObjectImpl for EndpointPane {
         fn constructed(&self) {
             self.parent_constructed();
 
+            self.init_dirty_events();
             self.init_settings();
             self.variable_pane.assert_always_placeholder();
             self.header_pane.assert_always_placeholder();
-            self.init_source_view_style();
+            self.parameter_pane.assert_always_placeholder();
+
+            let url_arc = self.variable_changing.clone();
+            self.request_url
+                .connect_changed(glib::clone!(@weak self as window => move |_| {
+                    // It is important to allow the redundant pattern matching because
+                    // is_ok() does not capture the mutex and will cause sync issues.
+                    #[allow(clippy::redundant_pattern_matching)]
+                    if let Ok(_) = url_arc.try_lock() {
+                        if let Err(err) = window.update_query_params() {
+                            println!("{err}");
+                        }
+                    }
+                }));
+
+            let parameter_arc = self.variable_changing.clone();
+            self.parameter_pane
+                .connect_changed(glib::clone!(@weak self as window => move |_| {
+                    // It is important to allow the redundant pattern matching because
+                    // is_ok() does not capture the mutex and will cause sync issues.
+                    #[allow(clippy::redundant_pattern_matching)]
+                    if let Ok(_) = parameter_arc.try_lock() {
+                        if let Err(err) = window.update_url_from_query_params() {
+                            println!("{err}");
+                        }
+                    }
+                }));
         }
     }
 
@@ -102,101 +138,76 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl EndpointPane {
+        fn update_url_from_query_params(&self) -> Result<(), url::ParseError> {
+            let table = self.parameter_pane.get_entries();
+
+            let parsed_url = self.request_url.text().to_string();
+            let mut url = Url::parse(&parsed_url)?;
+            {
+                let mut pairs = url.query_pairs_mut();
+                pairs.clear();
+                for item in table {
+                    if item.active() {
+                        let key = item.header_name();
+                        let value = item.header_value();
+                        pairs.append_pair(&key, &value);
+                    }
+                }
+            }
+            self.request_url.set_text(url.as_str());
+            Ok(())
+        }
+
+        fn update_query_params(&self) -> Result<(), url::ParseError> {
+            let parsed_url = self.request_url.text().to_string();
+            let url = Url::parse(&parsed_url)?;
+            let pairs = url.query_pairs();
+
+            let entries: Vec<KeyValueItem> = pairs
+                .map(|(key, value)| {
+                    let key = String::from(key);
+                    let value = String::from(value);
+                    let entry = KeyValue::from((key, value));
+                    let value = KeyValueItem::from(entry);
+                    value.set_active(true);
+                    value.set_secret(false);
+                    value
+                })
+                .collect();
+            self.parameter_pane.set_entries(&entries);
+            Ok(())
+        }
+
+        fn mark_dirty(&self) {
+            if let Some(item_pane) = self.obj().item_pane() {
+                item_pane.set_dirty(true);
+            }
+        }
+
+        fn init_dirty_events(&self) {
+            self.request_method
+                .connect_changed(glib::clone!(@weak self as pane => move |_| pane.mark_dirty()));
+            self.request_url
+                .connect_changed(glib::clone!(@weak self as pane => move |_| pane.mark_dirty()));
+            self.payload_pane
+                .connect_changed(glib::clone!(@weak self as pane => move |_| pane.mark_dirty()));
+            self.header_pane
+                .connect_changed(glib::clone!(@weak self as pane => move |_| pane.mark_dirty()));
+            self.variable_pane
+                .connect_changed(glib::clone!(@weak self as pane => move |_| pane.mark_dirty()));
+        }
+
         fn init_settings(&self) {
             let app = CarteroApplication::get();
             let settings = app.settings();
+            let initial_position = SettingsExtManual::get(settings, "paned-position");
+            self.paned.set_position(initial_position);
 
-            settings
-                .bind("body-wrap", &*self.request_body, "wrap-mode")
-                .flags(SettingsBindFlags::GET)
-                .mapping(|variant, _| {
-                    let enabled = variant.get::<bool>().expect("The variant is not a boolean");
-                    let mode = match enabled {
-                        true => WrapMode::Word,
-                        false => WrapMode::None,
-                    };
-                    Some(mode.to_value())
-                })
-                .build();
-
-            settings
-                .bind(
-                    "show-line-numbers",
-                    &*self.request_body,
-                    "show-line-numbers",
-                )
-                .flags(SettingsBindFlags::GET)
-                .build();
-            settings
-                .bind("auto-indent", &*self.request_body, "auto-indent")
-                .flags(SettingsBindFlags::GET)
-                .build();
-            settings
-                .bind(
-                    "indent-style",
-                    &*self.request_body,
-                    "insert-spaces-instead-of-tabs",
-                )
-                .flags(SettingsBindFlags::GET)
-                .mapping(|variant, _| {
-                    let mode = variant
-                        .get::<String>()
-                        .expect("The variant is not a string");
-                    let use_spaces = mode == "spaces";
-                    Some(use_spaces.to_value())
-                })
-                .build();
-            settings
-                .bind("tab-width", &*self.request_body, "tab-width")
-                .flags(SettingsBindFlags::GET)
-                .mapping(|variant, _| {
-                    let width = variant.get::<String>().unwrap_or("4".into());
-                    let value = width.parse::<i32>().unwrap_or(4);
-                    Some(value.to_value())
-                })
-                .build();
-            settings
-                .bind("tab-width", &*self.request_body, "indent-width")
-                .flags(SettingsBindFlags::GET)
-                .mapping(|variant, _| {
-                    let width = variant.get::<String>().unwrap_or("4".into());
-                    let value = width.parse::<i32>().unwrap_or(4);
-                    Some(value.to_value())
-                })
-                .build();
-
-            settings
-                .bind("paned-position", &*self.paned, "position")
-                .build();
-        }
-
-        fn update_source_view_style(&self) {
-            let dark_mode = adw::StyleManager::default().is_dark();
-            let color_theme = if dark_mode { "Adwaita-dark" } else { "Adwaita" };
-            let theme = StyleSchemeManager::default().scheme(color_theme);
-
-            let buffer = self
-                .request_body
-                .buffer()
-                .downcast::<sourceview5::Buffer>()
-                .unwrap();
-            match theme {
-                Some(theme) => {
-                    buffer.set_style_scheme(Some(&theme));
-                    buffer.set_highlight_syntax(true);
-                }
-                None => {
-                    buffer.set_highlight_syntax(false);
-                }
-            }
-        }
-        fn init_source_view_style(&self) {
-            self.update_source_view_style();
-            adw::StyleManager::default().connect_dark_notify(
-                glib::clone!(@weak self as panel => move |_| {
-                    panel.update_source_view_style();
-                }),
-            );
+            self.paned
+                .connect_position_notify(glib::clone!(@weak settings => move |paned| {
+                    let new_position = paned.position();
+                    let _ = settings.set("paned-position", new_position);
+                }));
         }
 
         /// Syncs whether the Send button can be clicked based on whether the request is formed.
@@ -214,107 +225,80 @@ mod imp {
             self.update_send_button_sensitivity();
         }
 
-        /// Decodes the HTTP method that has been picked by the user in the dropdown.
-        fn request_method(&self) -> RequestMethod {
-            let method = self
-                .request_method
-                .selected_item()
-                .unwrap()
-                .downcast::<StringObject>()
-                .unwrap()
-                .string();
-            // Note: we should probably be safe from unwrapping here, since it would
-            // be impossible to have a method that is not an acceptable value without
-            // completely hacking and wrecking the user interface.
-            RequestMethod::try_from(method.as_str()).unwrap()
-        }
-
-        /// Sets the currently picked HTTP method for the method dropdown.
-        ///
-        /// TODO: This method should probably be part of its own widget.
-        fn set_request_method(&self, rm: RequestMethod) {
-            let verb_to_find = String::from(rm);
-            let element_count = self.request_method.model().unwrap().n_items();
-            let target_position = (0..element_count).find(|i| {
-                if let Some(verb) = self.verbs_string_list.string(*i) {
-                    if verb == verb_to_find {
-                        return true;
-                    }
-                }
-                false
-            });
-            if let Some(pos) = target_position {
-                self.request_method.set_selected(pos);
-            }
+        #[template_callback]
+        fn on_url_activated(&self) {
+            let _ = self.obj().activate_action("win.request", None);
         }
 
         /// Sets the value of every widget in the pane into whatever is set by the given endpoint.
-        pub fn assign_request(&self, ep: Endpoint) {
-            let Endpoint(req, variables) = ep;
-            self.request_url.buffer().set_text(req.url.clone());
-            self.set_request_method(req.method.clone());
-
-            let headers: Vec<KeyValueItem> = req
+        pub fn assign_request(&self, endpoint: &EndpointData) {
+            self.request_url.buffer().set_text(endpoint.url.clone());
+            self.request_method
+                .set_request_method(endpoint.method.clone());
+            let headers: Vec<KeyValueItem> = endpoint
                 .headers
                 .iter()
-                .map(|(k, v)| KeyValueItem::new_with_value(k, v))
+                .map(|item| KeyValueItem::from(item.clone()))
                 .collect();
-            let variables: Vec<KeyValueItem> = variables
+            let variables: Vec<KeyValueItem> = endpoint
+                .variables
                 .iter()
-                .map(|(k, v)| KeyValueItem::new_with_value(k, v))
+                .map(|item| KeyValueItem::from(item.clone()))
                 .collect();
             self.header_pane.set_entries(&headers);
             self.variable_pane.set_entries(&variables);
-            let body = String::from_utf8_lossy(&req.body);
-            self.request_body.buffer().set_text(&body);
-        }
-
-        fn extract_request(&self) -> Result<Request, CarteroError> {
-            let header_list = self.header_pane.get_entries();
-
-            let url = String::from(self.request_url.buffer().text());
-            let method = self.request_method();
-            let headers = header_list
-                .iter()
-                .filter(|pair| pair.is_usable())
-                .map(|pair| (pair.header_name(), pair.header_value()))
-                .collect();
-
-            let body = {
-                let buffer = self.request_body.buffer();
-                let (start, end) = buffer.bounds();
-                let text = buffer.text(&start, &end, true);
-                Vec::from(text)
-            };
-            Ok(Request::new(url, method, headers, body))
-        }
-
-        fn extract_variables(&self) -> HashMap<String, String> {
-            let variables = self.variable_pane.get_entries();
-            variables
-                .iter()
-                .filter(|v| v.is_usable())
-                .map(|v| (v.header_name(), v.header_value()))
-                .collect()
+            self.payload_pane.set_payload(&endpoint.body);
         }
 
         /// Takes the current state of the pane and extracts it into an Endpoint value.
-        pub(super) fn extract_endpoint(&self) -> Result<Endpoint, CarteroError> {
-            let request = self.extract_request()?;
-            let variables = self.extract_variables();
-            Ok(Endpoint(request, variables))
+        pub(super) fn extract_endpoint(&self) -> Result<EndpointData, CarteroError> {
+            let header_list = self.header_pane.get_entries();
+            let variable_list = self.variable_pane.get_entries();
+
+            let url = String::from(self.request_url.buffer().text());
+            let method = self.request_method.request_method();
+
+            let headers = header_list
+                .iter()
+                .map(|pair| KeyValue {
+                    name: pair.header_name(),
+                    value: pair.header_value(),
+                    active: pair.active(),
+                    secret: pair.secret(),
+                })
+                .collect();
+            let variables = variable_list
+                .iter()
+                .map(|pair| KeyValue {
+                    name: pair.header_name(),
+                    value: pair.header_value(),
+                    active: pair.active(),
+                    secret: pair.secret(),
+                })
+                .collect();
+
+            let body = self.payload_pane.payload();
+            Ok(EndpointData {
+                url,
+                method,
+                headers,
+                variables,
+                body,
+            })
         }
 
         /// Executes an HTTP request based on the current contents of the pane.
         pub(super) async fn perform_request(&self) -> Result<(), CarteroError> {
-            let request = self.extract_request()?;
-            let request = request.bind(&self.extract_variables())?;
+            let request = self.extract_endpoint()?;
+            let request = BoundRequest::try_from(request)?;
             let request_obj = isahc::Request::try_from(request)?;
+
+            let start = Instant::now();
             let mut response_obj = request_obj
                 .send_async()
                 .await
                 .map_err(RequestError::NetworkError)?;
-            let response = crate::client::extract_isahc_response(&mut response_obj).await?;
+            let response = crate::client::extract_isahc_response(&mut response_obj, &start).await?;
             self.response.assign_from_response(&response);
             Ok(())
         }
@@ -336,12 +320,12 @@ impl EndpointPane {
     /// Updates the contents of the widget so that they reflect the endpoint data.
     ///
     /// TODO: Should enable a binding system?
-    pub fn assign_endpoint(&self, endpoint: Endpoint) {
+    pub fn assign_endpoint(&self, endpoint: &EndpointData) {
         let imp = self.imp();
         imp.assign_request(endpoint)
     }
 
-    pub fn extract_endpoint(&self) -> Result<Endpoint, CarteroError> {
+    pub fn extract_endpoint(&self) -> Result<EndpointData, CarteroError> {
         let imp = self.imp();
         imp.extract_endpoint()
     }

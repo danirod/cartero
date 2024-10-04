@@ -17,6 +17,8 @@
 
 use glib::{object::ObjectExt, Object};
 
+use crate::entities::KeyValue;
+
 mod imp {
     use std::cell::RefCell;
     use std::sync::OnceLock;
@@ -34,6 +36,8 @@ mod imp {
         active: RefCell<bool>,
         #[property(get, set)]
         secret: RefCell<bool>,
+        #[property(get, set)]
+        ignored: RefCell<bool>,
 
         #[property(get, set)]
         header_name: RefCell<String>,
@@ -71,26 +75,26 @@ glib::wrapper! {
 
 impl KeyValueItem {
     pub(self) fn setup_signals(&self) {
-        self.connect_header_name_notify(glib::clone!(@weak self as item => move |_| {
+        self.connect_header_name_notify(|item| {
             if !item.dirty() {
                 item.set_dirty(true);
                 item.set_active(true);
             }
             item.emit_by_name::<()>("changed", &[]);
-        }));
-        self.connect_header_value_notify(glib::clone!(@weak self as item => move |_| {
+        });
+        self.connect_header_value_notify(|item| {
             if !item.dirty() {
                 item.set_dirty(true);
                 item.set_active(true);
             }
             item.emit_by_name::<()>("changed", &[]);
-        }));
-        self.connect_active_notify(glib::clone!(@weak self as item => move |_| {
+        });
+        self.connect_active_notify(|item| {
             item.emit_by_name::<()>("changed", &[]);
-        }));
-        self.connect_secret_notify(glib::clone!(@weak self as item => move |_| {
+        });
+        self.connect_secret_notify(|item| {
             item.emit_by_name::<()>("changed", &[]);
-        }));
+        });
     }
 
     pub fn new() -> Self {
@@ -116,6 +120,27 @@ impl KeyValueItem {
 impl Default for KeyValueItem {
     fn default() -> Self {
         Object::builder().build()
+    }
+}
+
+impl From<KeyValue> for KeyValueItem {
+    fn from(value: KeyValue) -> Self {
+        let header = Self::new();
+        header.set_header_name(value.name.clone());
+        header.set_header_value(value.value.clone());
+        header.set_active(value.active);
+        header.set_secret(value.secret);
+        header
+    }
+}
+
+impl From<(&str, &str)> for KeyValueItem {
+    fn from(value: (&str, &str)) -> Self {
+        let header = Self::new();
+        header.set_header_name(value.0);
+        header.set_header_value(value.1);
+        header.set_active(true);
+        header
     }
 }
 

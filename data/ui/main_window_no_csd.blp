@@ -1,0 +1,256 @@
+/*
+ * Copyright 2024 the Cartero authors
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+// SPDX-License-Identifier: GPL-3.0-or-later
+using Gtk 4.0;
+using Adw 1;
+
+template $CarteroWindow: Gtk.ApplicationWindow {
+  title: "Cartero";
+
+  Adw.ToolbarView {
+    top-bar-style: raised;
+
+    [top]
+    Box {
+      orientation: horizontal;
+
+      Box {
+        styles [
+          "toolbar"
+        ]
+
+        Button {
+          action-name: "win.new";
+          icon-name: 'tab-new-symbolic';
+          tooltip-text: _("New");
+        }
+
+        Separator {}
+
+        Button open_dialog {
+          styles [
+            "flat"
+          ]
+
+          action-name: "win.open";
+          tooltip-text: _("Open");
+
+          [child]
+          Box {
+            spacing: 5;
+
+            Image {
+              icon-name: 'document-open-symbolic';
+            }
+
+            Label {
+              label: _("Open");
+            }
+          }
+        }
+
+        Button save_dialog {
+          action-name: "win.save";
+          icon-name: 'document-save-symbolic';
+          tooltip-text: _("Save");
+        }
+
+        Separator {}
+      }
+
+      Adw.TabBar tabs {
+        autohide: false;
+        view: tabview;
+      }
+
+      Box {
+        styles [
+          "toolbar"
+        ]
+
+        Separator {}
+
+        MenuButton {
+          icon-name: "open-menu-symbolic";
+          primary: true;
+          menu-model: main_menu;
+        }
+      }
+    }
+
+    Adw.ToastOverlay toaster {
+      Stack stack {
+        StackPage {
+          name: "welcome";
+
+          child: Adw.StatusPage {
+            vexpand: true;
+            title: _("Welcome to Cartero");
+            description: _("Create or open a request and start testing APIs now.");
+            icon-name: "es.danirod.Cartero-symbolic";
+
+            child: Adw.Clamp {
+              maximum-size: 500;
+
+              Gtk.Box {
+                orientation: vertical;
+
+                Gtk.Button {
+                  styles [
+                    "pill",
+                    "suggested-action"
+                  ]
+
+                  action-name: "win.new";
+
+                  child: Adw.ButtonContent {
+                    icon-name: "tab-new-symbolic";
+                    label: _("New tab");
+                  };
+                }
+
+                Gtk.Button {
+                  styles [
+                    "pill"
+                  ]
+
+                  action-name: "win.open";
+
+                  child: Adw.ButtonContent {
+                    icon-name: "document-open-symbolic";
+                    label: _("Open request...");
+                  };
+                }
+              }
+            };
+          };
+        }
+
+        StackPage {
+          name: "tabview";
+
+          child: Adw.TabView tabview {};
+        }
+      }
+    }
+  }
+}
+
+menu main_menu {
+  section {
+    item {
+      label: _("New tab");
+      action: "win.new";
+    }
+
+    item {
+      label: _("Open request...");
+      action: "win.open";
+    }
+
+    item {
+      label: _("Save request");
+      action: "win.save";
+    }
+
+    item {
+      label: _("Save request as...");
+      action: "win.save-as";
+    }
+
+    item {
+      label: _("Close tab");
+      action: "win.close";
+    }
+  }
+
+  section {
+    submenu {
+      label: _("Body appearance");
+
+      section {
+        item {
+          label: _("Wrap content");
+          action: "win.body-wrap";
+        }
+
+        item {
+          label: _("Show line numbers");
+          action: "win.show-line-numbers";
+        }
+      }
+
+      section {
+        item {
+          label: _("Automatic indentation");
+          action: "win.auto-indent";
+        }
+
+        item {
+          label: _("Indent with spaces");
+          action: "win.indent-style";
+          target: "spaces";
+        }
+
+        item {
+          label: _("Indent with tabs");
+          action: "win.indent-style";
+          target: "tabs";
+        }
+
+        submenu {
+          label: _("Spaces per tab");
+
+          item {
+            label: _("2");
+            action: "win.tab-width";
+            target: "2";
+          }
+
+          item {
+            label: _("4");
+            action: "win.tab-width";
+            target: "4";
+          }
+
+          item {
+            label: _("8");
+            action: "win.tab-width";
+            target: "8";
+          }
+        }
+      }
+    }
+  }
+
+  section {
+    item {
+      label: _("Keyboard shortcuts");
+      action: "win.show-help-overlay";
+    }
+
+    item {
+      label: _("About Cartero");
+      action: "win.about";
+    }
+
+    item {
+      label: _("Quit");
+      action: "app.quit";
+    }
+  }
+}

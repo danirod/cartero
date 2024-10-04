@@ -16,9 +16,11 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 global_conf = configuration_data()
-global_conf.set_quoted('BASE_ID', base_id)
 global_conf.set_quoted('APP_ID', application_id)
+global_conf.set_quoted('BASE_ID', base_id)
 global_conf.set_quoted('GETTEXT_PACKAGE', gettext_package)
+global_conf.set_quoted('PROFILE', profile)
+global_conf.set_quoted('RESOURCE_PATH', '/es/danirod/Cartero/')
 global_conf.set_quoted('VERSION', version + version_suffix)
 configure_file(
   input: 'config.rs.in',
@@ -36,13 +38,19 @@ run_command(
 cargo_options = [ '--manifest-path', meson.project_source_root() / 'Cargo.toml' ]
 cargo_options += [ '--target-dir', meson.project_build_root() / 'src' ]
 
-if get_option('profile') == 'default'
+if get_option('profile') == 'default' or host_machine.system() == 'windows'
   cargo_options += [ '--release' ]
   rust_target = 'release'
   message('Building in release mode')
 else
   rust_target = 'debug'
   message('Building in debug mode')
+endif
+
+if get_option('decorations') == 'csd'
+  cargo_options += ['--features=csd']
+else
+  cargo_options += ['--no-default-features']
 endif
 
 cargo_env = [ 'CARGO_HOME=' + meson.project_build_root() / 'cargo-home' ]

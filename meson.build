@@ -18,8 +18,8 @@
 project(
   'cartero',
   'rust',
-  version: '0.1',
-  meson_version: '>= 0.59',
+  version: '0.2.0',
+  meson_version: '>= 0.64',
   license: 'GPL-3.0-or-later',
 )
 
@@ -83,4 +83,17 @@ gnome.post_install(
   gtk_update_icon_cache: true,
   glib_compile_schemas: true,
   update_desktop_database: true,
+  update_mime_database: true,
 )
+
+if host_machine.system() == 'windows'
+  windows_setup = configure_file(
+    input: 'build-aux/win32-installer/installer.iss.in',
+    output: 'win32-installer.iss',
+    configuration: {
+      'MESON_SOURCE_ROOT': meson.project_source_root(),
+      'MESON_BUILD_ROOT': meson.project_build_root(),
+      'VERSION': version,
+    },
+  )
+endif

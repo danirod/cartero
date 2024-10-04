@@ -1,127 +1,430 @@
-# Spanish translations for cartero package.
-# Copyright (C) 2024 THE cartero'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the cartero package.
-# Automatically generated, 2024.
+#
+#  <>, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-06-22 13:39+0200\n"
-"PO-Revision-Date: 2024-06-22 13:16+0200\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"POT-Creation-Date: 2024-08-05 17:30+0200\n"
+"PO-Revision-Date: 2024-07-30 15:26+0200\n"
+"Last-Translator:  <>\n"
+"Language-Team: Spanish\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 46.1\n"
 
-#: data/cartero.desktop.in:3
+#: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:4
+msgid "Make HTTP requests and test APIs"
+msgstr "Haz peticiones HTTP y prueba APIs"
+
+#: data/cartero.appdata.xml.in.in:11
+msgid ""
+"Cartero is a graphical HTTP client that can be used as a developer tool to "
+"test web APIs and perform all kind of HTTP requests to web servers. It is "
+"compatible with any REST, SOAP or XML-RPC API and it supports multiple "
+"request methods as well as attaching body payloads to compatible requests."
+msgstr ""
+"Cartero es un cliente HTTP gráfico que puede usarse como herramienta de "
+"desarrollo para probar APIs web y hacer todo tipo de peticiones HTTP a "
+"servicios web. Es compatible con cualquier API REST, SOAP o XML-RPC y "
+"soporta múltiples métodos de petición así como adjuntar cuerpos a las "
+"peticiones compatibles."
+
+#: data/cartero.appdata.xml.in.in:12
+msgid "Features:"
+msgstr "Características:"
+
+#: data/cartero.appdata.xml.in.in:14
+msgid ""
+"Loads and saves to plain Git-friendly TOML files, so that you can own your "
+"data."
+msgstr ""
+"Carga y guarda a archivos TOML amigables con Git, para que puedas poseer tus "
+"datos."
+
+#: data/cartero.appdata.xml.in.in:15
+msgid ""
+"Customization and modification of the request headers and body payloads."
+msgstr ""
+"Personalización y modificación de las cabeceras y cuerpos de una petición."
+
+#: data/cartero.appdata.xml.in.in:16
+msgid "Variable binding for API keys and other secret information."
+msgstr "Enlazado de variables para claves API y otra información secreta."
+
+#: data/cartero.appdata.xml.in.in:22
+msgid "Main window of Cartero"
+msgstr "Ventana principal de Cartero"
+
+#: data/cartero.appdata.xml.in.in:26
+msgid "Modifying HTTP headers"
+msgstr "Modificando las cabeceras HTTP"
+
+#: data/cartero.appdata.xml.in.in:30
+msgid "Setting the request payload"
+msgstr "Estableciendo el cuerpo de la petición"
+
+#: data/cartero.desktop.in.in:3
 msgid "Cartero"
 msgstr "Cartero"
 
-#: data/cartero.desktop.in:4
-msgid "Make HTTP requests and test APIs."
-msgstr "Haz peticiones HTTP y prueba APIs."
-
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/cartero.desktop.in:10
+#: data/cartero.desktop.in.in:11
 msgid "Gnome;GTK;HTTP;REST;"
 msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:6
+msgid "Automatically indent new lines for the request body"
+msgstr "Indentar automáticamente nuevas líneas el cuerpo de la petición"
+
+#: data/es.danirod.Cartero.gschema.xml:10
 msgid "Wrap the body content"
 msgstr "Saltos de línea en el cuerpo"
 
-#: data/es.danirod.Cartero.gschema.xml:10
+#: data/es.danirod.Cartero.gschema.xml:14
+msgid "Whether to indent the request body with spaces or tabs"
+msgstr "Indentar el cuerpo de la petición con espacios o con tabuladores"
+
+#: data/es.danirod.Cartero.gschema.xml:18
+msgid "Show line numbers in the request and response bodies"
+msgstr "Mostrar los números de línea en los cuerpos de petición y respuesta"
+
+#: data/es.danirod.Cartero.gschema.xml:22
+msgid "How many characters to pad when indenting the request body"
+msgstr "Cuántos caracteres usar al indentar el cuerpo de la petición"
+
+#: data/es.danirod.Cartero.gschema.xml:27
 msgid "How large should new windows be"
 msgstr "Cómo de largas deben ser las ventanas nuevas"
 
-#: data/es.danirod.Cartero.gschema.xml:14
+#: data/es.danirod.Cartero.gschema.xml:31
 msgid "How tall should new windows be"
 msgstr "Cómo de altas deben ser las ventanas nuevas"
 
-#: data/ui/endpoint_pane.blp:50
-msgid "Close"
-msgstr "Cerrar"
+#: data/es.danirod.Cartero.gschema.xml:35
+msgid "Whether the application should open maximized"
+msgstr "Si la aplicación se debe abrir maximizada"
 
-#: data/ui/endpoint_pane.blp:71
-msgid "Request method"
-msgstr "Método de petición"
+#: data/es.danirod.Cartero.gschema.xml:39
+msgid "The position of the split between two windows"
+msgstr "La posición del separador entre ambas ventanas"
 
-#: data/ui/endpoint_pane.blp:77
+#: data/es.danirod.Cartero.gschema.xml:43
+msgid "The current list of opened files"
+msgstr "La lista actual de archivos abiertos"
+
+#: data/es.danirod.Cartero.gschema.xml:47
+msgid "The last location where a file was opened"
+msgstr "La última ubicación donde se abrió un archivo"
+
+#: data/es.danirod.Cartero.gschema.xml:51
+msgid "The last location where a file was saved"
+msgstr "La última ubicación donde se guardó un archivo"
+
+#: data/gtk/help_overlay.blp:26
+msgctxt "shortcuts window"
+msgid "General shortcuts"
+msgstr "Atajos generales"
+
+#: data/gtk/help_overlay.blp:29
+msgctxt "shortcuts window"
+msgid "Show Keyboard Shortcuts"
+msgstr "Mostrar atajos de teclado"
+
+#: data/gtk/help_overlay.blp:34
+msgctxt "shortcuts window"
+msgid "Quit"
+msgstr "Salir"
+
+#: data/gtk/help_overlay.blp:40
+msgctxt "shortcuts window"
+msgid "Tab operations"
+msgstr "Operaciones de pestaña"
+
+#: data/gtk/help_overlay.blp:43
+msgctxt "shortcuts window"
+msgid "New request tab"
+msgstr "Nueva pestaña de petición"
+
+#: data/gtk/help_overlay.blp:48
+msgctxt "shortcuts window"
+msgid "Open request"
+msgstr "Abrir petición"
+
+#: data/gtk/help_overlay.blp:53
+msgctxt "shortcuts window"
+msgid "Save request"
+msgstr "Guardar petición"
+
+#: data/gtk/help_overlay.blp:58
+msgctxt "shortcuts window"
+msgid "Save request as"
+msgstr "Guardar petición como"
+
+#: data/gtk/help_overlay.blp:63
+msgctxt "shortcuts window"
+msgid "Close request tab"
+msgstr "Cerrar pestaña de petición"
+
+#: data/gtk/help_overlay.blp:69
+msgctxt "shortcuts window"
+msgid "Request operations"
+msgstr "Operaciones de petición"
+
+#: data/gtk/help_overlay.blp:72
+msgctxt "shortcuts window"
+msgid "Send request"
+msgstr "Enviar petición"
+
+#: data/ui/endpoint_pane.blp:59
 msgid "Request URL"
 msgstr "URL de petición"
 
-#: data/ui/endpoint_pane.blp:83
+#: data/ui/endpoint_pane.blp:70
 msgid "Send"
 msgstr "Enviar"
 
-#: data/ui/endpoint_pane.blp:84
+#: data/ui/endpoint_pane.blp:71
 msgid "Execute this HTTP request"
 msgstr "Ejecutar esta petición HTTP"
 
-#: data/ui/endpoint_pane.blp:108 data/ui/response_panel.blp:13
+#: data/ui/endpoint_pane.blp:104
+msgid "Parameters"
+msgstr "Parámetros"
+
+#: data/ui/endpoint_pane.blp:125 data/ui/response_panel.blp:70
 msgid "Headers"
 msgstr "Cabeceras"
 
-#: data/ui/endpoint_pane.blp:121
+#: data/ui/endpoint_pane.blp:146
 msgid "Variables"
 msgstr "Variables"
 
-#: data/ui/endpoint_pane.blp:134 data/ui/response_panel.blp:24
+#: data/ui/endpoint_pane.blp:167 data/ui/response_panel.blp:47
 msgid "Body"
 msgstr "Cuerpo"
 
-#: data/ui/key_value_pane.blp:33
-msgid "Add new header"
-msgstr "Agregar cabecera"
-
-#: data/ui/key_value_row.blp:34
+#: data/ui/key_value_row.blp:40
 msgid "Name"
 msgstr "Nombre"
 
-#: data/ui/key_value_row.blp:40
+#: data/ui/key_value_row.blp:50
 msgid "Value"
 msgstr "Valor"
 
-#: data/ui/key_value_row.blp:51
+#: data/ui/key_value_row.blp:61
 msgid "Actions"
 msgstr "Acciones"
 
-#: data/ui/key_value_row.blp:62
+#: data/ui/key_value_row.blp:74
 msgid "Toggle secret"
 msgstr "Alternar secreto"
 
-#: data/ui/key_value_row.blp:69
+#: data/ui/key_value_row.blp:81
 msgid "Delete"
 msgstr "Borrar"
 
-#: data/ui/main_window.blp:36
+#: data/ui/main_window.blp:41 data/ui/main_window_no_csd.blp:39
 msgid "New"
 msgstr "Nuevo"
 
-#: data/ui/main_window.blp:47 data/ui/main_window.blp:58
+#: data/ui/main_window.blp:52 data/ui/main_window.blp:63
+#: data/ui/main_window_no_csd.blp:50 data/ui/main_window_no_csd.blp:61
+#: src/widgets/file_dialogs.rs:31
 msgid "Open"
 msgstr "Abrir"
 
-#: data/ui/main_window.blp:66
+#: data/ui/main_window.blp:71 data/ui/main_window_no_csd.blp:69
+#: src/widgets/file_dialogs.rs:75
 msgid "Save"
 msgstr "Guardar"
 
-#: data/ui/main_window.blp:89
-msgid "Wrap bodies"
-msgstr "Ajustar línea del cuerpo"
+#: data/ui/main_window.blp:95 data/ui/main_window_no_csd.blp:102
+msgid "Welcome to Cartero"
+msgstr "Bienvenido a Cartero"
 
-#: data/ui/main_window.blp:96
+#: data/ui/main_window.blp:96 data/ui/main_window_no_csd.blp:103
+msgid "Create or open a request and start testing APIs now."
+msgstr "Crea o abre una petición y empieza a probar APIs ahora."
+
+#: data/ui/main_window.blp:115 data/ui/main_window.blp:149
+#: data/ui/main_window_no_csd.blp:122 data/ui/main_window_no_csd.blp:156
+msgid "New tab"
+msgstr "Nueva pestaña"
+
+#: data/ui/main_window.blp:128 data/ui/main_window.blp:154
+#: data/ui/main_window_no_csd.blp:135 data/ui/main_window_no_csd.blp:161
+msgid "Open request..."
+msgstr "Abrir petición..."
+
+#: data/ui/main_window.blp:159 data/ui/main_window_no_csd.blp:166
+#: src/widgets/file_dialogs.rs:76
+msgid "Save request"
+msgstr "Guardar petición"
+
+#: data/ui/main_window.blp:164 data/ui/main_window_no_csd.blp:171
+msgid "Save request as..."
+msgstr "Guardar petición como..."
+
+#: data/ui/main_window.blp:169 data/ui/main_window_no_csd.blp:176
+msgid "Close tab"
+msgstr "Cerrar pestaña"
+
+#: data/ui/main_window.blp:176 data/ui/main_window_no_csd.blp:183
+msgid "Body appearance"
+msgstr "Apariencia del cuerpo"
+
+#: data/ui/main_window.blp:180 data/ui/main_window_no_csd.blp:187
+msgid "Wrap content"
+msgstr "Adaptar contenido"
+
+#: data/ui/main_window.blp:185 data/ui/main_window_no_csd.blp:192
+msgid "Show line numbers"
+msgstr "Mostrar números de línea"
+
+#: data/ui/main_window.blp:192 data/ui/main_window_no_csd.blp:199
+msgid "Automatic indentation"
+msgstr "Indentar automáticamente"
+
+#: data/ui/main_window.blp:197 data/ui/main_window_no_csd.blp:204
+msgid "Indent with spaces"
+msgstr "Indentar con espacios"
+
+#: data/ui/main_window.blp:203 data/ui/main_window_no_csd.blp:210
+msgid "Indent with tabs"
+msgstr "Indentar con tabuladores"
+
+#: data/ui/main_window.blp:209 data/ui/main_window_no_csd.blp:216
+msgid "Spaces per tab"
+msgstr "Espacios por tabulador"
+
+#: data/ui/main_window.blp:212 data/ui/main_window_no_csd.blp:219
+msgid "2"
+msgstr "2"
+
+#: data/ui/main_window.blp:218 data/ui/main_window_no_csd.blp:225
+msgid "4"
+msgstr "4"
+
+#: data/ui/main_window.blp:224 data/ui/main_window_no_csd.blp:231
+msgid "8"
+msgstr "8"
+
+#: data/ui/main_window.blp:235 data/ui/main_window_no_csd.blp:242
+msgid "Keyboard shortcuts"
+msgstr "Atajos de teclado"
+
+#: data/ui/main_window.blp:240 data/ui/main_window_no_csd.blp:247
 msgid "About Cartero"
 msgstr "Acerca de Cartero"
 
-#: src/app.rs:126
-msgid "The Cartero authors"
-msgstr ""
+#: data/ui/main_window.blp:245 data/ui/main_window_no_csd.blp:252
+msgid "Quit"
+msgstr "Salir"
 
-#: src/app.rs:127
-msgid "© 2024 the Cartero authors"
+#: data/ui/method_dropdown.blp:30
+msgid "Request method"
+msgstr "Método de petición"
+
+#: data/ui/payload_tab.blp:35
+msgid "Body type"
+msgstr "Tipo de cuerpo"
+
+#: data/ui/payload_tab.blp:81
+msgid "(none)"
+msgstr "(nada)"
+
+#: data/ui/payload_tab.blp:82
+msgid "URL Encoded"
+msgstr "URL Encoded"
+
+#: data/ui/payload_tab.blp:83
+msgid "Multipart Form Data"
+msgstr "Formulario Multipart"
+
+#: data/ui/payload_tab.blp:86
+msgid "Raw"
+msgstr "En bruto"
+
+#: data/ui/response_panel.blp:29
+msgid "Ready to request"
+msgstr "Listo para enviar"
+
+#: data/ui/response_panel.blp:30
+msgid "Use the Send button to send a network request and it will show here."
 msgstr ""
+"Usa el botón Enviar para enviar una petición de red y ver el resultado aquí."
+
+#: data/ui/save_dialog.blp:22
+msgid "Save changes?"
+msgstr "¿Guardar cambios?"
+
+#: data/ui/save_dialog.blp:23
+msgid "There are changes that have not been saved yet. What do you want to do?"
+msgstr "Hay cambios que todavía no han sido guardados. ¿Qué quieres hacer?"
+
+#: data/ui/save_dialog.blp:28
+msgid "_Cancel"
+msgstr "_Cancelar"
+
+#: data/ui/save_dialog.blp:29
+msgid "_Discard"
+msgstr "_Descartar"
+
+#: data/ui/save_dialog.blp:30
+msgid "_Save"
+msgstr "_Guardar"
+
+#: src/widgets/file_dialogs.rs:18
+msgid "Request (.cartero)"
+msgstr "Petición (.cartero)"
+
+#: src/widgets/file_dialogs.rs:20
+msgid "Request"
+msgstr "Petición"
+
+#: src/widgets/file_dialogs.rs:32
+msgid "Open request"
+msgstr "Abrir petición"
+
+#: src/widgets/item_pane.rs:99
+msgid "(untitled)"
+msgstr "(sin título)"
+
+#: src/widgets/item_pane.rs:115
+msgid "Draft"
+msgstr "Borrador"
+
+#: src/win.rs:495
+msgid "The Cartero authors"
+msgstr "Los autores de Cartero"
+
+#: src/win.rs:496
+msgid "© 2024 the Cartero authors"
+msgstr "© 2024 los autores de Cartero"
+
+#, fuzzy
+#~ msgid "Cartero request"
+#~ msgstr "Guardar petición"
+
+#~ msgid "Try making a new request"
+#~ msgstr "Prueba a hacer una nueva petición"
+
+#~ msgid "Use the button in the toolbar to create or open a request."
+#~ msgstr ""
+#~ "Usa el botón de la barra de herramientas para crear o abrir una petición."
+
+#~ msgid "Cancel"
+#~ msgstr "Cancelar"
+
+#~ msgid "Accept"
+#~ msgstr "Aceptar"
+
+#~ msgid "Add new header"
+#~ msgstr "Agregar cabecera"
+
+#~ msgid "Wrap bodies"
+#~ msgstr "Ajustar línea del cuerpo"

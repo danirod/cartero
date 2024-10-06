@@ -1,0 +1,408 @@
+# Russian translations for Cartero package.
+# Copyright (C) 2024 Dani Rodríguez
+# This file is distributed under the same license as the Cartero package.
+# Vladimir Kosolapov, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: cartero\n"
+"Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
+"POT-Creation-Date: 2024-08-05 17:30+0200\n"
+"PO-Revision-Date: 2024-10-05 15:30+0000\n"
+"Last-Translator: Vladimir Kosolapov\n"
+"Language-Team: Russian\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:4
+msgid "Make HTTP requests and test APIs"
+msgstr "Выполняйте HTTP-запросы и тестируйте API"
+
+#: data/cartero.appdata.xml.in.in:11
+msgid ""
+"Cartero is a graphical HTTP client that can be used as a developer tool to "
+"test web APIs and perform all kind of HTTP requests to web servers. It is "
+"compatible with any REST, SOAP or XML-RPC API and it supports multiple "
+"request methods as well as attaching body payloads to compatible requests."
+msgstr ""
+"Cartero — это графический HTTP-клиент, который можно использовать как "
+"инструмент разработчика для тестирования веб-API и выполнения различных "
+"HTTP-запросов к веб-серверам. Приложение совместимо с API REST, SOAP или "
+"XML-RPC и поддерживает несколько методов запросов, а также позволяет "
+"прикреплять тело запроса к совместимым методам."
+
+#: data/cartero.appdata.xml.in.in:12
+msgid "Features:"
+msgstr "Особенности:"
+
+#: data/cartero.appdata.xml.in.in:14
+msgid ""
+"Loads and saves to plain Git-friendly TOML files, so that you can own your "
+"data."
+msgstr ""
+"Загружает и сохраняет данные в простых файлах TOML, совместимых с Git, "
+"что позволяет вам контролировать свои данные."
+
+#: data/cartero.appdata.xml.in.in:15
+msgid ""
+"Customization and modification of the request headers and body payloads."
+msgstr ""
+"Настройка и изменение заголовков запроса и содержимого тела запроса."
+
+#: data/cartero.appdata.xml.in.in:16
+msgid "Variable binding for API keys and other secret information."
+msgstr "Привязка переменных для API-ключей и другой конфиденциальной информации."
+
+#: data/cartero.appdata.xml.in.in:22
+msgid "Main window of Cartero"
+msgstr "Главное окно Cartero"
+
+#: data/cartero.appdata.xml.in.in:26
+msgid "Modifying HTTP headers"
+msgstr "Изменение HTTP-заголовков"
+
+#: data/cartero.appdata.xml.in.in:30
+msgid "Setting the request payload"
+msgstr "Настройка тела запроса"
+
+#: data/cartero.desktop.in.in:3
+msgid "Cartero"
+msgstr "Cartero"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/cartero.desktop.in.in:11
+msgid "Gnome;GTK;HTTP;REST;"
+msgstr "GNOME;GTK;HTTP;REST;"
+
+#: data/es.danirod.Cartero.gschema.xml:6
+msgid "Automatically indent new lines for the request body"
+msgstr "Автоматически добавлять отступы для новых строк тела запроса"
+
+#: data/es.danirod.Cartero.gschema.xml:10
+msgid "Wrap the body content"
+msgstr "Переносить содержимое тела запроса"
+
+#: data/es.danirod.Cartero.gschema.xml:14
+msgid "Whether to indent the request body with spaces or tabs"
+msgstr "Использовать отступы в теле запроса: пробелы или табуляции"
+
+#: data/es.danirod.Cartero.gschema.xml:18
+msgid "Show line numbers in the request and response bodies"
+msgstr "Показывать номера строк в теле запроса и ответа"
+
+#: data/es.danirod.Cartero.gschema.xml:22
+msgid "How many characters to pad when indenting the request body"
+msgstr "Количество символов для отступов в теле запроса"
+
+#: data/es.danirod.Cartero.gschema.xml:27
+msgid "How large should new windows be"
+msgstr "Размер новых окон"
+
+#: data/es.danirod.Cartero.gschema.xml:31
+msgid "How tall should new windows be"
+msgstr "Высота новых окон"
+
+#: data/es.danirod.Cartero.gschema.xml:35
+msgid "Whether the application should open maximized"
+msgstr "Открывать приложение в полноэкранном режиме"
+
+#: data/es.danirod.Cartero.gschema.xml:39
+msgid "The position of the split between two windows"
+msgstr "Расположение разделения между двумя окнами"
+
+#: data/es.danirod.Cartero.gschema.xml:43
+msgid "The current list of opened files"
+msgstr "Текущий список открытых файлов"
+
+#: data/es.danirod.Cartero.gschema.xml:47
+msgid "The last location where a file was opened"
+msgstr "Последнее место, где был открыт файл"
+
+#: data/es.danirod.Cartero.gschema.xml:51
+msgid "The last location where a file was saved"
+msgstr "Последнее место, где был сохранён файл"
+
+#: data/gtk/help_overlay.blp:26
+msgctxt "shortcuts window"
+msgid "General shortcuts"
+msgstr "Общие"
+
+#: data/gtk/help_overlay.blp:29
+msgctxt "shortcuts window"
+msgid "Show Keyboard Shortcuts"
+msgstr "Показать комбинации клавиш"
+
+#: data/gtk/help_overlay.blp:34
+msgctxt "shortcuts window"
+msgid "Quit"
+msgstr "Выход"
+
+#: data/gtk/help_overlay.blp:40
+msgctxt "shortcuts window"
+msgid "Tab operations"
+msgstr "Операции с вкладками"
+
+#: data/gtk/help_overlay.blp:43
+msgctxt "shortcuts window"
+msgid "New request tab"
+msgstr "Новая вкладка запроса"
+
+#: data/gtk/help_overlay.blp:48
+msgctxt "shortcuts window"
+msgid "Open request"
+msgstr "Открыть запрос"
+
+#: data/gtk/help_overlay.blp:53
+msgctxt "shortcuts window"
+msgid "Save request"
+msgstr "Сохранить запрос"
+
+#: data/gtk/help_overlay.blp:58
+msgctxt "shortcuts window"
+msgid "Save request as"
+msgstr "Сохранить запрос как"
+
+#: data/gtk/help_overlay.blp:63
+msgctxt "shortcuts window"
+msgid "Close request tab"
+msgstr "Закрыть вкладку запроса"
+
+#: data/gtk/help_overlay.blp:69
+msgctxt "shortcuts window"
+msgid "Request operations"
+msgstr "Операции с запросом"
+
+#: data/gtk/help_overlay.blp:72
+msgctxt "shortcuts window"
+msgid "Send request"
+msgstr "Отправить запрос"
+
+#: data/ui/endpoint_pane.blp:59
+msgid "Request URL"
+msgstr "URL-адрес запроса"
+
+#: data/ui/endpoint_pane.blp:70
+msgid "Send"
+msgstr "Отправить"
+
+#: data/ui/endpoint_pane.blp:71
+msgid "Execute this HTTP request"
+msgstr "Выполнить этот HTTP-запрос"
+
+#: data/ui/endpoint_pane.blp:104
+msgid "Parameters"
+msgstr "Параметры"
+
+#: data/ui/endpoint_pane.blp:125 data/ui/response_panel.blp:70
+msgid "Headers"
+msgstr "Заголовки"
+
+#: data/ui/endpoint_pane.blp:146
+msgid "Variables"
+msgstr "Переменные"
+
+#: data/ui/endpoint_pane.blp:167 data/ui/response_panel.blp:47
+msgid "Body"
+msgstr "Тело"
+
+#: data/ui/key_value_row.blp:40
+msgid "Name"
+msgstr "Имя"
+
+#: data/ui/key_value_row.blp:50
+msgid "Value"
+msgstr "Значение"
+
+#: data/ui/key_value_row.blp:61
+msgid "Actions"
+msgstr "Действия"
+
+#: data/ui/key_value_row.blp:74
+msgid "Toggle secret"
+msgstr "Скрыть значение"
+
+#: data/ui/key_value_row.blp:81
+msgid "Delete"
+msgstr "Удалить"
+
+#: data/ui/main_window.blp:41 data/ui/main_window_no_csd.blp:39
+msgid "New"
+msgstr "Новая вкладка"
+
+#: data/ui/main_window.blp:52 data/ui/main_window.blp:63
+#: data/ui/main_window_no_csd.blp:50 data/ui/main_window_no_csd.blp:61
+#: src/widgets/file_dialogs.rs:31
+msgid "Open"
+msgstr "Открыть"
+
+#: data/ui/main_window.blp:71 data/ui/main_window_no_csd.blp:69
+#: src/widgets/file_dialogs.rs:75
+msgid "Save"
+msgstr "Сохранить"
+
+#: data/ui/main_window.blp:95 data/ui/main_window_no_csd.blp:102
+msgid "Welcome to Cartero"
+msgstr "Добро пожаловать в Cartero"
+
+#: data/ui/main_window.blp:96 data/ui/main_window_no_csd.blp:103
+msgid "Create or open a request and start testing APIs now."
+msgstr "Создайте или откройте запрос и начните тестировать API прямо сейчас."
+
+#: data/ui/main_window.blp:115 data/ui/main_window.blp:149
+#: data/ui/main_window_no_csd.blp:122 data/ui/main_window_no_csd.blp:156
+msgid "New tab"
+msgstr "Новая вкладка"
+
+#: data/ui/main_window.blp:128 data/ui/main_window.blp:154
+#: data/ui/main_window_no_csd.blp:135 data/ui/main_window_no_csd.blp:161
+msgid "Open request..."
+msgstr "Открыть запрос..."
+
+#: data/ui/main_window.blp:159 data/ui/main_window_no_csd.blp:166
+#: src/widgets/file_dialogs.rs:76
+msgid "Save request"
+msgstr "Сохранить запрос"
+
+#: data/ui/main_window.blp:164 data/ui/main_window_no_csd.blp:171
+msgid "Save request as..."
+msgstr "Сохранить запрос как..."
+
+#: data/ui/main_window.blp:169 data/ui/main_window_no_csd.blp:176
+msgid "Close tab"
+msgstr "Закрыть вкладку"
+
+#: data/ui/main_window.blp:176 data/ui/main_window_no_csd.blp:183
+msgid "Body appearance"
+msgstr "Внешний вид тела запроса"
+
+#: data/ui/main_window.blp:180 data/ui/main_window_no_csd.blp:187
+msgid "Wrap content"
+msgstr "Переносить содержимое"
+
+#: data/ui/main_window.blp:185 data/ui/main_window_no_csd.blp:192
+msgid "Show line numbers"
+msgstr "Показывать номера строк"
+
+#: data/ui/main_window.blp:192 data/ui/main_window_no_csd.blp:199
+msgid "Automatic indentation"
+msgstr "Автоматический отступ"
+
+#: data/ui/main_window.blp:197 data/ui/main_window_no_csd.blp:204
+msgid "Indent with spaces"
+msgstr "Пробелы"
+
+#: data/ui/main_window.blp:203 data/ui/main_window_no_csd.blp:210
+msgid "Indent with tabs"
+msgstr "Табуляция"
+
+#: data/ui/main_window.blp:209 data/ui/main_window_no_csd.blp:216
+msgid "Spaces per tab"
+msgstr "Пробелов на табуляцию"
+
+#: data/ui/main_window.blp:212 data/ui/main_window_no_csd.blp:219
+msgid "2"
+msgstr "2"
+
+#: data/ui/main_window.blp:218 data/ui/main_window_no_csd.blp:225
+msgid "4"
+msgstr "4"
+
+#: data/ui/main_window.blp:224 data/ui/main_window_no_csd.blp:231
+msgid "8"
+msgstr "8"
+
+#: data/ui/main_window.blp:235 data/ui/main_window_no_csd.blp:242
+msgid "Keyboard shortcuts"
+msgstr "Комбинации клавиш"
+
+#: data/ui/main_window.blp:240 data/ui/main_window_no_csd.blp:247
+msgid "About Cartero"
+msgstr "О приложении"
+
+#: data/ui/main_window.blp:245 data/ui/main_window_no_csd.blp:252
+msgid "Quit"
+msgstr "Выход"
+
+#: data/ui/method_dropdown.blp:30
+msgid "Request method"
+msgstr "Метод запроса"
+
+#: data/ui/payload_tab.blp:35
+msgid "Body type"
+msgstr "Тип тела"
+
+#: data/ui/payload_tab.blp:81
+msgid "(none)"
+msgstr "(нет)"
+
+#: data/ui/payload_tab.blp:82
+msgid "URL Encoded"
+msgstr "Кодированный URL"
+
+#: data/ui/payload_tab.blp:83
+msgid "Multipart Form Data"
+msgstr "Многочастичные данные"
+
+#: data/ui/payload_tab.blp:86
+msgid "Raw"
+msgstr "Простой"
+
+#: data/ui/response_panel.blp:29
+msgid "Ready to request"
+msgstr "Готов к запросу"
+
+#: data/ui/response_panel.blp:30
+msgid "Use the Send button to send a network request and it will show here."
+msgstr "Нажмите кнопку «Отправить», чтобы выполнить сетевой запрос. Результат появится здесь."
+
+#: data/ui/save_dialog.blp:22
+msgid "Save changes?"
+msgstr "Сохранить изменения?"
+
+#: data/ui/save_dialog.blp:23
+msgid "There are changes that have not been saved yet. What do you want to do?"
+msgstr "Есть несохраненные изменения. Что вы хотите сделать?"
+
+#: data/ui/save_dialog.blp:28
+msgid "_Cancel"
+msgstr "_Отмена"
+
+#: data/ui/save_dialog.blp:29
+msgid "_Discard"
+msgstr "_Отменить"
+
+#: data/ui/save_dialog.blp:30
+msgid "_Save"
+msgstr "_Сохранить"
+
+#: src/widgets/file_dialogs.rs:18
+msgid "Request (.cartero)"
+msgstr "Запрос (.cartero)"
+
+#: src/widgets/file_dialogs.rs:20
+msgid "Request"
+msgstr "Запрос"
+
+#: src/widgets/file_dialogs.rs:32
+msgid "Open request"
+msgstr "Открыть запрос"
+
+#: src/widgets/item_pane.rs:99
+msgid "(untitled)"
+msgstr "(без названия)"
+
+#: src/widgets/item_pane.rs:115
+msgid "Draft"
+msgstr "Черновик"
+
+#: src/win.rs:495
+msgid "The Cartero authors"
+msgstr "Авторы Cartero"
+
+#: src/win.rs:496
+msgid "© 2024 the Cartero authors"
+msgstr "© 2024 Авторы Cartero"

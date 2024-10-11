@@ -166,6 +166,7 @@ mkdir -p "$RESOURCES_ROOT/en.lproj"
 mkdir -p "$RESOURCES_ROOT/eo.lproj"
 mkdir -p "$RESOURCES_ROOT/es.lproj"
 mkdir -p "$RESOURCES_ROOT/ro.lproj"
+mkdir -p "$RESOURCES_ROOT/ru.lproj"
 
 # Create Info.plist
 cat > "$APP_ROOT/Contents/Info.plist" << EOF
@@ -252,3 +253,4 @@ cp "$RESOURCES_ROOT/CarteroRequest.iconset/icon_256x256.png" "$RESOURCES_ROOT/Ca
 cp "$RESOURCES_ROOT/CarteroRequest.iconset/icon_512x512.png" "$RESOURCES_ROOT/CarteroRequest.iconset/icon_256x256@2x.png"
 iconutil -c icns "$RESOURCES_ROOT/CarteroRequest.iconset"
 rm -rf "$RESOURCES_ROOT/CarteroRequest.iconset"
+

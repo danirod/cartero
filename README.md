@@ -43,9 +43,9 @@ You can also download a version for Windows or macOS.
 
 |                             | Platform                   | Latest version                       |
 |-----------------------------|----------------------------|--------------------------------------|
-| ![Windows](doc/windows.png) | Windows, x86_64            | [v0.1.1 (installer)][windows-x86_64] |
-| ![macOS](doc/macos.png)     | macOS, Apple Sillicon      | [v0.1.1 (.dmg)][macos-sillicon]      |
-| ![macOS](doc/macos.png)     | macOS, Intel               | [v0.1.1 (.dmg)][macos-intel]         |
+| ![Windows](doc/windows.png) | Windows, x86_64            | [v0.1.2 (installer)][windows-x86_64] |
+| ![macOS](doc/macos.png)     | macOS, Apple Sillicon      | [v0.1.2 (.dmg)][macos-sillicon]      |
+| ![macOS](doc/macos.png)     | macOS, Intel               | [v0.1.2 (.dmg)][macos-intel]         |
 
 ## Building
 
@@ -270,6 +270,6 @@ Dani's [dev blog][blog] (in Spanish) of Cartero.
 [danirod]: https://github.com/danirod
 [fork]: https://github.com/danirod/cartero/fork
 [blog]: https://danirod.es/secciones/devlogs/cartero/
-[windows-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.1/Cartero-0.1.1-windows-x64.exe
-[macos-sillicon]: https://github.com/danirod/cartero/releases/download/v0.1.1/Cartero-0.1.1-macOS-ARM64.dmg
-[macos-intel]: https://github.com/danirod/cartero/releases/download/v0.1.1/Cartero-0.1.1-macOS-Intel.dmg
+[windows-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.2/Cartero-0.1.2-windows-x64.exe
+[macos-sillicon]: https://github.com/danirod/cartero/releases/download/v0.1.2/Cartero-0.1.2-macOS-ARM64.dmg
+[macos-intel]: https://github.com/danirod/cartero/releases/download/v0.1.2/Cartero-0.1.2-macOS-Intel.dmg

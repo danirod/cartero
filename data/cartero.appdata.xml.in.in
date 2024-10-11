@@ -51,18 +51,20 @@
   </branding>
   <releases>
     <release date="2024-10-11" version="0.1.2">
-      <p>This is a minor release that addresses some issues and fixes some things found.</p>
-      <p>:</p>
-      <ul>
-        <li>It is now possible to open multiple files using the dialog picker.</li>
-        <li>Translation updates (Russian)</li>
-      </ul>
-      <p>Fixed:</p>
-      <ul>
-        <li>Fix translation for the about and shortcuts dialog.</li>
-        <li>Word wrapping of long lines without spaces did not work properly.</li>
-        <li>Deactivate toolbar buttons if no request are open.</li>
-      </ul>
+      <description translate="no">
+        <p>This is a minor release that addresses some issues and fixes some things found.</p>
+        <p>:</p>
+        <ul>
+          <li>It is now possible to open multiple files using the dialog picker.</li>
+          <li>Translation updates (Russian)</li>
+        </ul>
+        <p>Fixed:</p>
+        <ul>
+          <li>Fix translation for the about and shortcuts dialog.</li>
+          <li>Word wrapping of long lines without spaces did not work properly.</li>
+          <li>Deactivate toolbar buttons if no request are open.</li>
+        </ul>
+      </description>
     </release>
     <release date="2024-07-30" version="0.1.1">
       <description translate="no">

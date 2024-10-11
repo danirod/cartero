@@ -1,5 +1,21 @@
 # News file for Cartero
 
+## [0.1.2] - 2024-10-11
+
+This is a minor release that addresses some issues and fixes some things found.
+
+### Changed
+
+* It is now possible to open multiple files using the dialog picker.
+* Translation updates:
+  * Russian
+
+### Fixed
+
+* Fix translation for the about and shortcuts dialog.
+* Word wrapping of long lines without spaces did not work properly.
+* Deactivate toolbar buttons if no request are open.
+
 ## [0.1.1] - 2024-27-30
 
 This is a minor release that addresses some issues and small changes found in the last couple of days. It accepts feedback from the community and even some pull requests received in the last days.

@@ -38,7 +38,8 @@ You can also download a version for Windows or macOS.
 > [!WARNING]
 > **The Windows and macOS versions are currently not notarized or signed.**
 > On first run on Windows, you'll need to confirm the SmartScreen warning.
-> On first run on macOS, you'll need to right click the app and use the Open menu.
+> On first run on macOS, you'll need to allow opening apps from unidentified developers.
+> [Visit Apple Support for more information and instructions depending on your OS version](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unknown-developer-mh40616/mac).
 > If you don't trust these binary distributions, you can always build from sources.
 
 |                             | Platform                   | Latest version                       |
@@ -65,6 +66,20 @@ flatpak-builder --user --install flatpak_app build-aux/es.danirod.Cartero.json
 
 You will find Cartero in your application launcher, or you can launch it with
 `flatpak run es.danirod.Cartero`.
+
+### Homebrew
+
+To install Cartero from this cask, simply add this repository as a tap.
+
+```sh
+brew tap SoloAntonio/cartero
+```
+
+Now you can install any version hosted as cask with
+
+```sh
+brew install --cask cartero
+```
 
 ### Meson
 

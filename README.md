@@ -38,8 +38,8 @@ You can also download a version for Windows or macOS.
 > [!WARNING]
 > **The Windows and macOS versions are currently not notarized or signed.**
 > On first run on Windows, you'll need to confirm the SmartScreen warning.
-> On first run on macOS, you'll need to right click the app and use the Open menu.
-> [Visit Apple Support](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unknown-developer-mh40616/mac).
+> On first run on macOS, you'll need to allow opening apps from unidentified developers.
+> [Visit Apple Support for more information and instructions depending on your OS version](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unknown-developer-mh40616/mac).
 > If you don't trust these binary distributions, you can always build from sources.
 
 |                             | Platform                   | Latest version                       |

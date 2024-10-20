@@ -251,8 +251,8 @@ impl ResponsePanel {
         // This will stop classes with higher priorities to override the currently
         // needed one by resetting the classes, see [this](https://github.com/danirod/cartero/issues/83).
         let possible_classes = vec!["success", "warning", "error", "neutral"];
-        for x in possible_classes {
-            imp.status_code.remove_css_class(x);
+        for css_class in possible_classes {
+            imp.status_code.remove_css_class(css_class);
         }
 
         imp.status_code.add_css_class(&status_color);

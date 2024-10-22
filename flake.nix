@@ -33,13 +33,32 @@
           LD_LIBRARY_PATH = lib.makeLibraryPath [
             gtk4
             libadwaita
+            glib
           ];
 
-          buildInputs = [
-            rustc
+          nativeBuildInputs = [
             meson
             ninja
             cargo
+            rustc
+            rustfmt
+            pkg-config
+            blueprint-compiler
+            desktop-file-utils
+            gtk4
+            shared-mime-info
+            glib
+            wrapGAppsHook
+            hicolor-icon-theme
+          ];
+
+          buildInputs = [
+            gtksourceview5
+            pango
+            gdk-pixbuf
+            openssl_3_3
+            graphene
+            libadwaita
           ];
         };
 

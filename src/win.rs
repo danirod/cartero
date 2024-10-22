@@ -15,20 +15,32 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use crate::{app::CarteroApplication, error::CarteroError};
+use std::path::PathBuf;
+
+use crate::{app::CarteroApplication, error::CarteroError, objects::Collection};
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
+use gtk::prelude::*;
 use gtk::{gio, glib, prelude::SettingsExtManual};
 
 mod imp {
+    use std::path::Path;
+    use std::path::PathBuf;
+
     use adw::prelude::AlertDialogExtManual;
+    use adw::prelude::*;
     use adw::AboutWindow;
     use adw::{subclass::prelude::*, TabPage};
     use gettextrs::gettext;
+    use glib::closure_local;
+    use gtk::gio::File;
     use gtk::gio::{self, ActionEntry};
     use gtk::prelude::*;
 
+    use crate::fs::collection::open_collection;
+    use crate::objects::Collection;
     use crate::utils::SingleExpressionWatch;
+    use crate::widgets::*;
     use crate::{app::CarteroApplication, error::CarteroError};
     use crate::{config, widgets::*};
     use glib::subclass::InitializingObject;
@@ -51,6 +63,12 @@ mod imp {
         pub window_title: TemplateChild<adw::WindowTitle>,
 
         #[template_child]
+        pub collections: TemplateChild<Sidebar>,
+
+        #[template_child]
+        pub split_view: TemplateChild<adw::OverlaySplitView>,
+
+        #[template_child]
         stack: TemplateChild<gtk::Stack>,
 
         window_title_binding: SingleExpressionWatch,
@@ -70,6 +88,9 @@ mod imp {
 
         #[template_child]
         pub tabview: TemplateChild<adw::TabView>,
+
+        #[template_child]
+        pub split_view: TemplateChild<adw::OverlaySplitView>,
 
         #[template_child]
         stack: TemplateChild<gtk::Stack>,
@@ -219,9 +240,9 @@ mod imp {
                     self.tabview.close_page(&tp);
                 }
             }
-
             match ItemPane::new_for_endpoint(file).await {
                 Ok(pane) => {
+                    self.split_view.set_property("show-sidebar", true);
                     self.stack.set_visible_child_name("tabview");
                     let page = self.tabview.add_page(&pane, None);
                     pane.window_title_binding()
@@ -235,6 +256,42 @@ mod imp {
                     self.obj().toast_error(e);
                 }
             };
+        }
+
+        pub fn open_collection_pane(&self, collection: &Collection) {
+            let pane = CollectionPane::default();
+
+            pane.load_collection(collection);
+            let saved_collection = collection.downgrade();
+            pane.connect_closure(
+                "save-requested",
+                false,
+                closure_local!(move |pane: CollectionPane| {
+                    let collection = saved_collection.upgrade().unwrap();
+                    pane.save_collection(&collection);
+                }),
+            );
+
+            let page = self.tabview.add_page(&pane, None);
+            collection
+                .bind_property("name", &page, "title")
+                .sync_create()
+                .build();
+            self.tabview.set_selected_page(&page);
+        }
+
+        async fn trigger_new_collection(&self) -> Result<(), CarteroError> {
+            let app = CarteroApplication::get();
+            let settings = app.settings();
+
+            let window = &*self.obj();
+            let dialog = NewCollectionWindow::new();
+            let last_dir = settings
+                .get::<Option<String>>("last-directory-new-collection")
+                .unwrap_or("~/".into());
+            dialog.set_initial_directory(&last_dir);
+            dialog.present(window);
+            Ok(())
         }
 
         async fn trigger_open(&self) -> Result<(), CarteroError> {
@@ -268,6 +325,148 @@ mod imp {
             pane.set_dirty(false);
 
             Ok(())
+        }
+
+        async fn trigger_open_collection(&self) -> Result<(), CarteroError> {
+            // Get last directory from settings
+            let app = CarteroApplication::get();
+            let settings = app.settings();
+            let last_dir = settings
+                .get::<Option<String>>("last-directory-open-collection")
+                .unwrap_or("~/".into());
+            let last_dir_path = File::for_path(last_dir);
+
+            // Request for the collection directory.
+            let dialog = gtk::FileDialog::new();
+            dialog.set_initial_folder(Some(&last_dir_path));
+            let window = &*self.obj();
+            let Ok(result) = dialog.select_folder_future(Some(window)).await else {
+                return Err(CarteroError::FileDialogError);
+            };
+
+            // Save this as the most recent directory for the last-directory-open-collection
+            let path = result.path().unwrap();
+            let parent_dir = path.parent().and_then(Path::to_str);
+            let _ = settings.set("last-directory-open-collection", parent_dir);
+
+            match open_collection(&path) {
+                Ok(_) => self.finish_open_collection(&path),
+                Err(e) => Err(e),
+            }
+        }
+
+        /// Call this function to actually open a collection and add it to the sidebar
+        /// and to the recents list. Call to this function should be done always.
+        /// If you create a collection, just pass a pointer to the newly created
+        /// collection. If you open a collection, pass a pointer to the collection
+        /// that you are opening.
+        pub fn finish_open_collection(&self, path: &Path) -> Result<(), CarteroError> {
+            let app = CarteroApplication::get();
+            let settings = app.settings();
+
+            // Update the open collections list.
+            let mut value: Vec<String> = settings.get("open-collections");
+            let Some(new_path) = path.to_str() else {
+                return Err(CarteroError::FileDialogError);
+            };
+            let new_path_str = new_path.to_string();
+
+            // Make sure that the collection is not already opened
+            let already_in = value.iter().any(|s| s == &new_path_str);
+            if already_in {
+                return Err(CarteroError::AlreadyOpened);
+            }
+
+            // Everything is fine
+            value.push(new_path_str);
+            settings
+                .set("open-collections", value)
+                .map_err(|_| CarteroError::FileDialogError)?;
+
+            // Finally, update the sidebar and close the dialog
+            self.collections.sync_collections(&settings);
+
+            Ok(())
+        }
+
+        pub fn finish_create_collection(&self, path: &PathBuf) -> Result<(), CarteroError> {
+            let app = CarteroApplication::get();
+            let settings = app.settings();
+
+            if let Some(new_initial_dir) = path.parent() {
+                let path_str = new_initial_dir.to_str();
+                let _ = settings.set("last-directory-new-collection", path_str);
+            }
+
+            let collection = Collection::new();
+            crate::fs::collection::save_collection(path, &collection)?;
+
+            self.finish_open_collection(path)
+        }
+
+        fn init_sidebar(&self) {
+            let obj = self.obj();
+            let application = obj
+                .application()
+                .and_downcast::<CarteroApplication>()
+                .unwrap();
+            let settings = application.settings();
+
+            self.collections.sync_collections(settings);
+        }
+
+        fn init_actions(&self) {
+            let action_new = ActionEntry::builder("new")
+                .activate(glib::clone!(@weak self as window => move |_, _, _| {
+                    window.add_endpoint(None);
+                }))
+                .build();
+
+            let action_request = ActionEntry::builder("request")
+                .activate(glib::clone!(@weak self as window => move |_, _, _| {
+                    glib::spawn_future_local(glib::clone!(@weak window => async move {
+                        if let Some(pane) = window.current_pane().and_then(|e| e.endpoint()) {
+                            pane.set_sensitive(false);
+                            if let Err(e) = pane.perform_request().await {
+                                window.toast_error(e);
+                            }
+                            pane.set_sensitive(true);
+                        }
+                    }));
+                }))
+                .build();
+
+            let action_new_collection = ActionEntry::builder("new-collection")
+                .activate(glib::clone!(@weak self as window => move |_, _, _| {
+                    glib::spawn_future_local(glib::clone!(@weak window => async move {
+                        if let Err(e) = window.trigger_new_collection().await {
+                            window.toast_error(e);
+                        }
+                    }));
+                }))
+                .build();
+
+            let action_open_collection = ActionEntry::builder("open-collection")
+                .activate(glib::clone!(@weak self as window => move |_, _, _| {
+                    glib::spawn_future_local(glib::clone!(@weak window => async move {
+                        if let Err(e) = window.trigger_open_collection().await {
+                            window.toast_error(e);
+                        }
+                    }));
+                }))
+                .build();
+
+            let obj = self.obj();
+            obj.add_action_entries([
+                action_new,
+                action_request,
+                action_new_collection,
+                action_open_collection,
+            ]);
+        }
+
+        pub(super) fn finish_init(&self) {
+            self.init_sidebar();
         }
 
         async fn save_pane_as(&self, pane: &ItemPane) -> Result<(), CarteroError> {
@@ -312,7 +511,7 @@ mod imp {
         }
 
         pub(super) fn toast_error(&self, error: CarteroError) {
-            let toast = adw::Toast::new(&error.to_string());
+            let toast: adw::Toast = adw::Toast::new(&error.to_string());
             self.toaster.add_toast(toast);
         }
 
@@ -374,13 +573,13 @@ mod imp {
     impl ObjectImpl for CarteroWindow {
         fn constructed(&self) {
             self.parent_constructed();
+            self.init_actions();
+            self.init_settings();
 
             if config::PROFILE == "Devel" {
                 let obj = self.obj();
                 obj.add_css_class("devel");
             }
-
-            self.init_settings();
 
             self.tabview.connect_selected_page_notify(
                 glib::clone!(@weak self as window => move |tabview| {
@@ -426,6 +625,7 @@ mod imp {
                 imp.update_tab_actions();
                 if imp.tabview.n_pages() == 0 {
                     imp.bind_current_tab(None);
+                    imp.split_view.set_property("show-sidebar", false);
                     imp.stack.set_visible_child_name("welcome");
                 }
                 true
@@ -579,7 +779,13 @@ glib::wrapper! {
 
 impl CarteroWindow {
     pub fn new(app: &CarteroApplication) -> Self {
-        Object::builder().property("application", Some(app)).build()
+        let win: CarteroWindow = Object::builder().property("application", Some(app)).build();
+
+        let imp = win.imp();
+        imp.finish_init();
+        imp.split_view.set_property("show-sidebar", false);
+
+        win
     }
 
     pub async fn add_endpoint(&self, ep: Option<&gio::File>) {
@@ -590,6 +796,28 @@ impl CarteroWindow {
     pub fn toast_error(&self, e: CarteroError) {
         let imp = self.imp();
         imp.toast_error(e);
+    }
+
+    pub fn open_collection_pane(&self, collection: &Collection) {
+        let imp = &self.imp();
+        imp.open_collection_pane(collection);
+    }
+
+    pub fn close_collection(&self, path: &str) {
+        let imp = self.imp();
+
+        let app = CarteroApplication::get();
+        let settings = app.settings();
+
+        let mut open_collections = settings.get::<Vec<String>>("open-collections");
+        open_collections.retain(|p| p != path);
+        let _ = settings.set("open-collections", open_collections);
+        imp.collections.sync_collections(settings);
+    }
+
+    pub fn finish_create_collection(&self, path: &PathBuf) -> Result<(), CarteroError> {
+        let imp = self.imp();
+        imp.finish_create_collection(path)
     }
 
     pub fn sync_open_files(&self) {

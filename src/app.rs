@@ -16,12 +16,14 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use adw::prelude::*;
+use adw::AboutWindow;
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
 use gtk::gio::{self, ActionEntryBuilder, Settings};
-use gtk::prelude::ActionMapExtManual;
+use gtk::prelude::*;
+use gtk::subclass::prelude::*;
 
-use crate::config::{APP_ID, BASE_ID, RESOURCE_PATH};
+use crate::config::{self, APP_ID, BASE_ID, RESOURCE_PATH};
 use crate::win::CarteroWindow;
 
 #[macro_export]
@@ -40,6 +42,7 @@ mod imp {
 
     use adw::prelude::*;
     use adw::subclass::application::AdwApplicationImpl;
+
     use glib::subclass::{object::ObjectImpl, types::ObjectSubclass};
     use gtk::gio::Settings;
     use gtk::subclass::prelude::*;
@@ -81,11 +84,13 @@ mod imp {
             gtk::Window::set_default_icon_name(APP_ID);
 
             let obj = self.obj();
+            obj.set_accels_for_action("win.open-collection", &["<Primary><Shift>o"]);
             obj.set_accels_for_action("win.new", &[accelerator!("t")]);
             obj.set_accels_for_action("win.open", &[accelerator!("o")]);
             obj.set_accels_for_action("win.save", &[accelerator!("s")]);
             obj.set_accels_for_action("win.save-as", &[accelerator!("<Shift>s")]);
             obj.set_accels_for_action("win.close", &[accelerator!("w")]);
+            // obj.set_accels_for_action("win.request", &["<Primary>Return"]);
             obj.set_accels_for_action("win.request", &[accelerator!("Return")]);
             obj.set_accels_for_action("app.quit", &[accelerator!("q")]);
             obj.set_accels_for_action("win.show-help-overlay", &[accelerator!("question")]);

@@ -11,6 +11,12 @@ pub enum CarteroError {
     #[error("Internal error on file dialog")]
     FileDialogError,
 
+    #[error("Not a collection")]
+    NotValidCollection,
+
+    #[error("Collection already opened")]
+    AlreadyOpened,
+
     #[error("DNS error")]
     Dns,
 

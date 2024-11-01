@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-08-05 17:30+0200\n"
+"POT-Creation-Date: 2024-11-01 21:04+0100\n"
 "PO-Revision-Date: 2024-07-30 15:26+0200\n"
 "Last-Translator:  <>\n"
 "Language-Team: Spanish\n"
@@ -179,6 +179,10 @@ msgctxt "shortcuts window"
 msgid "Send request"
 msgstr "Enviar petición"
 
+#: data/ui/code_export_pane.blp:58
+msgid "Copy"
+msgstr "Copiar"
+
 #: data/ui/endpoint_pane.blp:59
 msgid "Request URL"
 msgstr "URL de petición"
@@ -206,6 +210,18 @@ msgstr "Variables"
 #: data/ui/endpoint_pane.blp:167 data/ui/response_panel.blp:47
 msgid "Body"
 msgstr "Cuerpo"
+
+#: data/ui/endpoint_pane.blp:175
+msgid "Export request"
+msgstr "Exportar petición"
+
+#: data/ui/export_tab.blp:35
+msgid "Export to"
+msgstr "Exportar como"
+
+#: data/ui/export_tab.blp:69 data/ui/payload_tab.blp:81
+msgid "(none)"
+msgstr "(nada)"
 
 #: data/ui/key_value_row.blp:40
 msgid "Name"
@@ -333,10 +349,6 @@ msgstr "Método de petición"
 msgid "Body type"
 msgstr "Tipo de cuerpo"
 
-#: data/ui/payload_tab.blp:81
-msgid "(none)"
-msgstr "(nada)"
-
 #: data/ui/payload_tab.blp:82
 msgid "URL Encoded"
 msgstr "URL Encoded"
@@ -378,6 +390,10 @@ msgstr "_Descartar"
 msgid "_Save"
 msgstr "_Guardar"
 
+#: src/widgets/export_tab/code.rs:114
+msgid "Content copied to the clipboard"
+msgstr "Contenido copiado al portapapeles"
+
 #: src/widgets/file_dialogs.rs:18
 msgid "Request (.cartero)"
 msgstr "Petición (.cartero)"
@@ -398,11 +414,11 @@ msgstr "(sin título)"
 msgid "Draft"
 msgstr "Borrador"
 
-#: src/win.rs:495
+#: src/win.rs:516
 msgid "The Cartero authors"
 msgstr "Los autores de Cartero"
 
-#: src/win.rs:496
+#: src/win.rs:517
 msgid "© 2024 the Cartero authors"
 msgstr "© 2024 los autores de Cartero"
 

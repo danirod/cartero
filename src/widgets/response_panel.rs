@@ -255,7 +255,7 @@ impl ResponsePanel {
             imp.status_code.remove_css_class(css_class);
         }
 
-        imp.status_code.add_css_class(&status_color);
+        imp.status_code.add_css_class(status_color);
 
         let duration = format!("{} s", resp.seconds());
         imp.duration.set_text(&duration);

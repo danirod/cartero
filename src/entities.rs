@@ -220,6 +220,13 @@ pub enum RequestPayload {
 }
 
 #[derive(Debug, Default, Clone, Eq, PartialEq)]
+pub enum RequestExportType {
+    #[default]
+    None,
+    Curl(EndpointData),
+}
+
+#[derive(Debug, Default, Clone, Eq, PartialEq)]
 pub struct EndpointData {
     pub url: String,
     pub method: RequestMethod,

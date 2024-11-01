@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-07-30 16:10+0200\n"
+"POT-Creation-Date: 2024-11-01 21:04+0100\n"
 "PO-Revision-Date: 2024-07-30 15:00+0200\n"
 "Last-Translator:  <>\n"
 "Language-Team: Esperanto\n"
@@ -116,6 +116,10 @@ msgstr ""
 msgid "The last location where a file was saved"
 msgstr ""
 
+#: data/ui/code_export_pane.blp:58
+msgid "Copy"
+msgstr "Kopii"
+
 #: data/ui/endpoint_pane.blp:59
 msgid "Request URL"
 msgstr "URL"
@@ -143,6 +147,18 @@ msgstr "Variabloj"
 #: data/ui/endpoint_pane.blp:167 data/ui/response_panel.blp:47
 msgid "Body"
 msgstr "Korpo"
+
+#: data/ui/endpoint_pane.blp:175
+msgid "Export request"
+msgstr ""
+
+#: data/ui/export_tab.blp:35
+msgid "Export to"
+msgstr ""
+
+#: data/ui/export_tab.blp:69 data/ui/payload_tab.blp:81
+msgid "(none)"
+msgstr ""
 
 #: data/ui/key_value_row.blp:40
 msgid "Name"
@@ -275,10 +291,6 @@ msgstr "HTTP-metodo"
 msgid "Body type"
 msgstr "Korpo"
 
-#: data/ui/payload_tab.blp:81
-msgid "(none)"
-msgstr ""
-
 #: data/ui/payload_tab.blp:82
 msgid "URL Encoded"
 msgstr ""
@@ -320,6 +332,10 @@ msgstr ""
 msgid "_Save"
 msgstr "Konservi"
 
+#: src/widgets/export_tab/code.rs:114
+msgid "Content copied to the clipboard"
+msgstr ""
+
 #: src/widgets/file_dialogs.rs:18
 msgid "Request (.cartero)"
 msgstr "Petdosiero (.cartero)"
@@ -341,11 +357,11 @@ msgstr ""
 msgid "Draft"
 msgstr ""
 
-#: src/win.rs:495
+#: src/win.rs:516
 msgid "The Cartero authors"
 msgstr ""
 
-#: src/win.rs:496
+#: src/win.rs:517
 msgid "© 2024 the Cartero authors"
 msgstr ""
 

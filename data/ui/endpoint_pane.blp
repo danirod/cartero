@@ -169,6 +169,14 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
 
               child: $CarteroPayloadTab payload_pane {};
             }
+
+            NotebookPage {
+              tab: Label {
+                label: _("Export request");
+              };
+
+              child: $CarteroExportTab export_pane {};
+            }
           }
         };
 

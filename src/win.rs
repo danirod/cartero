@@ -316,6 +316,11 @@ mod imp {
             self.toaster.add_toast(toast);
         }
 
+        pub(super) fn toast_message(&self, msg: &str) {
+            let toast = adw::Toast::new(msg);
+            self.toaster.add_toast(toast);
+        }
+
         fn get_modified_panes(&self) -> Vec<ItemPane> {
             let pages = self.tabview.pages();
             let count = pages.n_items();
@@ -590,6 +595,11 @@ impl CarteroWindow {
     pub fn toast_error(&self, e: CarteroError) {
         let imp = self.imp();
         imp.toast_error(e);
+    }
+
+    pub fn toast_message(&self, msg: &str) {
+        let imp = self.imp();
+        imp.toast_message(msg);
     }
 
     pub fn sync_open_files(&self) {

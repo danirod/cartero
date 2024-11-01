@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-07-30 15:27+0200\n"
+"POT-Creation-Date: 2024-11-01 21:04+0100\n"
 "PO-Revision-Date: 2024-07-30 15:26+0200\n"
 "Last-Translator:  <>\n"
 "Language-Team: Catalan\n"
@@ -124,6 +124,10 @@ msgstr "L'última ubicació on es va obrir un arxiu"
 msgid "The last location where a file was saved"
 msgstr "L'última ubicació on es va guardar un arxiu"
 
+#: data/ui/code_export_pane.blp:58
+msgid "Copy"
+msgstr "Copiar"
+
 #: data/ui/endpoint_pane.blp:59
 msgid "Request URL"
 msgstr "URL de petició"
@@ -151,6 +155,18 @@ msgstr "Variables"
 #: data/ui/endpoint_pane.blp:167 data/ui/response_panel.blp:47
 msgid "Body"
 msgstr "Cos"
+
+#: data/ui/endpoint_pane.blp:175
+msgid "Export request"
+msgstr "Exportar petició"
+
+#: data/ui/export_tab.blp:35
+msgid "Export to"
+msgstr "Exportar com"
+
+#: data/ui/export_tab.blp:69 data/ui/payload_tab.blp:81
+msgid "(none)"
+msgstr "(nada)"
 
 #: data/ui/key_value_row.blp:40
 msgid "Name"
@@ -278,10 +294,6 @@ msgstr "Mètode de petició"
 msgid "Body type"
 msgstr "Tipus de cos"
 
-#: data/ui/payload_tab.blp:81
-msgid "(none)"
-msgstr "(nada)"
-
 #: data/ui/payload_tab.blp:82
 msgid "URL Encoded"
 msgstr "URL Encoded"
@@ -323,6 +335,10 @@ msgstr "_Descartar"
 msgid "_Save"
 msgstr "_Guardar"
 
+#: src/widgets/export_tab/code.rs:114
+msgid "Content copied to the clipboard"
+msgstr "Contingut copiat al porta-retalls"
+
 #: src/widgets/file_dialogs.rs:18
 msgid "Request (.cartero)"
 msgstr "Petició (.cartero)"
@@ -343,11 +359,11 @@ msgstr "(sense títol)"
 msgid "Draft"
 msgstr "Esborrany"
 
-#: src/win.rs:495
+#: src/win.rs:516
 msgid "The Cartero authors"
 msgstr "Els autors de Cartero"
 
-#: src/win.rs:496
+#: src/win.rs:517
 msgid "© 2024 the Cartero authors"
 msgstr "© 2024 Els autors de Cartero"
 

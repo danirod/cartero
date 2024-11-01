@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-07-30 16:10+0200\n"
+"POT-Creation-Date: 2024-11-01 21:04+0100\n"
 "PO-Revision-Date: 2024-07-30 15:00+0200\n"
 "Last-Translator:  <>\n"
 "Language-Team: Romanian\n"
@@ -116,6 +116,10 @@ msgstr "Ultima locație unde a fost deschis un fișier"
 msgid "The last location where a file was saved"
 msgstr "Ultima locație unde a fost salvat un fișier"
 
+#: data/ui/code_export_pane.blp:58
+msgid "Copy"
+msgstr ""
+
 #: data/ui/endpoint_pane.blp:59
 msgid "Request URL"
 msgstr "URL-ul cererii"
@@ -143,6 +147,18 @@ msgstr "Variabilele"
 #: data/ui/endpoint_pane.blp:167 data/ui/response_panel.blp:47
 msgid "Body"
 msgstr "Corpul"
+
+#: data/ui/endpoint_pane.blp:175
+msgid "Export request"
+msgstr ""
+
+#: data/ui/export_tab.blp:35
+msgid "Export to"
+msgstr ""
+
+#: data/ui/export_tab.blp:69 data/ui/payload_tab.blp:81
+msgid "(none)"
+msgstr "(niciunul)"
 
 #: data/ui/key_value_row.blp:40
 msgid "Name"
@@ -270,10 +286,6 @@ msgstr "Metoda cererii"
 msgid "Body type"
 msgstr "Tipul corpului"
 
-#: data/ui/payload_tab.blp:81
-msgid "(none)"
-msgstr "(niciunul)"
-
 #: data/ui/payload_tab.blp:82
 msgid "URL Encoded"
 msgstr "Codat URL"
@@ -316,6 +328,10 @@ msgstr "_Renunțați"
 msgid "_Save"
 msgstr "_Salvați"
 
+#: src/widgets/export_tab/code.rs:114
+msgid "Content copied to the clipboard"
+msgstr ""
+
 #: src/widgets/file_dialogs.rs:18
 msgid "Request (.cartero)"
 msgstr "Cerere (.cartero)"
@@ -336,10 +352,10 @@ msgstr "(fără titlu)"
 msgid "Draft"
 msgstr "Proiect"
 
-#: src/win.rs:495
+#: src/win.rs:516
 msgid "The Cartero authors"
 msgstr "Autorii Cartero"
 
-#: src/win.rs:496
+#: src/win.rs:517
 msgid "© 2024 the Cartero authors"
 msgstr "© 2024 autorii Cartero"

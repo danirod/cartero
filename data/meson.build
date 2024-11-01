@@ -17,12 +17,14 @@
 
 blueprint_files = [
   'gtk/help_overlay.blp',
+  'ui/code_export_pane.blp',
   'ui/endpoint_pane.blp',
+  'ui/export_tab.blp',
   'ui/formdata_payload_pane.blp',
-  'ui/main_window.blp',
-  'ui/main_window_no_csd.blp',
   'ui/key_value_pane.blp',
   'ui/key_value_row.blp',
+  'ui/main_window.blp',
+  'ui/main_window_no_csd.blp',
   'ui/method_dropdown.blp',
   'ui/payload_tab.blp',
   'ui/raw_payload_pane.blp',

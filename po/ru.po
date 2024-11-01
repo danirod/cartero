@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-08-05 17:30+0200\n"
+"POT-Creation-Date: 2024-11-01 21:04+0100\n"
 "PO-Revision-Date: 2024-10-05 15:30+0000\n"
 "Last-Translator: Vladimir Kosolapov\n"
 "Language-Team: Russian\n"
@@ -181,6 +181,10 @@ msgctxt "shortcuts window"
 msgid "Send request"
 msgstr "Отправить запрос"
 
+#: data/ui/code_export_pane.blp:58
+msgid "Copy"
+msgstr ""
+
 #: data/ui/endpoint_pane.blp:59
 msgid "Request URL"
 msgstr "URL-адрес запроса"
@@ -208,6 +212,18 @@ msgstr "Переменные"
 #: data/ui/endpoint_pane.blp:167 data/ui/response_panel.blp:47
 msgid "Body"
 msgstr "Тело"
+
+#: data/ui/endpoint_pane.blp:175
+msgid "Export request"
+msgstr ""
+
+#: data/ui/export_tab.blp:35
+msgid "Export to"
+msgstr ""
+
+#: data/ui/export_tab.blp:69 data/ui/payload_tab.blp:81
+msgid "(none)"
+msgstr "(нет)"
 
 #: data/ui/key_value_row.blp:40
 msgid "Name"
@@ -335,10 +351,6 @@ msgstr "Метод запроса"
 msgid "Body type"
 msgstr "Тип тела"
 
-#: data/ui/payload_tab.blp:81
-msgid "(none)"
-msgstr "(нет)"
-
 #: data/ui/payload_tab.blp:82
 msgid "URL Encoded"
 msgstr "Кодированный URL"
@@ -379,6 +391,10 @@ msgstr "_Отменить"
 msgid "_Save"
 msgstr "_Сохранить"
 
+#: src/widgets/export_tab/code.rs:114
+msgid "Content copied to the clipboard"
+msgstr ""
+
 #: src/widgets/file_dialogs.rs:18
 msgid "Request (.cartero)"
 msgstr "Запрос (.cartero)"
@@ -399,10 +415,10 @@ msgstr "(без названия)"
 msgid "Draft"
 msgstr "Черновик"
 
-#: src/win.rs:495
+#: src/win.rs:516
 msgid "The Cartero authors"
 msgstr "Авторы Cartero"
 
-#: src/win.rs:496
+#: src/win.rs:517
 msgid "© 2024 the Cartero authors"
 msgstr "© 2024 Авторы Cartero"

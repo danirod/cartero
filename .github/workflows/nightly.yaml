@@ -106,3 +106,17 @@ jobs:
       with:
         name: es.danirod.Cartero-${{ runner.os }}-${{ runner.arch }}
         path: build/Cartero-*.dmg
+  appimage:
+    name: "AppImage (GNU/Linux, glibc 2.38+)"
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Install dependencies
+      run: sudo apt update && sudo apt install -y --no-install-recommends gettext meson libgtk-4-dev libadwaita-1-dev libgtksourceview-5-dev desktop-file-utils xvfb libfuse2 libgtk-4-bin librsvg2-common
+    - uses: actions/checkout@v4
+    - name: Build
+      run: build-aux/appimage-build.sh devel
+    - name: Upload
+      uses: actions/upload-artifact@v4
+      with:
+        name: es.danirod.Cartero.Devel-AppImage
+        path: build/appimagetool/Cartero-x86_64.AppImage

@@ -1,0 +1,97 @@
+/*
+ * Copyright 2024 the Cartero authors
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+// SPDX-License-Identifier: GPL-3.0-or-later
+using Gtk 4.0;
+using Adw 1;
+
+template $CarteroNewRequestWindow: Adw.Dialog {
+  width-request: 500;
+  title: _("Create Request");
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {}
+
+    Adw.Clamp {
+      margin-top: 30;
+      margin-bottom: 30;
+      maximum-size: 400;
+
+      Box {
+        orientation: vertical;
+        spacing: 20;
+
+        ListBox {
+          selection-mode: none;
+
+          styles [
+            "boxed-list",
+          ]
+
+          Adw.EntryRow request_name {
+            title: _("Name");
+            changed => $on_request_name_changed() swapped;
+
+            [suffix]
+            Image request_name_taken {
+              visible: false;
+              margin-start: 9;
+              margin-end: 9;
+              icon-name: "dialog-error-symbolic";
+              tooltip-text: "A request with this name already exists";
+            }
+          }
+
+          Adw.ComboRow request_collection {
+            title: _("Collection");
+            model: model_collection;
+            
+            factory: Gtk.SignalListItemFactory {
+              setup => $on_collection_factory_setup();
+              bind => $on_collection_factory_bind();
+              unbind => $on_collection_factory_unbind();
+              teardown => $on_collection_factory_teardown();
+            };
+            
+            notify::selected => $on_collection_changed() swapped;
+          }
+        }
+
+        Box {
+          orientation: horizontal;
+          halign: end;
+
+          Button create_button {
+            styles [
+              "suggested-action"
+            ]
+
+            label: _("Create");
+            halign: end;
+            hexpand: false;
+            clicked => $on_create_request() swapped;
+          }
+        }
+      }
+    }
+  }
+}
+
+Gtk.SingleSelection model_collection {
+  can-unselect: false;
+  autoselect: false;
+}

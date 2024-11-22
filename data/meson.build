@@ -30,6 +30,7 @@ blueprint_files = [
   'ui/response_headers.blp',
   'ui/response_panel.blp',
   'ui/new_collection_window.blp',
+  'ui/new_request_window.blp',
   'ui/sidebar.blp',
   'ui/sidebar_row.blp',
   'ui/save_dialog.blp',

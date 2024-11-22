@@ -294,6 +294,13 @@ mod imp {
             Ok(())
         }
 
+        async fn trigger_new_request(&self) -> Result<(), CarteroError> {
+            let window = &*self.obj();
+            let dialog = NewRequestWindow::new();
+            dialog.present(window);
+            Ok(())
+        }
+
         async fn trigger_open(&self) -> Result<(), CarteroError> {
             // In order to place the modal, we need a reference to the public type.
             let obj = self.obj();
@@ -418,7 +425,11 @@ mod imp {
         fn init_actions(&self) {
             let action_new = ActionEntry::builder("new")
                 .activate(glib::clone!(@weak self as window => move |_, _, _| {
-                    window.add_endpoint(None);
+                    glib::spawn_future_local(glib::clone!(@weak window => async move {
+                        if let Err(e) = window.trigger_new_request().await {
+                            window.toast_error(e);
+                        }
+                    }));
                 }))
                 .build();
 
@@ -640,9 +651,11 @@ mod imp {
 
             let action_new = ActionEntry::builder("new")
                 .activate(glib::clone!(@weak self as window => move |_, _, _| {
-                    glib::spawn_future_local(async move {
-                        window.add_endpoint(None).await;
-                    });
+                    glib::spawn_future_local(glib::clone!(@weak window => async move {
+                        if let Err(e) = window.trigger_new_request().await {
+                            window.toast_error(e);
+                        }
+                    }));
                 }))
                 .build();
 

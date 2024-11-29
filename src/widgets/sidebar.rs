@@ -149,7 +149,9 @@ mod imp {
 
             match inner_value.node_type() {
                 TreeNodeKind::Endpoint => {
-                    window.add_endpoint(Some(&File::for_path(&path_buf)));
+                    glib::spawn_future_local(glib::clone!(@weak window => async move {
+                        window.add_endpoint(Some(&File::for_path(&path_buf))).await;
+                    }));
                 }
                 _ => println!("Not implemented yet, wait a minute"),
             }
@@ -215,6 +217,11 @@ impl Default for Sidebar {
 }
 
 impl Sidebar {
+    pub fn n_open_collections(&self, settings: &Settings) -> usize {
+        let collections: Vec<String> = settings.get("open-collections");
+        collections.len()
+    }
+
     pub fn sync_collections(&self, settings: &Settings) {
         let collections: Vec<String> = settings.get("open-collections");
         let imp = self.imp();

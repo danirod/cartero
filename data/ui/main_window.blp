@@ -85,24 +85,37 @@ template $CarteroWindow: Adw.ApplicationWindow {
                       "suggested-action"
                     ]
 
-                    action-name: "win.new";
+                    action-name: "win.new-collection";
 
                     child: Adw.ButtonContent {
-                      icon-name: "tab-new-symbolic";
-                      label: _("New tab");
+                      icon-name: "folder-new-symbolic";
+                      label: _("New collection");
                     };
                   }
 
                   Gtk.Button {
                     styles [
-                      "pill"
+                      "pill",
                     ]
 
-                    action-name: "win.open";
+                    action-name: "win.open-collection";
 
                     child: Adw.ButtonContent {
-                      icon-name: "document-open-symbolic";
-                      label: _("Open request...");
+                      icon-name: "folder-open-symbolic";
+                      label: _("Open collection");
+                    };
+                  }
+
+                  Gtk.Button {
+                    styles [
+                      "pill",
+                    ]
+
+                    action-name: "win.new";
+
+                    child: Adw.ButtonContent {
+                      icon-name: "tab-new-symbolic";
+                      label: _("New scratchpad");
                     };
                   }
                 }

@@ -242,8 +242,6 @@ mod imp {
             }
             match ItemPane::new_for_endpoint(file).await {
                 Ok(pane) => {
-                    self.split_view.set_property("show-sidebar", true);
-                    self.stack.set_visible_child_name("tabview");
                     let page = self.tabview.add_page(&pane, None);
                     pane.window_title_binding()
                         .bind(&page, "title", Some(&pane));
@@ -251,6 +249,7 @@ mod imp {
                         .bind(&page, "tooltip", Some(&pane));
                     self.tabview.set_selected_page(&page);
                     self.save_visible_tabs();
+                    self.sync_sidebar_welcome();
                 }
                 Err(e) => {
                     self.obj().toast_error(e);
@@ -392,6 +391,7 @@ mod imp {
 
             // Finally, update the sidebar and close the dialog
             self.collections.sync_collections(&settings);
+            self.sync_sidebar_welcome();
 
             Ok(())
         }
@@ -555,6 +555,23 @@ mod imp {
             }
             Ok(())
         }
+
+        pub fn sync_sidebar_welcome(&self) {
+            let app = CarteroApplication::get();
+            let settings = app.settings();
+
+            let tab_count = self.tabview.n_pages();
+            let col_count = self.collections.n_open_collections(&settings);
+            let show_shell = tab_count > 0 || col_count > 0;
+
+            self.update_tab_actions();
+            self.split_view.set_property("show-sidebar", show_shell);
+            if show_shell {
+                self.stack.set_visible_child_name("tabview");
+            } else {
+                self.stack.set_visible_child_name("welcome");
+            }
+        }
     }
 
     #[glib::object_subclass]
@@ -594,11 +611,9 @@ mod imp {
 
             self.tabview.connect_selected_page_notify(
                 glib::clone!(@weak self as window => move |tabview| {
-                    if let Some(page) = tabview.selected_page() {
-                        let item_pane = page.child().downcast::<ItemPane>().unwrap();
-                        window.bind_current_tab(Some(&item_pane));
-                        window.update_tab_actions();
-                    }
+                    let pane = tabview.selected_page().map(|p| p.child().downcast::<ItemPane>().unwrap());
+                    window.bind_current_tab(pane.as_ref());
+                    window.update_tab_actions();
                 }),
             );
 
@@ -633,12 +648,8 @@ mod imp {
 
                 tabview.close_page_finish(tabpage, !outcome);
                 let imp = window.imp();
-                imp.update_tab_actions();
-                if imp.tabview.n_pages() == 0 {
-                    imp.bind_current_tab(None);
-                    imp.split_view.set_property("show-sidebar", false);
-                    imp.stack.set_visible_child_name("welcome");
-                }
+
+                imp.sync_sidebar_welcome();
                 true
             }));
 
@@ -796,8 +807,7 @@ impl CarteroWindow {
 
         let imp = win.imp();
         imp.finish_init();
-        imp.split_view.set_property("show-sidebar", false);
-
+        imp.sync_sidebar_welcome();
         win
     }
 
@@ -826,6 +836,7 @@ impl CarteroWindow {
         open_collections.retain(|p| p != path);
         let _ = settings.set("open-collections", open_collections);
         imp.collections.sync_collections(settings);
+        imp.sync_sidebar_welcome();
     }
 
     pub fn finish_create_collection(&self, path: &PathBuf) -> Result<(), CarteroError> {

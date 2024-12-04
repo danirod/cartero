@@ -17,8 +17,13 @@
 
 use std::path::PathBuf;
 
-use glib::{subclass::types::ObjectSubclassIsExt, Object};
-use gtk::{gio::Settings, prelude::SettingsExtManual};
+use glib::{object::CastNone, subclass::types::ObjectSubclassIsExt, Object};
+use gtk::gio;
+use gtk::{
+    gio::Settings,
+    prelude::{FileExt, ListModelExt, ListModelExtManual, SelectionModelExt, SettingsExtManual},
+    TreeListRow,
+};
 
 use crate::{
     fs::collection::open_collection,
@@ -106,7 +111,7 @@ mod imp {
                     for f in folders {
                         let node = TreeNode::default();
                         node.set_path(f.to_str().unwrap());
-                        node.set_title(f.file_name().unwrap().to_str().unwrap());
+                        node.set_title(f.file_stem().unwrap().to_str().unwrap());
                         node.set_node_type(TreeNodeKind::Folder);
                         children.append(&node);
                     }
@@ -115,7 +120,7 @@ mod imp {
                     for c in child {
                         let node = TreeNode::default();
                         node.set_path(c.to_str().unwrap());
-                        node.set_title(c.file_name().unwrap().to_str().unwrap());
+                        node.set_title(c.file_stem().unwrap().to_str().unwrap());
                         node.set_node_type(TreeNodeKind::Endpoint);
                         children.append(&node);
                     }
@@ -132,6 +137,10 @@ mod imp {
                 .and_downcast::<TreeListModel>()
                 .map(|tlm: TreeListModel| tlm.model())
                 .and_downcast::<ListStore>()
+        }
+
+        pub(super) fn tree_model(&self) -> Option<TreeListModel> {
+            self.selection_model.model().and_downcast::<TreeListModel>()
         }
 
         #[template_callback]
@@ -217,6 +226,88 @@ impl Default for Sidebar {
 }
 
 impl Sidebar {
+    /// This function is used to get the TreeListRow item from the tree model of the sidebar
+    /// for the first node for which the predicate returns true. This is basically a find()
+    /// function prepared to work recursively.
+    fn find_sidebar<F>(&self, predicate: F) -> Option<TreeListRow>
+    where
+        F: Fn(&TreeListRow, TreeNode) -> bool,
+    {
+        let imp = self.imp();
+        if let Some(tree_model) = imp.tree_model() {
+            // Traverse through every root node. Note that the sidebar does not have one
+            // root element, but actually every item without a parent is a root element of
+            // its own tree.
+            let children = tree_model.model().n_items();
+            for i in 0..children {
+                let node = tree_model.child_row(i).unwrap();
+                if let Some(result) = self.find_sidebar_node(&node, &predicate) {
+                    return Some(result);
+                }
+            }
+        }
+
+        None
+    }
+
+    fn find_sidebar_node<F>(&self, node: &TreeListRow, predicate: &F) -> Option<TreeListRow>
+    where
+        F: Fn(&TreeListRow, TreeNode) -> bool,
+    {
+        // Evaluate subtree root.
+        let tn = node.item().and_downcast::<TreeNode>().unwrap();
+        if predicate(node, tn) {
+            return Some(node.clone());
+        }
+
+        // Child traversal functions will not work unless the node is expanded, but we need to
+        // preserve the previous state of the expanded property, to fold the node again after
+        // lookup if it was closed.
+        let old_expanded = node.is_expanded();
+        node.set_expanded(true);
+
+        // Recursively call find_sidebar_node() for every child of this tree.
+        if let Some(children) = node.children() {
+            let count = children.n_items();
+            for i in 0..count {
+                let node = node.child_row(i).unwrap();
+                if let Some(result) = self.find_sidebar_node(&node, predicate) {
+                    node.set_expanded(old_expanded);
+                    return Some(result);
+                }
+            }
+        }
+
+        // Not found.
+        node.set_expanded(old_expanded);
+        None
+    }
+
+    fn open_path_to_node(&self, node: &TreeListRow) {
+        let mut parent = node.parent();
+        while parent.is_some() {
+            let p = parent.unwrap();
+            p.set_expanded(true);
+            parent = p.parent();
+        }
+    }
+
+    pub fn focus_node(&self, file: &gio::File) {
+        // Find the sidebar node that matches the criteria.
+        let node = self.find_sidebar(|_, node| node.file().equal(file));
+        if let Some(node) = node {
+            self.open_path_to_node(&node);
+            let pos = node.position();
+            let imp = self.imp();
+            imp.selection_model.set_selected(pos);
+        }
+    }
+
+    pub fn unfocus(&self) {
+        let imp = self.imp();
+        imp.selection_model.unselect_all();
+    }
+
     pub fn n_open_collections(&self, settings: &Settings) -> usize {
         let collections: Vec<String> = settings.get("open-collections");
         collections.len()

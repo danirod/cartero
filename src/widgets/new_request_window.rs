@@ -20,8 +20,8 @@ use gtk::{gio, glib};
 
 mod imp {
     use std::fs::File;
-    use std::path::PathBuf;
     use std::io::Write;
+    use std::path::PathBuf;
 
     use adw::prelude::{AdwDialogExt, ComboRowExt};
     use adw::subclass::dialog::AdwDialogImpl;
@@ -52,7 +52,7 @@ mod imp {
 
         #[template_child]
         request_collection: TemplateChild<adw::ComboRow>,
-        
+
         #[template_child]
         model_collection: TemplateChild<gtk::SingleSelection>,
 
@@ -97,17 +97,17 @@ mod imp {
                 .build();
             self.model_collection.set_model(Some(&model));
         }
-        
+
         fn populate_collections(&self) {
             let app = CarteroApplication::get();
             let settings = app.settings();
             let collections: Vec<String> = settings.get("open-collections");
 
             let model = self.root_model().unwrap();
-            
+
             for collection in collections {
                 let path = PathBuf::from(&collection);
-                
+
                 if let Ok(node) = open_collection(&path) {
                     let treenode = TreeNode::new();
                     treenode.set_path(collection.clone());
@@ -117,13 +117,11 @@ mod imp {
                 }
             }
         }
-        
+
         pub(super) fn root_model(&self) -> Option<ListStore> {
-            self.model_collection
-                .model()
-                .and_downcast::<ListStore>()
+            self.model_collection.model().and_downcast::<ListStore>()
         }
-        
+
         fn create_placeholder(&self, path: &PathBuf) -> Result<(), CarteroError> {
             let ep = EndpointData::default();
             let toml = crate::file::store_toml(&ep)?;
@@ -131,7 +129,7 @@ mod imp {
             write!(file, "{}", toml)?;
             Ok(())
         }
-        
+
         fn cartero_window(&self) -> CarteroWindow {
             let obj = self.obj();
             obj.root()
@@ -145,26 +143,26 @@ mod imp {
             if let Some(path) = self.requested_file() {
                 if !path.exists() {
                     let _ = self.create_placeholder(&path);
-                    
+
                     let win = self.cartero_window();
                     let gio_file = gtk::gio::File::for_path(&path);
                     glib::spawn_future_local(glib::clone!(@weak win => async move {
                         win.add_endpoint(Some(&gio_file)).await;
                     }));
                 }
-                
+
                 let obj = self.obj();
                 obj.close();
             }
         }
-        
+
         #[template_callback]
         fn on_collection_factory_setup(_: SignalListItemFactory, obj: &Object) {
             let item = obj.downcast_ref::<gtk::ListItem>().unwrap();
             let widget: Label = Object::builder().build();
             item.set_child(Some(&widget));
         }
-        
+
         #[template_callback]
         fn on_collection_factory_bind(_: SignalListItemFactory, obj: &Object) {
             let item = obj.downcast_ref::<gtk::ListItem>().unwrap();
@@ -172,39 +170,42 @@ mod imp {
             let node = item.item().and_downcast::<TreeNode>().unwrap();
             widget.set_label(&node.pretty_name());
         }
-        
+
         #[template_callback]
         fn on_collection_factory_unbind(_: SignalListItemFactory, obj: &Object) {
             let item = obj.downcast_ref::<gtk::ListItem>().unwrap();
             let widget = item.child().and_downcast::<Label>().unwrap();
             widget.set_label("");
         }
-        
+
         #[template_callback]
         fn on_collection_factory_teardown(_: SignalListItemFactory, obj: &Object) {
             let item = obj.downcast_ref::<gtk::ListItem>().unwrap();
             item.set_child(Option::<&gtk::Widget>::None);
         }
-        
+
         #[template_callback]
         fn on_request_name_changed(&self) {
             self.validate_form();
         }
-        
+
         #[template_callback]
         fn on_collection_changed(&self) {
             self.validate_form();
         }
-        
+
         fn requested_file(&self) -> Option<PathBuf> {
             let name = self.request_name.text();
-            self.request_collection.selected_item().and_downcast::<TreeNode>().map(|collection| {
-                let path = PathBuf::from(&collection.path());
-                let file_name = format!("{}.cartero", name);
-                path.join(&file_name)
-            })
+            self.request_collection
+                .selected_item()
+                .and_downcast::<TreeNode>()
+                .map(|collection| {
+                    let path = PathBuf::from(&collection.path());
+                    let file_name = format!("{}.cartero", name);
+                    path.join(&file_name)
+                })
         }
-        
+
         fn validate_form(&self) {
             let name = self.request_name.text();
             let valid = if name.is_empty() {
@@ -217,15 +218,17 @@ mod imp {
                         } else {
                             RequestWindowValidation::Valid
                         }
-                    },
+                    }
                     None => RequestWindowValidation::FileEmpty,
                 }
             };
-            self.request_name_taken.set_visible(valid == RequestWindowValidation::FileTaken);
-            self.create_button.set_sensitive(valid == RequestWindowValidation::Valid);
+            self.request_name_taken
+                .set_visible(valid == RequestWindowValidation::FileTaken);
+            self.create_button
+                .set_sensitive(valid == RequestWindowValidation::Valid);
         }
     }
-    
+
     #[derive(Eq, PartialEq)]
     enum RequestWindowValidation {
         Valid,

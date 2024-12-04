@@ -20,7 +20,6 @@ use std::path::PathBuf;
 use crate::{app::CarteroApplication, error::CarteroError, objects::Collection};
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
-use gtk::prelude::*;
 use gtk::{gio, glib, prelude::SettingsExtManual};
 
 mod imp {
@@ -35,7 +34,6 @@ mod imp {
     use glib::closure_local;
     use gtk::gio::File;
     use gtk::gio::{self, ActionEntry};
-    use gtk::prelude::*;
 
     use crate::fs::collection::open_collection;
     use crate::objects::Collection;
@@ -614,6 +612,12 @@ mod imp {
                     let pane = tabview.selected_page().map(|p| p.child().downcast::<ItemPane>().unwrap());
                     window.bind_current_tab(pane.as_ref());
                     window.update_tab_actions();
+
+                    if let Some(file) = pane.and_then(|p| p.file()) {
+                        window.collections.focus_node(file.as_ref());
+                    } else {
+                        window.collections.unfocus();
+                    }
                 }),
             );
 
@@ -648,7 +652,6 @@ mod imp {
 
                 tabview.close_page_finish(tabpage, !outcome);
                 let imp = window.imp();
-
                 imp.sync_sidebar_welcome();
                 true
             }));

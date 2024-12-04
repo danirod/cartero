@@ -15,7 +15,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use glib::Object;
+use glib::{object::CastNone, Object};
+use gtk::{gio, TreeListRow};
 use std::path::PathBuf;
 
 mod imp {
@@ -62,6 +63,10 @@ impl Default for TreeNode {
 impl TreeNode {
     pub fn new() -> Self {
         Object::builder().build()
+    }
+
+    pub fn file(&self) -> gio::File {
+        gio::File::for_path(self.path())
     }
 
     pub fn pretty_name(&self) -> String {

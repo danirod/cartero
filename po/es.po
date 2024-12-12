@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2024-12-13 00:32+0100\n"
-"PO-Revision-Date: 2024-11-04 17:46+0000\n"
+"PO-Revision-Date: 2024-12-13 00:05+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/cartero/cartero/"
 "es/>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8.2\n"
+"X-Generator: Weblate 5.9-dev\n"
 
 #: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:4
 msgid "Make HTTP requests and test APIs"
@@ -131,7 +131,7 @@ msgstr "Si validar o no los certificados TLS durante una petición"
 
 #: data/es.danirod.Cartero.gschema.xml:64
 msgid "Whether to follow redirections if that is the server response"
-msgstr "Si permitir redirecciones si esa es la respuesta del servidor"
+msgstr "Si permitir redirecciones o no cuando esa sea la respuesta del servidor"
 
 #: data/es.danirod.Cartero.gschema.xml:68
 msgid "Maximum number of redirections to follow before giving up"
@@ -389,7 +389,7 @@ msgstr "Tipo de cuerpo"
 
 #: data/ui/payload_tab.blp:82
 msgid "URL Encoded"
-msgstr "URL Encoded"
+msgstr "Codificado como URL"
 
 #: data/ui/payload_tab.blp:83
 msgid "Multipart Form Data"
@@ -429,9 +429,8 @@ msgid "_Save"
 msgstr "_Guardar"
 
 #: data/ui/settings_dialog.blp:27
-#, fuzzy
 msgid "Application"
-msgstr "Acciones"
+msgstr "Aplicación"
 
 #: data/ui/settings_dialog.blp:84
 msgid "Appearance"
@@ -439,7 +438,7 @@ msgstr "Apariencia"
 
 #: data/ui/settings_dialog.blp:34
 msgid "Application style"
-msgstr ""
+msgstr "Estilo de la aplicación"
 
 #: data/ui/settings_dialog.blp:93
 msgid "Follow system settings"
@@ -479,7 +478,7 @@ msgstr ""
 
 #: data/ui/settings_dialog.blp:75 data/ui/settings_dialog.blp:79
 msgid "HTTP Client"
-msgstr ""
+msgstr "Cliente HTTP"
 
 #: data/ui/settings_dialog.blp:38
 msgid "Enforce TLS validation"

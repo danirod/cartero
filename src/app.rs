@@ -18,11 +18,15 @@
 use adw::prelude::*;
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
+use gtk::gdk::Display;
 use gtk::gio::{self, ActionEntryBuilder, Settings};
+use gtk::pango::FontDescription;
 use gtk::prelude::ActionMapExtManual;
+use gtk::{CssProvider, STYLE_PROVIDER_PRIORITY_APPLICATION};
 
 use crate::config::{APP_ID, BASE_ID, RESOURCE_PATH};
 use crate::win::CarteroWindow;
+use crate::windows::SettingsDialog;
 
 #[macro_export]
 macro_rules! accelerator {
@@ -50,6 +54,9 @@ mod imp {
     #[derive(Default)]
     pub struct CarteroApplication {
         pub(super) settings: OnceCell<Settings>,
+
+        /* Used to change the text editors font descriptors. */
+        pub(super) provider: OnceCell<CssProvider>,
     }
 
     #[glib::object_subclass]
@@ -87,9 +94,12 @@ mod imp {
             obj.set_accels_for_action("win.save-as", &[accelerator!("<Shift>s")]);
             obj.set_accels_for_action("win.close", &[accelerator!("w")]);
             obj.set_accels_for_action("win.request", &[accelerator!("Return")]);
+            obj.set_accels_for_action("app.settings", &[accelerator!("comma")]);
             obj.set_accels_for_action("app.quit", &[accelerator!("q")]);
             obj.set_accels_for_action("win.show-help-overlay", &[accelerator!("question")]);
             obj.setup_app_actions();
+            obj.setup_color_scheme();
+            obj.setup_font();
         }
 
         fn open(&self, files: &[gio::File], hint: &str) {
@@ -149,7 +159,106 @@ impl CarteroApplication {
         self.imp().settings.get_or_init(|| Settings::new(BASE_ID))
     }
 
+    pub fn css_provider(&self) -> &CssProvider {
+        self.imp().provider.get_or_init(|| CssProvider::new())
+    }
+
+    fn setup_color_scheme(&self) {
+        let settings = self.settings();
+        settings
+            .bind("application-theme", &self.style_manager(), "color-scheme")
+            .mapping(|val, _| {
+                let scheme = match val.get::<String>().unwrap().as_str() {
+                    "light" => adw::ColorScheme::ForceLight,
+                    "dark" => adw::ColorScheme::ForceDark,
+                    _ => adw::ColorScheme::Default,
+                };
+                Some(scheme.into())
+            })
+            .build();
+    }
+
+    fn setup_font(&self) {
+        let css_provider = self.css_provider();
+        let display = Display::default().expect("No display available");
+        gtk::style_context_add_provider_for_display(
+            &display,
+            css_provider,
+            STYLE_PROVIDER_PRIORITY_APPLICATION,
+        );
+
+        let settings = self.settings();
+        settings.connect_changed(
+            None,
+            glib::clone!(@weak self as app => move |_, _| {
+                app.update_font();
+            }),
+        );
+        self.style_manager()
+            .connect_dark_notify(glib::clone!(@weak self as app => move |_| {
+                app.update_font();
+            }));
+    }
+
+    fn update_font(&self) {
+        let current_font_descriptor = self.settings().get::<String>("custom-font");
+        let system_font = self.settings().get::<bool>("use-system-font");
+
+        let provider = self.css_provider();
+
+        let css: String = if system_font {
+            "".into()
+        } else {
+            let descriptor = FontDescription::from_string(&current_font_descriptor);
+            let font_family: String = descriptor.family().unwrap_or_default().into();
+            let font_size = descriptor.size() / gtk::pango::SCALE;
+            let font_style = {
+                match descriptor.style() {
+                    gtk::pango::Style::Italic => "italic",
+                    gtk::pango::Style::Oblique => "oblique",
+                    _ => "normal",
+                }
+            };
+            let font_weight = {
+                match descriptor.weight() {
+                    gtk::pango::Weight::Bold => 700,
+                    gtk::pango::Weight::Book => 380,
+                    gtk::pango::Weight::Heavy => 900,
+                    gtk::pango::Weight::Light => 300,
+                    gtk::pango::Weight::Medium => 500,
+                    gtk::pango::Weight::Normal => 400,
+                    gtk::pango::Weight::Semibold => 600,
+                    gtk::pango::Weight::Semilight => 350,
+                    gtk::pango::Weight::Thin => 100,
+                    gtk::pango::Weight::Ultrabold => 800,
+                    gtk::pango::Weight::Ultraheavy => 1000,
+                    gtk::pango::Weight::Ultralight => 200,
+                    gtk::pango::Weight::__Unknown(i) => i,
+                    _ => 400,
+                }
+            };
+
+            format!(
+                r#"
+                textview.use-cartero-font {{
+                    font-family: "{font_family}";
+                    font-size: {font_size}pt;
+                    font-style: {font_style};
+                    font-weight: {font_weight};
+                }}"#
+            )
+        };
+        provider.load_from_string(&css);
+    }
+
     fn setup_app_actions(&self) {
+        let settings = ActionEntryBuilder::new("settings")
+            .activate(glib::clone!(@weak self as app => move |_, _, _| {
+                if let Some(window) = app.active_window() {
+                    SettingsDialog::present_for_window(&window);
+                }
+            }))
+            .build();
         let quit = ActionEntryBuilder::new("quit")
             .activate(glib::clone!(@weak self as app => move |_, _, _| {
                 for window in app.windows() {
@@ -162,6 +271,6 @@ impl CarteroApplication {
             }))
             .build();
 
-        self.add_action_entries([quit]);
+        self.add_action_entries([settings, quit]);
     }
 }

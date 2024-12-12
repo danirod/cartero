@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-11-01 21:04+0100\n"
+"POT-Creation-Date: 2024-12-12 21:49+0100\n"
 "PO-Revision-Date: 2024-11-04 17:46+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -77,53 +77,85 @@ msgstr "Cartero"
 msgid "Gnome;GTK;HTTP;REST;"
 msgstr "Gnome;GTK;HTTP;REST;"
 
-#: data/es.danirod.Cartero.gschema.xml:6
+#: data/es.danirod.Cartero.gschema.xml:12
 msgid "Automatically indent new lines for the request body"
 msgstr "Indentar automáticamente nuevas líneas el cuerpo de la petición"
 
-#: data/es.danirod.Cartero.gschema.xml:10
+#: data/es.danirod.Cartero.gschema.xml:16
 msgid "Wrap the body content"
 msgstr "Saltos de línea en el cuerpo"
 
-#: data/es.danirod.Cartero.gschema.xml:14
+#: data/es.danirod.Cartero.gschema.xml:20
 msgid "Whether to indent the request body with spaces or tabs"
 msgstr "Indentar el cuerpo de la petición con espacios o con tabuladores"
 
-#: data/es.danirod.Cartero.gschema.xml:18
+#: data/es.danirod.Cartero.gschema.xml:24
 msgid "Show line numbers in the request and response bodies"
 msgstr "Mostrar los números de línea en los cuerpos de petición y respuesta"
 
-#: data/es.danirod.Cartero.gschema.xml:22
+#: data/es.danirod.Cartero.gschema.xml:28
 msgid "How many characters to pad when indenting the request body"
 msgstr "Cuántos caracteres usar al indentar el cuerpo de la petición"
 
-#: data/es.danirod.Cartero.gschema.xml:27
+#: data/es.danirod.Cartero.gschema.xml:32
 msgid "How large should new windows be"
 msgstr "Cómo de largas deben ser las ventanas nuevas"
 
-#: data/es.danirod.Cartero.gschema.xml:31
+#: data/es.danirod.Cartero.gschema.xml:36
 msgid "How tall should new windows be"
 msgstr "Cómo de altas deben ser las ventanas nuevas"
 
-#: data/es.danirod.Cartero.gschema.xml:35
+#: data/es.danirod.Cartero.gschema.xml:40
 msgid "Whether the application should open maximized"
 msgstr "Si la aplicación se debe abrir maximizada"
 
-#: data/es.danirod.Cartero.gschema.xml:39
+#: data/es.danirod.Cartero.gschema.xml:44
 msgid "The position of the split between two windows"
 msgstr "La posición del separador entre ambas ventanas"
 
-#: data/es.danirod.Cartero.gschema.xml:43
+#: data/es.danirod.Cartero.gschema.xml:48
 msgid "The current list of opened files"
 msgstr "La lista actual de archivos abiertos"
 
-#: data/es.danirod.Cartero.gschema.xml:47
+#: data/es.danirod.Cartero.gschema.xml:52
 msgid "The last location where a file was opened"
 msgstr "La última ubicación donde se abrió un archivo"
 
-#: data/es.danirod.Cartero.gschema.xml:51
+#: data/es.danirod.Cartero.gschema.xml:56
 msgid "The last location where a file was saved"
 msgstr "La última ubicación donde se guardó un archivo"
+
+#: data/es.danirod.Cartero.gschema.xml:60
+msgid "Whether to validate the TLS certificates during a request"
+msgstr ""
+
+#: data/es.danirod.Cartero.gschema.xml:64
+msgid "Whether to follow redirections if that is the server response"
+msgstr ""
+
+#: data/es.danirod.Cartero.gschema.xml:68
+msgid "Maximum number of redirections to follow before giving up"
+msgstr ""
+
+#: data/es.danirod.Cartero.gschema.xml:72
+msgid "Maximum timeout when awaiting for an HTTP response."
+msgstr ""
+
+#: data/es.danirod.Cartero.gschema.xml:76
+msgid "Whether to use light or dark mode."
+msgstr ""
+
+#: data/es.danirod.Cartero.gschema.xml:80
+msgid "The custom font in use"
+msgstr ""
+
+#: data/es.danirod.Cartero.gschema.xml:84
+msgid "Whether to use the system font or a custom one"
+msgstr ""
+
+#: data/es.danirod.Cartero.gschema.xml:88
+msgid "Whether to create backup files on save"
+msgstr ""
 
 #: data/gtk/help_overlay.blp:26
 msgctxt "shortcuts window"
@@ -180,39 +212,39 @@ msgctxt "shortcuts window"
 msgid "Send request"
 msgstr "Enviar petición"
 
-#: data/ui/code_export_pane.blp:58
+#: data/ui/code_export_pane.blp:62
 msgid "Copy"
 msgstr "Copiar"
 
-#: data/ui/endpoint_pane.blp:59
+#: data/ui/endpoint_pane.blp:58
 msgid "Request URL"
 msgstr "URL de petición"
 
-#: data/ui/endpoint_pane.blp:70
+#: data/ui/endpoint_pane.blp:69
 msgid "Send"
 msgstr "Enviar"
 
-#: data/ui/endpoint_pane.blp:71
+#: data/ui/endpoint_pane.blp:70
 msgid "Execute this HTTP request"
 msgstr "Ejecutar esta petición HTTP"
 
-#: data/ui/endpoint_pane.blp:104
+#: data/ui/endpoint_pane.blp:103
 msgid "Parameters"
 msgstr "Parámetros"
 
-#: data/ui/endpoint_pane.blp:125 data/ui/response_panel.blp:70
+#: data/ui/endpoint_pane.blp:124 data/ui/response_panel.blp:74
 msgid "Headers"
 msgstr "Cabeceras"
 
-#: data/ui/endpoint_pane.blp:146
+#: data/ui/endpoint_pane.blp:145
 msgid "Variables"
 msgstr "Variables"
 
-#: data/ui/endpoint_pane.blp:167 data/ui/response_panel.blp:47
+#: data/ui/endpoint_pane.blp:166 data/ui/response_panel.blp:47
 msgid "Body"
 msgstr "Cuerpo"
 
-#: data/ui/endpoint_pane.blp:175
+#: data/ui/endpoint_pane.blp:174
 msgid "Export request"
 msgstr "Exportar petición"
 
@@ -250,12 +282,12 @@ msgstr "Nuevo"
 
 #: data/ui/main_window.blp:52 data/ui/main_window.blp:63
 #: data/ui/main_window_no_csd.blp:50 data/ui/main_window_no_csd.blp:61
-#: src/widgets/file_dialogs.rs:31
+#: src/widgets/file_dialogs.rs:33 src/widgets/file_dialogs.rs:77
 msgid "Open"
 msgstr "Abrir"
 
 #: data/ui/main_window.blp:71 data/ui/main_window_no_csd.blp:69
-#: src/widgets/file_dialogs.rs:75
+#: src/widgets/file_dialogs.rs:133
 msgid "Save"
 msgstr "Guardar"
 
@@ -278,7 +310,7 @@ msgid "Open request..."
 msgstr "Abrir petición..."
 
 #: data/ui/main_window.blp:159 data/ui/main_window_no_csd.blp:166
-#: src/widgets/file_dialogs.rs:76
+#: src/widgets/file_dialogs.rs:134
 msgid "Save request"
 msgstr "Guardar petición"
 
@@ -290,55 +322,59 @@ msgstr "Guardar petición como..."
 msgid "Close tab"
 msgstr "Cerrar pestaña"
 
-#: data/ui/main_window.blp:176 data/ui/main_window_no_csd.blp:183
+#: data/ui/main_window.blp:176 data/ui/settings_dialog.blp:22
+msgid "Settings"
+msgstr ""
+
+#: data/ui/main_window.blp:181 data/ui/main_window_no_csd.blp:183
 msgid "Body appearance"
 msgstr "Apariencia del cuerpo"
 
-#: data/ui/main_window.blp:180 data/ui/main_window_no_csd.blp:187
+#: data/ui/main_window.blp:185 data/ui/main_window_no_csd.blp:187
 msgid "Wrap content"
 msgstr "Adaptar contenido"
 
-#: data/ui/main_window.blp:185 data/ui/main_window_no_csd.blp:192
+#: data/ui/main_window.blp:190 data/ui/main_window_no_csd.blp:192
 msgid "Show line numbers"
 msgstr "Mostrar números de línea"
 
-#: data/ui/main_window.blp:192 data/ui/main_window_no_csd.blp:199
+#: data/ui/main_window.blp:197 data/ui/main_window_no_csd.blp:199
 msgid "Automatic indentation"
 msgstr "Indentar automáticamente"
 
-#: data/ui/main_window.blp:197 data/ui/main_window_no_csd.blp:204
+#: data/ui/main_window.blp:202 data/ui/main_window_no_csd.blp:204
 msgid "Indent with spaces"
 msgstr "Indentar con espacios"
 
-#: data/ui/main_window.blp:203 data/ui/main_window_no_csd.blp:210
+#: data/ui/main_window.blp:208 data/ui/main_window_no_csd.blp:210
 msgid "Indent with tabs"
 msgstr "Indentar con tabuladores"
 
-#: data/ui/main_window.blp:209 data/ui/main_window_no_csd.blp:216
+#: data/ui/main_window.blp:214 data/ui/main_window_no_csd.blp:216
 msgid "Spaces per tab"
 msgstr "Espacios por tabulador"
 
-#: data/ui/main_window.blp:212 data/ui/main_window_no_csd.blp:219
+#: data/ui/main_window.blp:217 data/ui/main_window_no_csd.blp:219
 msgid "2"
 msgstr "2"
 
-#: data/ui/main_window.blp:218 data/ui/main_window_no_csd.blp:225
+#: data/ui/main_window.blp:223 data/ui/main_window_no_csd.blp:225
 msgid "4"
 msgstr "4"
 
-#: data/ui/main_window.blp:224 data/ui/main_window_no_csd.blp:231
+#: data/ui/main_window.blp:229 data/ui/main_window_no_csd.blp:231
 msgid "8"
 msgstr "8"
 
-#: data/ui/main_window.blp:235 data/ui/main_window_no_csd.blp:242
+#: data/ui/main_window.blp:240 data/ui/main_window_no_csd.blp:242
 msgid "Keyboard shortcuts"
 msgstr "Atajos de teclado"
 
-#: data/ui/main_window.blp:240 data/ui/main_window_no_csd.blp:247
+#: data/ui/main_window.blp:245 data/ui/main_window_no_csd.blp:247
 msgid "About Cartero"
 msgstr "Acerca de Cartero"
 
-#: data/ui/main_window.blp:245 data/ui/main_window_no_csd.blp:252
+#: data/ui/main_window.blp:250 data/ui/main_window_no_csd.blp:252
 msgid "Quit"
 msgstr "Salir"
 
@@ -391,6 +427,98 @@ msgstr "_Descartar"
 msgid "_Save"
 msgstr "_Guardar"
 
+#: data/ui/settings_dialog.blp:30
+msgid "General"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:34
+msgid "HTTP client settings"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:35
+msgid "Settings used when performing HTTP requests."
+msgstr ""
+
+#: data/ui/settings_dialog.blp:38
+msgid "Enforce TLS validation"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:39
+msgid "If disabled, invalid TLS certificates will not fail a request."
+msgstr ""
+
+#: data/ui/settings_dialog.blp:43
+msgid "Follow redirects"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:44
+msgid "If enabled, a responses that return HTTP 3xx will be chained."
+msgstr ""
+
+#: data/ui/settings_dialog.blp:49
+msgid "Maximum redirects"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:61
+#, fuzzy
+msgid "Request timeout"
+msgstr "Método de petición"
+
+#: data/ui/settings_dialog.blp:74
+msgid "File settings"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:75
+msgid "Settings related to storage."
+msgstr ""
+
+#: data/ui/settings_dialog.blp:78
+msgid "Create backup files"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:79
+msgid ""
+"You might not want to enable this if you are already using a version control "
+"such as Git"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:84
+#, fuzzy
+msgid "Appearance"
+msgstr "Apariencia del cuerpo"
+
+#: data/ui/settings_dialog.blp:85
+msgid "Display settings."
+msgstr ""
+
+#: data/ui/settings_dialog.blp:88
+msgid "Application theme"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:89
+msgid "The style to use in the application"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:93
+msgid "Follow system settings"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:94
+msgid "Light mode"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:95
+msgid "Dark mode"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:101
+msgid "Use system font"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:105
+msgid "Custom font"
+msgstr ""
+
 #: src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"
 msgstr "Contenido copiado al portapapeles"
@@ -403,7 +531,7 @@ msgstr "Petición (.cartero)"
 msgid "Request"
 msgstr "Petición"
 
-#: src/widgets/file_dialogs.rs:32
+#: src/widgets/file_dialogs.rs:34 src/widgets/file_dialogs.rs:78
 msgid "Open request"
 msgstr "Abrir petición"
 

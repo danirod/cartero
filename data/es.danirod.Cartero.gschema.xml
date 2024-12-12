@@ -1,5 +1,11 @@
 <?xml version="1.0" ?>
 <schemalist>
+  <enum id="es.danirod.Cartero.theme">
+    <value nick="system" value="0" />
+    <value nick="light" value="1" />
+    <value nick="dark" value="2" />
+  </enum>
+  
   <schema id="es.danirod.Cartero" path="/es/danirod/Cartero/">
     <key name="auto-indent" type="b">
       <default>false</default>
@@ -21,7 +27,6 @@
       <default>'4'</default>
       <summary>How many characters to pad when indenting the request body</summary>
     </key>
-
     <key name="window-width" type="i">
       <default>1024</default>
       <summary>How large should new windows be</summary>
@@ -49,6 +54,38 @@
     <key name="last-save-dir" type="ms">
       <default>nothing</default>
       <summary>The last location where a file was saved</summary>
+    </key>
+    <key name="validate-tls" type="b">
+      <default>true</default>
+      <summary>Whether to validate the TLS certificates during a request</summary>
+    </key>
+    <key name="follow-redirects" type="b">
+      <default>false</default>
+      <summary>Whether to follow redirections if that is the server response</summary>
+    </key>
+    <key name="maximum-redirects" type="u">
+      <default>5</default>
+      <summary>Maximum number of redirections to follow before giving up</summary>
+    </key>
+    <key name="request-timeout" type="d">
+      <default>30</default>
+      <summary>Maximum timeout when awaiting for an HTTP response.</summary>
+    </key>
+    <key name="application-theme" enum="es.danirod.Cartero.theme">
+      <default>"system"</default>
+      <summary>Whether to use light or dark mode.</summary>
+    </key>
+    <key name="custom-font" type="s">
+      <default>"Monospace 11"</default>
+      <summary>The custom font in use</summary>
+    </key>
+    <key name="use-system-font" type="b">
+      <default>true</default>
+      <summary>Whether to use the system font or a custom one</summary>
+    </key>
+    <key name="create-backup-files" type="b">
+      <default>false</default>
+      <summary>Whether to create backup files on save</summary>
     </key>
   </schema>
 </schemalist>

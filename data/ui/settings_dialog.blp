@@ -1,0 +1,121 @@
+/*
+ * Copyright 2024 the Cartero authors
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+// SPDX-License-Identifier: GPL-3.0-or-later
+using Gtk 4.0;
+using Adw 1;
+
+template $CarteroSettingsDialog: Adw.PreferencesDialog {
+  title: _("Settings");
+  content-width: 480;
+  content-height: 640;
+  width-request: 360;
+  height-request: 480;
+  search-enabled: false;
+
+  Adw.PreferencesPage {
+    title: _("General");
+    icon-name: "applications-system";
+
+    Adw.PreferencesGroup {
+      title: _("HTTP client settings");
+      description: _("Settings used when performing HTTP requests.");
+
+      Adw.SwitchRow option_validate_tls {
+        title: _("Enforce TLS validation");
+        subtitle: _("If disabled, invalid TLS certificates will not fail a request.");
+      }
+
+      Adw.ExpanderRow option_follow_redirects {
+        title: _("Follow redirects");
+        subtitle: _("If enabled, a responses that return HTTP 3xx will be chained.");
+        show-enable-switch: true;
+        enable-expansion: true;
+
+        Adw.SpinRow option_maximum_redirects {
+          title: _("Maximum redirects");
+
+          adjustment: Gtk.Adjustment {
+            lower: 1;
+            upper: 1000;
+            value: 1;
+            step-increment: 1;
+          };
+        }
+      }
+
+      Adw.SpinRow option_timeout {
+        title: _("Request timeout");
+        digits: 3;
+
+        adjustment: Gtk.Adjustment {
+          lower: 0;
+          upper: 1000;
+          value: 5.0;
+          step-increment: 0.1;
+        };
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("File settings");
+      description: _("Settings related to storage.");
+
+      Adw.SwitchRow option_create_backups {
+        title: _("Create backup files");
+        subtitle: _("You might not want to enable this if you are already using a version control such as Git");
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("Appearance");
+      description: _("Display settings.");
+
+      Adw.ComboRow option_theme {
+        title: _("Application theme");
+        subtitle: _("The style to use in the application");
+
+        model: Gtk.StringList {
+          strings [
+            _("Follow system settings"),
+            _("Light mode"),
+            _("Dark mode"),
+          ]
+        };
+      }
+
+      Adw.SwitchRow option_use_system_font {
+        title: _("Use system font");
+      }
+
+      Adw.ActionRow {
+        title: _("Custom font");
+
+        Gtk.FontDialogButton option_custom_font {
+          styles [
+            "flat"
+          ]
+
+          dialog: font_dialog;
+          vexpand: false;
+          valign: center;
+        }
+      }
+    }
+  }
+}
+
+Gtk.FontDialog font_dialog {}

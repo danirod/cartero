@@ -19,6 +19,7 @@ data/ui/raw_payload_pane.blp
 data/ui/response_headers.blp
 data/ui/response_panel.blp
 data/ui/save_dialog.blp
+data/ui/settings_dialog.blp
 data/ui/urlencoded_payload_pane.blp
 
 src/app.rs

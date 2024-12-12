@@ -31,6 +31,7 @@ blueprint_files = [
   'ui/response_headers.blp',
   'ui/response_panel.blp',
   'ui/save_dialog.blp',
+  'ui/settings_dialog.blp',
   'ui/urlencoded_payload_pane.blp',
 ]
 

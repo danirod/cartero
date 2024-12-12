@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-11-01 21:04+0100\n"
+"POT-Creation-Date: 2024-12-12 21:49+0100\n"
 "PO-Revision-Date: 2024-10-05 15:30+0000\n"
 "Last-Translator: Vladimir Kosolapov\n"
 "Language-Team: Russian\n"
@@ -30,10 +30,10 @@ msgid ""
 "request methods as well as attaching body payloads to compatible requests."
 msgstr ""
 "Cartero — это графический HTTP-клиент, который можно использовать как "
-"инструмент разработчика для тестирования веб-API и выполнения различных "
-"HTTP-запросов к веб-серверам. Приложение совместимо с API REST, SOAP или "
-"XML-RPC и поддерживает несколько методов запросов, а также позволяет "
-"прикреплять тело запроса к совместимым методам."
+"инструмент разработчика для тестирования веб-API и выполнения различных HTTP-"
+"запросов к веб-серверам. Приложение совместимо с API REST, SOAP или XML-RPC "
+"и поддерживает несколько методов запросов, а также позволяет прикреплять "
+"тело запроса к совместимым методам."
 
 #: data/cartero.appdata.xml.in.in:12
 msgid "Features:"
@@ -44,18 +44,18 @@ msgid ""
 "Loads and saves to plain Git-friendly TOML files, so that you can own your "
 "data."
 msgstr ""
-"Загружает и сохраняет данные в простых файлах TOML, совместимых с Git, "
-"что позволяет вам контролировать свои данные."
+"Загружает и сохраняет данные в простых файлах TOML, совместимых с Git, что "
+"позволяет вам контролировать свои данные."
 
 #: data/cartero.appdata.xml.in.in:15
 msgid ""
 "Customization and modification of the request headers and body payloads."
-msgstr ""
-"Настройка и изменение заголовков запроса и содержимого тела запроса."
+msgstr "Настройка и изменение заголовков запроса и содержимого тела запроса."
 
 #: data/cartero.appdata.xml.in.in:16
 msgid "Variable binding for API keys and other secret information."
-msgstr "Привязка переменных для API-ключей и другой конфиденциальной информации."
+msgstr ""
+"Привязка переменных для API-ключей и другой конфиденциальной информации."
 
 #: data/cartero.appdata.xml.in.in:22
 msgid "Main window of Cartero"
@@ -78,53 +78,85 @@ msgstr "Cartero"
 msgid "Gnome;GTK;HTTP;REST;"
 msgstr "GNOME;GTK;HTTP;REST;"
 
-#: data/es.danirod.Cartero.gschema.xml:6
+#: data/es.danirod.Cartero.gschema.xml:12
 msgid "Automatically indent new lines for the request body"
 msgstr "Автоматически добавлять отступы для новых строк тела запроса"
 
-#: data/es.danirod.Cartero.gschema.xml:10
+#: data/es.danirod.Cartero.gschema.xml:16
 msgid "Wrap the body content"
 msgstr "Переносить содержимое тела запроса"
 
-#: data/es.danirod.Cartero.gschema.xml:14
+#: data/es.danirod.Cartero.gschema.xml:20
 msgid "Whether to indent the request body with spaces or tabs"
 msgstr "Использовать отступы в теле запроса: пробелы или табуляции"
 
-#: data/es.danirod.Cartero.gschema.xml:18
+#: data/es.danirod.Cartero.gschema.xml:24
 msgid "Show line numbers in the request and response bodies"
 msgstr "Показывать номера строк в теле запроса и ответа"
 
-#: data/es.danirod.Cartero.gschema.xml:22
+#: data/es.danirod.Cartero.gschema.xml:28
 msgid "How many characters to pad when indenting the request body"
 msgstr "Количество символов для отступов в теле запроса"
 
-#: data/es.danirod.Cartero.gschema.xml:27
+#: data/es.danirod.Cartero.gschema.xml:32
 msgid "How large should new windows be"
 msgstr "Размер новых окон"
 
-#: data/es.danirod.Cartero.gschema.xml:31
+#: data/es.danirod.Cartero.gschema.xml:36
 msgid "How tall should new windows be"
 msgstr "Высота новых окон"
 
-#: data/es.danirod.Cartero.gschema.xml:35
+#: data/es.danirod.Cartero.gschema.xml:40
 msgid "Whether the application should open maximized"
 msgstr "Открывать приложение в полноэкранном режиме"
 
-#: data/es.danirod.Cartero.gschema.xml:39
+#: data/es.danirod.Cartero.gschema.xml:44
 msgid "The position of the split between two windows"
 msgstr "Расположение разделения между двумя окнами"
 
-#: data/es.danirod.Cartero.gschema.xml:43
+#: data/es.danirod.Cartero.gschema.xml:48
 msgid "The current list of opened files"
 msgstr "Текущий список открытых файлов"
 
-#: data/es.danirod.Cartero.gschema.xml:47
+#: data/es.danirod.Cartero.gschema.xml:52
 msgid "The last location where a file was opened"
 msgstr "Последнее место, где был открыт файл"
 
-#: data/es.danirod.Cartero.gschema.xml:51
+#: data/es.danirod.Cartero.gschema.xml:56
 msgid "The last location where a file was saved"
 msgstr "Последнее место, где был сохранён файл"
+
+#: data/es.danirod.Cartero.gschema.xml:60
+msgid "Whether to validate the TLS certificates during a request"
+msgstr ""
+
+#: data/es.danirod.Cartero.gschema.xml:64
+msgid "Whether to follow redirections if that is the server response"
+msgstr ""
+
+#: data/es.danirod.Cartero.gschema.xml:68
+msgid "Maximum number of redirections to follow before giving up"
+msgstr ""
+
+#: data/es.danirod.Cartero.gschema.xml:72
+msgid "Maximum timeout when awaiting for an HTTP response."
+msgstr ""
+
+#: data/es.danirod.Cartero.gschema.xml:76
+msgid "Whether to use light or dark mode."
+msgstr ""
+
+#: data/es.danirod.Cartero.gschema.xml:80
+msgid "The custom font in use"
+msgstr ""
+
+#: data/es.danirod.Cartero.gschema.xml:84
+msgid "Whether to use the system font or a custom one"
+msgstr ""
+
+#: data/es.danirod.Cartero.gschema.xml:88
+msgid "Whether to create backup files on save"
+msgstr ""
 
 #: data/gtk/help_overlay.blp:26
 msgctxt "shortcuts window"
@@ -181,39 +213,39 @@ msgctxt "shortcuts window"
 msgid "Send request"
 msgstr "Отправить запрос"
 
-#: data/ui/code_export_pane.blp:58
+#: data/ui/code_export_pane.blp:62
 msgid "Copy"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:59
+#: data/ui/endpoint_pane.blp:58
 msgid "Request URL"
 msgstr "URL-адрес запроса"
 
-#: data/ui/endpoint_pane.blp:70
+#: data/ui/endpoint_pane.blp:69
 msgid "Send"
 msgstr "Отправить"
 
-#: data/ui/endpoint_pane.blp:71
+#: data/ui/endpoint_pane.blp:70
 msgid "Execute this HTTP request"
 msgstr "Выполнить этот HTTP-запрос"
 
-#: data/ui/endpoint_pane.blp:104
+#: data/ui/endpoint_pane.blp:103
 msgid "Parameters"
 msgstr "Параметры"
 
-#: data/ui/endpoint_pane.blp:125 data/ui/response_panel.blp:70
+#: data/ui/endpoint_pane.blp:124 data/ui/response_panel.blp:74
 msgid "Headers"
 msgstr "Заголовки"
 
-#: data/ui/endpoint_pane.blp:146
+#: data/ui/endpoint_pane.blp:145
 msgid "Variables"
 msgstr "Переменные"
 
-#: data/ui/endpoint_pane.blp:167 data/ui/response_panel.blp:47
+#: data/ui/endpoint_pane.blp:166 data/ui/response_panel.blp:47
 msgid "Body"
 msgstr "Тело"
 
-#: data/ui/endpoint_pane.blp:175
+#: data/ui/endpoint_pane.blp:174
 msgid "Export request"
 msgstr ""
 
@@ -251,12 +283,12 @@ msgstr "Новая вкладка"
 
 #: data/ui/main_window.blp:52 data/ui/main_window.blp:63
 #: data/ui/main_window_no_csd.blp:50 data/ui/main_window_no_csd.blp:61
-#: src/widgets/file_dialogs.rs:31
+#: src/widgets/file_dialogs.rs:33 src/widgets/file_dialogs.rs:77
 msgid "Open"
 msgstr "Открыть"
 
 #: data/ui/main_window.blp:71 data/ui/main_window_no_csd.blp:69
-#: src/widgets/file_dialogs.rs:75
+#: src/widgets/file_dialogs.rs:133
 msgid "Save"
 msgstr "Сохранить"
 
@@ -279,7 +311,7 @@ msgid "Open request..."
 msgstr "Открыть запрос..."
 
 #: data/ui/main_window.blp:159 data/ui/main_window_no_csd.blp:166
-#: src/widgets/file_dialogs.rs:76
+#: src/widgets/file_dialogs.rs:134
 msgid "Save request"
 msgstr "Сохранить запрос"
 
@@ -291,55 +323,59 @@ msgstr "Сохранить запрос как..."
 msgid "Close tab"
 msgstr "Закрыть вкладку"
 
-#: data/ui/main_window.blp:176 data/ui/main_window_no_csd.blp:183
+#: data/ui/main_window.blp:176 data/ui/settings_dialog.blp:22
+msgid "Settings"
+msgstr ""
+
+#: data/ui/main_window.blp:181 data/ui/main_window_no_csd.blp:183
 msgid "Body appearance"
 msgstr "Внешний вид тела запроса"
 
-#: data/ui/main_window.blp:180 data/ui/main_window_no_csd.blp:187
+#: data/ui/main_window.blp:185 data/ui/main_window_no_csd.blp:187
 msgid "Wrap content"
 msgstr "Переносить содержимое"
 
-#: data/ui/main_window.blp:185 data/ui/main_window_no_csd.blp:192
+#: data/ui/main_window.blp:190 data/ui/main_window_no_csd.blp:192
 msgid "Show line numbers"
 msgstr "Показывать номера строк"
 
-#: data/ui/main_window.blp:192 data/ui/main_window_no_csd.blp:199
+#: data/ui/main_window.blp:197 data/ui/main_window_no_csd.blp:199
 msgid "Automatic indentation"
 msgstr "Автоматический отступ"
 
-#: data/ui/main_window.blp:197 data/ui/main_window_no_csd.blp:204
+#: data/ui/main_window.blp:202 data/ui/main_window_no_csd.blp:204
 msgid "Indent with spaces"
 msgstr "Пробелы"
 
-#: data/ui/main_window.blp:203 data/ui/main_window_no_csd.blp:210
+#: data/ui/main_window.blp:208 data/ui/main_window_no_csd.blp:210
 msgid "Indent with tabs"
 msgstr "Табуляция"
 
-#: data/ui/main_window.blp:209 data/ui/main_window_no_csd.blp:216
+#: data/ui/main_window.blp:214 data/ui/main_window_no_csd.blp:216
 msgid "Spaces per tab"
 msgstr "Пробелов на табуляцию"
 
-#: data/ui/main_window.blp:212 data/ui/main_window_no_csd.blp:219
+#: data/ui/main_window.blp:217 data/ui/main_window_no_csd.blp:219
 msgid "2"
 msgstr "2"
 
-#: data/ui/main_window.blp:218 data/ui/main_window_no_csd.blp:225
+#: data/ui/main_window.blp:223 data/ui/main_window_no_csd.blp:225
 msgid "4"
 msgstr "4"
 
-#: data/ui/main_window.blp:224 data/ui/main_window_no_csd.blp:231
+#: data/ui/main_window.blp:229 data/ui/main_window_no_csd.blp:231
 msgid "8"
 msgstr "8"
 
-#: data/ui/main_window.blp:235 data/ui/main_window_no_csd.blp:242
+#: data/ui/main_window.blp:240 data/ui/main_window_no_csd.blp:242
 msgid "Keyboard shortcuts"
 msgstr "Комбинации клавиш"
 
-#: data/ui/main_window.blp:240 data/ui/main_window_no_csd.blp:247
+#: data/ui/main_window.blp:245 data/ui/main_window_no_csd.blp:247
 msgid "About Cartero"
 msgstr "О приложении"
 
-#: data/ui/main_window.blp:245 data/ui/main_window_no_csd.blp:252
+#: data/ui/main_window.blp:250 data/ui/main_window_no_csd.blp:252
 msgid "Quit"
 msgstr "Выход"
 
@@ -369,7 +405,9 @@ msgstr "Готов к запросу"
 
 #: data/ui/response_panel.blp:30
 msgid "Use the Send button to send a network request and it will show here."
-msgstr "Нажмите кнопку «Отправить», чтобы выполнить сетевой запрос. Результат появится здесь."
+msgstr ""
+"Нажмите кнопку «Отправить», чтобы выполнить сетевой запрос. Результат "
+"появится здесь."
 
 #: data/ui/save_dialog.blp:22
 msgid "Save changes?"
@@ -391,6 +429,98 @@ msgstr "_Отменить"
 msgid "_Save"
 msgstr "_Сохранить"
 
+#: data/ui/settings_dialog.blp:30
+msgid "General"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:34
+msgid "HTTP client settings"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:35
+msgid "Settings used when performing HTTP requests."
+msgstr ""
+
+#: data/ui/settings_dialog.blp:38
+msgid "Enforce TLS validation"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:39
+msgid "If disabled, invalid TLS certificates will not fail a request."
+msgstr ""
+
+#: data/ui/settings_dialog.blp:43
+msgid "Follow redirects"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:44
+msgid "If enabled, a responses that return HTTP 3xx will be chained."
+msgstr ""
+
+#: data/ui/settings_dialog.blp:49
+msgid "Maximum redirects"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:61
+#, fuzzy
+msgid "Request timeout"
+msgstr "Метод запроса"
+
+#: data/ui/settings_dialog.blp:74
+msgid "File settings"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:75
+msgid "Settings related to storage."
+msgstr ""
+
+#: data/ui/settings_dialog.blp:78
+msgid "Create backup files"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:79
+msgid ""
+"You might not want to enable this if you are already using a version control "
+"such as Git"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:84
+#, fuzzy
+msgid "Appearance"
+msgstr "Внешний вид тела запроса"
+
+#: data/ui/settings_dialog.blp:85
+msgid "Display settings."
+msgstr ""
+
+#: data/ui/settings_dialog.blp:88
+msgid "Application theme"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:89
+msgid "The style to use in the application"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:93
+msgid "Follow system settings"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:94
+msgid "Light mode"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:95
+msgid "Dark mode"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:101
+msgid "Use system font"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:105
+msgid "Custom font"
+msgstr ""
+
 #: src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"
 msgstr ""
@@ -403,7 +533,7 @@ msgstr "Запрос (.cartero)"
 msgid "Request"
 msgstr "Запрос"
 
-#: src/widgets/file_dialogs.rs:32
+#: src/widgets/file_dialogs.rs:34 src/widgets/file_dialogs.rs:78
 msgid "Open request"
 msgstr "Открыть запрос"
 

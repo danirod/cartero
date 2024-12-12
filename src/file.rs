@@ -1,9 +1,10 @@
 use std::collections::HashMap;
 
 use gtk::gio;
-use gtk::prelude::FileExtManual;
+use gtk::prelude::{FileExtManual, SettingsExtManual};
 use serde::{Deserialize, Serialize};
 
+use crate::app::CarteroApplication;
 use crate::client::RequestError;
 use crate::entities::{
     EndpointData, KeyValue, KeyValueTable, RawEncoding, RequestMethod, RequestPayload,
@@ -319,13 +320,21 @@ pub async fn read_file(file: &gio::File) -> Result<String, CarteroError> {
 }
 
 pub async fn write_file(file: &gio::File, contents: &str) -> Result<(), CarteroError> {
-    file.replace_contents_future(contents.to_string(), None, true, gio::FileCreateFlags::NONE)
-        .await
-        .map_err(|result| {
-            let error = result.1;
-            println!("{error:?}");
-            CarteroError::FileDialogError
-        })?;
+    let app = CarteroApplication::default();
+    let settings = app.settings();
+    let use_backups = settings.get::<bool>("create-backup-files");
+    file.replace_contents_future(
+        contents.to_string(),
+        None,
+        use_backups,
+        gio::FileCreateFlags::NONE,
+    )
+    .await
+    .map_err(|result| {
+        let error = result.1;
+        println!("{error:?}");
+        CarteroError::FileDialogError
+    })?;
     Ok(())
 }
 

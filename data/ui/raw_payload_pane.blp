@@ -16,7 +16,6 @@
  */
 // SPDX-License-Identifier: GPL-3.0-or-later
 using Gtk 4.0;
-using Adw 1;
 using GtkSource 5;
 
 template $CarteroRawPayloadPane: $CarteroBasePayloadPane {
@@ -25,6 +24,10 @@ template $CarteroRawPayloadPane: $CarteroBasePayloadPane {
     vexpand: true;
 
     GtkSource.View view {
+      styles [
+        "use-cartero-font"
+      ]
+
       top-margin: 10;
       bottom-margin: 10;
       left-margin: 10;

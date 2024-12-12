@@ -19,6 +19,7 @@ on:
   push:
     branches:
       - trunk
+      - 'fix/*'
       - 'release/*'
 name: Nightly build
 jobs:
@@ -88,13 +89,14 @@ jobs:
   macos:
     strategy:
       matrix:
-        os: [macos-13, macos-14]
+        os: [macos-13, macos-14, macos-15]
+      fail-fast: false
     name: "macOS (${{ matrix.os }})"
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
     - name: Install dependencies
-      run: brew install meson gtk4 gtksourceview5 desktop-file-utils pygobject3 libadwaita adwaita-icon-theme gettext shared-mime-info
+      run: brew unlink pkg-config && brew install pkg-config meson gtk4 gtksourceview5 desktop-file-utils pygobject3 libadwaita adwaita-icon-theme gettext shared-mime-info && brew link pkgconf
     - name: Fix PYTHONPATH for blueprint-compiler
       run: echo "PYTHONPATH=$(brew --prefix)/lib/python3.12/site-packages:$PYTHONPATH" >> $GITHUB_ENV
     - name: Build macOS version
@@ -104,7 +106,7 @@ jobs:
     - uses: actions/upload-artifact@v4
       name: Upload macOS version
       with:
-        name: es.danirod.Cartero-${{ runner.os }}-${{ runner.arch }}
+        name: es.danirod.Cartero-${{ matrix.os }}-${{ runner.arch }}
         path: build/Cartero-*.dmg
   appimage:
     name: "AppImage (GNU/Linux, glibc 2.38+)"

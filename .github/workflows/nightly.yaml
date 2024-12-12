@@ -96,7 +96,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Install dependencies
-      run: brew unlink pkg-config && brew install pkg-config meson gtk4 gtksourceview5 desktop-file-utils pygobject3 python3 libadwaita adwaita-icon-theme gettext shared-mime-info && brew link pkgconf
+      run: brew unlink pkg-config python3 && brew install pkg-config meson gtk4 gtksourceview5 desktop-file-utils pygobject3 python@3.12 libadwaita adwaita-icon-theme gettext shared-mime-info && brew link pkgconf python@3.12
     - name: Build macOS version
       run: build-aux/macos-build.sh devel
     - name: Build installer

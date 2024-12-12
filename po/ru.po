@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-12-12 21:49+0100\n"
+"POT-Creation-Date: 2024-12-13 00:32+0100\n"
 "PO-Revision-Date: 2024-10-05 15:30+0000\n"
 "Last-Translator: Vladimir Kosolapov\n"
 "Language-Team: Russian\n"
@@ -429,97 +429,74 @@ msgstr "_Отменить"
 msgid "_Save"
 msgstr "_Сохранить"
 
-#: data/ui/settings_dialog.blp:30
-msgid "General"
-msgstr ""
+#: data/ui/settings_dialog.blp:27
+#, fuzzy
+msgid "Application"
+msgstr "Действия"
+
+#: data/ui/settings_dialog.blp:31
+#, fuzzy
+msgid "Appearance"
+msgstr "Внешний вид тела запроса"
 
 #: data/ui/settings_dialog.blp:34
-msgid "HTTP client settings"
-msgstr ""
-
-#: data/ui/settings_dialog.blp:35
-msgid "Settings used when performing HTTP requests."
+msgid "Application style"
 msgstr ""
 
 #: data/ui/settings_dialog.blp:38
-msgid "Enforce TLS validation"
+msgid "Follow system settings"
 msgstr ""
 
 #: data/ui/settings_dialog.blp:39
-msgid "If disabled, invalid TLS certificates will not fail a request."
+msgid "Light mode"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:43
-msgid "Follow redirects"
+#: data/ui/settings_dialog.blp:40
+msgid "Dark mode"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:44
-msgid "If enabled, a responses that return HTTP 3xx will be chained."
+#: data/ui/settings_dialog.blp:46
+msgid "Use system font"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:49
-msgid "Maximum redirects"
+#: data/ui/settings_dialog.blp:50
+msgid "Custom font"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:61
-#, fuzzy
-msgid "Request timeout"
-msgstr "Метод запроса"
-
-#: data/ui/settings_dialog.blp:74
+#: data/ui/settings_dialog.blp:65
 msgid "File settings"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:75
-msgid "Settings related to storage."
-msgstr ""
-
-#: data/ui/settings_dialog.blp:78
+#: data/ui/settings_dialog.blp:68
 msgid "Create backup files"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:79
+#: data/ui/settings_dialog.blp:69
 msgid ""
 "You might not want to enable this if you are already using a version control "
 "such as Git"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:84
+#: data/ui/settings_dialog.blp:75 data/ui/settings_dialog.blp:79
+msgid "HTTP Client"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:82
+msgid "Enforce TLS validation"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:86
+msgid "Follow redirects"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:91
+msgid "Maximum redirects"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:103
 #, fuzzy
-msgid "Appearance"
-msgstr "Внешний вид тела запроса"
-
-#: data/ui/settings_dialog.blp:85
-msgid "Display settings."
-msgstr ""
-
-#: data/ui/settings_dialog.blp:88
-msgid "Application theme"
-msgstr ""
-
-#: data/ui/settings_dialog.blp:89
-msgid "The style to use in the application"
-msgstr ""
-
-#: data/ui/settings_dialog.blp:93
-msgid "Follow system settings"
-msgstr ""
-
-#: data/ui/settings_dialog.blp:94
-msgid "Light mode"
-msgstr ""
-
-#: data/ui/settings_dialog.blp:95
-msgid "Dark mode"
-msgstr ""
-
-#: data/ui/settings_dialog.blp:101
-msgid "Use system font"
-msgstr ""
-
-#: data/ui/settings_dialog.blp:105
-msgid "Custom font"
-msgstr ""
+msgid "Request timeout"
+msgstr "Метод запроса"
 
 #: src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"

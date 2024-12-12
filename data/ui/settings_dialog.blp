@@ -20,73 +20,18 @@ using Adw 1;
 
 template $CarteroSettingsDialog: Adw.PreferencesDialog {
   title: _("Settings");
-  content-width: 480;
-  content-height: 640;
-  width-request: 360;
-  height-request: 480;
-  search-enabled: false;
+  content-width: 640;
+  content-height: 480;
 
   Adw.PreferencesPage {
-    title: _("General");
+    title: _("Application");
     icon-name: "applications-system";
 
     Adw.PreferencesGroup {
-      title: _("HTTP client settings");
-      description: _("Settings used when performing HTTP requests.");
-
-      Adw.SwitchRow option_validate_tls {
-        title: _("Enforce TLS validation");
-        subtitle: _("If disabled, invalid TLS certificates will not fail a request.");
-      }
-
-      Adw.ExpanderRow option_follow_redirects {
-        title: _("Follow redirects");
-        subtitle: _("If enabled, a responses that return HTTP 3xx will be chained.");
-        show-enable-switch: true;
-        enable-expansion: true;
-
-        Adw.SpinRow option_maximum_redirects {
-          title: _("Maximum redirects");
-
-          adjustment: Gtk.Adjustment {
-            lower: 1;
-            upper: 1000;
-            value: 1;
-            step-increment: 1;
-          };
-        }
-      }
-
-      Adw.SpinRow option_timeout {
-        title: _("Request timeout");
-        digits: 3;
-
-        adjustment: Gtk.Adjustment {
-          lower: 0;
-          upper: 1000;
-          value: 5.0;
-          step-increment: 0.1;
-        };
-      }
-    }
-
-    Adw.PreferencesGroup {
-      title: _("File settings");
-      description: _("Settings related to storage.");
-
-      Adw.SwitchRow option_create_backups {
-        title: _("Create backup files");
-        subtitle: _("You might not want to enable this if you are already using a version control such as Git");
-      }
-    }
-
-    Adw.PreferencesGroup {
       title: _("Appearance");
-      description: _("Display settings.");
 
       Adw.ComboRow option_theme {
-        title: _("Application theme");
-        subtitle: _("The style to use in the application");
+        title: _("Application style");
 
         model: Gtk.StringList {
           strings [
@@ -113,6 +58,57 @@ template $CarteroSettingsDialog: Adw.PreferencesDialog {
           vexpand: false;
           valign: center;
         }
+      }
+    }
+
+    Adw.PreferencesGroup {
+      title: _("File settings");
+
+      Adw.SwitchRow option_create_backups {
+        title: _("Create backup files");
+        subtitle: _("You might not want to enable this if you are already using a version control such as Git");
+      }
+    }
+  }
+
+  Adw.PreferencesPage {
+    title: _("HTTP Client");
+    icon-name: "network-transmit-receive";
+
+    Adw.PreferencesGroup {
+      title: _("HTTP Client");
+
+      Adw.SwitchRow option_validate_tls {
+        title: _("Enforce TLS validation");
+      }
+
+      Adw.ExpanderRow option_follow_redirects {
+        title: _("Follow redirects");
+        show-enable-switch: true;
+        enable-expansion: true;
+
+        Adw.SpinRow option_maximum_redirects {
+          title: _("Maximum redirects");
+
+          adjustment: Gtk.Adjustment {
+            lower: 1;
+            upper: 1000;
+            value: 1;
+            step-increment: 1;
+          };
+        }
+      }
+
+      Adw.SpinRow option_timeout {
+        title: _("Request timeout");
+        digits: 3;
+
+        adjustment: Gtk.Adjustment {
+          lower: 0;
+          upper: 1000;
+          value: 5.0;
+          step-increment: 0.1;
+        };
       }
     }
   }

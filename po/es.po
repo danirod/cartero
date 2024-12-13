@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2024-12-13 00:32+0100\n"
-"PO-Revision-Date: 2024-11-04 17:46+0000\n"
+"PO-Revision-Date: 2024-12-13 00:05+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/cartero/cartero/"
 "es/>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.8.2\n"
+"X-Generator: Weblate 5.9-dev\n"
 
 #: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:4
 msgid "Make HTTP requests and test APIs"
@@ -127,35 +127,36 @@ msgstr "La última ubicación donde se guardó un archivo"
 
 #: data/es.danirod.Cartero.gschema.xml:60
 msgid "Whether to validate the TLS certificates during a request"
-msgstr ""
+msgstr "Si validar o no los certificados TLS durante una petición"
 
 #: data/es.danirod.Cartero.gschema.xml:64
 msgid "Whether to follow redirections if that is the server response"
-msgstr ""
+msgstr "Si permitir redirecciones o no cuando esa sea la respuesta del servidor"
 
 #: data/es.danirod.Cartero.gschema.xml:68
 msgid "Maximum number of redirections to follow before giving up"
-msgstr ""
+msgstr "El número máximo de redirecciones a seguir antes de rendirse"
 
 #: data/es.danirod.Cartero.gschema.xml:72
 msgid "Maximum timeout when awaiting for an HTTP response."
 msgstr ""
+"El tiempo límite de respuesta máximo cuando se espere una respuesta HTTP."
 
 #: data/es.danirod.Cartero.gschema.xml:76
 msgid "Whether to use light or dark mode."
-msgstr ""
+msgstr "Si usar modo claro u oscuro."
 
 #: data/es.danirod.Cartero.gschema.xml:80
 msgid "The custom font in use"
-msgstr ""
+msgstr "La fuente personalizada en uso"
 
 #: data/es.danirod.Cartero.gschema.xml:84
 msgid "Whether to use the system font or a custom one"
-msgstr ""
+msgstr "Si usar la fuente del sistema o una fuente personalizada"
 
 #: data/es.danirod.Cartero.gschema.xml:88
 msgid "Whether to create backup files on save"
-msgstr ""
+msgstr "Si crear o no copias de seguridad al guardar"
 
 #: data/gtk/help_overlay.blp:26
 msgctxt "shortcuts window"
@@ -324,7 +325,7 @@ msgstr "Cerrar pestaña"
 
 #: data/ui/main_window.blp:176 data/ui/settings_dialog.blp:22
 msgid "Settings"
-msgstr ""
+msgstr "Preferencias"
 
 #: data/ui/main_window.blp:181 data/ui/main_window_no_csd.blp:183
 msgid "Body appearance"
@@ -388,7 +389,7 @@ msgstr "Tipo de cuerpo"
 
 #: data/ui/payload_tab.blp:82
 msgid "URL Encoded"
-msgstr "URL Encoded"
+msgstr "Codificado como URL"
 
 #: data/ui/payload_tab.blp:83
 msgid "Multipart Form Data"
@@ -428,73 +429,72 @@ msgid "_Save"
 msgstr "_Guardar"
 
 #: data/ui/settings_dialog.blp:27
-#, fuzzy
 msgid "Application"
-msgstr "Acciones"
+msgstr "Aplicación"
 
-#: data/ui/settings_dialog.blp:31
-#, fuzzy
+#: data/ui/settings_dialog.blp:84
 msgid "Appearance"
-msgstr "Apariencia del cuerpo"
+msgstr "Apariencia"
 
 #: data/ui/settings_dialog.blp:34
 msgid "Application style"
-msgstr ""
+msgstr "Estilo de la aplicación"
 
-#: data/ui/settings_dialog.blp:38
+#: data/ui/settings_dialog.blp:93
 msgid "Follow system settings"
-msgstr ""
+msgstr "Seguir opciones del sistema"
 
-#: data/ui/settings_dialog.blp:39
+#: data/ui/settings_dialog.blp:94
 msgid "Light mode"
-msgstr ""
+msgstr "Modo claro"
 
-#: data/ui/settings_dialog.blp:40
+#: data/ui/settings_dialog.blp:95
 msgid "Dark mode"
-msgstr ""
+msgstr "Modo oscuro"
 
-#: data/ui/settings_dialog.blp:46
+#: data/ui/settings_dialog.blp:101
 msgid "Use system font"
-msgstr ""
+msgstr "Usar la fuente del sistema"
 
-#: data/ui/settings_dialog.blp:50
+#: data/ui/settings_dialog.blp:105
 msgid "Custom font"
-msgstr ""
+msgstr "Fuente personalizada"
 
-#: data/ui/settings_dialog.blp:65
+#: data/ui/settings_dialog.blp:74
 msgid "File settings"
-msgstr ""
+msgstr "Preferencias de archivos"
 
-#: data/ui/settings_dialog.blp:68
+#: data/ui/settings_dialog.blp:78
 msgid "Create backup files"
-msgstr ""
+msgstr "Crear copias de seguridad"
 
-#: data/ui/settings_dialog.blp:69
+#: data/ui/settings_dialog.blp:79
 msgid ""
 "You might not want to enable this if you are already using a version control "
 "such as Git"
 msgstr ""
+"Tal vez no quieras activar esta opción si ya estás usando un control de "
+"versiones como Git"
 
 #: data/ui/settings_dialog.blp:75 data/ui/settings_dialog.blp:79
 msgid "HTTP Client"
-msgstr ""
+msgstr "Cliente HTTP"
 
-#: data/ui/settings_dialog.blp:82
+#: data/ui/settings_dialog.blp:38
 msgid "Enforce TLS validation"
-msgstr ""
+msgstr "Exigir validación TLS"
 
-#: data/ui/settings_dialog.blp:86
+#: data/ui/settings_dialog.blp:43
 msgid "Follow redirects"
-msgstr ""
+msgstr "Seguir redirecciones"
 
-#: data/ui/settings_dialog.blp:91
+#: data/ui/settings_dialog.blp:49
 msgid "Maximum redirects"
-msgstr ""
+msgstr "Redirecciones máximas"
 
-#: data/ui/settings_dialog.blp:103
-#, fuzzy
+#: data/ui/settings_dialog.blp:61
 msgid "Request timeout"
-msgstr "Método de petición"
+msgstr "Tiempo límite de petición"
 
 #: src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"
@@ -527,6 +527,43 @@ msgstr "Los autores de Cartero"
 #: src/win.rs:517
 msgid "© 2024 the Cartero authors"
 msgstr "© 2024 los autores de Cartero"
+
+#: data/ui/settings_dialog.blp:30
+msgid "General"
+msgstr "General"
+
+#: data/ui/settings_dialog.blp:34
+msgid "HTTP client settings"
+msgstr "Preferencias del cliente HTTP"
+
+#: data/ui/settings_dialog.blp:35
+msgid "Settings used when performing HTTP requests."
+msgstr "Preferencias usadas cuando se están haciendo peticiones HTTP."
+
+#: data/ui/settings_dialog.blp:39
+msgid "If disabled, invalid TLS certificates will not fail a request."
+msgstr ""
+"Si se desactiva, los certificados TLS inválidos no harán fallar una petición."
+
+#: data/ui/settings_dialog.blp:44
+msgid "If enabled, a responses that return HTTP 3xx will be chained."
+msgstr "Si se activa, las respuestas que devuelvan HTTP 3xx se encadenarán."
+
+#: data/ui/settings_dialog.blp:75
+msgid "Settings related to storage."
+msgstr "Opciones relacionadas con el almacenamiento."
+
+#: data/ui/settings_dialog.blp:85
+msgid "Display settings."
+msgstr "Opciones de visualización."
+
+#: data/ui/settings_dialog.blp:88
+msgid "Application theme"
+msgstr "Tema de la aplicación"
+
+#: data/ui/settings_dialog.blp:89
+msgid "The style to use in the application"
+msgstr "El estilo que quieres usar en la aplicación"
 
 #, fuzzy
 #~ msgid "Cartero request"

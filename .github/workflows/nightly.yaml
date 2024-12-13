@@ -101,6 +101,8 @@ jobs:
       run: which python3
     - name: What is python?
       run: python3 --version
+    - name: What has python=
+      run: python -c "import sys; print('\n'.join(sys.path))"
     - name: Build macOS version
       run: build-aux/macos-build.sh devel
     - name: Build installer

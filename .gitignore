@@ -1,3 +1,4 @@
 /src/config.rs
-/subprojects/blueprint-compiler
+/subprojects/*
+!/subprojects/*.wrap
 /target

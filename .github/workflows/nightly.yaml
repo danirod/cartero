@@ -98,7 +98,9 @@ jobs:
     - name: Install dependencies
       run: brew unlink pkg-config && brew install pkg-config meson gtk4 gtksourceview5 desktop-file-utils pygobject3 python3 libadwaita adwaita-icon-theme gettext shared-mime-info && brew link pkgconf
     - name: Link Python3
-      run: brew link --overwrite python3
+      run: brew link --force --overwrite python3
+    - name: Fix PYTHONPATH
+      run: echo "PYTHONPATH=$(brew --prefix)/lib/python3.13/site-packages:$PYTHONPATH" >> $GITHUB_ENV
     - name: What has python?
       run: $(brew --prefix)/bin/python3 -c "import sys; print('\n'.join(sys.path))"
     - name: Build macOS version

@@ -102,7 +102,7 @@ jobs:
     - name: What is python?
       run: python3 --version
     - name: What has python=
-      run: python3 -c "import sys; print('\n'.join(sys.path))"
+      run: $(brew --prefix)/bin/python3 -c "import sys; print('\n'.join(sys.path))"
     - name: Build macOS version
       run: build-aux/macos-build.sh devel
     - name: Build installer

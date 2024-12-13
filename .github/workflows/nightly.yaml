@@ -96,12 +96,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Install dependencies
-      run: brew unlink pkg-config && brew install pkg-config meson gtk4 gtksourceview5 desktop-file-utils pygobject3 libadwaita adwaita-icon-theme gettext shared-mime-info && brew link pkgconf python3
-    - name: Where is python?
-      run: which python3
-    - name: What is python?
-      run: python3 --version
-    - name: What has python=
+      run: brew unlink pkg-config && brew install pkg-config meson gtk4 gtksourceview5 desktop-file-utils pygobject3 python3 libadwaita adwaita-icon-theme gettext shared-mime-info && brew link pkgconf
+    - name: Link Python3
+      run: brew link --overwrite python3
+    - name: What has python?
       run: $(brew --prefix)/bin/python3 -c "import sys; print('\n'.join(sys.path))"
     - name: Build macOS version
       run: build-aux/macos-build.sh devel

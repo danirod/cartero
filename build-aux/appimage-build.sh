@@ -3,6 +3,12 @@
 set -e
 cd "$(dirname "$0")/.."
 
+# Vendor base is the directory where the datafiles to copy are expected to be, such
+# as the GtkSourceView themes or the Adwaita icons. This is set to /usr in case you
+# are building for yourself. Set to a different value if running in a special
+# environment (icon theme is installed to /usr/local or you are running Linuxbrew).
+VENDOR_BASE=${VENDOR_BASE:=/usr}
+
 case "$1" in
   devel)
     MESON_FLAGS="-Dprofile=development"
@@ -27,21 +33,24 @@ DESTDIR=$PWD/build/appimagetool/AppDir/usr ninja -C build install
 cd build/appimagetool
 
 # Vendor extra files
-if [ -d /usr/share/icons/Adwaita ]; then
+if [ -d $VENDOR_BASE/share/icons/Adwaita ]; then
   mkdir -p AppDir/usr/share/icons
-  cp -rv /usr/share/icons/Adwaita AppDir/usr/share/icons
+  echo "$VENDOR_BASE/share/icons/Adwaita -> AppDir/usr/share/icons"
+  cp -r $VENDOR_BASE/share/icons/Adwaita AppDir/usr/share/icons
   gtk4-update-icon-cache -q -t -f AppDir/usr/share/icons/Adwaita
 else
   echo "Warning: cannot vendor Adwaita icons"
 fi
-if [ -d /usr/share/themes/Adwaita ]; then
+if [ -d $VENDOR_BASE/share/themes/Adwaita ]; then
   mkdir -p AppDir/usr/share/themes
-  cp -rv /usr/share/themes/Adwaita AppDir/usr/share/themes
+  echo "$VENDOR_BASE/share/themes/Adwaita -> AppDir/usr/share/themes"
+  cp -r $VENDOR_BASE/share/themes/Adwaita AppDir/usr/share/themes
 else
   echo "Warning: cannot vendor Adwaita themes"
 fi
-if [ -d /usr/share/gtksourceview-5 ]; then
-  cp -rv /usr/share/gtksourceview-5 AppDir/usr/share/
+if [ -d $VENDOR_BASE/share/gtksourceview-5 ]; then
+  echo "$VENDOR_BASE/share/gtksourceview-5 -> AppDir/usr/share/"
+  cp -r $VENDOR_BASE/share/gtksourceview-5 AppDir/usr/share/
 else
   echo "Warning: cannot vendor GtkSourceView 5 data files"
 fi

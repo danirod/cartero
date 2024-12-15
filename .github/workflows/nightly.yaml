@@ -114,14 +114,14 @@ jobs:
     steps:
     - name: Install dependencies
       run: |
-        apt install --no-install-recommends libfuse2
+        sudo apt install --no-install-recommends libfuse2
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
         brew install meson gtk4 gtksourceview5 desktop-file-utils pygobject3 libadwaita adwaita-icon-theme gettext shared-mime-info
     - uses: actions/checkout@v4
     - name: Build
       run: |
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-        export VENDOR_BASE=/home/linuxbrew/.linuxbrew
+        export VENDOR_BASE="$(brew --prefix)"
         build-aux/appimage-build.sh devel
     - name: Upload
       uses: actions/upload-artifact@v4

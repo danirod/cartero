@@ -122,6 +122,7 @@ jobs:
       run: |
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
         export VENDOR_BASE="$(brew --prefix)"
+        export LD_LIBRARY_PATH="$(brew --prefix)/lib"
         build-aux/appimage-build.sh devel
     - name: Upload
       uses: actions/upload-artifact@v4

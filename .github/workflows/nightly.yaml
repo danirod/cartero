@@ -124,7 +124,7 @@ jobs:
           export PATH=$PWD/homebrew/bin:$PATH
 
           # These dependencies are a pain in the ass to setup and they don't need to be built from source.
-          brew install python3@3.12 python3@3.13 svn
+          brew install python@3.12 python@3.13 svn
 
           # Note: the --build-from-source flag does not affect dependencies, so install
           # each dependency separately. Since this is not a real Homebrew distribution,

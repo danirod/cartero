@@ -143,6 +143,11 @@ echo 'export FONTCONFIG_PATH=/etc/fonts' >> AppDir/apprun-hooks/linuxdeploy-plug
 echo 'export XKB_CONFIG_ROOT=/usr/share/X11/xkb' >> AppDir/apprun-hooks/linuxdeploy-plugin-gtk.sh
 echo 'export QT_XKB_CONFIG_ROOT=/usr/share/X11/xkb' >> AppDir/apprun-hooks/linuxdeploy-plugin-gtk.sh
 
+# Bypass AppRun.wrapped
+rm AppDir/AppRun.wrapped
+sed -i '/exec/d' AppDir/AppRun
+echo 'exec "$this_dir"/usr/bin/cartero "$@"' >> AppDir/AppRun
+
 # Check for symlinks in /lib (specifically when built in CI)
 for f in $(find AppDir/usr/lib -type l); do
   cp --remove-destination $(readlink -e "$f") "$f"

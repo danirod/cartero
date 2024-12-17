@@ -19,8 +19,8 @@ on:
   push:
     branches:
       - trunk
-      - 'fix/*'
-      - 'release/*'
+      - "fix/*"
+      - "release/*"
 name: Nightly build
 jobs:
   flatpak:
@@ -59,73 +59,111 @@ jobs:
       run:
         shell: msys2 {0}
     steps:
-    - uses: msys2/setup-msys2@v2
-      with:
-        update: true
-        install: >-
-          git
-        msystem: ucrt64
-    - uses: actions/checkout@v4
-    - name: Build Windows version
-      run: |
-        export PATH=/c/Users/$USER/.cargo/bin:$PATH
-        rustup toolchain install stable-gnu
-        rustup default stable-gnu
-        build-aux/msys-build.sh devel
-    - uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
-      name: Create Windows installer
-      with:
-        path: build/win32-installer.iss
-    - uses: actions/upload-artifact@v4
-      name: Upload Windows version
-      with:
-        name: es.danirod.Cartero-windows-x86_64
-        path: build/cartero-win32
-    - uses: actions/upload-artifact@v4
-      name: Upload Windows version
-      with:
-        name: es.danirod.Cartero-windows-x86_64-installer
-        path: build/Output/cartero.exe
+      - uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: >-
+            git
+          msystem: ucrt64
+      - uses: actions/checkout@v4
+      - name: Build Windows version
+        run: |
+          export PATH=/c/Users/$USER/.cargo/bin:$PATH
+          rustup toolchain install stable-gnu
+          rustup default stable-gnu
+          build-aux/msys-build.sh devel
+      - uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
+        name: Create Windows installer
+        with:
+          path: build/win32-installer.iss
+      - uses: actions/upload-artifact@v4
+        name: Upload Windows version
+        with:
+          name: es.danirod.Cartero-windows-x86_64
+          path: build/cartero-win32
+      - uses: actions/upload-artifact@v4
+        name: Upload Windows version
+        with:
+          name: es.danirod.Cartero-windows-x86_64-installer
+          path: build/Output/cartero.exe
   macos:
     strategy:
       matrix:
-        os: [macos-13, macos-14, macos-15]
+        # macOS 13 for x86_64, macOS 15 for aarch64
+        os: [macos-13, macos-15]
       fail-fast: false
-    name: "macOS (${{ matrix.os }})"
+    name: "macOS (${{ runner.arch }})"
     runs-on: ${{ matrix.os }}
+    env:
+      # The minimum supported macOS version.
+      MACOSX_DEPLOYMENT_TARGET: 11.0
     steps:
-    - uses: actions/checkout@v4
-    - name: Install dependencies
-      run: brew unlink pkg-config && brew install pkg-config meson gtk4 gtksourceview5 desktop-file-utils pygobject3 libadwaita adwaita-icon-theme gettext shared-mime-info && brew link pkgconf
-    - name: Fix PYTHONPATH for blueprint-compiler
-      run: echo "PYTHONPATH=$(brew --prefix)/lib/python3.13/site-packages:$PYTHONPATH" >> $GITHUB_ENV
-    - name: Build macOS version
-      run: build-aux/macos-build.sh devel
-    - name: Build installer
-      run: build-aux/macos-installer.sh
-    - uses: actions/upload-artifact@v4
-      name: Upload macOS version
-      with:
-        name: es.danirod.Cartero-${{ matrix.os }}-${{ runner.arch }}
-        path: build/Cartero-*.dmg
+      - uses: actions/checkout@v4
+      - name: Reload the patched Homebrew environment
+        id: patched-homebrew
+        uses: actions/cache@v4
+        with:
+          path: homebrew
+          key: ${{ runner.os }}-${{ runner.arch }}-homebrew
+      - name: Install patched Homebrew environment
+        if: steps.patched-homebrew.outputs.cache-hit != 'true'
+        run: |
+          # Manually download Homebrew
+          mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip-components 1 -C homebrew
+          eval "$(homebrew/bin/brew shellenv)"
+          brew update --force --quiet
+          export PATH=$PWD/homebrew/bin:$PATH
+
+          # Patch Homebrew to support injecting the deployment target
+          sed -i 's/MACOSX_DEPLOYMENT_TARGET//g' $HOME/homebrew/Library/build_environment.rb
+          sed -i 's/MACOSX_DEPLOYMENT_TARGET//g' $HOME/homebrew/Library/extend/ENV/shared.rb
+      - name: Install dependencies
+        if: steps.patched-homebrew.outputs.cache-hit != 'true'
+        run: |
+          export PATH=$PWD/homebrew/bin:$PATH
+
+          # Note: the --build-from-source flag does not affect dependencies, so install
+          # each dependency separately. Since this is not a real Homebrew distribution,
+          # it doesn't matter if dependencies are not treated as such.
+          for pkg in meson gtk4 desktop-file-utils pygobject3 adwaita-icon-theme shared-mime-info gtksourceview5 libadwaita; do
+            brew install $(brew deps $pkg) --build-from-source
+            brew install $pkg --build-from-source
+          done
+      - name: Fix PYTHONPATH for blueprint-compiler
+        run: |
+          export PATH=$PWD/homebrew/bin:$PATH
+          echo "PYTHONPATH=$(brew --prefix)/lib/python3.13/site-packages:$PYTHONPATH" >> $GITHUB_ENV
+      - name: Build macOS version
+        run: |
+          export PATH=$PWD/homebrew/bin:$PATH
+          build-aux/macos-build.sh devel
+      - name: Build installer
+        run: |
+          export PATH=$PWD/homebrew/bin:$PATH
+          build-aux/macos-installer.sh
+      - uses: actions/upload-artifact@v4
+        name: Upload macOS version
+        with:
+          name: es.danirod.Cartero-${{ runner.arch }}
+          path: build/Cartero-*.dmg
   appimage:
     name: "AppImage (GNU/Linux)"
     runs-on: ubuntu-22.04
     steps:
-    - name: Install dependencies
-      run: |
-        sudo apt install --no-install-recommends libfuse2
-        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-        brew install meson gtk4 gtksourceview5 desktop-file-utils pygobject3 libadwaita adwaita-icon-theme gettext shared-mime-info
-    - uses: actions/checkout@v4
-    - name: Build
-      run: |
-        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-        export VENDOR_BASE="$(brew --prefix)"
-        export LD_LIBRARY_PATH="$(brew --prefix)/lib"
-        build-aux/appimage-build.sh devel
-    - name: Upload
-      uses: actions/upload-artifact@v4
-      with:
-        name: es.danirod.Cartero.Devel-AppImage
-        path: build/appimagetool/Cartero-x86_64.AppImage
+      - name: Install dependencies
+        run: |
+          sudo apt install --no-install-recommends libfuse2
+          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+          brew install meson gtk4 gtksourceview5 desktop-file-utils pygobject3 libadwaita adwaita-icon-theme gettext shared-mime-info
+      - uses: actions/checkout@v4
+      - name: Build
+        run: |
+          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+          export VENDOR_BASE="$(brew --prefix)"
+          export LD_LIBRARY_PATH="$(brew --prefix)/lib"
+          build-aux/appimage-build.sh devel
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: es.danirod.Cartero.Devel-AppImage
+          path: build/appimagetool/Cartero-x86_64.AppImage

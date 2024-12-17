@@ -92,7 +92,7 @@ jobs:
         # macOS 13 for x86_64, macOS 15 for aarch64
         os: [macos-13, macos-15]
       fail-fast: false
-    name: "macOS (${{ runner.arch }})"
+    name: "macOS (${{ matrix.os }})"
     runs-on: ${{ matrix.os }}
     env:
       # The minimum supported macOS version.

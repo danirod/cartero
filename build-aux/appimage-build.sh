@@ -123,7 +123,8 @@ echo 'export GSETTINGS_SCHEMA_DIR="$APPDIR/usr/share/glib-2.0/schemas"' >> AppDi
 echo 'export GI_TYPELIB_PATH="$APPDIR/usr/lib/girepository-1.0"' >> AppDir/apprun-hooks/linuxdeploy-plugin-gtk.sh
 echo 'export GTK_EXE_PREFIX="$APPDIR/usr"' >> AppDir/apprun-hooks/linuxdeploy-plugin-gtk.sh
 echo 'export GTK_PATH="$APPDIR/usr/lib/gtk-4.0"' >> AppDir/apprun-hooks/linuxdeploy-plugin-gtk.sh
-echo 'export GDK_PIXBUF_MODULE_FILE="$APPDIR/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache"' >> AppDir/apprun-hooks/linuxdeploy-plugin-gtk.s
+echo 'export GDK_PIXBUF_MODULE_FILE="$APPDIR/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache"' >> AppDir/apprun-hooks/linuxdeploy-plugin-gtk.sh
+echo 'export FONTCONFIG_PATH=/etc/fonts' >> AppDir/apprun-hooks/linuxdeploy-plugin-gtk.sh
 
 # Check for symlinks in /lib (specifically when built in CI)
 for f in $(find AppDir/usr/lib -type l); do

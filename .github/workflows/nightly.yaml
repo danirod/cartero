@@ -114,10 +114,10 @@ jobs:
           export PATH=$PWD/homebrew/bin:$PATH
 
           # Patch Homebrew to support injecting the deployment target
-          sed -i.bak 's/MACOSX_DEPLOYMENT_TARGET//g' $PWD/homebrew/Library/build_environment.rb
-          sed -i.bak 's/MACOSX_DEPLOYMENT_TARGET//g' $PWD/homebrew/Library/extend/ENV/shared.rb
-          rm $PWD/homebrew/Library/build_environment.rb.bak
-          rm $PWD/homebrew/Library/extend/ENV/shared.rb.bak
+          sed -i.bak 's/MACOSX_DEPLOYMENT_TARGET//g' $(brew --prefix)/Library/Homebrew/build_environment.rb
+          sed -i.bak 's/MACOSX_DEPLOYMENT_TARGET//g' $(brew --prefix)/Library/Homebrew/extend/ENV/shared.rb
+          rm $(brew --prefix)/Library/Homebrew/build_environment.rb.bak
+          rm $(brew --prefix)/Library/Homebrew/extend/ENV/shared.rb.bak
       - name: Install dependencies
         if: steps.patched-homebrew.outputs.cache-hit != 'true'
         run: |

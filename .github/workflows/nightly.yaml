@@ -109,14 +109,21 @@ jobs:
         name: es.danirod.Cartero-${{ matrix.os }}-${{ runner.arch }}
         path: build/Cartero-*.dmg
   appimage:
-    name: "AppImage (GNU/Linux, glibc 2.38+)"
-    runs-on: ubuntu-24.04
+    name: "AppImage (GNU/Linux)"
+    runs-on: ubuntu-22.04
     steps:
     - name: Install dependencies
-      run: sudo apt update && sudo apt install -y --no-install-recommends gettext meson libgtk-4-dev libadwaita-1-dev libgtksourceview-5-dev desktop-file-utils xvfb libfuse2 libgtk-4-bin librsvg2-common
+      run: |
+        sudo apt install --no-install-recommends libfuse2
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+        brew install meson gtk4 gtksourceview5 desktop-file-utils pygobject3 libadwaita adwaita-icon-theme gettext shared-mime-info
     - uses: actions/checkout@v4
     - name: Build
-      run: build-aux/appimage-build.sh devel
+      run: |
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+        export VENDOR_BASE="$(brew --prefix)"
+        export LD_LIBRARY_PATH="$(brew --prefix)/lib"
+        build-aux/appimage-build.sh devel
     - name: Upload
       uses: actions/upload-artifact@v4
       with:

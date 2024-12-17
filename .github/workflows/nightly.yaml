@@ -98,7 +98,6 @@ jobs:
       # The minimum supported macOS version.
       MACOSX_DEPLOYMENT_TARGET: 11.0
     steps:
-      - uses: actions/checkout@v4
       - name: Reload the patched Homebrew environment
         id: patched-homebrew
         uses: actions/cache@v4
@@ -133,6 +132,7 @@ jobs:
         run: |
           export PATH=$PWD/homebrew/bin:$PATH
           echo "PYTHONPATH=$(brew --prefix)/lib/python3.13/site-packages:$PYTHONPATH" >> $GITHUB_ENV
+      - uses: actions/checkout@v4
       - name: Build macOS version
         run: |
           export PATH=$PWD/homebrew/bin:$PATH

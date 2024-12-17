@@ -23,11 +23,13 @@ VENDOR_BASE=${VENDOR_BASE:=/usr}
 case "$1" in
   devel)
     MESON_FLAGS="-Dprofile=development"
+    APP_NAME="es.danirod.Cartero.Devel"
     ICON_PATH="AppDir/usr/share/icons/hicolor/scalable/apps/es.danirod.Cartero.Devel.svg"
     DESKTOP_PATH="AppDir/usr/share/applications/es.danirod.Cartero.Devel.desktop"
     ;;
   stable)
     MESON_FLAGS="-Dprofile=default"
+    APP_NAME="es.danirod.Cartero"
     ICON_PATH="AppDir/usr/share/icons/hicolor/scalable/apps/es.danirod.Cartero.svg"
     DESKTOP_PATH="AppDir/usr/share/applications/es.danirod.Cartero.desktop"
     ;;
@@ -65,6 +67,19 @@ cd build/appimagetool
 
 # Apparently AppImage calls this metainfo rather than appinfo
 cp -r AppDir/usr/share/appdata AppDir/usr/share/metainfo
+
+# Prepare icon
+LARGE_ICON_PATH="$ICON_PATH"
+if command -v rsvg-convert 2>&1 >/dev/null; then
+  # rsvg-convert exists. Let's convert the SVG icon to PNG, because apparently
+  # the SVG implementation in KDE is more limited than rsvg and the icon does
+  # not display properly.
+  for size in 16 24 32 48 64 96 128 256 512; do
+    mkdir -p AppDir/usr/share/icons/hicolor/${size}x${size}/apps/
+    rsvg-convert -w $size -h $size -f png -o AppDir/usr/share/icons/hicolor/${size}x${size}/apps/$APP_NAME.png $ICON_PATH
+  done
+  LARGE_ICON_PATH="AppDir/usr/share/icons/hicolor/512x512/apps/$APP_NAME.png"
+fi
 
 # Vendor extra files
 if [ -d $VENDOR_BASE/share/icons/Adwaita ]; then
@@ -125,6 +140,8 @@ echo 'export GTK_EXE_PREFIX="$APPDIR/usr"' >> AppDir/apprun-hooks/linuxdeploy-pl
 echo 'export GTK_PATH="$APPDIR/usr/lib/gtk-4.0"' >> AppDir/apprun-hooks/linuxdeploy-plugin-gtk.sh
 echo 'export GDK_PIXBUF_MODULE_FILE="$APPDIR/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache"' >> AppDir/apprun-hooks/linuxdeploy-plugin-gtk.sh
 echo 'export FONTCONFIG_PATH=/etc/fonts' >> AppDir/apprun-hooks/linuxdeploy-plugin-gtk.sh
+echo 'export XKB_CONFIG_ROOT=/usr/share/X11/xkb' >> AppDir/apprun-hooks/linuxdeploy-plugin-gtk.sh
+echo 'export QT_XKB_CONFIG_ROOT=/usr/share/X11/xkb' >> AppDir/apprun-hooks/linuxdeploy-plugin-gtk.sh
 
 # Check for symlinks in /lib (specifically when built in CI)
 for f in $(find AppDir/usr/lib -type l); do

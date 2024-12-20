@@ -29,23 +29,31 @@ mod imp {
     use glib::subclass::{InitializingObject, Signal};
     use glib::Properties;
     use gtk::subclass::prelude::*;
-    use gtk::{gio::SettingsBindFlags, CompositeTemplate};
-    use gtk::{prelude::*, WrapMode};
+    use gtk::CompositeTemplate;
+    use gtk::{prelude::*, Revealer};
     use sourceview5::{prelude::*, LanguageManager};
-    use sourceview5::{Buffer, StyleSchemeManager, View};
+    use sourceview5::{Buffer, SearchContext};
 
-    use crate::app::CarteroApplication;
-    use crate::widgets::{BasePayloadPane, BasePayloadPaneImpl, PayloadType};
+    use crate::widgets::{BasePayloadPane, BasePayloadPaneImpl, CodeView, PayloadType, SearchBox};
 
     #[derive(Default, CompositeTemplate, Properties)]
     #[properties(wrapper_type = super::RawPayloadPane)]
     #[template(resource = "/es/danirod/Cartero/raw_payload_pane.ui")]
     pub struct RawPayloadPane {
         #[template_child]
-        view: TemplateChild<View>,
+        view: TemplateChild<CodeView>,
 
         #[template_child]
         buffer: TemplateChild<Buffer>,
+
+        #[template_child]
+        search: TemplateChild<SearchBox>,
+
+        #[template_child]
+        search_revealer: TemplateChild<Revealer>,
+
+        #[template_child]
+        search_context: TemplateChild<SearchContext>,
 
         #[property(get = Self::format, set = Self::set_format, builder(PayloadType::default()))]
         _format: RefCell<PayloadType>,
@@ -60,6 +68,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
         }
 
         fn instance_init(obj: &InitializingObject<Self>) {
@@ -76,8 +85,6 @@ mod imp {
 
         fn constructed(&self) {
             self.parent_constructed();
-            self.init_settings();
-            self.init_source_view_style();
 
             self.buffer
                 .connect_changed(glib::clone!(@weak self as pane => move |_| {
@@ -92,6 +99,7 @@ mod imp {
 
     impl BasePayloadPaneImpl for RawPayloadPane {}
 
+    #[gtk::template_callbacks]
     impl RawPayloadPane {
         pub(super) fn payload(&self) -> Vec<u8> {
             let (start, end) = self.buffer.bounds();
@@ -131,85 +139,33 @@ mod imp {
             }
         }
 
-        fn init_settings(&self) {
-            let app = CarteroApplication::get();
-            let settings = app.settings();
-
-            settings
-                .bind("body-wrap", &*self.view, "wrap-mode")
-                .flags(SettingsBindFlags::GET)
-                .mapping(|variant, _| {
-                    let enabled = variant.get::<bool>().expect("The variant is not a boolean");
-                    let mode = match enabled {
-                        true => WrapMode::Word,
-                        false => WrapMode::None,
-                    };
-                    Some(mode.to_value())
-                })
-                .build();
-
-            settings
-                .bind("show-line-numbers", &*self.view, "show-line-numbers")
-                .flags(SettingsBindFlags::GET)
-                .build();
-            settings
-                .bind("auto-indent", &*self.view, "auto-indent")
-                .flags(SettingsBindFlags::GET)
-                .build();
-            settings
-                .bind("indent-style", &*self.view, "insert-spaces-instead-of-tabs")
-                .flags(SettingsBindFlags::GET)
-                .mapping(|variant, _| {
-                    let mode = variant
-                        .get::<String>()
-                        .expect("The variant is not a string");
-                    let use_spaces = mode == "spaces";
-                    Some(use_spaces.to_value())
-                })
-                .build();
-            settings
-                .bind("tab-width", &*self.view, "tab-width")
-                .flags(SettingsBindFlags::GET)
-                .mapping(|variant, _| {
-                    let width = variant.get::<String>().unwrap_or("4".into());
-                    let value = width.parse::<i32>().unwrap_or(4);
-                    Some(value.to_value())
-                })
-                .build();
-            settings
-                .bind("tab-width", &*self.view, "indent-width")
-                .flags(SettingsBindFlags::GET)
-                .mapping(|variant, _| {
-                    let width = variant.get::<String>().unwrap_or("4".into());
-                    let value = width.parse::<i32>().unwrap_or(4);
-                    Some(value.to_value())
-                })
-                .build();
-        }
-
-        fn update_source_view_style(&self) {
-            let dark_mode = adw::StyleManager::default().is_dark();
-            let color_theme = if dark_mode { "Adwaita-dark" } else { "Adwaita" };
-            let theme = StyleSchemeManager::default().scheme(color_theme);
-
-            match theme {
-                Some(theme) => {
-                    self.buffer.set_style_scheme(Some(&theme));
-                    self.buffer.set_highlight_syntax(true);
-                }
-                None => {
-                    self.buffer.set_highlight_syntax(false);
+        fn get_selected_text(&self) -> Option<String> {
+            if self.buffer.has_selection() {
+                if let Some((start, end)) = self.buffer.selection_bounds() {
+                    let text = self.buffer.slice(&start, &end, false);
+                    return Some(text.into());
                 }
             }
+            None
         }
 
-        fn init_source_view_style(&self) {
-            self.update_source_view_style();
-            adw::StyleManager::default().connect_dark_notify(
-                glib::clone!(@weak self as panel => move |_| {
-                    panel.update_source_view_style();
-                }),
-            );
+        #[template_callback]
+        fn on_search_requested(&self) {
+            if !self.search_revealer.reveals_child() {
+                self.search_revealer.set_visible(true);
+                self.search_revealer.set_reveal_child(true);
+            }
+            let text = self.get_selected_text();
+            self.search.init_search(text.as_deref());
+            self.search.focus();
+        }
+
+        #[template_callback]
+        fn on_search_close(&self) {
+            self.search_revealer.set_reveal_child(false);
+            self.search_revealer.set_visible(false);
+            self.search_context.settings().set_search_text(None);
+            self.view.grab_focus();
         }
     }
 }

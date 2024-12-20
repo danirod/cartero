@@ -12,3 +12,9 @@
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
+
+/* Style for search bar elements. */
+.searchbar {
+  background: var(--headerbar-bg-color);
+  border-bottom-left-radius: 10px;
+}

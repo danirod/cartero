@@ -31,13 +31,13 @@ mod imp {
     use glib::Properties;
     use gtk::gdk::Display;
     use gtk::subclass::prelude::*;
-    use gtk::{gio::SettingsBindFlags, CompositeTemplate};
-    use gtk::{prelude::*, template_callbacks, Button, WrapMode};
+    use gtk::{prelude::*, template_callbacks, Button};
+    use gtk::{CompositeTemplate, Revealer};
     use sourceview5::{prelude::*, LanguageManager};
-    use sourceview5::{Buffer, StyleSchemeManager, View};
+    use sourceview5::{Buffer, SearchContext};
 
     use crate::app::CarteroApplication;
-    use crate::widgets::{BaseExportPane, BaseExportPaneImpl, ExportType};
+    use crate::widgets::{BaseExportPane, BaseExportPaneImpl, CodeView, ExportType, SearchBox};
     use crate::win::CarteroWindow;
 
     #[derive(Default, CompositeTemplate, Properties)]
@@ -45,13 +45,22 @@ mod imp {
     #[template(resource = "/es/danirod/Cartero/code_export_pane.ui")]
     pub struct CodeExportPane {
         #[template_child]
-        view: TemplateChild<View>,
+        view: TemplateChild<CodeView>,
 
         #[template_child]
         buffer: TemplateChild<Buffer>,
 
         #[template_child]
         copy_button: TemplateChild<Button>,
+
+        #[template_child]
+        search: TemplateChild<SearchBox>,
+
+        #[template_child]
+        search_revealer: TemplateChild<Revealer>,
+
+        #[template_child]
+        search_context: TemplateChild<SearchContext>,
 
         #[property(get = Self::format, set = Self::set_format, builder(ExportType::default()))]
         _format: RefCell<ExportType>,
@@ -79,12 +88,6 @@ mod imp {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
             SIGNALS.get_or_init(|| vec![Signal::builder("changed").build()])
-        }
-
-        fn constructed(&self) {
-            self.parent_constructed();
-            self.init_settings();
-            self.init_source_view_style();
         }
     }
 
@@ -149,85 +152,33 @@ mod imp {
             self.buffer.set_language(language.as_ref());
         }
 
-        fn init_settings(&self) {
-            let app = CarteroApplication::get();
-            let settings = app.settings();
-
-            settings
-                .bind("body-wrap", &*self.view, "wrap-mode")
-                .flags(SettingsBindFlags::GET)
-                .mapping(|variant, _| {
-                    let enabled = variant.get::<bool>().expect("The variant is not a boolean");
-                    let mode = match enabled {
-                        true => WrapMode::Word,
-                        false => WrapMode::None,
-                    };
-                    Some(mode.to_value())
-                })
-                .build();
-
-            settings
-                .bind("show-line-numbers", &*self.view, "show-line-numbers")
-                .flags(SettingsBindFlags::GET)
-                .build();
-            settings
-                .bind("auto-indent", &*self.view, "auto-indent")
-                .flags(SettingsBindFlags::GET)
-                .build();
-            settings
-                .bind("indent-style", &*self.view, "insert-spaces-instead-of-tabs")
-                .flags(SettingsBindFlags::GET)
-                .mapping(|variant, _| {
-                    let mode = variant
-                        .get::<String>()
-                        .expect("The variant is not a string");
-                    let use_spaces = mode == "spaces";
-                    Some(use_spaces.to_value())
-                })
-                .build();
-            settings
-                .bind("tab-width", &*self.view, "tab-width")
-                .flags(SettingsBindFlags::GET)
-                .mapping(|variant, _| {
-                    let width = variant.get::<String>().unwrap_or("4".into());
-                    let value = width.parse::<i32>().unwrap_or(4);
-                    Some(value.to_value())
-                })
-                .build();
-            settings
-                .bind("tab-width", &*self.view, "indent-width")
-                .flags(SettingsBindFlags::GET)
-                .mapping(|variant, _| {
-                    let width = variant.get::<String>().unwrap_or("4".into());
-                    let value = width.parse::<i32>().unwrap_or(4);
-                    Some(value.to_value())
-                })
-                .build();
-        }
-
-        fn update_source_view_style(&self) {
-            let dark_mode = adw::StyleManager::default().is_dark();
-            let color_theme = if dark_mode { "Adwaita-dark" } else { "Adwaita" };
-            let theme = StyleSchemeManager::default().scheme(color_theme);
-
-            match theme {
-                Some(theme) => {
-                    self.buffer.set_style_scheme(Some(&theme));
-                    self.buffer.set_highlight_syntax(true);
-                }
-                None => {
-                    self.buffer.set_highlight_syntax(false);
+        fn get_selected_text(&self) -> Option<String> {
+            if self.buffer.has_selection() {
+                if let Some((start, end)) = self.buffer.selection_bounds() {
+                    let text = self.buffer.slice(&start, &end, false);
+                    return Some(text.into());
                 }
             }
+            None
         }
 
-        fn init_source_view_style(&self) {
-            self.update_source_view_style();
-            adw::StyleManager::default().connect_dark_notify(
-                glib::clone!(@weak self as panel => move |_| {
-                    panel.update_source_view_style();
-                }),
-            );
+        #[template_callback]
+        fn on_search_requested(&self) {
+            if !self.search_revealer.reveals_child() {
+                self.search_revealer.set_visible(true);
+                self.search_revealer.set_reveal_child(true);
+            }
+            let text = self.get_selected_text();
+            self.search.init_search(text.as_deref());
+            self.search.focus();
+        }
+
+        #[template_callback]
+        fn on_search_close(&self) {
+            self.search_revealer.set_reveal_child(false);
+            self.search_revealer.set_visible(false);
+            self.search_context.settings().set_search_text(None);
+            self.view.grab_focus();
         }
     }
 }

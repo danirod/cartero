@@ -33,23 +33,20 @@ use glib::subclass::types::ObjectSubclassIsExt;
 mod imp {
     use std::cell::RefCell;
 
+    use crate::widgets::{CodeView, ResponseHeaders, SearchBox};
     use adw::prelude::*;
     use adw::subclass::bin::BinImpl;
     use glib::object::Cast;
     use glib::subclass::InitializingObject;
     use glib::Properties;
-    use gtk::gio::SettingsBindFlags;
     use gtk::subclass::prelude::*;
     use gtk::{
         subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetImpl},
         Box, CompositeTemplate, Label, TemplateChild,
     };
-    use gtk::{Spinner, Stack, WrapMode};
-    use sourceview5::prelude::BufferExt;
-    use sourceview5::StyleSchemeManager;
-
-    use crate::app::CarteroApplication;
-    use crate::widgets::ResponseHeaders;
+    use gtk::{Revealer, Spinner, Stack};
+    use sourceview5::prelude::SearchSettingsExt;
+    use sourceview5::SearchContext;
 
     #[derive(CompositeTemplate, Default, Properties)]
     #[properties(wrapper_type = super::ResponsePanel)]
@@ -60,7 +57,7 @@ mod imp {
         #[template_child]
         pub response_headers: TemplateChild<ResponseHeaders>,
         #[template_child]
-        pub response_body: TemplateChild<sourceview5::View>,
+        pub response_body: TemplateChild<CodeView>,
         #[template_child]
         pub response_meta: TemplateChild<Box>,
         #[template_child]
@@ -73,6 +70,14 @@ mod imp {
         pub spinner: TemplateChild<Spinner>,
         #[template_child]
         pub metadata_stack: TemplateChild<Stack>,
+        #[template_child]
+        buffer: TemplateChild<sourceview5::Buffer>,
+        #[template_child]
+        search: TemplateChild<SearchBox>,
+        #[template_child]
+        search_revealer: TemplateChild<Revealer>,
+        #[template_child]
+        search_context: TemplateChild<SearchContext>,
 
         #[property(get = Self::spinning, set = Self::set_spinning)]
         _spinning: RefCell<bool>,
@@ -86,6 +91,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
         }
 
         fn instance_init(obj: &InitializingObject<Self>) {
@@ -94,76 +100,14 @@ mod imp {
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for ResponsePanel {
-        fn constructed(&self) {
-            self.parent_constructed();
-
-            self.init_settings();
-            self.init_source_view_style();
-        }
-    }
+    impl ObjectImpl for ResponsePanel {}
 
     impl WidgetImpl for ResponsePanel {}
 
     impl BinImpl for ResponsePanel {}
 
+    #[gtk::template_callbacks]
     impl ResponsePanel {
-        fn init_settings(&self) {
-            let app = CarteroApplication::get();
-            let settings = app.settings();
-
-            settings
-                .bind("body-wrap", &*self.response_body, "wrap-mode")
-                .flags(SettingsBindFlags::GET)
-                .mapping(|variant, _| {
-                    let enabled = variant.get::<bool>().expect("The variant is not a boolean");
-                    let mode = match enabled {
-                        true => WrapMode::WordChar,
-                        false => WrapMode::None,
-                    };
-                    Some(mode.to_value())
-                })
-                .build();
-            settings
-                .bind(
-                    "show-line-numbers",
-                    &*self.response_body,
-                    "show-line-numbers",
-                )
-                .flags(SettingsBindFlags::GET)
-                .build();
-        }
-
-        fn update_source_view_style(&self) {
-            let dark_mode = adw::StyleManager::default().is_dark();
-            let color_theme = if dark_mode { "Adwaita-dark" } else { "Adwaita" };
-            let theme = StyleSchemeManager::default().scheme(color_theme);
-
-            let buffer = self
-                .response_body
-                .buffer()
-                .downcast::<sourceview5::Buffer>()
-                .unwrap();
-            match theme {
-                Some(theme) => {
-                    buffer.set_style_scheme(Some(&theme));
-                    buffer.set_highlight_syntax(true);
-                }
-                None => {
-                    buffer.set_highlight_syntax(false);
-                }
-            }
-        }
-
-        fn init_source_view_style(&self) {
-            self.update_source_view_style();
-            adw::StyleManager::default().connect_dark_notify(
-                glib::clone!(@weak self as panel => move |_| {
-                    panel.update_source_view_style();
-                }),
-            );
-        }
-
         fn spinning(&self) -> bool {
             self.metadata_stack
                 .visible_child()
@@ -178,6 +122,35 @@ mod imp {
                 self.response_meta.upcast_ref()
             };
             self.metadata_stack.set_visible_child(widget);
+        }
+
+        fn get_selected_text(&self) -> Option<String> {
+            if self.buffer.has_selection() {
+                if let Some((start, end)) = self.buffer.selection_bounds() {
+                    let text = self.buffer.slice(&start, &end, false);
+                    return Some(text.into());
+                }
+            }
+            None
+        }
+
+        #[template_callback]
+        fn on_search_requested(&self) {
+            if !self.search_revealer.reveals_child() {
+                self.search_revealer.set_visible(true);
+                self.search_revealer.set_reveal_child(true);
+            }
+            let text = self.get_selected_text();
+            self.search.init_search(text.as_deref());
+            self.search.focus();
+        }
+
+        #[template_callback]
+        fn on_search_close(&self) {
+            self.search_revealer.set_reveal_child(false);
+            self.search_revealer.set_visible(false);
+            self.search_context.settings().set_search_text(None);
+            self.response_body.grab_focus();
         }
     }
 }

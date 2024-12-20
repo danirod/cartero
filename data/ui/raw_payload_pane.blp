@@ -19,24 +19,52 @@ using Gtk 4.0;
 using GtkSource 5;
 
 template $CarteroRawPayloadPane: $CarteroBasePayloadPane {
-  ScrolledWindow {
-    hexpand: true;
-    vexpand: true;
+  Gtk.Overlay {
+    ScrolledWindow {
+      hexpand: true;
+      vexpand: true;
 
-    GtkSource.View view {
-      styles [
-        "use-cartero-font"
-      ]
+      $CarteroCodeView view {
+        styles [
+          "use-cartero-font"
+        ]
 
-      top-margin: 10;
-      bottom-margin: 10;
-      left-margin: 10;
-      right-margin: 10;
-      smart-backspace: true;
-      monospace: true;
-      buffer: buffer;
+        top-margin: 10;
+        bottom-margin: 10;
+        left-margin: 10;
+        right-margin: 10;
+        smart-backspace: true;
+        monospace: true;
+        buffer: buffer;
+        search-requested => $on_search_requested() swapped;
+      }
+    }
+
+    [overlay]
+    Gtk.Revealer search_revealer {
+      visible: false;
+      reveal-child: false;
+      halign: end;
+      valign: start;
+      hexpand: false;
+      vexpand: false;
+
+      $CarteroSearchBox search {
+        editable: view;
+        search-context: search_context;
+        close => $on_search_close() swapped;
+      }
     }
   }
 }
 
 GtkSource.Buffer buffer {}
+
+GtkSource.SearchContext search_context {
+  buffer: buffer;
+  highlight: true;
+
+  settings: GtkSource.SearchSettings {
+    wrap-around: true;
+  };
+}

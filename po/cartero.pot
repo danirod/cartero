@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-12-13 00:32+0100\n"
+"POT-Creation-Date: 2024-12-20 23:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -204,7 +204,7 @@ msgctxt "shortcuts window"
 msgid "Send request"
 msgstr ""
 
-#: data/ui/code_export_pane.blp:62
+#: data/ui/code_export_pane.blp:64
 msgid "Copy"
 msgstr ""
 
@@ -224,7 +224,7 @@ msgstr ""
 msgid "Parameters"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:124 data/ui/response_panel.blp:74
+#: data/ui/endpoint_pane.blp:124 data/ui/response_panel.blp:92
 msgid "Headers"
 msgstr ""
 
@@ -418,6 +418,22 @@ msgstr ""
 msgid "_Save"
 msgstr ""
 
+#: data/ui/search_box.blp:43 data/ui/search_box.blp:44
+msgid "Search"
+msgstr ""
+
+#: data/ui/search_box.blp:64
+msgid "Previous result"
+msgstr ""
+
+#: data/ui/search_box.blp:70
+msgid "Next result"
+msgstr ""
+
+#: data/ui/search_box.blp:82
+msgid "Close search"
+msgstr ""
+
 #: data/ui/settings_dialog.blp:27
 msgid "Application"
 msgstr ""
@@ -484,7 +500,7 @@ msgstr ""
 msgid "Request timeout"
 msgstr ""
 
-#: src/widgets/export_tab/code.rs:114
+#: src/widgets/export_tab/code.rs:117
 msgid "Content copied to the clipboard"
 msgstr ""
 
@@ -506,6 +522,18 @@ msgstr ""
 
 #: src/widgets/item_pane.rs:115
 msgid "Draft"
+msgstr ""
+
+#. TRANSLATORS: this string is used to build the search box ocurrences count; the first
+#. placeholder is the current ocurrence index, the second one is the total.
+#: src/widgets/search_box.rs:226
+msgid "{} of {}"
+msgstr ""
+
+#. TRANSLATORS: this string is used to build the search box ocurrences count when only
+#. the number of total ocurrences is known.
+#: src/widgets/search_box.rs:233
+msgid "{} results"
 msgstr ""
 
 #: src/win.rs:516

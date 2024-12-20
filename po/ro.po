@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-12-13 00:32+0100\n"
+"POT-Creation-Date: 2024-12-20 23:21+0100\n"
 "PO-Revision-Date: 2024-07-30 15:00+0200\n"
 "Last-Translator:  <>\n"
 "Language-Team: Romanian\n"
@@ -213,7 +213,7 @@ msgctxt "shortcuts window"
 msgid "Send request"
 msgstr "Salvați cererea"
 
-#: data/ui/code_export_pane.blp:62
+#: data/ui/code_export_pane.blp:64
 msgid "Copy"
 msgstr ""
 
@@ -233,7 +233,7 @@ msgstr "Executați această cerere HTTP"
 msgid "Parameters"
 msgstr "Parametrii"
 
-#: data/ui/endpoint_pane.blp:124 data/ui/response_panel.blp:74
+#: data/ui/endpoint_pane.blp:124 data/ui/response_panel.blp:92
 msgid "Headers"
 msgstr "Antetele"
 
@@ -429,6 +429,23 @@ msgstr "_Renunțați"
 msgid "_Save"
 msgstr "_Salvați"
 
+#: data/ui/search_box.blp:43 data/ui/search_box.blp:44
+msgid "Search"
+msgstr ""
+
+#: data/ui/search_box.blp:64
+msgid "Previous result"
+msgstr ""
+
+#: data/ui/search_box.blp:70
+msgid "Next result"
+msgstr ""
+
+#: data/ui/search_box.blp:82
+#, fuzzy
+msgid "Close search"
+msgstr "Închideți tab-ul"
+
 #: data/ui/settings_dialog.blp:27
 #, fuzzy
 msgid "Application"
@@ -498,7 +515,7 @@ msgstr ""
 msgid "Request timeout"
 msgstr "Metoda cererii"
 
-#: src/widgets/export_tab/code.rs:114
+#: src/widgets/export_tab/code.rs:117
 msgid "Content copied to the clipboard"
 msgstr ""
 
@@ -521,6 +538,18 @@ msgstr "(fără titlu)"
 #: src/widgets/item_pane.rs:115
 msgid "Draft"
 msgstr "Proiect"
+
+#. TRANSLATORS: this string is used to build the search box ocurrences count; the first
+#. placeholder is the current ocurrence index, the second one is the total.
+#: src/widgets/search_box.rs:226
+msgid "{} of {}"
+msgstr ""
+
+#. TRANSLATORS: this string is used to build the search box ocurrences count when only
+#. the number of total ocurrences is known.
+#: src/widgets/search_box.rs:233
+msgid "{} results"
+msgstr ""
 
 #: src/win.rs:516
 msgid "The Cartero authors"

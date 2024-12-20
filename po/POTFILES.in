@@ -19,6 +19,7 @@ data/ui/raw_payload_pane.blp
 data/ui/response_headers.blp
 data/ui/response_panel.blp
 data/ui/save_dialog.blp
+data/ui/search_box.blp
 data/ui/settings_dialog.blp
 data/ui/urlencoded_payload_pane.blp
 
@@ -33,6 +34,7 @@ src/main.rs
 src/objects/key_value_item.rs
 src/objects/mod.rs
 src/utils/mod.rs
+src/widgets/code_view.rs
 src/widgets/endpoint_pane.rs
 src/widgets/export_tab/base.rs
 src/widgets/export_tab/code.rs
@@ -54,4 +56,7 @@ src/widgets/request_body/urlencoded.rs
 src/widgets/response_headers.rs
 src/widgets/response_panel.rs
 src/widgets/save_dialog.rs
+src/widgets/search_box.rs
 src/win.rs
+src/windows/mod.rs
+src/windows/settings.rs

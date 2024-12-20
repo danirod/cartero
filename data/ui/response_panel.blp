@@ -47,24 +47,42 @@ template $CarteroResponsePanel: Adw.Bin {
               label: _("Body");
             };
 
-            child: ScrolledWindow {
-              hexpand: true;
-              vexpand: true;
+            child: Gtk.Overlay {
+              ScrolledWindow {
+                hexpand: true;
+                vexpand: true;
 
-              GtkSource.View response_body {
-                styles [
-                  "use-cartero-font"
-                ]
+                $CarteroCodeView response_body {
+                  styles [
+                    "use-cartero-font"
+                  ]
 
-                top-margin: 10;
-                bottom-margin: 10;
-                left-margin: 10;
-                right-margin: 10;
-                smart-backspace: true;
-                monospace: true;
-                editable: false;
+                  top-margin: 10;
+                  bottom-margin: 10;
+                  left-margin: 10;
+                  right-margin: 10;
+                  smart-backspace: true;
+                  monospace: true;
+                  editable: false;
+                  buffer: buffer;
+                  search-requested => $on_search_requested() swapped;
+                }
+              }
 
-                buffer: GtkSource.Buffer {};
+              [overlay]
+              Gtk.Revealer search_revealer {
+                visible: false;
+                reveal-child: false;
+                halign: end;
+                valign: start;
+                hexpand: false;
+                vexpand: false;
+
+                $CarteroSearchBox search {
+                  editable: response_body;
+                  search-context: search_context;
+                  close => $on_search_close() swapped;
+                }
               }
             };
           }
@@ -122,4 +140,15 @@ template $CarteroResponsePanel: Adw.Bin {
       };
     }
   }
+}
+
+GtkSource.Buffer buffer {}
+
+GtkSource.SearchContext search_context {
+  buffer: buffer;
+  highlight: true;
+
+  settings: GtkSource.SearchSettings {
+    wrap-around: true;
+  };
 }

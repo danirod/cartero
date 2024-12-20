@@ -1,0 +1,85 @@
+/*
+ * Copyright 2024 the Cartero authors
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+// SPDX-License-Identifier: GPL-3.0-or-later
+using Gtk 4.0;
+
+template $CarteroSearchBox: Gtk.Box {
+  styles [
+    "searchbar",
+    "toolbar"
+  ]
+
+  Gtk.Box {
+    css-name: "entry";
+    width-request: 300;
+
+    Gtk.Image {
+      icon-name: "system-search-symbolic";
+    }
+
+    Gtk.Text search_content {
+      styles [
+        "flat"
+      ]
+
+      max-width-chars: 10;
+      width-chars: 10;
+      hexpand: true;
+      vexpand: true;
+      placeholder-text: _("Search");
+      tooltip-text: _("Search");
+      activate => $on_text_activate() swapped;
+      changed => $on_text_changed() swapped;
+    }
+
+    Gtk.Label search_results {
+      label: "";
+      xalign: 1;
+      opacity: 0.5;
+    }
+  }
+
+  Gtk.Box {
+    styles [
+      "linked"
+    ]
+
+    Gtk.Button search_previous {
+      action-name: "search.previous";
+      icon-name: "go-up-symbolic";
+      tooltip-text: _("Previous result");
+    }
+
+    Gtk.Button search_next {
+      action-name: "search.next";
+      icon-name: "go-down-symbolic";
+      tooltip-text: _("Next result");
+    }
+  }
+
+  Gtk.Box {
+    styles [
+      "linked"
+    ]
+
+    Gtk.Button search_close {
+      action-name: "search.close";
+      icon-name: "window-close-symbolic";
+      tooltip-text: _("Close search");
+    }
+  }
+}

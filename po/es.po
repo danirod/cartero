@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-12-13 00:32+0100\n"
+"POT-Creation-Date: 2024-12-20 23:21+0100\n"
 "PO-Revision-Date: 2024-12-13 00:05+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -131,7 +131,8 @@ msgstr "Si validar o no los certificados TLS durante una petición"
 
 #: data/es.danirod.Cartero.gschema.xml:64
 msgid "Whether to follow redirections if that is the server response"
-msgstr "Si permitir redirecciones o no cuando esa sea la respuesta del servidor"
+msgstr ""
+"Si permitir redirecciones o no cuando esa sea la respuesta del servidor"
 
 #: data/es.danirod.Cartero.gschema.xml:68
 msgid "Maximum number of redirections to follow before giving up"
@@ -213,7 +214,7 @@ msgctxt "shortcuts window"
 msgid "Send request"
 msgstr "Enviar petición"
 
-#: data/ui/code_export_pane.blp:62
+#: data/ui/code_export_pane.blp:64
 msgid "Copy"
 msgstr "Copiar"
 
@@ -233,7 +234,7 @@ msgstr "Ejecutar esta petición HTTP"
 msgid "Parameters"
 msgstr "Parámetros"
 
-#: data/ui/endpoint_pane.blp:124 data/ui/response_panel.blp:74
+#: data/ui/endpoint_pane.blp:124 data/ui/response_panel.blp:92
 msgid "Headers"
 msgstr "Cabeceras"
 
@@ -428,11 +429,28 @@ msgstr "_Descartar"
 msgid "_Save"
 msgstr "_Guardar"
 
+#: data/ui/search_box.blp:43 data/ui/search_box.blp:44
+msgid "Search"
+msgstr ""
+
+#: data/ui/search_box.blp:64
+msgid "Previous result"
+msgstr ""
+
+#: data/ui/search_box.blp:70
+msgid "Next result"
+msgstr ""
+
+#: data/ui/search_box.blp:82
+#, fuzzy
+msgid "Close search"
+msgstr "Cerrar pestaña"
+
 #: data/ui/settings_dialog.blp:27
 msgid "Application"
 msgstr "Aplicación"
 
-#: data/ui/settings_dialog.blp:84
+#: data/ui/settings_dialog.blp:31
 msgid "Appearance"
 msgstr "Apariencia"
 
@@ -440,35 +458,35 @@ msgstr "Apariencia"
 msgid "Application style"
 msgstr "Estilo de la aplicación"
 
-#: data/ui/settings_dialog.blp:93
+#: data/ui/settings_dialog.blp:38
 msgid "Follow system settings"
 msgstr "Seguir opciones del sistema"
 
-#: data/ui/settings_dialog.blp:94
+#: data/ui/settings_dialog.blp:39
 msgid "Light mode"
 msgstr "Modo claro"
 
-#: data/ui/settings_dialog.blp:95
+#: data/ui/settings_dialog.blp:40
 msgid "Dark mode"
 msgstr "Modo oscuro"
 
-#: data/ui/settings_dialog.blp:101
+#: data/ui/settings_dialog.blp:46
 msgid "Use system font"
 msgstr "Usar la fuente del sistema"
 
-#: data/ui/settings_dialog.blp:105
+#: data/ui/settings_dialog.blp:50
 msgid "Custom font"
 msgstr "Fuente personalizada"
 
-#: data/ui/settings_dialog.blp:74
+#: data/ui/settings_dialog.blp:65
 msgid "File settings"
 msgstr "Preferencias de archivos"
 
-#: data/ui/settings_dialog.blp:78
+#: data/ui/settings_dialog.blp:68
 msgid "Create backup files"
 msgstr "Crear copias de seguridad"
 
-#: data/ui/settings_dialog.blp:79
+#: data/ui/settings_dialog.blp:69
 msgid ""
 "You might not want to enable this if you are already using a version control "
 "such as Git"
@@ -480,23 +498,23 @@ msgstr ""
 msgid "HTTP Client"
 msgstr "Cliente HTTP"
 
-#: data/ui/settings_dialog.blp:38
+#: data/ui/settings_dialog.blp:82
 msgid "Enforce TLS validation"
 msgstr "Exigir validación TLS"
 
-#: data/ui/settings_dialog.blp:43
+#: data/ui/settings_dialog.blp:86
 msgid "Follow redirects"
 msgstr "Seguir redirecciones"
 
-#: data/ui/settings_dialog.blp:49
+#: data/ui/settings_dialog.blp:91
 msgid "Maximum redirects"
 msgstr "Redirecciones máximas"
 
-#: data/ui/settings_dialog.blp:61
+#: data/ui/settings_dialog.blp:103
 msgid "Request timeout"
 msgstr "Tiempo límite de petición"
 
-#: src/widgets/export_tab/code.rs:114
+#: src/widgets/export_tab/code.rs:117
 msgid "Content copied to the clipboard"
 msgstr "Contenido copiado al portapapeles"
 
@@ -520,6 +538,18 @@ msgstr "(sin título)"
 msgid "Draft"
 msgstr "Borrador"
 
+#. TRANSLATORS: this string is used to build the search box ocurrences count; the first
+#. placeholder is the current ocurrence index, the second one is the total.
+#: src/widgets/search_box.rs:226
+msgid "{} of {}"
+msgstr ""
+
+#. TRANSLATORS: this string is used to build the search box ocurrences count when only
+#. the number of total ocurrences is known.
+#: src/widgets/search_box.rs:233
+msgid "{} results"
+msgstr ""
+
 #: src/win.rs:516
 msgid "The Cartero authors"
 msgstr "Los autores de Cartero"
@@ -528,42 +558,34 @@ msgstr "Los autores de Cartero"
 msgid "© 2024 the Cartero authors"
 msgstr "© 2024 los autores de Cartero"
 
-#: data/ui/settings_dialog.blp:30
-msgid "General"
-msgstr "General"
+#~ msgid "General"
+#~ msgstr "General"
 
-#: data/ui/settings_dialog.blp:34
-msgid "HTTP client settings"
-msgstr "Preferencias del cliente HTTP"
+#~ msgid "HTTP client settings"
+#~ msgstr "Preferencias del cliente HTTP"
 
-#: data/ui/settings_dialog.blp:35
-msgid "Settings used when performing HTTP requests."
-msgstr "Preferencias usadas cuando se están haciendo peticiones HTTP."
+#~ msgid "Settings used when performing HTTP requests."
+#~ msgstr "Preferencias usadas cuando se están haciendo peticiones HTTP."
 
-#: data/ui/settings_dialog.blp:39
-msgid "If disabled, invalid TLS certificates will not fail a request."
-msgstr ""
-"Si se desactiva, los certificados TLS inválidos no harán fallar una petición."
+#~ msgid "If disabled, invalid TLS certificates will not fail a request."
+#~ msgstr ""
+#~ "Si se desactiva, los certificados TLS inválidos no harán fallar una "
+#~ "petición."
 
-#: data/ui/settings_dialog.blp:44
-msgid "If enabled, a responses that return HTTP 3xx will be chained."
-msgstr "Si se activa, las respuestas que devuelvan HTTP 3xx se encadenarán."
+#~ msgid "If enabled, a responses that return HTTP 3xx will be chained."
+#~ msgstr "Si se activa, las respuestas que devuelvan HTTP 3xx se encadenarán."
 
-#: data/ui/settings_dialog.blp:75
-msgid "Settings related to storage."
-msgstr "Opciones relacionadas con el almacenamiento."
+#~ msgid "Settings related to storage."
+#~ msgstr "Opciones relacionadas con el almacenamiento."
 
-#: data/ui/settings_dialog.blp:85
-msgid "Display settings."
-msgstr "Opciones de visualización."
+#~ msgid "Display settings."
+#~ msgstr "Opciones de visualización."
 
-#: data/ui/settings_dialog.blp:88
-msgid "Application theme"
-msgstr "Tema de la aplicación"
+#~ msgid "Application theme"
+#~ msgstr "Tema de la aplicación"
 
-#: data/ui/settings_dialog.blp:89
-msgid "The style to use in the application"
-msgstr "El estilo que quieres usar en la aplicación"
+#~ msgid "The style to use in the application"
+#~ msgstr "El estilo que quieres usar en la aplicación"
 
 #, fuzzy
 #~ msgid "Cartero request"

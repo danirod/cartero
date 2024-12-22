@@ -45,8 +45,6 @@ mod imp {
         Box, CompositeTemplate, Label, TemplateChild,
     };
     use gtk::{Revealer, Spinner, Stack};
-    use sourceview5::prelude::SearchSettingsExt;
-    use sourceview5::SearchContext;
 
     #[derive(CompositeTemplate, Default, Properties)]
     #[properties(wrapper_type = super::ResponsePanel)]
@@ -76,8 +74,6 @@ mod imp {
         search: TemplateChild<SearchBox>,
         #[template_child]
         search_revealer: TemplateChild<Revealer>,
-        #[template_child]
-        search_context: TemplateChild<SearchContext>,
 
         #[property(get = Self::spinning, set = Self::set_spinning)]
         _spinning: RefCell<bool>,
@@ -149,7 +145,6 @@ mod imp {
         fn on_search_close(&self) {
             self.search_revealer.set_reveal_child(false);
             self.search_revealer.set_visible(false);
-            self.search_context.settings().set_search_text(None);
             self.response_body.grab_focus();
         }
     }

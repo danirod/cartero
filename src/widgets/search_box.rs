@@ -23,10 +23,10 @@ use gtk::{
 use sourceview5::prelude::SearchSettingsExt;
 
 mod imp {
-    use std::cell::RefCell;
+    use std::cell::{OnceCell, RefCell};
     use std::sync::OnceLock;
 
-    use glib::object::ObjectExt;
+    use glib::object::{Cast, ObjectExt};
     use glib::subclass::{InitializingObject, Signal};
     use glib::Properties;
     use gtk::gio::{ActionEntry, SimpleActionGroup};
@@ -35,7 +35,7 @@ mod imp {
     use gtk::{gdk, glib, TextIter};
     use gtk::{CompositeTemplate, TemplateChild};
     use sourceview5::prelude::SearchSettingsExt;
-    use sourceview5::SearchContext;
+    use sourceview5::{Buffer, SearchContext, SearchSettings};
 
     use crate::i18n::{i18n_f, ni18n_f};
     use crate::widgets::CodeView;
@@ -44,11 +44,8 @@ mod imp {
     #[template(resource = "/es/danirod/Cartero/search_box.ui")]
     #[properties(wrapper_type = super::SearchBox)]
     pub struct SearchBox {
-        #[property(get, set)]
+        #[property(get, construct_only)]
         editable: RefCell<CodeView>,
-
-        #[property(get, set)]
-        pub(super) search_context: RefCell<SearchContext>,
 
         #[template_child]
         pub(super) search_content: TemplateChild<gtk::Text>,
@@ -64,6 +61,8 @@ mod imp {
 
         #[template_child]
         search_results: TemplateChild<gtk::Label>,
+
+        search_context: OnceCell<SearchContext>,
     }
 
     #[glib::object_subclass]
@@ -104,6 +103,25 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl SearchBox {
+        pub fn get_search_context(&self) -> &SearchContext {
+            self.search_context.get_or_init(|| {
+                let editable = self.editable.borrow();
+                let buffer = editable.buffer().downcast::<Buffer>().unwrap();
+                let settings = SearchSettings::builder().wrap_around(true).build();
+                let context = SearchContext::builder()
+                    .buffer(&buffer)
+                    .highlight(true)
+                    .settings(&settings)
+                    .build();
+                context.connect_occurrences_count_notify(
+                    glib::clone!(@weak self as imp => move |_| {
+                        imp.update_search_ocurrences();
+                    }),
+                );
+                context
+            })
+        }
+
         fn init_actions(&self) {
             let obj = self.obj();
             let action_previous = ActionEntry::builder("previous")
@@ -117,8 +135,8 @@ mod imp {
                 }))
                 .build();
             let action_close = ActionEntry::builder("close")
-                .activate(glib::clone!(@weak obj => move |_, _, _| {
-                    obj.emit_by_name::<()>("close", &[]);
+                .activate(glib::clone!(@weak self as imp => move |_, _, _| {
+                    imp.close_search();
                 }))
                 .build();
             let action_focus = ActionEntry::builder("focus")
@@ -129,15 +147,6 @@ mod imp {
             let group = SimpleActionGroup::new();
             group.add_action_entries([action_previous, action_next, action_close, action_focus]);
             obj.insert_action_group("search", Some(&group));
-
-            obj.connect_search_context_notify(glib::clone!(@weak self as imp => move |_| {
-                let context = imp.search_context.borrow();
-                context.connect_occurrences_count_notify(
-                    glib::clone!(@weak imp => move |_| {
-                        imp.update_search_ocurrences();
-                    }),
-                );
-            }));
         }
 
         fn editable_iter(&self, forward: bool) -> TextIter {
@@ -162,7 +171,7 @@ mod imp {
             let iter = self.editable_iter(true);
             let editable = self.editable.borrow();
             let buffer = editable.buffer();
-            let search_context = self.search_context.borrow();
+            let search_context = self.get_search_context();
 
             if let Some((start, end, _wrapped)) = search_context.forward(&iter) {
                 buffer.select_range(&start, &end);
@@ -175,7 +184,7 @@ mod imp {
         fn search_backward(&self) {
             let iter = self.editable_iter(false);
             let editable = self.editable.borrow();
-            let search_context = self.search_context.borrow();
+            let search_context = self.get_search_context();
             let buffer = editable.buffer();
 
             if let Some((start, end, _wrapped)) = search_context.backward(&iter) {
@@ -189,7 +198,7 @@ mod imp {
         #[template_callback]
         fn on_text_changed(&self, entry: &gtk::Text) {
             let text = entry.text();
-            let search_context = self.search_context.borrow();
+            let search_context = self.get_search_context();
             search_context.settings().set_search_text(Some(&text));
 
             // Make an initial search to see if there are results.
@@ -209,11 +218,11 @@ mod imp {
         fn update_search_ocurrences(&self) {
             let editable = self.editable.borrow();
             let buffer = editable.buffer();
-            let context = self.search_context.borrow();
+            let search_context = self.get_search_context();
 
-            let total = context.occurrences_count();
+            let total = search_context.occurrences_count();
             let current = match buffer.selection_bounds() {
-                Some((start, end)) => context.occurrence_position(&start, &end),
+                Some((start, end)) => search_context.occurrence_position(&start, &end),
                 None => -1,
             };
 
@@ -237,6 +246,13 @@ mod imp {
                 self.search_results.set_label("");
             }
         }
+
+        fn close_search(&self) {
+            let search_context = self.get_search_context();
+            search_context.settings().set_search_text(None);
+            let obj = self.obj();
+            obj.emit_by_name::<()>("close", &[]);
+        }
     }
 }
 
@@ -255,13 +271,15 @@ impl SearchBox {
     pub fn init_search(&self, text: Option<&str>) {
         let imp = self.imp();
         let content = &*imp.search_content;
-        let context = imp.search_context.borrow();
+        let search_context = imp.get_search_context();
 
         if let Some(text) = text {
             content.set_text(text);
         }
 
         let search_text: String = content.text().into();
-        context.settings().set_search_text(Some(&search_text));
+        search_context
+            .settings()
+            .set_search_text(Some(&search_text));
     }
 }

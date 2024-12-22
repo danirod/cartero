@@ -31,8 +31,8 @@ mod imp {
     use gtk::subclass::prelude::*;
     use gtk::CompositeTemplate;
     use gtk::{prelude::*, Revealer};
+    use sourceview5::Buffer;
     use sourceview5::{prelude::*, LanguageManager};
-    use sourceview5::{Buffer, SearchContext};
 
     use crate::widgets::{BasePayloadPane, BasePayloadPaneImpl, CodeView, PayloadType, SearchBox};
 
@@ -51,9 +51,6 @@ mod imp {
 
         #[template_child]
         search_revealer: TemplateChild<Revealer>,
-
-        #[template_child]
-        search_context: TemplateChild<SearchContext>,
 
         #[property(get = Self::format, set = Self::set_format, builder(PayloadType::default()))]
         _format: RefCell<PayloadType>,
@@ -164,7 +161,6 @@ mod imp {
         fn on_search_close(&self) {
             self.search_revealer.set_reveal_child(false);
             self.search_revealer.set_visible(false);
-            self.search_context.settings().set_search_text(None);
             self.view.grab_focus();
         }
     }

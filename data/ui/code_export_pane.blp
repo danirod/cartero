@@ -79,7 +79,6 @@ template $CarteroCodeExportPane: $CarteroBaseExportPane {
 
       $CarteroSearchBox search {
         editable: view;
-        search-context: search_context;
         close => $on_search_close() swapped;
       }
     }
@@ -87,12 +86,3 @@ template $CarteroCodeExportPane: $CarteroBaseExportPane {
 }
 
 GtkSource.Buffer buffer {}
-
-GtkSource.SearchContext search_context {
-  buffer: buffer;
-  highlight: true;
-
-  settings: GtkSource.SearchSettings {
-    wrap-around: true;
-  };
-}

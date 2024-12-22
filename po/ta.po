@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2024-12-22 16:58+0100\n"
-"PO-Revision-Date: 2024-12-12 18:39+0000\n"
-"Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
+"PO-Revision-Date: 2024-12-22 20:55+0000\n"
+"Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/cartero/cartero/ta/"
 ">\n"
 "Language: ta\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.9-dev\n"
+"X-Generator: Weblate 5.10-dev\n"
 
 #: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:4
 msgid "Make HTTP requests and test APIs"
@@ -88,7 +88,7 @@ msgstr "உடல் உள்ளடக்கத்தை மடிக்கவ�
 
 #: data/es.danirod.Cartero.gschema.xml:20
 msgid "Whether to indent the request body with spaces or tabs"
-msgstr "கோரிக்கை உடலை இடைவெளிகள் அல்லது தாவல்களுடன் உள்தள்ள வேண்டுமா?"
+msgstr "கோரிக்கை உடலை இடைவெளிகள் அல்லது தாவல்களுடன் உள்தள்ள வேண்டுமா"
 
 #: data/es.danirod.Cartero.gschema.xml:24
 msgid "Show line numbers in the request and response bodies"

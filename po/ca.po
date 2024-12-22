@@ -6,15 +6,16 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2024-12-22 16:58+0100\n"
-"PO-Revision-Date: 2024-07-30 15:26+0200\n"
-"Last-Translator:  <>\n"
-"Language-Team: Catalan\n"
+"PO-Revision-Date: 2024-12-22 20:55+0000\n"
+"Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
+"Language-Team: Catalan <https://hosted.weblate.org/projects/cartero/cartero/"
+"ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 46.1\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.10-dev\n"
 
 #: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:4
 msgid "Make HTTP requests and test APIs"
@@ -398,7 +399,7 @@ msgstr "Tipus de cos"
 
 #: data/ui/payload_tab.blp:82
 msgid "URL Encoded"
-msgstr "URL Encoded"
+msgstr "Codificat com URL"
 
 #: data/ui/payload_tab.blp:83
 msgid "Multipart Form Data"

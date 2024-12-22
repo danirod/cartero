@@ -52,7 +52,11 @@ gtk4-update-icon-cache -q -t -f "$RESOURCES_ROOT/share/icons/Adwaita"
 
 # Add extra locales
 for lang in $(cat "po/LINGUAS" | grep -v '^#\|en'); do
-        cp -f $(brew --prefix)/share/locale/$lang/LC_MESSAGES/{gdk-pixbuf,gettext-runtime,glib20,gtk40,gtksourceview-5,libadwaita,shared-mime-info}.mo "$RESOURCES_ROOT/share/locale/$lang/LC_MESSAGES"
+  for pkg in gdk-pixbuf gettext-runtime glib20 gtk40 gtksourceview-5 libadwaita shared-mime-info; do
+    if [ -f $(brew --prefix)/share/locale/$lang/LC_MESSAGES/$pkg.mo ]; then
+      cp -f $(brew --prefix)/share/locale/$lang/LC_MESSAGES/$pkg.mo "$RESOURCES_ROOT/share/locale/$lang/LC_MESSAGES"
+    fi
+  done
 done
 
 # Mangle bin directory
@@ -216,7 +220,7 @@ cat > "$APP_ROOT/Contents/Info.plist" << EOF
     <key>CFBundleSignature</key>
     <string>Cartero</string>
     <key>LSMinimumSystemVersion</key>
-    <string>10.14</string>
+    <string>11.0</string>
   </dict>
 </plist>
 EOF

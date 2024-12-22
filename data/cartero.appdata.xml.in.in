@@ -50,6 +50,29 @@
     <color scheme_preference="dark" type="primary">#465563</color>
   </branding>
   <releases>
+    <release date="2014-12-23" version="0.1.3">
+      <description translate="no">
+        <p>Added:</p>
+        <ul>
+          <li>Added a tab to generate a cURL command for each request.</li>
+          <li>Added a preferences dialog to control the application settings.</li>
+          <li>Added a search functionality (Ctrl-F) to the text area panes.</li>
+        </ul>
+        <p>Changed:</p>
+        <ul>
+          <li>It is now possible to disable the validation of TLS certificates.</li>
+          <li>It is now possible to follow redirections when performing an HTTP request.</li>
+          <li>It is now possible to configure a timeout for the HTTP request.</li>
+          <li>It is now possible to customize the font used for the text area panes.</li>
+          <li>It is now possible to customize the light or dark appearance of the application.</li>
+          <li>Translation updates: Spanish, Tamil.</li>
+        </ul>
+        <p>Fixed:</p>
+        <ul>
+          <li>Fixed the HTTP response label sometimes having the wrong semantic color.</li>
+        </ul>
+      </description>
+    </release>
     <release date="2024-10-11" version="0.1.2">
       <description translate="no">
         <p>This is a minor release that addresses some issues and fixes some things found.</p>

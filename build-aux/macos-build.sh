@@ -8,7 +8,7 @@ case "$1" in
   devel)
     BUNDLE_ID="es.danirod.Cartero.Devel"
     APP_NAME="Cartero (Devel)"
-    APP_VERSION="0.1.2"
+    APP_VERSION="0.1.3"
     MESON_FLAGS="-Dprofile=development"
     ICON_PATH="$PWD/data/icons/scalable/apps/es.danirod.Cartero.Devel.svg"
     DOC_ICON_PATH="$PWD/data/icons/scalable/mimetypes/es.danirod.Cartero.Devel-request.svg"
@@ -16,7 +16,7 @@ case "$1" in
   stable)
     BUNDLE_ID="es.danirod.Cartero"
     APP_NAME="Cartero"
-    APP_VERSION="0.1.2"
+    APP_VERSION="0.1.3"
     MESON_FLAGS="-Dprofile=default"
     ICON_PATH="$PWD/data/icons/scalable/apps/es.danirod.Cartero.svg"
     DOC_ICON_PATH="$PWD/data/icons/scalable/mimetypes/es.danirod.Cartero-request.svg"
@@ -257,4 +257,3 @@ cp "$RESOURCES_ROOT/CarteroRequest.iconset/icon_256x256.png" "$RESOURCES_ROOT/Ca
 cp "$RESOURCES_ROOT/CarteroRequest.iconset/icon_512x512.png" "$RESOURCES_ROOT/CarteroRequest.iconset/icon_256x256@2x.png"
 iconutil -c icns "$RESOURCES_ROOT/CarteroRequest.iconset"
 rm -rf "$RESOURCES_ROOT/CarteroRequest.iconset"
-

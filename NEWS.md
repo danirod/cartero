@@ -1,5 +1,26 @@
 # News file for Cartero
 
+## [0.1.3] - 2014-12-23
+
+### Added
+
+* Added a tab to generate a cURL command with the contents of a request.
+* Added a preferences dialog to control application settings.
+* Added a search functionality (Ctrl-F) to the text area panes.
+
+### Changed
+
+* It is now possible to disable validation of TLS certificates.
+* It is now possible to follow redirections when making HTTP requests.
+* It is now possible to configure a timeout for the HTTP request.
+* It is now possible to customize the font used for the text area panes.
+* It is now possible to customize the light or dark appearance of the application.
+* Translation updates: Spanish, Tamil.
+
+### Fixed
+
+* Fixed the HTTP response label sometimes having the wrong semantic color.
+
 ## [0.1.2] - 2024-10-11
 
 This is a minor release that addresses some issues and fixes some things found.

@@ -37,7 +37,7 @@ mod imp {
     use sourceview5::prelude::SearchSettingsExt;
     use sourceview5::SearchContext;
 
-    use crate::i18n::i18n_f;
+    use crate::i18n::{i18n_f, ni18n_f};
     use crate::widgets::CodeView;
 
     #[derive(CompositeTemplate, Default, Properties)]
@@ -226,11 +226,12 @@ mod imp {
                 let label = i18n_f("{} of {}", &[&current, &total]);
                 self.search_results.set_label(&label);
             } else if total >= 1 {
+                let utotal = total as u32;
                 let total = format!("{total}");
 
                 // TRANSLATORS: this string is used to build the search box ocurrences count when only
                 // the number of total ocurrences is known.
-                let label = i18n_f("{} results", &[&total]);
+                let label = ni18n_f("{} result", "{} results", utotal, &[&total]);
                 self.search_results.set_label(&label);
             } else {
                 self.search_results.set_label("");

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-12-20 23:21+0100\n"
+"POT-Creation-Date: 2024-12-22 16:58+0100\n"
 "PO-Revision-Date: 2024-12-20 22:32+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -545,9 +545,12 @@ msgstr "{} de {}"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count when only
 #. the number of total ocurrences is known.
-#: src/widgets/search_box.rs:233
-msgid "{} results"
-msgstr "{} resultados"
+#: src/widgets/search_box.rs:234
+#, fuzzy
+msgid "{} result"
+msgid_plural "{} results"
+msgstr[0] "{} resultado"
+msgstr[1] "{} resultados"
 
 #: src/win.rs:516
 msgid "The Cartero authors"

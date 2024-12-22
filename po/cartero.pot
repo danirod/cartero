@@ -299,7 +299,7 @@ msgstr ""
 
 #: data/ui/main_window.blp:128 data/ui/main_window.blp:154
 #: data/ui/main_window_no_csd.blp:135 data/ui/main_window_no_csd.blp:161
-msgid "Open request..."
+msgid "Open request…"
 msgstr ""
 
 #: data/ui/main_window.blp:159 data/ui/main_window_no_csd.blp:166
@@ -308,7 +308,7 @@ msgid "Save request"
 msgstr ""
 
 #: data/ui/main_window.blp:164 data/ui/main_window_no_csd.blp:171
-msgid "Save request as..."
+msgid "Save request as…"
 msgstr ""
 
 #: data/ui/main_window.blp:169 data/ui/main_window_no_csd.blp:176

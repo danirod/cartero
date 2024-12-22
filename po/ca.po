@@ -184,7 +184,7 @@ msgstr ""
 #, fuzzy
 msgctxt "shortcuts window"
 msgid "New request tab"
-msgstr "Guardar petició com..."
+msgstr "Guardar petició com…"
 
 #: data/gtk/help_overlay.blp:48
 #, fuzzy
@@ -202,7 +202,7 @@ msgstr "Guardar petició"
 #, fuzzy
 msgctxt "shortcuts window"
 msgid "Save request as"
-msgstr "Guardar petició com..."
+msgstr "Guardar petició com…"
 
 #: data/gtk/help_overlay.blp:63
 #, fuzzy
@@ -316,8 +316,8 @@ msgstr "Nova pestanya"
 
 #: data/ui/main_window.blp:128 data/ui/main_window.blp:154
 #: data/ui/main_window_no_csd.blp:135 data/ui/main_window_no_csd.blp:161
-msgid "Open request..."
-msgstr "Obrir petició..."
+msgid "Open request…"
+msgstr "Obrir petició…"
 
 #: data/ui/main_window.blp:159 data/ui/main_window_no_csd.blp:166
 #: src/widgets/file_dialogs.rs:134
@@ -325,8 +325,8 @@ msgid "Save request"
 msgstr "Guardar petició"
 
 #: data/ui/main_window.blp:164 data/ui/main_window_no_csd.blp:171
-msgid "Save request as..."
-msgstr "Guardar petició com..."
+msgid "Save request as…"
+msgstr "Guardar petició com…"
 
 #: data/ui/main_window.blp:169 data/ui/main_window_no_csd.blp:176
 msgid "Close tab"

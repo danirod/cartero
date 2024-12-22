@@ -307,8 +307,8 @@ msgstr "புதிய தாவல்"
 
 #: data/ui/main_window.blp:128 data/ui/main_window.blp:154
 #: data/ui/main_window_no_csd.blp:135 data/ui/main_window_no_csd.blp:161
-msgid "Open request..."
-msgstr "திறந்த கோரிக்கை ..."
+msgid "Open request…"
+msgstr "திறந்த கோரிக்கை …"
 
 #: data/ui/main_window.blp:159 data/ui/main_window_no_csd.blp:166
 #: src/widgets/file_dialogs.rs:134
@@ -316,8 +316,8 @@ msgid "Save request"
 msgstr "கோரிக்கையைச் சேமிக்கவும்"
 
 #: data/ui/main_window.blp:164 data/ui/main_window_no_csd.blp:171
-msgid "Save request as..."
-msgstr "கோரிக்கையை சேமிக்கவும் ..."
+msgid "Save request as…"
+msgstr "கோரிக்கையை சேமிக்கவும் …"
 
 #: data/ui/main_window.blp:169 data/ui/main_window_no_csd.blp:176
 msgid "Close tab"

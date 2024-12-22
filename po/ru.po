@@ -307,8 +307,8 @@ msgstr "Новая вкладка"
 
 #: data/ui/main_window.blp:128 data/ui/main_window.blp:154
 #: data/ui/main_window_no_csd.blp:135 data/ui/main_window_no_csd.blp:161
-msgid "Open request..."
-msgstr "Открыть запрос..."
+msgid "Open request…"
+msgstr "Открыть запрос…"
 
 #: data/ui/main_window.blp:159 data/ui/main_window_no_csd.blp:166
 #: src/widgets/file_dialogs.rs:134
@@ -316,8 +316,8 @@ msgid "Save request"
 msgstr "Сохранить запрос"
 
 #: data/ui/main_window.blp:164 data/ui/main_window_no_csd.blp:171
-msgid "Save request as..."
-msgstr "Сохранить запрос как..."
+msgid "Save request as…"
+msgstr "Сохранить запрос как…"
 
 #: data/ui/main_window.blp:169 data/ui/main_window_no_csd.blp:176
 msgid "Close tab"

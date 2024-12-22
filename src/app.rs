@@ -94,7 +94,7 @@ mod imp {
             obj.set_accels_for_action("win.save-as", &[accelerator!("<Shift>s")]);
             obj.set_accels_for_action("win.close", &[accelerator!("w")]);
             obj.set_accels_for_action("win.request", &[accelerator!("Return")]);
-            obj.set_accels_for_action("app.settings", &[accelerator!("comma")]);
+            obj.set_accels_for_action("app.preferences", &[accelerator!("comma")]);
             obj.set_accels_for_action("app.quit", &[accelerator!("q")]);
             obj.set_accels_for_action("win.show-help-overlay", &[accelerator!("question")]);
             obj.setup_app_actions();
@@ -252,7 +252,7 @@ impl CarteroApplication {
     }
 
     fn setup_app_actions(&self) {
-        let settings = ActionEntryBuilder::new("settings")
+        let settings = ActionEntryBuilder::new("preferences")
             .activate(glib::clone!(@weak self as app => move |_, _, _| {
                 if let Some(window) = app.active_window() {
                     SettingsDialog::present_for_window(&window);

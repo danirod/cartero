@@ -50,7 +50,7 @@
     <color scheme_preference="dark" type="primary">#465563</color>
   </branding>
   <releases>
-    <release date="2014-12-23" version="0.1.3">
+    <release date="2024-12-23" version="0.1.3">
       <description translate="no">
         <p>Added:</p>
         <ul>

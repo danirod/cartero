@@ -1,0 +1,7 @@
+[collection]
+title = "Meow Facts"
+description = "The public API to get data about cats"
+
+[variables]
+API_ROOT = "meowfacts.herokuapp.com"
+FAKE_API_KEY = { value = "1234", active = false, secret = true }

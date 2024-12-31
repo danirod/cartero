@@ -1,3 +1,8 @@
+mod error;
+mod metadata;
+pub use error::FileError;
+pub use metadata::CarteroMetadata;
+
 use std::collections::HashMap;
 
 use gtk::gio;
@@ -10,6 +15,7 @@ use crate::entities::{
     EndpointData, KeyValue, KeyValueTable, RawEncoding, RequestMethod, RequestPayload,
 };
 use crate::error::CarteroError;
+use crate::objects::{KeyValueItem, KeyValueStore};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 struct KeyValueDetail {
@@ -121,6 +127,18 @@ impl From<KeyValuedFileTable> for KeyValueTable {
     }
 }
 
+impl From<KeyValuedFileTable> for KeyValueStore {
+    fn from(value: KeyValuedFileTable) -> Self {
+        let kvtable = KeyValueTable::from(value);
+        let store = KeyValueStore::default();
+        for item in kvtable.iter() {
+            let kv = KeyValueItem::from(item.clone());
+            store.insert(&kv);
+        }
+        store
+    }
+}
+
 impl From<KeyValueTable> for KeyValuedFileTable {
     fn from(value: KeyValueTable) -> Self {
         let group = value.group_by();
@@ -129,6 +147,13 @@ impl From<KeyValueTable> for KeyValuedFileTable {
             .map(|(key, vector)| (key, vector.into()))
             .collect();
         Self(inner)
+    }
+}
+
+impl From<KeyValueStore> for KeyValuedFileTable {
+    fn from(value: KeyValueStore) -> Self {
+        let items = value.snapshot();
+        KeyValuedFileTable::from(items)
     }
 }
 

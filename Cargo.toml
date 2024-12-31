@@ -27,3 +27,6 @@ thiserror = "1.0.60"
 tokio = { version = "1.37.0", features = ["sync"] }
 toml = "0.8.12"
 url = "2.5.2"
+
+[dev-dependencies]
+mktemp = "0.5.1"

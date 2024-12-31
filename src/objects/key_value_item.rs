@@ -15,7 +15,10 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use glib::{object::ObjectExt, Object};
+use glib::{
+    object::{ObjectBuilder, ObjectExt},
+    Object,
+};
 
 use crate::entities::KeyValue;
 
@@ -74,6 +77,10 @@ glib::wrapper! {
 }
 
 impl KeyValueItem {
+    pub fn builder() -> ObjectBuilder<'static, Self> {
+        Object::builder()
+    }
+
     pub(self) fn setup_signals(&self) {
         self.connect_header_name_notify(|item| {
             if !item.dirty() {

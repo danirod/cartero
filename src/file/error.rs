@@ -15,12 +15,22 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-mod collection;
-mod key_value_item;
-mod key_value_store;
-mod persistable;
+use thiserror::Error;
 
-pub use collection::Collection;
-pub use key_value_item::KeyValueItem;
-pub use key_value_store::KeyValueStore;
-pub use persistable::Persistable;
+#[derive(Debug, Error, Eq, PartialEq)]
+pub enum FileError {
+    #[error("Object has not been assigned a path")]
+    NoPath,
+
+    #[error("File cannot be read")]
+    CannotRead,
+
+    #[error("File cannot be parsed as a valid local object")]
+    CannotParseFile,
+
+    #[error("Payload cannot be encoded")]
+    CannotEncodePayload,
+
+    #[error("File cannot be saved")]
+    CannotSave,
+}

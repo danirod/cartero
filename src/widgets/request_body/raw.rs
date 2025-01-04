@@ -83,10 +83,13 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            self.buffer
-                .connect_changed(glib::clone!(@weak self as pane => move |_| {
+            self.buffer.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| {
                     pane.obj().emit_by_name::<()>("changed", &[]);
-                }));
+                }
+            ));
         }
     }
 

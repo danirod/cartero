@@ -387,138 +387,192 @@ mod imp {
 
             self.init_settings();
 
-            self.tabview.connect_selected_page_notify(
-                glib::clone!(@weak self as window => move |tabview| {
+            self.tabview.connect_selected_page_notify(glib::clone!(
+                #[weak(rename_to = window)]
+                self,
+                move |tabview| {
                     if let Some(page) = tabview.selected_page() {
                         let item_pane = page.child().downcast::<ItemPane>().unwrap();
                         window.bind_current_tab(Some(&item_pane));
                         window.update_tab_actions();
                     }
-                }),
-            );
+                }
+            ));
 
             let obj = self.obj();
-            self.tabview.connect_close_page(glib::clone!(@weak obj as window => @default-return true, move |tabview, tabpage| {
-                let item_pane = tabpage.child().downcast::<ItemPane>().unwrap();
-                let imp = window.imp();
-                let outcome = if item_pane.dirty() {
-                    let dialog = SaveDialog::default();
-                    let response = glib::MainContext::default().block_on(dialog.choose_future(&window));
-                    match response.as_str() {
-                        "save" => {
-                            let resp = glib::MainContext::default().block_on(imp.save_pane(&item_pane));
-                            match resp {
-                                Ok(_) => false,
-                                Err(e) => {
-                                    window.toast_error(e);
-                                    true
-                                },
+            self.tabview.connect_close_page(glib::clone!(
+                #[weak(rename_to = window)]
+                obj,
+                #[upgrade_or]
+                glib::Propagation::Stop,
+                move |tabview, tabpage| {
+                    let item_pane = tabpage.child().downcast::<ItemPane>().unwrap();
+                    let imp = window.imp();
+                    let outcome = if item_pane.dirty() {
+                        let dialog = SaveDialog::default();
+                        let response =
+                            glib::MainContext::default().block_on(dialog.choose_future(&window));
+                        match response.as_str() {
+                            "save" => {
+                                let resp = glib::MainContext::default()
+                                    .block_on(imp.save_pane(&item_pane));
+                                match resp {
+                                    Ok(_) => false,
+                                    Err(e) => {
+                                        window.toast_error(e);
+                                        true
+                                    }
+                                }
                             }
-                        },
-                        "discard" => false,
-                        _ => true,
+                            "discard" => false,
+                            _ => true,
+                        }
+                    } else {
+                        item_pane.set_file(Option::<gio::File>::None);
+                        window.sync_open_files();
+                        false
+                    };
 
-
+                    tabview.close_page_finish(tabpage, !outcome);
+                    let imp = window.imp();
+                    imp.update_tab_actions();
+                    if imp.tabview.n_pages() == 0 {
+                        imp.bind_current_tab(None);
+                        imp.stack.set_visible_child_name("welcome");
                     }
-                } else {
-                    item_pane.set_file(Option::<gio::File>::None);
-                    window.sync_open_files();
-                    false
-                };
-
-                tabview.close_page_finish(tabpage, !outcome);
-                let imp = window.imp();
-                imp.update_tab_actions();
-                if imp.tabview.n_pages() == 0 {
-                    imp.bind_current_tab(None);
-                    imp.stack.set_visible_child_name("welcome");
+                    glib::Propagation::Stop
                 }
-                true
-            }));
+            ));
 
-            self.tabview.connect_page_reordered(
-                glib::clone!(@weak self as window => move |_, _, _| {
-                        window.save_visible_tabs();
-                    }
-                ),
-            );
+            self.tabview.connect_page_reordered(glib::clone!(
+                #[weak(rename_to = window)]
+                self,
+                move |_, _, _| {
+                    window.save_visible_tabs();
+                }
+            ));
 
             let action_new = ActionEntry::builder("new")
-                .activate(glib::clone!(@weak self as window => move |_, _, _| {
-                    glib::spawn_future_local(async move {
-                        window.add_endpoint(None).await;
-                    });
-                }))
+                .activate(glib::clone!(
+                    #[weak(rename_to = window)]
+                    self,
+                    move |_, _, _| {
+                        glib::spawn_future_local(async move {
+                            window.add_endpoint(None).await;
+                        });
+                    }
+                ))
                 .build();
 
             let action_request = ActionEntry::builder("request")
-                .activate(glib::clone!(@weak self as window => move |_, _, _| {
-                    glib::spawn_future_local(glib::clone!(@weak window => async move {
-                        if let Some(pane) = window.current_pane().and_then(|e| e.endpoint()) {
-                            pane.set_sensitive(false);
-                            if let Err(e) = pane.perform_request().await {
-                                window.toast_error(e);
+                .activate(glib::clone!(
+                    #[weak(rename_to = window)]
+                    self,
+                    move |_, _, _| {
+                        glib::spawn_future_local(glib::clone!(
+                            #[weak]
+                            window,
+                            async move {
+                                if let Some(pane) = window.current_pane().and_then(|e| e.endpoint())
+                                {
+                                    pane.set_sensitive(false);
+                                    if let Err(e) = pane.perform_request().await {
+                                        window.toast_error(e);
+                                    }
+                                    pane.set_sensitive(true);
+                                }
                             }
-                            pane.set_sensitive(true);
-                        }
-                    }));
-                }))
+                        ));
+                    }
+                ))
                 .build();
             let action_open = ActionEntry::builder("open")
-                .activate(glib::clone!(@weak self as window => move |_, _, _| {
-                    glib::spawn_future_local(glib::clone!(@weak window => async move {
-                        if let Err(e) = window.trigger_open().await {
-                            match e {
-                                CarteroError::NoFilePicked => {},
-                                e => window.toast_error(e),
-                            };
-                        }
-                    }));
-                }))
+                .activate(glib::clone!(
+                    #[weak(rename_to = window)]
+                    self,
+                    move |_, _, _| {
+                        glib::spawn_future_local(glib::clone!(
+                            #[weak]
+                            window,
+                            async move {
+                                if let Err(e) = window.trigger_open().await {
+                                    match e {
+                                        CarteroError::NoFilePicked => {}
+                                        e => window.toast_error(e),
+                                    };
+                                }
+                            }
+                        ));
+                    }
+                ))
                 .build();
             let action_save = ActionEntry::builder("save")
-                .activate(glib::clone!(@weak self as window => move |_, _, _| {
-                    glib::spawn_future_local(glib::clone!(@weak window => async move {
-                        if let Err(e) = window.trigger_save().await {
-                            window.toast_error(e);
-                        }
-                    }));
-                }))
+                .activate(glib::clone!(
+                    #[weak(rename_to = window)]
+                    self,
+                    move |_, _, _| {
+                        glib::spawn_future_local(glib::clone!(
+                            #[weak]
+                            window,
+                            async move {
+                                if let Err(e) = window.trigger_save().await {
+                                    window.toast_error(e);
+                                }
+                            }
+                        ));
+                    }
+                ))
                 .build();
             let action_save_as = ActionEntry::builder("save-as")
-                .activate(glib::clone!(@weak self as window => move |_, _, _| {
-                    glib::spawn_future_local(glib::clone!(@weak window => async move {
-                        if let Err(e) = window.trigger_save_as().await {
-                            window.toast_error(e);
-                        }
-                    }));
-                }))
+                .activate(glib::clone!(
+                    #[weak(rename_to = window)]
+                    self,
+                    move |_, _, _| {
+                        glib::spawn_future_local(glib::clone!(
+                            #[weak]
+                            window,
+                            async move {
+                                if let Err(e) = window.trigger_save_as().await {
+                                    window.toast_error(e);
+                                }
+                            }
+                        ));
+                    }
+                ))
                 .build();
             let action_close = ActionEntry::builder("close")
-                .activate(glib::clone!(@weak self as window => move |_, _, _| {
-                    if let Some(page) = window.tabview.selected_page() {
-                        window.tabview.close_page(&page);
+                .activate(glib::clone!(
+                    #[weak(rename_to = window)]
+                    self,
+                    move |_, _, _| {
+                        if let Some(page) = window.tabview.selected_page() {
+                            window.tabview.close_page(&page);
+                        }
                     }
-                }))
+                ))
                 .build();
 
             let action_about = ActionEntry::builder("about")
-                .activate(glib::clone!(@weak self as window => move |_, _, _| {
-                    let about = AboutWindow::builder()
-                        .transient_for(&*window.obj())
-                        .modal(true)
-                        .application_name("Cartero")
-                        .application_icon(config::APP_ID)
-                        .version(config::VERSION)
-                        .website("https://github.com/danirod/cartero")
-                        .issue_url("https://github.com/danirod/cartero/issues")
-                        .support_url("https://github.com/danirod/cartero/discussions")
-                        .developer_name(gettext("The Cartero authors"))
-                        .copyright(gettext("© 2024 the Cartero authors"))
-                        .license_type(gtk::License::Gpl30)
-                        .build();
-                    about.present();
-                }))
+                .activate(glib::clone!(
+                    #[weak(rename_to = window)]
+                    self,
+                    move |_, _, _| {
+                        let about = AboutWindow::builder()
+                            .transient_for(&*window.obj())
+                            .modal(true)
+                            .application_name("Cartero")
+                            .application_icon(config::APP_ID)
+                            .version(config::VERSION)
+                            .website("https://github.com/danirod/cartero")
+                            .issue_url("https://github.com/danirod/cartero/issues")
+                            .support_url("https://github.com/danirod/cartero/discussions")
+                            .developer_name(gettext("The Cartero authors"))
+                            .copyright(gettext("© 2024 the Cartero authors"))
+                            .license_type(gtk::License::Gpl30)
+                            .build();
+                        about.present();
+                    }
+                ))
                 .build();
 
             let obj = self.obj();

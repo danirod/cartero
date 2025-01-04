@@ -110,8 +110,10 @@ mod imp {
             self.parameter_pane.assert_always_placeholder();
 
             let url_arc = self.variable_changing.clone();
-            self.request_url
-                .connect_changed(glib::clone!(@weak self as window => move |_| {
+            self.request_url.connect_changed(glib::clone!(
+                #[weak(rename_to = window)]
+                self,
+                move |_| {
                     // It is important to allow the redundant pattern matching because
                     // is_ok() does not capture the mutex and will cause sync issues.
                     #[allow(clippy::redundant_pattern_matching)]
@@ -120,11 +122,14 @@ mod imp {
                             println!("{err}");
                         }
                     }
-                }));
+                }
+            ));
 
             let parameter_arc = self.variable_changing.clone();
-            self.parameter_pane
-                .connect_changed(glib::clone!(@weak self as window => move |_| {
+            self.parameter_pane.connect_changed(glib::clone!(
+                #[weak(rename_to = window)]
+                self,
+                move |_| {
                     // It is important to allow the redundant pattern matching because
                     // is_ok() does not capture the mutex and will cause sync issues.
                     #[allow(clippy::redundant_pattern_matching)]
@@ -133,17 +138,21 @@ mod imp {
                             println!("{err}");
                         }
                     }
-                }));
+                }
+            ));
 
             // update export pane data when user selects another option in the combo box.
-            self.export_pane
-                .connect_changed(glib::clone!(@weak self as window => move |_| {
+            self.export_pane.connect_changed(glib::clone!(
+                #[weak(rename_to = window)]
+                self,
+                move |_| {
                     if window.export_pane.imp().export_type() == ExportType::Curl {
                         if let Ok(data) = window.extract_endpoint() {
                             window.export_pane_load_endpoint_data(&data);
                         }
                     }
-                }));
+                }
+            ));
 
             self.configure_export_pane_bindings();
         }
@@ -202,18 +211,36 @@ mod imp {
         }
 
         fn init_dirty_events(&self) {
-            self.request_method
-                .connect_changed(glib::clone!(@weak self as pane => move |_| pane.mark_dirty()));
-            self.request_url
-                .connect_changed(glib::clone!(@weak self as pane => move |_| pane.mark_dirty()));
-            self.payload_pane
-                .connect_changed(glib::clone!(@weak self as pane => move |_| pane.mark_dirty()));
-            self.export_pane
-                .connect_changed(glib::clone!(@weak self as pane => move |_| pane.mark_dirty()));
-            self.header_pane
-                .connect_changed(glib::clone!(@weak self as pane => move |_| pane.mark_dirty()));
-            self.variable_pane
-                .connect_changed(glib::clone!(@weak self as pane => move |_| pane.mark_dirty()));
+            self.request_method.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| pane.mark_dirty()
+            ));
+            self.request_url.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| pane.mark_dirty()
+            ));
+            self.payload_pane.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| pane.mark_dirty()
+            ));
+            self.export_pane.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| pane.mark_dirty()
+            ));
+            self.header_pane.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| pane.mark_dirty()
+            ));
+            self.variable_pane.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| pane.mark_dirty()
+            ));
         }
 
         fn init_settings(&self) {
@@ -222,11 +249,14 @@ mod imp {
             let initial_position = SettingsExtManual::get(settings, "paned-position");
             self.paned.set_position(initial_position);
 
-            self.paned
-                .connect_position_notify(glib::clone!(@weak settings => move |paned| {
+            self.paned.connect_position_notify(glib::clone!(
+                #[weak]
+                settings,
+                move |paned| {
                     let new_position = paned.position();
                     let _ = settings.set("paned-position", new_position);
-                }));
+                }
+            ));
         }
 
         /// Syncs whether the Send button can be clicked based on whether the request is formed.
@@ -278,24 +308,36 @@ mod imp {
         /// export pane module so it gets realtime, maybe we should consider doing some
         /// kind of reactive bindings?
         fn configure_export_pane_bindings(&self) {
-            self.request_method.connect_changed(
-                glib::clone!(@weak self as pane => move |_| pane.update_export_pane()),
-            );
-            self.request_url.connect_changed(
-                glib::clone!(@weak self as pane => move |_| pane.update_export_pane()),
-            );
-            self.payload_pane.connect_changed(
-                glib::clone!(@weak self as pane => move |_| pane.update_export_pane()),
-            );
-            self.export_pane.connect_changed(
-                glib::clone!(@weak self as pane => move |_| pane.update_export_pane()),
-            );
-            self.header_pane.connect_changed(
-                glib::clone!(@weak self as pane => move |_| pane.update_export_pane()),
-            );
-            self.variable_pane.connect_changed(
-                glib::clone!(@weak self as pane => move |_| pane.update_export_pane()),
-            );
+            self.request_method.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| pane.update_export_pane()
+            ));
+            self.request_url.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| pane.update_export_pane()
+            ));
+            self.payload_pane.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| pane.update_export_pane()
+            ));
+            self.export_pane.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| pane.update_export_pane()
+            ));
+            self.header_pane.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| pane.update_export_pane()
+            ));
+            self.variable_pane.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| pane.update_export_pane()
+            ));
         }
 
         /// Sets the value of every widget in the pane into whatever is set by the given endpoint.

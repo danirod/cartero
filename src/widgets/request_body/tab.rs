@@ -120,25 +120,37 @@ mod imp {
             self.parent_constructed();
             self.on_selection_changed();
 
-            self.combo
-                .connect_selected_notify(glib::clone!(@weak self as pane => move |_| {
+            self.combo.connect_selected_notify(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| {
                     pane.obj().emit_by_name::<()>("changed", &[]);
-                }));
+                }
+            ));
 
-            self.raw
-                .connect_changed(glib::clone!(@weak self as pane => move |_| {
+            self.raw.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| {
                     pane.obj().emit_by_name::<()>("changed", &[]);
-                }));
+                }
+            ));
 
-            self.urlencoded
-                .connect_changed(glib::clone!(@weak self as pane => move |_| {
+            self.urlencoded.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| {
                     pane.obj().emit_by_name::<()>("changed", &[]);
-                }));
+                }
+            ));
 
-            self.formdata
-                .connect_changed(glib::clone!(@weak self as pane => move |_| {
+            self.formdata.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| {
                     pane.obj().emit_by_name::<()>("changed", &[]);
-                }));
+                }
+            ));
         }
 
         fn signals() -> &'static [Signal] {

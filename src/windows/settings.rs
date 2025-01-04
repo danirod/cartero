@@ -179,6 +179,6 @@ glib::wrapper! {
 impl SettingsDialog {
     pub fn present_for_window(win: &impl IsA<gtk::Widget>) {
         let dialog: Self = Object::builder().build();
-        dialog.present(win);
+        dialog.present(Some(win));
     }
 }

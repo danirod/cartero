@@ -151,15 +151,21 @@ mod imp {
 
         fn init_source_view_style(&self) {
             self.update_source_view_style();
-            adw::StyleManager::default().connect_dark_notify(
-                glib::clone!(@weak self as panel => move |_| {
+            adw::StyleManager::default().connect_dark_notify(glib::clone!(
+                #[weak(rename_to = panel)]
+                self,
+                move |_| {
                     panel.update_source_view_style();
-                }),
-            );
+                }
+            ));
             let obj = self.obj();
-            obj.connect_buffer_notify(glib::clone!(@weak self as panel => move |_| {
-                panel.update_source_view_style();
-            }));
+            obj.connect_buffer_notify(glib::clone!(
+                #[weak(rename_to = panel)]
+                self,
+                move |_| {
+                    panel.update_source_view_style();
+                }
+            ));
         }
     }
 }

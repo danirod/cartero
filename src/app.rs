@@ -75,12 +75,16 @@ mod imp {
                 Some(window) => (window.downcast::<CarteroWindow>().unwrap(), false),
                 None => (CarteroWindow::new(&self.obj()), true),
             };
-            glib::spawn_future_local(glib::clone!(@weak window => async move {
-                if is_new_window {
-                    window.open_last_session().await;
+            glib::spawn_future_local(glib::clone!(
+                #[weak]
+                window,
+                async move {
+                    if is_new_window {
+                        window.open_last_session().await;
+                    }
+                    window.present();
                 }
-                window.present();
-            }));
+            ));
         }
 
         fn startup(&self) {
@@ -190,14 +194,21 @@ impl CarteroApplication {
         let settings = self.settings();
         settings.connect_changed(
             None,
-            glib::clone!(@weak self as app => move |_, _| {
-                app.update_font();
-            }),
+            glib::clone!(
+                #[weak(rename_to = app)]
+                self,
+                move |_, _| {
+                    app.update_font();
+                }
+            ),
         );
-        self.style_manager()
-            .connect_dark_notify(glib::clone!(@weak self as app => move |_| {
+        self.style_manager().connect_dark_notify(glib::clone!(
+            #[weak(rename_to = app)]
+            self,
+            move |_| {
                 app.update_font();
-            }));
+            }
+        ));
     }
 
     fn update_font(&self) {
@@ -253,22 +264,30 @@ impl CarteroApplication {
 
     fn setup_app_actions(&self) {
         let settings = ActionEntryBuilder::new("preferences")
-            .activate(glib::clone!(@weak self as app => move |_, _, _| {
-                if let Some(window) = app.active_window() {
-                    SettingsDialog::present_for_window(&window);
+            .activate(glib::clone!(
+                #[weak(rename_to = app)]
+                self,
+                move |_, _, _| {
+                    if let Some(window) = app.active_window() {
+                        SettingsDialog::present_for_window(&window);
+                    }
                 }
-            }))
+            ))
             .build();
         let quit = ActionEntryBuilder::new("quit")
-            .activate(glib::clone!(@weak self as app => move |_, _, _| {
-                for window in app.windows() {
-                    window.close();
-                }
+            .activate(glib::clone!(
+                #[weak(rename_to = app)]
+                self,
+                move |_, _, _| {
+                    for window in app.windows() {
+                        window.close();
+                    }
 
-                if app.windows().is_empty() {
-                    app.quit();
+                    if app.windows().is_empty() {
+                        app.quit();
+                    }
                 }
-            }))
+            ))
             .build();
 
         self.add_action_entries([settings, quit]);

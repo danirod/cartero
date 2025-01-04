@@ -113,11 +113,13 @@ mod imp {
                     .highlight(true)
                     .settings(&settings)
                     .build();
-                context.connect_occurrences_count_notify(
-                    glib::clone!(@weak self as imp => move |_| {
+                context.connect_occurrences_count_notify(glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |_| {
                         imp.update_search_ocurrences();
-                    }),
-                );
+                    }
+                ));
                 context
             })
         }
@@ -125,24 +127,40 @@ mod imp {
         fn init_actions(&self) {
             let obj = self.obj();
             let action_previous = ActionEntry::builder("previous")
-                .activate(glib::clone!(@weak self as imp => move |_, _, _| {
-                    imp.search_backward();
-                }))
+                .activate(glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |_, _, _| {
+                        imp.search_backward();
+                    }
+                ))
                 .build();
             let action_next = ActionEntry::builder("next")
-                .activate(glib::clone!(@weak self as imp => move |_, _, _| {
-                    imp.search_forward();
-                }))
+                .activate(glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |_, _, _| {
+                        imp.search_forward();
+                    }
+                ))
                 .build();
             let action_close = ActionEntry::builder("close")
-                .activate(glib::clone!(@weak self as imp => move |_, _, _| {
-                    imp.close_search();
-                }))
+                .activate(glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |_, _, _| {
+                        imp.close_search();
+                    }
+                ))
                 .build();
             let action_focus = ActionEntry::builder("focus")
-                .activate(glib::clone!(@weak obj => move |_, _, _| {
-                    obj.focus();
-                }))
+                .activate(glib::clone!(
+                    #[weak]
+                    obj,
+                    move |_, _, _| {
+                        obj.focus();
+                    }
+                ))
                 .build();
             let group = SimpleActionGroup::new();
             group.add_action_entries([action_previous, action_next, action_close, action_focus]);

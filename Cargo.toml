@@ -10,18 +10,18 @@ csd = []
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-adw = { version = "0.6.0", package = "libadwaita", features = ["v1_5", "gtk_v4_12"] }
+adw = { version = "0.7.1", package = "libadwaita", features = ["v1_5"] }
 formdata = "0.13.0"
 futures-lite = "2.3.0"
 gettext-rs = { version = "0.7.2", features = ["gettext-system"] }
-glib = "0.19.3"
-gtk = { package = "gtk4", version = "0.8.2", features = ["v4_12"] }
+glib = "0.20.7"
+gtk = { package = "gtk4", version = "0.9.5", features = ["v4_12"] }
 isahc = "1.7.2"
 regex = "1.11.1"
 serde = { version = "1.0.198", features = ["derive"] }
 serde_json = "1.0.120"
 serde_urlencoded = "0.7.1"
-sourceview5 = "0.8.0"
+sourceview5 = "0.9.1"
 srtemplate = { version = "0.3.0", features = [] }
 thiserror = "1.0.60"
 tokio = { version = "1.37.0", features = ["sync"] }

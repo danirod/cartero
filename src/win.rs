@@ -1,4 +1,4 @@
-// Copyright 2024 the Cartero authors
+// Copyright 2024-2025 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -220,21 +220,18 @@ mod imp {
                 }
             }
 
-            match ItemPane::new_for_endpoint(file).await {
-                Ok(pane) => {
-                    self.stack.set_visible_child_name("tabview");
-                    let page = self.tabview.add_page(&pane, None);
-                    pane.window_title_binding()
-                        .bind(&page, "title", Some(&pane));
-                    pane.window_subtitle_binding()
-                        .bind(&page, "tooltip", Some(&pane));
-                    self.tabview.set_selected_page(&page);
-                    self.save_visible_tabs();
-                }
-                Err(e) => {
-                    self.obj().toast_error(e);
-                }
-            };
+            let pane = ItemPane::new_for_endpoint(file);
+            if pane.file().is_some() {
+                let _ = pane.load_pane().await;
+            }
+            self.stack.set_visible_child_name("tabview");
+            let page = self.tabview.add_page(&pane, None);
+            pane.window_title_binding()
+                .bind(&page, "title", Some(&pane));
+            pane.window_subtitle_binding()
+                .bind(&page, "tooltip", Some(&pane));
+            self.tabview.set_selected_page(&page);
+            self.save_visible_tabs();
         }
 
         async fn trigger_open(&self) -> Result<(), CarteroError> {
@@ -248,42 +245,35 @@ mod imp {
             Ok(())
         }
 
+        async fn request_file_for_pane(&self, pane: &ItemPane) -> Result<(), CarteroError> {
+            let obj = self.obj();
+            let file = crate::widgets::save_file(&obj).await?;
+            pane.set_file(Some(&file));
+            Ok(())
+        }
+
+        async fn assert_pane_has_file(&self, pane: &ItemPane) -> Result<(), CarteroError> {
+            if pane.file().is_none() {
+                self.request_file_for_pane(pane).await?;
+            }
+            Ok(())
+        }
+
         async fn save_pane(&self, pane: &ItemPane) -> Result<(), CarteroError> {
-            let Some(endpoint) = pane.endpoint() else {
-                return Ok(());
-            };
-
-            let file = match pane.file() {
-                Some(file) => file,
-                None => {
-                    let obj = self.obj();
-                    crate::widgets::save_file(&obj).await?
-                }
-            };
-
-            let endpoint = endpoint.extract_endpoint()?;
-            let serialized_payload = crate::file::store_toml(&endpoint)?;
-            crate::file::write_file(&file, &serialized_payload).await?;
-            pane.set_file(Some(file.clone()));
-            pane.set_dirty(false);
-
+            self.assert_pane_has_file(&pane).await?;
+            pane.save_pane()
+                .await
+                .map_err(|_| CarteroError::FileDialogError)?;
+            pane.clear_dirty();
             Ok(())
         }
 
         async fn save_pane_as(&self, pane: &ItemPane) -> Result<(), CarteroError> {
-            let Some(endpoint) = pane.endpoint() else {
-                return Ok(());
-            };
-
-            let obj = self.obj();
-            let file = crate::widgets::save_file(&obj).await?;
-
-            let endpoint = endpoint.extract_endpoint()?;
-            let serialized_payload = crate::file::store_toml(&endpoint)?;
-            crate::file::write_file(&file, &serialized_payload).await?;
-            pane.set_file(Some(file.clone()));
-            pane.set_dirty(false);
-
+            self.request_file_for_pane(pane).await?;
+            pane.save_pane()
+                .await
+                .map_err(|_| CarteroError::FileDialogError)?;
+            pane.clear_dirty();
             Ok(())
         }
 

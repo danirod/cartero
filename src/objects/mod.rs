@@ -1,4 +1,4 @@
-// Copyright 2024 the Cartero authors
+// Copyright 2024-2025 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,5 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 mod key_value_item;
+mod serializable;
 
 pub use key_value_item::KeyValueItem;
+pub use serializable::{Serializable, SerializableExt, SerializableImpl};

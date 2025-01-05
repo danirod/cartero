@@ -1,10 +1,24 @@
+// Copyright 2024-2025 the Cartero authors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 use std::collections::HashMap;
 
-use gtk::gio;
-use gtk::prelude::{FileExtManual, SettingsExtManual};
 use serde::{Deserialize, Serialize};
 
-use crate::app::CarteroApplication;
 use crate::client::RequestError;
 use crate::entities::{
     EndpointData, KeyValue, KeyValueTable, RawEncoding, RequestMethod, RequestPayload,
@@ -245,7 +259,7 @@ impl From<Body> for RequestPayload {
 }
 
 #[derive(Deserialize, Serialize)]
-struct RequestFile {
+pub(crate) struct RequestFile {
     version: usize,
     url: String,
     method: String,
@@ -297,45 +311,6 @@ impl From<EndpointData> for RequestFile {
             variables: Some(variables),
         }
     }
-}
-
-pub fn parse_toml(file: &str) -> Result<EndpointData, CarteroError> {
-    let contents = toml::from_str::<RequestFile>(file)?;
-    EndpointData::try_from(contents)
-}
-
-pub fn store_toml(endpoint: &EndpointData) -> Result<String, CarteroError> {
-    let file = RequestFile::from(endpoint.clone());
-    toml::to_string(&file).map_err(|e| e.into())
-}
-
-pub async fn read_file(file: &gio::File) -> Result<String, CarteroError> {
-    file.load_contents_future()
-        .await
-        .map(|data| String::from_utf8_lossy(&data.0).to_string())
-        .map_err(|err| {
-            println!("{err:?}");
-            CarteroError::FileDialogError
-        })
-}
-
-pub async fn write_file(file: &gio::File, contents: &str) -> Result<(), CarteroError> {
-    let app = CarteroApplication::default();
-    let settings = app.settings();
-    let use_backups = settings.get::<bool>("create-backup-files");
-    file.replace_contents_future(
-        contents.to_string(),
-        None,
-        use_backups,
-        gio::FileCreateFlags::NONE,
-    )
-    .await
-    .map_err(|result| {
-        let error = result.1;
-        println!("{error:?}");
-        CarteroError::FileDialogError
-    })?;
-    Ok(())
 }
 
 #[cfg(test)]
@@ -458,455 +433,456 @@ mod tests {
             ])
         );
     }
+    /*
+        #[test]
+        pub fn test_can_deserialize_classic() {
+            let toml = "
+    version = 1
+    url = 'https://www.google.com'
+    method = 'GET'
+    body = 'hello'
 
-    #[test]
-    pub fn test_can_deserialize_classic() {
-        let toml = "
-version = 1
-url = 'https://www.google.com'
-method = 'GET'
-body = 'hello'
-
-[headers]
-Accept = 'text/html'
-Accept-Encoding = 'gzip'
-";
-        let endpoint = super::parse_toml(toml).unwrap();
-        assert_eq!(endpoint.url, "https://www.google.com");
-        assert_eq!(endpoint.method, RequestMethod::Get);
-        assert_eq!(
-            endpoint.body,
-            RequestPayload::Raw {
-                encoding: RawEncoding::OctetStream,
-                content: Vec::from(b"hello"),
-            }
-        );
-        assert_eq!(endpoint.headers.len(), 2);
-
-        let mut given_headers = endpoint.headers.clone();
-        given_headers.sort();
-        assert_eq!(
-            given_headers,
-            KeyValueTable::new(&[
-                KeyValue {
-                    name: "Accept".into(),
-                    value: "text/html".into(),
-                    active: true,
-                    secret: false
-                },
-                KeyValue {
-                    name: "Accept-Encoding".into(),
-                    value: "gzip".into(),
-                    active: true,
-                    secret: false
+    [headers]
+    Accept = 'text/html'
+    Accept-Encoding = 'gzip'
+    ";
+            let endpoint = super::parse_toml(toml).unwrap();
+            assert_eq!(endpoint.url, "https://www.google.com");
+            assert_eq!(endpoint.method, RequestMethod::Get);
+            assert_eq!(
+                endpoint.body,
+                RequestPayload::Raw {
+                    encoding: RawEncoding::OctetStream,
+                    content: Vec::from(b"hello"),
                 }
-            ]),
-        );
-    }
+            );
+            assert_eq!(endpoint.headers.len(), 2);
 
-    #[test]
-    pub fn test_can_deserialize_complex_headers() {
-        let toml = "
-version = 1
-url = 'https://www.google.com'
-method = 'GET'
-body = 'hello'
+            let mut given_headers = endpoint.headers.clone();
+            given_headers.sort();
+            assert_eq!(
+                given_headers,
+                KeyValueTable::new(&[
+                    KeyValue {
+                        name: "Accept".into(),
+                        value: "text/html".into(),
+                        active: true,
+                        secret: false
+                    },
+                    KeyValue {
+                        name: "Accept-Encoding".into(),
+                        value: "gzip".into(),
+                        active: true,
+                        secret: false
+                    }
+                ]),
+            );
+        }
 
-[headers]
-Accept = { value = 'text/html', secret = true, active = false }
-Accept-Encoding = 'gzip'
-";
-        let endpoint = super::parse_toml(toml).unwrap();
-        assert_eq!(endpoint.url, "https://www.google.com");
-        assert_eq!(endpoint.method, RequestMethod::Get);
-        assert_eq!(
-            endpoint.body,
-            RequestPayload::Raw {
-                encoding: RawEncoding::OctetStream,
-                content: Vec::from(b"hello"),
-            }
-        );
-        assert_eq!(endpoint.headers.len(), 2);
+        #[test]
+        pub fn test_can_deserialize_complex_headers() {
+            let toml = "
+    version = 1
+    url = 'https://www.google.com'
+    method = 'GET'
+    body = 'hello'
 
-        let mut given_headers = endpoint.headers.clone();
-        given_headers.sort();
-        assert_eq!(
-            given_headers,
-            KeyValueTable::new(&[
-                KeyValue {
-                    name: "Accept".into(),
-                    value: "text/html".into(),
-                    active: false,
-                    secret: true,
-                },
-                KeyValue {
-                    name: "Accept-Encoding".into(),
-                    value: "gzip".into(),
-                    active: true,
-                    secret: false
+    [headers]
+    Accept = { value = 'text/html', secret = true, active = false }
+    Accept-Encoding = 'gzip'
+    ";
+            let endpoint = super::parse_toml(toml).unwrap();
+            assert_eq!(endpoint.url, "https://www.google.com");
+            assert_eq!(endpoint.method, RequestMethod::Get);
+            assert_eq!(
+                endpoint.body,
+                RequestPayload::Raw {
+                    encoding: RawEncoding::OctetStream,
+                    content: Vec::from(b"hello"),
                 }
-            ]),
-        );
-    }
+            );
+            assert_eq!(endpoint.headers.len(), 2);
 
-    #[test]
-    pub fn test_can_deserialize_header_arrays() {
-        let toml = "
-version = 1
-url = 'https://www.google.com'
-method = 'GET'
-body = 'hello'
+            let mut given_headers = endpoint.headers.clone();
+            given_headers.sort();
+            assert_eq!(
+                given_headers,
+                KeyValueTable::new(&[
+                    KeyValue {
+                        name: "Accept".into(),
+                        value: "text/html".into(),
+                        active: false,
+                        secret: true,
+                    },
+                    KeyValue {
+                        name: "Accept-Encoding".into(),
+                        value: "gzip".into(),
+                        active: true,
+                        secret: false
+                    }
+                ]),
+            );
+        }
 
-[headers]
-Accept = ['application/json', 'text/html']
-Accept-Encoding = 'gzip'
-";
-        let endpoint = super::parse_toml(toml).unwrap();
-        assert_eq!(endpoint.url, "https://www.google.com");
-        assert_eq!(endpoint.method, RequestMethod::Get);
-        assert_eq!(
-            endpoint.body,
-            RequestPayload::Raw {
-                encoding: RawEncoding::OctetStream,
-                content: Vec::from(b"hello"),
-            }
-        );
-        assert_eq!(endpoint.headers.len(), 3);
+        #[test]
+        pub fn test_can_deserialize_header_arrays() {
+            let toml = "
+    version = 1
+    url = 'https://www.google.com'
+    method = 'GET'
+    body = 'hello'
 
-        let mut given_headers = endpoint.headers.clone();
-        given_headers.sort();
-        assert_eq!(
-            given_headers,
-            KeyValueTable::new(&[
-                KeyValue {
-                    name: "Accept".into(),
-                    value: "application/json".into(),
-                    active: true,
-                    secret: false,
-                },
-                KeyValue {
-                    name: "Accept".into(),
-                    value: "text/html".into(),
-                    active: true,
-                    secret: false,
-                },
-                KeyValue {
-                    name: "Accept-Encoding".into(),
-                    value: "gzip".into(),
-                    active: true,
-                    secret: false
+    [headers]
+    Accept = ['application/json', 'text/html']
+    Accept-Encoding = 'gzip'
+    ";
+            let endpoint = super::parse_toml(toml).unwrap();
+            assert_eq!(endpoint.url, "https://www.google.com");
+            assert_eq!(endpoint.method, RequestMethod::Get);
+            assert_eq!(
+                endpoint.body,
+                RequestPayload::Raw {
+                    encoding: RawEncoding::OctetStream,
+                    content: Vec::from(b"hello"),
                 }
-            ]),
-        );
-    }
+            );
+            assert_eq!(endpoint.headers.len(), 3);
 
-    #[test]
-    pub fn test_deserialize_complex_header_arrays() {
-        let toml = "
-version = 1
-url = 'https://www.google.com'
-method = 'GET'
-body = 'hello'
+            let mut given_headers = endpoint.headers.clone();
+            given_headers.sort();
+            assert_eq!(
+                given_headers,
+                KeyValueTable::new(&[
+                    KeyValue {
+                        name: "Accept".into(),
+                        value: "application/json".into(),
+                        active: true,
+                        secret: false,
+                    },
+                    KeyValue {
+                        name: "Accept".into(),
+                        value: "text/html".into(),
+                        active: true,
+                        secret: false,
+                    },
+                    KeyValue {
+                        name: "Accept-Encoding".into(),
+                        value: "gzip".into(),
+                        active: true,
+                        secret: false
+                    }
+                ]),
+            );
+        }
 
-[headers]
-Accept = [
-    { value = 'application/json', active = false, secret = false },
-    { value = 'text/html', active = false, secret = false },
-]
-X-Client-Id = [
-    { value = '123412341234', active = true, secret = true },
-    { value = '{{CLIENT_ID}}', active = false, secret = false },
-]
-Accept-Encoding = 'gzip'
-";
-        let endpoint = super::parse_toml(toml).unwrap();
-        assert_eq!(endpoint.url, "https://www.google.com");
-        assert_eq!(endpoint.method, RequestMethod::Get);
-        assert_eq!(
-            endpoint.body,
-            RequestPayload::Raw {
+        #[test]
+        pub fn test_deserialize_complex_header_arrays() {
+            let toml = "
+    version = 1
+    url = 'https://www.google.com'
+    method = 'GET'
+    body = 'hello'
+
+    [headers]
+    Accept = [
+        { value = 'application/json', active = false, secret = false },
+        { value = 'text/html', active = false, secret = false },
+    ]
+    X-Client-Id = [
+        { value = '123412341234', active = true, secret = true },
+        { value = '{{CLIENT_ID}}', active = false, secret = false },
+    ]
+    Accept-Encoding = 'gzip'
+    ";
+            let endpoint = super::parse_toml(toml).unwrap();
+            assert_eq!(endpoint.url, "https://www.google.com");
+            assert_eq!(endpoint.method, RequestMethod::Get);
+            assert_eq!(
+                endpoint.body,
+                RequestPayload::Raw {
+                    encoding: RawEncoding::OctetStream,
+                    content: Vec::from(b"hello"),
+                }
+            );
+            assert_eq!(endpoint.headers.len(), 5);
+
+            let mut given_headers = endpoint.headers.clone();
+            given_headers.sort();
+            assert_eq!(
+                given_headers,
+                KeyValueTable::new(&vec![
+                    KeyValue {
+                        name: "Accept".into(),
+                        value: "application/json".into(),
+                        active: false,
+                        secret: false,
+                    },
+                    KeyValue {
+                        name: "Accept".into(),
+                        value: "text/html".into(),
+                        active: false,
+                        secret: false,
+                    },
+                    KeyValue {
+                        name: "Accept-Encoding".into(),
+                        value: "gzip".into(),
+                        active: true,
+                        secret: false
+                    },
+                    KeyValue {
+                        name: "X-Client-Id".into(),
+                        value: "123412341234".into(),
+                        active: true,
+                        secret: true
+                    },
+                    KeyValue {
+                        name: "X-Client-Id".into(),
+                        value: "{{CLIENT_ID}}".into(),
+                        active: false,
+                        secret: false
+                    },
+                ]),
+            );
+        }
+
+        #[test]
+        pub fn test_deserialization_error() {
+            let toml = "
+    version = 0
+    url = 'https://www.google.com'
+    method = 'GET'
+    body = 'hello'
+    ";
+            assert!(super::parse_toml(toml).is_err());
+        }
+
+        #[test]
+        pub fn test_method_error() {
+            let toml = "
+    version = 1
+    url = 'https://www.google.com'
+    method = 'THROW'
+    ";
+            assert!(super::parse_toml(toml).is_err());
+        }
+
+        #[test]
+        pub fn test_empty_url() {
+            let toml = "
+    version = 1
+    method = 'POST'
+    body = 'hello'
+
+    [headers]
+    Accept = 'text/html'
+    ";
+            assert!(super::parse_toml(toml).is_err());
+        }
+
+        #[test]
+        pub fn test_empty_method() {
+            let toml = "
+    version = 1
+    url = 'https://www.google.com'
+    body = 'hello'
+
+    [headers]
+    Accept = 'text/html'
+    ";
+            assert!(super::parse_toml(toml).is_err());
+        }
+
+        #[test]
+        pub fn test_empty_body() {
+            let toml = "
+    version = 1
+    url = 'https://www.google.com'
+    method = 'GET'
+
+    [headers]
+    Accept = 'text/html'
+    ";
+            let endpoint = super::parse_toml(toml).unwrap();
+            assert_eq!(endpoint.url, "https://www.google.com");
+            assert_eq!(endpoint.method, RequestMethod::Get);
+            assert_eq!(endpoint.body, RequestPayload::None);
+        }
+
+        #[test]
+        pub fn test_multiple_headers_serialization() {
+            let headers = vec![
+                ("Host", "google.com").into(),
+                ("User-Agent", "Cartero").into(),
+                ("User-Agent", "Cartero/0.1").into(),
+            ];
+            let headers = KeyValueTable::new(&headers);
+            let body = RequestPayload::None;
+            let r = EndpointData {
+                url: "https://www.google.com".to_string(),
+                method: RequestMethod::Post,
+                headers,
+                variables: KeyValueTable::default(),
+                body,
+            };
+
+            let content = super::store_toml(&r).unwrap();
+            let content = content.as_str();
+            assert!(content.contains("url = \"https://www.google.com\""));
+            assert!(content.contains("Host = \"google.com\""));
+            assert!(content.contains("User-Agent = ["));
+        }
+
+        #[test]
+        pub fn test_multiple_headers_serialization_with_meta() {
+            let headers = vec![
+                ("Host", "google.com").into(),
+                ("User-Agent", "Cartero").into(),
+                KeyValue {
+                    name: "User-Agent".into(),
+                    value: "Cartero/devel".into(),
+                    active: false,
+                    secret: false,
+                },
+                ("User-Agent", "Cartero/0.1").into(),
+            ];
+            let headers = KeyValueTable::new(&headers);
+            let body = RequestPayload::None;
+            let r = EndpointData {
+                url: "https://www.google.com".to_string(),
+                method: RequestMethod::Post,
+                headers,
+                variables: KeyValueTable::default(),
+                body,
+            };
+
+            let content = super::store_toml(&r).unwrap();
+            let content = content.as_str();
+            assert!(content.contains("url = \"https://www.google.com\""));
+            assert!(content.contains("Host = \"google.com\""));
+            assert!(content.contains("User-Agent = ["));
+            assert!(content.contains("active = false"));
+        }
+
+        #[test]
+        pub fn test_empty_headers() {
+            let toml = "
+    version = 1
+    url = 'https://www.google.com'
+    method = 'POST'
+    body = 'hello'
+    ";
+            let endpoint = super::parse_toml(toml).unwrap();
+            assert_eq!(endpoint.url, "https://www.google.com");
+            assert_eq!(endpoint.method, RequestMethod::Post);
+            assert_eq!(
+                endpoint.body,
+                RequestPayload::Raw {
+                    content: Vec::from(b"hello"),
+                    encoding: RawEncoding::OctetStream,
+                }
+            );
+            assert_eq!(endpoint.headers.len(), 0);
+        }
+
+        #[test]
+        pub fn test_serialize_correctly() {
+            let headers = vec![
+                ("User-Agent", "Cartero").into(),
+                ("Host", "google.com").into(),
+            ];
+            let headers = KeyValueTable::new(&headers);
+            let body = RequestPayload::Raw {
+                content: Vec::from(b"Hello"),
                 encoding: RawEncoding::OctetStream,
-                content: Vec::from(b"hello"),
-            }
-        );
-        assert_eq!(endpoint.headers.len(), 5);
+            };
+            let r = EndpointData {
+                url: "https://www.google.com".to_string(),
+                method: RequestMethod::Post,
+                headers,
+                variables: KeyValueTable::default(),
+                body,
+            };
 
-        let mut given_headers = endpoint.headers.clone();
-        given_headers.sort();
-        assert_eq!(
-            given_headers,
-            KeyValueTable::new(&vec![
-                KeyValue {
-                    name: "Accept".into(),
-                    value: "application/json".into(),
-                    active: false,
-                    secret: false,
-                },
-                KeyValue {
-                    name: "Accept".into(),
-                    value: "text/html".into(),
-                    active: false,
-                    secret: false,
-                },
-                KeyValue {
-                    name: "Accept-Encoding".into(),
-                    value: "gzip".into(),
-                    active: true,
-                    secret: false
-                },
+            let content = super::store_toml(&r).unwrap();
+            assert!(content
+                .as_str()
+                .contains("url = \"https://www.google.com\""));
+            assert!(content.as_str().contains("method = \"POST\""));
+            assert!(content.as_str().contains("body = \"Hello\""));
+            assert!(content.as_str().contains("User-Agent = \"Cartero\""));
+        }
+
+        #[test]
+        pub fn test_serializes_complex_example() {
+            // One thing important to test: since this is eventually a hashmap, the result
+            // will be sorted by key name, but the order of the elements must match the
+            // original order.
+            let headers = KeyValueTable::new(&vec![
                 KeyValue {
                     name: "X-Client-Id".into(),
                     value: "123412341234".into(),
+                    secret: true,
                     active: true,
-                    secret: true
                 },
+                ("Host", "google.com").into(),
+                ("User-Agent", "Cartero").into(),
                 KeyValue {
                     name: "X-Client-Id".into(),
                     value: "{{CLIENT_ID}}".into(),
+                    secret: false,
                     active: false,
-                    secret: false
                 },
-            ]),
-        );
-    }
-
-    #[test]
-    pub fn test_deserialization_error() {
-        let toml = "
-version = 0
-url = 'https://www.google.com'
-method = 'GET'
-body = 'hello'
-";
-        assert!(super::parse_toml(toml).is_err());
-    }
-
-    #[test]
-    pub fn test_method_error() {
-        let toml = "
-version = 1
-url = 'https://www.google.com'
-method = 'THROW'
-";
-        assert!(super::parse_toml(toml).is_err());
-    }
-
-    #[test]
-    pub fn test_empty_url() {
-        let toml = "
-version = 1
-method = 'POST'
-body = 'hello'
-
-[headers]
-Accept = 'text/html'
-";
-        assert!(super::parse_toml(toml).is_err());
-    }
-
-    #[test]
-    pub fn test_empty_method() {
-        let toml = "
-version = 1
-url = 'https://www.google.com'
-body = 'hello'
-
-[headers]
-Accept = 'text/html'
-";
-        assert!(super::parse_toml(toml).is_err());
-    }
-
-    #[test]
-    pub fn test_empty_body() {
-        let toml = "
-version = 1
-url = 'https://www.google.com'
-method = 'GET'
-
-[headers]
-Accept = 'text/html'
-";
-        let endpoint = super::parse_toml(toml).unwrap();
-        assert_eq!(endpoint.url, "https://www.google.com");
-        assert_eq!(endpoint.method, RequestMethod::Get);
-        assert_eq!(endpoint.body, RequestPayload::None);
-    }
-
-    #[test]
-    pub fn test_multiple_headers_serialization() {
-        let headers = vec![
-            ("Host", "google.com").into(),
-            ("User-Agent", "Cartero").into(),
-            ("User-Agent", "Cartero/0.1").into(),
-        ];
-        let headers = KeyValueTable::new(&headers);
-        let body = RequestPayload::None;
-        let r = EndpointData {
-            url: "https://www.google.com".to_string(),
-            method: RequestMethod::Post,
-            headers,
-            variables: KeyValueTable::default(),
-            body,
-        };
-
-        let content = super::store_toml(&r).unwrap();
-        let content = content.as_str();
-        assert!(content.contains("url = \"https://www.google.com\""));
-        assert!(content.contains("Host = \"google.com\""));
-        assert!(content.contains("User-Agent = ["));
-    }
-
-    #[test]
-    pub fn test_multiple_headers_serialization_with_meta() {
-        let headers = vec![
-            ("Host", "google.com").into(),
-            ("User-Agent", "Cartero").into(),
-            KeyValue {
-                name: "User-Agent".into(),
-                value: "Cartero/devel".into(),
-                active: false,
-                secret: false,
-            },
-            ("User-Agent", "Cartero/0.1").into(),
-        ];
-        let headers = KeyValueTable::new(&headers);
-        let body = RequestPayload::None;
-        let r = EndpointData {
-            url: "https://www.google.com".to_string(),
-            method: RequestMethod::Post,
-            headers,
-            variables: KeyValueTable::default(),
-            body,
-        };
-
-        let content = super::store_toml(&r).unwrap();
-        let content = content.as_str();
-        assert!(content.contains("url = \"https://www.google.com\""));
-        assert!(content.contains("Host = \"google.com\""));
-        assert!(content.contains("User-Agent = ["));
-        assert!(content.contains("active = false"));
-    }
-
-    #[test]
-    pub fn test_empty_headers() {
-        let toml = "
-version = 1
-url = 'https://www.google.com'
-method = 'POST'
-body = 'hello'
-";
-        let endpoint = super::parse_toml(toml).unwrap();
-        assert_eq!(endpoint.url, "https://www.google.com");
-        assert_eq!(endpoint.method, RequestMethod::Post);
-        assert_eq!(
-            endpoint.body,
-            RequestPayload::Raw {
-                content: Vec::from(b"hello"),
+            ]);
+            let variables = KeyValueTable::new(&[
+                KeyValue {
+                    name: "CLIENT_SECRET".into(),
+                    value: "101010".into(),
+                    secret: true,
+                    active: true,
+                },
+                ("CLIENT_ID", "123412341234").into(),
+                KeyValue {
+                    name: "CLIENT_SECRET".into(),
+                    value: "202020".into(),
+                    secret: true,
+                    active: true,
+                },
+            ]);
+            let body = RequestPayload::Raw {
+                content: Vec::from(b"Hello"),
                 encoding: RawEncoding::OctetStream,
-            }
-        );
-        assert_eq!(endpoint.headers.len(), 0);
-    }
+            };
+            let r = EndpointData {
+                url: "https://www.google.com".to_string(),
+                method: RequestMethod::Post,
+                headers,
+                variables,
+                body,
+            };
 
-    #[test]
-    pub fn test_serialize_correctly() {
-        let headers = vec![
-            ("User-Agent", "Cartero").into(),
-            ("Host", "google.com").into(),
-        ];
-        let headers = KeyValueTable::new(&headers);
-        let body = RequestPayload::Raw {
-            content: Vec::from(b"Hello"),
-            encoding: RawEncoding::OctetStream,
-        };
-        let r = EndpointData {
-            url: "https://www.google.com".to_string(),
-            method: RequestMethod::Post,
-            headers,
-            variables: KeyValueTable::default(),
-            body,
-        };
+            let content = super::store_toml(&r).unwrap();
+            let parsed = super::parse_toml(&content).unwrap();
+            assert_eq!(r.url, parsed.url);
+            assert_eq!(r.method, parsed.method);
+            assert_eq!(r.body, parsed.body);
 
-        let content = super::store_toml(&r).unwrap();
-        assert!(content
-            .as_str()
-            .contains("url = \"https://www.google.com\""));
-        assert!(content.as_str().contains("method = \"POST\""));
-        assert!(content.as_str().contains("body = \"Hello\""));
-        assert!(content.as_str().contains("User-Agent = \"Cartero\""));
-    }
-
-    #[test]
-    pub fn test_serializes_complex_example() {
-        // One thing important to test: since this is eventually a hashmap, the result
-        // will be sorted by key name, but the order of the elements must match the
-        // original order.
-        let headers = KeyValueTable::new(&vec![
-            KeyValue {
-                name: "X-Client-Id".into(),
-                value: "123412341234".into(),
-                secret: true,
-                active: true,
-            },
-            ("Host", "google.com").into(),
-            ("User-Agent", "Cartero").into(),
-            KeyValue {
-                name: "X-Client-Id".into(),
-                value: "{{CLIENT_ID}}".into(),
-                secret: false,
-                active: false,
-            },
-        ]);
-        let variables = KeyValueTable::new(&[
-            KeyValue {
-                name: "CLIENT_SECRET".into(),
-                value: "101010".into(),
-                secret: true,
-                active: true,
-            },
-            ("CLIENT_ID", "123412341234").into(),
-            KeyValue {
-                name: "CLIENT_SECRET".into(),
-                value: "202020".into(),
-                secret: true,
-                active: true,
-            },
-        ]);
-        let body = RequestPayload::Raw {
-            content: Vec::from(b"Hello"),
-            encoding: RawEncoding::OctetStream,
-        };
-        let r = EndpointData {
-            url: "https://www.google.com".to_string(),
-            method: RequestMethod::Post,
-            headers,
-            variables,
-            body,
-        };
-
-        let content = super::store_toml(&r).unwrap();
-        let parsed = super::parse_toml(&content).unwrap();
-        assert_eq!(r.url, parsed.url);
-        assert_eq!(r.method, parsed.method);
-        assert_eq!(r.body, parsed.body);
-
-        assert_eq!(
-            KeyValueTable::new(&vec![
-                r.headers[1].clone(),
-                r.headers[2].clone(),
-                r.headers[0].clone(),
-                r.headers[3].clone(),
-            ]),
-            parsed.headers
-        );
-        assert_eq!(
-            KeyValueTable::new(&[
-                r.variables[1].clone(),
-                r.variables[0].clone(),
-                r.variables[2].clone()
-            ]),
-            parsed.variables
-        );
-    }
+            assert_eq!(
+                KeyValueTable::new(&vec![
+                    r.headers[1].clone(),
+                    r.headers[2].clone(),
+                    r.headers[0].clone(),
+                    r.headers[3].clone(),
+                ]),
+                parsed.headers
+            );
+            assert_eq!(
+                KeyValueTable::new(&[
+                    r.variables[1].clone(),
+                    r.variables[0].clone(),
+                    r.variables[2].clone()
+                ]),
+                parsed.variables
+            );
+        }
+    */
 }

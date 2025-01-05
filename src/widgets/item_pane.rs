@@ -1,4 +1,4 @@
-// Copyright 2024 the Cartero authors
+// Copyright 2024-2025 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,7 +20,11 @@ use gettextrs::gettext;
 use glib::Object;
 use gtk::{gio, ClosureExpression};
 
-use crate::error::CarteroError;
+use crate::{
+    app::CarteroApplication,
+    error::FileOperationError,
+    objects::{Serializable, SerializableExt},
+};
 
 use super::EndpointPane;
 
@@ -65,25 +69,70 @@ glib::wrapper! {
 }
 
 impl ItemPane {
-    pub async fn new_for_endpoint(file: Option<&gio::File>) -> Result<Self, CarteroError> {
-        let pane: Self = Object::builder().property("file", file).build();
+    pub fn serializable(&self) -> Option<Serializable> {
+        self.child().and_dynamic_cast::<Serializable>().ok()
+    }
 
-        let child_pane = EndpointPane::default();
-        pane.set_child(Some(&child_pane));
-
-        if let Some(path) = file {
-            let contents = crate::file::read_file(path).await?;
-            let endpoint = crate::file::parse_toml(&contents)?;
-            child_pane.assign_endpoint(&endpoint);
-        }
-
-        child_pane.set_item_pane(Some(&pane));
-
-        Ok(pane)
+    pub fn new_for_endpoint(file: Option<&gio::File>) -> Self {
+        let endpoint = EndpointPane::default();
+        let pane: Self = Object::builder()
+            .property("file", file)
+            .property("child", Some(&endpoint))
+            .build();
+        endpoint
+            .bind_property("dirty", &pane, "dirty")
+            .bidirectional()
+            .sync_create()
+            .build();
+        pane
     }
 
     pub fn endpoint(&self) -> Option<EndpointPane> {
         self.child().and_downcast::<EndpointPane>()
+    }
+
+    pub async fn load_pane(&self) -> Result<(), FileOperationError> {
+        if let Some(serial) = self.serializable() {
+            let Some(file) = self.file() else {
+                return Err(FileOperationError::NoFileGiven);
+            };
+            let contents = file
+                .load_contents_future()
+                .await
+                .map(|slice| String::from_utf8_lossy(&slice.0).to_string())
+                .map_err(|_| FileOperationError::FileReadError)?;
+            serial
+                .from_toml(&contents)
+                .map_err(|_| FileOperationError::FileDecodeError)?;
+            serial.set_dirty(false);
+        }
+        Ok(())
+    }
+
+    pub async fn save_pane(&self) -> Result<(), FileOperationError> {
+        let make_backup = {
+            let app = CarteroApplication::default();
+            let settings = app.settings();
+            settings.get::<bool>("create-backup-files")
+        };
+        if let Some(serial) = self.serializable() {
+            let Some(file) = self.file() else {
+                return Err(FileOperationError::NoFileGiven);
+            };
+            let toml = serial
+                .to_toml()
+                .map_err(|_| FileOperationError::FileEncodeError)?;
+            file.replace_contents_future(toml, None, make_backup, gio::FileCreateFlags::NONE)
+                .await
+                .map_err(|_| FileOperationError::FileWriteError)?;
+        }
+        Ok(())
+    }
+
+    pub fn clear_dirty(&self) {
+        if let Some(serializable) = self.serializable() {
+            serializable.set_dirty(false);
+        }
     }
 
     pub fn window_title_binding(&self) -> ClosureExpression {

@@ -1,4 +1,4 @@
-// Copyright 2024 the Cartero authors
+// Copyright 2024-2025 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 use glib::{subclass::types::ObjectSubclassIsExt, Object};
 use gtk::glib;
 
-use crate::{entities::EndpointData, error::CarteroError};
+use crate::{entities::EndpointData, error::CarteroError, objects::Serializable};
 
 mod imp {
     use std::cell::RefCell;
@@ -37,9 +37,10 @@ mod imp {
     use crate::client::{BoundRequest, RequestError};
     use crate::entities::{EndpointData, KeyValue, RequestExportType};
     use crate::error::CarteroError;
-    use crate::objects::KeyValueItem;
+    use crate::file::RequestFile;
+    use crate::objects::{KeyValueItem, Serializable, SerializableImpl};
     use crate::widgets::{
-        ExportTab, ExportType, ItemPane, KeyValuePane, MethodDropdown, PayloadTab, ResponsePanel,
+        ExportTab, ExportType, KeyValuePane, MethodDropdown, PayloadTab, ResponsePanel,
     };
 
     #[derive(CompositeTemplate, Properties, Default)]
@@ -76,10 +77,10 @@ mod imp {
         #[template_child]
         pub paned: TemplateChild<gtk::Paned>,
 
-        #[property(get, set, nullable)]
-        pub item_pane: RefCell<Option<ItemPane>>,
-
         variable_changing: Arc<Mutex<bool>>,
+
+        #[property(get, set)]
+        dirty: RefCell<bool>,
     }
 
     #[glib::object_subclass]
@@ -87,6 +88,7 @@ mod imp {
         const NAME: &'static str = "CarteroEndpointPane";
         type Type = super::EndpointPane;
         type ParentType = adw::BreakpointBin;
+        type Interfaces = (Serializable,);
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -205,9 +207,8 @@ mod imp {
         }
 
         fn mark_dirty(&self) {
-            if let Some(item_pane) = self.obj().item_pane() {
-                item_pane.set_dirty(true);
-            }
+            let obj = self.obj();
+            obj.set_dirty(true);
         }
 
         fn init_dirty_events(&self) {
@@ -414,11 +415,28 @@ mod imp {
             Ok(())
         }
     }
+
+    impl SerializableImpl for EndpointPane {
+        fn from_toml(&self, content: &str) -> Result<(), ()> {
+            let contents = toml::from_str::<RequestFile>(content).map_err(|_| ())?;
+            let ep = EndpointData::try_from(contents).map_err(|_| ())?;
+            self.assign_request(&ep);
+            Ok(())
+        }
+
+        fn to_toml(&self) -> Result<String, ()> {
+            let endpoint = self.extract_endpoint().map_err(|_| ())?;
+            let file = RequestFile::from(endpoint);
+            let contents = toml::to_string(&file).map_err(|_| ())?;
+            Ok(contents)
+        }
+    }
 }
 
 glib::wrapper! {
     pub struct EndpointPane(ObjectSubclass<imp::EndpointPane>)
-        @extends gtk::Widget, gtk::Box;
+        @extends gtk::Widget, gtk::Box,
+        @implements Serializable;
 }
 
 impl Default for EndpointPane {

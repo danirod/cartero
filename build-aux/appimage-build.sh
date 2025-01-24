@@ -113,7 +113,7 @@ glib-compile-schemas AppDir/usr/share/glib-2.0/schemas
 gtk4-update-icon-cache -q -t -f AppDir/usr/share/icons/hicolor
 
 # Start packaging process
-[ -x appimagetool-x86_64.AppImage ] || curl -OL https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+[ -x appimagetool-x86_64.AppImage ] || curl -OL https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
 [ -x linuxdeploy-x86_64.AppImage ] || curl -OL https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
 [ -x linuxdeploy-plugin-gtk.sh ] || curl -OL https://raw.githubusercontent.com/linuxdeploy/linuxdeploy-plugin-gtk/master/linuxdeploy-plugin-gtk.sh
 chmod +x appimagetool-x86_64.AppImage linuxdeploy-x86_64.AppImage linuxdeploy-plugin-gtk.sh

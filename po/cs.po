@@ -1,0 +1,562 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the cartero package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: cartero\n"
+"Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
+"POT-Creation-Date: 2024-12-22 16:58+0100\n"
+"PO-Revision-Date: 2025-01-07 14:00+0000\n"
+"Last-Translator: vesp <vesp@post.cz>\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/cartero/cartero/cs/"
+">\n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
+"X-Generator: Weblate 5.10-dev\n"
+
+#: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:4
+msgid "Make HTTP requests and test APIs"
+msgstr "Spouštějte HTTP volání a testujte API"
+
+#: data/cartero.appdata.xml.in.in:11
+msgid ""
+"Cartero is a graphical HTTP client that can be used as a developer tool to "
+"test web APIs and perform all kind of HTTP requests to web servers. It is "
+"compatible with any REST, SOAP or XML-RPC API and it supports multiple "
+"request methods as well as attaching body payloads to compatible requests."
+msgstr ""
+"Cartero je grafický HTTP klient, který můžete použít jako developerský "
+"nástroj pro testování webových API a volání všech druhů HTTP požadavků na "
+"webových serverech. Je kompatibilní s jakýmkoliv REST, SOAP nebo XML-RPC API "
+"a podporuje množství metod volání, stejně tak i připojení těla požadavku k "
+"podporovanému volání."
+
+#: data/cartero.appdata.xml.in.in:12
+msgid "Features:"
+msgstr "Funkce:"
+
+#: data/cartero.appdata.xml.in.in:14
+msgid ""
+"Loads and saves to plain Git-friendly TOML files, so that you can own your "
+"data."
+msgstr ""
+"Načítá a ukládá do čistých TOML souborů kompatibilních se systémem Git, "
+"takže sami vlastníte svá data."
+
+#: data/cartero.appdata.xml.in.in:15
+msgid ""
+"Customization and modification of the request headers and body payloads."
+msgstr ""
+
+#: data/cartero.appdata.xml.in.in:16
+msgid "Variable binding for API keys and other secret information."
+msgstr ""
+
+#: data/cartero.appdata.xml.in.in:22
+msgid "Main window of Cartero"
+msgstr "Hlavní okno aplikace Cartero"
+
+#: data/cartero.appdata.xml.in.in:26
+msgid "Modifying HTTP headers"
+msgstr "Úprava HTTP hlaviček"
+
+#: data/cartero.appdata.xml.in.in:30
+msgid "Setting the request payload"
+msgstr ""
+
+#: data/cartero.desktop.in.in:3
+msgid "Cartero"
+msgstr "Cartero"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/cartero.desktop.in.in:11
+msgid "Gnome;GTK;HTTP;REST;"
+msgstr "Gnome;GTK;HTTP;REST;"
+
+#: data/es.danirod.Cartero.gschema.xml:12
+msgid "Automatically indent new lines for the request body"
+msgstr "Automaticky odsazovat nové řádky v těle požadavku"
+
+#: data/es.danirod.Cartero.gschema.xml:16
+msgid "Wrap the body content"
+msgstr "Zalamovat obsah těla"
+
+#: data/es.danirod.Cartero.gschema.xml:20
+msgid "Whether to indent the request body with spaces or tabs"
+msgstr "Zda se má tělo požadavku odsadit mezerami nebo tabulátory"
+
+#: data/es.danirod.Cartero.gschema.xml:24
+msgid "Show line numbers in the request and response bodies"
+msgstr "Zobrazit čísla řádků v požadavku a těle odpovědi"
+
+#: data/es.danirod.Cartero.gschema.xml:28
+msgid "How many characters to pad when indenting the request body"
+msgstr "Kolik použít znaků při odsazení těla požadavku"
+
+#: data/es.danirod.Cartero.gschema.xml:32
+msgid "How large should new windows be"
+msgstr "Jak má být široké nové okno"
+
+#: data/es.danirod.Cartero.gschema.xml:36
+msgid "How tall should new windows be"
+msgstr "Jak má být vysoké nové okno"
+
+#: data/es.danirod.Cartero.gschema.xml:40
+msgid "Whether the application should open maximized"
+msgstr "Zda má být aplikace otevřena maximalizovaně"
+
+#: data/es.danirod.Cartero.gschema.xml:44
+msgid "The position of the split between two windows"
+msgstr "Pozice rozdělení dvou oken"
+
+#: data/es.danirod.Cartero.gschema.xml:48
+msgid "The current list of opened files"
+msgstr "Aktuální seznam otevřených souborů"
+
+#: data/es.danirod.Cartero.gschema.xml:52
+msgid "The last location where a file was opened"
+msgstr "Umístění posledně otevřeného souboru"
+
+#: data/es.danirod.Cartero.gschema.xml:56
+msgid "The last location where a file was saved"
+msgstr "Umístění posledně uloženého souboru"
+
+#: data/es.danirod.Cartero.gschema.xml:60
+msgid "Whether to validate the TLS certificates during a request"
+msgstr "Zda mají být během požadavku ověřovány TLS certifikáty"
+
+#: data/es.danirod.Cartero.gschema.xml:64
+msgid "Whether to follow redirections if that is the server response"
+msgstr ""
+"Zda mají být následována přesměrování, pokud jsou obsažena v odpovědi serveru"
+
+#: data/es.danirod.Cartero.gschema.xml:68
+msgid "Maximum number of redirections to follow before giving up"
+msgstr "Maximální počet následovaných přesměrování"
+
+#: data/es.danirod.Cartero.gschema.xml:72
+msgid "Maximum timeout when awaiting for an HTTP response."
+msgstr "Časový limit čekání na HTTP odpověď."
+
+#: data/es.danirod.Cartero.gschema.xml:76
+msgid "Whether to use light or dark mode."
+msgstr "Zda použít světlý nebo tmavý režim."
+
+#: data/es.danirod.Cartero.gschema.xml:80
+msgid "The custom font in use"
+msgstr "Používané vlastní písmo"
+
+#: data/es.danirod.Cartero.gschema.xml:84
+msgid "Whether to use the system font or a custom one"
+msgstr "Zda použít systémové nebo vlastní písmo"
+
+#: data/es.danirod.Cartero.gschema.xml:88
+msgid "Whether to create backup files on save"
+msgstr "Zda při ukládání vytvářet zálohy souborů"
+
+#: data/gtk/help_overlay.blp:26
+msgctxt "shortcuts window"
+msgid "General shortcuts"
+msgstr "Obecné klávesové zkratky"
+
+#: data/gtk/help_overlay.blp:29
+msgctxt "shortcuts window"
+msgid "Show Keyboard Shortcuts"
+msgstr "Zobrazit klávesové zkratky"
+
+#: data/gtk/help_overlay.blp:34
+msgctxt "shortcuts window"
+msgid "Quit"
+msgstr "Zavřít"
+
+#: data/gtk/help_overlay.blp:40
+msgctxt "shortcuts window"
+msgid "Tab operations"
+msgstr "Operace s panely"
+
+#: data/gtk/help_overlay.blp:43
+msgctxt "shortcuts window"
+msgid "New request tab"
+msgstr "Nový panel požadavku"
+
+#: data/gtk/help_overlay.blp:48
+msgctxt "shortcuts window"
+msgid "Open request"
+msgstr "Otevřít požadavek"
+
+#: data/gtk/help_overlay.blp:53
+msgctxt "shortcuts window"
+msgid "Save request"
+msgstr "Uložit požadavek"
+
+#: data/gtk/help_overlay.blp:58
+msgctxt "shortcuts window"
+msgid "Save request as"
+msgstr "Uložit požadavek jako"
+
+#: data/gtk/help_overlay.blp:63
+msgctxt "shortcuts window"
+msgid "Close request tab"
+msgstr "Zavřít panel požadavku"
+
+#: data/gtk/help_overlay.blp:69
+msgctxt "shortcuts window"
+msgid "Request operations"
+msgstr "Operace s požadavky"
+
+#: data/gtk/help_overlay.blp:72
+msgctxt "shortcuts window"
+msgid "Send request"
+msgstr "Odeslat požadavek"
+
+#: data/ui/code_export_pane.blp:64
+msgid "Copy"
+msgstr "Kopírovat"
+
+#: data/ui/endpoint_pane.blp:58
+msgid "Request URL"
+msgstr "URL požadavku"
+
+#: data/ui/endpoint_pane.blp:69
+msgid "Send"
+msgstr "Odeslat"
+
+#: data/ui/endpoint_pane.blp:70
+msgid "Execute this HTTP request"
+msgstr "Provést tento HTTP požadavek"
+
+#: data/ui/endpoint_pane.blp:103
+msgid "Parameters"
+msgstr "Parametry"
+
+#: data/ui/endpoint_pane.blp:124 data/ui/response_panel.blp:92
+msgid "Headers"
+msgstr "Hlavičky"
+
+#: data/ui/endpoint_pane.blp:145
+msgid "Variables"
+msgstr "Proměnné"
+
+#: data/ui/endpoint_pane.blp:166 data/ui/response_panel.blp:47
+msgid "Body"
+msgstr "Tělo"
+
+#: data/ui/endpoint_pane.blp:174
+msgid "Export request"
+msgstr "Exportovat požadavek"
+
+#: data/ui/export_tab.blp:35
+msgid "Export to"
+msgstr "Exportovat do"
+
+#: data/ui/export_tab.blp:69 data/ui/payload_tab.blp:81
+msgid "(none)"
+msgstr "(nic)"
+
+#: data/ui/key_value_row.blp:40
+msgid "Name"
+msgstr "Jméno"
+
+#: data/ui/key_value_row.blp:50
+msgid "Value"
+msgstr "Hodnota"
+
+#: data/ui/key_value_row.blp:61
+msgid "Actions"
+msgstr "Akce"
+
+#: data/ui/key_value_row.blp:74
+msgid "Toggle secret"
+msgstr "Skrýt"
+
+#: data/ui/key_value_row.blp:81
+msgid "Delete"
+msgstr "Smazat"
+
+#: data/ui/main_window.blp:41 data/ui/main_window_no_csd.blp:39
+msgid "New"
+msgstr "Nový"
+
+#: data/ui/main_window.blp:52 data/ui/main_window.blp:63
+#: data/ui/main_window_no_csd.blp:50 data/ui/main_window_no_csd.blp:61
+#: src/widgets/file_dialogs.rs:33 src/widgets/file_dialogs.rs:77
+msgid "Open"
+msgstr "Otevřít"
+
+#: data/ui/main_window.blp:71 data/ui/main_window_no_csd.blp:69
+#: src/widgets/file_dialogs.rs:133
+msgid "Save"
+msgstr "Uložit"
+
+#: data/ui/main_window.blp:95 data/ui/main_window_no_csd.blp:102
+msgid "Welcome to Cartero"
+msgstr "Vítá vás aplikace Cartero"
+
+#: data/ui/main_window.blp:96 data/ui/main_window_no_csd.blp:103
+msgid "Create or open a request and start testing APIs now."
+msgstr "Vytvořte nebo otevřete požadavek a začněte testovat API."
+
+#: data/ui/main_window.blp:115 data/ui/main_window.blp:149
+#: data/ui/main_window_no_csd.blp:122 data/ui/main_window_no_csd.blp:156
+msgid "New tab"
+msgstr "Nový panel"
+
+#: data/ui/main_window.blp:128 data/ui/main_window.blp:154
+#: data/ui/main_window_no_csd.blp:135 data/ui/main_window_no_csd.blp:161
+msgid "Open request…"
+msgstr "Otevřít požadavek…"
+
+#: data/ui/main_window.blp:159 data/ui/main_window_no_csd.blp:166
+#: src/widgets/file_dialogs.rs:134
+msgid "Save request"
+msgstr "Uložit požadavek"
+
+#: data/ui/main_window.blp:164 data/ui/main_window_no_csd.blp:171
+msgid "Save request as…"
+msgstr "Uložit požadavek jako…"
+
+#: data/ui/main_window.blp:169 data/ui/main_window_no_csd.blp:176
+msgid "Close tab"
+msgstr "Zavřít panel"
+
+#: data/ui/main_window.blp:176 data/ui/settings_dialog.blp:22
+msgid "Settings"
+msgstr "Nastavení"
+
+#: data/ui/main_window.blp:181 data/ui/main_window_no_csd.blp:183
+msgid "Body appearance"
+msgstr "Vzhled těla"
+
+#: data/ui/main_window.blp:185 data/ui/main_window_no_csd.blp:187
+msgid "Wrap content"
+msgstr "Zalomit obsah"
+
+#: data/ui/main_window.blp:190 data/ui/main_window_no_csd.blp:192
+msgid "Show line numbers"
+msgstr "Zobrazit čísla řádků"
+
+#: data/ui/main_window.blp:197 data/ui/main_window_no_csd.blp:199
+msgid "Automatic indentation"
+msgstr "Automatické odsazení"
+
+#: data/ui/main_window.blp:202 data/ui/main_window_no_csd.blp:204
+msgid "Indent with spaces"
+msgstr "Odsadit mezerami"
+
+#: data/ui/main_window.blp:208 data/ui/main_window_no_csd.blp:210
+msgid "Indent with tabs"
+msgstr "Odsadit tabulátory"
+
+#: data/ui/main_window.blp:214 data/ui/main_window_no_csd.blp:216
+msgid "Spaces per tab"
+msgstr "Délka tabulátoru v mezerách"
+
+#: data/ui/main_window.blp:217 data/ui/main_window_no_csd.blp:219
+msgid "2"
+msgstr "2"
+
+#: data/ui/main_window.blp:223 data/ui/main_window_no_csd.blp:225
+msgid "4"
+msgstr "4"
+
+#: data/ui/main_window.blp:229 data/ui/main_window_no_csd.blp:231
+msgid "8"
+msgstr "8"
+
+#: data/ui/main_window.blp:240 data/ui/main_window_no_csd.blp:242
+msgid "Keyboard shortcuts"
+msgstr "Klávesové zkratky"
+
+#: data/ui/main_window.blp:245 data/ui/main_window_no_csd.blp:247
+msgid "About Cartero"
+msgstr "O aplikaci Cartero"
+
+#: data/ui/main_window.blp:250 data/ui/main_window_no_csd.blp:252
+msgid "Quit"
+msgstr "Ukončit"
+
+#: data/ui/method_dropdown.blp:30
+msgid "Request method"
+msgstr "Metoda požadavku"
+
+#: data/ui/payload_tab.blp:35
+msgid "Body type"
+msgstr "Typ těla"
+
+#: data/ui/payload_tab.blp:82
+msgid "URL Encoded"
+msgstr ""
+
+#: data/ui/payload_tab.blp:83
+msgid "Multipart Form Data"
+msgstr ""
+
+#: data/ui/payload_tab.blp:86
+msgid "Raw"
+msgstr ""
+
+#: data/ui/response_panel.blp:29
+msgid "Ready to request"
+msgstr "Připraveno na požadavek"
+
+#: data/ui/response_panel.blp:30
+msgid "Use the Send button to send a network request and it will show here."
+msgstr ""
+"Použijte tlačítko Odeslat k vykonání síťového požadavku, výsledek bude "
+"zobrazen zde."
+
+#: data/ui/save_dialog.blp:22
+msgid "Save changes?"
+msgstr "Uložit změny?"
+
+#: data/ui/save_dialog.blp:23
+msgid "There are changes that have not been saved yet. What do you want to do?"
+msgstr "Máte neuložené změny. Co chcete udělat?"
+
+#: data/ui/save_dialog.blp:28
+msgid "_Cancel"
+msgstr "_Zrušit"
+
+#: data/ui/save_dialog.blp:29
+msgid "_Discard"
+msgstr "Zahodi_t změny"
+
+#: data/ui/save_dialog.blp:30
+msgid "_Save"
+msgstr "_Uložit"
+
+#: data/ui/search_box.blp:43 data/ui/search_box.blp:44
+msgid "Search"
+msgstr "Hledat"
+
+#: data/ui/search_box.blp:64
+msgid "Previous result"
+msgstr "Předchozí výsledek"
+
+#: data/ui/search_box.blp:70
+msgid "Next result"
+msgstr "Další výsledek"
+
+#: data/ui/search_box.blp:82
+msgid "Close search"
+msgstr "Zavřít hledání"
+
+#: data/ui/settings_dialog.blp:27
+msgid "Application"
+msgstr "Aplikace"
+
+#: data/ui/settings_dialog.blp:31
+msgid "Appearance"
+msgstr "Vzhled"
+
+#: data/ui/settings_dialog.blp:34
+msgid "Application style"
+msgstr "Styl vzhledu"
+
+#: data/ui/settings_dialog.blp:38
+msgid "Follow system settings"
+msgstr "Podle systému"
+
+#: data/ui/settings_dialog.blp:39
+msgid "Light mode"
+msgstr "Světlé téma"
+
+#: data/ui/settings_dialog.blp:40
+msgid "Dark mode"
+msgstr "Tmavé téma"
+
+#: data/ui/settings_dialog.blp:46
+msgid "Use system font"
+msgstr "Použít systémové písmo"
+
+#: data/ui/settings_dialog.blp:50
+msgid "Custom font"
+msgstr "Vlastní písmo"
+
+#: data/ui/settings_dialog.blp:65
+msgid "File settings"
+msgstr "Volby souborů"
+
+#: data/ui/settings_dialog.blp:68
+msgid "Create backup files"
+msgstr "Vytvářet záložní soubory"
+
+#: data/ui/settings_dialog.blp:69
+msgid ""
+"You might not want to enable this if you are already using a version control "
+"such as Git"
+msgstr ""
+"Tuto volbu možná nebudete chtít povolit, pokud již používáte správu verzí, "
+"jako je Git"
+
+#: data/ui/settings_dialog.blp:75 data/ui/settings_dialog.blp:79
+msgid "HTTP Client"
+msgstr "HTTP klient"
+
+#: data/ui/settings_dialog.blp:82
+msgid "Enforce TLS validation"
+msgstr "Vynutit ověření TLS"
+
+#: data/ui/settings_dialog.blp:86
+msgid "Follow redirects"
+msgstr "Následovat přesměrování"
+
+#: data/ui/settings_dialog.blp:91
+msgid "Maximum redirects"
+msgstr "Maximální počet přesměrování"
+
+#: data/ui/settings_dialog.blp:103
+msgid "Request timeout"
+msgstr "Časový limit požadavku"
+
+#: src/widgets/export_tab/code.rs:117
+msgid "Content copied to the clipboard"
+msgstr "Obsah zkopírován do schránky"
+
+#: src/widgets/file_dialogs.rs:18
+msgid "Request (.cartero)"
+msgstr "Požadavek (.cartero)"
+
+#: src/widgets/file_dialogs.rs:20
+msgid "Request"
+msgstr "Požadavek"
+
+#: src/widgets/file_dialogs.rs:34 src/widgets/file_dialogs.rs:78
+msgid "Open request"
+msgstr "Otevřít požadavek"
+
+#: src/widgets/item_pane.rs:99
+msgid "(untitled)"
+msgstr "(bez názvu)"
+
+#: src/widgets/item_pane.rs:115
+msgid "Draft"
+msgstr "Koncept"
+
+#. TRANSLATORS: this string is used to build the search box ocurrences count; the first
+#. placeholder is the current ocurrence index, the second one is the total.
+#: src/widgets/search_box.rs:226
+msgid "{} of {}"
+msgstr "{} z {}"
+
+#. TRANSLATORS: this string is used to build the search box ocurrences count when only
+#. the number of total ocurrences is known.
+#: src/widgets/search_box.rs:234
+msgid "{} result"
+msgid_plural "{} results"
+msgstr[0] "{} požadavek"
+msgstr[1] "{} požadavky"
+msgstr[2] "{} požadavků"
+
+#: src/win.rs:516
+msgid "The Cartero authors"
+msgstr "Autoři aplikace Cartero"
+
+#: src/win.rs:517
+msgid "© 2024 the Cartero authors"
+msgstr "© 2024 autoři aplikace Cartero"

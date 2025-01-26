@@ -398,8 +398,21 @@ mod imp {
             })
         }
 
+        /// Add http:// to the beginning of the typed URL if the protocol has not been specified.
+        fn assert_protocol(&self) {
+            let url = self.request_url.text().to_string();
+            if let Ok(url_object) = Url::parse(&url) {
+                if !url_object.scheme().is_empty() {
+                    return;
+                }
+            }
+            let protocoled_url = format!("http://{}", url);
+            self.request_url.set_text(&protocoled_url);
+        }
+
         /// Executes an HTTP request based on the current contents of the pane.
         pub(super) async fn perform_request(&self) -> Result<(), CarteroError> {
+            self.assert_protocol();
             let request = self.extract_endpoint()?;
             let request = BoundRequest::try_from(request)?;
             let request_obj = isahc::Request::try_from(request)?;

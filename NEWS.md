@@ -1,5 +1,16 @@
 # News file for Cartero
 
+## [0.1.4] - 2025-01-26
+
+### Changed
+
+* Translation updates: French, Czech
+
+### Fixed
+
+* Sending an HTTP request failed if the protocol was not specified.
+* Pre-compiled versions for Windows were not signed.
+
 ## [0.1.3] - 2024-12-23
 
 ### Added

@@ -1,4 +1,4 @@
-# Copyright 2024 the Cartero authors
+# Copyright 2024-2025 the Cartero authors
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 project(
   'cartero',
   'rust',
-  version: '0.1.3',
+  version: '0.1.4',
   meson_version: '>= 0.64',
   license: 'GPL-3.0-or-later',
 )

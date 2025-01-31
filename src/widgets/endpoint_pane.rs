@@ -399,7 +399,7 @@ mod imp {
         }
 
         /// Add http:// to the beginning of the typed URL if the protocol has not been specified.
-        fn assert_protocol(&self) {
+        fn assert_protocol_is_present(&self) {
             let url = self.request_url.text().to_string();
             if let Ok(url_object) = Url::parse(&url) {
                 if !url_object.scheme().is_empty() {
@@ -410,9 +410,23 @@ mod imp {
             self.request_url.set_text(&protocoled_url);
         }
 
+        fn assert_protocol_is_valid(&self) -> Option<CarteroError> {
+            let url = self.request_url.text().to_string();
+            match Url::parse(&url) {
+                Err(_) => Some(CarteroError::InvalidProtocol),
+                Ok(url_object) => match url_object.scheme() {
+                    "http" | "https" => None,
+                    _ => Some(CarteroError::InvalidProtocol),
+                },
+            }
+        }
+
         /// Executes an HTTP request based on the current contents of the pane.
         pub(super) async fn perform_request(&self) -> Result<(), CarteroError> {
-            self.assert_protocol();
+            self.assert_protocol_is_present();
+            if let Some(err) = self.assert_protocol_is_valid() {
+                return Err(err);
+            };
             let request = self.extract_endpoint()?;
             let request = BoundRequest::try_from(request)?;
             let request_obj = isahc::Request::try_from(request)?;

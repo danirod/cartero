@@ -15,8 +15,11 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use std::panic::{catch_unwind, AssertUnwindSafe};
+
+use futures_lite::future::block_on;
 use glib::{subclass::types::ObjectSubclassIsExt, Object};
-use gtk::glib;
+use gtk::{glib, prelude::WidgetExt};
 
 use crate::{entities::EndpointData, error::CarteroError};
 
@@ -474,10 +477,20 @@ impl EndpointPane {
     /// will probably change once collections are correctly implemented,
     /// since the EndpointPane would be probably bound to an Endpoint object.
     pub async fn perform_request(&self) -> Result<(), CarteroError> {
+        self.set_sensitive(false);
         let imp = self.imp();
         imp.response.set_spinning(true);
-        let outcome = imp.perform_request().await;
+
+        let result = catch_unwind(AssertUnwindSafe(move || {
+            block_on(async { imp.perform_request().await })
+        }));
+
         imp.response.set_spinning(false);
-        outcome
+        self.set_sensitive(true);
+
+        match result {
+            Ok(_) => Ok(()),
+            Err(_) => Err(CarteroError::InternalError),
+        }
     }
 }

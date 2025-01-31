@@ -475,11 +475,9 @@ mod imp {
                             async move {
                                 if let Some(pane) = window.current_pane().and_then(|e| e.endpoint())
                                 {
-                                    pane.set_sensitive(false);
                                     if let Err(e) = pane.perform_request().await {
                                         window.toast_error(e);
                                     }
-                                    pane.set_sensitive(true);
                                 }
                             }
                         ));

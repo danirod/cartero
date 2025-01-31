@@ -286,7 +286,12 @@ impl ResponseData {
     }
 
     pub fn body_str(&self) -> String {
-        String::from_utf8_lossy(&self.body).into_owned()
+        // gtksourceview breaks if the string is binary and there is a 00.
+        // any other combination works fine and gets converted into a <?>,
+        // but for x00 you get a GStrInteriorNulError instead
+        String::from_utf8_lossy(&self.body)
+            .into_owned()
+            .replace("\x00", "�")
     }
 
     pub fn seconds(&self) -> String {

@@ -33,6 +33,7 @@ use std::{
     str::FromStr,
     time::{Duration, Instant},
 };
+use url::Url;
 
 impl From<&RequestMethod> for isahc::http::Method {
     fn from(value: &RequestMethod) -> Self {
@@ -53,7 +54,10 @@ impl TryFrom<BoundRequest> for isahc::Request<Vec<u8>> {
     type Error = RequestError;
 
     fn try_from(req: BoundRequest) -> Result<Self, Self::Error> {
-        let mut builder = isahc::Request::builder().uri(&req.url).method(&req.method);
+        let url = Url::parse(&req.url).map_err(|_| RequestError::InvalidUrl)?;
+        let mut builder = isahc::Request::builder()
+            .uri(url.as_str())
+            .method(&req.method);
 
         let app = CarteroApplication::default();
         let settings = app.settings();

@@ -188,6 +188,9 @@ pub enum RequestError {
     #[error("Illegal HTTP verb")]
     InvalidHttpVerb,
 
+    #[error("Invalid URL")]
+    InvalidUrl,
+
     #[error("Invalid headers state")]
     InvalidHeaders,
 

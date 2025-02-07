@@ -32,6 +32,20 @@ template $CarteroResponsePanel: Adw.Bin {
     }
 
     StackPage {
+      name: "error";
+
+      child: Adw.StatusPage error_page {
+        icon-name: "network-error-symbolic";
+        title: _("Request error");
+
+        child: Gtk.Label error_extra {
+          label: "PRUEBA";
+          selectable: true;
+        };
+      };
+    }
+
+    StackPage {
       name: "response";
 
       child: Overlay {

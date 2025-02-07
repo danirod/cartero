@@ -621,7 +621,7 @@ mod imp {
                                 if let Some(pane) = window.current_pane().and_then(|e| e.endpoint())
                                 {
                                     if let Err(e) = pane.perform_request().await {
-                                        window.toast_error(e);
+                                        pane.show_error(e);
                                     }
                                 }
                             }

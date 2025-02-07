@@ -481,6 +481,11 @@ impl EndpointPane {
         imp.extract_endpoint()
     }
 
+    pub fn show_error(&self, error: CarteroError) {
+        let imp = self.imp();
+        imp.response.show_error(error);
+    }
+
     /// Executes an HTTP request based on the current contents of the pane.
     ///
     /// TODO: Should actually the EndpointPane do the requests? This method

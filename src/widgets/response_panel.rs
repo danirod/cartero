@@ -26,16 +26,19 @@ use serde_json::Value;
 use sourceview5::prelude::BufferExt;
 use sourceview5::LanguageManager;
 
+use crate::client::RequestError;
 use crate::entities::ResponseData;
+use crate::error::CarteroError;
 use crate::objects::KeyValueItem;
 use glib::subclass::types::ObjectSubclassIsExt;
 
 mod imp {
     use std::cell::RefCell;
 
+    use crate::error::CarteroError;
     use crate::widgets::{CodeView, ResponseHeaders, SearchBox};
-    use adw::prelude::*;
     use adw::subclass::bin::BinImpl;
+    use adw::{prelude::*, StatusPage};
     use glib::object::Cast;
     use glib::subclass::InitializingObject;
     use glib::Properties;
@@ -52,6 +55,10 @@ mod imp {
     pub struct ResponsePanel {
         #[template_child]
         stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        error_page: TemplateChild<StatusPage>,
+        #[template_child]
+        error_extra: TemplateChild<Label>,
         #[template_child]
         pub response_headers: TemplateChild<ResponseHeaders>,
         #[template_child]
@@ -147,6 +154,14 @@ mod imp {
             self.search_revealer.set_visible(false);
             self.response_body.grab_focus();
         }
+
+        pub(super) fn show_error(&self, error: CarteroError) {
+            // TODO: Internationalize
+            let message = error.to_string();
+            self.error_page.set_description(Some(&message));
+            self.error_extra.set_visible(false);
+            self.stack.set_visible_child_name("error");
+        }
     }
 }
 
@@ -183,6 +198,11 @@ fn format_bytes(count: usize) -> String {
 impl ResponsePanel {
     pub fn new() -> Self {
         Object::builder().build()
+    }
+
+    pub fn show_error(&self, error: CarteroError) {
+        let imp = self.imp();
+        imp.show_error(error);
     }
 
     pub fn start_request(&self) {

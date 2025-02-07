@@ -1,11 +1,4 @@
-<p align="center"><img src="data/icons/scalable/apps/es.danirod.Cartero.svg" width="256" height="256" alt=""></p>
-
-<h1 align="center">Cartero</h1>
-<p align="center">Make HTTP requests and test APIs</p>
-
-<p align="center">
-<img src="data/screenshots/cartero-default.png" alt="Screenshot of Cartero">
-</p>
+![Cartero: the free HTTP client to test your APIs](doc/images/cartero-banner.png)
 
 Cartero is a graphical HTTP client that can be used as a developer tool to
 test web APIs and perform all kind of HTTP requests to web servers. It is
@@ -48,84 +41,17 @@ Note: distributions in package managers are maintained by the community. While I
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/cartero.svg)](https://repology.org/project/cartero/versions)
 
-Additional platforms:
+You can also get it from Homebrew by using the tap:
 
-<details>
-  <summary><strong>macOS: install via Homebrew</strong></summary>
-
-To install Cartero from this cask, simply add this repository as a tap.
-
-```
+```bash
 brew tap SoloAntonio/cartero
-```
-
-Now you can install any version hosted as cask with
-
-```
 brew install --cask cartero
 ```
-</details>
 
-<details>
-  <summary><strong>NixOS: manually add the flake</strong></summary>
+Additional instructions [in the docs][homebrew].
 
-Use this approach to install, build or try cartero on a nixos system. Instructions
-assume you're using a flakes nixos system, but you could install it in a regular
-nixos system aswell by importing the derivation and adding the appropiate src attribute
-on it, note that this may require some manual intervation though.
-
-First of all, add cartero to your flake inputs so you can import the package.
-
-```nix
-{
-  inputs = {
-    cartero.url = "github:danirod/cartero";
-  };
-}
-```
-
-> [!WARNING]
-> This examples assume you're passing `inputs` in the `specialArgs` so you can utilize it
-> in others modules if you're splitting your config in multiple files.
-
-Then in your `home.packages` (when using home manager) or `environment.systemPackages`
-(global nix packages), add the derivation.
-
-```nix
-environment.systemPackages = [
-  inputs.cartero.packages.x86_64-linux.default
-];
-```
-
-> [!TIP]
-> You can try changing the architecture, not tested in every arch atm though.
-
-Another way is by making a nixpkgs overlay to add cartero and then install it
-easily.
-
-```nix
-nixpkgs.overlays = [
-  (_: final: let
-    inherit (inputs) cartero;
-    inherit (final) system;
-  in {
-    cartero = cartero.packages.${system}.default
-  })
-];
-```
-
-And then in the packages list of your choice.
-
-```nix
-home.packages = with pkgs; [
-  cartero
-];
-```
-
-> [!NOTE]
-> You may need to reboot the system or relogin to be able to see cartero on your launcher
-
-</details>
+If you use NixOS you can also add the flake.
+Check the instructions [in the docs][flake] as well.
 
 ## Building
 
@@ -169,13 +95,13 @@ meson setup build -Dprofile=development
 
 If you want to hack the source code and make your own changes to Cartero, you
 can do it as long as you know enough Rust and enough about GTK and the rest of the
-libraries it uses. Check out the [HACKING.md](HACKING.md) file. It provides instructions
-useful for those who want to compile, test and run the application, specifically how to
-compile the resource bundles and run the application.
+libraries it uses. Check out the [hacking instructions][hacking].
+It provides instructions useful for those who want to compile, test and run the
+application, specifically how to compile the resource bundles and run the application.
 
 If you want to share your changes with the world, you could send a pull request to
 add the code to Cartero so that anyone can benefit from it. Information on how to
-contribute has moved to [CONTRIBUTING.md](CONTRIBUTING.md).
+contribute has moved to [the website][contributing].
 
 **Other ways to contribute to Cartero also include reporting bugs, sending feedback,
 talking about Cartero to other people to make the project more popular, and sending
@@ -224,3 +150,7 @@ to Christian as well!
 [macos-sillicon]: https://github.com/danirod/cartero/releases/download/v0.1.4/Cartero-0.1.4-macOS-arm64.dmg
 [macos-intel]: https://github.com/danirod/cartero/releases/download/v0.1.4/Cartero-0.1.4-macOS-x64.dmg
 [appimage-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.4/Cartero-0.1.4-x86_64.AppImage
+[homebrew]: https://cartero.danirod.es/docs/installing/macos-brew.html
+[flake]: https://cartero.danirod.es/docs/installing/nixos-flake.html
+[hacking]: https://cartero.danirod.es/docs/hacking.html
+[contributing]: https://cartero.danirod.es/docs/contributing.html

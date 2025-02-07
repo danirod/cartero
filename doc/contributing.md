@@ -5,6 +5,15 @@ provide information and tips on how to help the project.
 
 ## Contributing with code
 
+**If you plan on contributing to the project**, use the development profile.
+It will also configure a Git hook so that the source code is checked prior to
+authoring a Git commit. The hook runs `cargo fmt` to assert that the code is
+formatted. Read `hooks/pre-commit.hook` to inspect what the script does.
+
+```sh
+meson setup build -Dprofile=development
+```
+
 This project is highly appreciative of contributions. If you know about Rust,
 GTK or the GNOME technologies and want to help during the development, you can
 contribute if you wish. [Fork the project][fork] and commit your code.

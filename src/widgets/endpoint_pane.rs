@@ -489,7 +489,7 @@ impl EndpointPane {
         self.set_sensitive(true);
 
         match result {
-            Ok(_) => Ok(()),
+            Ok(inner) => inner,
             Err(_) => Err(CarteroError::InternalError),
         }
     }

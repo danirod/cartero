@@ -157,9 +157,23 @@ mod imp {
 
         pub(super) fn show_error(&self, error: CarteroError) {
             // TODO: Internationalize
-            let message = error.to_string();
+            println!("{error:?}");
+            let message = match &error {
+                CarteroError::Request(inner) => inner.to_string(),
+                _ => error.to_string(),
+            };
+
+            match &error {
+                CarteroError::Request(inner) => {
+                    self.error_extra.set_visible(true);
+                    self.error_extra.set_label(&inner.inner_error());
+                }
+                _ => {
+                    self.error_extra.set_visible(false);
+                }
+            }
+
             self.error_page.set_description(Some(&message));
-            self.error_extra.set_visible(false);
             self.stack.set_visible_child_name("error");
         }
     }

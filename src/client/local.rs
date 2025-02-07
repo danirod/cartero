@@ -116,6 +116,17 @@ pub enum RequestError {
     IOError(#[from] std::io::Error),
 }
 
+impl RequestError {
+    pub fn inner_error(&self) -> String {
+        match self {
+            Self::NetworkError(isahc) => isahc.to_string(),
+            Self::HttpError(isahc) => isahc.to_string(),
+            Self::IOError(io) => io.to_string(),
+            _ => self.to_string(),
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

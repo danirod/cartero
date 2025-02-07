@@ -36,11 +36,13 @@ template $CarteroResponsePanel: Adw.Bin {
 
       child: Adw.StatusPage error_page {
         icon-name: "network-error-symbolic";
-        title: _("Request error");
+        title: _("Cannot perform request");
 
         child: Gtk.Label error_extra {
-          label: "PRUEBA";
+          label: "";
           selectable: true;
+          opacity: 0.75;
+          wrap: true;
         };
       };
     }

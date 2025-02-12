@@ -23,6 +23,7 @@ use std::{
     io::{BufWriter, Write},
 };
 use thiserror::Error;
+use url::Url;
 
 use crate::{
     entities::{EndpointData, KeyValueTable, RawEncoding, RequestMethod, RequestPayload},
@@ -35,6 +36,12 @@ pub struct BoundRequest {
     pub method: RequestMethod,
     pub headers: HashMap<String, String>,
     pub body: Option<Vec<u8>>,
+}
+
+impl BoundRequest {
+    pub fn full_url(&self) -> Result<Url, url::ParseError> {
+        Url::parse(&self.url)
+    }
 }
 
 #[derive(Default, Debug, Clone)]

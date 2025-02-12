@@ -401,39 +401,34 @@ mod imp {
             })
         }
 
-        /// Add http:// to the beginning of the typed URL if the protocol has not been specified.
-        fn assert_protocol_is_present(&self) {
-            let url = self.request_url.text().to_string();
-            if let Ok(url_object) = Url::parse(&url) {
-                if !url_object.scheme().is_empty() {
-                    return;
-                }
-            }
-            let protocoled_url = format!("http://{}", url);
-            self.request_url.set_text(&protocoled_url);
-        }
-
-        fn assert_protocol_is_valid(&self) -> Option<CarteroError> {
-            let url = self.request_url.text().to_string();
-            match Url::parse(&url) {
-                Err(_) => Some(CarteroError::InvalidProtocol),
-                Ok(url_object) => match url_object.scheme() {
-                    "http" | "https" => None,
-                    _ => Some(CarteroError::InvalidProtocol),
-                },
-            }
-        }
-
         /// Executes an HTTP request based on the current contents of the pane.
         pub(super) async fn perform_request(&self) -> Result<(), CarteroError> {
-            self.assert_protocol_is_present();
-            if let Some(err) = self.assert_protocol_is_valid() {
-                return Err(err);
-            };
             let request = self.extract_endpoint()?;
             let request = BoundRequest::try_from(request)?;
-            let request_obj = isahc::Request::try_from(request)?;
 
+            // Protocol validation.
+            let request_url = match request.full_url() {
+                Ok(r) => r,
+                Err(url::ParseError::RelativeUrlWithoutBase) => {
+                    // The URL is not considered an absolute URL, missing protocol.
+                    let url_field = self.request_url.text().to_string();
+                    let url_field = format!("http://{}", url_field);
+                    self.request_url.set_text(&url_field);
+
+                    // Now try again.
+                    return std::boxed::Box::pin(self.perform_request()).await;
+                }
+                Err(_) => return Err(RequestError::InvalidUrl.into()),
+            };
+
+            // Validate protocol is supported.
+            let request_scheme = request_url.scheme();
+            if request_scheme != "http" && request_scheme != "https" {
+                return Err(CarteroError::InvalidProtocol);
+            }
+
+            // Execute the request.
+            let request_obj = isahc::Request::try_from(request)?;
             let start = Instant::now();
             let mut response_obj = request_obj
                 .send_async()

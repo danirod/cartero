@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2024-12-22 16:58+0100\n"
-"PO-Revision-Date: 2024-12-28 14:00+0000\n"
+"PO-Revision-Date: 2025-02-11 11:02+0000\n"
 "Last-Translator: Altero <aurelien.reinert4@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/cartero/cartero/"
 "fr/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:4
 msgid "Make HTTP requests and test APIs"
-msgstr ""
+msgstr "Créer des requêtes HTTP et tester des API"
 
 #: data/cartero.appdata.xml.in.in:11
 msgid ""
@@ -69,7 +69,7 @@ msgstr "Cartero"
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/cartero.desktop.in.in:11
 msgid "Gnome;GTK;HTTP;REST;"
-msgstr ""
+msgstr "Gnome ;GTK ;HTTP ;REST ;"
 
 #: data/es.danirod.Cartero.gschema.xml:12
 msgid "Automatically indent new lines for the request body"
@@ -241,15 +241,15 @@ msgstr "Corps"
 
 #: data/ui/endpoint_pane.blp:174
 msgid "Export request"
-msgstr ""
+msgstr "Exporter la requête"
 
 #: data/ui/export_tab.blp:35
 msgid "Export to"
-msgstr ""
+msgstr "Exporter vers"
 
 #: data/ui/export_tab.blp:69 data/ui/payload_tab.blp:81
 msgid "(none)"
-msgstr ""
+msgstr "(aucun)"
 
 #: data/ui/key_value_row.blp:40
 msgid "Name"
@@ -273,7 +273,7 @@ msgstr "Supprimer"
 
 #: data/ui/main_window.blp:41 data/ui/main_window_no_csd.blp:39
 msgid "New"
-msgstr ""
+msgstr "Nouvel onglet"
 
 #: data/ui/main_window.blp:52 data/ui/main_window.blp:63
 #: data/ui/main_window_no_csd.blp:50 data/ui/main_window_no_csd.blp:61
@@ -288,11 +288,12 @@ msgstr "Enregistrer"
 
 #: data/ui/main_window.blp:95 data/ui/main_window_no_csd.blp:102
 msgid "Welcome to Cartero"
-msgstr ""
+msgstr "Bienvenue dans Cartero"
 
 #: data/ui/main_window.blp:96 data/ui/main_window_no_csd.blp:103
 msgid "Create or open a request and start testing APIs now."
 msgstr ""
+"Créez ou ouvrez une requête et commencez dès maintenant à tester des API."
 
 #: data/ui/main_window.blp:115 data/ui/main_window.blp:149
 #: data/ui/main_window_no_csd.blp:122 data/ui/main_window_no_csd.blp:156
@@ -307,11 +308,11 @@ msgstr "Ouvrir une requête…"
 #: data/ui/main_window.blp:159 data/ui/main_window_no_csd.blp:166
 #: src/widgets/file_dialogs.rs:134
 msgid "Save request"
-msgstr ""
+msgstr "Enregistrer la requête"
 
 #: data/ui/main_window.blp:164 data/ui/main_window_no_csd.blp:171
 msgid "Save request as…"
-msgstr ""
+msgstr "Enregistrer la requête sous…"
 
 #: data/ui/main_window.blp:169 data/ui/main_window_no_csd.blp:176
 msgid "Close tab"
@@ -323,11 +324,11 @@ msgstr "Préférences"
 
 #: data/ui/main_window.blp:181 data/ui/main_window_no_csd.blp:183
 msgid "Body appearance"
-msgstr ""
+msgstr "Apparence du corps"
 
 #: data/ui/main_window.blp:185 data/ui/main_window_no_csd.blp:187
 msgid "Wrap content"
-msgstr ""
+msgstr "Adapter le contenu"
 
 #: data/ui/main_window.blp:190 data/ui/main_window_no_csd.blp:192
 msgid "Show line numbers"
@@ -383,15 +384,15 @@ msgstr "Type de corps"
 
 #: data/ui/payload_tab.blp:82
 msgid "URL Encoded"
-msgstr ""
+msgstr "Encodé comme URL"
 
 #: data/ui/payload_tab.blp:83
 msgid "Multipart Form Data"
-msgstr ""
+msgstr "Données de formulaire multiparties"
 
 #: data/ui/payload_tab.blp:86
 msgid "Raw"
-msgstr ""
+msgstr "Brut"
 
 #: data/ui/response_panel.blp:29
 msgid "Ready to request"
@@ -400,6 +401,8 @@ msgstr ""
 #: data/ui/response_panel.blp:30
 msgid "Use the Send button to send a network request and it will show here."
 msgstr ""
+"Utilisez le bouton Envoyer pour envoyer une requête réseau et elle "
+"s'affichera ici."
 
 #: data/ui/save_dialog.blp:22
 msgid "Save changes?"
@@ -441,7 +444,7 @@ msgstr "Fermer la recherche"
 
 #: data/ui/settings_dialog.blp:27
 msgid "Application"
-msgstr ""
+msgstr "Application"
 
 #: data/ui/settings_dialog.blp:31
 msgid "Appearance"
@@ -449,11 +452,11 @@ msgstr "Apparence"
 
 #: data/ui/settings_dialog.blp:34
 msgid "Application style"
-msgstr ""
+msgstr "Style de l'application"
 
 #: data/ui/settings_dialog.blp:38
 msgid "Follow system settings"
-msgstr ""
+msgstr "Suivre les paramètres du système"
 
 #: data/ui/settings_dialog.blp:39
 msgid "Light mode"
@@ -473,17 +476,19 @@ msgstr "Police personnalisée"
 
 #: data/ui/settings_dialog.blp:65
 msgid "File settings"
-msgstr ""
+msgstr "Paramètres des fichiers"
 
 #: data/ui/settings_dialog.blp:68
 msgid "Create backup files"
-msgstr ""
+msgstr "Créer des fichiers de sauvegarde"
 
 #: data/ui/settings_dialog.blp:69
 msgid ""
 "You might not want to enable this if you are already using a version control "
 "such as Git"
 msgstr ""
+"Vous pourriez ne pas vouloir activer cette option si vous utilisez déjà un "
+"système de gestion de versions tel que Git"
 
 #: data/ui/settings_dialog.blp:75 data/ui/settings_dialog.blp:79
 msgid "HTTP Client"
@@ -491,23 +496,23 @@ msgstr "Client HTTP"
 
 #: data/ui/settings_dialog.blp:82
 msgid "Enforce TLS validation"
-msgstr ""
+msgstr "Effectuer la validation TLS"
 
 #: data/ui/settings_dialog.blp:86
 msgid "Follow redirects"
-msgstr ""
+msgstr "Suivre les redirections"
 
 #: data/ui/settings_dialog.blp:91
 msgid "Maximum redirects"
-msgstr ""
+msgstr "Nombre maximal de redirections"
 
 #: data/ui/settings_dialog.blp:103
 msgid "Request timeout"
-msgstr ""
+msgstr "Délai de requête"
 
 #: src/widgets/export_tab/code.rs:117
 msgid "Content copied to the clipboard"
-msgstr ""
+msgstr "Contenu copié dans le presse-papier"
 
 #: src/widgets/file_dialogs.rs:18
 msgid "Request (.cartero)"
@@ -533,15 +538,15 @@ msgstr "Brouillon"
 #. placeholder is the current ocurrence index, the second one is the total.
 #: src/widgets/search_box.rs:226
 msgid "{} of {}"
-msgstr ""
+msgstr "{} sur {}"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count when only
 #. the number of total ocurrences is known.
 #: src/widgets/search_box.rs:234
 msgid "{} result"
 msgid_plural "{} results"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} résultat"
+msgstr[1] "{} résultats"
 
 #: src/win.rs:516
 msgid "The Cartero authors"

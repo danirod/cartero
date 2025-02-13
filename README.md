@@ -50,6 +50,13 @@ brew install --cask cartero
 
 Additional instructions [in the docs][homebrew].
 
+Also is available using [Scoop][scoop] (command-line installer for Windows):
+
+```bash
+scoop bucket add extras
+scoop install extras/cartero
+```
+
 If you use NixOS you can also add the flake.
 Check the instructions [in the docs][flake] as well.
 
@@ -154,3 +161,4 @@ to Christian as well!
 [flake]: https://cartero.danirod.es/docs/installing/nixos-flake.html
 [hacking]: https://cartero.danirod.es/docs/hacking.html
 [contributing]: https://cartero.danirod.es/docs/contributing.html
+[scoop]: https://scoop.sh/

@@ -145,11 +145,11 @@ to Christian as well!
 [ccbysa]: https://creativecommons.org/licenses/by-sa/4.0/
 [contrib]: https://github.com/danirod/cartero/graphs/contributors
 [weblate]: https://hosted.weblate.org/projects/cartero/
-[windows-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.4/Cartero-0.1.4-windows-x64.exe
-[windows-portable-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.4/Cartero-0.1.4-windows-x64.zip
-[macos-sillicon]: https://github.com/danirod/cartero/releases/download/v0.1.4/Cartero-0.1.4-macOS-arm64.dmg
-[macos-intel]: https://github.com/danirod/cartero/releases/download/v0.1.4/Cartero-0.1.4-macOS-x64.dmg
-[appimage-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.4/Cartero-0.1.4-x86_64.AppImage
+[windows-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.5/Cartero-0.1.5-windows-x64.exe
+[windows-portable-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.5/Cartero-0.1.5-windows-x64.zip
+[macos-sillicon]: https://github.com/danirod/cartero/releases/download/v0.1.5/Cartero-0.1.5-macOS-arm64.dmg
+[macos-intel]: https://github.com/danirod/cartero/releases/download/v0.1.5/Cartero-0.1.5-macOS-x64.dmg
+[appimage-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.5/Cartero-0.1.5-x86_64.AppImage
 [homebrew]: https://cartero.danirod.es/docs/installing/macos-brew.html
 [flake]: https://cartero.danirod.es/docs/installing/nixos-flake.html
 [hacking]: https://cartero.danirod.es/docs/hacking.html

@@ -1,4 +1,4 @@
-# Copyright 2024 the Cartero authors
+# Copyright 2024-2025 the Cartero authors
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,33 +24,50 @@ on:
       - trunk
 name: Check
 jobs:
-  test:
-    name: Test
+  check:
+    name: Check
     runs-on: ubuntu-24.04
+    env:
+      SCCACHE_GHA_ENABLED: "true"
+      RUSTC_WRAPPER: "sccache"
     steps:
-    - name: Install dependencies
-      run: sudo apt update && sudo apt install -y --no-install-recommends gettext meson libgtk-4-dev libadwaita-1-dev libgtksourceview-5-dev desktop-file-utils xvfb
-    - uses: actions/checkout@v4
-    - name: Build with Meson
-      run: |
-        meson setup build
-        ninja -C build
-    - name: Test
-      run: CARGO_HOME=build/cargo-home xvfb-run cargo test
-    - name: Clippy
-      run: CARGO_HOME=build/cargo-home cargo clippy
-  lint:
-    name: Lint
-    runs-on: ubuntu-24.04
-    steps:
-    - name: Install dependencies
-      run: sudo apt update && sudo apt install -y --no-install-recommends gettext meson libgtk-4-dev libadwaita-1-dev libgtksourceview-5-dev desktop-file-utils xvfb
-    - uses: actions/checkout@v4
-    - name: Build with Meson
-      run: |
-        meson setup build
-        ninja -C build
-    - name: Format
-      run: cargo fmt -- --check
-    - name: Blueprint
-      run: subprojects/blueprint-compiler/blueprint-compiler.py format data/ui
+      - name: sccache
+        uses: mozilla-actions/sccache-action@v0.0.7
+      - name: dependencies
+        run: sudo apt update && sudo apt install -y --no-install-recommends gettext meson libgtk-4-dev libadwaita-1-dev libgtksourceview-5-dev desktop-file-utils xvfb
+      - name: clone
+        uses: actions/checkout@v4
+      - name: setup
+        run: meson setup build
+      - name: blueprint
+        run: subprojects/blueprint-compiler/blueprint-compiler.py format data/ui
+      - name: build
+        run: ninja -C build
+      - name: linguas
+        run: |
+          for lang in $(cat po/LINGUAS | grep -E '^[a-z]{2,3}$')
+          do
+            b=$a
+            a=$lang
+            if [[ "$a" < "$b" ]]; then
+              echo "po/LINGUAS is not sorted alphabetically: $lang"
+              exit 1
+            fi
+          done
+      - name: update-po-check
+        run: |
+          ninja -C build cartero-update-po
+          ! git -c core.pager="" diff -U0 po | grep -v '^@@' | grep 'msgid'
+          git checkout -- po
+      - name: cargo-fmt
+        run: meson devenv -C build cargo fmt --manifest-path=../Cargo.toml --check --all
+      - name: cargo-test
+        run: xvfb-run meson devenv -C build cargo test --manifest-path=../Cargo.toml
+      - name: cargo-clippy
+        run: meson devenv -C build cargo clippy --manifest-path=../Cargo.toml
+      - name: glib-schema
+        run: glib-compile-schemas --dry-run --strict data
+      - name: glib-desktop
+        run: meson devenv -C build desktop-file-validate data/es.danirod.Cartero.desktop
+      - name: glib-appstream
+        run: meson devenv -C build appstreamcli validate data/es.danirod.Cartero.appdata.xml

@@ -50,6 +50,21 @@
     <color scheme_preference="dark" type="primary">#465563</color>
   </branding>
   <releases>
+    <release date="2025-02-15" version="0.1.5">
+      <description translate="no">
+        <p>Changed:</p>
+        <ul>
+          <li>Changed the error message when a request uses an unsupported protocol for clarity purposes.</li>
+          <li>Translation updates: Czech, French, Brazilian Portuguese.</li>
+        </ul>
+        <p>Fixed:</p>
+        <ul>
+          <li>Prevents tabs from becoming unresponsive if a request fails in certain conditions.</li>
+          <li>Prevents requests from failing if they have a trailing or leading space.</li>
+          <li>Requests whose URL start with a variable (bound to something that starts with http or https) can be made again.</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-01-26" version="0.1.4">
       <description translate="no">
         <p>Changed:</p>

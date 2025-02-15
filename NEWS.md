@@ -1,5 +1,18 @@
 # News file for Cartero
 
+## [0.1.5] - 2025-02-15
+
+### Changed
+
+* Changed the error message when a request uses an unsupported protocol for clarity purposes.
+* Translation updates: Czech, French, Brazilian Portuguese.
+
+## Fixed
+
+* Prevents tabs from becoming unresponsive if a request fails in certain conditions.
+* Prevents requests from failing if they have a trailing or leading space.
+* Requests whose URL start with a variable (bound to something that starts with http or https) can be made again.
+
 ## [0.1.4] - 2025-01-26
 
 ### Changed

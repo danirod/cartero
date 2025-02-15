@@ -38,6 +38,22 @@ jobs:
         run: subprojects/blueprint-compiler/blueprint-compiler.py format data/ui
       - name: build
         run: ninja -C build
+      - name: linguas
+        run: |
+          for lang in $(cat po/LINGUAS | grep -E '^[a-z]{2,3}$')
+          do
+            b=$a
+            a=$lang
+            if [[ "$a" < "$b" ]]; then
+              echo "po/LINGUAS is not sorted alphabetically: $lang"
+              exit 1
+            fi
+          done
+      - name: update-po-check
+        run: |
+          ninja -C build cartero-update-po
+          ! git -c core.pager="" diff -U0 po | grep -v '^@@' | grep 'msgid'
+          git checkout -- po
       - name: cargo-fmt
         run: meson devenv -C build cargo fmt --manifest-path=../Cargo.toml --check --all
       - name: cargo-test

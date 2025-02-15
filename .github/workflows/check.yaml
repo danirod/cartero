@@ -60,3 +60,9 @@ jobs:
         run: xvfb-run meson devenv -C build cargo test --manifest-path=../Cargo.toml
       - name: cargo-clippy
         run: meson devenv -C build cargo clippy --manifest-path=../Cargo.toml
+      - name: glib-schema
+        run: glib-compile-schemas --dry-run --strict data
+      - name: glib-desktop
+        run: meson devenv -C build desktop-file-validate data/es.danirod.Cartero.desktop
+      - name: glib-appstream
+        run: meson devenv -C build appstreamcli validate data/es.danirod.Cartero.appdata.xml

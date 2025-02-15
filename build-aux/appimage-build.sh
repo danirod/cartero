@@ -39,26 +39,6 @@ case "$1" in
     ;;
 esac
 
-# This script is currently only tested for GitHub Actions.
-if [ -z "$GITHUB_ACTIONS" ]; then
-  echo "WARNING! This script has only been tested to run in GitHub Actions and"
-  echo "it is used to build the stable and nightly versions in a well known"
-  echo "environment. Running this script to create an AppImage on your computer"
-  echo "is currently NOT supported and not guaranteed to work."
-  echo
-  echo "You should read the contents of the shell script at least once before"
-  echo "running it to know what it does. I cannot help with this script because"
-  echo "I don't have a clue about the inners of AppImage and its build tools."
-  echo
-  echo "Do you have that knowledge and know how to properly pack GTK4 + Libadwaita"
-  echo "apps in a way that actually works with older versions of libc6 without"
-  echo "having to use weird tricks? Please help me! Your inputs are appreciated"
-  echo "Send patches or comments to https://github.com/danirod/cartero"
-  echo
-  echo "Last chance. Press Ctrl-C to quit the script, or Enter to start."
-  read -r
-fi
-
 meson setup build --prefix="/" $MESON_FLAGS
 ninja -C build
 DESTDIR=$PWD/build/appimagetool/AppDir/usr ninja -C build install

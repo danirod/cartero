@@ -34,17 +34,7 @@ template $CarteroResponsePanel: Adw.Bin {
     StackPage {
       name: "error";
 
-      child: Adw.StatusPage error_page {
-        icon-name: "network-error-symbolic";
-        title: _("Cannot perform request");
-
-        child: Gtk.Label error_extra {
-          label: "";
-          selectable: true;
-          opacity: 0.75;
-          wrap: true;
-        };
-      };
+      child: $CarteroErrorPane error_page {};
     }
 
     StackPage {

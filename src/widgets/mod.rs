@@ -1,4 +1,4 @@
-// Copyright 2024 the Cartero authors
+// Copyright 2024-2025 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 mod code_view;
 pub mod dialogs;
 mod endpoint_pane;
+mod error_pane;
 mod export_tab;
 mod file_dialogs;
 mod item_pane;
@@ -31,6 +32,7 @@ mod search_box;
 
 pub use code_view::CodeView;
 pub use endpoint_pane::EndpointPane;
+pub use error_pane::ErrorPane;
 pub use export_tab::*;
 pub use file_dialogs::*;
 pub use item_pane::ItemPane;

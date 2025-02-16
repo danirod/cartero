@@ -1,4 +1,4 @@
-// Copyright 2024 the Cartero authors
+// Copyright 2024-2025 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,7 +26,6 @@ use serde_json::Value;
 use sourceview5::prelude::BufferExt;
 use sourceview5::LanguageManager;
 
-use crate::client::RequestError;
 use crate::entities::ResponseData;
 use crate::error::CarteroError;
 use crate::objects::KeyValueItem;
@@ -36,9 +35,9 @@ mod imp {
     use std::cell::RefCell;
 
     use crate::error::CarteroError;
-    use crate::widgets::{CodeView, ResponseHeaders, SearchBox};
+    use crate::widgets::{CodeView, ErrorPane, ResponseHeaders, SearchBox};
+    use adw::prelude::*;
     use adw::subclass::bin::BinImpl;
-    use adw::{prelude::*, StatusPage};
     use glib::object::Cast;
     use glib::subclass::InitializingObject;
     use glib::Properties;
@@ -56,9 +55,7 @@ mod imp {
         #[template_child]
         stack: TemplateChild<gtk::Stack>,
         #[template_child]
-        error_page: TemplateChild<StatusPage>,
-        #[template_child]
-        error_extra: TemplateChild<Label>,
+        error_page: TemplateChild<ErrorPane>,
         #[template_child]
         pub response_headers: TemplateChild<ResponseHeaders>,
         #[template_child]
@@ -156,24 +153,7 @@ mod imp {
         }
 
         pub(super) fn show_error(&self, error: CarteroError) {
-            // TODO: Internationalize
-            println!("{error:?}");
-            let message = match &error {
-                CarteroError::Request(inner) => inner.to_string(),
-                _ => error.to_string(),
-            };
-
-            match &error {
-                CarteroError::Request(inner) => {
-                    self.error_extra.set_visible(true);
-                    self.error_extra.set_label(&inner.inner_error());
-                }
-                _ => {
-                    self.error_extra.set_visible(false);
-                }
-            }
-
-            self.error_page.set_description(Some(&message));
+            self.error_page.set_error(error);
             self.stack.set_visible_child_name("error");
         }
     }

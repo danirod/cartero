@@ -131,8 +131,14 @@ h1 {
   }
 }
 
-.extra-download strong {
-  line-height: 2;
+.extra-download figure {
+  margin-bottom: 1rem;
+}
+
+.extra-download figcaption {
+  line-height: 1;
+  margin-top: 0.5rem;
+  font-weight: bold;
 }
 
 .extra-download li {

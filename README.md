@@ -28,6 +28,10 @@ some unwanted artificial intelligence at users.
 <img width="240" alt="Get it on Flathub" src="https://flathub.org/api/badge?svg&locale=en">
 </a>
 
+<a href="https://snapcraft.io/cartero">
+<img width="240" alt="Get it from the Snap Store" src=https://snapcraft.io/en/dark/install.svg />
+</a>
+
 ### Download for your OS
 
 | Windows | macOS | AppImage |

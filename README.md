@@ -57,6 +57,13 @@ brew tap SoloAntonio/cartero
 brew install --cask cartero
 ```
 
+**Windows**: Also is available using [Scoop][scoop] (command-line installer for Windows):
+
+```bash
+scoop bucket add extras
+scoop install extras/cartero
+```
+
 **NixOS**: You can also add Cartero to your system [as a flake][flake].
 
 ## Building
@@ -160,3 +167,4 @@ to Christian as well!
 [flake]: https://cartero.danirod.es/docs/installing/nixos-flake.html
 [hacking]: https://cartero.danirod.es/docs/hacking.html
 [contributing]: https://cartero.danirod.es/docs/contributing.html
+[scoop]: https://scoop.sh/

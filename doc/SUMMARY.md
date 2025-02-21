@@ -9,6 +9,7 @@
 - [Installing Cartero](./installing.md)
   - [Homebrew Tap (macOS)](./installing/macos-brew.md)
   - [NixOS Flake](./installing/nixos-flake.md)
+  - [Windows](./installing/windows.md)
 
 ---
 

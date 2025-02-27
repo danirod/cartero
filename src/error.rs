@@ -37,4 +37,28 @@ pub enum CarteroError {
 
     #[error("Outdated schema, please update the software")]
     OutdatedSchema,
+
+    #[error("{0}")]
+    PreconditionError(#[from] RequestPreconditionError),
+}
+
+#[derive(Debug, Eq, PartialEq, Error)]
+pub enum RequestPreconditionError {
+    #[error("Payload could not be encoded")]
+    EncodingError,
+
+    #[error("Variable {0} not found")]
+    VariableNotFound(String),
+
+    #[error("String interpolation error, review variables")]
+    BadInterpolation,
+}
+
+impl From<SrTemplateError> for RequestPreconditionError {
+    fn from(value: SrTemplateError) -> Self {
+        match value {
+            SrTemplateError::VariableNotFound(var) => Self::VariableNotFound(var),
+            _ => Self::BadInterpolation,
+        }
+    }
 }

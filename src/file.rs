@@ -12,13 +12,13 @@ use crate::entities::{
 use crate::error::CarteroError;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-struct KeyValueDetail {
+struct FieldDetail {
     value: String,
     active: bool,
     secret: bool,
 }
 
-impl Default for KeyValueDetail {
+impl Default for FieldDetail {
     fn default() -> Self {
         Self {
             value: String::default(),
@@ -30,34 +30,34 @@ impl Default for KeyValueDetail {
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-enum KeyValuedValue {
+enum FieldValue {
     Simple(String),
-    Complex(KeyValueDetail),
+    Complex(FieldDetail),
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-enum KeyValuedValueContainer {
-    Unique(KeyValuedValue),
-    Multiple(Vec<KeyValuedValue>),
+enum FieldContainer {
+    Unique(FieldValue),
+    Multiple(Vec<FieldValue>),
 }
 
-impl Default for KeyValuedValue {
+impl Default for FieldValue {
     fn default() -> Self {
         Self::Simple(String::default())
     }
 }
 
-impl From<KeyValuedValue> for KeyValue {
-    fn from(value: KeyValuedValue) -> KeyValue {
+impl From<FieldValue> for KeyValue {
+    fn from(value: FieldValue) -> KeyValue {
         match value {
-            KeyValuedValue::Simple(str) => KeyValue {
+            FieldValue::Simple(str) => KeyValue {
                 name: String::default(),
                 value: str.clone(),
                 active: true,
                 secret: false,
             },
-            KeyValuedValue::Complex(kd) => KeyValue {
+            FieldValue::Complex(kd) => KeyValue {
                 name: String::default(),
                 value: kd.value.clone(),
                 active: kd.active,
@@ -67,13 +67,13 @@ impl From<KeyValuedValue> for KeyValue {
     }
 }
 
-impl From<KeyValue> for KeyValuedValue {
+impl From<KeyValue> for FieldValue {
     fn from(value: KeyValue) -> Self {
-        let def = KeyValueDetail::default();
+        let def = FieldDetail::default();
         if value.active == def.active && value.secret == def.secret {
             Self::Simple(value.value)
         } else {
-            Self::Complex(KeyValueDetail {
+            Self::Complex(FieldDetail {
                 active: value.active,
                 secret: value.secret,
                 value: value.value,
@@ -82,35 +82,34 @@ impl From<KeyValue> for KeyValuedValue {
     }
 }
 
-impl From<Vec<KeyValue>> for KeyValuedValueContainer {
+impl From<Vec<KeyValue>> for FieldContainer {
     fn from(value: Vec<KeyValue>) -> Self {
         if value.len() == 1 {
-            KeyValuedValueContainer::Unique(value[0].clone().into())
+            FieldContainer::Unique(value[0].clone().into())
         } else {
-            let multiple: Vec<KeyValuedValue> =
-                value.into_iter().map(KeyValuedValue::from).collect();
-            KeyValuedValueContainer::Multiple(multiple)
+            let multiple: Vec<FieldValue> = value.into_iter().map(FieldValue::from).collect();
+            FieldContainer::Multiple(multiple)
         }
     }
 }
 
-fn extract_kv_entry(value: KeyValuedValue, key: &str) -> KeyValue {
+fn extract_kv_entry(value: FieldValue, key: &str) -> KeyValue {
     let mut value = KeyValue::from(value);
     value.name = key.into();
     value
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug, Default)]
-pub struct KeyValuedFileTable(HashMap<String, KeyValuedValueContainer>);
+pub struct FieldFileTable(HashMap<String, FieldContainer>);
 
-impl From<KeyValuedFileTable> for KeyValueTable {
-    fn from(value: KeyValuedFileTable) -> Self {
+impl From<FieldFileTable> for KeyValueTable {
+    fn from(value: FieldFileTable) -> Self {
         let mut vector: Vec<KeyValue> = value
             .0
             .into_iter()
             .flat_map(|(header, values)| match values {
-                KeyValuedValueContainer::Unique(x) => vec![extract_kv_entry(x, &header)],
-                KeyValuedValueContainer::Multiple(mult) => mult
+                FieldContainer::Unique(x) => vec![extract_kv_entry(x, &header)],
+                FieldContainer::Multiple(mult) => mult
                     .into_iter()
                     .map(|v| extract_kv_entry(v, &header))
                     .collect(),
@@ -121,7 +120,7 @@ impl From<KeyValuedFileTable> for KeyValueTable {
     }
 }
 
-impl From<KeyValueTable> for KeyValuedFileTable {
+impl From<KeyValueTable> for FieldFileTable {
     fn from(value: KeyValueTable) -> Self {
         let group = value.group_by();
         let inner = group
@@ -169,13 +168,9 @@ pub enum FilePayload {
     #[serde(rename = "none")]
     None,
     #[serde(rename = "urlencoded")]
-    UrlEncoded {
-        variables: Option<KeyValuedFileTable>,
-    },
+    UrlEncoded { variables: Option<FieldFileTable> },
     #[serde(rename = "multipart")]
-    Multipart {
-        variables: Option<KeyValuedFileTable>,
-    },
+    Multipart { variables: Option<FieldFileTable> },
     #[serde(rename = "raw")]
     Raw {
         format: Option<FilePayloadRawFormat>,
@@ -185,8 +180,8 @@ pub enum FilePayload {
 
 #[derive(Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum Body {
-    ClassicRaw(String),
+pub enum FileBody {
+    Raw(String),
     Structured(FilePayload),
 }
 
@@ -226,20 +221,20 @@ impl From<FilePayload> for RequestPayload {
     }
 }
 
-impl From<RequestPayload> for Body {
+impl From<RequestPayload> for FileBody {
     fn from(value: RequestPayload) -> Self {
         Self::Structured(value.into())
     }
 }
 
-impl From<Body> for RequestPayload {
-    fn from(value: Body) -> Self {
+impl From<FileBody> for RequestPayload {
+    fn from(value: FileBody) -> Self {
         match value {
-            Body::ClassicRaw(payload) => Self::Raw {
+            FileBody::Raw(payload) => Self::Raw {
                 encoding: RawEncoding::OctetStream,
                 content: Vec::from(payload.clone().as_str()),
             },
-            Body::Structured(payload) => payload.into(),
+            FileBody::Structured(payload) => payload.into(),
         }
     }
 }
@@ -249,9 +244,9 @@ struct RequestFile {
     version: usize,
     url: String,
     method: String,
-    body: Option<Body>,
-    headers: Option<KeyValuedFileTable>,
-    variables: Option<KeyValuedFileTable>,
+    body: Option<FileBody>,
+    headers: Option<FieldFileTable>,
+    variables: Option<FieldFileTable>,
 }
 
 impl TryFrom<RequestFile> for EndpointData {
@@ -346,28 +341,24 @@ mod tests {
         entities::{
             EndpointData, KeyValue, KeyValueTable, RawEncoding, RequestMethod, RequestPayload,
         },
-        file::KeyValueDetail,
+        file::FieldDetail,
     };
 
-    use super::{KeyValuedFileTable, KeyValuedValueContainer};
+    use super::{FieldContainer, FieldFileTable};
 
     #[test]
     pub fn test_key_valued_file_table_to_key_value_table_sorts_simple() {
         let map = HashMap::from([
             (
                 "User-Agent".into(),
-                KeyValuedValueContainer::Unique(super::KeyValuedValue::Simple(
-                    "Cartero/0.1".into(),
-                )),
+                FieldContainer::Unique(super::FieldValue::Simple("Cartero/0.1".into())),
             ),
             (
                 "Host".into(),
-                KeyValuedValueContainer::Unique(super::KeyValuedValue::Simple(
-                    "www.google.com".into(),
-                )),
+                FieldContainer::Unique(super::FieldValue::Simple("www.google.com".into())),
             ),
         ]);
-        let file = KeyValuedFileTable(map);
+        let file = FieldFileTable(map);
 
         let table = KeyValueTable::from(file);
 
@@ -386,7 +377,7 @@ mod tests {
         let map = HashMap::from([
             (
                 "User-Agent".into(),
-                KeyValuedValueContainer::Unique(super::KeyValuedValue::Complex(KeyValueDetail {
+                FieldContainer::Unique(super::FieldValue::Complex(FieldDetail {
                     value: "Cartero/0.1".into(),
                     active: false,
                     secret: true,
@@ -394,12 +385,10 @@ mod tests {
             ),
             (
                 "Host".into(),
-                KeyValuedValueContainer::Unique(super::KeyValuedValue::Simple(
-                    "www.google.com".into(),
-                )),
+                FieldContainer::Unique(super::FieldValue::Simple("www.google.com".into())),
             ),
         ]);
-        let file = KeyValuedFileTable(map);
+        let file = FieldFileTable(map);
 
         let table = KeyValueTable::from(file);
 
@@ -423,26 +412,22 @@ mod tests {
         let map = HashMap::from([
             (
                 "User-Agent".into(),
-                KeyValuedValueContainer::Unique(super::KeyValuedValue::Simple(
-                    "Cartero/0.1".into(),
-                )),
+                FieldContainer::Unique(super::FieldValue::Simple("Cartero/0.1".into())),
             ),
             (
                 "Accept".into(),
-                KeyValuedValueContainer::Multiple(vec![
-                    super::KeyValuedValue::Simple("*/*".into()),
-                    super::KeyValuedValue::Simple("application/json".into()),
-                    super::KeyValuedValue::Simple("application/ld+json".into()),
+                FieldContainer::Multiple(vec![
+                    super::FieldValue::Simple("*/*".into()),
+                    super::FieldValue::Simple("application/json".into()),
+                    super::FieldValue::Simple("application/ld+json".into()),
                 ]),
             ),
             (
                 "Host".into(),
-                KeyValuedValueContainer::Unique(super::KeyValuedValue::Simple(
-                    "www.google.com".into(),
-                )),
+                FieldContainer::Unique(super::FieldValue::Simple("www.google.com".into())),
             ),
         ]);
-        let file = KeyValuedFileTable(map);
+        let file = FieldFileTable(map);
 
         let table = KeyValueTable::from(file);
 

@@ -11,28 +11,58 @@ use crate::entities::{
 };
 use crate::error::CarteroError;
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
-struct FieldDetail {
-    value: String,
-    active: bool,
-    secret: bool,
-}
-
-impl Default for FieldDetail {
-    fn default() -> Self {
-        Self {
-            value: String::default(),
-            active: true,
-            secret: false,
-        }
-    }
-}
-
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 enum FieldValue {
     Simple(String),
-    Complex(FieldDetail),
+    Complex {
+        value: String,
+        active: bool,
+        secret: bool,
+    },
+}
+
+impl FieldValue {
+    fn to_key_value(&self, key: &str) -> KeyValue {
+        match self {
+            FieldValue::Simple(str) => KeyValue {
+                name: key.to_owned(),
+                value: str.clone(),
+                active: true,
+                secret: false,
+            },
+            FieldValue::Complex {
+                value,
+                active,
+                secret,
+            } => KeyValue {
+                name: key.to_owned(),
+                value: value.clone(),
+                active: *active,
+                secret: *secret,
+            },
+        }
+    }
+}
+
+impl Default for FieldValue {
+    fn default() -> Self {
+        Self::Simple(String::default())
+    }
+}
+
+impl From<KeyValue> for FieldValue {
+    fn from(value: KeyValue) -> Self {
+        if value.active && !value.secret {
+            Self::Simple(value.value)
+        } else {
+            Self::Complex {
+                active: value.active,
+                secret: value.secret,
+                value: value.value,
+            }
+        }
+    }
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -42,61 +72,15 @@ enum FieldContainer {
     Multiple(Vec<FieldValue>),
 }
 
-impl Default for FieldValue {
-    fn default() -> Self {
-        Self::Simple(String::default())
-    }
-}
-
-impl From<FieldValue> for KeyValue {
-    fn from(value: FieldValue) -> KeyValue {
-        match value {
-            FieldValue::Simple(str) => KeyValue {
-                name: String::default(),
-                value: str.clone(),
-                active: true,
-                secret: false,
-            },
-            FieldValue::Complex(kd) => KeyValue {
-                name: String::default(),
-                value: kd.value.clone(),
-                active: kd.active,
-                secret: kd.secret,
-            },
-        }
-    }
-}
-
-impl From<KeyValue> for FieldValue {
-    fn from(value: KeyValue) -> Self {
-        let def = FieldDetail::default();
-        if value.active == def.active && value.secret == def.secret {
-            Self::Simple(value.value)
-        } else {
-            Self::Complex(FieldDetail {
-                active: value.active,
-                secret: value.secret,
-                value: value.value,
-            })
-        }
-    }
-}
-
 impl From<Vec<KeyValue>> for FieldContainer {
     fn from(value: Vec<KeyValue>) -> Self {
         if value.len() == 1 {
-            FieldContainer::Unique(value[0].clone().into())
+            Self::Unique(value[0].clone().into())
         } else {
             let multiple: Vec<FieldValue> = value.into_iter().map(FieldValue::from).collect();
-            FieldContainer::Multiple(multiple)
+            Self::Multiple(multiple)
         }
     }
-}
-
-fn extract_kv_entry(value: FieldValue, key: &str) -> KeyValue {
-    let mut value = KeyValue::from(value);
-    value.name = key.into();
-    value
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug, Default)]
@@ -108,11 +92,10 @@ impl From<FieldFileTable> for KeyValueTable {
             .0
             .into_iter()
             .flat_map(|(header, values)| match values {
-                FieldContainer::Unique(x) => vec![extract_kv_entry(x, &header)],
-                FieldContainer::Multiple(mult) => mult
-                    .into_iter()
-                    .map(|v| extract_kv_entry(v, &header))
-                    .collect(),
+                FieldContainer::Unique(x) => vec![x.to_key_value(&header)],
+                FieldContainer::Multiple(mult) => {
+                    mult.into_iter().map(|v| v.to_key_value(&header)).collect()
+                }
             })
             .collect();
         vector.sort();
@@ -337,11 +320,8 @@ pub async fn write_file(file: &gio::File, contents: &str) -> Result<(), CarteroE
 mod tests {
     use std::collections::HashMap;
 
-    use crate::{
-        entities::{
-            EndpointData, KeyValue, KeyValueTable, RawEncoding, RequestMethod, RequestPayload,
-        },
-        file::FieldDetail,
+    use crate::entities::{
+        EndpointData, KeyValue, KeyValueTable, RawEncoding, RequestMethod, RequestPayload,
     };
 
     use super::{FieldContainer, FieldFileTable};
@@ -377,11 +357,11 @@ mod tests {
         let map = HashMap::from([
             (
                 "User-Agent".into(),
-                FieldContainer::Unique(super::FieldValue::Complex(FieldDetail {
+                FieldContainer::Unique(super::FieldValue::Complex {
                     value: "Cartero/0.1".into(),
                     active: false,
                     secret: true,
-                })),
+                }),
             ),
             (
                 "Host".into(),

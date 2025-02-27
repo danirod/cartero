@@ -1,4 +1,4 @@
-// Copyright 2024 the Cartero authors
+// Copyright 2024-2025 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ mod imp {
     use crate::app::CarteroApplication;
     use crate::client::{BoundRequest, RequestError};
     use crate::entities::{EndpointData, KeyValue, RequestExportType};
-    use crate::error::CarteroError;
+    use crate::error::{CarteroError, RequestPreconditionError};
     use crate::objects::KeyValueItem;
     use crate::widgets::{
         ExportTab, ExportType, ItemPane, KeyValuePane, MethodDropdown, PayloadTab, ResponsePanel,
@@ -404,39 +404,35 @@ mod imp {
         /// Executes an HTTP request based on the current contents of the pane.
         pub(super) async fn perform_request(&self) -> Result<(), CarteroError> {
             let request = self.extract_endpoint()?;
-            let request = BoundRequest::try_from(request)?;
+            let request = BoundRequest::try_from(request);
 
-            // Protocol validation.
-            let request_url = match request.full_url() {
-                Ok(r) => r,
-                Err(url::ParseError::RelativeUrlWithoutBase) => {
-                    // The URL is not considered an absolute URL, missing protocol.
-                    let url_field = self.request_url.text().to_string();
-                    let url_field = format!("http://{}", url_field);
-                    self.request_url.set_text(&url_field);
+            // A special case before giving up: if the protocol is not specified, add it.
+            if let Err(RequestPreconditionError::MissingProtocol) = request {
+                // The URL is not considered an absolute URL, missing protocol.
+                let url_field = self.request_url.text().to_string();
+                let url_field = format!("http://{}", url_field);
+                self.request_url.set_text(&url_field);
 
-                    // Now try again.
-                    return std::boxed::Box::pin(self.perform_request()).await;
-                }
-                Err(_) => return Err(RequestError::InvalidUrl.into()),
-            };
-
-            // Validate protocol is supported.
-            let request_scheme = request_url.scheme();
-            if request_scheme != "http" && request_scheme != "https" {
-                return Err(CarteroError::InvalidProtocol);
+                // Now try again.
+                return std::boxed::Box::pin(self.perform_request()).await;
             }
 
-            // Execute the request.
-            let request_obj = isahc::Request::try_from(request)?;
-            let start = Instant::now();
-            let mut response_obj = request_obj
-                .send_async()
-                .await
-                .map_err(RequestError::NetworkError)?;
-            let response = crate::client::extract_isahc_response(&mut response_obj, &start).await?;
-            self.response.assign_from_response(&response);
-            Ok(())
+            match request {
+                Ok(request) => {
+                    // Execute the request.
+                    let request_obj = isahc::Request::try_from(request)?;
+                    let start = Instant::now();
+                    let mut response_obj = request_obj
+                        .send_async()
+                        .await
+                        .map_err(RequestError::NetworkError)?;
+                    let response =
+                        crate::client::extract_isahc_response(&mut response_obj, &start).await?;
+                    self.response.assign_from_response(&response);
+                    Ok(())
+                }
+                Err(e) => Err(CarteroError::from(e)),
+            }
         }
     }
 }

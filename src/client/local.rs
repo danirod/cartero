@@ -35,9 +35,21 @@ pub struct BoundRequest {
     pub body: Option<Vec<u8>>,
 }
 
-impl BoundRequest {
-    pub fn full_url(&self) -> Result<Url, url::ParseError> {
-        Url::parse(&self.url)
+fn normalize_url(url: &str) -> Result<String, RequestPreconditionError> {
+    match Url::parse(url) {
+        Ok(url) => {
+            // Check for protocol as well.
+            match url.scheme() {
+                "http" | "https" => Ok(url.to_string()),
+                other => Err(RequestPreconditionError::UnsupportedProtocol(
+                    other.to_owned(),
+                )),
+            }
+        }
+        Err(url::ParseError::RelativeUrlWithoutBase) => {
+            Err(RequestPreconditionError::MissingProtocol)
+        }
+        Err(_) => Err(RequestPreconditionError::UrlBadParse),
     }
 }
 
@@ -48,6 +60,8 @@ impl TryFrom<EndpointData> for BoundRequest {
         let processor = value.template_processor();
 
         let url = processor.render(&value.url)?;
+        let url = normalize_url(&url)?;
+
         let method = value.method.clone();
         let headers = value.headers.render(&processor)?;
 
@@ -219,5 +233,87 @@ mod tests {
 
         // Bind the request.
         let _ = BoundRequest::try_from(endpoint).unwrap();
+    }
+
+    #[test]
+    pub fn test_fails_if_url_lacks_protocol() {
+        let url = "example.com/api/v1/users";
+        let method = RequestMethod::Get;
+
+        let endpoint = EndpointData {
+            url: url.into(),
+            method,
+            headers: KeyValueTable::default(),
+            variables: KeyValueTable::default(),
+            body: RequestPayload::None,
+        };
+        let result = BoundRequest::try_from(endpoint);
+        assert!(result.is_err_and(|e| e == RequestPreconditionError::MissingProtocol));
+    }
+
+    #[test]
+    pub fn test_fails_if_url_uses_unacceptable_protocol() {
+        let url = "gemini://geminiprotocol.net/";
+        let method = RequestMethod::Get;
+
+        let endpoint = EndpointData {
+            url: url.into(),
+            method,
+            headers: KeyValueTable::default(),
+            variables: KeyValueTable::default(),
+            body: RequestPayload::None,
+        };
+        let result = BoundRequest::try_from(endpoint);
+        assert!(result.is_err_and(
+            |e| e == RequestPreconditionError::UnsupportedProtocol("gemini".to_string())
+        ));
+    }
+
+    #[test]
+    pub fn test_normalizes_url_with_leading_spaces() {
+        let url = " https://example.com/api/v1/users";
+        let method = RequestMethod::Get;
+
+        let endpoint = EndpointData {
+            url: url.into(),
+            method,
+            headers: KeyValueTable::default(),
+            variables: KeyValueTable::default(),
+            body: RequestPayload::None,
+        };
+        let result = BoundRequest::try_from(endpoint).unwrap();
+        assert_eq!(result.url, "https://example.com/api/v1/users");
+    }
+
+    #[test]
+    pub fn test_normalizes_url_with_trailing_spaces() {
+        let url = "https://example.com/api/v1/users ";
+        let method = RequestMethod::Get;
+
+        let endpoint = EndpointData {
+            url: url.into(),
+            method,
+            headers: KeyValueTable::default(),
+            variables: KeyValueTable::default(),
+            body: RequestPayload::None,
+        };
+        let result = BoundRequest::try_from(endpoint).unwrap();
+        assert_eq!(result.url, "https://example.com/api/v1/users");
+    }
+
+    #[test]
+    pub fn test_normalizes_url_with_leading_and_trailing_spaces() {
+        let url = " https://example.com/api/v1/users ";
+        let method = RequestMethod::Get;
+
+        let endpoint = EndpointData {
+            url: url.into(),
+            method,
+            headers: KeyValueTable::default(),
+            variables: KeyValueTable::default(),
+            body: RequestPayload::None,
+        };
+        let result = BoundRequest::try_from(endpoint).unwrap();
+        assert_eq!(result.url, "https://example.com/api/v1/users");
     }
 }

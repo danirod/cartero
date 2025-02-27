@@ -1,4 +1,4 @@
-// Copyright 2024 the Cartero authors
+// Copyright 2024-2025 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@ use std::{
     ops::{Deref, DerefMut},
 };
 
-use srtemplate::SrTemplate;
+use srtemplate::{SrTemplate, SrTemplateError};
 
 use crate::objects::KeyValueItem;
 
@@ -118,6 +118,34 @@ impl KeyValueTable {
         } else {
             Some(headers)
         }
+    }
+
+    /// Yields a new KeyValueTable where each value is interpolated according to the rules
+    /// of the given renderer. If any value in the current KeyValueTable uses a variable,
+    /// it will be interpolated.
+    pub fn render(&self, renderer: &SrTemplate) -> Result<KeyValueTable, SrTemplateError> {
+        let entries = self
+            .iter()
+            .map(|var| {
+                let name = renderer.render(var.name.clone())?;
+                let value = renderer.render(var.value.clone())?;
+                Ok(KeyValue {
+                    name,
+                    value,
+                    active: var.active,
+                    secret: var.secret,
+                })
+            })
+            .collect::<Result<Vec<KeyValue>, SrTemplateError>>()?;
+        Ok(KeyValueTable::new(&entries))
+    }
+
+    /// Collects the active pairs of this KeyValueTable, excludes non-actives.
+    pub fn to_active_pairs(&self) -> Vec<(String, String)> {
+        self.iter()
+            .filter(|entry| entry.active)
+            .map(|entry| (entry.name.clone(), entry.value.clone()))
+            .collect::<Vec<(String, String)>>()
     }
 }
 
@@ -302,6 +330,8 @@ impl ResponseData {
 
 #[cfg(test)]
 mod tests {
+    use srtemplate::SrTemplate;
+
     use crate::entities::{KeyValue, RequestMethod};
 
     use super::{KeyValueTable, ResponseData};
@@ -376,6 +406,79 @@ mod tests {
         assert!(RequestMethod::try_from("post").is_ok_and(|x| x == RequestMethod::Post));
         assert!(RequestMethod::try_from("Patch").is_ok_and(|x| x == RequestMethod::Patch));
         assert!(RequestMethod::try_from("Juan").is_err());
+    }
+
+    #[test]
+    fn test_key_value_table_render() {
+        let headers = vec![
+            ("Content-Type", "application/json").into(),
+            ("Authorization", "Bearer {{TOKEN}}").into(),
+        ];
+        let table = KeyValueTable(headers);
+
+        let context = SrTemplate::default();
+        context.add_variable("TOKEN", &"Token_Value");
+
+        let Ok(rendered) = table.render(&context) else {
+            panic!("not ok");
+        };
+        assert_eq!(
+            rendered.header("authorization"),
+            Some(vec!["Bearer Token_Value"])
+        );
+    }
+
+    #[test]
+    fn test_key_value_render_fails() {
+        let headers = vec![
+            ("Content-Type", "application/json").into(),
+            ("Authorization", "Bearer {{TOKEN}}").into(),
+        ];
+        let table = KeyValueTable(headers);
+
+        let context = SrTemplate::default();
+        let rendered = table.render(&context);
+        assert!(rendered.is_err());
+    }
+
+    #[test]
+    fn test_key_value_active_pairs() {
+        let headers = vec![
+            KeyValue {
+                name: "Accept".into(),
+                value: "application/json".into(),
+                active: false,
+                secret: false,
+            },
+            KeyValue {
+                name: "Content-Type".into(),
+                value: "application/json".into(),
+                active: true,
+                secret: false,
+            },
+            KeyValue {
+                name: "Authorization".into(),
+                value: "Bearer roarrr".into(),
+                active: false,
+                secret: false,
+            },
+            KeyValue {
+                name: "User-Agent".into(),
+                value: "Cartero/0.1".into(),
+                active: true,
+                secret: false,
+            },
+        ];
+        let table = KeyValueTable(headers);
+
+        let pairs = table.to_active_pairs();
+        assert_eq!(
+            vec![
+                ("Content-Type".to_string(), "application/json".to_string()),
+                ("User-Agent".to_string(), "Cartero/0.1".to_string()),
+            ],
+            pairs
+        );
     }
 
     #[test]

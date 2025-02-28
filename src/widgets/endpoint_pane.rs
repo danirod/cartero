@@ -190,9 +190,8 @@ mod imp {
         fn update_query_params(&self) -> Result<(), url::ParseError> {
             let parsed_url = self.request_url.text().to_string();
             let url = Url::parse(&parsed_url)?;
-            let pairs = url.query_pairs();
-
-            let entries: Vec<KeyValueItem> = pairs
+            let new_query_pairs = url.query_pairs();
+            let mut new_query_entries: Vec<KeyValueItem> = new_query_pairs
                 .map(|(key, value)| {
                     let key = String::from(key);
                     let value = String::from(value);
@@ -203,7 +202,15 @@ mod imp {
                     value
                 })
                 .collect();
-            self.parameter_pane.set_entries(&entries);
+
+            let old_entries = self.parameter_pane.get_entries();
+            let old_entries: Vec<KeyValueItem> = old_entries
+                .into_iter()
+                .filter(|entry| !entry.active())
+                .collect();
+            new_query_entries.extend(old_entries);
+
+            self.parameter_pane.set_entries(&new_query_entries);
             Ok(())
         }
 

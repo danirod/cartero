@@ -38,7 +38,7 @@ mod imp {
 
     use crate::app::CarteroApplication;
     use crate::client::{BoundRequest, RequestError};
-    use crate::entities::{EndpointData, KeyValue, RequestExportType};
+    use crate::entities::{EndpointData, KeyValue, KeyValueTable, RequestExportType};
     use crate::error::{CarteroError, RequestPreconditionError};
     use crate::objects::KeyValueItem;
     use crate::widgets::{
@@ -369,12 +369,24 @@ mod imp {
             self.variable_pane.set_entries(&variables);
             self.payload_pane.set_payload(&endpoint.body);
             self.export_pane_load_endpoint_data(endpoint);
+
+            // Merge parameters
+            let active_params: Vec<KeyValueItem> = self.parameter_pane.get_entries();
+            let parameters = {
+                let mut params = active_params.clone();
+                for param in endpoint.parameters.clone().iter() {
+                    params.push(KeyValueItem::from(param.clone()));
+                }
+                params
+            };
+            self.parameter_pane.set_entries(&parameters);
         }
 
         /// Takes the current state of the pane and extracts it into an Endpoint value.
         pub(super) fn extract_endpoint(&self) -> Result<EndpointData, CarteroError> {
             let header_list = self.header_pane.get_entries();
             let variable_list = self.variable_pane.get_entries();
+            let parameter_list = self.parameter_pane.get_entries();
 
             let url = String::from(self.request_url.buffer().text());
             let method = self.request_method.request_method();
@@ -397,11 +409,20 @@ mod imp {
                     secret: pair.secret(),
                 })
                 .collect();
-
+            let parameters = parameter_list
+                .iter()
+                .map(|pair| KeyValue {
+                    name: pair.header_name(),
+                    value: pair.header_value(),
+                    active: pair.active(),
+                    secret: pair.secret(),
+                })
+                .collect();
             let body = self.payload_pane.payload();
             Ok(EndpointData {
                 url,
                 method,
+                parameters,
                 headers,
                 variables,
                 body,

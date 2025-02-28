@@ -258,6 +258,7 @@ pub enum RequestExportType {
 pub struct EndpointData {
     pub url: String,
     pub method: RequestMethod,
+    pub parameters: KeyValueTable,
     pub headers: KeyValueTable,
     pub variables: KeyValueTable,
     pub body: RequestPayload,

@@ -71,6 +71,51 @@ impl From<KeyValue> for FieldValue {
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(untagged)]
+enum QueryValue {
+    Simple(String),
+    Complex { value: String, secret: bool },
+}
+
+impl ToKeyValue for QueryValue {
+    fn to_key_value(&self, key: &str) -> KeyValue {
+        match self {
+            QueryValue::Simple(str) => KeyValue {
+                name: key.to_owned(),
+                value: str.clone(),
+                active: false,
+                secret: false,
+            },
+            QueryValue::Complex { value, secret } => KeyValue {
+                name: key.to_owned(),
+                value: value.clone(),
+                active: false,
+                secret: *secret,
+            },
+        }
+    }
+}
+
+impl Default for QueryValue {
+    fn default() -> Self {
+        Self::Simple(String::default())
+    }
+}
+
+impl From<KeyValue> for QueryValue {
+    fn from(value: KeyValue) -> Self {
+        if !value.secret {
+            Self::Simple(value.value)
+        } else {
+            Self::Complex {
+                secret: value.secret,
+                value: value.value,
+            }
+        }
+    }
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(untagged)]
 enum FileContainer<T>
 where
     T: From<KeyValue> + ToKeyValue,
@@ -252,6 +297,8 @@ struct RequestFile {
     body: Option<FileBody>,
     headers: Option<FileTable<FieldValue>>,
     variables: Option<FileTable<FieldValue>>,
+    #[serde(rename = "inactive-params")]
+    inactive_params: Option<FileTable<QueryValue>>,
 }
 
 impl TryFrom<RequestFile> for EndpointData {
@@ -267,6 +314,7 @@ impl TryFrom<RequestFile> for EndpointData {
         let body = value.body.map(RequestPayload::from).unwrap_or_default();
         let headers = value.headers.unwrap_or_default().into();
         let variables = value.variables.unwrap_or_default().into();
+        let inactive_params = value.inactive_params.unwrap_or_default().into();
 
         let request = EndpointData {
             url: value.url.clone(),
@@ -274,6 +322,7 @@ impl TryFrom<RequestFile> for EndpointData {
             body,
             variables,
             headers,
+            parameters: inactive_params,
         };
         Ok(request)
     }
@@ -288,6 +337,17 @@ impl From<EndpointData> for RequestFile {
         };
         let headers = value.headers.into();
         let variables = value.variables.into();
+
+        let parameters = {
+            let mut entries = Vec::new();
+            for param in value.parameters.iter() {
+                if !param.active {
+                    entries.push(param.clone());
+                }
+            }
+            KeyValueTable::new(&entries)
+        };
+
         RequestFile {
             version: 1,
             url: value.url.clone(),
@@ -295,6 +355,7 @@ impl From<EndpointData> for RequestFile {
             body,
             headers: Some(headers),
             variables: Some(variables),
+            inactive_params: Some(parameters.into()),
         }
     }
 }
@@ -735,6 +796,7 @@ Accept = 'text/html'
             headers,
             variables: KeyValueTable::default(),
             body,
+            parameters: KeyValueTable::default(),
         };
 
         let content = super::store_toml(&r).unwrap();
@@ -765,6 +827,7 @@ Accept = 'text/html'
             headers,
             variables: KeyValueTable::default(),
             body,
+            parameters: KeyValueTable::default(),
         };
 
         let content = super::store_toml(&r).unwrap();
@@ -813,6 +876,7 @@ body = 'hello'
             headers,
             variables: KeyValueTable::default(),
             body,
+            parameters: KeyValueTable::default(),
         };
 
         let content = super::store_toml(&r).unwrap();
@@ -870,6 +934,7 @@ body = 'hello'
             headers,
             variables,
             body,
+            parameters: KeyValueTable::default(),
         };
 
         let content = super::store_toml(&r).unwrap();

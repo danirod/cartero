@@ -154,6 +154,7 @@ mod tests {
             headers: KeyValueTable::default(),
             variables: KeyValueTable::new(&variables),
             body: RequestPayload::Urlencoded(KeyValueTable::new(&body)),
+            parameters: KeyValueTable::default(),
         };
 
         let serial = BoundRequestBody::try_from(&endpoint).unwrap();
@@ -183,6 +184,7 @@ mod tests {
             headers: KeyValueTable::default(),
             variables: KeyValueTable::default(),
             body: RequestPayload::Urlencoded(KeyValueTable::new(&body)),
+            parameters: KeyValueTable::default(),
         };
         let result = BoundRequestBody::try_from(&endpoint);
         assert_eq!(
@@ -208,6 +210,7 @@ mod tests {
             body: RequestPayload::Multipart {
                 params: KeyValueTable::new(&body),
             },
+            parameters: KeyValueTable::default(),
         };
 
         let serial = BoundRequestBody::try_from(&endpoint).unwrap();
@@ -253,6 +256,7 @@ mod tests {
             body: RequestPayload::Multipart {
                 params: KeyValueTable::new(&body),
             },
+            parameters: KeyValueTable::default(),
         };
 
         let result = BoundRequestBody::try_from(&endpoint);
@@ -277,6 +281,7 @@ mod tests {
             headers: KeyValueTable::default(),
             variables: KeyValueTable::new(&variables),
             body,
+            parameters: KeyValueTable::default(),
         };
 
         let result = BoundRequestBody::try_from(&endpoint).unwrap();
@@ -298,6 +303,7 @@ mod tests {
             method: crate::entities::RequestMethod::Post,
             headers: KeyValueTable::default(),
             variables: KeyValueTable::default(),
+            parameters: KeyValueTable::default(),
             body,
         };
 
@@ -320,6 +326,7 @@ mod tests {
             method: crate::entities::RequestMethod::Post,
             headers: KeyValueTable::default(),
             variables: KeyValueTable::new(&variables),
+            parameters: KeyValueTable::default(),
             body,
         };
 
@@ -345,6 +352,7 @@ mod tests {
             method: crate::entities::RequestMethod::Post,
             headers: KeyValueTable::default(),
             variables: KeyValueTable::default(),
+            parameters: KeyValueTable::default(),
             body,
         };
 
@@ -367,6 +375,7 @@ mod tests {
             method: crate::entities::RequestMethod::Post,
             headers: KeyValueTable::default(),
             variables: KeyValueTable::new(&variables),
+            parameters: KeyValueTable::default(),
             body,
         };
 
@@ -392,6 +401,7 @@ mod tests {
             method: crate::entities::RequestMethod::Post,
             headers: KeyValueTable::default(),
             variables: KeyValueTable::default(),
+            parameters: KeyValueTable::default(),
             body,
         };
 

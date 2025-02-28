@@ -38,7 +38,7 @@ mod imp {
 
     use crate::app::CarteroApplication;
     use crate::client::{BoundRequest, RequestError};
-    use crate::entities::{EndpointData, KeyValue, KeyValueTable, RequestExportType};
+    use crate::entities::{EndpointData, KeyValue, RequestExportType};
     use crate::error::{CarteroError, RequestPreconditionError};
     use crate::objects::KeyValueItem;
     use crate::widgets::{

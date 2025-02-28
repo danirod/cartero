@@ -147,6 +147,7 @@ mod tests {
             headers,
             variables,
             body,
+            parameters: KeyValueTable::default(),
         };
 
         // Bind the request.
@@ -177,6 +178,7 @@ mod tests {
             headers,
             variables,
             body,
+            parameters: KeyValueTable::default(),
         };
 
         let bound = BoundRequest::try_from(endpoint).unwrap();
@@ -199,6 +201,7 @@ mod tests {
             headers,
             variables,
             body,
+            parameters: KeyValueTable::default(),
         };
 
         let bound = BoundRequest::try_from(endpoint).unwrap();
@@ -229,6 +232,7 @@ mod tests {
             headers,
             variables,
             body,
+            parameters: KeyValueTable::default(),
         };
 
         // Bind the request.
@@ -246,6 +250,7 @@ mod tests {
             headers: KeyValueTable::default(),
             variables: KeyValueTable::default(),
             body: RequestPayload::None,
+            parameters: KeyValueTable::default(),
         };
         let result = BoundRequest::try_from(endpoint);
         assert!(result.is_err_and(|e| e == RequestPreconditionError::MissingProtocol));
@@ -262,6 +267,7 @@ mod tests {
             headers: KeyValueTable::default(),
             variables: KeyValueTable::default(),
             body: RequestPayload::None,
+            parameters: KeyValueTable::default(),
         };
         let result = BoundRequest::try_from(endpoint);
         assert!(result.is_err_and(
@@ -280,6 +286,7 @@ mod tests {
             headers: KeyValueTable::default(),
             variables: KeyValueTable::default(),
             body: RequestPayload::None,
+            parameters: KeyValueTable::default(),
         };
         let result = BoundRequest::try_from(endpoint).unwrap();
         assert_eq!(result.url, "https://example.com/api/v1/users");
@@ -296,6 +303,7 @@ mod tests {
             headers: KeyValueTable::default(),
             variables: KeyValueTable::default(),
             body: RequestPayload::None,
+            parameters: KeyValueTable::default(),
         };
         let result = BoundRequest::try_from(endpoint).unwrap();
         assert_eq!(result.url, "https://example.com/api/v1/users");
@@ -312,6 +320,7 @@ mod tests {
             headers: KeyValueTable::default(),
             variables: KeyValueTable::default(),
             body: RequestPayload::None,
+            parameters: KeyValueTable::default(),
         };
         let result = BoundRequest::try_from(endpoint).unwrap();
         assert_eq!(result.url, "https://example.com/api/v1/users");

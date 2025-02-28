@@ -796,6 +796,7 @@ Accept = 'text/html'
             headers,
             variables: KeyValueTable::default(),
             body,
+            parameters: KeyValueTable::default(),
         };
 
         let content = super::store_toml(&r).unwrap();
@@ -826,6 +827,7 @@ Accept = 'text/html'
             headers,
             variables: KeyValueTable::default(),
             body,
+            parameters: KeyValueTable::default(),
         };
 
         let content = super::store_toml(&r).unwrap();
@@ -874,6 +876,7 @@ body = 'hello'
             headers,
             variables: KeyValueTable::default(),
             body,
+            parameters: KeyValueTable::default(),
         };
 
         let content = super::store_toml(&r).unwrap();
@@ -931,6 +934,7 @@ body = 'hello'
             headers,
             variables,
             body,
+            parameters: KeyValueTable::default(),
         };
 
         let content = super::store_toml(&r).unwrap();

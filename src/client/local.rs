@@ -36,6 +36,9 @@ pub struct BoundRequest {
 }
 
 fn normalize_url(url: &str) -> Result<String, RequestPreconditionError> {
+    if !url.contains("://") {
+        return Err(RequestPreconditionError::MissingProtocol);
+    }
     match Url::parse(url) {
         Ok(url) => {
             // Check for protocol as well.
@@ -115,9 +118,78 @@ pub enum RequestError {
 
 #[cfg(test)]
 mod tests {
-    use crate::entities::*;
-
     use super::*;
+    use crate::entities::*;
+    use crate::error::RequestPreconditionError;
+
+    #[test]
+    pub fn test_url_normalization() {
+        let positive = vec![
+            // These are straightforward.
+            "https://example.com/api/users",
+            "http://example.com/api/users",
+            "http://example.com:8080/api/users",
+            "https://example.com:8043/api/users",
+            // IP address
+            "https://192.168.1.4/api/users",
+            "http://192.168.1.4/api/users",
+            "http://192.168.1.4",
+            "https://192.168.1.4",
+            "http://192.168.1.4:4000",
+            "https://192.168.1.4:4000/api/users",
+            // These should work too.
+            "https://localhost:3000/api/users",
+            "http://localhost:3000/api/users",
+            "http://localhost:3000",
+            "http://localhost",
+            "http://localhost/api/users",
+            // Basic authentication in the URL
+            "http://admin:admin@router/login",
+            "http://admin:admin@router.home/login",
+            "http://admin:admin@192.168.1.1/login",
+        ];
+
+        let wrong_protocol = vec!["gemini://geminiprotocol.net", "ws://localhost:8000/socket"];
+
+        let missing_protocol = vec![
+            // Typical use in development
+            "example.com/api/users",
+            "example.com",
+            "example.com:8000",
+            "192.168.1.4",
+            "192.168.1.4/api/users",
+            "192.168.1.4:8000",
+            "localhost",
+            "localhost/users",
+            "localhost:3000/users",
+            // This is open to discussion but for this use case, it's an HTTP request to example.com
+            // using user=mailto and pass=foobar as a basic authentication, and not an email request.
+            "mailto:foobar@example.com",
+            "mailto:foobar@example.com/api/users",
+        ];
+
+        for url in positive {
+            let result = super::normalize_url(url);
+            assert!(
+                result.is_ok(),
+                "{} should have been accepted, was {:?}",
+                url,
+                result
+            );
+        }
+
+        for url in wrong_protocol {
+            let result = super::normalize_url(url);
+            let Err(RequestPreconditionError::UnsupportedProtocol(_)) = result else {
+                panic!("{} should have been an unsupported protocol", url);
+            };
+        }
+
+        for url in missing_protocol {
+            let result = super::normalize_url(url);
+            assert_eq!(Err(RequestPreconditionError::MissingProtocol), result);
+        }
+    }
 
     #[test]
     pub fn test_bind_of_parameters_may_still_override_header() {

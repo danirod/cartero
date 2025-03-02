@@ -1,24 +1,17 @@
-<p align="center"><img src="data/icons/scalable/apps/es.danirod.Cartero.svg" width="256" height="256" alt=""></p>
-
-<h1 align="center">Cartero</h1>
-<p align="center">Make HTTP requests and test APIs</p>
-
-<p align="center">
-<img src="data/screenshots/cartero-default.png" alt="Screenshot of Cartero">
-</p>
+![Cartero: the free HTTP client to test your APIs](doc/images/cartero-banner.png)
 
 Cartero is a graphical HTTP client that can be used as a developer tool to
 test web APIs and perform all kind of HTTP requests to web servers. It is
 compatible with any REST, SOAP or XML-RPC API and it supports multiple request
 methods as well as attaching body payloads to compatible requests.
 
-Features:
+**Features:**
 
-* Loads and saves to plain Git-friendly TOML files, so that you can own your data.
-* Customization and modification of the request headers and body payloads.
-* Variable binding for API keys and other secret information.
+- Loads and saves to plain Git-friendly TOML files, so that you can own your data.
+- Customization and modification of the request headers and body payloads.
+- Variable binding for API keys and other secret information.
 
-## Motivation
+**Motivation:**
 
 This project exists because there aren't many native graphical HTTP testing
 applications / graphical alternatives to cURL that are fully free software, and
@@ -29,79 +22,62 @@ some unwanted artificial intelligence at users.
 
 ## Download
 
+### Get it from Flathub
+
 <a href="https://flathub.org/apps/es.danirod.Cartero">
 <img width="240" alt="Get it on Flathub" src="https://flathub.org/api/badge?svg&locale=en">
 </a>
 
-You can also download a version for Windows or macOS.
+### Get it from Snap Store
 
-> [!WARNING]
-> **The Windows and macOS versions are currently not notarized or signed.**
-> On first run on Windows, you'll need to confirm the SmartScreen warning.
-> On first run on macOS, you'll need to allow opening apps from unidentified developers.
-> [Visit Apple Support for more information and instructions depending on your OS version](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unknown-developer-mh40616/mac).
-> If you don't trust these binary distributions, you can always build from sources.
+<a href="https://snapcraft.io/cartero">
+<img width="240" alt="Get it from the Snap Store" src=https://snapcraft.io/en/dark/install.svg />
+</a>
 
-|                             | Platform                   | Latest version                       |
-|-----------------------------|----------------------------|--------------------------------------|
-| ![Windows](doc/windows.png) | Windows, x86_64            | [v0.1.2 (installer)][windows-x86_64] |
-| ![macOS](doc/macos.png)     | macOS, Apple Sillicon      | [v0.1.2 (.dmg)][macos-sillicon]      |
-| ![macOS](doc/macos.png)     | macOS, Intel               | [v0.1.2 (.dmg)][macos-intel]         |
+### Download an official binary
 
-## Building
+| Windows | macOS | AppImage |
+| ------- | ----- | --- |
+| ![Windows](doc/windows.png) | ![macOS](doc/macos.png) | ![AppImage](doc/appimage.png) |
+| [x64, installer][windows-x86_64]<br>[x64, portable][windows-portable-x86_64] | [Apple Sillicon][macos-sillicon]<br>[Intel 64-bit][macos-intel] | [amd64][appimage-x86_64] |
 
-### Flatpak
+### Get it from your package manager
 
-Install the runtime:
+> **Note**: distributions in package managers are maintained by the community.
+Cartero as a project is open to help and communicate with the maintainers of
+those ports, but outdated versions and other packaging issues should be
+reported first to the package manager or to the port maintainer, not here.
 
-```sh
-flatpak install --user org.gnome.Sdk//46 org.freedesktop.Sdk.Extension.rust-stable//23.08
-```
+[![Packaging status](https://repology.org/badge/vertical-allrepos/cartero.svg)](https://repology.org/project/cartero/versions)
 
-Install the Flatpak, possibly passing the `--user` parameter.
+**macOS**: You can also get it from Homebrew [using the tap][homebrew]:
 
-```sh
-flatpak-builder --user --install flatpak_app build-aux/es.danirod.Cartero.json
-```
-
-You will find Cartero in your application launcher, or you can launch it with
-`flatpak run es.danirod.Cartero`.
-
-### Homebrew
-
-To install Cartero from this cask, simply add this repository as a tap.
-
-```sh
+```bash
 brew tap SoloAntonio/cartero
-```
-
-Now you can install any version hosted as cask with
-
-```sh
 brew install --cask cartero
 ```
 
-### Meson
+**Windows**: Also is available using [Scoop][scoop] (command-line installer for Windows):
 
-Use this to build the application outside of a Flatpak image. Note that this method should
-only be used by power users, to package the application on build scripts for rolling-release
-distributions, or for development purposes.
+```bash
+scoop bucket add extras
+scoop install extras/cartero
+```
+
+**NixOS**: You can also add Cartero to your system [as a flake][flake].
+
+## Building
 
 Currently, to build the application you'll have to make sure that the required
 libraries are installed on your system.
 
-* glib >= 2.72
-* gtk >= 4.14
-* gtksourceview >= 5.4
-* libadwaita >= 1.5
+- glib >= 2.72
+- gtk >= 4.14
+- gtksourceview >= 5.4
+- libadwaita >= 1.5
+- openssl >= 1.0
 
-Make sure that you have Meson in your system. For instance,
-
-```sh
-sudo apt install meson
-sudo dnf install meson
-sudo pacman -S meson
-```
+For a successful build, will also need the following packages installed in your system: **meson**, **ninja**, **rust** and **gettext**.
 
 Then use the following commands to build and install the application
 
@@ -119,131 +95,39 @@ ninja -C build
 ninja -C build install
 ```
 
+## Hacking and contributing
+
 **If you plan on contributing to the project**, use the development profile.
+It will also configure a Git hook so that the source code is checked prior to
+authoring a Git commit. The hook runs `cargo fmt` to assert that the code is
+formatted. Read `hooks/pre-commit.hook` to inspect what the script does.
 
 ```sh
 meson setup build -Dprofile=development
 ```
 
-It will also configure a Git hook so that the source code is checked prior to
-authoring a Git commit. The hook runs `cargo fmt` to assert that the code is
-formatted. Read `hooks/pre-commit.hook` to inspect what the script does.
+If you want to hack the source code and make your own changes to Cartero, you
+can do it as long as you know enough Rust and enough about GTK and the rest of the
+libraries it uses. Check out the [hacking instructions][hacking].
+It provides instructions useful for those who want to compile, test and run the
+application, specifically how to compile the resource bundles and run the application.
 
-### Cargo (Rust)
+If you want to share your changes with the world, you could send a pull request to
+add the code to Cartero so that anyone can benefit from it. Information on how to
+contribute has moved to [the website][contributing].
 
-This may be the preferred approach if you use rust-analyzer and tools like
-that, because Meson uses a separate target directory, and you might prefer to
-use the standard target/ directory.
-
-You can use `cargo build` and `cargo run` to build and run the project
-executable, but you will still need to use Meson to build the data files
-(GSettings schema files, Gio resource files, gettext translations...).
-
-**You should use `build-aux/cargo-build.sh`**. It wraps `cargo build`, but also
-compiles the data files and copies them in `target/share`, so that during
-application startup those files can be picked.
-
-### Nix/NixOS
-
-Use this approach to install, build or try cartero on a nixos system. Instructions
-assume you're using a flakes nixos system, but you could install it in a regular
-nixos system aswell by importing the derivation and adding the appropiate src attribute
-on it, note that this may require some manual intervation though.
-
-First of all, add cartero to your flake inputs so you can import the package.
-
-```nix
-{
-  inputs = {
-    cartero.url = "github:danirod/cartero";
-  };
-}
-```
-
-> [!WARNING]
-> This examples assume you're passing `inputs` in the `specialArgs` so you can utilize it
-> in others modules if you're splitting your config in multiple files.
-
-Then in your `home.packages` (when using home manager) or `environment.systemPackages`
-(global nix packages), add the derivation.
-
-```nix
-environment.systemPackages = [
-  inputs.cartero.packages.x86_64-linux.default
-];
-```
-
-> [!TIP]
-> You can try changing the architecture, not tested in every arch atm though.
-
-Another way is by making a nixpkgs overlay to add cartero and then install it
-easily.
-
-```nix
-nixpkgs.overlays = [
-  (_: final: let
-    inherit (inputs) cartero;
-    inherit (final) system;
-  in {
-    cartero = cartero.packages.${system}.default
-  })
-];
-```
-
-And then in the packages list of your choice.
-
-```nix
-home.packages = with pkgs; [
-  cartero
-];
-```
-
-> [!NOTE]
-> You may need to reboot the system or relogin to be able to see cartero on your launcher
-
-## Contributing
-
-> 🐛 This project is currently a larva trying to grow. Do you want to get in?
-> Take a seat!
-
-This project is highly appreciative of contributions. If you know about Rust,
-GTK or the GNOME technologies and want to help during the development, you can
-contribute if you wish. [Fork the project][fork] and commit your code.
-
-Some checklist rules before submitting a pull request:
-
-* **Use a feature branch**, do not make your changes in the trunk branch
-  directly.
-
-* **Rebase your code** and make sure that you are working on top of the most
-  recent version of the trunk branch, in case something has changed while you
-  were working on your code.
-
-* **Update the locales** if you changed strings. The ninja target that you are
-  looking for is called `cartero-update-po` (such as `ninja -C build
-  cartero-update-po`). Don't worry, you don't have to translate the strings by
-  yourself, but make sure that the new templates are added to the .po and .pot
-  files.
-
-* **Use the pre-commit hook**. The pre-commit hook will validate that your code
-  is formatted. It should be automatically configured if you run Meson in
-  development mode (`-Dprofile=development`), but you can install it on your
-  own or run `hooks/pre-commit.hook`.
-
-The project is starting small, so if you want to do something big, it is best
-to first start a discussion thread with your proposal in order to see how to
-make it fit inside the application.
-
-While this application is not official and at the moment is not affiliated with
-GNOME, you are expected to follow the [GNOME Code of Conduct][coc] when
-interacting with this repository.
+**Other ways to contribute to Cartero also include reporting bugs, sending feedback,
+talking about Cartero to other people to make the project more popular, and sending
+translations**. We are using [Weblate][weblate] to coordinate and translate comfortably
+this project using a web interface. Make an account and start proposing strings and they
+will be added to the application. That will also entitle you as a contributor!
 
 ## Licenses
 
 Cartero is published under the terms of the GNU General Public License v3.0 or later.
 
 ```
-Copyright 2024 the Cartero authors
+Copyright 2024-2025 the Cartero authors
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -258,33 +142,29 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ```
+
 The Cartero icon is published under the a [Creative Commons
 Attribution-ShareAlike 4.0 International license][ccbysa].
 
 ## Credits and acknowledgments
 
-Cartero is maintained by [Dani Rodríguez][danirod].
+Cartero is maintained by Dani Rodríguez.
 
 Big shoutout to the [contributors][contrib] who have sent patches or
-translations!
-
-Also, Christian suggested Cartero as the name for the application and I liked
-it enough to call it like so, therefore shoutout to Christian as well!
-
-Finally, shoutout to many of the GTK and GNOME Circle applications out there whose
-source code I've read in order to know how to use some of the GTK features that
-you cannot learn just by reading the official docs.
-
-## Blog
-
-Dani's [dev blog][blog] (in Spanish) of Cartero.
+translations! Also, Christian suggested Cartero as the name for the
+application and I liked it enough to call it like so, therefore shoutout
+to Christian as well!
 
 [ccbysa]: https://creativecommons.org/licenses/by-sa/4.0/
-[coc]: https://conduct.gnome.org
 [contrib]: https://github.com/danirod/cartero/graphs/contributors
-[danirod]: https://github.com/danirod
-[fork]: https://github.com/danirod/cartero/fork
-[blog]: https://danirod.es/secciones/devlogs/cartero/
-[windows-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.2/Cartero-0.1.2-windows-x64.exe
-[macos-sillicon]: https://github.com/danirod/cartero/releases/download/v0.1.2/Cartero-0.1.2-macOS-ARM64.dmg
-[macos-intel]: https://github.com/danirod/cartero/releases/download/v0.1.2/Cartero-0.1.2-macOS-Intel.dmg
+[weblate]: https://hosted.weblate.org/projects/cartero/
+[windows-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.5/Cartero-0.1.5-windows-x64.exe
+[windows-portable-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.5/Cartero-0.1.5-windows-x64.zip
+[macos-sillicon]: https://github.com/danirod/cartero/releases/download/v0.1.5/Cartero-0.1.5-macOS-arm64.dmg
+[macos-intel]: https://github.com/danirod/cartero/releases/download/v0.1.5/Cartero-0.1.5-macOS-x64.dmg
+[appimage-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.5/Cartero-0.1.5-x86_64.AppImage
+[homebrew]: https://cartero.danirod.es/docs/installing/macos-brew.html
+[flake]: https://cartero.danirod.es/docs/installing/nixos-flake.html
+[hacking]: https://cartero.danirod.es/docs/hacking.html
+[contributing]: https://cartero.danirod.es/docs/contributing.html
+[scoop]: https://scoop.sh/

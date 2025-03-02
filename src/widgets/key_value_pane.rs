@@ -31,7 +31,7 @@ mod imp {
     use std::sync::OnceLock;
 
     use glib::subclass::{InitializingObject, Signal};
-    use glib::{closure_local, Properties};
+    use glib::Properties;
     use gtk::gio::ListStore;
     use gtk::subclass::widget::{CompositeTemplateClass, WidgetImpl};
     use gtk::{glib, CompositeTemplate};
@@ -93,58 +93,91 @@ mod imp {
             self.parent_constructed();
 
             let obj = self.obj();
-            obj.connect_avoid_duplicates_notify(glib::clone!(@weak obj as pane => move |_| {
-                pane.mark_duplicates();
-            }));
+            obj.connect_avoid_duplicates_notify(glib::clone!(
+                #[weak(rename_to = pane)]
+                obj,
+                move |_| {
+                    pane.mark_duplicates();
+                }
+            ));
 
             self.model
                 .set(ListStore::with_type(KeyValueItem::static_type()))
                 .unwrap();
-            self.list_box.bind_model(self.model.get(),
-            glib::clone!(@weak self as pane => @default-panic, move |item| {
-                let item = item.downcast_ref::<KeyValueItem>().unwrap();
-                let row = KeyValueRow::default();
-                row.add_binding(item.bind_property("header-name", &row, "header-name")
-                    .bidirectional()
-                    .sync_create()
-                    .build());
-                row.add_binding(item.bind_property("header-value", &row, "header-value")
-                    .bidirectional()
-                    .sync_create()
-                    .build());
-                row.add_binding(item.bind_property("active", &row, "active")
-                    .bidirectional()
-                    .sync_create()
-                    .build());
-                row.add_binding(item.bind_property("secret", &row, "secret")
-                    .bidirectional()
-                    .sync_create()
-                    .build());
-                row.add_binding(item.bind_property("ignored", &row, "ignored")
-                    .bidirectional()
-                    .sync_create()
-                    .build());
-                let pane_delete = pane.clone();
-                row.connect_closure("delete", false, closure_local!(@strong item => move |_: KeyValueRow| {
-                    let model = pane_delete.model.get().unwrap();
-                    if let Some(pos) = model.find(&item) {
-                        model.remove(pos);
+            self.list_box.bind_model(
+                self.model.get(),
+                glib::clone!(
+                    #[weak(rename_to = pane)]
+                    self,
+                    #[upgrade_or_panic]
+                    move |item| {
+                        let item = item.downcast_ref::<KeyValueItem>().unwrap();
+                        let row = KeyValueRow::default();
+                        row.add_binding(
+                            item.bind_property("header-name", &row, "header-name")
+                                .bidirectional()
+                                .sync_create()
+                                .build(),
+                        );
+                        row.add_binding(
+                            item.bind_property("header-value", &row, "header-value")
+                                .bidirectional()
+                                .sync_create()
+                                .build(),
+                        );
+                        row.add_binding(
+                            item.bind_property("active", &row, "active")
+                                .bidirectional()
+                                .sync_create()
+                                .build(),
+                        );
+                        row.add_binding(
+                            item.bind_property("secret", &row, "secret")
+                                .bidirectional()
+                                .sync_create()
+                                .build(),
+                        );
+                        row.add_binding(
+                            item.bind_property("ignored", &row, "ignored")
+                                .bidirectional()
+                                .sync_create()
+                                .build(),
+                        );
+                        let pane_delete = pane.clone();
+                        row.connect_closure(
+                            "delete",
+                            false,
+                            glib::closure_local!(
+                                #[strong]
+                                item,
+                                move |_: KeyValueRow| {
+                                    let model = pane_delete.model.get().unwrap();
+                                    if let Some(pos) = model.find(&item) {
+                                        model.remove(pos);
 
-                        let obj = pane_delete.obj();
-                        obj.assert_always_placeholder();
-                        obj.emit_by_name::<()>("changed", &[]);
+                                        let obj = pane_delete.obj();
+                                        obj.assert_always_placeholder();
+                                        obj.emit_by_name::<()>("changed", &[]);
+                                    }
+                                }
+                            ),
+                        );
+
+                        let pane_changed = pane.clone();
+                        item.connect_closure(
+                            "changed",
+                            false,
+                            glib::closure_local!(move |_: KeyValueItem| {
+                                let obj = pane_changed.obj();
+                                obj.mark_duplicates();
+                                obj.assert_always_placeholder();
+                                obj.emit_by_name::<()>("changed", &[]);
+                            }),
+                        );
+                        row.upcast::<gtk::Widget>()
                     }
-                }));
-
-                let pane_changed = pane.clone();
-                item.connect_closure("changed", false, closure_local!(move |_: KeyValueItem| {
-                    let obj = pane_changed.obj();
-                    obj.mark_duplicates();
-                    obj.assert_always_placeholder();
-                    obj.emit_by_name::<()>("changed", &[]);
-                }));
-                row.upcast::<gtk::Widget>()
-            }));
+                ),
+            );
         }
     }
 
@@ -315,10 +348,13 @@ mod tests {
         let connected = Rc::new(Cell::new(false));
 
         let pane = KeyValuePane::default();
-        pane.model()
-            .connect_items_changed(glib::clone!(@strong connected => move |_, _, _, _| {
+        pane.model().connect_items_changed(glib::clone!(
+            #[strong]
+            connected,
+            move |_, _, _, _| {
                 connected.set(true);
-            }));
+            }
+        ));
         pane.set_model(&list);
         assert!(connected.get());
     }

@@ -1,0 +1,562 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the cartero package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: cartero\n"
+"Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
+"POT-Creation-Date: 2024-12-22 16:58+0100\n"
+"PO-Revision-Date: 2025-02-01 23:50-0300\n"
+"Last-Translator: john peter <johnppetersa@gmail.com>\n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.5\n"
+
+#: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:4
+msgid "Make HTTP requests and test APIs"
+msgstr "Fazer solicitações HTTP e testar APIs"
+
+#: data/cartero.appdata.xml.in.in:11
+msgid ""
+"Cartero is a graphical HTTP client that can be used as a developer tool to "
+"test web APIs and perform all kind of HTTP requests to web servers. It is "
+"compatible with any REST, SOAP or XML-RPC API and it supports multiple "
+"request methods as well as attaching body payloads to compatible requests."
+msgstr ""
+"Cartero é um cliente HTTP gráfico que pode ser usado como uma ferramenta de "
+"desenvolvedor para testar APIs da Web e executar todo tipo de solicitações "
+"HTTP para servidores da Web. É compatível com qualquer API REST, SOAP ou XML-"
+"RPC e suporta vários métodos de solicitação, além de anexar cargas úteis "
+"corporais a solicitações compatíveis."
+
+#: data/cartero.appdata.xml.in.in:12
+msgid "Features:"
+msgstr "Característicos:"
+
+#: data/cartero.appdata.xml.in.in:14
+msgid ""
+"Loads and saves to plain Git-friendly TOML files, so that you can own your "
+"data."
+msgstr ""
+"Carrega e salva para arquivos TOML simples e amigáveis, para que você possa "
+"possuir seus dados."
+
+#: data/cartero.appdata.xml.in.in:15
+msgid ""
+"Customization and modification of the request headers and body payloads."
+msgstr ""
+"Personalização e modificação dos cabeçalhos de solicitação e cargas úteis do "
+"corpo."
+
+#: data/cartero.appdata.xml.in.in:16
+msgid "Variable binding for API keys and other secret information."
+msgstr "Volificação variável para chaves da API e outras informações secretas."
+
+#: data/cartero.appdata.xml.in.in:22
+msgid "Main window of Cartero"
+msgstr "Janela principal de Cartero"
+
+#: data/cartero.appdata.xml.in.in:26
+msgid "Modifying HTTP headers"
+msgstr "Modificando cabeçalhos HTTP"
+
+#: data/cartero.appdata.xml.in.in:30
+msgid "Setting the request payload"
+msgstr "Definindo a carga útil da solicitação"
+
+#: data/cartero.desktop.in.in:3
+msgid "Cartero"
+msgstr "Carteiro"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/cartero.desktop.in.in:11
+msgid "Gnome;GTK;HTTP;REST;"
+msgstr "Gnome; gtk; http; descanso;"
+
+#: data/es.danirod.Cartero.gschema.xml:12
+msgid "Automatically indent new lines for the request body"
+msgstr "Recomete novas linhas automaticamente para o corpo de solicitação"
+
+#: data/es.danirod.Cartero.gschema.xml:16
+msgid "Wrap the body content"
+msgstr "Enrole o conteúdo do corpo"
+
+#: data/es.danirod.Cartero.gschema.xml:20
+msgid "Whether to indent the request body with spaces or tabs"
+msgstr "Se deve recuperar o corpo de solicitação com espaços ou guias"
+
+#: data/es.danirod.Cartero.gschema.xml:24
+msgid "Show line numbers in the request and response bodies"
+msgstr "Mostrar números de linha nos órgãos de solicitação e resposta"
+
+#: data/es.danirod.Cartero.gschema.xml:28
+msgid "How many characters to pad when indenting the request body"
+msgstr "Quantos personagens preencherem ao recuar o corpo do pedido"
+
+#: data/es.danirod.Cartero.gschema.xml:32
+msgid "How large should new windows be"
+msgstr "Quão grande deve ser as novas janelas"
+
+#: data/es.danirod.Cartero.gschema.xml:36
+msgid "How tall should new windows be"
+msgstr "Qual a altura das novas janelas"
+
+#: data/es.danirod.Cartero.gschema.xml:40
+msgid "Whether the application should open maximized"
+msgstr "Se o aplicativo deve abrir maximizado"
+
+#: data/es.danirod.Cartero.gschema.xml:44
+msgid "The position of the split between two windows"
+msgstr "A posição da divisão entre duas janelas"
+
+#: data/es.danirod.Cartero.gschema.xml:48
+msgid "The current list of opened files"
+msgstr "A lista atual de arquivos abertos"
+
+#: data/es.danirod.Cartero.gschema.xml:52
+msgid "The last location where a file was opened"
+msgstr "O último local onde um arquivo foi aberto"
+
+#: data/es.danirod.Cartero.gschema.xml:56
+msgid "The last location where a file was saved"
+msgstr "O último local onde um arquivo foi salvo"
+
+#: data/es.danirod.Cartero.gschema.xml:60
+msgid "Whether to validate the TLS certificates during a request"
+msgstr "Se deve validar os certificados TLS durante uma solicitação"
+
+#: data/es.danirod.Cartero.gschema.xml:64
+msgid "Whether to follow redirections if that is the server response"
+msgstr "Se deve seguir os redirecionamentos, se essa é a resposta do servidor"
+
+#: data/es.danirod.Cartero.gschema.xml:68
+msgid "Maximum number of redirections to follow before giving up"
+msgstr "Número máximo de redirecimentos a seguir antes de desistir"
+
+#: data/es.danirod.Cartero.gschema.xml:72
+msgid "Maximum timeout when awaiting for an HTTP response."
+msgstr "Tempo limite máximo ao aguardar uma resposta HTTP."
+
+#: data/es.danirod.Cartero.gschema.xml:76
+msgid "Whether to use light or dark mode."
+msgstr "Se deve usar o modo claro ou escuro."
+
+#: data/es.danirod.Cartero.gschema.xml:80
+msgid "The custom font in use"
+msgstr "A fonte personalizada em uso"
+
+#: data/es.danirod.Cartero.gschema.xml:84
+msgid "Whether to use the system font or a custom one"
+msgstr "Se deve usar a fonte do sistema ou personalizada"
+
+#: data/es.danirod.Cartero.gschema.xml:88
+msgid "Whether to create backup files on save"
+msgstr "Se deve criar arquivos de backup em salvar"
+
+#: data/gtk/help_overlay.blp:26
+msgctxt "shortcuts window"
+msgid "General shortcuts"
+msgstr "Atalhos gerais"
+
+#: data/gtk/help_overlay.blp:29
+msgctxt "shortcuts window"
+msgid "Show Keyboard Shortcuts"
+msgstr "Mostre atalhos de teclado"
+
+#: data/gtk/help_overlay.blp:34
+msgctxt "shortcuts window"
+msgid "Quit"
+msgstr "Desistir"
+
+#: data/gtk/help_overlay.blp:40
+msgctxt "shortcuts window"
+msgid "Tab operations"
+msgstr "Operações de guia"
+
+#: data/gtk/help_overlay.blp:43
+msgctxt "shortcuts window"
+msgid "New request tab"
+msgstr "Guia Novo solicitação"
+
+#: data/gtk/help_overlay.blp:48
+msgctxt "shortcuts window"
+msgid "Open request"
+msgstr "Solicitação aberta"
+
+#: data/gtk/help_overlay.blp:53
+msgctxt "shortcuts window"
+msgid "Save request"
+msgstr "Salvar solicitação"
+
+#: data/gtk/help_overlay.blp:58
+msgctxt "shortcuts window"
+msgid "Save request as"
+msgstr "Salvar solicitação como"
+
+#: data/gtk/help_overlay.blp:63
+msgctxt "shortcuts window"
+msgid "Close request tab"
+msgstr "Guia de solicitação de fechamento"
+
+#: data/gtk/help_overlay.blp:69
+msgctxt "shortcuts window"
+msgid "Request operations"
+msgstr "Solicitar operações"
+
+#: data/gtk/help_overlay.blp:72
+msgctxt "shortcuts window"
+msgid "Send request"
+msgstr "Enviar solicitação"
+
+#: data/ui/code_export_pane.blp:64
+msgid "Copy"
+msgstr "Cópia"
+
+#: data/ui/endpoint_pane.blp:58
+msgid "Request URL"
+msgstr "Solicitar url"
+
+#: data/ui/endpoint_pane.blp:69
+msgid "Send"
+msgstr "Enviar"
+
+#: data/ui/endpoint_pane.blp:70
+msgid "Execute this HTTP request"
+msgstr "Execute esta solicitação HTTP"
+
+#: data/ui/endpoint_pane.blp:103
+msgid "Parameters"
+msgstr "Parâmetros"
+
+#: data/ui/endpoint_pane.blp:124 data/ui/response_panel.blp:92
+msgid "Headers"
+msgstr "Cabeçalhos"
+
+#: data/ui/endpoint_pane.blp:145
+msgid "Variables"
+msgstr "Variáveis"
+
+#: data/ui/endpoint_pane.blp:166 data/ui/response_panel.blp:47
+msgid "Body"
+msgstr "Corpo"
+
+#: data/ui/endpoint_pane.blp:174
+msgid "Export request"
+msgstr "Solicitação de exportação"
+
+#: data/ui/export_tab.blp:35
+msgid "Export to"
+msgstr "Exportar para"
+
+#: data/ui/export_tab.blp:69 data/ui/payload_tab.blp:81
+msgid "(none)"
+msgstr "(nenhum)"
+
+#: data/ui/key_value_row.blp:40
+msgid "Name"
+msgstr "Nome"
+
+#: data/ui/key_value_row.blp:50
+msgid "Value"
+msgstr "Valor"
+
+#: data/ui/key_value_row.blp:61
+msgid "Actions"
+msgstr "Ações"
+
+#: data/ui/key_value_row.blp:74
+msgid "Toggle secret"
+msgstr "Alternar o segredo"
+
+#: data/ui/key_value_row.blp:81
+msgid "Delete"
+msgstr "Excluir"
+
+#: data/ui/main_window.blp:41 data/ui/main_window_no_csd.blp:39
+msgid "New"
+msgstr "Novo"
+
+#: data/ui/main_window.blp:52 data/ui/main_window.blp:63
+#: data/ui/main_window_no_csd.blp:50 data/ui/main_window_no_csd.blp:61
+#: src/widgets/file_dialogs.rs:33 src/widgets/file_dialogs.rs:77
+msgid "Open"
+msgstr "Abrir"
+
+#: data/ui/main_window.blp:71 data/ui/main_window_no_csd.blp:69
+#: src/widgets/file_dialogs.rs:133
+msgid "Save"
+msgstr "Salvar"
+
+#: data/ui/main_window.blp:95 data/ui/main_window_no_csd.blp:102
+msgid "Welcome to Cartero"
+msgstr "Bem -vindo a um Mailman"
+
+#: data/ui/main_window.blp:96 data/ui/main_window_no_csd.blp:103
+msgid "Create or open a request and start testing APIs now."
+msgstr "Crie ou abra uma solicitação e comece a testar as APIs agora."
+
+#: data/ui/main_window.blp:115 data/ui/main_window.blp:149
+#: data/ui/main_window_no_csd.blp:122 data/ui/main_window_no_csd.blp:156
+msgid "New tab"
+msgstr "Nova guia"
+
+#: data/ui/main_window.blp:128 data/ui/main_window.blp:154
+#: data/ui/main_window_no_csd.blp:135 data/ui/main_window_no_csd.blp:161
+msgid "Open request…"
+msgstr "Pedido aberto…"
+
+#: data/ui/main_window.blp:159 data/ui/main_window_no_csd.blp:166
+#: src/widgets/file_dialogs.rs:134
+msgid "Save request"
+msgstr "Salvar solicitação"
+
+#: data/ui/main_window.blp:164 data/ui/main_window_no_csd.blp:171
+msgid "Save request as…"
+msgstr "Salvar solicitação como…"
+
+#: data/ui/main_window.blp:169 data/ui/main_window_no_csd.blp:176
+msgid "Close tab"
+msgstr "Beche a guia"
+
+#: data/ui/main_window.blp:176 data/ui/settings_dialog.blp:22
+msgid "Settings"
+msgstr "Configurações"
+
+#: data/ui/main_window.blp:181 data/ui/main_window_no_csd.blp:183
+msgid "Body appearance"
+msgstr "Aparência corporal"
+
+#: data/ui/main_window.blp:185 data/ui/main_window_no_csd.blp:187
+msgid "Wrap content"
+msgstr "Enrole o conteúdo"
+
+#: data/ui/main_window.blp:190 data/ui/main_window_no_csd.blp:192
+msgid "Show line numbers"
+msgstr "Mostrar números de linha"
+
+#: data/ui/main_window.blp:197 data/ui/main_window_no_csd.blp:199
+msgid "Automatic indentation"
+msgstr "Recuo automático"
+
+#: data/ui/main_window.blp:202 data/ui/main_window_no_csd.blp:204
+msgid "Indent with spaces"
+msgstr "Recuo com espaços"
+
+#: data/ui/main_window.blp:208 data/ui/main_window_no_csd.blp:210
+msgid "Indent with tabs"
+msgstr "Recuo com guias"
+
+#: data/ui/main_window.blp:214 data/ui/main_window_no_csd.blp:216
+msgid "Spaces per tab"
+msgstr "Espaços por guia"
+
+#: data/ui/main_window.blp:217 data/ui/main_window_no_csd.blp:219
+msgid "2"
+msgstr "2"
+
+#: data/ui/main_window.blp:223 data/ui/main_window_no_csd.blp:225
+msgid "4"
+msgstr "4"
+
+#: data/ui/main_window.blp:229 data/ui/main_window_no_csd.blp:231
+msgid "8"
+msgstr "8"
+
+#: data/ui/main_window.blp:240 data/ui/main_window_no_csd.blp:242
+msgid "Keyboard shortcuts"
+msgstr "Atalhos de teclado"
+
+#: data/ui/main_window.blp:245 data/ui/main_window_no_csd.blp:247
+msgid "About Cartero"
+msgstr "Sobre Cartero"
+
+#: data/ui/main_window.blp:250 data/ui/main_window_no_csd.blp:252
+msgid "Quit"
+msgstr "Desistir"
+
+#: data/ui/method_dropdown.blp:30
+msgid "Request method"
+msgstr "Método de solicitação"
+
+#: data/ui/payload_tab.blp:35
+msgid "Body type"
+msgstr "Tipo de corpo"
+
+#: data/ui/payload_tab.blp:82
+msgid "URL Encoded"
+msgstr "URL codificado"
+
+#: data/ui/payload_tab.blp:83
+msgid "Multipart Form Data"
+msgstr "Dados de formulário multipart"
+
+#: data/ui/payload_tab.blp:86
+msgid "Raw"
+msgstr "Cru"
+
+#: data/ui/response_panel.blp:29
+msgid "Ready to request"
+msgstr "Pronto para solicitar"
+
+#: data/ui/response_panel.blp:30
+msgid "Use the Send button to send a network request and it will show here."
+msgstr ""
+"Use o botão Enviar para enviar uma solicitação de rede e ele será exibido "
+"aqui."
+
+#: data/ui/save_dialog.blp:22
+msgid "Save changes?"
+msgstr "Salvar mudanças?"
+
+#: data/ui/save_dialog.blp:23
+msgid "There are changes that have not been saved yet. What do you want to do?"
+msgstr "Existem mudanças que ainda não foram salvas. O que você quer fazer?"
+
+#: data/ui/save_dialog.blp:28
+msgid "_Cancel"
+msgstr "_Cancelar"
+
+#: data/ui/save_dialog.blp:29
+msgid "_Discard"
+msgstr "_Descartar"
+
+#: data/ui/save_dialog.blp:30
+msgid "_Save"
+msgstr "_Salvar"
+
+#: data/ui/search_box.blp:43 data/ui/search_box.blp:44
+msgid "Search"
+msgstr "Procurar"
+
+#: data/ui/search_box.blp:64
+msgid "Previous result"
+msgstr "Resultado anterior"
+
+#: data/ui/search_box.blp:70
+msgid "Next result"
+msgstr "Próximo resultado"
+
+#: data/ui/search_box.blp:82
+msgid "Close search"
+msgstr "Pesquisa próxima"
+
+#: data/ui/settings_dialog.blp:27
+msgid "Application"
+msgstr "Aplicativo"
+
+#: data/ui/settings_dialog.blp:31
+msgid "Appearance"
+msgstr "Aparência"
+
+#: data/ui/settings_dialog.blp:34
+msgid "Application style"
+msgstr "Estilo de aplicativo"
+
+#: data/ui/settings_dialog.blp:38
+msgid "Follow system settings"
+msgstr "Siga as configurações do sistema"
+
+#: data/ui/settings_dialog.blp:39
+msgid "Light mode"
+msgstr "Modo Claro"
+
+#: data/ui/settings_dialog.blp:40
+msgid "Dark mode"
+msgstr "Modo escuro"
+
+#: data/ui/settings_dialog.blp:46
+msgid "Use system font"
+msgstr "Use a fonte do sistema"
+
+#: data/ui/settings_dialog.blp:50
+msgid "Custom font"
+msgstr "Fonte personalizada"
+
+#: data/ui/settings_dialog.blp:65
+msgid "File settings"
+msgstr "Configurações de arquivo"
+
+#: data/ui/settings_dialog.blp:68
+msgid "Create backup files"
+msgstr "Crie arquivos de backup"
+
+#: data/ui/settings_dialog.blp:69
+msgid ""
+"You might not want to enable this if you are already using a version control "
+"such as Git"
+msgstr ""
+"Você pode não querer ativar isso se já estiver usando um controle de versão "
+"como Git"
+
+#: data/ui/settings_dialog.blp:75 data/ui/settings_dialog.blp:79
+msgid "HTTP Client"
+msgstr "Cliente http"
+
+#: data/ui/settings_dialog.blp:82
+msgid "Enforce TLS validation"
+msgstr "Aplicar a validação do TLS"
+
+#: data/ui/settings_dialog.blp:86
+msgid "Follow redirects"
+msgstr "Siga os redirecionamentos"
+
+#: data/ui/settings_dialog.blp:91
+msgid "Maximum redirects"
+msgstr "Redirecionamentos máximos"
+
+#: data/ui/settings_dialog.blp:103
+msgid "Request timeout"
+msgstr "Solicitar tempo limite"
+
+#: src/widgets/export_tab/code.rs:117
+msgid "Content copied to the clipboard"
+msgstr "Conteúdo copiado para a área de transferência"
+
+#: src/widgets/file_dialogs.rs:18
+msgid "Request (.cartero)"
+msgstr "Solicitação (.Cartero)"
+
+#: src/widgets/file_dialogs.rs:20
+msgid "Request"
+msgstr "Solicitar"
+
+#: src/widgets/file_dialogs.rs:34 src/widgets/file_dialogs.rs:78
+msgid "Open request"
+msgstr "Solicitação aberta"
+
+#: src/widgets/item_pane.rs:99
+msgid "(untitled)"
+msgstr "(sem título)"
+
+#: src/widgets/item_pane.rs:115
+msgid "Draft"
+msgstr "Rascunho"
+
+#. TRANSLATORS: this string is used to build the search box ocurrences count; the first
+#. placeholder is the current ocurrence index, the second one is the total.
+#: src/widgets/search_box.rs:226
+msgid "{} of {}"
+msgstr "{} de {}"
+
+#. TRANSLATORS: this string is used to build the search box ocurrences count when only
+#. the number of total ocurrences is known.
+#: src/widgets/search_box.rs:234
+msgid "{} result"
+msgid_plural "{} results"
+msgstr[0] "{} resultado"
+msgstr[1] "{} resultados"
+
+#: src/win.rs:516
+msgid "The Cartero authors"
+msgstr "Os autores de Cartero"
+
+#: src/win.rs:517
+msgid "© 2024 the Cartero authors"
+msgstr "© 2024 Os autores Cartero"

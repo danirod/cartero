@@ -30,7 +30,7 @@ template $CarteroWindow: Gtk.ApplicationWindow {
 
       Box {
         styles [
-          "toolbar"
+          "toolbar",
         ]
 
         Button {
@@ -43,7 +43,7 @@ template $CarteroWindow: Gtk.ApplicationWindow {
 
         Button open_dialog {
           styles [
-            "flat"
+            "flat",
           ]
 
           action-name: "win.open";
@@ -79,7 +79,7 @@ template $CarteroWindow: Gtk.ApplicationWindow {
 
       Box {
         styles [
-          "toolbar"
+          "toolbar",
         ]
 
         Separator {}
@@ -112,7 +112,7 @@ template $CarteroWindow: Gtk.ApplicationWindow {
                 Gtk.Button {
                   styles [
                     "pill",
-                    "suggested-action"
+                    "suggested-action",
                   ]
 
                   action-name: "win.new";
@@ -125,14 +125,14 @@ template $CarteroWindow: Gtk.ApplicationWindow {
 
                 Gtk.Button {
                   styles [
-                    "pill"
+                    "pill",
                   ]
 
                   action-name: "win.open";
 
                   child: Adw.ButtonContent {
                     icon-name: "document-open-symbolic";
-                    label: _("Open request...");
+                    label: _("Open request…");
                   };
                 }
               }
@@ -158,7 +158,7 @@ menu main_menu {
     }
 
     item {
-      label: _("Open request...");
+      label: _("Open request…");
       action: "win.open";
     }
 
@@ -168,7 +168,7 @@ menu main_menu {
     }
 
     item {
-      label: _("Save request as...");
+      label: _("Save request as…");
       action: "win.save-as";
     }
 
@@ -179,6 +179,11 @@ menu main_menu {
   }
 
   section {
+    item {
+      label: _("Settings");
+      action: "app.preferences";
+    }
+
     submenu {
       label: _("Body appearance");
 

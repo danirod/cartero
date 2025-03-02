@@ -105,13 +105,80 @@ h1 {
   text-wrap: balance;
 }
 
-.extra-download {
+.extra-download,
+.extra-download ul {
   list-style: none;
   padding-left: 0;
 }
 
+.extra-download {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.extra-download img {
+  height: 32px;
+  width: 32px;
+  object-fit: contain;
+}
+
+@media (prefers-color-scheme: dark) {
+  .extra-download img {
+    filter: invert(100%);
+  }
+}
+
+.extra-download figure {
+  margin-bottom: 1rem;
+}
+
+.extra-download figcaption {
+  line-height: 1;
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
+
 .extra-download li {
   margin-bottom: 0.4rem;
+}
+
+.extra-download a {
+  font-weight: normal;
+  font-size: 11pt;
+}
+
+.fineprint {
+  font-size: 11pt;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.fineprint .icon:after {
+  width: 2.5ch;
+  content: '';
+  display: inline-block;
+  background-size: contain;
+  height: 1em;
+  background-repeat: no-repeat;
+  background-position: center;
+  vertical-align: sub;
+}
+
+@media (prefers-color-scheme: dark) {
+  .fineprint .icon:after {
+    filter: invert(100%);
+  }
+}
+
+.fineprint .mastodon:after {
+  background-image: url('mastodon.png');
+}
+
+.fineprint .bluesky:after {
+  background-image: url('bluesky.png');
 }
 
 .features {
@@ -178,6 +245,11 @@ footer {
     padding-bottom: 14rem;
   }
 
+  .fineprint {
+    margin-top: 3rem;
+    margin-bottom: 0;
+  }
+
   .features {
     margin-top: -14rem;
   }
@@ -188,7 +260,7 @@ footer {
 
   .download-container {
     display: grid;
-    grid-template-columns: 4fr 3fr;
+    grid-template-columns: 1fr 1fr;
     gap: 3rem;
     font-size: 12pt;
   }

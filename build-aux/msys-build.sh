@@ -50,7 +50,11 @@ cp -RTn $MINGW_PREFIX/share/icons/hicolor share/icons/hicolor
 cp -RTn $MINGW_PREFIX/share/gtksourceview-5 share/gtksourceview-5
 
 for lang in $(cat "$CARTERO_ROOT_DIR/po/LINGUAS" | grep -v '^#'); do
-        cp -f $MINGW_PREFIX/share/locale/$lang/LC_MESSAGES/{gdk-pixbuf,gettext-runtime,glib20,gtk40,gtksourceview-5,libadwaita,shared-mime-info}.mo share/locale/$lang/LC_MESSAGES
+        for pkg in gdk-pixbuf gettext-runtime glib20 gtk40 gtksourceview-5 libadwaita shared-mime-info; do
+                if [ -f $MINGW_PREFIX/share/locale/$lang/LC_MESSAGES/$pkg.mo ]; then
+                        cp -f $MINGW_PREFIX/share/locale/$lang/LC_MESSAGES/$pkg.mo share/locale/$lang/LC_MESSAGES
+                fi
+        done
 done
 
 cp $(ldd lib/gdk-pixbuf-2.0/2.10.0/loaders/*.dll | grep "$MINGW_PREFIX" | awk '{ print $3 }' | sort | uniq) bin/

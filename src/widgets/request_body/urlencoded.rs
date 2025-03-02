@@ -87,10 +87,7 @@ mod imp {
         }
 
         pub(super) fn set_table(&self, table: &KeyValueTable) {
-            let key_values: Vec<KeyValueItem> = table
-                .iter()
-                .map(|row| KeyValueItem::from(row.clone()))
-                .collect();
+            let key_values: Vec<KeyValueItem> = table.iter().map(KeyValueItem::from).collect();
             self.data.set_entries(&key_values);
         }
     }

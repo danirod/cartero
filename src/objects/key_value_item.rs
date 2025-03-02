@@ -115,6 +115,18 @@ impl Default for KeyValueItem {
     }
 }
 
+impl From<&KeyValue> for KeyValueItem {
+    fn from(value: &KeyValue) -> Self {
+        let value = value.clone();
+        let header = Self::new();
+        header.set_header_name(value.name.clone());
+        header.set_header_value(value.value.clone());
+        header.set_active(value.active);
+        header.set_secret(value.secret);
+        header
+    }
+}
+
 impl From<KeyValue> for KeyValueItem {
     fn from(value: KeyValue) -> Self {
         let header = Self::new();

@@ -5,6 +5,9 @@ use crate::client::RequestError;
 
 #[derive(Debug, Error)]
 pub enum CarteroError {
+    #[error("Internal error")]
+    InternalError,
+
     #[error("No file has been picked")]
     NoFilePicked,
 
@@ -20,9 +23,6 @@ pub enum CarteroError {
     #[error("DNS error")]
     Dns,
 
-    #[error("Invalid protocol")]
-    InvalidProtocol,
-
     #[error("HTTP request error")]
     Request(#[from] RequestError),
 
@@ -35,9 +35,39 @@ pub enum CarteroError {
     #[error("Error manipulating TOML")]
     SerializationError(#[from] toml::ser::Error),
 
-    #[error("Error during variable interpolation: {0}")]
-    VariableInterpolationError(#[from] SrTemplateError),
-
     #[error("Outdated schema, please update the software")]
     OutdatedSchema,
+
+    #[error("{0}")]
+    PreconditionError(#[from] RequestPreconditionError),
+}
+
+#[derive(Debug, Eq, PartialEq, Error)]
+pub enum RequestPreconditionError {
+    #[error("Cannot parse the URL, check for typos")]
+    UrlBadParse,
+
+    #[error("URL is missing a protocol")]
+    MissingProtocol,
+
+    #[error("Protocol {0}:// is not supported")]
+    UnsupportedProtocol(String),
+
+    #[error("Payload could not be encoded")]
+    EncodingError,
+
+    #[error("Variable {0} not found")]
+    VariableNotFound(String),
+
+    #[error("String interpolation error, review variables")]
+    BadInterpolation,
+}
+
+impl From<SrTemplateError> for RequestPreconditionError {
+    fn from(value: SrTemplateError) -> Self {
+        match value {
+            SrTemplateError::VariableNotFound(var) => Self::VariableNotFound(var),
+            _ => Self::BadInterpolation,
+        }
+    }
 }

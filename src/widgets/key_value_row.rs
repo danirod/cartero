@@ -132,9 +132,13 @@ impl KeyValueRow {
         let toggle_secret = PropertyAction::new("toggle-secret", self, "secret");
 
         let delete = SimpleAction::new("delete", None);
-        delete.connect_activate(glib::clone!(@weak self as widget => move |_, _| {
-            widget.emit_by_name::<()>("delete", &[]);
-        }));
+        delete.connect_activate(glib::clone!(
+            #[weak(rename_to = widget)]
+            self,
+            move |_, _| {
+                widget.emit_by_name::<()>("delete", &[]);
+            }
+        ));
 
         ag.add_action(&toggle_secret);
         ag.add_action(&delete);

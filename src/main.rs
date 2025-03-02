@@ -21,6 +21,7 @@ mod app;
 mod client;
 mod error;
 mod file;
+mod i18n;
 mod widgets;
 #[rustfmt::skip]
 mod config;
@@ -29,6 +30,7 @@ mod fs;
 mod objects;
 mod utils;
 mod win;
+mod windows;
 
 use std::path::PathBuf;
 

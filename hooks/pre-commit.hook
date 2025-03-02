@@ -42,21 +42,12 @@ if ! which cargo >/dev/null 2>&1 || ! cargo fmt --help >/dev/null 2>&1; then
             * ) echo "Invalid input";;
         esac
     done
-
 fi
 
-if ! which blueprint-compiler >/dev/null 2>&1 ; then
-    BLUEPRINT_INSTALL_DIR=.git/blueprint-compiler
-    BLUEPRINT_ABS_INSTALL_DIR=$(realpath "$PWD/$BLUEPRINT_INSTALL_DIR")
-    BLUEPRINT=$BLUEPRINT_INSTALL_DIR/bin/blueprint-compiler
-    if ! [ -x $BLUEPRINT ]; then
-        echo "Locally pulling blueprint-compiler for this one..."
-        meson subprojects download
-        meson setup subprojects/blueprint-compiler/build subprojects/blueprint-compiler --prefix=$BLUEPRINT_ABS_INSTALL_DIR
-        ninja -C subprojects/blueprint-compiler/build install
-    fi
-else
-    BLUEPRINT=blueprint-compiler
+BLUEPRINT_CMD="blueprint-compiler"
+
+if ! which $BLUEPRINT_CMD >/dev/null 2>&1 ; then
+    BLUEPRINT_CMD="subprojects/blueprint-compiler/blueprint-compiler.py"
 fi
 
 echo "--Checking Rust style--"
@@ -71,10 +62,10 @@ else
 fi
 
 echo "--Checking Blueprint style--"
-$BLUEPRINT format data/ui
+$BLUEPRINT_CMD format data/ui
 if test $? != 0; then
     echo "--Checking Blueprint style fail--"
-    echo "Please, fix the above issues, either manually or by running: $BLUEPRINT format -f data/ui"
+    echo "Please, fix the above issues, either manually or by running: $BLUEPRINT_CMD format -f data/ui"
 
     exit 1
 else

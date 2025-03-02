@@ -18,12 +18,14 @@
 blueprint_files = [
   'ui/collection_pane.blp',
   'gtk/help_overlay.blp',
+  'ui/code_export_pane.blp',
   'ui/endpoint_pane.blp',
+  'ui/export_tab.blp',
   'ui/formdata_payload_pane.blp',
-  'ui/main_window.blp',
-  'ui/main_window_no_csd.blp',
   'ui/key_value_pane.blp',
   'ui/key_value_row.blp',
+  'ui/main_window.blp',
+  'ui/main_window_no_csd.blp',
   'ui/method_dropdown.blp',
   'ui/payload_tab.blp',
   'ui/raw_payload_pane.blp',
@@ -34,6 +36,8 @@ blueprint_files = [
   'ui/sidebar.blp',
   'ui/sidebar_row.blp',
   'ui/save_dialog.blp',
+  'ui/search_box.blp',
+  'ui/settings_dialog.blp',
   'ui/urlencoded_payload_pane.blp',
 ]
 

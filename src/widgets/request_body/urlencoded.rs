@@ -65,10 +65,13 @@ mod imp {
             self.parent_constructed();
             self.data.assert_always_placeholder();
 
-            self.data
-                .connect_changed(glib::clone!(@weak self as pane => move |_| {
+            self.data.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| {
                     pane.obj().emit_by_name::<()>("changed", &[]);
-                }));
+                }
+            ));
         }
     }
 

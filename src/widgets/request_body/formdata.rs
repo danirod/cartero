@@ -22,6 +22,7 @@ use crate::entities::RequestPayload;
 use super::{BasePayloadPane, BasePayloadPaneExt};
 
 mod imp {
+    use glib::property::PropertySet;
     use glib::subclass::{InitializingObject, Signal};
     use glib::Properties;
     use gtk::subclass::prelude::*;
@@ -75,10 +76,13 @@ mod imp {
             let boundary = String::from_utf8_lossy(&boundary).to_string();
             self.boundary.set(boundary);
 
-            self.data
-                .connect_changed(glib::clone!(@weak self as pane => move |_| {
+            self.data.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| {
                     pane.obj().emit_by_name::<()>("changed", &[]);
-                }));
+                }
+            ));
         }
     }
 

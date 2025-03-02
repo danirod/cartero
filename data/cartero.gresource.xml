@@ -16,10 +16,14 @@
     <file alias="main_window.ui" compressed="true" preprocess="xml-stripblanks">ui/main_window.ui</file>
     <file alias="method_dropdown.ui" compressed="true" preprocess="xml-stripblanks">ui/method_dropdown.ui</file>
     <file alias="payload_tab.ui" compressed="true" preprocess="xml-stripblanks">ui/payload_tab.ui</file>
+    <file alias="export_tab.ui" compressed="true" preprocess="xml-stripblanks">ui/export_tab.ui</file>
+    <file alias="code_export_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/code_export_pane.ui</file>
     <file alias="raw_payload_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/raw_payload_pane.ui</file>
     <file alias="response_headers.ui" compressed="true" preprocess="xml-stripblanks">ui/response_headers.ui</file>
     <file alias="response_panel.ui" compressed="true" preprocess="xml-stripblanks">ui/response_panel.ui</file>
     <file alias="save_dialog.ui" compressed="true" preprocess="xml-stripblanks">ui/save_dialog.ui</file>
+    <file alias="search_box.ui" compressed="true" preprocess="xml-stripblanks">ui/search_box.ui</file>
+    <file alias="settings_dialog.ui" compressed="true" preprocess="xml-stripblanks">ui/settings_dialog.ui</file>
     <file alias="urlencoded_payload_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/urlencoded_payload_pane.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/horizontal-arrows-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/tab-new-symbolic.svg</file>

@@ -1,4 +1,4 @@
-// Copyright 2024 the Cartero authors
+// Copyright 2024-2025 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,8 +15,11 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use std::panic::{catch_unwind, AssertUnwindSafe};
+
+use futures_lite::future::block_on;
 use glib::{subclass::types::ObjectSubclassIsExt, Object};
-use gtk::glib;
+use gtk::{glib, prelude::WidgetExt};
 
 use crate::{entities::EndpointData, error::CarteroError};
 
@@ -35,10 +38,12 @@ mod imp {
 
     use crate::app::CarteroApplication;
     use crate::client::{BoundRequest, RequestError};
-    use crate::entities::{EndpointData, KeyValue};
-    use crate::error::CarteroError;
+    use crate::entities::{EndpointData, KeyValue, RequestExportType};
+    use crate::error::{CarteroError, RequestPreconditionError};
     use crate::objects::KeyValueItem;
-    use crate::widgets::{ItemPane, KeyValuePane, MethodDropdown, PayloadTab, ResponsePanel};
+    use crate::widgets::{
+        ExportTab, ExportType, ItemPane, KeyValuePane, MethodDropdown, PayloadTab, ResponsePanel,
+    };
 
     #[derive(CompositeTemplate, Properties, Default)]
     #[template(resource = "/es/danirod/Cartero/endpoint_pane.ui")]
@@ -64,6 +69,9 @@ mod imp {
 
         #[template_child]
         pub payload_pane: TemplateChild<PayloadTab>,
+
+        #[template_child]
+        pub export_pane: TemplateChild<ExportTab>,
 
         #[template_child]
         pub response: TemplateChild<ResponsePanel>,
@@ -105,8 +113,10 @@ mod imp {
             self.parameter_pane.assert_always_placeholder();
 
             let url_arc = self.variable_changing.clone();
-            self.request_url
-                .connect_changed(glib::clone!(@weak self as window => move |_| {
+            self.request_url.connect_changed(glib::clone!(
+                #[weak(rename_to = window)]
+                self,
+                move |_| {
                     // It is important to allow the redundant pattern matching because
                     // is_ok() does not capture the mutex and will cause sync issues.
                     #[allow(clippy::redundant_pattern_matching)]
@@ -115,11 +125,14 @@ mod imp {
                             println!("{err}");
                         }
                     }
-                }));
+                }
+            ));
 
             let parameter_arc = self.variable_changing.clone();
-            self.parameter_pane
-                .connect_changed(glib::clone!(@weak self as window => move |_| {
+            self.parameter_pane.connect_changed(glib::clone!(
+                #[weak(rename_to = window)]
+                self,
+                move |_| {
                     // It is important to allow the redundant pattern matching because
                     // is_ok() does not capture the mutex and will cause sync issues.
                     #[allow(clippy::redundant_pattern_matching)]
@@ -128,7 +141,23 @@ mod imp {
                             println!("{err}");
                         }
                     }
-                }));
+                }
+            ));
+
+            // update export pane data when user selects another option in the combo box.
+            self.export_pane.connect_changed(glib::clone!(
+                #[weak(rename_to = window)]
+                self,
+                move |_| {
+                    if window.export_pane.imp().export_type() == ExportType::Curl {
+                        if let Ok(data) = window.extract_endpoint() {
+                            window.export_pane_load_endpoint_data(&data);
+                        }
+                    }
+                }
+            ));
+
+            self.configure_export_pane_bindings();
         }
     }
 
@@ -161,9 +190,8 @@ mod imp {
         fn update_query_params(&self) -> Result<(), url::ParseError> {
             let parsed_url = self.request_url.text().to_string();
             let url = Url::parse(&parsed_url)?;
-            let pairs = url.query_pairs();
-
-            let entries: Vec<KeyValueItem> = pairs
+            let new_query_pairs = url.query_pairs();
+            let mut new_query_entries: Vec<KeyValueItem> = new_query_pairs
                 .map(|(key, value)| {
                     let key = String::from(key);
                     let value = String::from(value);
@@ -174,7 +202,15 @@ mod imp {
                     value
                 })
                 .collect();
-            self.parameter_pane.set_entries(&entries);
+
+            let old_entries = self.parameter_pane.get_entries();
+            let old_entries: Vec<KeyValueItem> = old_entries
+                .into_iter()
+                .filter(|entry| !entry.active())
+                .collect();
+            new_query_entries.extend(old_entries);
+
+            self.parameter_pane.set_entries(&new_query_entries);
             Ok(())
         }
 
@@ -185,16 +221,36 @@ mod imp {
         }
 
         fn init_dirty_events(&self) {
-            self.request_method
-                .connect_changed(glib::clone!(@weak self as pane => move |_| pane.mark_dirty()));
-            self.request_url
-                .connect_changed(glib::clone!(@weak self as pane => move |_| pane.mark_dirty()));
-            self.payload_pane
-                .connect_changed(glib::clone!(@weak self as pane => move |_| pane.mark_dirty()));
-            self.header_pane
-                .connect_changed(glib::clone!(@weak self as pane => move |_| pane.mark_dirty()));
-            self.variable_pane
-                .connect_changed(glib::clone!(@weak self as pane => move |_| pane.mark_dirty()));
+            self.request_method.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| pane.mark_dirty()
+            ));
+            self.request_url.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| pane.mark_dirty()
+            ));
+            self.payload_pane.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| pane.mark_dirty()
+            ));
+            self.export_pane.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| pane.mark_dirty()
+            ));
+            self.header_pane.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| pane.mark_dirty()
+            ));
+            self.variable_pane.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| pane.mark_dirty()
+            ));
         }
 
         fn init_settings(&self) {
@@ -203,11 +259,14 @@ mod imp {
             let initial_position = SettingsExtManual::get(settings, "paned-position");
             self.paned.set_position(initial_position);
 
-            self.paned
-                .connect_position_notify(glib::clone!(@weak settings => move |paned| {
+            self.paned.connect_position_notify(glib::clone!(
+                #[weak]
+                settings,
+                move |paned| {
                     let new_position = paned.position();
                     let _ = settings.set("paned-position", new_position);
-                }));
+                }
+            ));
         }
 
         /// Syncs whether the Send button can be clicked based on whether the request is formed.
@@ -223,11 +282,72 @@ mod imp {
         #[template_callback]
         fn on_url_changed(&self) {
             self.update_send_button_sensitivity();
+
+            if let Ok(data) = self.extract_endpoint() {
+                self.export_pane_load_endpoint_data(&data);
+            }
         }
 
         #[template_callback]
         fn on_url_activated(&self) {
             let _ = self.obj().activate_action("win.request", None);
+        }
+
+        /// Loads data for the export pane module by using an `EndpointData` structure.
+        fn export_pane_load_endpoint_data(&self, endpoint: &EndpointData) {
+            let req_export_type = self.export_pane.request_export_type();
+
+            if let RequestExportType::None = req_export_type {
+                return;
+            }
+
+            if let RequestExportType::Curl(_) = req_export_type {
+                self.export_pane
+                    .set_request_export_type(&RequestExportType::Curl(endpoint.clone()));
+            }
+        }
+
+        /// Retrieves `EndpointData` and builds a new state for the export request module.
+        fn update_export_pane(&self) {
+            if let Ok(data) = self.extract_endpoint() {
+                self.export_pane_load_endpoint_data(&data);
+            }
+        }
+
+        /// Connect ourself to every widget in order to pass new data and rehydrate the
+        /// export pane module so it gets realtime, maybe we should consider doing some
+        /// kind of reactive bindings?
+        fn configure_export_pane_bindings(&self) {
+            self.request_method.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| pane.update_export_pane()
+            ));
+            self.request_url.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| pane.update_export_pane()
+            ));
+            self.payload_pane.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| pane.update_export_pane()
+            ));
+            self.export_pane.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| pane.update_export_pane()
+            ));
+            self.header_pane.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| pane.update_export_pane()
+            ));
+            self.variable_pane.connect_changed(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| pane.update_export_pane()
+            ));
         }
 
         /// Sets the value of every widget in the pane into whatever is set by the given endpoint.
@@ -248,12 +368,25 @@ mod imp {
             self.header_pane.set_entries(&headers);
             self.variable_pane.set_entries(&variables);
             self.payload_pane.set_payload(&endpoint.body);
+            self.export_pane_load_endpoint_data(endpoint);
+
+            // Merge parameters
+            let active_params: Vec<KeyValueItem> = self.parameter_pane.get_entries();
+            let parameters = {
+                let mut params = active_params.clone();
+                for param in endpoint.parameters.clone().iter() {
+                    params.push(KeyValueItem::from(param.clone()));
+                }
+                params
+            };
+            self.parameter_pane.set_entries(&parameters);
         }
 
         /// Takes the current state of the pane and extracts it into an Endpoint value.
         pub(super) fn extract_endpoint(&self) -> Result<EndpointData, CarteroError> {
             let header_list = self.header_pane.get_entries();
             let variable_list = self.variable_pane.get_entries();
+            let parameter_list = self.parameter_pane.get_entries();
 
             let url = String::from(self.request_url.buffer().text());
             let method = self.request_method.request_method();
@@ -276,11 +409,20 @@ mod imp {
                     secret: pair.secret(),
                 })
                 .collect();
-
+            let parameters = parameter_list
+                .iter()
+                .map(|pair| KeyValue {
+                    name: pair.header_name(),
+                    value: pair.header_value(),
+                    active: pair.active(),
+                    secret: pair.secret(),
+                })
+                .collect();
             let body = self.payload_pane.payload();
             Ok(EndpointData {
                 url,
                 method,
+                parameters,
                 headers,
                 variables,
                 body,
@@ -290,17 +432,35 @@ mod imp {
         /// Executes an HTTP request based on the current contents of the pane.
         pub(super) async fn perform_request(&self) -> Result<(), CarteroError> {
             let request = self.extract_endpoint()?;
-            let request = BoundRequest::try_from(request)?;
-            let request_obj = isahc::Request::try_from(request)?;
+            let request = BoundRequest::try_from(request);
 
-            let start = Instant::now();
-            let mut response_obj = request_obj
-                .send_async()
-                .await
-                .map_err(RequestError::NetworkError)?;
-            let response = crate::client::extract_isahc_response(&mut response_obj, &start).await?;
-            self.response.assign_from_response(&response);
-            Ok(())
+            // A special case before giving up: if the protocol is not specified, add it.
+            if let Err(RequestPreconditionError::MissingProtocol) = request {
+                // The URL is not considered an absolute URL, missing protocol.
+                let url_field = self.request_url.text().to_string();
+                let url_field = format!("http://{}", url_field);
+                self.request_url.set_text(&url_field);
+
+                // Now try again.
+                return std::boxed::Box::pin(self.perform_request()).await;
+            }
+
+            match request {
+                Ok(request) => {
+                    // Execute the request.
+                    let request_obj = isahc::Request::try_from(request)?;
+                    let start = Instant::now();
+                    let mut response_obj = request_obj
+                        .send_async()
+                        .await
+                        .map_err(RequestError::NetworkError)?;
+                    let response =
+                        crate::client::extract_isahc_response(&mut response_obj, &start).await?;
+                    self.response.assign_from_response(&response);
+                    Ok(())
+                }
+                Err(e) => Err(CarteroError::from(e)),
+            }
         }
     }
 }
@@ -336,10 +496,20 @@ impl EndpointPane {
     /// will probably change once collections are correctly implemented,
     /// since the EndpointPane would be probably bound to an Endpoint object.
     pub async fn perform_request(&self) -> Result<(), CarteroError> {
+        self.set_sensitive(false);
         let imp = self.imp();
         imp.response.set_spinning(true);
-        let outcome = imp.perform_request().await;
+
+        let result = catch_unwind(AssertUnwindSafe(move || {
+            block_on(async { imp.perform_request().await })
+        }));
+
         imp.response.set_spinning(false);
-        outcome
+        self.set_sensitive(true);
+
+        match result {
+            Ok(inner) => inner,
+            Err(_) => Err(CarteroError::InternalError),
+        }
     }
 }

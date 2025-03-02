@@ -1,0 +1,6 @@
+[book]
+authors = ["Dani Rodríguez"]
+language = "en"
+multilingual = true
+src = "doc"
+title = "Cartero Docs"

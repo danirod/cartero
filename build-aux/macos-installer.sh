@@ -13,7 +13,6 @@ function package_app() {
 
         mkdir -p build/cartero-darwin-dmg
         cp -Rf "$1" build/cartero-darwin-dmg
-        codesign --sign - --force --deep "build/cartero-darwin-dmg/$app_name"
         ln -s /Applications build/cartero-darwin-dmg/Applications
         hdiutil create -srcFolder build/cartero-darwin-dmg -volname "Cartero" -o "$2"
         rm -rf build/cartero-darwin-dmg

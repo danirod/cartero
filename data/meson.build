@@ -16,6 +16,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 blueprint_files = [
+  'ui/collection_pane.blp',
   'gtk/help_overlay.blp',
   'ui/code_export_pane.blp',
   'ui/endpoint_pane.blp',
@@ -30,6 +31,10 @@ blueprint_files = [
   'ui/raw_payload_pane.blp',
   'ui/response_headers.blp',
   'ui/response_panel.blp',
+  'ui/new_collection_window.blp',
+  'ui/new_request_window.blp',
+  'ui/sidebar.blp',
+  'ui/sidebar_row.blp',
   'ui/save_dialog.blp',
   'ui/search_box.blp',
   'ui/settings_dialog.blp',

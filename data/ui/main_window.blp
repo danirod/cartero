@@ -22,153 +22,163 @@ template $CarteroWindow: Adw.ApplicationWindow {
   title: "Cartero";
 
   [content]
-  Adw.ToolbarView {
-    top-bar-style: raised;
-
-    [top]
-    Adw.HeaderBar {
-      title-widget: Adw.WindowTitle window_title {
-        title: 'Cartero';
-      };
-
-      [start]
-      Box {
-        spacing: 5;
-
-        Button {
-          action-name: "win.new";
-          icon-name: 'tab-new-symbolic';
-          tooltip-text: _("New");
+  Adw.OverlaySplitView split_view {
+    sidebar: Adw.ToolbarView {
+      [top]
+      Adw.HeaderBar {
+        [start]
+        MenuButton {
+          icon-name: "list-add-symbolic";
+          menu-model: new_menu;
         }
 
-        Separator {}
+        [end]
+        MenuButton {
+          icon-name: "open-menu-symbolic";
+          primary: true;
+          menu-model: main_menu;
+        }
+      }
 
-        Button open_dialog {
-          styles [
-            "flat",
-          ]
+      $CarteroSidebar collections {}
+    };
 
-          action-name: "win.open";
-          tooltip-text: _("Open");
+    content: Adw.ToolbarView {
+      [top]
+      Adw.HeaderBar {
+        title-widget: Adw.WindowTitle window_title {
+          title: 'Cartero';
+        };
 
-          [child]
-          Box {
-            spacing: 5;
+        Label main_label {}
+      }
 
-            Image {
-              icon-name: 'document-open-symbolic';
-            }
+      [top]
+      Gtk.Box {
+        orientation: vertical;
 
-            Label {
-              label: _("Open");
-            }
+        Adw.TabBar tabs {
+          view: tabview;
+        }
+      }
+
+      Adw.ToastOverlay toaster {
+        Stack stack {
+          StackPage {
+            name: "welcome";
+
+            child: Adw.StatusPage {
+              vexpand: true;
+              title: _("Welcome to Cartero");
+              description: _("Create or open a request and start testing APIs now.");
+              icon-name: "es.danirod.Cartero-symbolic";
+
+              child: Adw.Clamp {
+                maximum-size: 500;
+
+                Gtk.Box {
+                  orientation: vertical;
+
+                  Gtk.Button {
+                    styles [
+                      "pill",
+                      "suggested-action",
+                    ]
+
+                    action-name: "win.new-collection";
+
+                    child: Adw.ButtonContent {
+                      icon-name: "folder-new-symbolic";
+                      label: _("New collection");
+                    };
+                  }
+
+                  Gtk.Button {
+                    styles [
+                      "pill",
+                    ]
+
+                    action-name: "win.open-collection";
+
+                    child: Adw.ButtonContent {
+                      icon-name: "folder-open-symbolic";
+                      label: _("Open collection");
+                    };
+                  }
+
+                  Gtk.Button {
+                    styles [
+                      "pill",
+                    ]
+
+                    action-name: "win.new";
+
+                    child: Adw.ButtonContent {
+                      icon-name: "tab-new-symbolic";
+                      label: _("New scratchpad");
+                    };
+                  }
+                }
+              };
+            };
+          }
+
+          StackPage {
+            name: "tabview";
+
+            child: Adw.TabView tabview {};
           }
         }
-
-        Button save_dialog {
-          action-name: "win.save";
-          icon-name: 'document-save-symbolic';
-          tooltip-text: _("Save");
-        }
       }
+    };
+  }
+}
 
-      [end]
-      MenuButton {
-        icon-name: "open-menu-symbolic";
-        primary: true;
-        menu-model: main_menu;
-      }
+menu new_menu {
+  section {
+    item {
+      label: _("New collection");
+      action: "win.new-collection";
     }
 
-    [top]
-    Adw.TabBar tabs {
-      view: tabview;
+    item {
+      label: _("New request");
+      action: "win.new";
     }
+  }
 
-    Adw.ToastOverlay toaster {
-      Stack stack {
-        StackPage {
-          name: "welcome";
-
-          child: Adw.StatusPage {
-            vexpand: true;
-            title: _("Welcome to Cartero");
-            description: _("Create or open a request and start testing APIs now.");
-            icon-name: "es.danirod.Cartero-symbolic";
-
-            child: Adw.Clamp {
-              maximum-size: 500;
-
-              Gtk.Box {
-                orientation: vertical;
-
-                Gtk.Button {
-                  styles [
-                    "pill",
-                    "suggested-action",
-                  ]
-
-                  action-name: "win.new";
-
-                  child: Adw.ButtonContent {
-                    icon-name: "tab-new-symbolic";
-                    label: _("New tab");
-                  };
-                }
-
-                Gtk.Button {
-                  styles [
-                    "pill",
-                  ]
-
-                  action-name: "win.open";
-
-                  child: Adw.ButtonContent {
-                    icon-name: "document-open-symbolic";
-                    label: _("Open request…");
-                  };
-                }
-              }
-            };
-          };
-        }
-
-        StackPage {
-          name: "tabview";
-
-          child: Adw.TabView tabview {};
-        }
-      }
+  section {
+    item {
+      label: _("New scratchpad");
+      action: "win.new-scratchpad";
     }
   }
 }
 
 menu main_menu {
-  section {
-    item {
-      label: _("New tab");
-      action: "win.new";
-    }
+  item {
+    label: _("Open collection...");
+    action: "win.open-collection";
+  }
 
-    item {
-      label: _("Open request…");
-      action: "win.open";
-    }
+  item {
+    label: _("Open request...");
+    action: "win.open";
+  }
 
-    item {
-      label: _("Save request");
-      action: "win.save";
-    }
+  item {
+    label: _("Save request");
+    action: "win.save";
+  }
 
-    item {
-      label: _("Save request as…");
-      action: "win.save-as";
-    }
+  item {
+    label: _("Save request as...");
+    action: "win.save-as";
+  }
 
-    item {
-      label: _("Close tab");
-      action: "win.close";
-    }
+  item {
+    label: _("Close tab");
+    action: "win.close";
   }
 
   section {

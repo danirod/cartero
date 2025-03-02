@@ -16,6 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 mod code_view;
+mod collection_pane;
 mod endpoint_pane;
 mod export_tab;
 mod file_dialogs;
@@ -23,10 +24,16 @@ mod item_pane;
 mod key_value_pane;
 mod key_value_row;
 mod method_dropdown;
+mod new_collection_window;
+mod new_request_window;
 mod request_body;
 mod response_headers;
 mod response_panel;
 mod save_dialog;
+mod sidebar;
+mod sidebar_row;
+
+pub use collection_pane::CollectionPane;
 mod search_box;
 
 pub use code_view::CodeView;
@@ -37,8 +44,11 @@ pub use item_pane::ItemPane;
 pub use key_value_pane::KeyValuePane;
 pub use key_value_row::KeyValueRow;
 pub use method_dropdown::MethodDropdown;
+pub use new_collection_window::NewCollectionWindow;
+pub use new_request_window::NewRequestWindow;
 pub use request_body::*;
 pub use response_headers::ResponseHeaders;
 pub use response_panel::ResponsePanel;
 pub use save_dialog::SaveDialog;
 pub use search_box::SearchBox;
+pub use sidebar::Sidebar;

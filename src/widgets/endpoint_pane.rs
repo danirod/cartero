@@ -355,16 +355,10 @@ mod imp {
             self.request_url.buffer().set_text(endpoint.url.clone());
             self.request_method
                 .set_request_method(endpoint.method.clone());
-            let headers: Vec<KeyValueItem> = endpoint
-                .headers
-                .iter()
-                .map(|item| KeyValueItem::from(item.clone()))
-                .collect();
-            let variables: Vec<KeyValueItem> = endpoint
-                .variables
-                .iter()
-                .map(|item| KeyValueItem::from(item.clone()))
-                .collect();
+            let headers: Vec<KeyValueItem> =
+                endpoint.headers.iter().map(KeyValueItem::from).collect();
+            let variables: Vec<KeyValueItem> =
+                endpoint.variables.iter().map(KeyValueItem::from).collect();
             self.header_pane.set_entries(&headers);
             self.variable_pane.set_entries(&variables);
             self.payload_pane.set_payload(&endpoint.body);
@@ -372,13 +366,9 @@ mod imp {
 
             // Merge parameters
             let active_params: Vec<KeyValueItem> = self.parameter_pane.get_entries();
-            let parameters = {
-                let mut params = active_params.clone();
-                for param in endpoint.parameters.clone().iter() {
-                    params.push(KeyValueItem::from(param.clone()));
-                }
-                params
-            };
+            let params = endpoint.parameters.iter().map(KeyValueItem::from);
+            let parameters: Vec<KeyValueItem> = active_params.into_iter().chain(params).collect();
+
             self.parameter_pane.set_entries(&parameters);
         }
 

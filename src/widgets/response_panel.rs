@@ -196,10 +196,7 @@ impl ResponsePanel {
 
         let mut headers = resp.headers.clone();
         headers.sort();
-        let headers: Vec<KeyValueItem> = headers
-            .iter()
-            .map(|kv| KeyValueItem::from(kv.clone()))
-            .collect();
+        let headers: Vec<KeyValueItem> = headers.iter().map(KeyValueItem::from).collect();
 
         let store = ListStore::with_type(KeyValueItem::static_type());
         store.extend_from_slice(&headers);

@@ -338,15 +338,13 @@ impl From<EndpointData> for RequestFile {
         let headers = value.headers.into();
         let variables = value.variables.into();
 
-        let parameters = {
-            let mut entries = Vec::new();
-            for param in value.parameters.iter() {
-                if !param.active {
-                    entries.push(param.clone());
-                }
-            }
-            KeyValueTable::new(&entries)
-        };
+        let inactive_params: Vec<_> = value
+            .parameters
+            .iter()
+            .filter(|v| !v.active)
+            .map(Clone::clone)
+            .collect();
+        let inactive_params = KeyValueTable::new(&inactive_params);
 
         RequestFile {
             version: 1,
@@ -355,7 +353,7 @@ impl From<EndpointData> for RequestFile {
             body,
             headers: Some(headers),
             variables: Some(variables),
-            inactive_params: Some(parameters.into()),
+            inactive_params: Some(inactive_params.into()),
         }
     }
 }

@@ -164,7 +164,7 @@ impl CarteroApplication {
     }
 
     pub fn css_provider(&self) -> &CssProvider {
-        self.imp().provider.get_or_init(|| CssProvider::new())
+        self.imp().provider.get_or_init(CssProvider::new)
     }
 
     fn setup_color_scheme(&self) {

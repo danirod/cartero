@@ -1,3 +1,20 @@
+// Copyright 2024-2025 the Cartero authors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 use gettextrs::gettext;
 use glib::{prelude::Cast, types::StaticType};
 use gtk::{
@@ -7,164 +24,135 @@ use gtk::{
 };
 use std::path::PathBuf;
 
-use crate::{app::CarteroApplication, error::CarteroError, win::CarteroWindow};
+use crate::{app::CarteroApplication, win::CarteroWindow};
 
-fn get_cartero_file_filter() -> FileFilter {
-    let filter = FileFilter::new();
-    filter.add_pattern("*.cartero");
-    if cfg!(not(target_os = "windows")) {
-        filter.add_mime_type("application/cartero");
-        filter.add_suffix("cartero");
-        filter.set_name(Some(&gettext("Request (.cartero)")));
-    } else {
-        filter.set_name(Some(&gettext("Request")));
-    }
-    filter
+/// Creates a brand new file dialog with the filters already set. Note that
+/// there is still no title or button text. Make sure to set the values before
+/// presenting the dialog.
+fn new_file_dialog() -> FileDialog {
+    let filters = ListStore::with_type(FileFilter::static_type());
+    let filter = {
+        let filter = FileFilter::new();
+        filter.add_pattern("*.cartero");
+        if cfg!(not(target_os = "windows")) {
+            filter.add_mime_type("application/cartero");
+            filter.add_suffix("cartero");
+            filter.set_name(Some(&gettext("Request (.cartero)")));
+        } else {
+            filter.set_name(Some(&gettext("Request")));
+        }
+        filter
+    };
+    filters.append(&filter);
+
+    FileDialog::builder()
+        .filters(&filters)
+        .default_filter(&filter)
+        .modal(true)
+        .build()
 }
 
-// Allowing dead_code here because I am going to use this later.
-#[allow(dead_code)]
-pub async fn open_file(win: &CarteroWindow) -> Result<gio::File, CarteroError> {
-    let filters = ListStore::with_type(FileFilter::static_type());
-    let cartero = get_cartero_file_filter();
-    filters.append(&cartero);
+/// The settings key to use where the directory of the last opened file is.
+/// The next time the open file dialog is called, this is where we start.
+const LAST_OPEN_DIR: &'static str = "last-open-dir";
 
-    let dialog = FileDialog::builder()
-        .accept_label(gettext("Open"))
-        .title(gettext("Open request"))
-        .filters(&filters)
-        .default_filter(&cartero)
-        .modal(true)
-        .build();
+/// The settings key to use where the directory of the last saved file is.
+/// The next time the save file dialog is called, this is where we start.
+const LAST_SAVE_DIR: &'static str = "last-save-dir";
 
-    let app = CarteroApplication::get();
-    let settings = app.settings();
-    if let Some(dir) = settings.get::<Option<String>>("last-open-dir") {
-        let path = PathBuf::from(&dir);
-        let file = gtk::gio::File::for_path(path);
-        dialog.set_initial_folder(Some(&file));
-    }
+/// Returns the gio::File for the path stored in the settings under the key.
+fn get_file_setting(key: &str) -> Option<gio::File> {
+    let application = CarteroApplication::get();
+    let settings = application.settings();
 
-    let file = dialog.open_future(Some(win)).await.map_err(|e| {
-        if let Some(file_error) = e.kind::<DialogError>() {
-            match file_error {
-                DialogError::Dismissed => CarteroError::NoFilePicked,
-                _ => CarteroError::FileDialogError,
-            }
-        } else {
-            CarteroError::FileDialogError
-        }
-    })?;
-
-    if let Some(folder) = file.parent() {
-        if let Some(location) = folder.path() {
-            let string = location.to_str().ok_or(CarteroError::FileDialogError)?;
-            settings
-                .set("last-open-dir", Some(string))
-                .map_err(|_| CarteroError::FileDialogError)?;
-        }
-    }
-
-    Ok(file)
+    settings.get::<Option<String>>(key).map(|path| {
+        let path = PathBuf::from(&path);
+        gio::File::for_path(path)
+    })
 }
 
-pub async fn open_files(win: &CarteroWindow) -> Result<Vec<gio::File>, CarteroError> {
-    let filters = ListStore::with_type(FileFilter::static_type());
-    let cartero = get_cartero_file_filter();
-    filters.append(&cartero);
+/// Saves the path to the given file in the settings under the assigned key.
+/// It the given file is None, then the assigned key will be reset to the
+/// default value.
+fn set_file_setting(key: &str, value: Option<&gio::File>) {
+    let application = CarteroApplication::get();
+    let settings = application.settings();
 
-    let dialog = FileDialog::builder()
-        .accept_label(gettext("Open"))
-        .title(gettext("Open request"))
-        .filters(&filters)
-        .default_filter(&cartero)
-        .modal(true)
-        .build();
-
-    let app = CarteroApplication::get();
-    let settings = app.settings();
-    if let Some(dir) = settings.get::<Option<String>>("last-open-dir") {
-        let path = PathBuf::from(&dir);
-        let file = gtk::gio::File::for_path(path);
-        dialog.set_initial_folder(Some(&file));
+    let path = value
+        .and_then(|file| file.path())
+        .and_then(|path| path.to_str().map(String::from));
+    if let Err(e) = settings.set(key, path) {
+        glib::g_warning!(
+            "Cartero",
+            "Couldn't persist a new value for key {}: {}",
+            key,
+            e
+        );
     }
+}
 
-    let files = dialog.open_multiple_future(Some(win)).await.map_err(|e| {
-        if let Some(file_error) = e.kind::<DialogError>() {
-            match file_error {
-                DialogError::Dismissed => CarteroError::NoFilePicked,
-                _ => CarteroError::FileDialogError,
+/// Opens a GTK open file dialog that can be used to open endpoint files. The
+/// list of endpoint files opened will be returned. If the user cancels the
+/// operation, an empty list will be returned. This function returns a Result,
+/// but the conditions on which the file dialog will actually fail are obscure.
+pub async fn open_files(win: &CarteroWindow) -> Result<Vec<gio::File>, glib::Error> {
+    /* Create the open dialog. */
+    let dialog = new_file_dialog();
+    dialog.set_accept_label(Some(&gettext("Open")));
+    dialog.set_title(&gettext("Open request"));
+    dialog.set_initial_folder(get_file_setting(LAST_OPEN_DIR).as_ref());
+
+    let files = match dialog.open_multiple_future(Some(win)).await {
+        Ok(result) => Ok(result),
+        Err(e) => match e.kind::<DialogError>() {
+            /* The dialog treats cancellation or dismission as an error. Swallow the error in that case. */
+            Some(DialogError::Cancelled | DialogError::Dismissed) => {
+                glib::g_info!("Cartero", "File open dialog cancelled by user");
+                return Ok(Vec::new());
             }
-        } else {
-            CarteroError::FileDialogError
-        }
-    })?;
+            _ => Err(e),
+        },
+    }?;
 
-    let files: Result<Vec<gio::File>, _> = files
+    let files: Vec<gio::File> = files
         .snapshot()
         .into_iter()
-        .map(|obj| obj.downcast::<gio::File>())
-        .collect::<Result<Vec<gio::File>, _>>();
+        .map(|obj| obj.downcast::<gio::File>().unwrap())
+        .collect::<Vec<gio::File>>();
 
-    match files {
-        Ok(files) => {
-            let parents = files
-                .iter()
-                .filter_map(gio::File::parent)
-                .collect::<Vec<gio::File>>();
-            if let Some(location) = parents.first().and_then(gio::File::path) {
-                let string = location.to_str().ok_or(CarteroError::FileDialogError)?;
-                settings
-                    .set("last-open-dir", Some(string))
-                    .map_err(|_| CarteroError::FileDialogError)?;
-            }
-            Ok(files)
-        }
-        Err(_) => Err(CarteroError::FileDialogError),
+    /* Update the last open dir, but only if files were actually picked. */
+    if let Some(first_file) = files.first() {
+        set_file_setting(LAST_OPEN_DIR, first_file.parent().as_ref());
     }
+    Ok(files)
 }
 
-pub async fn save_file(win: &CarteroWindow) -> Result<gio::File, CarteroError> {
-    let filters = ListStore::with_type(FileFilter::static_type());
-    let cartero = get_cartero_file_filter();
-    filters.append(&cartero);
+/// Opens a GTK save file dialog that can be used to pick a save location.
+/// The file that the user has requested to use will be returned. If the user
+/// cancels the operation, the returned result will be empty. The conditions
+/// for a glib::Error are obscure.
+pub async fn save_file(win: &CarteroWindow) -> Result<Option<gio::File>, glib::Error> {
+    /* Create the save dialog. */
+    let dialog = new_file_dialog();
+    dialog.set_accept_label(Some(&gettext("Save")));
+    dialog.set_title(&gettext("Save request"));
+    dialog.set_initial_folder(get_file_setting(LAST_SAVE_DIR).as_ref());
 
-    let dialog = FileDialog::builder()
-        .accept_label(gettext("Save"))
-        .title(gettext("Save request"))
-        .modal(true)
-        .filters(&filters)
-        .default_filter(&cartero)
-        .initial_name("request.cartero")
-        .build();
-
-    let app = CarteroApplication::get();
-    let settings = app.settings();
-    if let Some(dir) = settings.get::<Option<String>>("last-save-dir") {
-        let path = PathBuf::from(&dir);
-        let file = gtk::gio::File::for_path(path);
-        dialog.set_initial_folder(Some(&file));
-    }
-
-    let file = dialog.save_future(Some(win)).await.map_err(|e| {
-        if let Some(file_error) = e.kind::<DialogError>() {
-            match file_error {
-                DialogError::Dismissed => CarteroError::NoFilePicked,
-                _ => CarteroError::FileDialogError,
+    let file = match dialog.save_future(Some(win)).await {
+        Ok(result) => Ok(Some(result)),
+        Err(e) => match e.kind::<DialogError>() {
+            /* The dialog treats cancellation or dismission as an error. Swallow the error in that case. */
+            Some(DialogError::Cancelled | DialogError::Dismissed) => {
+                glib::g_info!("Cartero", "File save dialog cancelled by user");
+                return Ok(None);
             }
-        } else {
-            CarteroError::FileDialogError
-        }
-    })?;
+            _ => Err(e),
+        },
+    }?;
 
-    if let Some(folder) = file.parent() {
-        if let Some(location) = folder.path() {
-            let string = location.to_str().ok_or(CarteroError::FileDialogError)?;
-            settings
-                .set("last-save-dir", Some(string))
-                .map_err(|_| CarteroError::FileDialogError)?;
-        }
+    /* Update the last save dir, but only if a file was actually picked. */
+    if let Some(file) = &file {
+        set_file_setting(LAST_SAVE_DIR, file.parent().as_ref());
     }
-
     Ok(file)
 }

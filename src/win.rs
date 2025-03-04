@@ -15,19 +15,26 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use crate::{app::CarteroApplication, error::CarteroError};
+use crate::{
+    app::CarteroApplication, error::CarteroError, file::FileLoadFailure, widgets::ItemPane,
+};
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
-use gtk::{gio, glib, prelude::SettingsExtManual};
+use gtk::{gio, glib};
+use indexmap::IndexMap;
 
 mod imp {
-    use adw::prelude::AlertDialogExtManual;
+    use std::collections::HashSet;
+
     use adw::AboutWindow;
     use adw::{subclass::prelude::*, TabPage};
     use gettextrs::gettext;
     use gtk::gio::{self, ActionEntry};
     use gtk::prelude::*;
+    use indexmap::IndexMap;
 
+    use crate::error::FileSaveError;
+    use crate::file::{FileLoadFailure, FileLoadResult};
     use crate::utils::SingleExpressionWatch;
     use crate::{app::CarteroApplication, error::CarteroError};
     use crate::{config, widgets::*};
@@ -153,11 +160,6 @@ mod imp {
             let _ = settings.set("is-maximized", obj.is_maximized());
         }
 
-        fn finish_window_close(&self) -> glib::Propagation {
-            self.save_window_state();
-            glib::Propagation::Proceed
-        }
-
         pub fn save_visible_tabs(&self) {
             let pages = self.tabview.pages();
             let count = pages.n_items();
@@ -204,111 +206,308 @@ mod imp {
                 })
         }
 
-        pub async fn add_endpoint(&self, file: Option<&gio::File>) {
-            if let Some(file) = file {
-                if let Some(tab) = self.find_pane_by_path(file) {
-                    self.tabview.set_selected_page(&tab);
-                    return;
+        fn insert_pane_into_tabs(&self, pane: &ItemPane) -> TabPage {
+            // Wrap the pane into a page and mark it as the current one.
+            let page = self.tabview.add_page(pane, None);
+            self.stack.set_visible_child_name("tabview");
+            self.tabview.set_selected_page(&page);
+
+            // Define the bindings that act on the tab indicator.
+            pane.window_title_binding().bind(&page, "title", Some(pane));
+            pane.window_subtitle_binding()
+                .bind(&page, "tooltip", Some(pane));
+
+            page
+        }
+
+        /// This is the callback that gets called when the "New endpoint" action
+        /// is triggered via the header bar button, the dropdown menu item or
+        /// the key binding. Also triggered by the "New endpoint" button in the
+        /// welcome screen.
+        pub(super) fn action_new_endpoint(&self) {
+            self.kill_clean_drafts();
+
+            let pane = ItemPane::new_for_endpoint();
+            self.insert_pane_into_tabs(&pane);
+        }
+
+        /// Returns a generic iterator to traverse the pages in the tab view.
+        fn iter_pages(&self) -> impl Iterator<Item = TabPage> {
+            self.tabview
+                .pages()
+                .snapshot()
+                .into_iter()
+                .map(|obj| obj.downcast::<adw::TabPage>().unwrap())
+        }
+
+        /// Returns a generic iterator to traverse the panes in the tab view.
+        fn iter_panes(&self) -> impl Iterator<Item = ItemPane> {
+            self.iter_pages()
+                .map(|page| page.child().downcast::<ItemPane>().unwrap())
+        }
+
+        /// This function receives an iterator of gio::Files to open, and returns a filtered
+        /// subset of these files where any file that is already opened has been removed.
+        fn filter_endpoints_to_open(&self, endpoints: &[gio::File]) -> Vec<gio::File> {
+            let opened = self
+                .iter_panes()
+                .filter_map(|pane| pane.file().map(|file| file.uri().to_string()))
+                .collect::<HashSet<String>>();
+
+            endpoints
+                .into_iter()
+                .filter_map(|file| {
+                    if opened.contains(file.uri().as_str()) {
+                        None
+                    } else {
+                        Some(file.clone())
+                    }
+                })
+                .collect::<Vec<gio::File>>()
+        }
+
+        /// Given a list of endpoint files to open, this function will return the collection of
+        /// ItemPanes that back the given endpoints. They will be loaded and the UI state will
+        /// be populated, but they won't be added to the user interface yet.
+        async fn preload_endpoints<I>(
+            &self,
+            files: I,
+        ) -> IndexMap<ItemPane, Option<FileLoadFailure>>
+        where
+            I: IntoIterator<Item = gio::File> + Clone,
+        {
+            let mut loaded = IndexMap::new();
+            for file in files {
+                let pane = ItemPane::new_for_endpoint();
+                pane.set_file(Some(file.clone()));
+                let endpoint = pane.endpoint().expect("new_for_endpoint()?");
+                let result = endpoint.load().await;
+                loaded.insert(pane, result.failure());
+            }
+            loaded
+        }
+
+        async fn display_opened_panes(&self, panes: &IndexMap<ItemPane, Option<FileLoadFailure>>) {
+            for (pane, failures) in panes {
+                let can_open = match failures {
+                    None => true,
+                    Some(f) => f.error.is_none(),
+                };
+                if can_open {
+                    self.insert_pane_into_tabs(&pane);
                 }
             }
+        }
 
-            /* If the current tab is a new document, replace it. */
+        /// This is the callback that gets called when the "Open endpoint" action
+        /// is triggered via the header bar button, the dropdown menu item or
+        /// the key binding. Also triggered by the "Open endpoint" button in the
+        /// welcome screen.
+        async fn action_open_endpoint(&self) {
+            let all_paths = self.gracefully_prompt_open_files().await;
+            let not_opened_paths = self.filter_endpoints_to_open(&all_paths);
+
+            if not_opened_paths.is_empty() {
+                /* Every requested file is opened. Just switch to one of the requested panes. */
+                if let Some(path) = all_paths.first() {
+                    if let Some(page) = self.find_pane_by_path(path) {
+                        self.tabview.set_selected_page(&page);
+                    }
+                }
+            } else {
+                let results = self.preload_endpoints(not_opened_paths).await;
+
+                /* Because this is interactive, we can do all the UI update right now. */
+                self.display_opened_panes(&results).await;
+                self.report_open_endpoints_errors(&results).await;
+            }
+
+            self.save_visible_tabs();
+        }
+
+        /// This is the function that can be called from the outside to open a few
+        /// endpoints on the current window given the list of files to be opened.
+        ///
+        /// It behaves similar to action_open_endpoint(), but does not assume that
+        /// the window is visible, thus does not report errors. Errors are returned
+        /// in the return object so that they can be reported later via the
+        /// report_open_endpoints_errors() function.
+        pub(super) async fn open_endpoints(
+            &self,
+            files: &[gio::File],
+        ) -> IndexMap<ItemPane, Option<FileLoadFailure>> {
+            let not_opened_paths = self.filter_endpoints_to_open(files);
+            if not_opened_paths.is_empty() {
+                /* Every requested file is opened. Just switch to one of the requested panes. */
+                if let Some(path) = files.first() {
+                    if let Some(page) = self.find_pane_by_path(path) {
+                        self.tabview.set_selected_page(&page);
+                    }
+                }
+                IndexMap::new()
+            } else {
+                let results = self.preload_endpoints(not_opened_paths).await;
+                self.display_opened_panes(&results).await;
+                self.save_visible_tabs();
+                results
+            }
+        }
+
+        /// This is the companion function for open_endpoints() that can be used
+        /// to display in a batch every error related to a previous load operation.
+        /// The reason behind this function is to defer presenting the dialogs
+        /// until the window is actually visible.
+        pub(super) async fn report_open_endpoints_errors(
+            &self,
+            opened: &IndexMap<ItemPane, Option<FileLoadFailure>>,
+        ) {
+            let obj = self.obj();
+            for (pane, failures) in opened {
+                if let Some(failures) = failures {
+                    if let Some(error) = &failures.error {
+                        dialogs::file_load_error_dialog(&*obj, pane.file().as_ref(), &error).await;
+                    } else if !failures.warnings.is_empty() {
+                        if let Some(file) = pane.file() {
+                            if let Some(page) = self.find_pane_by_path(&file) {
+                                self.tabview.set_selected_page(&page);
+                            }
+                        }
+                        dialogs::file_load_warning_dialog(
+                            &*obj,
+                            pane.file().as_ref(),
+                            &failures.warnings,
+                        )
+                        .await;
+                    }
+                }
+            }
+        }
+
+        /// Calling this function will cause the current pane to be closed if it's anonymous
+        /// (as in, not saved nor backed to a file) and is not dirty, so it has never
+        /// actually been interacted with. Mainly used to cleanup the tab bar when a request
+        /// is opened.
+        fn kill_clean_drafts(&self) {
+            let tabs = self.tabview.pages().snapshot();
+            for tab in tabs {
+                let page = tab.downcast::<TabPage>().unwrap();
+                let pane = page.child().downcast::<ItemPane>().unwrap();
+                if pane.file().is_none() && !pane.dirty() {
+                    self.tabview.close_page(&page);
+                }
+            }
+        }
+
+        /// This function shows the user a file dialog to choose files to open.
+        /// It will handle any error and present the proper alert dialogs if
+        /// the operation fails, but this only covers errors related to the file
+        /// dialog itself. The returned files may still fail during reading.
+        /// The error is swalloed because the user is already notified.
+        async fn gracefully_prompt_open_files(&self) -> Vec<gio::File> {
+            let obj = self.obj();
+            match crate::widgets::open_files(&obj).await {
+                Ok(paths) => paths,
+                Err(e) => {
+                    dialogs::glib_file_dialog_error(&*obj, &e).await;
+                    Vec::new()
+                }
+            }
+        }
+
+        /// This function shows the user a file dialog to choose a save file.
+        /// It will handle any error and present the proper alert dialogs if
+        /// the operation fails, but this only covers errors related to the file
+        /// dialog itself. The requested file may still fail to save later.
+        /// The error is swallowed because the user is already notified.
+        async fn gracefully_prompt_save_file(&self) -> Option<gio::File> {
+            let obj = self.obj();
+            match crate::widgets::save_file(&*obj).await {
+                Ok(maybe_file) => maybe_file,
+                Err(e) => {
+                    dialogs::glib_file_dialog_error(&*obj, &e).await;
+                    None
+                }
+            }
+        }
+
+        async fn save_pane(&self, pane: &ItemPane) -> Option<Result<(), FileSaveError>> {
+            let endpoint = pane.endpoint().unwrap();
+
+            /* If the pane is anonymous, give it a chance to have a file. */
+            let target_file = match pane.file() {
+                Some(file) => Some(file),
+                None => self.gracefully_prompt_save_file().await,
+            };
+
+            /* If the pane is still anonymous, the user has dismissed or the operation has failed. */
+            if target_file.is_some() {
+                let previous = pane.file();
+                pane.set_file(target_file.clone());
+                let result = endpoint.save().await;
+                if let Err(e) = &result {
+                    dialogs::file_save_error(&*self.obj(), target_file.as_ref(), e.clone()).await;
+                    pane.set_file(previous);
+                }
+                Some(result)
+            } else {
+                None
+            }
+        }
+
+        async fn action_save_endpoint(&self) {
             if let Some(pane) = self.current_pane() {
-                if file.is_some() && !pane.dirty() && pane.file().is_none() {
-                    let tp = self.tabview.page(&pane);
-                    self.tabview.close_page(&tp);
-                }
+                self.save_pane(&pane).await;
+                self.bind_current_tab(Some(&pane));
+                self.save_visible_tabs();
             }
+        }
 
-            match ItemPane::new_for_endpoint(file).await {
-                Ok(pane) => {
-                    self.stack.set_visible_child_name("tabview");
-                    let page = self.tabview.add_page(&pane, None);
-                    pane.window_title_binding()
-                        .bind(&page, "title", Some(&pane));
-                    pane.window_subtitle_binding()
-                        .bind(&page, "tooltip", Some(&pane));
-                    self.tabview.set_selected_page(&page);
+        async fn action_save_endpoint_as(&self) {
+            if let Some(pane) = self.current_pane() {
+                /* Request a new path for this pane. */
+                let maybe_path = self.gracefully_prompt_save_file().await;
+                if let Some(path) = maybe_path {
+                    let previous = pane.file();
+                    pane.set_file(Some(path));
+                    let saved = self.save_pane(&pane).await;
+                    if saved.is_none() || saved.is_some_and(|r| r.is_err()) {
+                        pane.set_file(previous);
+                    }
+                    self.bind_current_tab(Some(&pane));
                     self.save_visible_tabs();
                 }
-                Err(e) => {
-                    self.obj().toast_error(e);
-                }
-            };
+            }
         }
 
-        async fn trigger_open(&self) -> Result<(), CarteroError> {
-            // In order to place the modal, we need a reference to the public type.
+        async fn close_tab_requested(&self, tabpage: &TabPage) {
             let obj = self.obj();
-            let paths = crate::widgets::open_files(&obj).await?;
-            for path in paths {
-                self.add_endpoint(Some(&path)).await;
-            }
-            self.save_visible_tabs();
-            Ok(())
-        }
-
-        async fn save_pane(&self, pane: &ItemPane) -> Result<(), CarteroError> {
-            let Some(endpoint) = pane.endpoint() else {
-                return Ok(());
-            };
-
-            let file = match pane.file() {
-                Some(file) => file,
-                None => {
-                    let obj = self.obj();
-                    crate::widgets::save_file(&obj).await?
+            let item_pane = tabpage.child().downcast::<ItemPane>().unwrap();
+            let close_page = if item_pane.dirty() {
+                /* The window has been modified, so we ask the user what to do. */
+                match dialogs::confirm_save(&*obj, item_pane.file().as_ref()).await {
+                    dialogs::SaveAlertDialogResponse::Save => {
+                        /* Try to save, close if successful */
+                        match self.save_pane(&item_pane).await {
+                            Some(Ok(())) => true,
+                            _ => false,
+                        }
+                    }
+                    dialogs::SaveAlertDialogResponse::Discard => true, /* Discards the modifications */
+                    _ => false,                                        /* Cancel, I guess */
                 }
+            } else {
+                /* The window has not been modified, so there is nothing to do besides closing it. */
+                true
             };
+            self.tabview.close_page_finish(&tabpage, close_page);
 
-            let endpoint = endpoint.extract_endpoint()?;
-            let serialized_payload = crate::file::store_toml(&endpoint)?;
-            crate::file::write_file(&file, &serialized_payload).await?;
-            pane.set_file(Some(file.clone()));
-            pane.set_dirty(false);
+            let current_pane = self.current_pane();
+            self.bind_current_tab(current_pane.as_ref());
 
-            Ok(())
-        }
-
-        async fn save_pane_as(&self, pane: &ItemPane) -> Result<(), CarteroError> {
-            let Some(endpoint) = pane.endpoint() else {
-                return Ok(());
-            };
-
-            let obj = self.obj();
-            let file = crate::widgets::save_file(&obj).await?;
-
-            let endpoint = endpoint.extract_endpoint()?;
-            let serialized_payload = crate::file::store_toml(&endpoint)?;
-            crate::file::write_file(&file, &serialized_payload).await?;
-            pane.set_file(Some(file.clone()));
-            pane.set_dirty(false);
-
-            Ok(())
-        }
-
-        async fn trigger_save(&self) -> Result<(), CarteroError> {
-            let Some(pane) = self.current_pane() else {
-                return Ok(());
-            };
-            let res = self.save_pane(&pane).await;
-            if res.is_ok() {
-                self.bind_current_tab(Some(&pane));
-                self.save_visible_tabs();
+            if self.tabview.selected_page().is_none() {
+                /* No more tabs to present, switch to the welcome view. */
+                self.stack.set_visible_child_name("welcome");
             }
-            res
-        }
-
-        async fn trigger_save_as(&self) -> Result<(), CarteroError> {
-            let Some(pane) = self.current_pane() else {
-                return Ok(());
-            };
-            let res = self.save_pane_as(&pane).await;
-            if res.is_ok() {
-                self.bind_current_tab(Some(&pane));
-                self.save_visible_tabs();
-            }
-            res
         }
 
         pub(super) fn toast_error(&self, error: CarteroError) {
@@ -319,36 +518,6 @@ mod imp {
         pub(super) fn toast_message(&self, msg: &str) {
             let toast = adw::Toast::new(msg);
             self.toaster.add_toast(toast);
-        }
-
-        fn get_modified_panes(&self) -> Vec<ItemPane> {
-            let pages = self.tabview.pages();
-            let count = pages.n_items();
-            let mut panes = Vec::new();
-
-            for i in 0..count {
-                let page = pages.item(i).and_downcast::<TabPage>().unwrap();
-                let child = page.child().downcast::<ItemPane>().unwrap();
-                if child.dirty() {
-                    panes.push(child.clone());
-                }
-            }
-
-            panes
-        }
-
-        async fn show_save_changes(&self) -> String {
-            let window = self.obj();
-            let dialog = SaveDialog::default();
-            dialog.choose_future(&*window).await.as_str().to_string()
-        }
-
-        async fn save_all_tabs(&self) -> Result<(), CarteroError> {
-            let panes = self.get_modified_panes();
-            for pane in panes {
-                self.save_pane(&pane).await?
-            }
-            Ok(())
         }
     }
 
@@ -399,47 +568,20 @@ mod imp {
                 }
             ));
 
-            let obj = self.obj();
             self.tabview.connect_close_page(glib::clone!(
-                #[weak(rename_to = window)]
-                obj,
+                #[weak(rename_to = imp)]
+                self,
                 #[upgrade_or]
                 glib::Propagation::Stop,
-                move |tabview, tabpage| {
-                    let item_pane = tabpage.child().downcast::<ItemPane>().unwrap();
-                    let imp = window.imp();
-                    let outcome = if item_pane.dirty() {
-                        let dialog = SaveDialog::default();
-                        let response =
-                            glib::MainContext::default().block_on(dialog.choose_future(&window));
-                        match response.as_str() {
-                            "save" => {
-                                let resp = glib::MainContext::default()
-                                    .block_on(imp.save_pane(&item_pane));
-                                match resp {
-                                    Ok(_) => false,
-                                    Err(e) => {
-                                        window.toast_error(e);
-                                        true
-                                    }
-                                }
-                            }
-                            "discard" => false,
-                            _ => true,
+                move |_, tabpage| {
+                    glib::spawn_future_local(glib::clone!(
+                        #[weak]
+                        tabpage,
+                        async move {
+                            imp.close_tab_requested(&tabpage).await;
+                            imp.save_visible_tabs();
                         }
-                    } else {
-                        item_pane.set_file(Option::<gio::File>::None);
-                        window.sync_open_files();
-                        false
-                    };
-
-                    tabview.close_page_finish(tabpage, !outcome);
-                    let imp = window.imp();
-                    imp.update_tab_actions();
-                    if imp.tabview.n_pages() == 0 {
-                        imp.bind_current_tab(None);
-                        imp.stack.set_visible_child_name("welcome");
-                    }
+                    ));
                     glib::Propagation::Stop
                 }
             ));
@@ -457,9 +599,7 @@ mod imp {
                     #[weak(rename_to = window)]
                     self,
                     move |_, _, _| {
-                        glib::spawn_future_local(async move {
-                            window.add_endpoint(None).await;
-                        });
+                        window.action_new_endpoint();
                     }
                 ))
                 .build();
@@ -485,58 +625,40 @@ mod imp {
                 ))
                 .build();
             let action_open = ActionEntry::builder("open")
-                .activate(glib::clone!(
-                    #[weak(rename_to = window)]
-                    self,
-                    move |_, _, _| {
-                        glib::spawn_future_local(glib::clone!(
-                            #[weak]
-                            window,
-                            async move {
-                                if let Err(e) = window.trigger_open().await {
-                                    match e {
-                                        CarteroError::NoFilePicked => {}
-                                        e => window.toast_error(e),
-                                    };
-                                }
-                            }
-                        ));
-                    }
-                ))
+                .activate(move |window: &super::CarteroWindow, _, _| {
+                    glib::spawn_future_local(glib::clone!(
+                        #[weak]
+                        window,
+                        async move {
+                            let imp = window.imp();
+                            imp.action_open_endpoint().await;
+                        }
+                    ));
+                })
                 .build();
             let action_save = ActionEntry::builder("save")
-                .activate(glib::clone!(
-                    #[weak(rename_to = window)]
-                    self,
-                    move |_, _, _| {
-                        glib::spawn_future_local(glib::clone!(
-                            #[weak]
-                            window,
-                            async move {
-                                if let Err(e) = window.trigger_save().await {
-                                    window.toast_error(e);
-                                }
-                            }
-                        ));
-                    }
-                ))
+                .activate(move |window: &super::CarteroWindow, _, _| {
+                    glib::spawn_future_local(glib::clone!(
+                        #[weak]
+                        window,
+                        async move {
+                            let imp = window.imp();
+                            imp.action_save_endpoint().await;
+                        }
+                    ));
+                })
                 .build();
             let action_save_as = ActionEntry::builder("save-as")
-                .activate(glib::clone!(
-                    #[weak(rename_to = window)]
-                    self,
-                    move |_, _, _| {
-                        glib::spawn_future_local(glib::clone!(
-                            #[weak]
-                            window,
-                            async move {
-                                if let Err(e) = window.trigger_save_as().await {
-                                    window.toast_error(e);
-                                }
-                            }
-                        ));
-                    }
-                ))
+                .activate(move |window: &super::CarteroWindow, _, _| {
+                    glib::spawn_future_local(glib::clone!(
+                        #[weak]
+                        window,
+                        async move {
+                            let imp = window.imp();
+                            imp.action_save_endpoint_as().await;
+                        }
+                    ));
+                })
                 .build();
             let action_close = ActionEntry::builder("close")
                 .activate(glib::clone!(
@@ -591,25 +713,23 @@ mod imp {
 
     impl WindowImpl for CarteroWindow {
         fn close_request(&self) -> glib::Propagation {
-            let panes = self.get_modified_panes();
-            if panes.is_empty() {
-                self.finish_window_close()
-            } else {
-                let response = glib::MainContext::default().block_on(self.show_save_changes());
-                match response.as_str() {
-                    "discard" => self.finish_window_close(),
-                    "save" => {
-                        let result = glib::MainContext::default().block_on(self.save_all_tabs());
-                        match result {
-                            Ok(_) => self.finish_window_close(),
-                            Err(e) => {
-                                self.toast_error(e);
-                                glib::Propagation::Stop
-                            }
+            let has_dirty = self.iter_panes().any(|pane| pane.dirty());
+            if has_dirty {
+                glib::spawn_future_local(glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    async move {
+                        let obj = imp.obj();
+                        if dialogs::confirm_close_window(&*obj).await {
+                            imp.save_window_state();
+                            obj.destroy();
                         }
                     }
-                    _ => glib::Propagation::Stop,
-                }
+                ));
+                glib::Propagation::Stop
+            } else {
+                self.save_window_state();
+                glib::Propagation::Proceed
             }
         }
     }
@@ -639,9 +759,20 @@ impl CarteroWindow {
         Object::builder().property("application", Some(app)).build()
     }
 
-    pub async fn add_endpoint(&self, ep: Option<&gio::File>) {
-        let imp = &self.imp();
-        imp.add_endpoint(ep).await
+    pub async fn open_endpoints(
+        &self,
+        files: &[gio::File],
+    ) -> IndexMap<ItemPane, Option<FileLoadFailure>> {
+        let imp = self.imp();
+        imp.open_endpoints(files).await
+    }
+
+    pub async fn report_open_endpoints_errors(
+        &self,
+        opened: &IndexMap<ItemPane, Option<FileLoadFailure>>,
+    ) {
+        let imp = self.imp();
+        imp.report_open_endpoints_errors(opened).await
     }
 
     pub fn toast_error(&self, e: CarteroError) {
@@ -652,23 +783,5 @@ impl CarteroWindow {
     pub fn toast_message(&self, msg: &str) {
         let imp = self.imp();
         imp.toast_message(msg);
-    }
-
-    pub fn sync_open_files(&self) {
-        let imp = self.imp();
-        imp.save_visible_tabs();
-    }
-
-    pub async fn open_last_session(&self) {
-        let app = CarteroApplication::get();
-        let settings = app.settings();
-        let open_files = settings.get::<Vec<String>>("open-files");
-        for open_file in open_files {
-            let typed = open_file.split_once(':');
-            if let Some((_type, path)) = typed {
-                let path = gio::File::for_path(path);
-                self.add_endpoint(Some(&path)).await;
-            }
-        }
     }
 }

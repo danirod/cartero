@@ -21,7 +21,11 @@ use futures_lite::future::block_on;
 use glib::{subclass::types::ObjectSubclassIsExt, Object};
 use gtk::{glib, prelude::WidgetExt};
 
-use crate::{entities::EndpointData, error::CarteroError};
+use crate::{
+    entities::EndpointData,
+    error::{CarteroError, FileSaveError},
+    file::{EndpointLoadResult, FileLoadResult},
+};
 
 mod imp {
     use std::cell::RefCell;
@@ -150,9 +154,8 @@ mod imp {
                 self,
                 move |_| {
                     if window.export_pane.imp().export_type() == ExportType::Curl {
-                        if let Ok(data) = window.extract_endpoint() {
-                            window.export_pane_load_endpoint_data(&data);
-                        }
+                        let data = window.extract_endpoint();
+                        window.export_pane_load_endpoint_data(&data);
                     }
                 }
             ));
@@ -283,9 +286,8 @@ mod imp {
         fn on_url_changed(&self) {
             self.update_send_button_sensitivity();
 
-            if let Ok(data) = self.extract_endpoint() {
-                self.export_pane_load_endpoint_data(&data);
-            }
+            let data = self.extract_endpoint();
+            self.export_pane_load_endpoint_data(&data);
         }
 
         #[template_callback]
@@ -309,9 +311,8 @@ mod imp {
 
         /// Retrieves `EndpointData` and builds a new state for the export request module.
         fn update_export_pane(&self) {
-            if let Ok(data) = self.extract_endpoint() {
-                self.export_pane_load_endpoint_data(&data);
-            }
+            let data = self.extract_endpoint();
+            self.export_pane_load_endpoint_data(&data);
         }
 
         /// Connect ourself to every widget in order to pass new data and rehydrate the
@@ -373,7 +374,7 @@ mod imp {
         }
 
         /// Takes the current state of the pane and extracts it into an Endpoint value.
-        pub(super) fn extract_endpoint(&self) -> Result<EndpointData, CarteroError> {
+        pub(super) fn extract_endpoint(&self) -> EndpointData {
             let header_list = self.header_pane.get_entries();
             let variable_list = self.variable_pane.get_entries();
             let parameter_list = self.parameter_pane.get_entries();
@@ -409,19 +410,19 @@ mod imp {
                 })
                 .collect();
             let body = self.payload_pane.payload();
-            Ok(EndpointData {
+            EndpointData {
                 url,
                 method,
                 parameters,
                 headers,
                 variables,
                 body,
-            })
+            }
         }
 
         /// Executes an HTTP request based on the current contents of the pane.
         pub(super) async fn perform_request(&self) -> Result<(), CarteroError> {
-            let request = self.extract_endpoint()?;
+            let request = self.extract_endpoint();
             let request = BoundRequest::try_from(request);
 
             // A special case before giving up: if the protocol is not specified, add it.
@@ -475,7 +476,7 @@ impl EndpointPane {
         imp.assign_request(endpoint)
     }
 
-    pub fn extract_endpoint(&self) -> Result<EndpointData, CarteroError> {
+    pub fn extract_endpoint(&self) -> EndpointData {
         let imp = self.imp();
         imp.extract_endpoint()
     }
@@ -500,6 +501,41 @@ impl EndpointPane {
         match result {
             Ok(inner) => inner,
             Err(_) => Err(CarteroError::InternalError),
+        }
+    }
+
+    pub fn file(&self) -> Option<gtk::gio::File> {
+        // TODO: This will become a property.
+        let imp = self.imp();
+        let item_pane = imp.item_pane.borrow();
+        item_pane.clone().and_then(|pane| pane.file())
+    }
+
+    pub async fn load(&self) -> impl FileLoadResult {
+        match self.file() {
+            Some(file) => {
+                let result = crate::file::read_endpoint(&file).await;
+                if let Some(endpoint) = result.endpoint() {
+                    self.assign_endpoint(&endpoint);
+                    self.item_pane().expect("No item pane?").set_dirty(false);
+                }
+                result
+            }
+            None => EndpointLoadResult::anonymous(),
+        }
+    }
+
+    pub async fn save(&self) -> Result<(), FileSaveError> {
+        match self.file() {
+            Some(file) => {
+                let endpoint = self.extract_endpoint();
+                let result = crate::file::write_endpoint(&file, &endpoint).await;
+                if let Ok(()) = result {
+                    self.item_pane().expect("No item pane?").set_dirty(false);
+                }
+                result
+            }
+            None => Err(FileSaveError::AnonymousPane),
         }
     }
 }

@@ -1,3 +1,4 @@
+use gettextrs::gettext;
 use srtemplate::SrTemplateError;
 use thiserror::Error;
 
@@ -8,31 +9,13 @@ pub enum CarteroError {
     #[error("Internal error")]
     InternalError,
 
-    #[error("No file has been picked")]
-    NoFilePicked,
-
-    #[error("Internal error on file dialog")]
-    FileDialogError,
-
     #[error("DNS error")]
     Dns,
 
     #[error("HTTP request error")]
     Request(#[from] RequestError),
 
-    #[error("Error operating with files")]
-    FileError(#[from] std::io::Error),
-
-    #[error("Error manipulating TOML")]
-    DeserializationError(#[from] toml::de::Error),
-
-    #[error("Error manipulating TOML")]
-    SerializationError(#[from] toml::ser::Error),
-
-    #[error("Outdated schema, please update the software")]
-    OutdatedSchema,
-
-    #[error("{0}")]
+    #[error(transparent)]
     PreconditionError(#[from] RequestPreconditionError),
 }
 
@@ -63,5 +46,48 @@ impl From<SrTemplateError> for RequestPreconditionError {
             SrTemplateError::VariableNotFound(var) => Self::VariableNotFound(var),
             _ => Self::BadInterpolation,
         }
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum FileLoadError {
+    AnonymousPane,
+    FileReadError(glib::Error),
+    DeserializationError(toml::de::Error),
+    OutdatedSchema,
+}
+
+impl std::fmt::Display for FileLoadError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let message = match self {
+            Self::AnonymousPane => gettext("The current tab is not associated with a file"),
+            Self::OutdatedSchema => gettext(
+                "This file was created with a newer version of this application; please update!",
+            ),
+            Self::FileReadError(e) => e.message().to_string(),
+            Self::DeserializationError(_) => {
+                gettext("The file is corrupt or does not contain valid data for this application")
+            }
+        };
+        write!(f, "{}", message)
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum FileSaveError {
+    #[allow(dead_code)]
+    AnonymousPane,
+    FileWriteError(glib::Error),
+    SerializationError(toml::ser::Error),
+}
+
+impl std::fmt::Display for FileSaveError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let message = match self {
+            Self::AnonymousPane => gettext("The current tab is not associated with a file"),
+            Self::FileWriteError(e) => e.message().to_string(),
+            Self::SerializationError(e) => e.to_string(),
+        };
+        write!(f, "{}", message)
     }
 }

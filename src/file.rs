@@ -5,11 +5,11 @@ use gtk::prelude::{FileExtManual, SettingsExtManual};
 use serde::{Deserialize, Serialize};
 
 use crate::app::CarteroApplication;
-use crate::client::RequestError;
 use crate::entities::{
     EndpointData, KeyValue, KeyValueTable, RawEncoding, RequestMethod, RequestPayload,
 };
-use crate::error::CarteroError;
+use crate::error::{FileLoadError, FileSaveError};
+use crate::i18n::i18n_f;
 
 trait ToKeyValue {
     fn to_key_value(&self, key: &str) -> KeyValue;
@@ -177,7 +177,7 @@ where
     }
 }
 
-#[derive(Default, Serialize, Deserialize, Debug)]
+#[derive(Clone, Default, Serialize, Deserialize, Debug)]
 pub enum FilePayloadRawFormat {
     #[default]
     #[serde(rename = "octet-stream")]
@@ -208,7 +208,7 @@ impl From<FilePayloadRawFormat> for RawEncoding {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(tag = "type")]
 enum FilePayload {
     #[serde(rename = "none")]
@@ -228,7 +228,7 @@ enum FilePayload {
     },
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 enum FileBody {
     Raw(String),
@@ -289,7 +289,7 @@ impl From<FileBody> for RequestPayload {
     }
 }
 
-#[derive(Deserialize, Serialize)]
+#[derive(Clone, Deserialize, Serialize)]
 struct RequestFile {
     version: usize,
     url: String,
@@ -299,33 +299,6 @@ struct RequestFile {
     variables: Option<FileTable<FieldValue>>,
     #[serde(rename = "inactive-params")]
     inactive_params: Option<FileTable<QueryValue>>,
-}
-
-impl TryFrom<RequestFile> for EndpointData {
-    type Error = CarteroError;
-
-    fn try_from(value: RequestFile) -> Result<EndpointData, Self::Error> {
-        if value.version != 1 {
-            return Err(CarteroError::OutdatedSchema);
-        }
-        let Ok(method) = RequestMethod::try_from(value.method.as_str()) else {
-            return Err(RequestError::InvalidHttpVerb.into());
-        };
-        let body = value.body.map(RequestPayload::from).unwrap_or_default();
-        let headers = value.headers.unwrap_or_default().into();
-        let variables = value.variables.unwrap_or_default().into();
-        let inactive_params = value.inactive_params.unwrap_or_default().into();
-
-        let request = EndpointData {
-            url: value.url.clone(),
-            method,
-            body,
-            variables,
-            headers,
-            parameters: inactive_params,
-        };
-        Ok(request)
-    }
 }
 
 impl From<EndpointData> for RequestFile {
@@ -358,51 +331,230 @@ impl From<EndpointData> for RequestFile {
     }
 }
 
-pub fn parse_toml(file: &str) -> Result<EndpointData, CarteroError> {
-    let contents = toml::from_str::<RequestFile>(file)?;
-    EndpointData::try_from(contents)
+/// A warning is a recoverable error, like a linter error. Something that
+/// indicates that the file will not be read correctly, but the user interface
+/// can still process the file. Warnings should be presented to the user to
+/// let them know what's wrong with the loaded data.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum FileWarningTag {
+    /// The file had an invalid HTTP verb, and it has been reset to the default.
+    InvalidHttpVerb(String),
 }
 
-pub fn store_toml(endpoint: &EndpointData) -> Result<String, CarteroError> {
-    let file = RequestFile::from(endpoint.clone());
-    toml::to_string(&file).map_err(|e| e.into())
+impl std::fmt::Display for FileWarningTag {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let localized = match self {
+            FileWarningTag::InvalidHttpVerb(v) => i18n_f(
+                "The HTTP verb found in the file was '{}'. It is not valid, it will fallback to '{}'.",
+                &[&v, "GET"],
+            ),
+        };
+        write!(f, "{}", localized)
+    }
 }
 
-pub async fn read_file(file: &gio::File) -> Result<String, CarteroError> {
-    file.load_contents_future()
-        .await
-        .map(|data| String::from_utf8_lossy(&data.0).to_string())
-        .map_err(|err| {
-            println!("{err:?}");
-            CarteroError::FileDialogError
-        })
+pub trait FileLoadResult {
+    /// Generates a generic failure result of the implementor type for anonymous panes.
+    fn anonymous() -> Self;
+
+    /// Returns possibly a failure result, either unrecoverable errors, or recoverable errors.
+    fn failure(&self) -> Option<FileLoadFailure>;
+
+    /// Returns true if the file load result concluded at something. Note that this is not
+    /// the same as checking if failure() returns None, because a result may conclude and
+    /// load something while at the same time having recoverable failures.
+    fn loaded(&self) -> bool;
+
+    fn result(&self) -> Result<(), FileLoadFailure> {
+        match self.failure() {
+            None => Ok(()),
+            Some(fail) => Err(fail),
+        }
+    }
 }
 
-pub async fn write_file(file: &gio::File, contents: &str) -> Result<(), CarteroError> {
-    let app = CarteroApplication::default();
-    let settings = app.settings();
-    let use_backups = settings.get::<bool>("create-backup-files");
+/// The result of attempting to load a file. This is not a binary operation,
+/// because under some circumstances, the result may complete with warnings,
+/// and it's important to notice about them.
+///
+/// In the past I tried to just use a Result<T, E> where T is a composite
+/// structure that holds both the data structure and a maybe-empty list of
+/// warnings, but this doesn't scale and creates akward code requiring to
+/// pass a lot of Results of tuples.
+///
+/// Note that there is no EndpointSaveResult because it is assumed that there
+/// are no warnings during save. If the request could not be saved properly,
+/// an error would already have been triggered by the time the save is called.
+#[derive(Debug, Eq, PartialEq)]
+pub enum EndpointLoadResult {
+    /// The file was read correctly with no errors, and here is the file.
+    Success(EndpointData),
+
+    /// The file was read with a few errors, here is what we got and the list
+    /// of errors that were found while trying to read the file.
+    Warning(EndpointData, Vec<FileWarningTag>),
+
+    /// The file cannot be loaded due to a critical error that needs review.
+    Error(FileLoadError),
+}
+
+impl EndpointLoadResult {
+    pub fn endpoint(&self) -> Option<EndpointData> {
+        match self {
+            Self::Success(endpoint) => Some(endpoint.clone()),
+            Self::Warning(endpoint, _) => Some(endpoint.clone()),
+            Self::Error(_) => None,
+        }
+    }
+}
+
+impl FileLoadResult for EndpointLoadResult {
+    fn failure(&self) -> Option<FileLoadFailure> {
+        match self {
+            Self::Success(_) => None,
+            Self::Warning(_, warnings) => Some(FileLoadFailure {
+                warnings: warnings.clone(),
+                ..Default::default()
+            }),
+            Self::Error(e) => Some(FileLoadFailure {
+                error: Some(e.clone()),
+                ..Default::default()
+            }),
+        }
+    }
+
+    fn loaded(&self) -> bool {
+        match self {
+            Self::Error(_) => false,
+            _ => true,
+        }
+    }
+
+    fn anonymous() -> Self {
+        Self::Error(FileLoadError::AnonymousPane)
+    }
+}
+
+#[derive(Clone, Default)]
+pub struct FileLoadFailure {
+    pub warnings: Vec<FileWarningTag>,
+    pub error: Option<FileLoadError>,
+}
+
+impl From<RequestFile> for EndpointLoadResult {
+    fn from(value: RequestFile) -> Self {
+        /* Make sure that the application is updated. */
+        if value.version < 1 || value.version > 1 {
+            return Self::Error(FileLoadError::OutdatedSchema);
+        }
+
+        /* HTTP verb is currently the only thing that could be invalid. */
+        let (method, method_tag) = match RequestMethod::try_from(value.method.as_str()) {
+            Ok(method) => (method, None),
+            Err(_) => (
+                RequestMethod::default(),
+                Some(FileWarningTag::InvalidHttpVerb(value.method.clone())),
+            ),
+        };
+
+        /* Every other data currently doesn't emit warnings. */
+        let body = value.body.map(RequestPayload::from).unwrap_or_default();
+        let headers = value.headers.unwrap_or_default().into();
+        let variables = value.variables.unwrap_or_default().into();
+        let inactive_params = value.inactive_params.unwrap_or_default().into();
+
+        /* Therefore we can craft the response. */
+        let request = EndpointData {
+            url: value.url.clone(),
+            method,
+            body,
+            variables,
+            headers,
+            parameters: inactive_params,
+        };
+
+        /* The result depends on whether there are tags. */
+        match method_tag {
+            Some(warning) => Self::Warning(request, vec![warning]),
+            None => Self::Success(request),
+        }
+    }
+}
+
+/// Read the contents of the given file as an endpoint. The result that this
+/// function returns is custom because it has three states: success, error,
+/// or partial failure, with recoverable errors.
+pub async fn read_endpoint(file: &gio::File) -> EndpointLoadResult {
+    let file_string = match file.load_contents_future().await {
+        Ok((data, _)) => String::from_utf8_lossy(&data).to_string(),
+        Err(glib_error) => {
+            return EndpointLoadResult::Error(FileLoadError::FileReadError(glib_error))
+        }
+    };
+    match toml::from_str::<RequestFile>(&file_string) {
+        Ok(contents) => EndpointLoadResult::from(contents),
+        Err(e) => EndpointLoadResult::Error(FileLoadError::DeserializationError(e)),
+    }
+}
+
+#[cfg(test)]
+fn read_endpoint_string(contents: &str) -> EndpointLoadResult {
+    match toml::from_str::<RequestFile>(&contents) {
+        Ok(contents) => EndpointLoadResult::from(contents),
+        Err(e) => EndpointLoadResult::Error(FileLoadError::DeserializationError(e)),
+    }
+}
+
+/// Write the contents of the given endpoint into the given file. The result
+/// only notifies about errors during save, such as invalid permissions or
+/// stuff like that. Note that unlike the read_endpoint() function, this is a
+/// Result, because there are no partial saves.
+pub async fn write_endpoint(
+    file: &gio::File,
+    endpoint: &EndpointData,
+) -> Result<(), FileSaveError> {
+    /* Serialize into a TOML document. */
+    let encoded_file = RequestFile::from(endpoint.clone());
+    let encoded_string = toml::to_string(&encoded_file)
+        .map_err(|ser_err| FileSaveError::SerializationError(ser_err))?;
+
+    /* Delegate saving into GIO. */
+    let use_backups = create_file_backup();
     file.replace_contents_future(
-        contents.to_string(),
+        encoded_string,
         None,
         use_backups,
         gio::FileCreateFlags::NONE,
     )
     .await
-    .map_err(|result| {
-        let error = result.1;
-        println!("{error:?}");
-        CarteroError::FileDialogError
-    })?;
+    .map_err(|(_, glib_error)| FileSaveError::FileWriteError(glib_error))?;
+
     Ok(())
+}
+
+#[cfg(test)]
+fn write_endpoint_string(endpoint: &EndpointData) -> Result<String, FileSaveError> {
+    let encoded_file = RequestFile::from(endpoint.clone());
+    toml::to_string(&encoded_file).map_err(|ser_err| FileSaveError::SerializationError(ser_err))
+}
+
+/// Checks the settings to guess whether backups have to be created on save.
+fn create_file_backup() -> bool {
+    let app = CarteroApplication::default();
+    let settings = app.settings();
+    settings.get::<bool>("create-backup-files")
 }
 
 #[cfg(test)]
 mod tests {
     use std::collections::HashMap;
 
-    use crate::entities::{
-        EndpointData, KeyValue, KeyValueTable, RawEncoding, RequestMethod, RequestPayload,
+    use crate::{
+        entities::{
+            EndpointData, KeyValue, KeyValueTable, RawEncoding, RequestMethod, RequestPayload,
+        },
+        error::FileLoadError,
+        file::{EndpointLoadResult, FileWarningTag},
     };
 
     use super::{FileContainer, FileTable};
@@ -517,7 +669,9 @@ body = 'hello'
 Accept = 'text/html'
 Accept-Encoding = 'gzip'
 ";
-        let endpoint = super::parse_toml(toml).unwrap();
+        let EndpointLoadResult::Success(endpoint) = super::read_endpoint_string(toml) else {
+            panic!("wrong read");
+        };
         assert_eq!(endpoint.url, "https://www.google.com");
         assert_eq!(endpoint.method, RequestMethod::Get);
         assert_eq!(
@@ -562,7 +716,9 @@ body = 'hello'
 Accept = { value = 'text/html', secret = true, active = false }
 Accept-Encoding = 'gzip'
 ";
-        let endpoint = super::parse_toml(toml).unwrap();
+        let EndpointLoadResult::Success(endpoint) = super::read_endpoint_string(toml) else {
+            panic!("wrong read");
+        };
         assert_eq!(endpoint.url, "https://www.google.com");
         assert_eq!(endpoint.method, RequestMethod::Get);
         assert_eq!(
@@ -607,7 +763,9 @@ body = 'hello'
 Accept = ['application/json', 'text/html']
 Accept-Encoding = 'gzip'
 ";
-        let endpoint = super::parse_toml(toml).unwrap();
+        let EndpointLoadResult::Success(endpoint) = super::read_endpoint_string(toml) else {
+            panic!("wrong read");
+        };
         assert_eq!(endpoint.url, "https://www.google.com");
         assert_eq!(endpoint.method, RequestMethod::Get);
         assert_eq!(
@@ -665,7 +823,9 @@ X-Client-Id = [
 ]
 Accept-Encoding = 'gzip'
 ";
-        let endpoint = super::parse_toml(toml).unwrap();
+        let EndpointLoadResult::Success(endpoint) = super::read_endpoint_string(toml) else {
+            panic!("wrong read");
+        };
         assert_eq!(endpoint.url, "https://www.google.com");
         assert_eq!(endpoint.method, RequestMethod::Get);
         assert_eq!(
@@ -717,37 +877,48 @@ Accept-Encoding = 'gzip'
     }
 
     #[test]
-    pub fn test_deserialization_error() {
+    pub fn test_invalid_file_version() {
         let toml = "
 version = 0
 url = 'https://www.google.com'
 method = 'GET'
 body = 'hello'
 ";
-        assert!(super::parse_toml(toml).is_err());
+        let EndpointLoadResult::Error(e) = super::read_endpoint_string(toml) else {
+            panic!("expected a failure");
+        };
+        assert_eq!(e, FileLoadError::OutdatedSchema);
     }
 
     #[test]
-    pub fn test_method_error() {
+    pub fn test_file_version_too_new() {
+        let toml = "
+version = 2
+url = 'https://www.google.com'
+method = 'GET'
+body = 'hello'
+";
+        let EndpointLoadResult::Error(e) = super::read_endpoint_string(toml) else {
+            panic!("expected a failure");
+        };
+        assert_eq!(e, FileLoadError::OutdatedSchema);
+    }
+
+    #[test]
+    pub fn test_invalid_method() {
         let toml = "
 version = 1
 url = 'https://www.google.com'
 method = 'THROW'
 ";
-        assert!(super::parse_toml(toml).is_err());
-    }
-
-    #[test]
-    pub fn test_empty_url() {
-        let toml = "
-version = 1
-method = 'POST'
-body = 'hello'
-
-[headers]
-Accept = 'text/html'
-";
-        assert!(super::parse_toml(toml).is_err());
+        let EndpointLoadResult::Warning(endpoint, tags) = super::read_endpoint_string(toml) else {
+            panic!("expected to load with warnings");
+        };
+        assert_eq!(endpoint.url, "https://www.google.com");
+        assert_eq!(endpoint.method, RequestMethod::Get);
+        assert_eq!(endpoint.body, RequestPayload::None);
+        assert_eq!(1, tags.len());
+        assert_eq!(FileWarningTag::InvalidHttpVerb("THROW".into()), tags[0]);
     }
 
     #[test]
@@ -760,7 +931,9 @@ body = 'hello'
 [headers]
 Accept = 'text/html'
 ";
-        assert!(super::parse_toml(toml).is_err());
+        let EndpointLoadResult::Error(_) = super::read_endpoint_string(toml) else {
+            panic!("expected a failure");
+        };
     }
 
     #[test]
@@ -773,7 +946,9 @@ method = 'GET'
 [headers]
 Accept = 'text/html'
 ";
-        let endpoint = super::parse_toml(toml).unwrap();
+        let EndpointLoadResult::Success(endpoint) = super::read_endpoint_string(toml) else {
+            panic!("wrong read");
+        };
         assert_eq!(endpoint.url, "https://www.google.com");
         assert_eq!(endpoint.method, RequestMethod::Get);
         assert_eq!(endpoint.body, RequestPayload::None);
@@ -797,7 +972,7 @@ Accept = 'text/html'
             parameters: KeyValueTable::default(),
         };
 
-        let content = super::store_toml(&r).unwrap();
+        let content = super::write_endpoint_string(&r).unwrap();
         let content = content.as_str();
         assert!(content.contains("url = \"https://www.google.com\""));
         assert!(content.contains("Host = \"google.com\""));
@@ -828,7 +1003,7 @@ Accept = 'text/html'
             parameters: KeyValueTable::default(),
         };
 
-        let content = super::store_toml(&r).unwrap();
+        let content = super::write_endpoint_string(&r).unwrap();
         let content = content.as_str();
         assert!(content.contains("url = \"https://www.google.com\""));
         assert!(content.contains("Host = \"google.com\""));
@@ -844,7 +1019,9 @@ url = 'https://www.google.com'
 method = 'POST'
 body = 'hello'
 ";
-        let endpoint = super::parse_toml(toml).unwrap();
+        let EndpointLoadResult::Success(endpoint) = super::read_endpoint_string(toml) else {
+            panic!("wrong read");
+        };
         assert_eq!(endpoint.url, "https://www.google.com");
         assert_eq!(endpoint.method, RequestMethod::Post);
         assert_eq!(
@@ -877,7 +1054,7 @@ body = 'hello'
             parameters: KeyValueTable::default(),
         };
 
-        let content = super::store_toml(&r).unwrap();
+        let content = super::write_endpoint_string(&r).unwrap();
         assert!(content
             .as_str()
             .contains("url = \"https://www.google.com\""));
@@ -935,8 +1112,10 @@ body = 'hello'
             parameters: KeyValueTable::default(),
         };
 
-        let content = super::store_toml(&r).unwrap();
-        let parsed = super::parse_toml(&content).unwrap();
+        let content = super::write_endpoint_string(&r).unwrap();
+        let EndpointLoadResult::Success(parsed) = super::read_endpoint_string(&content) else {
+            panic!("wrong read");
+        };
         assert_eq!(r.url, parsed.url);
         assert_eq!(r.method, parsed.method);
         assert_eq!(r.body, parsed.body);

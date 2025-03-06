@@ -20,6 +20,7 @@ use glib::{object::IsA, Object};
 use gtk::gio;
 
 mod imp {
+    use adw::prelude::WidgetExt;
     use adw::subclass::prelude::*;
     use glib::{object::ObjectExt, subclass::InitializingObject};
     use gtk::{
@@ -77,6 +78,11 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
             self.init_settings();
+
+            if cfg!(target_os = "macos") {
+                let obj = self.obj();
+                obj.add_css_class("macos");
+            }
         }
     }
 

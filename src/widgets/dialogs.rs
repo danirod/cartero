@@ -23,7 +23,7 @@ use crate::{
 };
 
 use adw::{
-    prelude::{AlertDialogExt, AlertDialogExtManual},
+    prelude::{AlertDialogExt, AlertDialogExtManual, WidgetExt},
     AlertDialog,
 };
 use gettextrs::gettext;
@@ -57,6 +57,9 @@ pub async fn file_load_error_dialog(
         .default_response("close")
         .build();
     alert.add_response("close", &gettext("Close"));
+    if cfg!(target_os = "macos") {
+        alert.add_css_class("macos");
+    }
     alert.choose_future(root).await;
 }
 
@@ -88,6 +91,9 @@ pub async fn file_load_warning_dialog(
         .default_response("close")
         .build();
     alert.add_response("close", &gettext("Close"));
+    if cfg!(target_os = "macos") {
+        alert.add_css_class("macos");
+    }
     alert.choose_future(root).await;
 }
 
@@ -111,6 +117,9 @@ pub async fn file_save_error(
         .default_response("close")
         .build();
     alert.add_response("close", &gettext("Close"));
+    if cfg!(target_os = "macos") {
+        alert.add_css_class("macos");
+    }
     alert.choose_future(root).await;
 }
 
@@ -124,6 +133,9 @@ pub async fn glib_file_dialog_error(root: &impl IsA<gtk::Widget>, error: &glib::
         .default_response("close")
         .build();
     alert.add_response("close", &gettext("Close"));
+    if cfg!(target_os = "macos") {
+        alert.add_css_class("macos");
+    }
     alert.choose_future(root).await;
 }
 
@@ -143,6 +155,9 @@ pub async fn confirm_close_window(root: &impl IsA<gtk::Widget>) -> bool {
     ]);
     question.set_response_appearance("continue", adw::ResponseAppearance::Destructive);
     question.set_default_response(Some("cancel"));
+    if cfg!(target_os = "macos") {
+        question.add_css_class("macos");
+    }
     let response = question.choose_future(root).await;
     response == "continue"
 }
@@ -178,6 +193,9 @@ pub async fn confirm_save(
     ]);
     question.set_response_appearance("save", adw::ResponseAppearance::Suggested);
     question.set_response_appearance("discard", adw::ResponseAppearance::Destructive);
+    if cfg!(target_os = "macos") {
+        question.add_css_class("macos");
+    }
     let response = question.choose_future(root).await;
     match response.as_str() {
         "discard" => SaveAlertDialogResponse::Discard,

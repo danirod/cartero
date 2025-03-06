@@ -26,6 +26,7 @@ use indexmap::IndexMap;
 mod imp {
     use std::collections::HashSet;
 
+    use adw::prelude::WidgetExt;
     use adw::AboutWindow;
     use adw::{subclass::prelude::*, TabPage};
     use gettextrs::gettext;
@@ -553,6 +554,10 @@ mod imp {
                 let obj = self.obj();
                 obj.add_css_class("devel");
             }
+            if cfg!(target_os = "macos") {
+                let obj = self.obj();
+                obj.add_css_class("macos");
+            }
 
             self.init_settings();
 
@@ -690,6 +695,9 @@ mod imp {
                             .copyright(gettext("© 2024 the Cartero authors"))
                             .license_type(gtk::License::Gpl30)
                             .build();
+                        if cfg!(target_os = "macos") {
+                            about.add_css_class("macos");
+                        }
                         about.present();
                     }
                 ))

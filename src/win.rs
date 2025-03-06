@@ -42,9 +42,15 @@ mod imp {
     use glib::subclass::InitializingObject;
     use gtk::{CompositeTemplate, TemplateChild};
 
-    #[cfg(feature = "csd")]
     #[derive(CompositeTemplate, Default)]
-    #[template(resource = "/es/danirod/Cartero/main_window.ui")]
+    #[cfg_attr(
+        feature = "csd",
+        template(resource = "/es/danirod/Cartero/main_window.ui")
+    )]
+    #[cfg_attr(
+        not(feature = "csd"),
+        template(resource = "/es/danirod/Cartero/main_window_no_csd.ui")
+    )]
     pub struct CarteroWindow {
         #[template_child]
         toaster: TemplateChild<adw::ToastOverlay>,
@@ -55,32 +61,18 @@ mod imp {
         #[template_child]
         pub tabview: TemplateChild<adw::TabView>,
 
+        #[cfg(feature = "csd")]
         #[template_child]
         pub window_title: TemplateChild<adw::WindowTitle>,
 
         #[template_child]
         stack: TemplateChild<gtk::Stack>,
 
+        #[cfg(feature = "csd")]
         window_title_binding: SingleExpressionWatch,
 
+        #[cfg(feature = "csd")]
         window_subtitle_binding: SingleExpressionWatch,
-    }
-
-    #[cfg(not(feature = "csd"))]
-    #[derive(CompositeTemplate, Default)]
-    #[template(resource = "/es/danirod/Cartero/main_window_no_csd.ui")]
-    pub struct CarteroWindow {
-        #[template_child]
-        toaster: TemplateChild<adw::ToastOverlay>,
-
-        #[template_child]
-        pub tabs: TemplateChild<adw::TabBar>,
-
-        #[template_child]
-        pub tabview: TemplateChild<adw::TabView>,
-
-        #[template_child]
-        stack: TemplateChild<gtk::Stack>,
     }
 
     #[gtk::template_callbacks]

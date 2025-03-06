@@ -20,8 +20,6 @@ use gettextrs::gettext;
 use glib::Object;
 use gtk::{gio, ClosureExpression};
 
-use crate::error::CarteroError;
-
 use super::EndpointPane;
 
 mod imp {
@@ -65,21 +63,12 @@ glib::wrapper! {
 }
 
 impl ItemPane {
-    pub async fn new_for_endpoint(file: Option<&gio::File>) -> Result<Self, CarteroError> {
-        let pane: Self = Object::builder().property("file", file).build();
-
+    pub fn new_for_endpoint() -> Self {
+        let pane: Self = Object::builder().build();
         let child_pane = EndpointPane::default();
         pane.set_child(Some(&child_pane));
-
-        if let Some(path) = file {
-            let contents = crate::file::read_file(path).await?;
-            let endpoint = crate::file::parse_toml(&contents)?;
-            child_pane.assign_endpoint(&endpoint);
-        }
-
         child_pane.set_item_pane(Some(&pane));
-
-        Ok(pane)
+        pane
     }
 
     pub fn endpoint(&self) -> Option<EndpointPane> {

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2024-12-22 16:58+0100\n"
+"POT-Creation-Date: 2025-03-06 03:50+0100\n"
 "PO-Revision-Date: 2024-12-22 20:55+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.10-dev\n"
 
-#: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:4
+#: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
 msgstr "Fes peticions HTTP i testeja APIs"
 
@@ -69,12 +69,12 @@ msgstr "Modificant les capçaleres HTTP"
 msgid "Setting the request payload"
 msgstr "Establint el cos de la petició"
 
-#: data/cartero.desktop.in.in:3
+#: data/cartero.desktop.in.in:2
 msgid "Cartero"
 msgstr "Cartero"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: data/cartero.desktop.in.in:11
+#: data/cartero.desktop.in.in:10
 msgid "Gnome;GTK;HTTP;REST;"
 msgstr ""
 
@@ -233,7 +233,7 @@ msgstr "Executar aquesta petició HTTP"
 msgid "Parameters"
 msgstr "Paràmetres"
 
-#: data/ui/endpoint_pane.blp:124 data/ui/response_panel.blp:92
+#: data/ui/endpoint_pane.blp:124 data/ui/response_panel.blp:91
 msgid "Headers"
 msgstr "Capçaleres"
 
@@ -283,12 +283,12 @@ msgstr "Nou"
 
 #: data/ui/main_window.blp:52 data/ui/main_window.blp:63
 #: data/ui/main_window_no_csd.blp:50 data/ui/main_window_no_csd.blp:61
-#: src/widgets/file_dialogs.rs:33 src/widgets/file_dialogs.rs:77
+#: src/widgets/file_dialogs.rs:101
 msgid "Open"
 msgstr "Obrir"
 
 #: data/ui/main_window.blp:71 data/ui/main_window_no_csd.blp:69
-#: src/widgets/file_dialogs.rs:133
+#: src/widgets/file_dialogs.rs:137
 msgid "Save"
 msgstr "Guardar"
 
@@ -311,7 +311,7 @@ msgid "Open request…"
 msgstr "Obrir petició…"
 
 #: data/ui/main_window.blp:159 data/ui/main_window_no_csd.blp:166
-#: src/widgets/file_dialogs.rs:134
+#: src/widgets/file_dialogs.rs:138
 msgid "Save request"
 msgstr "Guardar petició"
 
@@ -323,59 +323,60 @@ msgstr "Guardar petició com…"
 msgid "Close tab"
 msgstr "Tancar pestanya"
 
-#: data/ui/main_window.blp:176 data/ui/settings_dialog.blp:22
+#: data/ui/main_window.blp:176 data/ui/main_window_no_csd.blp:183
+#: data/ui/settings_dialog.blp:22
 msgid "Settings"
 msgstr ""
 
-#: data/ui/main_window.blp:181 data/ui/main_window_no_csd.blp:183
+#: data/ui/main_window.blp:181 data/ui/main_window_no_csd.blp:188
 msgid "Body appearance"
 msgstr "Aparença del cos"
 
-#: data/ui/main_window.blp:185 data/ui/main_window_no_csd.blp:187
+#: data/ui/main_window.blp:185 data/ui/main_window_no_csd.blp:192
 msgid "Wrap content"
 msgstr "Adaptar contingut"
 
-#: data/ui/main_window.blp:190 data/ui/main_window_no_csd.blp:192
+#: data/ui/main_window.blp:190 data/ui/main_window_no_csd.blp:197
 msgid "Show line numbers"
 msgstr "Mostrar números de línia"
 
-#: data/ui/main_window.blp:197 data/ui/main_window_no_csd.blp:199
+#: data/ui/main_window.blp:197 data/ui/main_window_no_csd.blp:204
 msgid "Automatic indentation"
 msgstr "Indentar automàticament"
 
-#: data/ui/main_window.blp:202 data/ui/main_window_no_csd.blp:204
+#: data/ui/main_window.blp:202 data/ui/main_window_no_csd.blp:209
 msgid "Indent with spaces"
 msgstr "Indentar amb espais"
 
-#: data/ui/main_window.blp:208 data/ui/main_window_no_csd.blp:210
+#: data/ui/main_window.blp:208 data/ui/main_window_no_csd.blp:215
 msgid "Indent with tabs"
 msgstr "Indentar amb tabuladors"
 
-#: data/ui/main_window.blp:214 data/ui/main_window_no_csd.blp:216
+#: data/ui/main_window.blp:214 data/ui/main_window_no_csd.blp:221
 msgid "Spaces per tab"
 msgstr "Espais per tabulador"
 
-#: data/ui/main_window.blp:217 data/ui/main_window_no_csd.blp:219
+#: data/ui/main_window.blp:217 data/ui/main_window_no_csd.blp:224
 msgid "2"
 msgstr "2"
 
-#: data/ui/main_window.blp:223 data/ui/main_window_no_csd.blp:225
+#: data/ui/main_window.blp:223 data/ui/main_window_no_csd.blp:230
 msgid "4"
 msgstr "4"
 
-#: data/ui/main_window.blp:229 data/ui/main_window_no_csd.blp:231
+#: data/ui/main_window.blp:229 data/ui/main_window_no_csd.blp:236
 msgid "8"
 msgstr "8"
 
-#: data/ui/main_window.blp:240 data/ui/main_window_no_csd.blp:242
+#: data/ui/main_window.blp:240 data/ui/main_window_no_csd.blp:247
 msgid "Keyboard shortcuts"
 msgstr "Dreceres de teclat"
 
-#: data/ui/main_window.blp:245 data/ui/main_window_no_csd.blp:247
+#: data/ui/main_window.blp:245 data/ui/main_window_no_csd.blp:252
 msgid "About Cartero"
 msgstr "Quant a Cartero"
 
-#: data/ui/main_window.blp:250 data/ui/main_window_no_csd.blp:252
+#: data/ui/main_window.blp:250 data/ui/main_window_no_csd.blp:257
 msgid "Quit"
 msgstr "Sortir"
 
@@ -408,26 +409,6 @@ msgid "Use the Send button to send a network request and it will show here."
 msgstr ""
 "Utilitza el botó Enviar per enviar una petició de xarxa i veure el resultat "
 "aquí."
-
-#: data/ui/save_dialog.blp:22
-msgid "Save changes?"
-msgstr "¿Guardar cambis?"
-
-#: data/ui/save_dialog.blp:23
-msgid "There are changes that have not been saved yet. What do you want to do?"
-msgstr "Hi ha canvis que encara no han sigut guardats. ¿Què vols fer?"
-
-#: data/ui/save_dialog.blp:28
-msgid "_Cancel"
-msgstr "_Cancel·lar"
-
-#: data/ui/save_dialog.blp:29
-msgid "_Discard"
-msgstr "_Descartar"
-
-#: data/ui/save_dialog.blp:30
-msgid "_Save"
-msgstr "_Guardar"
 
 #: data/ui/search_box.blp:43 data/ui/search_box.blp:44
 msgid "Search"
@@ -511,49 +492,154 @@ msgstr ""
 msgid "Request timeout"
 msgstr ""
 
-#: src/widgets/export_tab/code.rs:117
+#: src/error.rs:63 src/error.rs:87
+#, fuzzy
+msgid "The current tab is not associated with a file"
+msgstr "La llista actual d'arxius oberts"
+
+#: src/error.rs:65
+msgid ""
+"This file was created with a newer version of this application; please "
+"update!"
+msgstr ""
+
+#: src/error.rs:69
+msgid "The file is corrupt or does not contain valid data for this application"
+msgstr ""
+
+#: src/file.rs:348
+msgid ""
+"The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
+"to '{}'."
+msgstr ""
+
+#: src/widgets/dialogs.rs:49
+msgid "Cannot open '{}'"
+msgstr ""
+
+#: src/widgets/dialogs.rs:50
+msgid "Cannot open the requested file"
+msgstr ""
+
+#: src/widgets/dialogs.rs:59 src/widgets/dialogs.rs:90
+#: src/widgets/dialogs.rs:113 src/widgets/dialogs.rs:126
+#, fuzzy
+msgid "Close"
+msgstr "Tancar pestanya"
+
+#: src/widgets/dialogs.rs:73
+msgid "The file '{}' was loaded but had issues"
+msgstr ""
+
+#: src/widgets/dialogs.rs:74
+msgid "The requested file was loaded but had issues"
+msgstr ""
+
+#: src/widgets/dialogs.rs:104
+msgid "Cannot save '{}'"
+msgstr ""
+
+#: src/widgets/dialogs.rs:105
+msgid "Cannot save the requested file"
+msgstr ""
+
+#: src/widgets/dialogs.rs:107
+msgid ""
+"There was an error during the saving process. Assume that your changes are "
+"still not saved."
+msgstr ""
+
+#: src/widgets/dialogs.rs:121
+msgid "Could not select a valid file from the file chooser"
+msgstr ""
+
+#: src/widgets/dialogs.rs:135
+msgid "There are unsaved changes"
+msgstr ""
+
+#: src/widgets/dialogs.rs:137
+msgid ""
+"Closing this window will lose all unsaved data. Do you really want to "
+"proceed?"
+msgstr ""
+
+#: src/widgets/dialogs.rs:141
+msgid "Cancel"
+msgstr "Cancel·lar"
+
+#: src/widgets/dialogs.rs:142
+#, fuzzy
+msgid "Close anyway"
+msgstr "Tancar pestanya"
+
+#: src/widgets/dialogs.rs:165
+#, fuzzy
+msgid "Save changes in '{}'?"
+msgstr "¿Guardar cambis?"
+
+#: src/widgets/dialogs.rs:166
+msgid "Save changes?"
+msgstr "¿Guardar cambis?"
+
+#: src/widgets/dialogs.rs:171
+msgid "There are changes that have not been saved yet. What do you want to do?"
+msgstr "Hi ha canvis que encara no han sigut guardats. ¿Què vols fer?"
+
+#: src/widgets/dialogs.rs:175
+msgid "_Cancel"
+msgstr "_Cancel·lar"
+
+#: src/widgets/dialogs.rs:176
+msgid "_Discard"
+msgstr "_Descartar"
+
+#: src/widgets/dialogs.rs:177
+msgid "_Save"
+msgstr "_Guardar"
+
+#: src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"
 msgstr "Contingut copiat al porta-retalls"
 
-#: src/widgets/file_dialogs.rs:18
+#: src/widgets/file_dialogs.rs:40
 msgid "Request (.cartero)"
 msgstr "Petició (.cartero)"
 
-#: src/widgets/file_dialogs.rs:20
+#: src/widgets/file_dialogs.rs:42
 msgid "Request"
 msgstr "Petició"
 
-#: src/widgets/file_dialogs.rs:34 src/widgets/file_dialogs.rs:78
+#: src/widgets/file_dialogs.rs:102
 msgid "Open request"
 msgstr "Obir petició"
 
-#: src/widgets/item_pane.rs:99
+#: src/widgets/item_pane.rs:88
 msgid "(untitled)"
 msgstr "(sense títol)"
 
-#: src/widgets/item_pane.rs:115
+#: src/widgets/item_pane.rs:104
 msgid "Draft"
 msgstr "Esborrany"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
-#: src/widgets/search_box.rs:226
+#: src/widgets/search_box.rs:253
 msgid "{} of {}"
 msgstr ""
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count when only
 #. the number of total ocurrences is known.
-#: src/widgets/search_box.rs:234
+#: src/widgets/search_box.rs:261
 msgid "{} result"
 msgid_plural "{} results"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/win.rs:516
+#: src/win.rs:689
 msgid "The Cartero authors"
 msgstr "Els autors de Cartero"
 
-#: src/win.rs:517
+#: src/win.rs:690
 msgid "© 2024 the Cartero authors"
 msgstr "© 2024 Els autors de Cartero"
 
@@ -565,9 +651,6 @@ msgstr "© 2024 Els autors de Cartero"
 
 #~ msgid "Use the button in the toolbar to create or open a request."
 #~ msgstr "Utilitza el botó de la barra d'eines per crear o obrir una petició."
-
-#~ msgid "Cancel"
-#~ msgstr "Cancel·lar"
 
 #~ msgid "Accept"
 #~ msgstr "Acceptar"

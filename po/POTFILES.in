@@ -33,7 +33,6 @@ src/file.rs
 src/main.rs
 src/objects/key_value_item.rs
 src/objects/mod.rs
-src/utils/mod.rs
 src/widgets/code_view.rs
 src/widgets/dialogs.rs
 src/widgets/endpoint_pane.rs

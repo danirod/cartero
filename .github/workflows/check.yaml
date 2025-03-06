@@ -27,12 +27,7 @@ jobs:
   check:
     name: Check
     runs-on: ubuntu-24.04
-    env:
-      SCCACHE_GHA_ENABLED: "true"
-      RUSTC_WRAPPER: "sccache"
     steps:
-      - name: sccache
-        uses: mozilla-actions/sccache-action@v0.0.7
       - name: dependencies
         run: sudo apt update && sudo apt install -y --no-install-recommends gettext meson libgtk-4-dev libadwaita-1-dev libgtksourceview-5-dev desktop-file-utils xvfb
       - name: clone

@@ -27,6 +27,8 @@ mod imp {
     use std::collections::HashSet;
 
     use adw::prelude::WidgetExt;
+    use std::cell::OnceCell;
+
     use adw::AboutWindow;
     use adw::{subclass::prelude::*, TabPage};
     use gettextrs::gettext;
@@ -55,21 +57,91 @@ mod imp {
         toaster: TemplateChild<adw::ToastOverlay>,
 
         #[template_child]
-        pub tabs: TemplateChild<adw::TabBar>,
+        tabs: TemplateChild<adw::TabBar>,
 
         #[template_child]
-        pub tabview: TemplateChild<adw::TabView>,
+        tabview: TemplateChild<adw::TabView>,
 
         #[cfg(feature = "csd")]
         #[template_child]
-        pub window_title: TemplateChild<adw::WindowTitle>,
+        window_title: TemplateChild<adw::WindowTitle>,
 
         #[template_child]
         stack: TemplateChild<gtk::Stack>,
+
+        current_tab_binding_group: OnceCell<glib::BindingGroup>,
     }
 
     #[gtk::template_callbacks]
     impl CarteroWindow {
+        fn init_tab_bindings(&self) {
+            let obj = &*self.obj();
+
+            let tab_binding_group = glib::BindingGroup::new();
+            #[cfg(feature = "csd")]
+            {
+                tab_binding_group
+                    .bind("title", &*self.window_title, "title")
+                    .sync_create()
+                    .build();
+                tab_binding_group
+                    .bind("tooltip", &*self.window_title, "subtitle")
+                    .sync_create()
+                    .build();
+            }
+            tab_binding_group
+                .bind("title", &*obj, "title")
+                .sync_create()
+                .transform_to(|_, value| {
+                    value
+                        .get::<String>()
+                        .ok()
+                        .map(|v| format!("{v} — Cartero").to_value())
+                })
+                .build();
+            self.current_tab_binding_group
+                .set(tab_binding_group)
+                .unwrap();
+
+            /* Boolean expression that resolves to true if there is an open page. */
+            let has_page = self
+                .tabview
+                .property_expression("selected-page")
+                .chain_closure::<bool>(glib::closure!(
+                    move |_: glib::Object, page: Option<&adw::TabPage>| page.is_some()
+                ));
+
+            /* Enable these actions only if there is an open page. */
+            let tab_dependent_actions = ["save", "save-as", "close", "request"];
+            for tab in tab_dependent_actions {
+                if let Some(action) = obj.lookup_action(&tab) {
+                    has_page.bind(&action, "enabled", Some(&*self.tabview));
+                }
+            }
+
+            self.tabview.connect_notify_local(
+                Some("selected-page"),
+                glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |tv: &adw::TabView, _| {
+                        let page = tv.selected_page();
+                        let binding_group = imp.current_tab_binding_group.get().unwrap();
+                        binding_group.set_source(page.as_ref());
+                        if page.is_none() {
+                            #[cfg(feature = "csd")]
+                            {
+                                imp.window_title.set_title("Cartero");
+                                imp.window_title.set_subtitle("");
+                            }
+                            let obj = imp.obj();
+                            obj.set_title(Some("Cartero"));
+                        }
+                    }
+                ),
+            );
+        }
+
         fn init_settings(&self) {
             let app = CarteroApplication::get();
             let settings = app.settings();
@@ -641,6 +713,8 @@ mod imp {
                 action_close,
                 action_about,
             ]);
+
+            self.init_tab_bindings();
         }
     }
 

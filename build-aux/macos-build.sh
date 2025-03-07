@@ -10,16 +10,12 @@ case "$1" in
     APP_NAME="Cartero (Devel)"
     APP_VERSION="0.2.0"
     MESON_FLAGS="-Dprofile=development"
-    ICON_PATH="$PWD/data/icons/scalable/apps/es.danirod.Cartero.Devel.svg"
-    DOC_ICON_PATH="$PWD/data/icons/scalable/mimetypes/es.danirod.Cartero.Devel-request.svg"
     ;;
   stable)
     BUNDLE_ID="es.danirod.Cartero"
     APP_NAME="Cartero"
     APP_VERSION="0.2.0"
     MESON_FLAGS="-Dprofile=default"
-    ICON_PATH="$PWD/data/icons/scalable/apps/es.danirod.Cartero.svg"
-    DOC_ICON_PATH="$PWD/data/icons/scalable/mimetypes/es.danirod.Cartero-request.svg"
     ;;
   *)
     echo "Usage: $0 [devel / stable]"
@@ -188,7 +184,7 @@ cat > "$APP_ROOT/Contents/Info.plist" << EOF
           <string>cartero</string>
         </array>
         <key>CFBundleTypeIconFile</key>
-        <string>CarteroRequest.icns</string>
+        <string>es.danirod.Cartero-request.icns</string>
         <key>CFBundleTypeMIMETypes</key>
         <array>
           <string>application/cartero</string>
@@ -200,7 +196,7 @@ cat > "$APP_ROOT/Contents/Info.plist" << EOF
       </dict>
     </array>
     <key>CFBundleIconFile</key>
-    <string>Cartero.icns</string>
+    <string>es.danirod.Cartero.icns</string>
     <key>CFBundleIdentifier</key>
     <string>${BUNDLE_ID}</string>
     <key>CFBundleInfoDictionaryVersion</key>
@@ -223,35 +219,5 @@ cat > "$APP_ROOT/Contents/Info.plist" << EOF
 </plist>
 EOF
 
-# Create icon
-mkdir -p "$RESOURCES_ROOT/Cartero.iconset"
-rsvg-convert "$ICON_PATH" -w 16 -h 16 -o "$RESOURCES_ROOT/Cartero.iconset/icon_16x16.png"
-rsvg-convert "$ICON_PATH" -w 32 -h 32 -o "$RESOURCES_ROOT/Cartero.iconset/icon_32x32.png"
-rsvg-convert "$ICON_PATH" -w 64 -h 64 -o "$RESOURCES_ROOT/Cartero.iconset/icon_64x64.png"
-rsvg-convert "$ICON_PATH" -w 128 -h 128 -o "$RESOURCES_ROOT/Cartero.iconset/icon_128x128.png"
-rsvg-convert "$ICON_PATH" -w 256 -h 256 -o "$RESOURCES_ROOT/Cartero.iconset/icon_256x256.png"
-rsvg-convert "$ICON_PATH" -w 512 -h 512 -o "$RESOURCES_ROOT/Cartero.iconset/icon_512x512.png"
-rsvg-convert "$ICON_PATH" -w 1024 -h 1024 -o "$RESOURCES_ROOT/Cartero.iconset/icon_512x512@2x.png"
-cp "$RESOURCES_ROOT/Cartero.iconset/icon_32x32.png" "$RESOURCES_ROOT/Cartero.iconset/icon_16x16@2x.png"
-cp "$RESOURCES_ROOT/Cartero.iconset/icon_64x64.png" "$RESOURCES_ROOT/Cartero.iconset/icon_32x32@2x.png"
-cp "$RESOURCES_ROOT/Cartero.iconset/icon_128x128.png" "$RESOURCES_ROOT/Cartero.iconset/icon_64x64@2x.png"
-cp "$RESOURCES_ROOT/Cartero.iconset/icon_256x256.png" "$RESOURCES_ROOT/Cartero.iconset/icon_128x128@2x.png"
-cp "$RESOURCES_ROOT/Cartero.iconset/icon_512x512.png" "$RESOURCES_ROOT/Cartero.iconset/icon_256x256@2x.png"
-iconutil -c icns "$RESOURCES_ROOT/Cartero.iconset"
-rm -rf "$RESOURCES_ROOT/Cartero.iconset"
-
-mkdir -p "$RESOURCES_ROOT/CarteroRequest.iconset"
-rsvg-convert "$DOC_ICON_PATH" -w 16 -h 16 -o "$RESOURCES_ROOT/CarteroRequest.iconset/icon_16x16.png"
-rsvg-convert "$DOC_ICON_PATH" -w 32 -h 32 -o "$RESOURCES_ROOT/CarteroRequest.iconset/icon_32x32.png"
-rsvg-convert "$DOC_ICON_PATH" -w 64 -h 64 -o "$RESOURCES_ROOT/CarteroRequest.iconset/icon_64x64.png"
-rsvg-convert "$DOC_ICON_PATH" -w 128 -h 128 -o "$RESOURCES_ROOT/CarteroRequest.iconset/icon_128x128.png"
-rsvg-convert "$DOC_ICON_PATH" -w 256 -h 256 -o "$RESOURCES_ROOT/CarteroRequest.iconset/icon_256x256.png"
-rsvg-convert "$DOC_ICON_PATH" -w 512 -h 512 -o "$RESOURCES_ROOT/CarteroRequest.iconset/icon_512x512.png"
-rsvg-convert "$DOC_ICON_PATH" -w 1024 -h 1024 -o "$RESOURCES_ROOT/CarteroRequest.iconset/icon_512x512@2x.png"
-cp "$RESOURCES_ROOT/CarteroRequest.iconset/icon_32x32.png" "$RESOURCES_ROOT/CarteroRequest.iconset/icon_16x16@2x.png"
-cp "$RESOURCES_ROOT/CarteroRequest.iconset/icon_64x64.png" "$RESOURCES_ROOT/CarteroRequest.iconset/icon_32x32@2x.png"
-cp "$RESOURCES_ROOT/CarteroRequest.iconset/icon_128x128.png" "$RESOURCES_ROOT/CarteroRequest.iconset/icon_64x64@2x.png"
-cp "$RESOURCES_ROOT/CarteroRequest.iconset/icon_256x256.png" "$RESOURCES_ROOT/CarteroRequest.iconset/icon_128x128@2x.png"
-cp "$RESOURCES_ROOT/CarteroRequest.iconset/icon_512x512.png" "$RESOURCES_ROOT/CarteroRequest.iconset/icon_256x256@2x.png"
-iconutil -c icns "$RESOURCES_ROOT/CarteroRequest.iconset"
-rm -rf "$RESOURCES_ROOT/CarteroRequest.iconset"
+# Add icons
+cp build-aux/macos-build/*.icns "$RESOURCES_ROOT"

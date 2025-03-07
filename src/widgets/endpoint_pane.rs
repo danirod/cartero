@@ -23,7 +23,7 @@ use gtk::{glib, prelude::WidgetExt};
 
 use crate::{
     entities::EndpointData,
-    error::{CarteroError, FileSaveError},
+    error::FileSaveError,
     file::{EndpointLoadResult, FileLoadResult},
 };
 
@@ -42,8 +42,8 @@ mod imp {
 
     use crate::app::CarteroApplication;
     use crate::client::{BoundRequest, RequestError};
-    use crate::entities::{EndpointData, KeyValue, RequestExportType};
-    use crate::error::{CarteroError, RequestPreconditionError};
+    use crate::entities::{EndpointData, KeyValue, RequestExportType, ResponseData};
+    use crate::error::RequestPreconditionError;
     use crate::objects::KeyValueItem;
     use crate::widgets::{
         ExportTab, ExportType, ItemPane, KeyValuePane, MethodDropdown, PayloadTab, ResponsePanel,
@@ -420,38 +420,53 @@ mod imp {
             }
         }
 
-        /// Executes an HTTP request based on the current contents of the pane.
-        pub(super) async fn perform_request(&self) -> Result<(), CarteroError> {
+        fn bind_request(&self) -> Result<BoundRequest, RequestPreconditionError> {
             let request = self.extract_endpoint();
             let request = BoundRequest::try_from(request);
 
             // A special case before giving up: if the protocol is not specified, add it.
-            if let Err(RequestPreconditionError::MissingProtocol) = request {
-                // The URL is not considered an absolute URL, missing protocol.
-                let url_field = self.request_url.text().to_string();
-                let url_field = format!("http://{}", url_field);
-                self.request_url.set_text(&url_field);
-
-                // Now try again.
-                return std::boxed::Box::pin(self.perform_request()).await;
-            }
-
             match request {
-                Ok(request) => {
-                    // Execute the request.
-                    let request_obj = isahc::Request::try_from(request)?;
-                    let start = Instant::now();
-                    let mut response_obj = request_obj
-                        .send_async()
-                        .await
-                        .map_err(RequestError::NetworkError)?;
-                    let response =
-                        crate::client::extract_isahc_response(&mut response_obj, &start).await?;
-                    self.response.assign_from_response(&response);
-                    Ok(())
+                Err(RequestPreconditionError::MissingProtocol) => {
+                    // The URL is not considered an absolute URL, missing protocol.
+                    let url_field = self.request_url.text().to_string();
+                    let url_field = format!("http://{}", url_field);
+                    self.request_url.set_text(&url_field);
+
+                    // Now try again. If it fails again, just bail with the original error.
+                    let request = self.extract_endpoint();
+                    BoundRequest::try_from(request)
                 }
-                Err(e) => Err(CarteroError::from(e)),
+                any => any,
             }
+        }
+
+        async fn execute_request(
+            &self,
+            request: BoundRequest,
+        ) -> Result<ResponseData, RequestError> {
+            let request_obj = isahc::Request::try_from(request)?;
+            let start = Instant::now();
+            let mut response_obj = request_obj
+                .send_async()
+                .await
+                .map_err(RequestError::NetworkError)?;
+            let response = crate::client::extract_isahc_response(&mut response_obj, &start).await?;
+            Ok(response)
+        }
+
+        /// Executes an HTTP request based on the current contents of the pane.
+        pub(super) async fn perform_request(&self) {
+            let bind_request = match self.bind_request() {
+                Ok(bind) => bind,
+                Err(e) => {
+                    self.response.show_precondition_error(e);
+                    return;
+                }
+            };
+            match self.execute_request(bind_request).await {
+                Ok(data) => self.response.assign_from_response(&data),
+                Err(e) => self.response.show_request_error(e),
+            };
         }
     }
 }
@@ -481,32 +496,22 @@ impl EndpointPane {
         imp.extract_endpoint()
     }
 
-    pub fn show_error(&self, error: CarteroError) {
-        let imp = self.imp();
-        imp.response.show_error(error);
-    }
-
     /// Executes an HTTP request based on the current contents of the pane.
     ///
     /// TODO: Should actually the EndpointPane do the requests? This method
     /// will probably change once collections are correctly implemented,
     /// since the EndpointPane would be probably bound to an Endpoint object.
-    pub async fn perform_request(&self) -> Result<(), CarteroError> {
+    pub async fn perform_request(&self) {
         self.set_sensitive(false);
         let imp = self.imp();
         imp.response.set_spinning(true);
 
-        let result = catch_unwind(AssertUnwindSafe(move || {
+        let _ = catch_unwind(AssertUnwindSafe(move || {
             block_on(async { imp.perform_request().await })
         }));
 
         imp.response.set_spinning(false);
         self.set_sensitive(true);
-
-        match result {
-            Ok(inner) => inner,
-            Err(_) => Err(CarteroError::InternalError),
-        }
     }
 
     pub fn file(&self) -> Option<gtk::gio::File> {

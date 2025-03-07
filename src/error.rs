@@ -2,23 +2,6 @@ use gettextrs::gettext;
 use srtemplate::SrTemplateError;
 use thiserror::Error;
 
-use crate::client::RequestError;
-
-#[derive(Debug, Error)]
-pub enum CarteroError {
-    #[error("Internal error")]
-    InternalError,
-
-    #[error("DNS error")]
-    Dns,
-
-    #[error("HTTP request error")]
-    Request(#[from] RequestError),
-
-    #[error(transparent)]
-    PreconditionError(#[from] RequestPreconditionError),
-}
-
 #[derive(Debug, Eq, PartialEq, Error)]
 pub enum RequestPreconditionError {
     #[error("Cannot parse the URL, check for typos")]

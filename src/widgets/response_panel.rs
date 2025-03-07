@@ -26,15 +26,17 @@ use serde_json::Value;
 use sourceview5::prelude::BufferExt;
 use sourceview5::LanguageManager;
 
+use crate::client::RequestError;
 use crate::entities::ResponseData;
-use crate::error::CarteroError;
+use crate::error::RequestPreconditionError;
 use crate::objects::KeyValueItem;
 use glib::subclass::types::ObjectSubclassIsExt;
 
 mod imp {
     use std::cell::RefCell;
 
-    use crate::error::CarteroError;
+    use crate::client::RequestError;
+    use crate::error::RequestPreconditionError;
     use crate::widgets::{CodeView, ErrorPane, ResponseHeaders, SearchBox};
     use adw::prelude::*;
     use adw::subclass::bin::BinImpl;
@@ -115,7 +117,6 @@ mod imp {
         }
 
         fn set_spinning(&self, spinning: bool) {
-            self.stack.set_visible_child_name("response");
             let widget: &gtk::Widget = if spinning {
                 self.spinner.upcast_ref()
             } else {
@@ -152,9 +153,18 @@ mod imp {
             self.response_body.grab_focus();
         }
 
-        pub(super) fn show_error(&self, error: CarteroError) {
-            self.error_page.set_error(error);
+        pub(super) fn show_precondition_error(&self, error: RequestPreconditionError) {
+            self.error_page.set_precondition_error(error);
             self.stack.set_visible_child_name("error");
+        }
+
+        pub(super) fn show_request_error(&self, error: RequestError) {
+            self.error_page.set_request_error(error);
+            self.stack.set_visible_child_name("error");
+        }
+
+        pub(super) fn show_response(&self) {
+            self.stack.set_visible_child_name("response");
         }
     }
 }
@@ -194,9 +204,14 @@ impl ResponsePanel {
         Object::builder().build()
     }
 
-    pub fn show_error(&self, error: CarteroError) {
+    pub fn show_precondition_error(&self, error: RequestPreconditionError) {
         let imp = self.imp();
-        imp.show_error(error);
+        imp.show_precondition_error(error);
+    }
+
+    pub fn show_request_error(&self, error: RequestError) {
+        let imp = self.imp();
+        imp.show_request_error(error);
     }
 
     pub fn start_request(&self) {
@@ -283,5 +298,7 @@ impl ResponsePanel {
             Some(language) => buffer.set_language(Some(&language)),
             None => buffer.set_language(None),
         };
+
+        imp.show_response();
     }
 }

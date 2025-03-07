@@ -15,9 +15,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use crate::{
-    app::CarteroApplication, error::CarteroError, file::FileLoadFailure, widgets::ItemPane,
-};
+use crate::{app::CarteroApplication, file::FileLoadFailure, widgets::ItemPane};
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
 use gtk::{gio, glib};
@@ -36,9 +34,9 @@ mod imp {
     use gtk::prelude::*;
     use indexmap::IndexMap;
 
+    use crate::app::CarteroApplication;
     use crate::error::FileSaveError;
     use crate::file::{FileLoadFailure, FileLoadResult};
-    use crate::{app::CarteroApplication, error::CarteroError};
     use crate::{config, widgets::*};
     use glib::subclass::InitializingObject;
     use gtk::{CompositeTemplate, TemplateChild};
@@ -523,11 +521,6 @@ mod imp {
             }
         }
 
-        pub(super) fn toast_error(&self, error: CarteroError) {
-            let toast = adw::Toast::new(&error.to_string());
-            self.toaster.add_toast(toast);
-        }
-
         pub(super) fn toast_message(&self, msg: &str) {
             let toast = adw::Toast::new(msg);
             self.toaster.add_toast(toast);
@@ -620,9 +613,7 @@ mod imp {
                             async move {
                                 if let Some(pane) = window.current_pane().and_then(|e| e.endpoint())
                                 {
-                                    if let Err(e) = pane.perform_request().await {
-                                        pane.show_error(e);
-                                    }
+                                    pane.perform_request().await;
                                 }
                             }
                         ));
@@ -782,11 +773,6 @@ impl CarteroWindow {
     ) {
         let imp = self.imp();
         imp.report_open_endpoints_errors(opened).await
-    }
-
-    pub fn toast_error(&self, e: CarteroError) {
-        let imp = self.imp();
-        imp.toast_error(e);
     }
 
     pub fn toast_message(&self, msg: &str) {

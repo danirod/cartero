@@ -100,7 +100,7 @@ pub enum RequestError {
     #[error("Invalid payload state")]
     InvalidPayload,
 
-    #[error("Illegal header")]
+    #[error("Illegal header: {0}")]
     InvalidHeaderName(#[from] InvalidHeaderName),
 
     #[error("Illegal header value")]

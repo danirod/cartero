@@ -20,8 +20,8 @@ using Adw 1;
 
 template $CarteroErrorPane: Adw.Bin {
   Adw.StatusPage {
-    icon-name: "network-error-symbolic";
-    title: _("Cannot perform request");
+    icon-name: bind template.icon;
+    title: bind template.title;
     description: bind template.subtitle;
 
     child: Gtk.Label {

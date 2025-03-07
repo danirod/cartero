@@ -17,12 +17,13 @@
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use gettextrs::gettext;
 use glib::subclass::InitializingObject;
 use glib::Properties;
 use gtk::CompositeTemplate;
 use std::cell::RefCell;
 
-use crate::error::CarteroError;
+use crate::{client::RequestError, error::RequestPreconditionError};
 
 mod imp {
     use super::*;
@@ -31,6 +32,12 @@ mod imp {
     #[template(resource = "/es/danirod/Cartero/error_pane.ui")]
     #[properties(wrapper_type = super::ErrorPane)]
     pub struct ErrorPane {
+        #[property(get, set)]
+        icon: RefCell<String>,
+
+        #[property(get, set)]
+        title: RefCell<String>,
+
         #[property(get, set)]
         subtitle: RefCell<String>,
 
@@ -78,19 +85,16 @@ glib::wrapper! {
 }
 
 impl ErrorPane {
-    pub fn set_error(&self, error: CarteroError) {
-        // TODO: internationalize (let's wait until I have errors sorted out)
-        let message = match &error {
-            CarteroError::Request(inner) => inner.to_string(),
-            _ => error.to_string(),
-        };
-        self.set_subtitle(message.as_ref());
+    pub fn set_precondition_error(&self, error: RequestPreconditionError) {
+        self.set_icon("dialog-warning-symbolic");
+        self.set_title(gettext("The request data is not valid"));
+        self.set_subtitle(error.to_string());
+    }
 
-        let extra = match &error {
-            CarteroError::Request(inner) => inner.inner_error(),
-            _ => String::from(""),
-        };
-        self.set_extra(extra.as_ref());
+    pub fn set_request_error(&self, error: RequestError) {
+        self.set_icon("network-error-symbolic");
+        self.set_title(gettext("The HTTP request failed"));
+        self.set_subtitle(error.to_string());
     }
 }
 

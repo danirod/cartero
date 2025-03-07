@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-03-06 03:50+0100\n"
-"PO-Revision-Date: 2024-12-20 22:32+0000\n"
+"PO-Revision-Date: 2025-03-06 22:02+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/cartero/cartero/"
 "es/>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10-dev\n"
+"X-Generator: Weblate 5.10.3-dev\n"
 
 #: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -495,89 +495,94 @@ msgid "Request timeout"
 msgstr "Tiempo límite de petición"
 
 #: src/error.rs:63 src/error.rs:87
-#, fuzzy
 msgid "The current tab is not associated with a file"
-msgstr "La lista actual de archivos abiertos"
+msgstr "La pestaña actual no está asociada con un archivo"
 
 #: src/error.rs:65
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
+"El archivo ha sido creado con una versión más reciente de este programa; ¡"
+"por favor actualiza!"
 
 #: src/error.rs:69
 msgid "The file is corrupt or does not contain valid data for this application"
 msgstr ""
+"El archivo está corrupto o no contiene datos válidos para esta aplicación"
 
 #: src/file.rs:348
 msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
 msgstr ""
+"El verbo HTTP que se encontró en el archivo era '{}'. No es válido, así que "
+"se reestablecerá a '{}'."
 
 #: src/widgets/dialogs.rs:49
 msgid "Cannot open '{}'"
-msgstr ""
+msgstr "No se puede abrir '{}'"
 
 #: src/widgets/dialogs.rs:50
 msgid "Cannot open the requested file"
-msgstr ""
+msgstr "No se puede abrir el archivo solicitado"
 
 #: src/widgets/dialogs.rs:59 src/widgets/dialogs.rs:90
 #: src/widgets/dialogs.rs:113 src/widgets/dialogs.rs:126
-#, fuzzy
 msgid "Close"
-msgstr "Cerrar pestaña"
+msgstr "Cerrar"
 
 #: src/widgets/dialogs.rs:73
 msgid "The file '{}' was loaded but had issues"
-msgstr ""
+msgstr "El archivo '{}' fue cargado pero tenía problemas"
 
 #: src/widgets/dialogs.rs:74
 msgid "The requested file was loaded but had issues"
-msgstr ""
+msgstr "El archivo solicitado fue cargado pero tenía problemas"
 
 #: src/widgets/dialogs.rs:104
 msgid "Cannot save '{}'"
-msgstr ""
+msgstr "No se puede guardar '{}'"
 
 #: src/widgets/dialogs.rs:105
 msgid "Cannot save the requested file"
-msgstr ""
+msgstr "No se puede guardar el archivo solicitado"
 
 #: src/widgets/dialogs.rs:107
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
 msgstr ""
+"Hubo un error durante el proceso de guardado. Asume que tus cambios todavía "
+"no han sido guardados."
 
 #: src/widgets/dialogs.rs:121
 msgid "Could not select a valid file from the file chooser"
-msgstr ""
+msgstr "No se pudo seleccionar un archivo válido desde el selector de archivos"
 
 #: src/widgets/dialogs.rs:135
 msgid "There are unsaved changes"
-msgstr ""
+msgstr "Hay cambios sin guardar"
 
 #: src/widgets/dialogs.rs:137
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
 msgstr ""
+"Cerrar esta ventana perderá cualquier dato no guardado. ¿De verdad quieres "
+"continuar?"
 
 #: src/widgets/dialogs.rs:141
 msgid "Cancel"
 msgstr "Cancelar"
 
 #: src/widgets/dialogs.rs:142
-#, fuzzy
 msgid "Close anyway"
-msgstr "Cerrar pestaña"
+msgstr "Cerrar de todos modos"
 
 #: src/widgets/dialogs.rs:165
-#, fuzzy
 msgid "Save changes in '{}'?"
-msgstr "¿Guardar cambios?"
+msgstr "¿Guardar cambios en '{}'?"
 
 #: src/widgets/dialogs.rs:166
 msgid "Save changes?"

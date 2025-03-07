@@ -27,6 +27,8 @@ mod imp {
     use std::collections::HashSet;
 
     use adw::prelude::WidgetExt;
+    use std::cell::OnceCell;
+
     use adw::AboutWindow;
     use adw::{subclass::prelude::*, TabPage};
     use gettextrs::gettext;
@@ -36,94 +38,109 @@ mod imp {
 
     use crate::error::FileSaveError;
     use crate::file::{FileLoadFailure, FileLoadResult};
-    use crate::utils::SingleExpressionWatch;
     use crate::{app::CarteroApplication, error::CarteroError};
     use crate::{config, widgets::*};
     use glib::subclass::InitializingObject;
     use gtk::{CompositeTemplate, TemplateChild};
 
-    #[cfg(feature = "csd")]
     #[derive(CompositeTemplate, Default)]
-    #[template(resource = "/es/danirod/Cartero/main_window.ui")]
+    #[cfg_attr(
+        feature = "csd",
+        template(resource = "/es/danirod/Cartero/main_window.ui")
+    )]
+    #[cfg_attr(
+        not(feature = "csd"),
+        template(resource = "/es/danirod/Cartero/main_window_no_csd.ui")
+    )]
     pub struct CarteroWindow {
         #[template_child]
         toaster: TemplateChild<adw::ToastOverlay>,
 
         #[template_child]
-        pub tabs: TemplateChild<adw::TabBar>,
+        tabs: TemplateChild<adw::TabBar>,
 
         #[template_child]
-        pub tabview: TemplateChild<adw::TabView>,
+        tabview: TemplateChild<adw::TabView>,
 
+        #[cfg(feature = "csd")]
         #[template_child]
-        pub window_title: TemplateChild<adw::WindowTitle>,
-
-        #[template_child]
-        stack: TemplateChild<gtk::Stack>,
-
-        window_title_binding: SingleExpressionWatch,
-
-        window_subtitle_binding: SingleExpressionWatch,
-    }
-
-    #[cfg(not(feature = "csd"))]
-    #[derive(CompositeTemplate, Default)]
-    #[template(resource = "/es/danirod/Cartero/main_window_no_csd.ui")]
-    pub struct CarteroWindow {
-        #[template_child]
-        toaster: TemplateChild<adw::ToastOverlay>,
-
-        #[template_child]
-        pub tabs: TemplateChild<adw::TabBar>,
-
-        #[template_child]
-        pub tabview: TemplateChild<adw::TabView>,
+        window_title: TemplateChild<adw::WindowTitle>,
 
         #[template_child]
         stack: TemplateChild<gtk::Stack>,
+
+        current_tab_binding_group: OnceCell<glib::BindingGroup>,
     }
 
     #[gtk::template_callbacks]
     impl CarteroWindow {
-        fn update_tab_actions(&self) {
-            let has_tabs = self.tabview.n_pages() > 0;
-            let obj = self.obj();
-            let actions = vec!["save", "save-as", "close"];
-            for action in actions {
-                if let Some(action) = obj.lookup_action(action) {
-                    action.set_property("enabled", has_tabs);
+        fn init_tab_bindings(&self) {
+            let obj = &*self.obj();
+
+            let tab_binding_group = glib::BindingGroup::new();
+            #[cfg(feature = "csd")]
+            {
+                tab_binding_group
+                    .bind("title", &*self.window_title, "title")
+                    .sync_create()
+                    .build();
+                tab_binding_group
+                    .bind("tooltip", &*self.window_title, "subtitle")
+                    .sync_create()
+                    .build();
+            }
+            tab_binding_group
+                .bind("title", &*obj, "title")
+                .sync_create()
+                .transform_to(|_, value| {
+                    value
+                        .get::<String>()
+                        .ok()
+                        .map(|v| format!("{v} — Cartero").to_value())
+                })
+                .build();
+            self.current_tab_binding_group
+                .set(tab_binding_group)
+                .unwrap();
+
+            /* Boolean expression that resolves to true if there is an open page. */
+            let has_page = self
+                .tabview
+                .property_expression("selected-page")
+                .chain_closure::<bool>(glib::closure!(
+                    move |_: glib::Object, page: Option<&adw::TabPage>| page.is_some()
+                ));
+
+            /* Enable these actions only if there is an open page. */
+            let tab_dependent_actions = ["save", "save-as", "close", "request"];
+            for tab in tab_dependent_actions {
+                if let Some(action) = obj.lookup_action(&tab) {
+                    has_page.bind(&action, "enabled", Some(&*self.tabview));
                 }
             }
-        }
 
-        #[cfg(feature = "csd")]
-        fn bind_current_tab(&self, tab: Option<&ItemPane>) {
-            self.window_title_binding.clear();
-            self.window_subtitle_binding.clear();
-            match tab {
-                Some(tab) => {
-                    let title_bind =
-                        tab.window_title_binding()
-                            .bind(&*self.window_title, "title", Some(tab));
-                    let subtitle_bind = tab.window_subtitle_binding().bind(
-                        &*self.window_title,
-                        "subtitle",
-                        Some(tab),
-                    );
-                    self.window_title_binding.replace(title_bind);
-                    self.window_subtitle_binding.replace(subtitle_bind);
-                }
-                None => {
-                    self.window_title.set_title("Cartero");
-                    self.window_title.set_subtitle("");
-                    self.window_title_binding.clear();
-                    self.window_subtitle_binding.clear();
-                }
-            };
+            self.tabview.connect_notify_local(
+                Some("selected-page"),
+                glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |tv: &adw::TabView, _| {
+                        let page = tv.selected_page();
+                        let binding_group = imp.current_tab_binding_group.get().unwrap();
+                        binding_group.set_source(page.as_ref());
+                        if page.is_none() {
+                            #[cfg(feature = "csd")]
+                            {
+                                imp.window_title.set_title("Cartero");
+                                imp.window_title.set_subtitle("");
+                            }
+                            let obj = imp.obj();
+                            obj.set_title(Some("Cartero"));
+                        }
+                    }
+                ),
+            );
         }
-
-        #[cfg(not(feature = "csd"))]
-        fn bind_current_tab(&self, _: Option<&ItemPane>) {}
 
         fn init_settings(&self) {
             let app = CarteroApplication::get();
@@ -458,7 +475,6 @@ mod imp {
         async fn action_save_endpoint(&self) {
             if let Some(pane) = self.current_pane() {
                 self.save_pane(&pane).await;
-                self.bind_current_tab(Some(&pane));
                 self.save_visible_tabs();
             }
         }
@@ -474,7 +490,6 @@ mod imp {
                     if saved.is_none() || saved.is_some_and(|r| r.is_err()) {
                         pane.set_file(previous);
                     }
-                    self.bind_current_tab(Some(&pane));
                     self.save_visible_tabs();
                 }
             }
@@ -501,9 +516,6 @@ mod imp {
                 true
             };
             self.tabview.close_page_finish(&tabpage, close_page);
-
-            let current_pane = self.current_pane();
-            self.bind_current_tab(current_pane.as_ref());
 
             if self.tabview.selected_page().is_none() {
                 /* No more tabs to present, switch to the welcome view. */
@@ -560,18 +572,6 @@ mod imp {
             }
 
             self.init_settings();
-
-            self.tabview.connect_selected_page_notify(glib::clone!(
-                #[weak(rename_to = window)]
-                self,
-                move |tabview| {
-                    if let Some(page) = tabview.selected_page() {
-                        let item_pane = page.child().downcast::<ItemPane>().unwrap();
-                        window.bind_current_tab(Some(&item_pane));
-                        window.update_tab_actions();
-                    }
-                }
-            ));
 
             self.tabview.connect_close_page(glib::clone!(
                 #[weak(rename_to = imp)]
@@ -713,7 +713,8 @@ mod imp {
                 action_close,
                 action_about,
             ]);
-            self.update_tab_actions();
+
+            self.init_tab_bindings();
         }
     }
 

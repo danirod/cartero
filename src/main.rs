@@ -27,7 +27,6 @@ mod widgets;
 mod config;
 mod entities;
 mod objects;
-mod utils;
 mod win;
 mod windows;
 

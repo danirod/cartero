@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-06 03:50+0100\n"
+"POT-Creation-Date: 2025-03-08 11:15+0100\n"
 "PO-Revision-Date: 2024-11-04 17:46+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/cartero/"
@@ -224,7 +224,7 @@ msgstr "Sendu ĉi tiun http-peton"
 msgid "Parameters"
 msgstr "Parametroj"
 
-#: data/ui/endpoint_pane.blp:124 data/ui/response_panel.blp:91
+#: data/ui/endpoint_pane.blp:124 data/ui/response_panel.blp:97
 msgid "Headers"
 msgstr "Kapoj"
 
@@ -232,7 +232,7 @@ msgstr "Kapoj"
 msgid "Variables"
 msgstr "Variabloj"
 
-#: data/ui/endpoint_pane.blp:166 data/ui/response_panel.blp:47
+#: data/ui/endpoint_pane.blp:166 data/ui/response_panel.blp:53
 msgid "Body"
 msgstr "Korpo"
 
@@ -481,17 +481,41 @@ msgstr ""
 msgid "Request timeout"
 msgstr ""
 
-#: src/error.rs:63 src/error.rs:87
+#: src/error.rs:18
+msgid "Cannot recognise the URL"
+msgstr ""
+
+#: src/error.rs:19
+msgid "The given URL is missing a protocol"
+msgstr ""
+
+#: src/error.rs:21
+msgid "The protocol {}:// is not supported"
+msgstr ""
+
+#: src/error.rs:24
+msgid "The given request body could not be encoded correctly"
+msgstr ""
+
+#: src/error.rs:26
+msgid "The variable '{}' is not defined"
+msgstr ""
+
+#: src/error.rs:30
+msgid "There was a problem with a variable interpolation, review your inputs"
+msgstr ""
+
+#: src/error.rs:57 src/error.rs:81
 msgid "The current tab is not associated with a file"
 msgstr ""
 
-#: src/error.rs:65
+#: src/error.rs:59
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
 
-#: src/error.rs:69
+#: src/error.rs:63
 msgid "The file is corrupt or does not contain valid data for this application"
 msgstr ""
 
@@ -509,78 +533,87 @@ msgstr ""
 msgid "Cannot open the requested file"
 msgstr ""
 
-#: src/widgets/dialogs.rs:59 src/widgets/dialogs.rs:90
-#: src/widgets/dialogs.rs:113 src/widgets/dialogs.rs:126
+#: src/widgets/dialogs.rs:59 src/widgets/dialogs.rs:93
+#: src/widgets/dialogs.rs:119 src/widgets/dialogs.rs:135
 msgid "Close"
 msgstr ""
 
-#: src/widgets/dialogs.rs:73
+#: src/widgets/dialogs.rs:76
 msgid "The file '{}' was loaded but had issues"
 msgstr ""
 
-#: src/widgets/dialogs.rs:74
+#: src/widgets/dialogs.rs:77
 msgid "The requested file was loaded but had issues"
 msgstr ""
 
-#: src/widgets/dialogs.rs:104
+#: src/widgets/dialogs.rs:110
 msgid "Cannot save '{}'"
 msgstr ""
 
-#: src/widgets/dialogs.rs:105
+#: src/widgets/dialogs.rs:111
 msgid "Cannot save the requested file"
 msgstr ""
 
-#: src/widgets/dialogs.rs:107
+#: src/widgets/dialogs.rs:113
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
 msgstr ""
 
-#: src/widgets/dialogs.rs:121
+#: src/widgets/dialogs.rs:130
 msgid "Could not select a valid file from the file chooser"
 msgstr ""
 
-#: src/widgets/dialogs.rs:135
+#: src/widgets/dialogs.rs:147
 msgid "There are unsaved changes"
 msgstr ""
 
-#: src/widgets/dialogs.rs:137
+#: src/widgets/dialogs.rs:149
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
 msgstr ""
 
-#: src/widgets/dialogs.rs:141
+#: src/widgets/dialogs.rs:153
 msgid "Cancel"
 msgstr ""
 
-#: src/widgets/dialogs.rs:142
+#: src/widgets/dialogs.rs:154
 msgid "Close anyway"
 msgstr ""
 
-#: src/widgets/dialogs.rs:165
+#: src/widgets/dialogs.rs:180
 msgid "Save changes in '{}'?"
 msgstr ""
 
-#: src/widgets/dialogs.rs:166
+#: src/widgets/dialogs.rs:181
 msgid "Save changes?"
 msgstr ""
 
-#: src/widgets/dialogs.rs:171
+#: src/widgets/dialogs.rs:186
 msgid "There are changes that have not been saved yet. What do you want to do?"
 msgstr ""
 
-#: src/widgets/dialogs.rs:175
+#: src/widgets/dialogs.rs:190
 msgid "_Cancel"
 msgstr ""
 
-#: src/widgets/dialogs.rs:176
+#: src/widgets/dialogs.rs:191
 msgid "_Discard"
 msgstr ""
 
-#: src/widgets/dialogs.rs:177
+#: src/widgets/dialogs.rs:192
 msgid "_Save"
 msgstr ""
+
+#: src/widgets/error_pane.rs:90
+msgid "The request data is not valid"
+msgstr ""
+
+#: src/widgets/error_pane.rs:96
+#, fuzzy
+msgid "The HTTP request failed"
+msgstr "Sendu HTTP-petojn kaj testu retaj API-oj"
 
 #: src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"
@@ -620,11 +653,11 @@ msgid_plural "{} results"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/win.rs:689
+#: src/win.rs:685
 msgid "The Cartero authors"
 msgstr ""
 
-#: src/win.rs:690
+#: src/win.rs:686
 msgid "© 2024 the Cartero authors"
 msgstr ""
 

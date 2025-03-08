@@ -1,26 +1,33 @@
+use crate::i18n::i18n_f;
 use gettextrs::gettext;
 use srtemplate::SrTemplateError;
-use thiserror::Error;
 
-#[derive(Debug, Eq, PartialEq, Error)]
+#[derive(Debug, Eq, PartialEq)]
 pub enum RequestPreconditionError {
-    #[error("Cannot parse the URL, check for typos")]
     UrlBadParse,
-
-    #[error("URL is missing a protocol")]
     MissingProtocol,
-
-    #[error("Protocol {0}:// is not supported")]
     UnsupportedProtocol(String),
-
-    #[error("Payload could not be encoded")]
     EncodingError,
-
-    #[error("Variable {0} not found")]
     VariableNotFound(String),
-
-    #[error("String interpolation error, review variables")]
     BadInterpolation,
+}
+
+impl std::fmt::Display for RequestPreconditionError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let message = match self {
+            Self::UrlBadParse => gettext("Cannot recognise the URL"),
+            Self::MissingProtocol => gettext("The given URL is missing a protocol"),
+            Self::UnsupportedProtocol(proto) => {
+                i18n_f("The protocol {}:// is not supported", &[&proto])
+            }
+            Self::EncodingError => gettext("The given request body could not be encoded correctly"),
+            Self::VariableNotFound(var) => i18n_f("The variable '{}' is not defined", &[&var]),
+            Self::BadInterpolation => {
+                gettext("There was a problem with a variable interpolation, review your inputs")
+            }
+        };
+        write!(f, "{}", message)
+    }
 }
 
 impl From<SrTemplateError> for RequestPreconditionError {

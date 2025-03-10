@@ -3,6 +3,39 @@ use gettextrs::gettext;
 use srtemplate::SrTemplateError;
 
 #[derive(Debug, Eq, PartialEq)]
+pub enum RequestBuildError {
+    InvalidUrl(url::ParseError),
+    InvalidHeaderName(String),
+    InvalidHeaderValue(String),
+    InvalidBodyEncoding,
+}
+
+impl std::fmt::Display for RequestBuildError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let message = match self {
+            Self::InvalidUrl(_) => gettext("The specified URL is not valid"),
+            Self::InvalidHeaderName(name) => i18n_f("The header '{}' is not valid", &[&name]),
+            Self::InvalidHeaderValue(name) => {
+                i18n_f("The value for header '{}' is not valid", &[name])
+            }
+            Self::InvalidBodyEncoding => {
+                gettext("The given request body could not be encoded correctly")
+            }
+        };
+        write!(f, "{}", message)
+    }
+}
+
+impl std::error::Error for RequestBuildError {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        match self {
+            Self::InvalidUrl(pe) => Some(pe),
+            _ => None,
+        }
+    }
+}
+
+#[derive(Debug, Eq, PartialEq)]
 pub enum RequestPreconditionError {
     UrlBadParse,
     MissingProtocol,

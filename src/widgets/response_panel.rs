@@ -28,7 +28,7 @@ use sourceview5::LanguageManager;
 
 use crate::client::RequestError;
 use crate::entities::ResponseData;
-use crate::error::RequestPreconditionError;
+use crate::error::{RequestBuildError, RequestPreconditionError};
 use crate::objects::KeyValueItem;
 use glib::subclass::types::ObjectSubclassIsExt;
 
@@ -36,7 +36,7 @@ mod imp {
     use std::cell::RefCell;
 
     use crate::client::RequestError;
-    use crate::error::RequestPreconditionError;
+    use crate::error::{RequestBuildError, RequestPreconditionError};
     use crate::widgets::{CodeView, ErrorPane, ResponseHeaders, SearchBox};
     use adw::prelude::*;
     use adw::subclass::bin::BinImpl;
@@ -163,6 +163,11 @@ mod imp {
             self.stack.set_visible_child_name("error");
         }
 
+        pub(super) fn show_request_build_error(&self, error: RequestBuildError) {
+            self.error_page.set_request_build_error(error);
+            self.stack.set_visible_child_name("error");
+        }
+
         pub(super) fn show_response(&self) {
             self.stack.set_visible_child_name("response");
         }
@@ -207,6 +212,11 @@ impl ResponsePanel {
     pub fn show_precondition_error(&self, error: RequestPreconditionError) {
         let imp = self.imp();
         imp.show_precondition_error(error);
+    }
+
+    pub fn show_request_build_error(&self, error: RequestBuildError) {
+        let imp = self.imp();
+        imp.show_request_build_error(error);
     }
 
     pub fn show_request_error(&self, error: RequestError) {

@@ -22,8 +22,13 @@ use glib::subclass::InitializingObject;
 use glib::Properties;
 use gtk::CompositeTemplate;
 use std::cell::RefCell;
+use std::error::Error;
+use url::ParseError;
 
-use crate::{client::RequestError, error::RequestPreconditionError};
+use crate::{
+    client::RequestError,
+    error::{RequestBuildError, RequestPreconditionError},
+};
 
 mod imp {
     use super::*;
@@ -96,10 +101,43 @@ impl ErrorPane {
         self.set_title(gettext("The HTTP request failed"));
         self.set_subtitle(error.to_string());
     }
+
+    pub fn set_request_build_error(&self, error: RequestBuildError) {
+        self.set_icon("dialog-warning-symbolic");
+        self.set_title(gettext("The request data is not valid"));
+        self.set_subtitle(error.to_string());
+
+        self.set_extra("");
+        if let Some(error) = error.source() {
+            if let Some(pe) = error.downcast_ref::<ParseError>() {
+                self.set_extra(i18n_url_parse_error(pe).unwrap_or_default());
+            }
+        }
+    }
 }
 
 impl Default for ErrorPane {
     fn default() -> Self {
         glib::Object::new()
+    }
+}
+
+fn i18n_url_parse_error(pe: &ParseError) -> Option<String> {
+    match pe {
+        ParseError::EmptyHost
+        | ParseError::IdnaError
+        | ParseError::InvalidDomainCharacter
+        | ParseError::SetHostOnCannotBeABaseUrl => {
+            Some(gettext("The host is missing or malformed"))
+        }
+        ParseError::InvalidPort => Some(gettext("The specified port number is not valid")),
+        ParseError::InvalidIpv4Address | ParseError::InvalidIpv6Address => {
+            Some(gettext("The IP specified is not valid"))
+        }
+        ParseError::RelativeUrlWithCannotBeABaseBase | ParseError::RelativeUrlWithoutBase => {
+            Some(gettext("Relative URL cannot be solved"))
+        }
+        ParseError::Overflow => Some(gettext("The specified URL is too long for this program")),
+        _ => None,
     }
 }

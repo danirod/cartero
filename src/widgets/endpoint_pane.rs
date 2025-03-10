@@ -442,15 +442,14 @@ mod imp {
 
         async fn execute_request(
             &self,
-            request: BoundRequest,
+            request: isahc::http::Request<Vec<u8>>,
         ) -> Result<ResponseData, RequestError> {
-            let request_obj = isahc::Request::try_from(request)?;
             let start = Instant::now();
-            let mut response_obj = request_obj
+            let mut response = request
                 .send_async()
                 .await
                 .map_err(RequestError::NetworkError)?;
-            let response = crate::client::extract_isahc_response(&mut response_obj, &start).await?;
+            let response = crate::client::extract_isahc_response(&mut response, &start).await?;
             Ok(response)
         }
 
@@ -463,7 +462,16 @@ mod imp {
                     return;
                 }
             };
-            match self.execute_request(bind_request).await {
+
+            let client_obj = match crate::client::build_request(&bind_request) {
+                Ok(request) => request,
+                Err(e) => {
+                    self.response.show_request_build_error(e);
+                    return;
+                }
+            };
+
+            match self.execute_request(client_obj).await {
                 Ok(data) => self.response.assign_from_response(&data),
                 Err(e) => self.response.show_request_error(e),
             };

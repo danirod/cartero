@@ -18,6 +18,7 @@
 use crate::{
     app::CarteroApplication,
     entities::{RequestMethod, ResponseData},
+    error::RequestBuildError,
 };
 
 use super::{BoundRequest, RequestError};
@@ -30,7 +31,6 @@ use isahc::{
 };
 use std::{
     io::Read,
-    str::FromStr,
     time::{Duration, Instant},
 };
 use url::Url;
@@ -50,46 +50,43 @@ impl From<&RequestMethod> for isahc::http::Method {
     }
 }
 
-impl TryFrom<BoundRequest> for isahc::Request<Vec<u8>> {
-    type Error = RequestError;
+pub fn build_request(req: &BoundRequest) -> Result<isahc::Request<Vec<u8>>, RequestBuildError> {
+    let url = Url::parse(&req.url).map_err(|pe| RequestBuildError::InvalidUrl(pe))?;
+    let mut builder = isahc::Request::builder()
+        .uri(url.as_str())
+        .method(&req.method);
 
-    fn try_from(req: BoundRequest) -> Result<Self, Self::Error> {
-        let url = Url::parse(&req.url).map_err(|_| RequestError::InvalidUrl)?;
-        let mut builder = isahc::Request::builder()
-            .uri(url.as_str())
-            .method(&req.method);
+    let app = CarteroApplication::default();
+    let settings = app.settings();
 
-        let app = CarteroApplication::default();
-        let settings = app.settings();
-
-        if settings.boolean("validate-tls") {
-            builder = builder.ssl_options(SslOption::NONE);
-        } else {
-            builder = builder.ssl_options(SslOption::DANGER_ACCEPT_INVALID_CERTS);
-        }
-
-        if settings.boolean("follow-redirects") {
-            let count = settings.uint("maximum-redirects");
-            builder = builder.redirect_policy(isahc::config::RedirectPolicy::Limit(count));
-        } else {
-            builder = builder.redirect_policy(isahc::config::RedirectPolicy::None);
-        }
-
-        let timeout = settings.double("request-timeout");
-        builder = builder.timeout(Duration::from_secs_f64(timeout));
-
-        let Some(headers) = builder.headers_mut() else {
-            return Err(RequestError::InvalidHeaders);
-        };
-        for (h, v) in &req.headers {
-            let key = HeaderName::from_str(h)?;
-            let value = HeaderValue::from_str(v)?;
-            headers.insert(key, value);
-        }
-        let body = req.body.unwrap_or_default();
-        let req = builder.body(body)?;
-        Ok(req)
+    if settings.boolean("validate-tls") {
+        builder = builder.ssl_options(SslOption::NONE);
+    } else {
+        builder = builder.ssl_options(SslOption::DANGER_ACCEPT_INVALID_CERTS);
     }
+
+    if settings.boolean("follow-redirects") {
+        let count = settings.uint("maximum-redirects");
+        builder = builder.redirect_policy(isahc::config::RedirectPolicy::Limit(count));
+    } else {
+        builder = builder.redirect_policy(isahc::config::RedirectPolicy::None);
+    }
+
+    let timeout = settings.double("request-timeout");
+    builder = builder.timeout(Duration::from_secs_f64(timeout));
+
+    let headers = builder.headers_mut().unwrap();
+    for (h, v) in &req.headers {
+        let key = HeaderName::try_from(h)
+            .map_err(|_| RequestBuildError::InvalidHeaderName(h.to_string()))?;
+        let value = HeaderValue::try_from(v)
+            .map_err(|_| RequestBuildError::InvalidHeaderValue(h.to_string()))?;
+        headers.insert(key, value);
+    }
+    let body = req.body.clone().unwrap_or_default();
+    builder
+        .body(body)
+        .map_err(|_| RequestBuildError::InvalidBodyEncoding)
 }
 
 impl TryFrom<&mut isahc::Response<Body>> for ResponseData {

@@ -28,10 +28,10 @@ mod imp {
     use std::cell::OnceCell;
 
     use adw::AboutWindow;
-    use adw::{subclass::prelude::*, TabPage};
+    use adw::{prelude::*, subclass::prelude::*, TabPage};
     use gettextrs::gettext;
     use gtk::gio::{self, ActionEntry};
-    use gtk::{prelude::*, ClosureExpression};
+    use gtk::ClosureExpression;
     use indexmap::IndexMap;
 
     use crate::app::CarteroApplication;
@@ -634,15 +634,9 @@ mod imp {
                     #[weak(rename_to = window)]
                     self,
                     move |_, _, _| {
-                        glib::spawn_future_local(glib::clone!(
-                            #[weak]
-                            window,
-                            async move {
-                                if let Some(pane) = window.current_pane() {
-                                    pane.perform_request().await;
-                                }
-                            }
-                        ));
+                        if let Some(pane) = window.current_pane() {
+                            pane.activate_action("endpoint.request", None).unwrap();
+                        }
                     }
                 ))
                 .build();

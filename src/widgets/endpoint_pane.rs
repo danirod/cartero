@@ -35,7 +35,7 @@ mod imp {
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
     use glib::subclass::InitializingObject;
     use glib::Properties;
-    use gtk::gio;
+    use gtk::gio::{self, SimpleAction, SimpleActionGroup};
     use gtk::subclass::prelude::*;
     use gtk::{prelude::*, CompositeTemplate};
     use isahc::RequestExt;
@@ -116,6 +116,8 @@ mod imp {
 
             self.init_dirty_events();
             self.init_settings();
+            self.init_actions();
+
             self.variable_pane.assert_always_placeholder();
             self.header_pane.assert_always_placeholder();
             self.parameter_pane.assert_always_placeholder();
@@ -174,6 +176,31 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl EndpointPane {
+        fn init_actions(&self) {
+            let obj = self.obj();
+
+            let action_request = SimpleAction::new("request", None);
+            action_request.connect_activate(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |_, _| {
+                    imp.action_perform_request();
+                }
+            ));
+
+            /* The action should only be enabled if there is an URL set. */
+            self.request_url
+                .property_expression("text")
+                .chain_closure::<bool>(
+                    glib::closure!(|_: &gtk::Entry, text: &str| !text.is_empty()),
+                )
+                .bind(&action_request, "enabled", Some(&*self.request_url));
+
+            let action_group = SimpleActionGroup::new();
+            action_group.add_action(&action_request);
+            obj.insert_action_group("endpoint", Some(&action_group));
+        }
+
         fn update_url_from_query_params(&self) -> Result<(), url::ParseError> {
             let table = self.parameter_pane.get_entries();
 
@@ -271,27 +298,15 @@ mod imp {
             ));
         }
 
-        /// Syncs whether the Send button can be clicked based on whether the request is formed.
-        ///
-        /// For a request to be formed, an URL has to be set. You cannot submit a request if
-        /// you haven't introduced an URL into the corresponding entry field. Every other field
-        /// can be blank.
-        fn update_send_button_sensitivity(&self) {
-            let empty = self.request_url.buffer().text().is_empty();
-            self.send_button.set_sensitive(!empty);
-        }
-
         #[template_callback]
         fn on_url_changed(&self) {
-            self.update_send_button_sensitivity();
-
             let data = self.extract_endpoint();
             self.export_pane_load_endpoint_data(&data);
         }
 
         #[template_callback]
         fn on_url_activated(&self) {
-            let _ = self.obj().activate_action("win.request", None);
+            let _ = self.obj().activate_action("endpoint.request", None);
         }
 
         /// Loads data for the export pane module by using an `EndpointData` structure.
@@ -450,6 +465,16 @@ mod imp {
                 .map_err(RequestError::NetworkError)?;
             let response = crate::client::extract_isahc_response(&mut response, &start).await?;
             Ok(response)
+        }
+
+        fn action_perform_request(&self) {
+            glib::spawn_future_local(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                async move {
+                    imp.perform_request().await;
+                }
+            ));
         }
 
         /// Executes an HTTP request based on the current contents of the pane.

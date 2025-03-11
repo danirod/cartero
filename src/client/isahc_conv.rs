@@ -18,10 +18,10 @@
 use crate::{
     app::CarteroApplication,
     entities::{RequestMethod, ResponseData},
-    error::RequestBuildError,
+    error::{RequestBuildError, RequestError},
 };
 
-use super::{BoundRequest, RequestError};
+use super::BoundRequest;
 use futures_lite::io::AsyncReadExt;
 use gtk::prelude::SettingsExt;
 use isahc::{
@@ -116,7 +116,8 @@ impl TryFrom<&mut isahc::Response<Body>> for ResponseData {
         let body = {
             let mut buffer = Vec::new();
             let body = value.body_mut();
-            body.read_to_end(&mut buffer)?;
+            body.read_to_end(&mut buffer)
+                .map_err(|e| RequestError::IOError(e))?;
             buffer
         };
         Ok(ResponseData {
@@ -146,7 +147,9 @@ pub async fn extract_isahc_response(
     let body = {
         let mut buffer = Vec::new();
         let body = value.body_mut();
-        body.read_to_end(&mut buffer).await?;
+        body.read_to_end(&mut buffer)
+            .await
+            .map_err(|e| RequestError::IOError(e))?;
         buffer
     };
     let duration = start.elapsed();

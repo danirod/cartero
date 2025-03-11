@@ -41,9 +41,9 @@ mod imp {
     use url::Url;
 
     use crate::app::CarteroApplication;
-    use crate::client::{BoundRequest, RequestError};
+    use crate::client::BoundRequest;
     use crate::entities::{EndpointData, KeyValue, RequestExportType, ResponseData};
-    use crate::error::RequestPreconditionError;
+    use crate::error::{RequestError, RequestPreconditionError};
     use crate::objects::KeyValueItem;
     use crate::widgets::{
         ExportTab, ExportType, ItemPane, KeyValuePane, MethodDropdown, PayloadTab, ResponsePanel,

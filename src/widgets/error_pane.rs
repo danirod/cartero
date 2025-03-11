@@ -24,10 +24,7 @@ use gtk::CompositeTemplate;
 use std::cell::RefCell;
 use std::error::Error;
 
-use crate::{
-    client::RequestError,
-    error::{RequestBuildError, RequestPreconditionError},
-};
+use crate::error::{RequestBuildError, RequestError, RequestPreconditionError};
 
 mod imp {
     use super::*;
@@ -93,28 +90,21 @@ impl ErrorPane {
         self.set_icon("dialog-warning-symbolic");
         self.set_title(gettext("The request data is not valid"));
         self.set_subtitle(error.to_string());
+        self.set_extra("");
     }
 
     pub fn set_request_error(&self, error: RequestError) {
         self.set_icon("network-error-symbolic");
         self.set_title(gettext("The request failed"));
-        self.set_subtitle(match error {
-            RequestError::HttpError(_) => gettext("There is an HTTP error"),
-            RequestError::NetworkError(_) => gettext("There is a network error"),
-            RequestError::IOError(_) => gettext("There is an input/output error"),
-        });
-        self.set_extra(error.to_string());
+        self.set_subtitle(error.to_string());
+        self.set_extra(error.source().map(|e| e.to_string()).unwrap_or_default());
     }
 
     pub fn set_request_build_error(&self, error: RequestBuildError) {
         self.set_icon("dialog-warning-symbolic");
         self.set_title(gettext("The request data is not valid"));
         self.set_subtitle(error.to_string());
-
-        match error.source() {
-            None => self.set_extra(""),
-            Some(error) => self.set_extra(error.to_string()),
-        };
+        self.set_extra(error.source().map(|e| e.to_string()).unwrap_or_default());
     }
 }
 

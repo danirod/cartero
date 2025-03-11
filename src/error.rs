@@ -72,6 +72,31 @@ impl From<SrTemplateError> for RequestPreconditionError {
     }
 }
 
+#[derive(Debug)]
+pub enum RequestError {
+    NetworkError(isahc::error::Error),
+    IOError(std::io::Error),
+}
+
+impl std::fmt::Display for RequestError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let message = match self {
+            Self::NetworkError(_) => gettext("There is a network error"),
+            Self::IOError(_) => gettext("There is an input/output error"),
+        };
+        write!(f, "{}", message)
+    }
+}
+
+impl std::error::Error for RequestError {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        match self {
+            Self::NetworkError(e) => Some(e),
+            Self::IOError(e) => Some(e),
+        }
+    }
+}
+
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum FileLoadError {
     AnonymousPane,

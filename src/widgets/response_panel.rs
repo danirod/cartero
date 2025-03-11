@@ -26,17 +26,15 @@ use serde_json::Value;
 use sourceview5::prelude::BufferExt;
 use sourceview5::LanguageManager;
 
-use crate::client::RequestError;
 use crate::entities::ResponseData;
-use crate::error::{RequestBuildError, RequestPreconditionError};
+use crate::error::{RequestBuildError, RequestError, RequestPreconditionError};
 use crate::objects::KeyValueItem;
 use glib::subclass::types::ObjectSubclassIsExt;
 
 mod imp {
     use std::cell::RefCell;
 
-    use crate::client::RequestError;
-    use crate::error::{RequestBuildError, RequestPreconditionError};
+    use crate::error::{RequestBuildError, RequestError, RequestPreconditionError};
     use crate::widgets::{CodeView, ErrorPane, ResponseHeaders, SearchBox};
     use adw::prelude::*;
     use adw::subclass::bin::BinImpl;

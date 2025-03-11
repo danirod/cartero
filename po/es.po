@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-11 13:48+0100\n"
+"POT-Creation-Date: 2025-03-11 14:02+0100\n"
 "PO-Revision-Date: 2025-03-06 22:02+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -530,11 +530,19 @@ msgstr "La variable '{}' no está definida"
 msgid "There was a problem with a variable interpolation, review your inputs"
 msgstr "Hubo un problema interpolando las variables, revisa las entradas"
 
-#: src/error.rs:86 src/error.rs:110
+#: src/error.rs:84
+msgid "There is a network error"
+msgstr "Hay un error de red"
+
+#: src/error.rs:85
+msgid "There is an input/output error"
+msgstr "Hay un error de entrada/salida"
+
+#: src/error.rs:111 src/error.rs:135
 msgid "The current tab is not associated with a file"
 msgstr "La pestaña actual no está asociada con un archivo"
 
-#: src/error.rs:88
+#: src/error.rs:113
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
@@ -542,7 +550,7 @@ msgstr ""
 "El archivo ha sido creado con una versión más reciente de este programa; "
 "¡por favor actualiza!"
 
-#: src/error.rs:92
+#: src/error.rs:117
 msgid "The file is corrupt or does not contain valid data for this application"
 msgstr ""
 "El archivo está corrupto o no contiene datos válidos para esta aplicación"
@@ -640,25 +648,13 @@ msgstr "_Descartar"
 msgid "_Save"
 msgstr "_Guardar"
 
-#: src/widgets/error_pane.rs:95 src/widgets/error_pane.rs:112
+#: src/widgets/error_pane.rs:93 src/widgets/error_pane.rs:106
 msgid "The request data is not valid"
 msgstr "Los datos de la petición no son válidos"
 
-#: src/widgets/error_pane.rs:101
+#: src/widgets/error_pane.rs:99
 msgid "The request failed"
 msgstr "La petición ha fallado"
-
-#: src/widgets/error_pane.rs:103
-msgid "There is an HTTP error"
-msgstr "Hay un error HTTP"
-
-#: src/widgets/error_pane.rs:104
-msgid "There is a network error"
-msgstr "Hay un error de red"
-
-#: src/widgets/error_pane.rs:105
-msgid "There is an input/output error"
-msgstr "Hay un error de entrada/salida"
 
 #: src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"

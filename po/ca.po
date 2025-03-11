@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-11 13:48+0100\n"
+"POT-Creation-Date: 2025-03-11 14:02+0100\n"
 "PO-Revision-Date: 2024-12-22 20:55+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -528,18 +528,26 @@ msgstr ""
 msgid "There was a problem with a variable interpolation, review your inputs"
 msgstr ""
 
-#: src/error.rs:86 src/error.rs:110
+#: src/error.rs:84
+msgid "There is a network error"
+msgstr ""
+
+#: src/error.rs:85
+msgid "There is an input/output error"
+msgstr ""
+
+#: src/error.rs:111 src/error.rs:135
 #, fuzzy
 msgid "The current tab is not associated with a file"
 msgstr "La llista actual d'arxius oberts"
 
-#: src/error.rs:88
+#: src/error.rs:113
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
 
-#: src/error.rs:92
+#: src/error.rs:117
 msgid "The file is corrupt or does not contain valid data for this application"
 msgstr ""
 
@@ -633,26 +641,14 @@ msgstr "_Descartar"
 msgid "_Save"
 msgstr "_Guardar"
 
-#: src/widgets/error_pane.rs:95 src/widgets/error_pane.rs:112
+#: src/widgets/error_pane.rs:93 src/widgets/error_pane.rs:106
 msgid "The request data is not valid"
 msgstr ""
 
-#: src/widgets/error_pane.rs:101
+#: src/widgets/error_pane.rs:99
 #, fuzzy
 msgid "The request failed"
 msgstr "Fes peticions HTTP i testeja APIs"
-
-#: src/widgets/error_pane.rs:103
-msgid "There is an HTTP error"
-msgstr ""
-
-#: src/widgets/error_pane.rs:104
-msgid "There is a network error"
-msgstr ""
-
-#: src/widgets/error_pane.rs:105
-msgid "There is an input/output error"
-msgstr ""
 
 #: src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"

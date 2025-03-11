@@ -16,7 +16,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use std::collections::HashMap;
-use thiserror::Error;
 use url::Url;
 
 use crate::{
@@ -83,18 +82,6 @@ impl TryFrom<EndpointData> for BoundRequest {
             body: body.content,
         })
     }
-}
-
-#[derive(Error, Debug)]
-pub enum RequestError {
-    #[error(transparent)]
-    NetworkError(#[from] isahc::error::Error),
-
-    #[error(transparent)]
-    HttpError(#[from] isahc::http::Error),
-
-    #[error(transparent)]
-    IOError(#[from] std::io::Error),
 }
 
 #[cfg(test)]

@@ -15,11 +15,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use std::panic::{catch_unwind, AssertUnwindSafe};
-
-use futures_lite::future::block_on;
 use glib::{subclass::types::ObjectSubclassIsExt, Object};
-use gtk::{glib, prelude::WidgetExt};
+use gtk::glib;
 
 use crate::{
     entities::EndpointData,
@@ -37,7 +34,7 @@ mod imp {
     use glib::Properties;
     use gtk::gio::{self, SimpleAction, SimpleActionGroup};
     use gtk::subclass::prelude::*;
-    use gtk::{prelude::*, CompositeTemplate};
+    use gtk::{prelude::*, ClosureExpression, CompositeTemplate};
     use isahc::RequestExt;
     use url::Url;
 
@@ -92,6 +89,10 @@ mod imp {
 
         #[property(get, set)]
         dirty: RefCell<bool>,
+
+        // Busy requesting
+        #[property(get, set)]
+        busy: RefCell<bool>,
 
         variable_changing: Arc<Mutex<bool>>,
     }
@@ -169,6 +170,20 @@ mod imp {
                 }
             ));
 
+            // Mark the window as busy when actually busy.
+            let obj = self.obj();
+            obj.property_expression("busy")
+                .chain_closure::<gtk::gdk::Cursor>(glib::closure!(
+                    |_: &super::EndpointPane, busy: bool| {
+                        if busy {
+                            gtk::gdk::Cursor::from_name("wait", None)
+                        } else {
+                            None
+                        }
+                    }
+                ))
+                .bind(&*obj, "cursor", Some(&*obj));
+
             self.configure_export_pane_bindings();
         }
     }
@@ -191,13 +206,18 @@ mod imp {
                 }
             ));
 
-            /* The action should only be enabled if there is an URL set. */
-            self.request_url
-                .property_expression("text")
-                .chain_closure::<bool>(
-                    glib::closure!(|_: &gtk::Entry, text: &str| !text.is_empty()),
-                )
-                .bind(&action_request, "enabled", Some(&*self.request_url));
+            /* The action should only be enabled if there is an URL set and if not busy. */
+            let text = self.request_url.property_expression("text");
+            let busy = obj.property_expression("busy");
+
+            ClosureExpression::new::<bool>(
+                &[&text, &busy],
+                glib::closure!(|_: &super::EndpointPane, text: &str, busy: bool| {
+                    // The question is: is enabled? So returns true unless empty or busy.
+                    !(busy || text.is_empty())
+                }),
+            )
+            .bind(&action_request, "enabled", Some(&*obj));
 
             let action_group = SimpleActionGroup::new();
             action_group.add_action(&action_request);
@@ -475,7 +495,19 @@ mod imp {
                 #[weak(rename_to = imp)]
                 self,
                 async move {
+                    let obj = imp.obj();
+
+                    /* prelude */
+                    obj.set_busy(true);
+                    obj.set_read_only(true);
+                    imp.response.set_spinning(true);
+
                     imp.perform_request().await;
+
+                    /* restore */
+                    imp.response.set_spinning(false);
+                    obj.set_read_only(false);
+                    obj.set_busy(false);
                 }
             ));
         }
@@ -534,24 +566,6 @@ impl EndpointPane {
     pub fn extract_endpoint(&self) -> EndpointData {
         let imp = self.imp();
         imp.extract_endpoint()
-    }
-
-    /// Executes an HTTP request based on the current contents of the pane.
-    ///
-    /// TODO: Should actually the EndpointPane do the requests? This method
-    /// will probably change once collections are correctly implemented,
-    /// since the EndpointPane would be probably bound to an Endpoint object.
-    pub async fn perform_request(&self) {
-        self.set_sensitive(false);
-        let imp = self.imp();
-        imp.response.set_spinning(true);
-
-        let _ = catch_unwind(AssertUnwindSafe(move || {
-            block_on(async { imp.perform_request().await })
-        }));
-
-        imp.response.set_spinning(false);
-        self.set_sensitive(true);
     }
 
     pub async fn load(&self) -> impl FileLoadResult {

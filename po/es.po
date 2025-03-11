@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-08 11:15+0100\n"
+"POT-Creation-Date: 2025-03-11 13:48+0100\n"
 "PO-Revision-Date: 2025-03-06 22:02+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -494,35 +494,47 @@ msgstr "Redirecciones máximas"
 msgid "Request timeout"
 msgstr "Tiempo límite de petición"
 
-#: src/error.rs:18
-msgid "Cannot recognise the URL"
-msgstr "No se puede reconocer la URL"
+#: src/error.rs:16
+msgid "The specified URL is not valid"
+msgstr "La URL especificada no es válida"
+
+#: src/error.rs:17
+msgid "The header '{}' is not valid"
+msgstr "La cabecera '{}' no es válida"
 
 #: src/error.rs:19
-msgid "The given URL is missing a protocol"
-msgstr "La URL indicada no tiene un protocolo"
+msgid "The value for header '{}' is not valid"
+msgstr "El valor de la cabecera '{}' no es válido"
 
-#: src/error.rs:21
-msgid "The protocol {}:// is not supported"
-msgstr "El protocolo {}:// no está soportado"
-
-#: src/error.rs:24
+#: src/error.rs:22 src/error.rs:56
 msgid "The given request body could not be encoded correctly"
 msgstr "El cuerpo de petición dado no se pudo codificar correctamente"
 
-#: src/error.rs:26
+#: src/error.rs:51
+msgid "Cannot recognise the URL"
+msgstr "No se puede reconocer la URL"
+
+#: src/error.rs:52
+msgid "The given URL is missing a protocol"
+msgstr "La URL indicada no tiene un protocolo"
+
+#: src/error.rs:54
+msgid "The protocol {}:// is not supported"
+msgstr "El protocolo {}:// no está soportado"
+
+#: src/error.rs:57
 msgid "The variable '{}' is not defined"
 msgstr "La variable '{}' no está definida"
 
-#: src/error.rs:30
+#: src/error.rs:59
 msgid "There was a problem with a variable interpolation, review your inputs"
 msgstr "Hubo un problema interpolando las variables, revisa las entradas"
 
-#: src/error.rs:57 src/error.rs:81
+#: src/error.rs:86 src/error.rs:110
 msgid "The current tab is not associated with a file"
 msgstr "La pestaña actual no está asociada con un archivo"
 
-#: src/error.rs:59
+#: src/error.rs:88
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
@@ -530,7 +542,7 @@ msgstr ""
 "El archivo ha sido creado con una versión más reciente de este programa; "
 "¡por favor actualiza!"
 
-#: src/error.rs:63
+#: src/error.rs:92
 msgid "The file is corrupt or does not contain valid data for this application"
 msgstr ""
 "El archivo está corrupto o no contiene datos válidos para esta aplicación"
@@ -628,13 +640,25 @@ msgstr "_Descartar"
 msgid "_Save"
 msgstr "_Guardar"
 
-#: src/widgets/error_pane.rs:90
+#: src/widgets/error_pane.rs:95 src/widgets/error_pane.rs:112
 msgid "The request data is not valid"
 msgstr "Los datos de la petición no son válidos"
 
-#: src/widgets/error_pane.rs:96
-msgid "The HTTP request failed"
-msgstr "La petición HTTP ha fallado"
+#: src/widgets/error_pane.rs:101
+msgid "The request failed"
+msgstr "La petición ha fallado"
+
+#: src/widgets/error_pane.rs:103
+msgid "There is an HTTP error"
+msgstr "Hay un error HTTP"
+
+#: src/widgets/error_pane.rs:104
+msgid "There is a network error"
+msgstr "Hay un error de red"
+
+#: src/widgets/error_pane.rs:105
+msgid "There is an input/output error"
+msgstr "Hay un error de entrada/salida"
 
 #: src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"

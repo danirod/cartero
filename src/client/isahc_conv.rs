@@ -81,6 +81,16 @@ pub fn build_request(req: &BoundRequest) -> Result<isahc::Request<Vec<u8>>, Requ
             .map_err(|_| RequestBuildError::InvalidHeaderName(h.to_string()))?;
         let value = HeaderValue::try_from(v)
             .map_err(|_| RequestBuildError::InvalidHeaderValue(h.to_string()))?;
+
+        /*
+         * Double check that it's actually a valid value. It might be broken and it's only
+         * being reported via an expect() and when it's too late to catch the panic:
+         * https://docs.rs/crate/isahc/1.7.2/source/src/parsing.rs#60-62
+         */
+        value
+            .to_str()
+            .map_err(|_| RequestBuildError::InvalidHeaderValue(h.to_string()))?;
+
         headers.insert(key, value);
     }
     let body = req.body.clone().unwrap_or_default();

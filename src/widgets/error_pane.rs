@@ -23,7 +23,6 @@ use glib::Properties;
 use gtk::CompositeTemplate;
 use std::cell::RefCell;
 use std::error::Error;
-use url::ParseError;
 
 use crate::{
     client::RequestError,
@@ -98,8 +97,13 @@ impl ErrorPane {
 
     pub fn set_request_error(&self, error: RequestError) {
         self.set_icon("network-error-symbolic");
-        self.set_title(gettext("The HTTP request failed"));
-        self.set_subtitle(error.to_string());
+        self.set_title(gettext("The request failed"));
+        self.set_subtitle(match error {
+            RequestError::HttpError(_) => gettext("There is an HTTP error"),
+            RequestError::NetworkError(_) => gettext("There is a network error"),
+            RequestError::IOError(_) => gettext("There is an input/output error"),
+        });
+        self.set_extra(error.to_string());
     }
 
     pub fn set_request_build_error(&self, error: RequestBuildError) {
@@ -107,37 +111,15 @@ impl ErrorPane {
         self.set_title(gettext("The request data is not valid"));
         self.set_subtitle(error.to_string());
 
-        self.set_extra("");
-        if let Some(error) = error.source() {
-            if let Some(pe) = error.downcast_ref::<ParseError>() {
-                self.set_extra(i18n_url_parse_error(pe).unwrap_or_default());
-            }
-        }
+        match error.source() {
+            None => self.set_extra(""),
+            Some(error) => self.set_extra(error.to_string()),
+        };
     }
 }
 
 impl Default for ErrorPane {
     fn default() -> Self {
         glib::Object::new()
-    }
-}
-
-fn i18n_url_parse_error(pe: &ParseError) -> Option<String> {
-    match pe {
-        ParseError::EmptyHost
-        | ParseError::IdnaError
-        | ParseError::InvalidDomainCharacter
-        | ParseError::SetHostOnCannotBeABaseUrl => {
-            Some(gettext("The host is missing or malformed"))
-        }
-        ParseError::InvalidPort => Some(gettext("The specified port number is not valid")),
-        ParseError::InvalidIpv4Address | ParseError::InvalidIpv6Address => {
-            Some(gettext("The IP specified is not valid"))
-        }
-        ParseError::RelativeUrlWithCannotBeABaseBase | ParseError::RelativeUrlWithoutBase => {
-            Some(gettext("Relative URL cannot be solved"))
-        }
-        ParseError::Overflow => Some(gettext("The specified URL is too long for this program")),
-        _ => None,
     }
 }

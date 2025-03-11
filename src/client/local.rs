@@ -15,7 +15,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use isahc::http::header::{InvalidHeaderName, InvalidHeaderValue};
 use std::collections::HashMap;
 use thiserror::Error;
 use url::Url;
@@ -88,43 +87,14 @@ impl TryFrom<EndpointData> for BoundRequest {
 
 #[derive(Error, Debug)]
 pub enum RequestError {
-    #[error("Illegal HTTP verb")]
-    InvalidHttpVerb,
-
-    #[error("Invalid URL")]
-    InvalidUrl,
-
-    #[error("Invalid headers state")]
-    InvalidHeaders,
-
-    #[error("Invalid payload state")]
-    InvalidPayload,
-
-    #[error("Illegal header: {0}")]
-    InvalidHeaderName(#[from] InvalidHeaderName),
-
-    #[error("Illegal header value")]
-    InvalidHeaderValue(#[from] InvalidHeaderValue),
-
-    #[error("Request error")]
+    #[error(transparent)]
     NetworkError(#[from] isahc::error::Error),
 
-    #[error("HTTP error")]
+    #[error(transparent)]
     HttpError(#[from] isahc::http::Error),
 
-    #[error("Unknown I/O error")]
+    #[error(transparent)]
     IOError(#[from] std::io::Error),
-}
-
-impl RequestError {
-    pub fn inner_error(&self) -> String {
-        match self {
-            Self::NetworkError(isahc) => isahc.to_string(),
-            Self::HttpError(isahc) => isahc.to_string(),
-            Self::IOError(io) => io.to_string(),
-            _ => self.to_string(),
-        }
-    }
 }
 
 #[cfg(test)]

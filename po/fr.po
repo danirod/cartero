@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-08 11:15+0100\n"
+"POT-Creation-Date: 2025-03-11 13:48+0100\n"
 "PO-Revision-Date: 2025-02-11 11:02+0000\n"
 "Last-Translator: Altero <aurelien.reinert4@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -489,41 +489,53 @@ msgstr "Nombre maximal de redirections"
 msgid "Request timeout"
 msgstr "Délai de requête"
 
-#: src/error.rs:18
-msgid "Cannot recognise the URL"
+#: src/error.rs:16
+msgid "The specified URL is not valid"
+msgstr ""
+
+#: src/error.rs:17
+msgid "The header '{}' is not valid"
 msgstr ""
 
 #: src/error.rs:19
-msgid "The given URL is missing a protocol"
+msgid "The value for header '{}' is not valid"
 msgstr ""
 
-#: src/error.rs:21
-msgid "The protocol {}:// is not supported"
-msgstr ""
-
-#: src/error.rs:24
+#: src/error.rs:22 src/error.rs:56
 msgid "The given request body could not be encoded correctly"
 msgstr ""
 
-#: src/error.rs:26
+#: src/error.rs:51
+msgid "Cannot recognise the URL"
+msgstr ""
+
+#: src/error.rs:52
+msgid "The given URL is missing a protocol"
+msgstr ""
+
+#: src/error.rs:54
+msgid "The protocol {}:// is not supported"
+msgstr ""
+
+#: src/error.rs:57
 msgid "The variable '{}' is not defined"
 msgstr ""
 
-#: src/error.rs:30
+#: src/error.rs:59
 msgid "There was a problem with a variable interpolation, review your inputs"
 msgstr ""
 
-#: src/error.rs:57 src/error.rs:81
+#: src/error.rs:86 src/error.rs:110
 msgid "The current tab is not associated with a file"
 msgstr ""
 
-#: src/error.rs:59
+#: src/error.rs:88
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
 
-#: src/error.rs:63
+#: src/error.rs:92
 msgid "The file is corrupt or does not contain valid data for this application"
 msgstr ""
 
@@ -620,14 +632,26 @@ msgstr "_Abandonner"
 msgid "_Save"
 msgstr "_Enregistrer"
 
-#: src/widgets/error_pane.rs:90
+#: src/widgets/error_pane.rs:95 src/widgets/error_pane.rs:112
 msgid "The request data is not valid"
 msgstr ""
 
-#: src/widgets/error_pane.rs:96
+#: src/widgets/error_pane.rs:101
 #, fuzzy
-msgid "The HTTP request failed"
+msgid "The request failed"
 msgstr "Créer des requêtes HTTP et tester des API"
+
+#: src/widgets/error_pane.rs:103
+msgid "There is an HTTP error"
+msgstr ""
+
+#: src/widgets/error_pane.rs:104
+msgid "There is a network error"
+msgstr ""
+
+#: src/widgets/error_pane.rs:105
+msgid "There is an input/output error"
+msgstr ""
 
 #: src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"

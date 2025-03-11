@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-11 14:02+0100\n"
+"POT-Creation-Date: 2025-03-11 23:06+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -221,23 +221,23 @@ msgstr ""
 msgid "Execute this HTTP request"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:103
+#: data/ui/endpoint_pane.blp:102
 msgid "Parameters"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:124 data/ui/response_panel.blp:97
+#: data/ui/endpoint_pane.blp:123 data/ui/response_panel.blp:97
 msgid "Headers"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:145
+#: data/ui/endpoint_pane.blp:144
 msgid "Variables"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:166 data/ui/response_panel.blp:53
+#: data/ui/endpoint_pane.blp:165 data/ui/response_panel.blp:53
 msgid "Body"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:174
+#: data/ui/endpoint_pane.blp:173
 msgid "Export request"
 msgstr ""
 
@@ -627,11 +627,11 @@ msgstr ""
 msgid "_Save"
 msgstr ""
 
-#: src/widgets/error_pane.rs:93 src/widgets/error_pane.rs:106
+#: src/widgets/error_pane.rs:91 src/widgets/error_pane.rs:105
 msgid "The request data is not valid"
 msgstr ""
 
-#: src/widgets/error_pane.rs:99
+#: src/widgets/error_pane.rs:98
 msgid "The request failed"
 msgstr ""
 
@@ -651,14 +651,6 @@ msgstr ""
 msgid "Open request"
 msgstr ""
 
-#: src/widgets/item_pane.rs:88
-msgid "(untitled)"
-msgstr ""
-
-#: src/widgets/item_pane.rs:104
-msgid "Draft"
-msgstr ""
-
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
 #: src/widgets/search_box.rs:253
@@ -673,10 +665,18 @@ msgid_plural "{} results"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/win.rs:685
+#: src/win.rs:242
+msgid "(untitled)"
+msgstr ""
+
+#: src/win.rs:258
+msgid "Draft"
+msgstr ""
+
+#: src/win.rs:705
 msgid "The Cartero authors"
 msgstr ""
 
-#: src/win.rs:686
+#: src/win.rs:706
 msgid "© 2024 the Cartero authors"
 msgstr ""

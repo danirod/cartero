@@ -51,9 +51,12 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
         margin-end: 6;
         orientation: horizontal;
 
-        $CarteroMethodDropdown method {}
+        $CarteroMethodDropdown method {
+          sensitive: bind template.read-only inverted;
+        }
 
         Entry url {
+          editable: bind template.read-only inverted;
           hexpand: true;
           placeholder-text: _("Request URL");
           changed => $on_url_changed() swapped;
@@ -65,10 +68,9 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
             "suggested-action",
           ]
 
-          action-name: "win.request";
+          action-name: "endpoint.request";
           label: _("Send");
           tooltip-text: _("Execute this HTTP request");
-          sensitive: false;
         }
       }
 
@@ -114,7 +116,9 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
 
                   maximum-size: 720;
 
-                  $CarteroKeyValuePane parameter_pane {}
+                  $CarteroKeyValuePane parameter_pane {
+                    read-only: bind template.read-only;
+                  }
                 }
               };
             }
@@ -135,7 +139,9 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
 
                   maximum-size: 720;
 
-                  $CarteroKeyValuePane header_pane {}
+                  $CarteroKeyValuePane header_pane {
+                    read-only: bind template.read-only;
+                  }
                 }
               };
             }
@@ -156,7 +162,9 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
 
                   maximum-size: 720;
 
-                  $CarteroKeyValuePane variable_pane {}
+                  $CarteroKeyValuePane variable_pane {
+                    read-only: bind template.read-only;
+                  }
                 }
               };
             }
@@ -166,7 +174,9 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
                 label: _("Body");
               };
 
-              child: $CarteroPayloadTab payload_pane {};
+              child: $CarteroPayloadTab payload_pane {
+                read-only: bind template.read-only;
+              };
             }
 
             NotebookPage {
@@ -174,7 +184,9 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
                 label: _("Export request");
               };
 
-              child: $CarteroExportTab export_pane {};
+              child: $CarteroExportTab export_pane {
+                read-only: bind template.read-only;
+              };
             }
           }
         };

@@ -15,11 +15,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use std::panic::{catch_unwind, AssertUnwindSafe};
-
-use futures_lite::future::block_on;
 use glib::{subclass::types::ObjectSubclassIsExt, Object};
-use gtk::{glib, prelude::WidgetExt};
+use gtk::glib;
 
 use crate::{
     entities::EndpointData,
@@ -35,8 +32,9 @@ mod imp {
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
     use glib::subclass::InitializingObject;
     use glib::Properties;
+    use gtk::gio::{self, SimpleAction, SimpleActionGroup};
     use gtk::subclass::prelude::*;
-    use gtk::{prelude::*, CompositeTemplate};
+    use gtk::{prelude::*, ClosureExpression, CompositeTemplate};
     use isahc::RequestExt;
     use url::Url;
 
@@ -46,7 +44,7 @@ mod imp {
     use crate::error::{RequestError, RequestPreconditionError};
     use crate::objects::KeyValueItem;
     use crate::widgets::{
-        ExportTab, ExportType, ItemPane, KeyValuePane, MethodDropdown, PayloadTab, ResponsePanel,
+        ExportTab, ExportType, KeyValuePane, MethodDropdown, PayloadTab, ResponsePanel,
     };
 
     #[derive(CompositeTemplate, Properties, Default)]
@@ -83,8 +81,18 @@ mod imp {
         #[template_child]
         pub paned: TemplateChild<gtk::Paned>,
 
+        #[property(get, set, name = "read-only")]
+        read_only: RefCell<bool>,
+
         #[property(get, set, nullable)]
-        pub item_pane: RefCell<Option<ItemPane>>,
+        file: RefCell<Option<gio::File>>,
+
+        #[property(get, set)]
+        dirty: RefCell<bool>,
+
+        // Busy requesting
+        #[property(get, set)]
+        busy: RefCell<bool>,
 
         variable_changing: Arc<Mutex<bool>>,
     }
@@ -112,6 +120,8 @@ mod imp {
 
             self.init_dirty_events();
             self.init_settings();
+            self.init_actions();
+
             self.variable_pane.assert_always_placeholder();
             self.header_pane.assert_always_placeholder();
             self.parameter_pane.assert_always_placeholder();
@@ -160,6 +170,20 @@ mod imp {
                 }
             ));
 
+            // Mark the window as busy when actually busy.
+            let obj = self.obj();
+            obj.property_expression("busy")
+                .chain_closure::<gtk::gdk::Cursor>(glib::closure!(
+                    |_: &super::EndpointPane, busy: bool| {
+                        if busy {
+                            gtk::gdk::Cursor::from_name("wait", None)
+                        } else {
+                            None
+                        }
+                    }
+                ))
+                .bind(&*obj, "cursor", Some(&*obj));
+
             self.configure_export_pane_bindings();
         }
     }
@@ -170,6 +194,36 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl EndpointPane {
+        fn init_actions(&self) {
+            let obj = self.obj();
+
+            let action_request = SimpleAction::new("request", None);
+            action_request.connect_activate(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |_, _| {
+                    imp.action_perform_request();
+                }
+            ));
+
+            /* The action should only be enabled if there is an URL set and if not busy. */
+            let text = self.request_url.property_expression("text");
+            let busy = obj.property_expression("busy");
+
+            ClosureExpression::new::<bool>(
+                &[&text, &busy],
+                glib::closure!(|_: &super::EndpointPane, text: &str, busy: bool| {
+                    // The question is: is enabled? So returns true unless empty or busy.
+                    !(busy || text.is_empty())
+                }),
+            )
+            .bind(&action_request, "enabled", Some(&*obj));
+
+            let action_group = SimpleActionGroup::new();
+            action_group.add_action(&action_request);
+            obj.insert_action_group("endpoint", Some(&action_group));
+        }
+
         fn update_url_from_query_params(&self) -> Result<(), url::ParseError> {
             let table = self.parameter_pane.get_entries();
 
@@ -217,42 +271,37 @@ mod imp {
             Ok(())
         }
 
-        fn mark_dirty(&self) {
-            if let Some(item_pane) = self.obj().item_pane() {
-                item_pane.set_dirty(true);
-            }
-        }
-
         fn init_dirty_events(&self) {
+            let obj = self.obj();
             self.request_method.connect_changed(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| pane.mark_dirty()
+                #[weak]
+                obj,
+                move |_| obj.set_dirty(true)
             ));
             self.request_url.connect_changed(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| pane.mark_dirty()
+                #[weak]
+                obj,
+                move |_| obj.set_dirty(true)
             ));
             self.payload_pane.connect_changed(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| pane.mark_dirty()
+                #[weak]
+                obj,
+                move |_| obj.set_dirty(true)
             ));
             self.export_pane.connect_changed(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| pane.mark_dirty()
+                #[weak]
+                obj,
+                move |_| obj.set_dirty(true)
             ));
             self.header_pane.connect_changed(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| pane.mark_dirty()
+                #[weak]
+                obj,
+                move |_| obj.set_dirty(true)
             ));
             self.variable_pane.connect_changed(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| pane.mark_dirty()
+                #[weak]
+                obj,
+                move |_| obj.set_dirty(true)
             ));
         }
 
@@ -272,27 +321,15 @@ mod imp {
             ));
         }
 
-        /// Syncs whether the Send button can be clicked based on whether the request is formed.
-        ///
-        /// For a request to be formed, an URL has to be set. You cannot submit a request if
-        /// you haven't introduced an URL into the corresponding entry field. Every other field
-        /// can be blank.
-        fn update_send_button_sensitivity(&self) {
-            let empty = self.request_url.buffer().text().is_empty();
-            self.send_button.set_sensitive(!empty);
-        }
-
         #[template_callback]
         fn on_url_changed(&self) {
-            self.update_send_button_sensitivity();
-
             let data = self.extract_endpoint();
             self.export_pane_load_endpoint_data(&data);
         }
 
         #[template_callback]
         fn on_url_activated(&self) {
-            let _ = self.obj().activate_action("win.request", None);
+            let _ = self.obj().activate_action("endpoint.request", None);
         }
 
         /// Loads data for the export pane module by using an `EndpointData` structure.
@@ -453,6 +490,28 @@ mod imp {
             Ok(response)
         }
 
+        fn action_perform_request(&self) {
+            glib::spawn_future_local(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                async move {
+                    let obj = imp.obj();
+
+                    /* prelude */
+                    obj.set_busy(true);
+                    obj.set_read_only(true);
+                    imp.response.set_spinning(true);
+
+                    imp.perform_request().await;
+
+                    /* restore */
+                    imp.response.set_spinning(false);
+                    obj.set_read_only(false);
+                    obj.set_busy(false);
+                }
+            ));
+        }
+
         /// Executes an HTTP request based on the current contents of the pane.
         pub(super) async fn perform_request(&self) {
             let bind_request = match self.bind_request() {
@@ -491,6 +550,11 @@ impl Default for EndpointPane {
 }
 
 impl EndpointPane {
+    pub fn new() -> Self {
+        // TODO: Accept additional initial state maybe?
+        Object::builder().build()
+    }
+
     /// Updates the contents of the widget so that they reflect the endpoint data.
     ///
     /// TODO: Should enable a binding system?
@@ -504,38 +568,13 @@ impl EndpointPane {
         imp.extract_endpoint()
     }
 
-    /// Executes an HTTP request based on the current contents of the pane.
-    ///
-    /// TODO: Should actually the EndpointPane do the requests? This method
-    /// will probably change once collections are correctly implemented,
-    /// since the EndpointPane would be probably bound to an Endpoint object.
-    pub async fn perform_request(&self) {
-        self.set_sensitive(false);
-        let imp = self.imp();
-        imp.response.set_spinning(true);
-
-        let _ = catch_unwind(AssertUnwindSafe(move || {
-            block_on(async { imp.perform_request().await })
-        }));
-
-        imp.response.set_spinning(false);
-        self.set_sensitive(true);
-    }
-
-    pub fn file(&self) -> Option<gtk::gio::File> {
-        // TODO: This will become a property.
-        let imp = self.imp();
-        let item_pane = imp.item_pane.borrow();
-        item_pane.clone().and_then(|pane| pane.file())
-    }
-
     pub async fn load(&self) -> impl FileLoadResult {
         match self.file() {
             Some(file) => {
                 let result = crate::file::read_endpoint(&file).await;
                 if let Some(endpoint) = result.endpoint() {
                     self.assign_endpoint(&endpoint);
-                    self.item_pane().expect("No item pane?").set_dirty(false);
+                    self.set_dirty(false);
                 }
                 result
             }
@@ -549,7 +588,7 @@ impl EndpointPane {
                 let endpoint = self.extract_endpoint();
                 let result = crate::file::write_endpoint(&file, &endpoint).await;
                 if let Ok(()) = result {
-                    self.item_pane().expect("No item pane?").set_dirty(false);
+                    self.set_dirty(false);
                 }
                 result
             }

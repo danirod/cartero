@@ -25,6 +25,7 @@ template $CarteroKeyValueRow: Gtk.ListBoxRow {
 
     Gtk.CheckButton active {
       active: bind template.active bidirectional;
+      sensitive: bind template.read-only inverted;
     }
 
     Gtk.Box {
@@ -35,6 +36,7 @@ template $CarteroKeyValueRow: Gtk.ListBoxRow {
           "flat",
         ]
 
+        editable: bind template.read-only inverted;
         hexpand: true;
         text: bind template.header-name bidirectional;
         placeholder-text: _("Name");
@@ -45,6 +47,7 @@ template $CarteroKeyValueRow: Gtk.ListBoxRow {
           "flat",
         ]
 
+        editable: bind template.read-only inverted;
         hexpand: true;
         text: bind template.header-value bidirectional;
         placeholder-text: _("Value");
@@ -59,6 +62,7 @@ template $CarteroKeyValueRow: Gtk.ListBoxRow {
 
         icon-name: "view-more-symbolic";
         tooltip-text: _("Actions");
+        sensitive: bind template.read-only inverted;
 
         popover: Gtk.PopoverMenu {
           menu-model: row_actions;

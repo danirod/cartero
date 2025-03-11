@@ -30,7 +30,9 @@ template $CarteroUrlencodedPayloadPane: $CarteroBasePayloadPane {
 
       maximum-size: 720;
 
-      $CarteroKeyValuePane data {}
+      $CarteroKeyValuePane data {
+        read-only: bind template.read-only;
+      }
     }
   }
 }

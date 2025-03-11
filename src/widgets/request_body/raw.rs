@@ -52,6 +52,9 @@ mod imp {
         #[template_child]
         search_revealer: TemplateChild<Revealer>,
 
+        #[property(get, set, name = "read-only")]
+        read_only: RefCell<bool>,
+
         #[property(get = Self::format, set = Self::set_format, builder(PayloadType::default()))]
         _format: RefCell<PayloadType>,
     }

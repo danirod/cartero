@@ -54,6 +54,9 @@ mod imp {
 
         #[property(get)]
         valid: RefCell<bool>,
+
+        #[property(get, set, name = "read-only")]
+        read_only: RefCell<bool>,
     }
 
     #[gtk::template_callbacks]
@@ -111,8 +114,13 @@ mod imp {
                     self,
                     #[upgrade_or_panic]
                     move |item| {
+                        let obj = pane.obj();
+
                         let item = item.downcast_ref::<KeyValueItem>().unwrap();
                         let row = KeyValueRow::default();
+                        obj.bind_property("read-only", &row, "read-only")
+                            .sync_create()
+                            .build();
                         row.add_binding(
                             item.bind_property("header-name", &row, "header-name")
                                 .bidirectional()

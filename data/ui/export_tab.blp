@@ -35,6 +35,7 @@ template $CarteroExportTab: Gtk.Box {
         title: _("Export to");
         model: entries;
         notify::selected => $on_selection_changed() swapped;
+        sensitive: bind template.read-only inverted;
       }
     }
   }

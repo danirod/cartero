@@ -15,9 +15,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use isahc::http::header::{InvalidHeaderName, InvalidHeaderValue};
 use std::collections::HashMap;
-use thiserror::Error;
 use url::Url;
 
 use crate::{
@@ -84,36 +82,6 @@ impl TryFrom<EndpointData> for BoundRequest {
             body: body.content,
         })
     }
-}
-
-#[derive(Error, Debug)]
-pub enum RequestError {
-    #[error("Illegal HTTP verb")]
-    InvalidHttpVerb,
-
-    #[error("Invalid URL")]
-    InvalidUrl,
-
-    #[error("Invalid headers state")]
-    InvalidHeaders,
-
-    #[error("Invalid payload state")]
-    InvalidPayload,
-
-    #[error("Illegal header")]
-    InvalidHeaderName(#[from] InvalidHeaderName),
-
-    #[error("Illegal header value")]
-    InvalidHeaderValue(#[from] InvalidHeaderValue),
-
-    #[error("Request error")]
-    NetworkError(#[from] isahc::error::Error),
-
-    #[error("HTTP error")]
-    HttpError(#[from] isahc::http::Error),
-
-    #[error("Unknown I/O error")]
-    IOError(#[from] std::io::Error),
 }
 
 #[cfg(test)]

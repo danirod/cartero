@@ -32,6 +32,12 @@ template $CarteroResponsePanel: Adw.Bin {
     }
 
     StackPage {
+      name: "error";
+
+      child: $CarteroErrorPane error_page {};
+    }
+
+    StackPage {
       name: "response";
 
       child: Overlay {

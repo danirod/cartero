@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-06 03:50+0100\n"
+"POT-Creation-Date: 2025-03-11 14:02+0100\n"
 "PO-Revision-Date: 2025-02-11 11:02+0000\n"
 "Last-Translator: vesp <vesp@post.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/cartero/cartero/cs/"
@@ -234,7 +234,7 @@ msgstr "Provést tento HTTP požadavek"
 msgid "Parameters"
 msgstr "Parametry"
 
-#: data/ui/endpoint_pane.blp:124 data/ui/response_panel.blp:91
+#: data/ui/endpoint_pane.blp:124 data/ui/response_panel.blp:97
 msgid "Headers"
 msgstr "Hlavičky"
 
@@ -242,7 +242,7 @@ msgstr "Hlavičky"
 msgid "Variables"
 msgstr "Proměnné"
 
-#: data/ui/endpoint_pane.blp:166 data/ui/response_panel.blp:47
+#: data/ui/endpoint_pane.blp:166 data/ui/response_panel.blp:53
 msgid "Body"
 msgstr "Tělo"
 
@@ -495,18 +495,62 @@ msgstr "Maximální počet přesměrování"
 msgid "Request timeout"
 msgstr "Časový limit požadavku"
 
-#: src/error.rs:63 src/error.rs:87
+#: src/error.rs:16
+msgid "The specified URL is not valid"
+msgstr ""
+
+#: src/error.rs:17
+msgid "The header '{}' is not valid"
+msgstr ""
+
+#: src/error.rs:19
+msgid "The value for header '{}' is not valid"
+msgstr ""
+
+#: src/error.rs:22 src/error.rs:56
+msgid "The given request body could not be encoded correctly"
+msgstr ""
+
+#: src/error.rs:51
+msgid "Cannot recognise the URL"
+msgstr ""
+
+#: src/error.rs:52
+msgid "The given URL is missing a protocol"
+msgstr ""
+
+#: src/error.rs:54
+msgid "The protocol {}:// is not supported"
+msgstr ""
+
+#: src/error.rs:57
+msgid "The variable '{}' is not defined"
+msgstr ""
+
+#: src/error.rs:59
+msgid "There was a problem with a variable interpolation, review your inputs"
+msgstr ""
+
+#: src/error.rs:84
+msgid "There is a network error"
+msgstr ""
+
+#: src/error.rs:85
+msgid "There is an input/output error"
+msgstr ""
+
+#: src/error.rs:111 src/error.rs:135
 #, fuzzy
 msgid "The current tab is not associated with a file"
 msgstr "Aktuální seznam otevřených souborů"
 
-#: src/error.rs:65
+#: src/error.rs:113
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
 
-#: src/error.rs:69
+#: src/error.rs:117
 msgid "The file is corrupt or does not contain valid data for this application"
 msgstr ""
 
@@ -524,82 +568,91 @@ msgstr ""
 msgid "Cannot open the requested file"
 msgstr ""
 
-#: src/widgets/dialogs.rs:59 src/widgets/dialogs.rs:90
-#: src/widgets/dialogs.rs:113 src/widgets/dialogs.rs:126
+#: src/widgets/dialogs.rs:59 src/widgets/dialogs.rs:93
+#: src/widgets/dialogs.rs:119 src/widgets/dialogs.rs:135
 #, fuzzy
 msgid "Close"
 msgstr "Zavřít panel"
 
-#: src/widgets/dialogs.rs:73
+#: src/widgets/dialogs.rs:76
 msgid "The file '{}' was loaded but had issues"
 msgstr ""
 
-#: src/widgets/dialogs.rs:74
+#: src/widgets/dialogs.rs:77
 msgid "The requested file was loaded but had issues"
 msgstr ""
 
-#: src/widgets/dialogs.rs:104
+#: src/widgets/dialogs.rs:110
 msgid "Cannot save '{}'"
 msgstr ""
 
-#: src/widgets/dialogs.rs:105
+#: src/widgets/dialogs.rs:111
 msgid "Cannot save the requested file"
 msgstr ""
 
-#: src/widgets/dialogs.rs:107
+#: src/widgets/dialogs.rs:113
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
 msgstr ""
 
-#: src/widgets/dialogs.rs:121
+#: src/widgets/dialogs.rs:130
 msgid "Could not select a valid file from the file chooser"
 msgstr ""
 
-#: src/widgets/dialogs.rs:135
+#: src/widgets/dialogs.rs:147
 msgid "There are unsaved changes"
 msgstr ""
 
-#: src/widgets/dialogs.rs:137
+#: src/widgets/dialogs.rs:149
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
 msgstr ""
 
-#: src/widgets/dialogs.rs:141
+#: src/widgets/dialogs.rs:153
 #, fuzzy
 msgid "Cancel"
 msgstr "_Zrušit"
 
-#: src/widgets/dialogs.rs:142
+#: src/widgets/dialogs.rs:154
 #, fuzzy
 msgid "Close anyway"
 msgstr "Zavřít panel"
 
-#: src/widgets/dialogs.rs:165
+#: src/widgets/dialogs.rs:180
 #, fuzzy
 msgid "Save changes in '{}'?"
 msgstr "Uložit změny?"
 
-#: src/widgets/dialogs.rs:166
+#: src/widgets/dialogs.rs:181
 msgid "Save changes?"
 msgstr "Uložit změny?"
 
-#: src/widgets/dialogs.rs:171
+#: src/widgets/dialogs.rs:186
 msgid "There are changes that have not been saved yet. What do you want to do?"
 msgstr "Máte neuložené změny. Co chcete udělat?"
 
-#: src/widgets/dialogs.rs:175
+#: src/widgets/dialogs.rs:190
 msgid "_Cancel"
 msgstr "_Zrušit"
 
-#: src/widgets/dialogs.rs:176
+#: src/widgets/dialogs.rs:191
 msgid "_Discard"
 msgstr "Zahodi_t změny"
 
-#: src/widgets/dialogs.rs:177
+#: src/widgets/dialogs.rs:192
 msgid "_Save"
 msgstr "_Uložit"
+
+#: src/widgets/error_pane.rs:93 src/widgets/error_pane.rs:106
+msgid "The request data is not valid"
+msgstr ""
+
+#: src/widgets/error_pane.rs:99
+#, fuzzy
+msgid "The request failed"
+msgstr "Spouštějte HTTP volání a testujte API"
 
 #: src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"
@@ -640,10 +693,10 @@ msgstr[0] "{} požadavek"
 msgstr[1] "{} požadavky"
 msgstr[2] "{} požadavků"
 
-#: src/win.rs:689
+#: src/win.rs:685
 msgid "The Cartero authors"
 msgstr "Autoři aplikace Cartero"
 
-#: src/win.rs:690
+#: src/win.rs:686
 msgid "© 2024 the Cartero authors"
 msgstr "© 2024 autoři aplikace Cartero"

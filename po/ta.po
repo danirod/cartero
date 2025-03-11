@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-06 03:50+0100\n"
+"POT-Creation-Date: 2025-03-11 14:02+0100\n"
 "PO-Revision-Date: 2024-12-22 20:55+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/cartero/cartero/ta/"
@@ -233,7 +233,7 @@ msgstr "இந்த HTTP கோரிக்கையை இயக்கவு�
 msgid "Parameters"
 msgstr "அளவுருக்கள்"
 
-#: data/ui/endpoint_pane.blp:124 data/ui/response_panel.blp:91
+#: data/ui/endpoint_pane.blp:124 data/ui/response_panel.blp:97
 msgid "Headers"
 msgstr "தலைப்பிகளுக்கு"
 
@@ -241,7 +241,7 @@ msgstr "தலைப்பிகளுக்கு"
 msgid "Variables"
 msgstr "மாறிகள்"
 
-#: data/ui/endpoint_pane.blp:166 data/ui/response_panel.blp:47
+#: data/ui/endpoint_pane.blp:166 data/ui/response_panel.blp:53
 msgid "Body"
 msgstr "உடல்"
 
@@ -491,18 +491,62 @@ msgstr ""
 msgid "Request timeout"
 msgstr ""
 
-#: src/error.rs:63 src/error.rs:87
+#: src/error.rs:16
+msgid "The specified URL is not valid"
+msgstr ""
+
+#: src/error.rs:17
+msgid "The header '{}' is not valid"
+msgstr ""
+
+#: src/error.rs:19
+msgid "The value for header '{}' is not valid"
+msgstr ""
+
+#: src/error.rs:22 src/error.rs:56
+msgid "The given request body could not be encoded correctly"
+msgstr ""
+
+#: src/error.rs:51
+msgid "Cannot recognise the URL"
+msgstr ""
+
+#: src/error.rs:52
+msgid "The given URL is missing a protocol"
+msgstr ""
+
+#: src/error.rs:54
+msgid "The protocol {}:// is not supported"
+msgstr ""
+
+#: src/error.rs:57
+msgid "The variable '{}' is not defined"
+msgstr ""
+
+#: src/error.rs:59
+msgid "There was a problem with a variable interpolation, review your inputs"
+msgstr ""
+
+#: src/error.rs:84
+msgid "There is a network error"
+msgstr ""
+
+#: src/error.rs:85
+msgid "There is an input/output error"
+msgstr ""
+
+#: src/error.rs:111 src/error.rs:135
 #, fuzzy
 msgid "The current tab is not associated with a file"
 msgstr "திறந்த கோப்புகளின் தற்போதைய பட்டியல்"
 
-#: src/error.rs:65
+#: src/error.rs:113
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
 
-#: src/error.rs:69
+#: src/error.rs:117
 msgid "The file is corrupt or does not contain valid data for this application"
 msgstr ""
 
@@ -520,82 +564,91 @@ msgstr ""
 msgid "Cannot open the requested file"
 msgstr ""
 
-#: src/widgets/dialogs.rs:59 src/widgets/dialogs.rs:90
-#: src/widgets/dialogs.rs:113 src/widgets/dialogs.rs:126
+#: src/widgets/dialogs.rs:59 src/widgets/dialogs.rs:93
+#: src/widgets/dialogs.rs:119 src/widgets/dialogs.rs:135
 #, fuzzy
 msgid "Close"
 msgstr "தாவலை மூடு"
 
-#: src/widgets/dialogs.rs:73
+#: src/widgets/dialogs.rs:76
 msgid "The file '{}' was loaded but had issues"
 msgstr ""
 
-#: src/widgets/dialogs.rs:74
+#: src/widgets/dialogs.rs:77
 msgid "The requested file was loaded but had issues"
 msgstr ""
 
-#: src/widgets/dialogs.rs:104
+#: src/widgets/dialogs.rs:110
 msgid "Cannot save '{}'"
 msgstr ""
 
-#: src/widgets/dialogs.rs:105
+#: src/widgets/dialogs.rs:111
 msgid "Cannot save the requested file"
 msgstr ""
 
-#: src/widgets/dialogs.rs:107
+#: src/widgets/dialogs.rs:113
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
 msgstr ""
 
-#: src/widgets/dialogs.rs:121
+#: src/widgets/dialogs.rs:130
 msgid "Could not select a valid file from the file chooser"
 msgstr ""
 
-#: src/widgets/dialogs.rs:135
+#: src/widgets/dialogs.rs:147
 msgid "There are unsaved changes"
 msgstr ""
 
-#: src/widgets/dialogs.rs:137
+#: src/widgets/dialogs.rs:149
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
 msgstr ""
 
-#: src/widgets/dialogs.rs:141
+#: src/widgets/dialogs.rs:153
 #, fuzzy
 msgid "Cancel"
 msgstr "_CANCEL"
 
-#: src/widgets/dialogs.rs:142
+#: src/widgets/dialogs.rs:154
 #, fuzzy
 msgid "Close anyway"
 msgstr "தாவலை மூடு"
 
-#: src/widgets/dialogs.rs:165
+#: src/widgets/dialogs.rs:180
 #, fuzzy
 msgid "Save changes in '{}'?"
 msgstr "மாற்றங்களைச் சேமிக்கவா?"
 
-#: src/widgets/dialogs.rs:166
+#: src/widgets/dialogs.rs:181
 msgid "Save changes?"
 msgstr "மாற்றங்களைச் சேமிக்கவா?"
 
-#: src/widgets/dialogs.rs:171
+#: src/widgets/dialogs.rs:186
 msgid "There are changes that have not been saved yet. What do you want to do?"
 msgstr "இன்னும் சேமிக்கப்படாத மாற்றங்கள் உள்ளன. நீங்கள் என்ன செய்ய விரும்புகிறீர்கள்?"
 
-#: src/widgets/dialogs.rs:175
+#: src/widgets/dialogs.rs:190
 msgid "_Cancel"
 msgstr "_CANCEL"
 
-#: src/widgets/dialogs.rs:176
+#: src/widgets/dialogs.rs:191
 msgid "_Discard"
 msgstr "_ டிச்கார்ட்"
 
-#: src/widgets/dialogs.rs:177
+#: src/widgets/dialogs.rs:192
 msgid "_Save"
 msgstr "_சேவ்"
+
+#: src/widgets/error_pane.rs:93 src/widgets/error_pane.rs:106
+msgid "The request data is not valid"
+msgstr ""
+
+#: src/widgets/error_pane.rs:99
+#, fuzzy
+msgid "The request failed"
+msgstr "HTTP கோரிக்கைகளைச் செய்து பநிஇ களை சோதனை செய்யுங்கள்"
 
 #: src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"
@@ -635,10 +688,10 @@ msgid_plural "{} results"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/win.rs:689
+#: src/win.rs:685
 msgid "The Cartero authors"
 msgstr "கார்டெரோ ஆசிரியர்கள்"
 
-#: src/win.rs:690
+#: src/win.rs:686
 msgid "© 2024 the Cartero authors"
 msgstr "© 2024 கார்டெரோ ஆசிரியர்கள்"

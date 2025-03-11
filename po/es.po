@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-06 03:50+0100\n"
+"POT-Creation-Date: 2025-03-11 14:02+0100\n"
 "PO-Revision-Date: 2025-03-06 22:02+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -234,7 +234,7 @@ msgstr "Ejecutar esta petición HTTP"
 msgid "Parameters"
 msgstr "Parámetros"
 
-#: data/ui/endpoint_pane.blp:124 data/ui/response_panel.blp:91
+#: data/ui/endpoint_pane.blp:124 data/ui/response_panel.blp:97
 msgid "Headers"
 msgstr "Cabeceras"
 
@@ -242,7 +242,7 @@ msgstr "Cabeceras"
 msgid "Variables"
 msgstr "Variables"
 
-#: data/ui/endpoint_pane.blp:166 data/ui/response_panel.blp:47
+#: data/ui/endpoint_pane.blp:166 data/ui/response_panel.blp:53
 msgid "Body"
 msgstr "Cuerpo"
 
@@ -494,19 +494,63 @@ msgstr "Redirecciones máximas"
 msgid "Request timeout"
 msgstr "Tiempo límite de petición"
 
-#: src/error.rs:63 src/error.rs:87
+#: src/error.rs:16
+msgid "The specified URL is not valid"
+msgstr "La URL especificada no es válida"
+
+#: src/error.rs:17
+msgid "The header '{}' is not valid"
+msgstr "La cabecera '{}' no es válida"
+
+#: src/error.rs:19
+msgid "The value for header '{}' is not valid"
+msgstr "El valor de la cabecera '{}' no es válido"
+
+#: src/error.rs:22 src/error.rs:56
+msgid "The given request body could not be encoded correctly"
+msgstr "El cuerpo de petición dado no se pudo codificar correctamente"
+
+#: src/error.rs:51
+msgid "Cannot recognise the URL"
+msgstr "No se puede reconocer la URL"
+
+#: src/error.rs:52
+msgid "The given URL is missing a protocol"
+msgstr "La URL indicada no tiene un protocolo"
+
+#: src/error.rs:54
+msgid "The protocol {}:// is not supported"
+msgstr "El protocolo {}:// no está soportado"
+
+#: src/error.rs:57
+msgid "The variable '{}' is not defined"
+msgstr "La variable '{}' no está definida"
+
+#: src/error.rs:59
+msgid "There was a problem with a variable interpolation, review your inputs"
+msgstr "Hubo un problema interpolando las variables, revisa las entradas"
+
+#: src/error.rs:84
+msgid "There is a network error"
+msgstr "Hay un error de red"
+
+#: src/error.rs:85
+msgid "There is an input/output error"
+msgstr "Hay un error de entrada/salida"
+
+#: src/error.rs:111 src/error.rs:135
 msgid "The current tab is not associated with a file"
 msgstr "La pestaña actual no está asociada con un archivo"
 
-#: src/error.rs:65
+#: src/error.rs:113
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
-"El archivo ha sido creado con una versión más reciente de este programa; ¡"
-"por favor actualiza!"
+"El archivo ha sido creado con una versión más reciente de este programa; "
+"¡por favor actualiza!"
 
-#: src/error.rs:69
+#: src/error.rs:117
 msgid "The file is corrupt or does not contain valid data for this application"
 msgstr ""
 "El archivo está corrupto o no contiene datos válidos para esta aplicación"
@@ -527,28 +571,28 @@ msgstr "No se puede abrir '{}'"
 msgid "Cannot open the requested file"
 msgstr "No se puede abrir el archivo solicitado"
 
-#: src/widgets/dialogs.rs:59 src/widgets/dialogs.rs:90
-#: src/widgets/dialogs.rs:113 src/widgets/dialogs.rs:126
+#: src/widgets/dialogs.rs:59 src/widgets/dialogs.rs:93
+#: src/widgets/dialogs.rs:119 src/widgets/dialogs.rs:135
 msgid "Close"
 msgstr "Cerrar"
 
-#: src/widgets/dialogs.rs:73
+#: src/widgets/dialogs.rs:76
 msgid "The file '{}' was loaded but had issues"
 msgstr "El archivo '{}' fue cargado pero tenía problemas"
 
-#: src/widgets/dialogs.rs:74
+#: src/widgets/dialogs.rs:77
 msgid "The requested file was loaded but had issues"
 msgstr "El archivo solicitado fue cargado pero tenía problemas"
 
-#: src/widgets/dialogs.rs:104
+#: src/widgets/dialogs.rs:110
 msgid "Cannot save '{}'"
 msgstr "No se puede guardar '{}'"
 
-#: src/widgets/dialogs.rs:105
+#: src/widgets/dialogs.rs:111
 msgid "Cannot save the requested file"
 msgstr "No se puede guardar el archivo solicitado"
 
-#: src/widgets/dialogs.rs:107
+#: src/widgets/dialogs.rs:113
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
@@ -556,15 +600,15 @@ msgstr ""
 "Hubo un error durante el proceso de guardado. Asume que tus cambios todavía "
 "no han sido guardados."
 
-#: src/widgets/dialogs.rs:121
+#: src/widgets/dialogs.rs:130
 msgid "Could not select a valid file from the file chooser"
 msgstr "No se pudo seleccionar un archivo válido desde el selector de archivos"
 
-#: src/widgets/dialogs.rs:135
+#: src/widgets/dialogs.rs:147
 msgid "There are unsaved changes"
 msgstr "Hay cambios sin guardar"
 
-#: src/widgets/dialogs.rs:137
+#: src/widgets/dialogs.rs:149
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
@@ -572,37 +616,45 @@ msgstr ""
 "Cerrar esta ventana perderá cualquier dato no guardado. ¿De verdad quieres "
 "continuar?"
 
-#: src/widgets/dialogs.rs:141
+#: src/widgets/dialogs.rs:153
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: src/widgets/dialogs.rs:142
+#: src/widgets/dialogs.rs:154
 msgid "Close anyway"
 msgstr "Cerrar de todos modos"
 
-#: src/widgets/dialogs.rs:165
+#: src/widgets/dialogs.rs:180
 msgid "Save changes in '{}'?"
 msgstr "¿Guardar cambios en '{}'?"
 
-#: src/widgets/dialogs.rs:166
+#: src/widgets/dialogs.rs:181
 msgid "Save changes?"
 msgstr "¿Guardar cambios?"
 
-#: src/widgets/dialogs.rs:171
+#: src/widgets/dialogs.rs:186
 msgid "There are changes that have not been saved yet. What do you want to do?"
 msgstr "Hay cambios que todavía no han sido guardados. ¿Qué quieres hacer?"
 
-#: src/widgets/dialogs.rs:175
+#: src/widgets/dialogs.rs:190
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: src/widgets/dialogs.rs:176
+#: src/widgets/dialogs.rs:191
 msgid "_Discard"
 msgstr "_Descartar"
 
-#: src/widgets/dialogs.rs:177
+#: src/widgets/dialogs.rs:192
 msgid "_Save"
 msgstr "_Guardar"
+
+#: src/widgets/error_pane.rs:93 src/widgets/error_pane.rs:106
+msgid "The request data is not valid"
+msgstr "Los datos de la petición no son válidos"
+
+#: src/widgets/error_pane.rs:99
+msgid "The request failed"
+msgstr "La petición ha fallado"
 
 #: src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"
@@ -642,11 +694,11 @@ msgid_plural "{} results"
 msgstr[0] "{} resultado"
 msgstr[1] "{} resultados"
 
-#: src/win.rs:689
+#: src/win.rs:685
 msgid "The Cartero authors"
 msgstr "Los autores de Cartero"
 
-#: src/win.rs:690
+#: src/win.rs:686
 msgid "© 2024 the Cartero authors"
 msgstr "© 2024 los autores de Cartero"
 

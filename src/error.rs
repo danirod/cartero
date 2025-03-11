@@ -1,43 +1,66 @@
+use crate::i18n::i18n_f;
 use gettextrs::gettext;
 use srtemplate::SrTemplateError;
-use thiserror::Error;
 
-use crate::client::RequestError;
-
-#[derive(Debug, Error)]
-pub enum CarteroError {
-    #[error("Internal error")]
-    InternalError,
-
-    #[error("DNS error")]
-    Dns,
-
-    #[error("HTTP request error")]
-    Request(#[from] RequestError),
-
-    #[error(transparent)]
-    PreconditionError(#[from] RequestPreconditionError),
+#[derive(Debug, Eq, PartialEq)]
+pub enum RequestBuildError {
+    InvalidUrl(url::ParseError),
+    InvalidHeaderName(String),
+    InvalidHeaderValue(String),
+    InvalidBodyEncoding,
 }
 
-#[derive(Debug, Eq, PartialEq, Error)]
+impl std::fmt::Display for RequestBuildError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let message = match self {
+            Self::InvalidUrl(_) => gettext("The specified URL is not valid"),
+            Self::InvalidHeaderName(name) => i18n_f("The header '{}' is not valid", &[&name]),
+            Self::InvalidHeaderValue(name) => {
+                i18n_f("The value for header '{}' is not valid", &[name])
+            }
+            Self::InvalidBodyEncoding => {
+                gettext("The given request body could not be encoded correctly")
+            }
+        };
+        write!(f, "{}", message)
+    }
+}
+
+impl std::error::Error for RequestBuildError {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        match self {
+            Self::InvalidUrl(pe) => Some(pe),
+            _ => None,
+        }
+    }
+}
+
+#[derive(Debug, Eq, PartialEq)]
 pub enum RequestPreconditionError {
-    #[error("Cannot parse the URL, check for typos")]
     UrlBadParse,
-
-    #[error("URL is missing a protocol")]
     MissingProtocol,
-
-    #[error("Protocol {0}:// is not supported")]
     UnsupportedProtocol(String),
-
-    #[error("Payload could not be encoded")]
     EncodingError,
-
-    #[error("Variable {0} not found")]
     VariableNotFound(String),
-
-    #[error("String interpolation error, review variables")]
     BadInterpolation,
+}
+
+impl std::fmt::Display for RequestPreconditionError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let message = match self {
+            Self::UrlBadParse => gettext("Cannot recognise the URL"),
+            Self::MissingProtocol => gettext("The given URL is missing a protocol"),
+            Self::UnsupportedProtocol(proto) => {
+                i18n_f("The protocol {}:// is not supported", &[&proto])
+            }
+            Self::EncodingError => gettext("The given request body could not be encoded correctly"),
+            Self::VariableNotFound(var) => i18n_f("The variable '{}' is not defined", &[&var]),
+            Self::BadInterpolation => {
+                gettext("There was a problem with a variable interpolation, review your inputs")
+            }
+        };
+        write!(f, "{}", message)
+    }
 }
 
 impl From<SrTemplateError> for RequestPreconditionError {
@@ -45,6 +68,31 @@ impl From<SrTemplateError> for RequestPreconditionError {
         match value {
             SrTemplateError::VariableNotFound(var) => Self::VariableNotFound(var),
             _ => Self::BadInterpolation,
+        }
+    }
+}
+
+#[derive(Debug)]
+pub enum RequestError {
+    NetworkError(isahc::error::Error),
+    IOError(std::io::Error),
+}
+
+impl std::fmt::Display for RequestError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let message = match self {
+            Self::NetworkError(_) => gettext("There is a network error"),
+            Self::IOError(_) => gettext("There is an input/output error"),
+        };
+        write!(f, "{}", message)
+    }
+}
+
+impl std::error::Error for RequestError {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        match self {
+            Self::NetworkError(e) => Some(e),
+            Self::IOError(e) => Some(e),
         }
     }
 }

@@ -1,4 +1,4 @@
-// Copyright 2024 the Cartero authors
+// Copyright 2024-2025 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,13 +27,15 @@ use sourceview5::prelude::BufferExt;
 use sourceview5::LanguageManager;
 
 use crate::entities::ResponseData;
+use crate::error::{RequestBuildError, RequestError, RequestPreconditionError};
 use crate::objects::KeyValueItem;
 use glib::subclass::types::ObjectSubclassIsExt;
 
 mod imp {
     use std::cell::RefCell;
 
-    use crate::widgets::{CodeView, ResponseHeaders, SearchBox};
+    use crate::error::{RequestBuildError, RequestError, RequestPreconditionError};
+    use crate::widgets::{CodeView, ErrorPane, ResponseHeaders, SearchBox};
     use adw::prelude::*;
     use adw::subclass::bin::BinImpl;
     use glib::object::Cast;
@@ -52,6 +54,8 @@ mod imp {
     pub struct ResponsePanel {
         #[template_child]
         stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        error_page: TemplateChild<ErrorPane>,
         #[template_child]
         pub response_headers: TemplateChild<ResponseHeaders>,
         #[template_child]
@@ -111,7 +115,6 @@ mod imp {
         }
 
         fn set_spinning(&self, spinning: bool) {
-            self.stack.set_visible_child_name("response");
             let widget: &gtk::Widget = if spinning {
                 self.spinner.upcast_ref()
             } else {
@@ -146,6 +149,25 @@ mod imp {
             self.search_revealer.set_reveal_child(false);
             self.search_revealer.set_visible(false);
             self.response_body.grab_focus();
+        }
+
+        pub(super) fn show_precondition_error(&self, error: RequestPreconditionError) {
+            self.error_page.set_precondition_error(error);
+            self.stack.set_visible_child_name("error");
+        }
+
+        pub(super) fn show_request_error(&self, error: RequestError) {
+            self.error_page.set_request_error(error);
+            self.stack.set_visible_child_name("error");
+        }
+
+        pub(super) fn show_request_build_error(&self, error: RequestBuildError) {
+            self.error_page.set_request_build_error(error);
+            self.stack.set_visible_child_name("error");
+        }
+
+        pub(super) fn show_response(&self) {
+            self.stack.set_visible_child_name("response");
         }
     }
 }
@@ -183,6 +205,21 @@ fn format_bytes(count: usize) -> String {
 impl ResponsePanel {
     pub fn new() -> Self {
         Object::builder().build()
+    }
+
+    pub fn show_precondition_error(&self, error: RequestPreconditionError) {
+        let imp = self.imp();
+        imp.show_precondition_error(error);
+    }
+
+    pub fn show_request_build_error(&self, error: RequestBuildError) {
+        let imp = self.imp();
+        imp.show_request_build_error(error);
+    }
+
+    pub fn show_request_error(&self, error: RequestError) {
+        let imp = self.imp();
+        imp.show_request_error(error);
     }
 
     pub fn start_request(&self) {
@@ -269,5 +306,7 @@ impl ResponsePanel {
             Some(language) => buffer.set_language(Some(&language)),
             None => buffer.set_language(None),
         };
+
+        imp.show_response();
     }
 }

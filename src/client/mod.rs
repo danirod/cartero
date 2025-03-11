@@ -19,5 +19,6 @@ mod isahc_conv;
 mod local;
 mod request_bodies;
 
+pub use isahc_conv::build_request;
 pub use isahc_conv::extract_isahc_response;
 pub use local::*;

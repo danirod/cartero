@@ -151,7 +151,6 @@ dependencies = [
  "serde_urlencoded",
  "sourceview5",
  "srtemplate",
- "thiserror",
  "tokio",
  "toml",
  "url 2.5.4",

@@ -44,6 +44,9 @@ mod imp {
 
         #[property(get, set)]
         boundary: RefCell<String>,
+
+        #[property(get, set, name = "read-only")]
+        read_only: RefCell<bool>,
     }
 
     #[glib::object_subclass]

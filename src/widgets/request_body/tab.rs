@@ -94,6 +94,9 @@ mod imp {
         #[template_child]
         formdata: TemplateChild<FormdataPayloadPane>,
 
+        #[property(get, set, name = "read-only")]
+        read_only: RefCell<bool>,
+
         #[property(get = Self::payload_type, set = Self::set_payload_type, builder(PayloadType::default()))]
         _payload_type: RefCell<PayloadType>,
     }

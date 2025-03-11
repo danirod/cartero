@@ -84,6 +84,9 @@ mod imp {
         #[template_child]
         pub paned: TemplateChild<gtk::Paned>,
 
+        #[property(get, set, name = "read-only")]
+        read_only: RefCell<bool>,
+
         #[property(get, set, nullable)]
         file: RefCell<Option<gio::File>>,
 

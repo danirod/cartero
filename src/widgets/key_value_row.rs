@@ -50,6 +50,9 @@ mod imp {
         #[property(get, set)]
         header_value: RefCell<String>,
 
+        #[property(get, set, name = "read-only")]
+        read_only: RefCell<bool>,
+
         #[template_child]
         pub entry_key: TemplateChild<Entry>,
         #[template_child]

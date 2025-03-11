@@ -73,6 +73,9 @@ mod imp {
         #[template_child]
         code: TemplateChild<CodeExportPane>,
 
+        #[property(get, set, name = "read-only")]
+        read_only: RefCell<bool>,
+
         #[property(get = Self::export_type, set = Self::set_export_type, builder(ExportType::default()))]
         _payload_type: RefCell<ExportType>,
     }

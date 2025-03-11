@@ -35,6 +35,7 @@ template $CarteroPayloadTab: Gtk.Box {
         title: _("Body type");
         model: entries;
         notify::selected => $on_selection_changed() swapped;
+        sensitive: bind template.read-only inverted;
       }
     }
   }
@@ -56,19 +57,25 @@ template $CarteroPayloadTab: Gtk.Box {
       Gtk.StackPage {
         name: "urlencoded";
 
-        child: $CarteroUrlencodedPayloadPane urlencoded {};
+        child: $CarteroUrlencodedPayloadPane urlencoded {
+          read-only: bind template.read-only;
+        };
       }
 
       Gtk.StackPage {
         name: "formdata";
 
-        child: $CarteroFormdataPayloadPane formdata {};
+        child: $CarteroFormdataPayloadPane formdata {
+          read-only: bind template.read-only;
+        };
       }
 
       Gtk.StackPage {
         name: "raw";
 
-        child: $CarteroRawPayloadPane raw {};
+        child: $CarteroRawPayloadPane raw {
+          read-only: bind template.read-only;
+        };
       }
 
       visible-child-name: "none";

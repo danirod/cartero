@@ -22,10 +22,12 @@ use crate::entities::RequestPayload;
 use super::{BasePayloadPane, BasePayloadPaneExt};
 
 mod imp {
+    use std::cell::RefCell;
     use std::sync::OnceLock;
 
     use glib::object::ObjectExt;
     use glib::subclass::{InitializingObject, Signal};
+    use glib::Properties;
     use gtk::subclass::prelude::*;
     use gtk::CompositeTemplate;
 
@@ -33,11 +35,15 @@ mod imp {
     use crate::objects::KeyValueItem;
     use crate::widgets::{BasePayloadPane, BasePayloadPaneImpl, KeyValuePane};
 
-    #[derive(Default, CompositeTemplate)]
+    #[derive(Default, Properties, CompositeTemplate)]
+    #[properties(wrapper_type = super::UrlencodedPayloadPane)]
     #[template(resource = "/es/danirod/Cartero/urlencoded_payload_pane.ui")]
     pub struct UrlencodedPayloadPane {
         #[template_child]
         data: TemplateChild<KeyValuePane>,
+
+        #[property(get, set, name = "read-only")]
+        read_only: RefCell<bool>,
     }
 
     #[glib::object_subclass]
@@ -55,6 +61,7 @@ mod imp {
         }
     }
 
+    #[glib::derived_properties]
     impl ObjectImpl for UrlencodedPayloadPane {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();

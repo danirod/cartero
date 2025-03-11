@@ -35,6 +35,7 @@ mod imp {
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
     use glib::subclass::InitializingObject;
     use glib::Properties;
+    use gtk::gio;
     use gtk::subclass::prelude::*;
     use gtk::{prelude::*, CompositeTemplate};
     use isahc::RequestExt;
@@ -46,7 +47,7 @@ mod imp {
     use crate::error::{RequestError, RequestPreconditionError};
     use crate::objects::KeyValueItem;
     use crate::widgets::{
-        ExportTab, ExportType, ItemPane, KeyValuePane, MethodDropdown, PayloadTab, ResponsePanel,
+        ExportTab, ExportType, KeyValuePane, MethodDropdown, PayloadTab, ResponsePanel,
     };
 
     #[derive(CompositeTemplate, Properties, Default)]
@@ -84,7 +85,10 @@ mod imp {
         pub paned: TemplateChild<gtk::Paned>,
 
         #[property(get, set, nullable)]
-        pub item_pane: RefCell<Option<ItemPane>>,
+        file: RefCell<Option<gio::File>>,
+
+        #[property(get, set)]
+        dirty: RefCell<bool>,
 
         variable_changing: Arc<Mutex<bool>>,
     }
@@ -217,42 +221,37 @@ mod imp {
             Ok(())
         }
 
-        fn mark_dirty(&self) {
-            if let Some(item_pane) = self.obj().item_pane() {
-                item_pane.set_dirty(true);
-            }
-        }
-
         fn init_dirty_events(&self) {
+            let obj = self.obj();
             self.request_method.connect_changed(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| pane.mark_dirty()
+                #[weak]
+                obj,
+                move |_| obj.set_dirty(true)
             ));
             self.request_url.connect_changed(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| pane.mark_dirty()
+                #[weak]
+                obj,
+                move |_| obj.set_dirty(true)
             ));
             self.payload_pane.connect_changed(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| pane.mark_dirty()
+                #[weak]
+                obj,
+                move |_| obj.set_dirty(true)
             ));
             self.export_pane.connect_changed(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| pane.mark_dirty()
+                #[weak]
+                obj,
+                move |_| obj.set_dirty(true)
             ));
             self.header_pane.connect_changed(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| pane.mark_dirty()
+                #[weak]
+                obj,
+                move |_| obj.set_dirty(true)
             ));
             self.variable_pane.connect_changed(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| pane.mark_dirty()
+                #[weak]
+                obj,
+                move |_| obj.set_dirty(true)
             ));
         }
 
@@ -491,6 +490,11 @@ impl Default for EndpointPane {
 }
 
 impl EndpointPane {
+    pub fn new() -> Self {
+        // TODO: Accept additional initial state maybe?
+        Object::builder().build()
+    }
+
     /// Updates the contents of the widget so that they reflect the endpoint data.
     ///
     /// TODO: Should enable a binding system?
@@ -522,20 +526,13 @@ impl EndpointPane {
         self.set_sensitive(true);
     }
 
-    pub fn file(&self) -> Option<gtk::gio::File> {
-        // TODO: This will become a property.
-        let imp = self.imp();
-        let item_pane = imp.item_pane.borrow();
-        item_pane.clone().and_then(|pane| pane.file())
-    }
-
     pub async fn load(&self) -> impl FileLoadResult {
         match self.file() {
             Some(file) => {
                 let result = crate::file::read_endpoint(&file).await;
                 if let Some(endpoint) = result.endpoint() {
                     self.assign_endpoint(&endpoint);
-                    self.item_pane().expect("No item pane?").set_dirty(false);
+                    self.set_dirty(false);
                 }
                 result
             }
@@ -549,7 +546,7 @@ impl EndpointPane {
                 let endpoint = self.extract_endpoint();
                 let result = crate::file::write_endpoint(&file, &endpoint).await;
                 if let Ok(()) = result {
-                    self.item_pane().expect("No item pane?").set_dirty(false);
+                    self.set_dirty(false);
                 }
                 result
             }

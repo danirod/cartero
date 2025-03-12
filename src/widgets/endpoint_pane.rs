@@ -197,6 +197,15 @@ mod imp {
         fn init_actions(&self) {
             let obj = self.obj();
 
+            let action_focus_url = SimpleAction::new("focus-url", None);
+            action_focus_url.connect_activate(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |_, _| {
+                    imp.request_url.grab_focus();
+                }
+            ));
+
             let action_request = SimpleAction::new("request", None);
             action_request.connect_activate(glib::clone!(
                 #[weak(rename_to = imp)]
@@ -220,6 +229,7 @@ mod imp {
             .bind(&action_request, "enabled", Some(&*obj));
 
             let action_group = SimpleActionGroup::new();
+            action_group.add_action(&action_focus_url);
             action_group.add_action(&action_request);
             obj.insert_action_group("endpoint", Some(&action_group));
         }

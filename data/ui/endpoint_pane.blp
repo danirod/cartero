@@ -63,6 +63,16 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
           activate => $on_url_activated() swapped;
         }
 
+        Button cancel {
+          styles [
+            "destructive-action",
+          ]
+
+          action-name: "endpoint.cancel";
+          icon-name: "process-stop-symbolic";
+          tooltip-text: _("Cancel request");
+        }
+
         Button send {
           styles [
             "suggested-action",

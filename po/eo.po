@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-11 23:06+0100\n"
+"POT-Creation-Date: 2025-03-12 22:34+0100\n"
 "PO-Revision-Date: 2024-11-04 17:46+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/cartero/"
@@ -208,35 +208,39 @@ msgstr ""
 msgid "Copy"
 msgstr "Kopii"
 
-#: data/ui/endpoint_pane.blp:58
+#: data/ui/endpoint_pane.blp:61
 msgid "Request URL"
 msgstr "URL"
 
-#: data/ui/endpoint_pane.blp:69
+#: data/ui/endpoint_pane.blp:73
+msgid "Cancel request"
+msgstr ""
+
+#: data/ui/endpoint_pane.blp:82
 msgid "Send"
 msgstr "Petu"
 
-#: data/ui/endpoint_pane.blp:70
+#: data/ui/endpoint_pane.blp:83
 msgid "Execute this HTTP request"
 msgstr "Sendu ĉi tiun http-peton"
 
-#: data/ui/endpoint_pane.blp:102
+#: data/ui/endpoint_pane.blp:115
 msgid "Parameters"
 msgstr "Parametroj"
 
-#: data/ui/endpoint_pane.blp:123 data/ui/response_panel.blp:97
+#: data/ui/endpoint_pane.blp:138 data/ui/response_panel.blp:97
 msgid "Headers"
 msgstr "Kapoj"
 
-#: data/ui/endpoint_pane.blp:144
+#: data/ui/endpoint_pane.blp:161
 msgid "Variables"
 msgstr "Variabloj"
 
-#: data/ui/endpoint_pane.blp:165 data/ui/response_panel.blp:53
+#: data/ui/endpoint_pane.blp:184 data/ui/response_panel.blp:53
 msgid "Body"
 msgstr "Korpo"
 
-#: data/ui/endpoint_pane.blp:173
+#: data/ui/endpoint_pane.blp:194
 msgid "Export request"
 msgstr ""
 
@@ -244,27 +248,27 @@ msgstr ""
 msgid "Export to"
 msgstr ""
 
-#: data/ui/export_tab.blp:69 data/ui/payload_tab.blp:81
+#: data/ui/export_tab.blp:70 data/ui/payload_tab.blp:88
 msgid "(none)"
 msgstr "(nenio)"
 
-#: data/ui/key_value_row.blp:40
+#: data/ui/key_value_row.blp:42
 msgid "Name"
 msgstr "Nomo"
 
-#: data/ui/key_value_row.blp:50
+#: data/ui/key_value_row.blp:53
 msgid "Value"
 msgstr "Enhavo"
 
-#: data/ui/key_value_row.blp:61
+#: data/ui/key_value_row.blp:64
 msgid "Actions"
 msgstr "Agoj"
 
-#: data/ui/key_value_row.blp:74
+#: data/ui/key_value_row.blp:78
 msgid "Toggle secret"
 msgstr "Baskuli sekreton"
 
-#: data/ui/key_value_row.blp:81
+#: data/ui/key_value_row.blp:85
 msgid "Delete"
 msgstr "Forigi kapo"
 
@@ -379,15 +383,15 @@ msgstr "HTTP-metodo"
 msgid "Body type"
 msgstr ""
 
-#: data/ui/payload_tab.blp:82
+#: data/ui/payload_tab.blp:89
 msgid "URL Encoded"
 msgstr ""
 
-#: data/ui/payload_tab.blp:83
+#: data/ui/payload_tab.blp:90
 msgid "Multipart Form Data"
 msgstr ""
 
-#: data/ui/payload_tab.blp:86
+#: data/ui/payload_tab.blp:93
 msgid "Raw"
 msgstr ""
 

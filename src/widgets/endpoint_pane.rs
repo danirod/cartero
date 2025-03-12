@@ -239,6 +239,7 @@ mod imp {
             /* Also, bind the visibility of the cancel button to whether the action is enabled. */
             action_cancel
                 .bind_property("enabled", &*self.cancel_button, "visible")
+                .sync_create()
                 .build();
 
             let action_group = SimpleActionGroup::new();

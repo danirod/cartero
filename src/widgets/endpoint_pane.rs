@@ -31,7 +31,7 @@ mod imp {
 
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
     use glib::subclass::InitializingObject;
-    use glib::Properties;
+    use glib::{JoinHandle, Properties};
     use gtk::gio::{self, SimpleAction, SimpleActionGroup};
     use gtk::subclass::prelude::*;
     use gtk::{prelude::*, ClosureExpression, CompositeTemplate};
@@ -53,6 +53,9 @@ mod imp {
     pub struct EndpointPane {
         #[template_child(id = "send")]
         pub send_button: TemplateChild<gtk::Button>,
+
+        #[template_child(id = "cancel")]
+        cancel_button: TemplateChild<gtk::Button>,
 
         #[template_child]
         pub parameter_pane: TemplateChild<KeyValuePane>,
@@ -93,6 +96,8 @@ mod imp {
         // Busy requesting
         #[property(get, set)]
         busy: RefCell<bool>,
+
+        request_thread: Arc<RefCell<Option<JoinHandle<()>>>>,
 
         variable_changing: Arc<Mutex<bool>>,
     }
@@ -206,6 +211,15 @@ mod imp {
                 }
             ));
 
+            let action_cancel = SimpleAction::new("cancel", None);
+            action_cancel.connect_activate(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |_, _| {
+                    imp.action_cancel_request();
+                }
+            ));
+
             /* The action should only be enabled if there is an URL set and if not busy. */
             let text = self.request_url.property_expression("text");
             let busy = obj.property_expression("busy");
@@ -219,8 +233,17 @@ mod imp {
             )
             .bind(&action_request, "enabled", Some(&*obj));
 
+            /* The cancel should only be possible if currently busy. */
+            busy.bind(&action_cancel, "enabled", gtk::Widget::NONE);
+
+            /* Also, bind the visibility of the cancel button to whether the action is enabled. */
+            action_cancel
+                .bind_property("enabled", &*self.cancel_button, "visible")
+                .build();
+
             let action_group = SimpleActionGroup::new();
             action_group.add_action(&action_request);
+            action_group.add_action(&action_cancel);
             obj.insert_action_group("endpoint", Some(&action_group));
         }
 
@@ -490,8 +513,25 @@ mod imp {
             Ok(response)
         }
 
+        fn action_cancel_request(&self) {
+            let obj = self.obj();
+
+            {
+                let maybe_request_thread = self.request_thread.borrow();
+                if let Some(ref thread_ref) = *maybe_request_thread {
+                    thread_ref.abort();
+
+                    /* reset the user interface state. */
+                    self.response.set_spinning(false);
+                    obj.set_read_only(false);
+                    obj.set_busy(false);
+                }
+            }
+            self.request_thread.replace(None);
+        }
+
         fn action_perform_request(&self) {
-            glib::spawn_future_local(glib::clone!(
+            let thread_ref = glib::spawn_future_local(glib::clone!(
                 #[weak(rename_to = imp)]
                 self,
                 async move {
@@ -508,8 +548,12 @@ mod imp {
                     imp.response.set_spinning(false);
                     obj.set_read_only(false);
                     obj.set_busy(false);
+
+                    imp.request_thread.replace(None);
                 }
             ));
+
+            self.request_thread.replace(Some(thread_ref));
         }
 
         /// Executes an HTTP request based on the current contents of the pane.

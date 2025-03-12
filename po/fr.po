@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-11 23:06+0100\n"
+"POT-Creation-Date: 2025-03-12 22:34+0100\n"
 "PO-Revision-Date: 2025-02-11 11:02+0000\n"
 "Last-Translator: Altero <aurelien.reinert4@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -211,35 +211,40 @@ msgstr "Envoyer la requête"
 msgid "Copy"
 msgstr "Copier"
 
-#: data/ui/endpoint_pane.blp:58
+#: data/ui/endpoint_pane.blp:61
 msgid "Request URL"
 msgstr "URL de requête"
 
-#: data/ui/endpoint_pane.blp:69
+#: data/ui/endpoint_pane.blp:73
+#, fuzzy
+msgid "Cancel request"
+msgstr "Enregistrer la requête"
+
+#: data/ui/endpoint_pane.blp:82
 msgid "Send"
 msgstr "Envoyer"
 
-#: data/ui/endpoint_pane.blp:70
+#: data/ui/endpoint_pane.blp:83
 msgid "Execute this HTTP request"
 msgstr "Exécuter cette requête HTTP"
 
-#: data/ui/endpoint_pane.blp:102
+#: data/ui/endpoint_pane.blp:115
 msgid "Parameters"
 msgstr "Paramètres"
 
-#: data/ui/endpoint_pane.blp:123 data/ui/response_panel.blp:97
+#: data/ui/endpoint_pane.blp:138 data/ui/response_panel.blp:97
 msgid "Headers"
 msgstr "En-têtes"
 
-#: data/ui/endpoint_pane.blp:144
+#: data/ui/endpoint_pane.blp:161
 msgid "Variables"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:165 data/ui/response_panel.blp:53
+#: data/ui/endpoint_pane.blp:184 data/ui/response_panel.blp:53
 msgid "Body"
 msgstr "Corps"
 
-#: data/ui/endpoint_pane.blp:173
+#: data/ui/endpoint_pane.blp:194
 msgid "Export request"
 msgstr "Exporter la requête"
 
@@ -247,27 +252,27 @@ msgstr "Exporter la requête"
 msgid "Export to"
 msgstr "Exporter vers"
 
-#: data/ui/export_tab.blp:69 data/ui/payload_tab.blp:81
+#: data/ui/export_tab.blp:70 data/ui/payload_tab.blp:88
 msgid "(none)"
 msgstr "(aucun)"
 
-#: data/ui/key_value_row.blp:40
+#: data/ui/key_value_row.blp:42
 msgid "Name"
 msgstr "Nom"
 
-#: data/ui/key_value_row.blp:50
+#: data/ui/key_value_row.blp:53
 msgid "Value"
 msgstr "Valeur"
 
-#: data/ui/key_value_row.blp:61
+#: data/ui/key_value_row.blp:64
 msgid "Actions"
 msgstr "Actions"
 
-#: data/ui/key_value_row.blp:74
+#: data/ui/key_value_row.blp:78
 msgid "Toggle secret"
 msgstr ""
 
-#: data/ui/key_value_row.blp:81
+#: data/ui/key_value_row.blp:85
 msgid "Delete"
 msgstr "Supprimer"
 
@@ -383,15 +388,15 @@ msgstr "Méthode de requête"
 msgid "Body type"
 msgstr "Type de corps"
 
-#: data/ui/payload_tab.blp:82
+#: data/ui/payload_tab.blp:89
 msgid "URL Encoded"
 msgstr "Encodé comme URL"
 
-#: data/ui/payload_tab.blp:83
+#: data/ui/payload_tab.blp:90
 msgid "Multipart Form Data"
 msgstr "Données de formulaire multiparties"
 
-#: data/ui/payload_tab.blp:86
+#: data/ui/payload_tab.blp:93
 msgid "Raw"
 msgstr "Brut"
 

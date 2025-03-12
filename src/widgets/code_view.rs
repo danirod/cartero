@@ -16,7 +16,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use glib::{object::ObjectExt, Object};
-use gtk::glib;
+use gtk::{glib, pango::FontDescription, prelude::SettingsExtManual};
+
+use crate::app::CarteroApplication;
 
 mod imp {
     use std::sync::OnceLock;
@@ -26,7 +28,10 @@ mod imp {
     use glib::value::ToValue;
     use gtk::gdk;
     use gtk::gio::SettingsBindFlags;
-    use gtk::prelude::{SettingsExtManual, TextViewExt};
+    #[allow(deprecated)]
+    use gtk::prelude::StyleContextExt;
+    use gtk::prelude::WidgetExt;
+    use gtk::prelude::{SettingsExt, SettingsExtManual, TextViewExt};
     use gtk::subclass::prelude::*;
     use gtk::{glib, WrapMode};
     use sourceview5::prelude::BufferExt;
@@ -34,6 +39,8 @@ mod imp {
     use sourceview5::StyleSchemeManager;
 
     use crate::app::CarteroApplication;
+
+    use super::render_basic_font_settings;
 
     #[derive(Default)]
     pub struct CodeView {}
@@ -65,6 +72,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
             self.init_settings();
+            self.init_source_view_css();
             self.init_source_view_style();
         }
     }
@@ -132,6 +140,47 @@ mod imp {
                 .build();
         }
 
+        /// Renders the whole CSS string that will be attached to the widget instance.
+        fn generate_css(&self) -> String {
+            let common_font_settings = render_basic_font_settings();
+            format!(r#"textview {{ {} }}"#, common_font_settings)
+        }
+
+        /// Configures the initial CSS style for this widget, and also setups the callbacks
+        /// to reconsider the CSS style whenever the configuration changes.
+        fn init_source_view_css(&self) {
+            let obj = self.obj();
+
+            /* First, register the CSS provider attached to this view. */
+            let provider = gtk::CssProvider::new();
+            #[allow(deprecated)] // eat shit
+            obj.style_context()
+                .add_provider(&provider, gtk::STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+            /* Set the initial CSS style. */
+            let css = self.generate_css();
+            provider.load_from_string(&css);
+
+            /* Whenever the settings change, we also need to update the font. */
+            let app = CarteroApplication::get();
+            let settings = app.settings();
+            settings.connect_changed(
+                None,
+                glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    #[weak]
+                    provider,
+                    move |_, key: &str| {
+                        if key == "use-system-font" || key == "custom-font" {
+                            let css = imp.generate_css();
+                            provider.load_from_string(&css);
+                        }
+                    }
+                ),
+            );
+        }
+
         fn update_source_view_style(&self) {
             let obj = self.obj();
             let dark_mode = adw::StyleManager::default().is_dark();
@@ -186,4 +235,55 @@ impl Default for CodeView {
     fn default() -> Self {
         Object::builder().build()
     }
+}
+
+/// Generates a string with the common CSS rules that apply for setting the font family
+/// based on the font present in the application settings. Will include font family,
+/// size and weight if present.
+fn render_basic_font_settings() -> String {
+    let app = CarteroApplication::get();
+    let settings = app.settings();
+    let system_font = settings.get::<bool>("use-system-font");
+    if system_font {
+        return "".to_string(); // nothing to add
+    }
+
+    // let's get to business
+    let current_font_descriptor = settings.get::<String>("custom-font");
+    let descriptor = FontDescription::from_string(&current_font_descriptor);
+    let font_family: String = descriptor.family().unwrap_or_default().into();
+    let font_size = descriptor.size() / gtk::pango::SCALE;
+    let font_style = {
+        match descriptor.style() {
+            gtk::pango::Style::Italic => "italic",
+            gtk::pango::Style::Oblique => "oblique",
+            _ => "normal",
+        }
+    };
+    let font_weight = {
+        match descriptor.weight() {
+            gtk::pango::Weight::Bold => 700,
+            gtk::pango::Weight::Book => 380,
+            gtk::pango::Weight::Heavy => 900,
+            gtk::pango::Weight::Light => 300,
+            gtk::pango::Weight::Medium => 500,
+            gtk::pango::Weight::Normal => 400,
+            gtk::pango::Weight::Semibold => 600,
+            gtk::pango::Weight::Semilight => 350,
+            gtk::pango::Weight::Thin => 100,
+            gtk::pango::Weight::Ultrabold => 800,
+            gtk::pango::Weight::Ultraheavy => 1000,
+            gtk::pango::Weight::Ultralight => 200,
+            gtk::pango::Weight::__Unknown(i) => i,
+            _ => 400,
+        }
+    };
+    format!(
+        r#"
+              font-family: "{font_family}";
+              font-size: {font_size}pt;
+              font-style: {font_style};
+              font-weight: {font_weight};
+              "#
+    )
 }

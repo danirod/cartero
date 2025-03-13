@@ -34,6 +34,15 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
     }
   }
 
+  ShortcutController {
+    scope: managed;
+
+    Shortcut {
+      trigger: '<Primary>l';
+      action: 'action(endpoint.focus-url)';
+    }
+  }
+
   Box {
     orientation: vertical;
 

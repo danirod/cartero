@@ -28,13 +28,14 @@ mod imp {
     use glib::subclass::Signal;
     use glib::value::ToValue;
     use glib::Properties;
-    use gtk::gdk;
+    use gtk::gdk::ModifierType;
     use gtk::gio::SettingsBindFlags;
     #[allow(deprecated)]
     use gtk::prelude::StyleContextExt;
-    use gtk::prelude::WidgetExt;
+    use gtk::prelude::{EventControllerExt, WidgetExt};
     use gtk::prelude::{SettingsExt, SettingsExtManual, TextViewExt};
     use gtk::subclass::prelude::*;
+    use gtk::{gdk, EventControllerScroll, EventControllerScrollFlags, PropagationPhase};
     use gtk::{glib, WrapMode};
     use sourceview5::prelude::BufferExt;
     use sourceview5::subclass::view::ViewImpl;
@@ -111,6 +112,7 @@ mod imp {
             self.init_settings();
             self.init_source_view_css();
             self.init_source_view_style();
+            self.init_scroll_controller();
         }
     }
 
@@ -121,6 +123,32 @@ mod imp {
     impl ViewImpl for CodeView {}
 
     impl CodeView {
+        fn init_scroll_controller(&self) {
+            let obj = self.obj();
+            let controller = EventControllerScroll::new(EventControllerScrollFlags::VERTICAL);
+            controller.set_propagation_phase(PropagationPhase::Capture);
+            controller.connect_scroll(glib::clone!(
+                #[weak]
+                obj,
+                #[upgrade_or_panic]
+                move |controller: &EventControllerScroll, _dx: f64, dy: f64| {
+                    /* Only interested in CTRL + scroll events. */
+                    let state = controller.current_event_state();
+                    if state == ModifierType::CONTROL_MASK {
+                        if dy > 0.0 {
+                            obj.activate_action("widget.zoom-out", None).unwrap();
+                        } else {
+                            obj.activate_action("widget.zoom-in", None).unwrap();
+                        }
+                        glib::Propagation::Stop
+                    } else {
+                        glib::Propagation::Proceed
+                    }
+                }
+            ));
+            obj.add_controller(controller);
+        }
+
         fn init_settings(&self) {
             let app = CarteroApplication::get();
             let settings = app.settings();

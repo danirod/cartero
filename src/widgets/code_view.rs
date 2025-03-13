@@ -21,11 +21,13 @@ use gtk::{glib, pango::FontDescription, prelude::SettingsExtManual};
 use crate::app::CarteroApplication;
 
 mod imp {
+    use std::cell::RefCell;
     use std::sync::OnceLock;
 
-    use glib::object::Cast;
+    use glib::object::{Cast, ObjectExt};
     use glib::subclass::Signal;
     use glib::value::ToValue;
+    use glib::Properties;
     use gtk::gdk;
     use gtk::gio::SettingsBindFlags;
     #[allow(deprecated)]
@@ -39,11 +41,14 @@ mod imp {
     use sourceview5::StyleSchemeManager;
 
     use crate::app::CarteroApplication;
+    use crate::widgets::code_view::{get_monospace_font_descriptor, render_css_rules};
 
-    use super::render_basic_font_settings;
-
-    #[derive(Default)]
-    pub struct CodeView {}
+    #[derive(Default, Properties)]
+    #[properties(wrapper_type = super::CodeView)]
+    pub struct CodeView {
+        #[property(get, set, name = "zoom-level")]
+        zoom_level: RefCell<i32>,
+    }
 
     #[glib::object_subclass]
     impl ObjectSubclass for CodeView {
@@ -57,12 +62,44 @@ mod imp {
                 gdk::ModifierType::CONTROL_MASK,
                 "codeview.search",
             );
+            klass.add_binding_action(
+                gdk::Key::plus,
+                gdk::ModifierType::CONTROL_MASK,
+                "widget.zoom-in",
+            );
+            klass.add_binding_action(
+                gdk::Key::minus,
+                gdk::ModifierType::CONTROL_MASK,
+                "widget.zoom-out",
+            );
+            klass.add_binding_action(
+                gdk::Key::_0,
+                gdk::ModifierType::CONTROL_MASK,
+                "widget.zoom-reset",
+            );
+
             klass.install_action("codeview.search", None, |widget, _, _| {
                 widget.start_search();
+            });
+            klass.install_action("widget.zoom-in", None, |widget, _, _| {
+                let old_zoom = widget.zoom_level();
+                if old_zoom < 18 {
+                    widget.set_zoom_level(old_zoom + 1);
+                }
+            });
+            klass.install_action("widget.zoom-out", None, |widget, _, _| {
+                let old_zoom = widget.zoom_level();
+                if old_zoom > -6 {
+                    widget.set_zoom_level(old_zoom - 1);
+                }
+            });
+            klass.install_action("widget.zoom-reset", None, |widget, _, _| {
+                widget.set_zoom_level(0);
             });
         }
     }
 
+    #[glib::derived_properties]
     impl ObjectImpl for CodeView {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
@@ -142,8 +179,10 @@ mod imp {
 
         /// Renders the whole CSS string that will be attached to the widget instance.
         fn generate_css(&self) -> String {
-            let common_font_settings = render_basic_font_settings();
-            format!(r#"textview {{ {} }}"#, common_font_settings)
+            let obj = self.obj();
+            let zoom_level = obj.zoom_level();
+            let font = get_monospace_font_descriptor();
+            render_css_rules(&font, zoom_level)
         }
 
         /// Configures the initial CSS style for this widget, and also setups the callbacks
@@ -179,6 +218,15 @@ mod imp {
                     }
                 ),
             );
+
+            obj.connect_zoom_level_notify(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |_| {
+                    let css = imp.generate_css();
+                    provider.load_from_string(&css);
+                }
+            ));
         }
 
         fn update_source_view_style(&self) {
@@ -237,22 +285,42 @@ impl Default for CodeView {
     }
 }
 
-/// Generates a string with the common CSS rules that apply for setting the font family
-/// based on the font present in the application settings. Will include font family,
-/// size and weight if present.
-fn render_basic_font_settings() -> String {
+/// Returns the pango font descriptor used to render monospaced text views.
+/// If the user has customized the font in the settings, that's the descriptor
+/// that will be returned, otherwise just returns the default system one.
+fn get_monospace_font_descriptor() -> FontDescription {
     let app = CarteroApplication::get();
     let settings = app.settings();
     let system_font = settings.get::<bool>("use-system-font");
-    if system_font {
-        return "".to_string(); // nothing to add
-    }
 
-    // let's get to business
-    let current_font_descriptor = settings.get::<String>("custom-font");
-    let descriptor = FontDescription::from_string(&current_font_descriptor);
+    if system_font {
+        /* Does this work outside of GNOME...? */
+        let settings = gtk::gio::Settings::new("org.gnome.desktop.interface");
+        let monospace = settings.get::<String>("monospace-font-name");
+        FontDescription::from_string(&monospace)
+    } else {
+        let current_font_descriptor = settings.get::<String>("custom-font");
+        FontDescription::from_string(&current_font_descriptor)
+    }
+}
+
+/// Given the zoom level, returns the scaling percentage.
+fn map_zoom_level(zoom: i32) -> f32 {
+    let perc = 1.0 + (zoom as f32 / 8.0);
+    if perc < 0.25 {
+        0.25
+    } else {
+        perc
+    }
+}
+
+/// Returns the CSS document that should be provided to the StyleContext of a CodeView
+/// in order to tweak how the view should appear, based on the font settings and the
+/// zoom level in use.
+fn render_css_rules(descriptor: &FontDescription, zoom: i32) -> String {
     let font_family: String = descriptor.family().unwrap_or_default().into();
-    let font_size = descriptor.size() / gtk::pango::SCALE;
+    let font_size = descriptor.size() as f32 * map_zoom_level(zoom);
+    let real_font_size = font_size as i32 / gtk::pango::SCALE;
     let font_style = {
         match descriptor.style() {
             gtk::pango::Style::Italic => "italic",
@@ -280,10 +348,33 @@ fn render_basic_font_settings() -> String {
     };
     format!(
         r#"
+          textview {{
               font-family: "{font_family}";
-              font-size: {font_size}pt;
+              font-size: {real_font_size}pt;
               font-style: {font_style};
               font-weight: {font_weight};
-              "#
+          }}
+        "#
     )
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn test_map_zoom_level() {
+        let cases = vec![
+            (-6, 0.25), // Cannot go negative or zero
+            (-4, 0.5),
+            (-2, 0.75),
+            (0, 1.0),
+            (1, 1.125),
+            (2, 1.25),
+            (4, 1.5),
+            (8, 2.0),
+            (10, 2.25),
+        ];
+        for (input, output) in cases {
+            assert_eq!(output, super::map_zoom_level(input));
+        }
+    }
 }

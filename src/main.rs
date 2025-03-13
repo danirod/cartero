@@ -27,6 +27,7 @@ mod widgets;
 mod config;
 mod entities;
 mod objects;
+mod updates;
 mod win;
 mod windows;
 
@@ -35,6 +36,7 @@ use std::path::PathBuf;
 use gettextrs::LocaleCategory;
 use gtk::gio;
 use gtk::prelude::*;
+use updates::get_latest_version;
 
 use self::app::CarteroApplication;
 use self::config::{APP_ID, GETTEXT_PACKAGE};
@@ -120,6 +122,14 @@ fn main() -> glib::ExitCode {
         let localedir = app_rel_path("share/locale");
         gettextrs::bindtextdomain("libadwaita", localedir).expect("Unable to bind the text domain");
     }
+
+    glib::spawn_future_local(async move {
+        if let Some(latest) = get_latest_version().await {
+            if latest.needs_update(config::VERSION) {
+                println!("Version {} has been released", latest.get_latest_version());
+            }
+        }
+    });
 
     let app = CarteroApplication::new();
     app.run()

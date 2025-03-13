@@ -24,7 +24,7 @@ use gtk::pango::FontDescription;
 use gtk::prelude::ActionMapExtManual;
 use gtk::{CssProvider, STYLE_PROVIDER_PRIORITY_APPLICATION};
 
-use crate::config::{APP_ID, BASE_ID, RESOURCE_PATH};
+use crate::config::{APP_ID, BASE_ID, RESOURCE_PATH, VERSION};
 use crate::win::CarteroWindow;
 use crate::windows::SettingsDialog;
 
@@ -90,6 +90,8 @@ mod imp {
                     } else {
                         window.present();
                     }
+
+                    obj.check_for_updates();
                 }
             ));
         }
@@ -157,6 +159,23 @@ impl Default for CarteroApplication {
 }
 
 impl CarteroApplication {
+    pub fn check_for_updates(&self) {
+        let Some(window) = self.active_window() else {
+            return;
+        };
+        glib::spawn_future_local(async move {
+            if let Some(latest) = crate::updates::get_latest_version().await {
+                if latest.needs_update(VERSION) {
+                    crate::widgets::dialogs::app_update_available(
+                        &window,
+                        &latest.get_latest_version(),
+                    )
+                    .await;
+                }
+            }
+        });
+    }
+
     pub fn get() -> Self {
         gio::Application::default()
             .and_downcast::<CarteroApplication>()

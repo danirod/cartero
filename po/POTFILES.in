@@ -28,6 +28,7 @@ src/app.rs
 src/client/isahc_conv.rs
 src/client/local.rs
 src/client/mod.rs
+src/client/request_auth.rs
 src/client/request_bodies.rs
 src/entities/endpoint_data.rs
 src/entities/key_value.rs

@@ -8,7 +8,8 @@ use serde::{Deserialize, Serialize};
 
 use crate::app::CarteroApplication;
 use crate::entities::{
-    EndpointData, KeyValue, KeyValueTable, RawEncoding, RequestMethod, RequestPayload,
+    EndpointData, KeyValue, KeyValueTable, RawEncoding, RequestAuthorization, RequestMethod,
+    RequestPayload,
 };
 use crate::error::{FileLoadError, FileSaveError};
 
@@ -290,6 +291,42 @@ impl From<FileBody> for RequestPayload {
     }
 }
 
+#[derive(Clone, Debug, Default, Serialize, Deserialize)]
+#[serde(tag = "type")]
+enum FileAuthorization {
+    #[serde(rename = "none")]
+    #[default]
+    None,
+
+    #[serde(rename = "basic")]
+    Basic { username: String, password: String },
+
+    #[serde(rename = "bearer")]
+    Bearer { token: String },
+}
+
+impl From<RequestAuthorization> for FileAuthorization {
+    fn from(value: RequestAuthorization) -> Self {
+        match value {
+            RequestAuthorization::None => Self::None,
+            RequestAuthorization::Basic { username, password } => {
+                Self::Basic { username, password }
+            }
+            RequestAuthorization::Bearer(token) => Self::Bearer { token },
+        }
+    }
+}
+
+impl From<FileAuthorization> for RequestAuthorization {
+    fn from(value: FileAuthorization) -> Self {
+        match value {
+            FileAuthorization::None => Self::None,
+            FileAuthorization::Basic { username, password } => Self::Basic { username, password },
+            FileAuthorization::Bearer { token } => Self::Bearer(token),
+        }
+    }
+}
+
 #[derive(Clone, Deserialize, Serialize)]
 struct RequestFile {
     version: usize,
@@ -298,6 +335,7 @@ struct RequestFile {
     body: Option<FileBody>,
     headers: Option<FileTable<FieldValue>>,
     variables: Option<FileTable<FieldValue>>,
+    authorization: Option<FileAuthorization>,
     #[serde(rename = "inactive-params")]
     inactive_params: Option<FileTable<QueryValue>>,
 }
@@ -311,6 +349,12 @@ impl From<EndpointData> for RequestFile {
         };
         let headers = value.headers.into();
         let variables = value.variables.into();
+
+        let authorization = value.authorization.into();
+        let authorization = match authorization {
+            FileAuthorization::None => None,
+            other => Some(other),
+        };
 
         let inactive_params: Vec<_> = value
             .parameters
@@ -328,6 +372,7 @@ impl From<EndpointData> for RequestFile {
             headers: Some(headers),
             variables: Some(variables),
             inactive_params: Some(inactive_params.into()),
+            authorization,
         }
     }
 }
@@ -462,6 +507,7 @@ impl From<RequestFile> for EndpointLoadResult {
         let headers = value.headers.unwrap_or_default().into();
         let variables = value.variables.unwrap_or_default().into();
         let inactive_params = value.inactive_params.unwrap_or_default().into();
+        let authorization = value.authorization.unwrap_or_default().into();
 
         /* Therefore we can craft the response. */
         let request = EndpointData {
@@ -471,6 +517,7 @@ impl From<RequestFile> for EndpointLoadResult {
             variables,
             headers,
             parameters: inactive_params,
+            authorization,
         };
 
         /* The result depends on whether there are tags. */
@@ -551,7 +598,8 @@ mod tests {
 
     use crate::{
         entities::{
-            EndpointData, KeyValue, KeyValueTable, RawEncoding, RequestMethod, RequestPayload,
+            EndpointData, KeyValue, KeyValueTable, RawEncoding, RequestAuthorization,
+            RequestMethod, RequestPayload,
         },
         error::FileLoadError,
         file::{EndpointLoadResult, FileWarningTag},
@@ -970,6 +1018,7 @@ Accept = 'text/html'
             variables: KeyValueTable::default(),
             body,
             parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
         };
 
         let content = super::write_endpoint_string(&r).unwrap();
@@ -1001,6 +1050,7 @@ Accept = 'text/html'
             variables: KeyValueTable::default(),
             body,
             parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
         };
 
         let content = super::write_endpoint_string(&r).unwrap();
@@ -1052,6 +1102,7 @@ body = 'hello'
             variables: KeyValueTable::default(),
             body,
             parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
         };
 
         let content = super::write_endpoint_string(&r).unwrap();
@@ -1110,6 +1161,7 @@ body = 'hello'
             variables,
             body,
             parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
         };
 
         let content = super::write_endpoint_string(&r).unwrap();
@@ -1137,5 +1189,119 @@ body = 'hello'
             ]),
             parsed.variables
         );
+    }
+
+    #[test]
+    fn test_serializes_empty_authorization() {
+        let data = EndpointData {
+            url: "https://www.example.com".into(),
+            method: RequestMethod::Get,
+            headers: KeyValueTable::default(),
+            variables: KeyValueTable::default(),
+            parameters: KeyValueTable::default(),
+            body: RequestPayload::default(),
+            authorization: RequestAuthorization::default(),
+        };
+
+        let content = super::write_endpoint_string(&data).unwrap();
+        assert!(content.contains("url = \"https://www.example.com\""));
+        assert!(!content.contains("authorization"));
+    }
+
+    #[test]
+    fn test_serializes_basic_authorization() {
+        let data = EndpointData {
+            url: "https://www.example.com".into(),
+            method: RequestMethod::Get,
+            headers: KeyValueTable::default(),
+            variables: KeyValueTable::default(),
+            parameters: KeyValueTable::default(),
+            body: RequestPayload::default(),
+            authorization: RequestAuthorization::Basic {
+                username: "root".into(),
+                password: "admin".into(),
+            },
+        };
+
+        let content = super::write_endpoint_string(&data).unwrap();
+        assert!(content.contains("url = \"https://www.example.com\""));
+        assert!(content.contains("[authorization]"));
+        assert!(content.contains("type = \"basic\""));
+        assert!(content.contains("username = \"root\""));
+        assert!(content.contains("password = \"admin\""));
+    }
+
+    #[test]
+    fn test_serializes_bearer_authorization() {
+        let data = EndpointData {
+            url: "https://www.example.com".into(),
+            method: RequestMethod::Get,
+            headers: KeyValueTable::default(),
+            variables: KeyValueTable::default(),
+            parameters: KeyValueTable::default(),
+            body: RequestPayload::default(),
+            authorization: RequestAuthorization::Bearer("4uth0r1z4t10n_t0k3n".into()),
+        };
+
+        let content = super::write_endpoint_string(&data).unwrap();
+        assert!(content.contains("url = \"https://www.example.com\""));
+        assert!(content.contains("[authorization]"));
+        assert!(content.contains("type = \"bearer\""));
+        assert!(content.contains("token = \"4uth0r1z4t10n_t0k3n\""));
+    }
+
+    #[test]
+    fn test_deserializes_empty_auth() {
+        let toml = "
+            version = 1
+            url = 'https://www.example.com'
+            method = 'GET'
+        ";
+        let EndpointLoadResult::Success(endpoint) = super::read_endpoint_string(toml) else {
+            panic!("wrong read");
+        };
+        assert_eq!(RequestAuthorization::None, endpoint.authorization);
+    }
+
+    #[test]
+    fn test_deserializes_basic_auth() {
+        let toml = "
+            version = 1
+            url = 'https://www.example.com'
+            method = 'GET'
+
+            [authorization]
+            type = 'basic'
+            username = 'root'
+            password = 'admin'
+        ";
+        let EndpointLoadResult::Success(endpoint) = super::read_endpoint_string(toml) else {
+            panic!("wrong read");
+        };
+        let RequestAuthorization::Basic { username, password } = endpoint.authorization else {
+            panic!("wrong type");
+        };
+        assert_eq!("root", username);
+        assert_eq!("admin", password);
+    }
+
+    #[test]
+    fn test_deserializes_bearer_auth() {
+        let toml = "
+            version = 1
+            url = 'https://www.example.com'
+            method = 'GET'
+
+            [authorization]
+            type = 'bearer'
+            token = '4uth0r1z4t10n_t0k3n'
+        ";
+        let EndpointLoadResult::Success(endpoint) = super::read_endpoint_string(toml) else {
+            panic!("wrong read");
+        };
+        let RequestAuthorization::Bearer(token) = endpoint.authorization else {
+            panic!("wrong type");
+        };
+        assert_eq!("4uth0r1z4t10n_t0k3n", token);
     }
 }

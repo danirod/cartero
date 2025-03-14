@@ -40,7 +40,9 @@ mod imp {
 
     use crate::app::CarteroApplication;
     use crate::client::BoundRequest;
-    use crate::entities::{EndpointData, KeyValue, RequestExportType, ResponseData};
+    use crate::entities::{
+        EndpointData, KeyValue, RequestAuthorization, RequestExportType, ResponseData,
+    };
     use crate::error::{RequestError, RequestPreconditionError};
     use crate::objects::KeyValueItem;
     use crate::widgets::{
@@ -488,6 +490,7 @@ mod imp {
                 headers,
                 variables,
                 body,
+                authorization: RequestAuthorization::default(),
             }
         }
 

@@ -15,20 +15,13 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-mod endpoint_data;
-mod key_value;
-mod key_value_table;
-mod request_authorization;
-mod request_export;
-mod request_method;
-mod request_payload;
-mod response_data;
-
-pub use endpoint_data::EndpointData;
-pub use key_value::KeyValue;
-pub use key_value_table::KeyValueTable;
-pub use request_authorization::RequestAuthorization;
-pub use request_export::RequestExportType;
-pub use request_method::RequestMethod;
-pub use request_payload::{RawEncoding, RequestPayload};
-pub use response_data::ResponseData;
+#[derive(Debug, Default, Clone, Eq, PartialEq)]
+pub enum RequestAuthorization {
+    #[default]
+    None,
+    Basic {
+        username: String,
+        password: String,
+    },
+    Bearer(String),
+}

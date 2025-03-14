@@ -137,7 +137,7 @@ impl TryFrom<&EndpointData> for BoundRequestBody {
 
 #[cfg(test)]
 mod tests {
-    use crate::entities::KeyValueTable;
+    use crate::entities::{KeyValueTable, RequestAuthorization};
 
     use super::*;
 
@@ -155,6 +155,7 @@ mod tests {
             variables: KeyValueTable::new(&variables),
             body: RequestPayload::Urlencoded(KeyValueTable::new(&body)),
             parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
         };
 
         let serial = BoundRequestBody::try_from(&endpoint).unwrap();
@@ -185,6 +186,7 @@ mod tests {
             variables: KeyValueTable::default(),
             body: RequestPayload::Urlencoded(KeyValueTable::new(&body)),
             parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
         };
         let result = BoundRequestBody::try_from(&endpoint);
         assert_eq!(
@@ -211,6 +213,7 @@ mod tests {
                 params: KeyValueTable::new(&body),
             },
             parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
         };
 
         let serial = BoundRequestBody::try_from(&endpoint).unwrap();
@@ -257,6 +260,7 @@ mod tests {
                 params: KeyValueTable::new(&body),
             },
             parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
         };
 
         let result = BoundRequestBody::try_from(&endpoint);
@@ -282,6 +286,7 @@ mod tests {
             variables: KeyValueTable::new(&variables),
             body,
             parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
         };
 
         let result = BoundRequestBody::try_from(&endpoint).unwrap();
@@ -304,6 +309,7 @@ mod tests {
             headers: KeyValueTable::default(),
             variables: KeyValueTable::default(),
             parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
             body,
         };
 
@@ -327,6 +333,7 @@ mod tests {
             headers: KeyValueTable::default(),
             variables: KeyValueTable::new(&variables),
             parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
             body,
         };
 
@@ -353,6 +360,7 @@ mod tests {
             headers: KeyValueTable::default(),
             variables: KeyValueTable::default(),
             parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
             body,
         };
 
@@ -376,6 +384,7 @@ mod tests {
             headers: KeyValueTable::default(),
             variables: KeyValueTable::new(&variables),
             parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
             body,
         };
 
@@ -402,6 +411,7 @@ mod tests {
             headers: KeyValueTable::default(),
             variables: KeyValueTable::default(),
             parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
             body,
         };
 

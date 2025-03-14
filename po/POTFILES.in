@@ -32,6 +32,7 @@ src/entities/endpoint_data.rs
 src/entities/key_value.rs
 src/entities/key_value_table.rs
 src/entities/mod.rs
+src/entities/request_authorization.rs
 src/entities/request_export.rs
 src/entities/request_method.rs
 src/entities/request_payload.rs

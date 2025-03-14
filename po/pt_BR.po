@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-16 14:34+0100\n"
+"POT-Creation-Date: 2025-03-16 18:14+0100\n"
 "PO-Revision-Date: 2025-02-01 23:50-0300\n"
 "Last-Translator: john peter <johnppetersa@gmail.com>\n"
 "Language-Team: \n"
@@ -572,7 +572,7 @@ msgstr ""
 msgid "The file is corrupt or does not contain valid data for this application"
 msgstr ""
 
-#: src/file.rs:349
+#: src/file.rs:394
 msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."

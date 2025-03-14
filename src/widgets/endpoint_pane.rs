@@ -40,13 +40,12 @@ mod imp {
 
     use crate::app::CarteroApplication;
     use crate::client::BoundRequest;
-    use crate::entities::{
-        EndpointData, KeyValue, RequestAuthorization, RequestExportType, ResponseData,
-    };
+    use crate::entities::{EndpointData, KeyValue, RequestExportType, ResponseData};
     use crate::error::{RequestError, RequestPreconditionError};
     use crate::objects::KeyValueItem;
     use crate::widgets::{
-        ExportTab, ExportType, KeyValuePane, MethodDropdown, PayloadTab, ResponsePanel,
+        AuthorizationPane, ExportTab, ExportType, KeyValuePane, MethodDropdown, PayloadTab,
+        ResponsePanel,
     };
 
     #[derive(CompositeTemplate, Properties, Default)]
@@ -79,6 +78,9 @@ mod imp {
 
         #[template_child]
         pub export_pane: TemplateChild<ExportTab>,
+
+        #[template_child]
+        authorization_pane: TemplateChild<AuthorizationPane>,
 
         #[template_child]
         pub response: TemplateChild<ResponsePanel>,
@@ -329,6 +331,11 @@ mod imp {
                 obj,
                 move |_| obj.set_dirty(true)
             ));
+            self.authorization_pane.connect_changed(glib::clone!(
+                #[weak]
+                obj,
+                move |_| obj.set_dirty(true)
+            ));
             self.header_pane.connect_changed(glib::clone!(
                 #[weak]
                 obj,
@@ -436,6 +443,8 @@ mod imp {
             self.header_pane.set_entries(&headers);
             self.variable_pane.set_entries(&variables);
             self.payload_pane.set_payload(&endpoint.body);
+            self.authorization_pane
+                .set_authorization(&endpoint.authorization);
             self.export_pane_load_endpoint_data(endpoint);
 
             // Merge parameters
@@ -483,6 +492,7 @@ mod imp {
                 })
                 .collect();
             let body = self.payload_pane.payload();
+            let authorization = self.authorization_pane.authorization();
             EndpointData {
                 url,
                 method,
@@ -490,7 +500,7 @@ mod imp {
                 headers,
                 variables,
                 body,
-                authorization: RequestAuthorization::default(),
+                authorization,
             }
         }
 

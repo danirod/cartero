@@ -190,6 +190,29 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
 
             NotebookPage {
               tab: Label {
+                label: _("Authorization");
+              };
+
+              child: ScrolledWindow {
+                hexpand: true;
+                vexpand: true;
+
+                Adw.Clamp {
+                  styles [
+                    "background",
+                  ]
+
+                  maximum-size: 720;
+
+                  $CarteroAuthorizationPane authorization_pane {
+                    read-only: bind template.read-only;
+                  }
+                }
+              };
+            }
+
+            NotebookPage {
+              tab: Label {
                 label: _("Body");
               };
 

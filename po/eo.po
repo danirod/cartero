@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-16 18:14+0100\n"
+"POT-Creation-Date: 2025-03-16 18:24+0100\n"
 "PO-Revision-Date: 2024-11-04 17:46+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/cartero/"
@@ -204,6 +204,35 @@ msgctxt "shortcuts window"
 msgid "Send request"
 msgstr ""
 
+#: data/ui/authorization_pane.blp:30
+msgid "Authorization method"
+msgstr ""
+
+#: data/ui/authorization_pane.blp:56
+msgid "Username"
+msgstr ""
+
+#: data/ui/authorization_pane.blp:61
+msgid "Password"
+msgstr ""
+
+#: data/ui/authorization_pane.blp:77
+msgid "Token"
+msgstr ""
+
+#: data/ui/authorization_pane.blp:88 data/ui/export_tab.blp:70
+#: data/ui/payload_tab.blp:88
+msgid "(none)"
+msgstr "(nenio)"
+
+#: data/ui/authorization_pane.blp:89
+msgid "Basic auth"
+msgstr ""
+
+#: data/ui/authorization_pane.blp:90
+msgid "Bearer token"
+msgstr ""
+
 #: data/ui/code_export_pane.blp:60
 msgid "Copy"
 msgstr "Kopii"
@@ -236,21 +265,21 @@ msgstr "Kapoj"
 msgid "Variables"
 msgstr "Variabloj"
 
-#: data/ui/endpoint_pane.blp:193 data/ui/response_panel.blp:53
+#: data/ui/endpoint_pane.blp:193
+msgid "Authorization"
+msgstr ""
+
+#: data/ui/endpoint_pane.blp:216 data/ui/response_panel.blp:53
 msgid "Body"
 msgstr "Korpo"
 
-#: data/ui/endpoint_pane.blp:203
+#: data/ui/endpoint_pane.blp:226
 msgid "Export request"
 msgstr ""
 
 #: data/ui/export_tab.blp:35
 msgid "Export to"
 msgstr ""
-
-#: data/ui/export_tab.blp:70 data/ui/payload_tab.blp:88
-msgid "(none)"
-msgstr "(nenio)"
 
 #: data/ui/key_value_row.blp:42
 msgid "Name"

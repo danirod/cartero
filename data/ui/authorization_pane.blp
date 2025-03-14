@@ -1,0 +1,92 @@
+/*
+ * Copyright 2024-2025 the Cartero authors
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+// SPDX-License-Identifier: GPL-3.0-or-later
+using Gtk 4.0;
+using Adw 1;
+
+template $CarteroAuthorizationPane: Gtk.Box {
+  orientation: vertical;
+
+  Adw.Clamp {
+    margin-top: 10;
+    vexpand: false;
+
+    Adw.PreferencesGroup {
+      Adw.ComboRow combo {
+        title: _("Authorization method");
+        model: entries;
+        notify::selected => $on_selection_changed() swapped;
+        sensitive: true;
+      }
+    }
+  }
+
+  Gtk.Stack stack {
+    margin-top: 15;
+
+    Gtk.StackPage {
+      name: "none";
+
+      child: Adw.Bin {};
+    }
+
+    Gtk.StackPage {
+      name: "basic";
+
+      child: Adw.Clamp {
+        margin-top: 10;
+        vexpand: false;
+
+        Adw.PreferencesGroup {
+          Adw.EntryRow basic_username {
+            title: _("Username");
+            sensitive: true;
+          }
+
+          Adw.PasswordEntryRow basic_password {
+            title: _("Password");
+            sensitive: true;
+          }
+        }
+      };
+    }
+
+    Gtk.StackPage {
+      name: "bearer";
+
+      child: Adw.Clamp {
+        margin-top: 10;
+        vexpand: false;
+
+        Adw.PreferencesGroup {
+          Adw.PasswordEntryRow bearer_token {
+            title: _("Token");
+            sensitive: true;
+          }
+        }
+      };
+    }
+  }
+}
+
+Gtk.StringList entries {
+  strings [
+    _("(none)"),
+    _("Basic auth"),
+    _("Bearer token"),
+  ]
+}

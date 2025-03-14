@@ -5,6 +5,7 @@ data/cartero.desktop.in.in
 data/es.danirod.Cartero.gschema.xml
 
 data/gtk/help_overlay.blp
+data/ui/authorization_pane.blp
 data/ui/code_export_pane.blp
 data/ui/endpoint_pane.blp
 data/ui/error_pane.blp
@@ -42,6 +43,7 @@ src/file.rs
 src/main.rs
 src/objects/key_value_item.rs
 src/objects/mod.rs
+src/widgets/authorization_pane.rs
 src/widgets/code_view.rs
 src/widgets/dialogs.rs
 src/widgets/endpoint_pane.rs

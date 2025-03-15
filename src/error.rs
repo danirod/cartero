@@ -1,6 +1,5 @@
 use crate::i18n::i18n_f;
 use gettextrs::gettext;
-use srtemplate::SrTemplateError;
 
 #[derive(Debug, Eq, PartialEq)]
 pub enum RequestBuildError {
@@ -63,10 +62,10 @@ impl std::fmt::Display for RequestPreconditionError {
     }
 }
 
-impl From<SrTemplateError> for RequestPreconditionError {
-    fn from(value: SrTemplateError) -> Self {
+impl From<srtemplate::Error> for RequestPreconditionError {
+    fn from(value: srtemplate::Error) -> Self {
         match value {
-            SrTemplateError::VariableNotFound(var) => Self::VariableNotFound(var),
+            srtemplate::Error::VariableNotFound(var) => Self::VariableNotFound(var),
             _ => Self::BadInterpolation,
         }
     }

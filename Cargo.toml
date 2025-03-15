@@ -12,18 +12,18 @@ csd = []
 [dependencies]
 adw = { version = "0.7.1", package = "libadwaita", features = ["v1_5"] }
 formdata = "0.13.0"
-futures-lite = "2.3.0"
+futures-lite = "2.6.0"
 gettext-rs = { version = "0.7.2", features = ["gettext-system"] }
 glib = { version = "0.20.9", features = ["v2_72"] }
-gtk = { package = "gtk4", version = "0.9.5", features = ["v4_12"] }
-indexmap = "2.7.1"
+gtk = { package = "gtk4", version = "0.9.6", features = ["v4_12"] }
+indexmap = "2.8.0"
 isahc = "1.7.2"
 regex = "1.11.1"
-serde = { version = "1.0.198", features = ["derive"] }
-serde_json = "1.0.120"
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.140"
 serde_urlencoded = "0.7.1"
 sourceview5 = "0.9.1"
-srtemplate = { version = "0.3.0", features = [] }
-tokio = { version = "1.37.0", features = ["sync"] }
-toml = "0.8.12"
-url = "2.5.2"
+srtemplate = { version = "0.3.2", features = [] }
+tokio = { version = "1.44.1", features = ["sync"] }
+toml = "0.8.20"
+url = "2.5.4"

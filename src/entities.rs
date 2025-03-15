@@ -20,7 +20,7 @@ use std::{
     ops::{Deref, DerefMut},
 };
 
-use srtemplate::{SrTemplate, SrTemplateError};
+use srtemplate::SrTemplate;
 
 use crate::objects::KeyValueItem;
 
@@ -123,7 +123,7 @@ impl KeyValueTable {
     /// Yields a new KeyValueTable where each value is interpolated according to the rules
     /// of the given renderer. If any value in the current KeyValueTable uses a variable,
     /// it will be interpolated.
-    pub fn render(&self, renderer: &SrTemplate) -> Result<KeyValueTable, SrTemplateError> {
+    pub fn render(&self, renderer: &SrTemplate) -> Result<KeyValueTable, srtemplate::Error> {
         let entries = self
             .iter()
             .map(|var| {
@@ -136,7 +136,7 @@ impl KeyValueTable {
                     secret: var.secret,
                 })
             })
-            .collect::<Result<Vec<KeyValue>, SrTemplateError>>()?;
+            .collect::<Result<Vec<KeyValue>, srtemplate::Error>>()?;
         Ok(KeyValueTable::new(&entries))
     }
 

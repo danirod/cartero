@@ -19,7 +19,7 @@ use std::collections::HashMap;
 
 use srtemplate::SrTemplate;
 
-use super::{KeyValueTable, RequestMethod, RequestPayload};
+use super::{KeyValueTable, RequestAuthorization, RequestMethod, RequestPayload};
 
 #[derive(Debug, Default, Clone, Eq, PartialEq)]
 pub struct EndpointData {
@@ -29,6 +29,7 @@ pub struct EndpointData {
     pub headers: KeyValueTable,
     pub variables: KeyValueTable,
     pub body: RequestPayload,
+    pub authorization: RequestAuthorization,
 }
 
 impl EndpointData {

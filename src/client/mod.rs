@@ -17,6 +17,7 @@
 
 mod isahc_conv;
 mod local;
+mod request_auth;
 mod request_bodies;
 
 pub use isahc_conv::build_request;

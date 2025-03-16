@@ -17,6 +17,7 @@
 
 blueprint_files = [
   'gtk/help_overlay.blp',
+  'ui/authorization_pane.blp',
   'ui/code_export_pane.blp',
   'ui/endpoint_pane.blp',
   'ui/error_pane.blp',

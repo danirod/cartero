@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-12 22:34+0100\n"
+"POT-Creation-Date: 2025-03-16 14:34+0100\n"
 "PO-Revision-Date: 2025-02-01 23:50-0300\n"
 "Last-Translator: john peter <johnppetersa@gmail.com>\n"
 "Language-Team: \n"
@@ -215,44 +215,44 @@ msgctxt "shortcuts window"
 msgid "Send request"
 msgstr "Enviar solicitação"
 
-#: data/ui/code_export_pane.blp:64
+#: data/ui/code_export_pane.blp:60
 msgid "Copy"
 msgstr "Cópia"
 
-#: data/ui/endpoint_pane.blp:61
+#: data/ui/endpoint_pane.blp:70
 msgid "Request URL"
 msgstr "Solicitar url"
 
-#: data/ui/endpoint_pane.blp:73
+#: data/ui/endpoint_pane.blp:82
 #, fuzzy
 msgid "Cancel request"
 msgstr "Salvar solicitação"
 
-#: data/ui/endpoint_pane.blp:82
+#: data/ui/endpoint_pane.blp:91
 msgid "Send"
 msgstr "Enviar"
 
-#: data/ui/endpoint_pane.blp:83
+#: data/ui/endpoint_pane.blp:92
 msgid "Execute this HTTP request"
 msgstr "Execute esta solicitação HTTP"
 
-#: data/ui/endpoint_pane.blp:115
+#: data/ui/endpoint_pane.blp:124
 msgid "Parameters"
 msgstr "Parâmetros"
 
-#: data/ui/endpoint_pane.blp:138 data/ui/response_panel.blp:97
+#: data/ui/endpoint_pane.blp:147 data/ui/response_panel.blp:93
 msgid "Headers"
 msgstr "Cabeçalhos"
 
-#: data/ui/endpoint_pane.blp:161
+#: data/ui/endpoint_pane.blp:170
 msgid "Variables"
 msgstr "Variáveis"
 
-#: data/ui/endpoint_pane.blp:184 data/ui/response_panel.blp:53
+#: data/ui/endpoint_pane.blp:193 data/ui/response_panel.blp:53
 msgid "Body"
 msgstr "Corpo"
 
-#: data/ui/endpoint_pane.blp:194
+#: data/ui/endpoint_pane.blp:203
 msgid "Export request"
 msgstr "Solicitação de exportação"
 
@@ -489,19 +489,31 @@ msgstr "Cliente http"
 msgid "Enforce TLS validation"
 msgstr "Aplicar a validação do TLS"
 
-#: data/ui/settings_dialog.blp:86
+#: data/ui/settings_dialog.blp:83
+msgid "Cancel a request if the TLS handshake fails"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:87
 msgid "Follow redirects"
 msgstr "Siga os redirecionamentos"
 
-#: data/ui/settings_dialog.blp:91
+#: data/ui/settings_dialog.blp:88
+msgid "Make follow-up requests if the server returns an HTTP 3xx response"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:93
 msgid "Maximum redirects"
 msgstr "Redirecionamentos máximos"
 
-#: data/ui/settings_dialog.blp:103
+#: data/ui/settings_dialog.blp:105
 msgid "Request timeout"
 msgstr "Solicitar tempo limite"
 
-#: src/error.rs:16
+#: data/ui/settings_dialog.blp:106
+msgid "Seconds to wait before cancelling the request"
+msgstr ""
+
+#: src/error.rs:15
 msgid "The specified URL is not valid"
 msgstr ""
 
@@ -509,58 +521,58 @@ msgstr ""
 msgid "The header '{}' is not valid"
 msgstr ""
 
-#: src/error.rs:19
+#: src/error.rs:20
 msgid "The value for header '{}' is not valid"
 msgstr ""
 
-#: src/error.rs:22 src/error.rs:56
+#: src/error.rs:23 src/error.rs:57
 msgid "The given request body could not be encoded correctly"
 msgstr ""
 
-#: src/error.rs:51
+#: src/error.rs:52
 msgid "Cannot recognise the URL"
 msgstr ""
 
-#: src/error.rs:52
+#: src/error.rs:53
 msgid "The given URL is missing a protocol"
 msgstr ""
 
-#: src/error.rs:54
+#: src/error.rs:55
 msgid "The protocol {}:// is not supported"
 msgstr ""
 
-#: src/error.rs:57
+#: src/error.rs:59
 msgid "The variable '{}' is not defined"
 msgstr ""
 
-#: src/error.rs:59
+#: src/error.rs:62
 msgid "There was a problem with a variable interpolation, review your inputs"
 msgstr ""
 
-#: src/error.rs:84
+#: src/error.rs:87
 msgid "There is a network error"
 msgstr ""
 
-#: src/error.rs:85
+#: src/error.rs:88
 msgid "There is an input/output error"
 msgstr ""
 
-#: src/error.rs:111 src/error.rs:135
+#: src/error.rs:114 src/error.rs:138
 #, fuzzy
 msgid "The current tab is not associated with a file"
 msgstr "A lista atual de arquivos abertos"
 
-#: src/error.rs:113
+#: src/error.rs:116
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
 
-#: src/error.rs:117
+#: src/error.rs:120
 msgid "The file is corrupt or does not contain valid data for this application"
 msgstr ""
 
-#: src/file.rs:348
+#: src/file.rs:349
 msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
@@ -678,13 +690,13 @@ msgstr "Solicitação aberta"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
-#: src/widgets/search_box.rs:253
+#: src/widgets/search_box.rs:254
 msgid "{} of {}"
 msgstr "{} de {}"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count when only
 #. the number of total ocurrences is known.
-#: src/widgets/search_box.rs:261
+#: src/widgets/search_box.rs:262
 msgid "{} result"
 msgid_plural "{} results"
 msgstr[0] "{} resultado"

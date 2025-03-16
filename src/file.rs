@@ -1,5 +1,7 @@
 use std::collections::HashMap;
 
+use formatx::formatx;
+use gettextrs::gettext;
 use gtk::gio;
 use gtk::prelude::{FileExtManual, SettingsExtManual};
 use serde::{Deserialize, Serialize};
@@ -9,7 +11,6 @@ use crate::entities::{
     EndpointData, KeyValue, KeyValueTable, RawEncoding, RequestMethod, RequestPayload,
 };
 use crate::error::{FileLoadError, FileSaveError};
-use crate::i18n::i18n_f;
 
 trait ToKeyValue {
     fn to_key_value(&self, key: &str) -> KeyValue;
@@ -344,10 +345,9 @@ pub enum FileWarningTag {
 impl std::fmt::Display for FileWarningTag {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let localized = match self {
-            FileWarningTag::InvalidHttpVerb(v) => i18n_f(
-                "The HTTP verb found in the file was '{}'. It is not valid, it will fallback to '{}'.",
-                &[&v, "GET"],
-            ),
+            FileWarningTag::InvalidHttpVerb(v) => formatx!(
+                gettext("The HTTP verb found in the file was '{}'. It is not valid, it will fallback to '{}'."),
+                v, "GET").unwrap()
         };
         write!(f, "{}", localized)
     }

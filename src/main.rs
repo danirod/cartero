@@ -21,7 +21,6 @@ mod app;
 mod client;
 mod error;
 mod file;
-mod i18n;
 mod widgets;
 #[rustfmt::skip]
 mod config;

@@ -1,4 +1,4 @@
-use crate::i18n::i18n_f;
+use formatx::formatx;
 use gettextrs::gettext;
 
 #[derive(Debug, Eq, PartialEq)]
@@ -13,9 +13,11 @@ impl std::fmt::Display for RequestBuildError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let message = match self {
             Self::InvalidUrl(_) => gettext("The specified URL is not valid"),
-            Self::InvalidHeaderName(name) => i18n_f("The header '{}' is not valid", &[&name]),
+            Self::InvalidHeaderName(name) => {
+                formatx!(gettext("The header '{}' is not valid"), name).unwrap()
+            }
             Self::InvalidHeaderValue(name) => {
-                i18n_f("The value for header '{}' is not valid", &[name])
+                formatx!(gettext("The value for header '{}' is not valid"), name).unwrap()
             }
             Self::InvalidBodyEncoding => {
                 gettext("The given request body could not be encoded correctly")
@@ -50,10 +52,12 @@ impl std::fmt::Display for RequestPreconditionError {
             Self::UrlBadParse => gettext("Cannot recognise the URL"),
             Self::MissingProtocol => gettext("The given URL is missing a protocol"),
             Self::UnsupportedProtocol(proto) => {
-                i18n_f("The protocol {}:// is not supported", &[&proto])
+                formatx!(gettext("The protocol {}:// is not supported"), proto).unwrap()
             }
             Self::EncodingError => gettext("The given request body could not be encoded correctly"),
-            Self::VariableNotFound(var) => i18n_f("The variable '{}' is not defined", &[&var]),
+            Self::VariableNotFound(var) => {
+                formatx!(gettext("The variable '{}' is not defined"), var).unwrap()
+            }
             Self::BadInterpolation => {
                 gettext("There was a problem with a variable interpolation, review your inputs")
             }

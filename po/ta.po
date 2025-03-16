@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-12 22:34+0100\n"
+"POT-Creation-Date: 2025-03-16 14:34+0100\n"
 "PO-Revision-Date: 2024-12-22 20:55+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/cartero/cartero/ta/"
@@ -213,44 +213,44 @@ msgctxt "shortcuts window"
 msgid "Send request"
 msgstr "கோரிக்கையை அனுப்பவும்"
 
-#: data/ui/code_export_pane.blp:64
+#: data/ui/code_export_pane.blp:60
 msgid "Copy"
 msgstr "நகலெடு"
 
-#: data/ui/endpoint_pane.blp:61
+#: data/ui/endpoint_pane.blp:70
 msgid "Request URL"
 msgstr "முகவரி ஐக் கோருங்கள்"
 
-#: data/ui/endpoint_pane.blp:73
+#: data/ui/endpoint_pane.blp:82
 #, fuzzy
 msgid "Cancel request"
 msgstr "கோரிக்கையைச் சேமிக்கவும்"
 
-#: data/ui/endpoint_pane.blp:82
+#: data/ui/endpoint_pane.blp:91
 msgid "Send"
 msgstr "அனுப்பு"
 
-#: data/ui/endpoint_pane.blp:83
+#: data/ui/endpoint_pane.blp:92
 msgid "Execute this HTTP request"
 msgstr "இந்த HTTP கோரிக்கையை இயக்கவும்"
 
-#: data/ui/endpoint_pane.blp:115
+#: data/ui/endpoint_pane.blp:124
 msgid "Parameters"
 msgstr "அளவுருக்கள்"
 
-#: data/ui/endpoint_pane.blp:138 data/ui/response_panel.blp:97
+#: data/ui/endpoint_pane.blp:147 data/ui/response_panel.blp:93
 msgid "Headers"
 msgstr "தலைப்பிகளுக்கு"
 
-#: data/ui/endpoint_pane.blp:161
+#: data/ui/endpoint_pane.blp:170
 msgid "Variables"
 msgstr "மாறிகள்"
 
-#: data/ui/endpoint_pane.blp:184 data/ui/response_panel.blp:53
+#: data/ui/endpoint_pane.blp:193 data/ui/response_panel.blp:53
 msgid "Body"
 msgstr "உடல்"
 
-#: data/ui/endpoint_pane.blp:194
+#: data/ui/endpoint_pane.blp:203
 msgid "Export request"
 msgstr "ஏற்றுமதி கோரிக்கை"
 
@@ -484,19 +484,31 @@ msgstr ""
 msgid "Enforce TLS validation"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:86
+#: data/ui/settings_dialog.blp:83
+msgid "Cancel a request if the TLS handshake fails"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:87
 msgid "Follow redirects"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:91
+#: data/ui/settings_dialog.blp:88
+msgid "Make follow-up requests if the server returns an HTTP 3xx response"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:93
 msgid "Maximum redirects"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:103
+#: data/ui/settings_dialog.blp:105
 msgid "Request timeout"
 msgstr ""
 
-#: src/error.rs:16
+#: data/ui/settings_dialog.blp:106
+msgid "Seconds to wait before cancelling the request"
+msgstr ""
+
+#: src/error.rs:15
 msgid "The specified URL is not valid"
 msgstr ""
 
@@ -504,58 +516,58 @@ msgstr ""
 msgid "The header '{}' is not valid"
 msgstr ""
 
-#: src/error.rs:19
+#: src/error.rs:20
 msgid "The value for header '{}' is not valid"
 msgstr ""
 
-#: src/error.rs:22 src/error.rs:56
+#: src/error.rs:23 src/error.rs:57
 msgid "The given request body could not be encoded correctly"
 msgstr ""
 
-#: src/error.rs:51
+#: src/error.rs:52
 msgid "Cannot recognise the URL"
 msgstr ""
 
-#: src/error.rs:52
+#: src/error.rs:53
 msgid "The given URL is missing a protocol"
 msgstr ""
 
-#: src/error.rs:54
+#: src/error.rs:55
 msgid "The protocol {}:// is not supported"
 msgstr ""
 
-#: src/error.rs:57
+#: src/error.rs:59
 msgid "The variable '{}' is not defined"
 msgstr ""
 
-#: src/error.rs:59
+#: src/error.rs:62
 msgid "There was a problem with a variable interpolation, review your inputs"
 msgstr ""
 
-#: src/error.rs:84
+#: src/error.rs:87
 msgid "There is a network error"
 msgstr ""
 
-#: src/error.rs:85
+#: src/error.rs:88
 msgid "There is an input/output error"
 msgstr ""
 
-#: src/error.rs:111 src/error.rs:135
+#: src/error.rs:114 src/error.rs:138
 #, fuzzy
 msgid "The current tab is not associated with a file"
 msgstr "திறந்த கோப்புகளின் தற்போதைய பட்டியல்"
 
-#: src/error.rs:113
+#: src/error.rs:116
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
 
-#: src/error.rs:117
+#: src/error.rs:120
 msgid "The file is corrupt or does not contain valid data for this application"
 msgstr ""
 
-#: src/file.rs:348
+#: src/file.rs:349
 msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
@@ -673,13 +685,13 @@ msgstr "திறந்த கோரிக்கை"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
-#: src/widgets/search_box.rs:253
+#: src/widgets/search_box.rs:254
 msgid "{} of {}"
 msgstr ""
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count when only
 #. the number of total ocurrences is known.
-#: src/widgets/search_box.rs:261
+#: src/widgets/search_box.rs:262
 msgid "{} result"
 msgid_plural "{} results"
 msgstr[0] ""

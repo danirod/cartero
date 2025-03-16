@@ -703,7 +703,7 @@ mod imp {
                             .issue_url("https://github.com/danirod/cartero/issues")
                             .support_url("https://github.com/danirod/cartero/discussions")
                             .developer_name(gettext("The Cartero authors"))
-                            .copyright(gettext("© 2024 the Cartero authors"))
+                            .copyright(gettext("© 2024-2025 the Cartero authors"))
                             .license_type(gtk::License::Gpl30)
                             .build();
                         if cfg!(target_os = "macos") {

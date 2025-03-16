@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-16 18:24+0100\n"
+"POT-Creation-Date: 2025-03-16 19:39+0100\n"
 "PO-Revision-Date: 2025-03-06 22:02+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -159,347 +159,347 @@ msgstr "Si usar la fuente del sistema o una fuente personalizada"
 msgid "Whether to create backup files on save"
 msgstr "Si crear o no copias de seguridad al guardar"
 
-#: data/gtk/help_overlay.blp:26
+#: data/gtk/help_overlay.blp:25
 msgctxt "shortcuts window"
 msgid "General shortcuts"
 msgstr "Atajos generales"
 
-#: data/gtk/help_overlay.blp:29
+#: data/gtk/help_overlay.blp:28
 msgctxt "shortcuts window"
 msgid "Show Keyboard Shortcuts"
 msgstr "Mostrar atajos de teclado"
 
-#: data/gtk/help_overlay.blp:34
+#: data/gtk/help_overlay.blp:33
 msgctxt "shortcuts window"
 msgid "Quit"
 msgstr "Salir"
 
-#: data/gtk/help_overlay.blp:40
+#: data/gtk/help_overlay.blp:39
 msgctxt "shortcuts window"
 msgid "Tab operations"
 msgstr "Operaciones de pestaña"
 
-#: data/gtk/help_overlay.blp:43
+#: data/gtk/help_overlay.blp:42
 msgctxt "shortcuts window"
 msgid "New request tab"
 msgstr "Nueva pestaña de petición"
 
-#: data/gtk/help_overlay.blp:48
+#: data/gtk/help_overlay.blp:47
 msgctxt "shortcuts window"
 msgid "Open request"
 msgstr "Abrir petición"
 
-#: data/gtk/help_overlay.blp:53
+#: data/gtk/help_overlay.blp:52
 msgctxt "shortcuts window"
 msgid "Save request"
 msgstr "Guardar petición"
 
-#: data/gtk/help_overlay.blp:58
+#: data/gtk/help_overlay.blp:57
 msgctxt "shortcuts window"
 msgid "Save request as"
 msgstr "Guardar petición como"
 
-#: data/gtk/help_overlay.blp:63
+#: data/gtk/help_overlay.blp:62
 msgctxt "shortcuts window"
 msgid "Close request tab"
 msgstr "Cerrar pestaña de petición"
 
-#: data/gtk/help_overlay.blp:69
+#: data/gtk/help_overlay.blp:68
 msgctxt "shortcuts window"
 msgid "Request operations"
 msgstr "Operaciones de petición"
 
-#: data/gtk/help_overlay.blp:72
+#: data/gtk/help_overlay.blp:71
 msgctxt "shortcuts window"
 msgid "Send request"
 msgstr "Enviar petición"
 
-#: data/ui/authorization_pane.blp:30
+#: data/ui/authorization_pane.blp:29
 msgid "Authorization method"
 msgstr "Método de autorización"
 
-#: data/ui/authorization_pane.blp:56
+#: data/ui/authorization_pane.blp:55
 msgid "Username"
 msgstr "Usuario"
 
-#: data/ui/authorization_pane.blp:61
+#: data/ui/authorization_pane.blp:60
 msgid "Password"
 msgstr "Contraseña"
 
-#: data/ui/authorization_pane.blp:77
+#: data/ui/authorization_pane.blp:76
 msgid "Token"
 msgstr "Token"
 
-#: data/ui/authorization_pane.blp:88 data/ui/export_tab.blp:70
-#: data/ui/payload_tab.blp:88
+#: data/ui/authorization_pane.blp:87 data/ui/export_tab.blp:69
+#: data/ui/payload_tab.blp:87
 msgid "(none)"
 msgstr "(nada)"
 
-#: data/ui/authorization_pane.blp:89
+#: data/ui/authorization_pane.blp:88
 msgid "Basic auth"
 msgstr "Autorización básica"
 
-#: data/ui/authorization_pane.blp:90
+#: data/ui/authorization_pane.blp:89
 msgid "Bearer token"
 msgstr "Token bearer"
 
-#: data/ui/code_export_pane.blp:60
+#: data/ui/code_export_pane.blp:59
 msgid "Copy"
 msgstr "Copiar"
 
-#: data/ui/endpoint_pane.blp:70
+#: data/ui/endpoint_pane.blp:69
 msgid "Request URL"
 msgstr "URL de petición"
 
-#: data/ui/endpoint_pane.blp:82
+#: data/ui/endpoint_pane.blp:81
 msgid "Cancel request"
 msgstr "Cancelar petición"
 
-#: data/ui/endpoint_pane.blp:91
+#: data/ui/endpoint_pane.blp:90
 msgid "Send"
 msgstr "Enviar"
 
-#: data/ui/endpoint_pane.blp:92
+#: data/ui/endpoint_pane.blp:91
 msgid "Execute this HTTP request"
 msgstr "Ejecutar esta petición HTTP"
 
-#: data/ui/endpoint_pane.blp:124
+#: data/ui/endpoint_pane.blp:123
 msgid "Parameters"
 msgstr "Parámetros"
 
-#: data/ui/endpoint_pane.blp:147 data/ui/response_panel.blp:93
+#: data/ui/endpoint_pane.blp:146 data/ui/response_panel.blp:92
 msgid "Headers"
 msgstr "Cabeceras"
 
-#: data/ui/endpoint_pane.blp:170
+#: data/ui/endpoint_pane.blp:169
 msgid "Variables"
 msgstr "Variables"
 
-#: data/ui/endpoint_pane.blp:193
+#: data/ui/endpoint_pane.blp:192
 msgid "Authorization"
 msgstr "Autorización"
 
-#: data/ui/endpoint_pane.blp:216 data/ui/response_panel.blp:53
+#: data/ui/endpoint_pane.blp:215 data/ui/response_panel.blp:52
 msgid "Body"
 msgstr "Cuerpo"
 
-#: data/ui/endpoint_pane.blp:226
+#: data/ui/endpoint_pane.blp:225
 msgid "Export request"
 msgstr "Exportar petición"
 
-#: data/ui/export_tab.blp:35
+#: data/ui/export_tab.blp:34
 msgid "Export to"
 msgstr "Exportar como"
 
-#: data/ui/key_value_row.blp:42
+#: data/ui/key_value_row.blp:41
 msgid "Name"
 msgstr "Nombre"
 
-#: data/ui/key_value_row.blp:53
+#: data/ui/key_value_row.blp:52
 msgid "Value"
 msgstr "Valor"
 
-#: data/ui/key_value_row.blp:64
+#: data/ui/key_value_row.blp:63
 msgid "Actions"
 msgstr "Acciones"
 
-#: data/ui/key_value_row.blp:78
+#: data/ui/key_value_row.blp:77
 msgid "Toggle secret"
 msgstr "Alternar secreto"
 
-#: data/ui/key_value_row.blp:85
+#: data/ui/key_value_row.blp:84
 msgid "Delete"
 msgstr "Borrar"
 
-#: data/ui/main_window.blp:41 data/ui/main_window_no_csd.blp:39
+#: data/ui/main_window.blp:40 data/ui/main_window_no_csd.blp:38
 msgid "New"
 msgstr "Nuevo"
 
-#: data/ui/main_window.blp:52 data/ui/main_window.blp:63
-#: data/ui/main_window_no_csd.blp:50 data/ui/main_window_no_csd.blp:61
+#: data/ui/main_window.blp:51 data/ui/main_window.blp:62
+#: data/ui/main_window_no_csd.blp:49 data/ui/main_window_no_csd.blp:60
 #: src/widgets/file_dialogs.rs:101
 msgid "Open"
 msgstr "Abrir"
 
-#: data/ui/main_window.blp:71 data/ui/main_window_no_csd.blp:69
+#: data/ui/main_window.blp:70 data/ui/main_window_no_csd.blp:68
 #: src/widgets/file_dialogs.rs:137
 msgid "Save"
 msgstr "Guardar"
 
-#: data/ui/main_window.blp:95 data/ui/main_window_no_csd.blp:102
+#: data/ui/main_window.blp:94 data/ui/main_window_no_csd.blp:101
 msgid "Welcome to Cartero"
 msgstr "Bienvenido a Cartero"
 
-#: data/ui/main_window.blp:96 data/ui/main_window_no_csd.blp:103
+#: data/ui/main_window.blp:95 data/ui/main_window_no_csd.blp:102
 msgid "Create or open a request and start testing APIs now."
 msgstr "Crea o abre una petición y empieza a probar APIs ahora."
 
-#: data/ui/main_window.blp:115 data/ui/main_window.blp:149
-#: data/ui/main_window_no_csd.blp:122 data/ui/main_window_no_csd.blp:156
+#: data/ui/main_window.blp:114 data/ui/main_window.blp:148
+#: data/ui/main_window_no_csd.blp:121 data/ui/main_window_no_csd.blp:155
 msgid "New tab"
 msgstr "Nueva pestaña"
 
-#: data/ui/main_window.blp:128 data/ui/main_window.blp:154
-#: data/ui/main_window_no_csd.blp:135 data/ui/main_window_no_csd.blp:161
+#: data/ui/main_window.blp:127 data/ui/main_window.blp:153
+#: data/ui/main_window_no_csd.blp:134 data/ui/main_window_no_csd.blp:160
 msgid "Open request…"
 msgstr "Abrir petición…"
 
-#: data/ui/main_window.blp:159 data/ui/main_window_no_csd.blp:166
+#: data/ui/main_window.blp:158 data/ui/main_window_no_csd.blp:165
 #: src/widgets/file_dialogs.rs:138
 msgid "Save request"
 msgstr "Guardar petición"
 
-#: data/ui/main_window.blp:164 data/ui/main_window_no_csd.blp:171
+#: data/ui/main_window.blp:163 data/ui/main_window_no_csd.blp:170
 msgid "Save request as…"
 msgstr "Guardar petición como…"
 
-#: data/ui/main_window.blp:169 data/ui/main_window_no_csd.blp:176
+#: data/ui/main_window.blp:168 data/ui/main_window_no_csd.blp:175
 msgid "Close tab"
 msgstr "Cerrar pestaña"
 
-#: data/ui/main_window.blp:176 data/ui/main_window_no_csd.blp:183
-#: data/ui/settings_dialog.blp:22
+#: data/ui/main_window.blp:175 data/ui/main_window_no_csd.blp:182
+#: data/ui/settings_dialog.blp:21
 msgid "Settings"
 msgstr "Preferencias"
 
-#: data/ui/main_window.blp:181 data/ui/main_window_no_csd.blp:188
+#: data/ui/main_window.blp:180 data/ui/main_window_no_csd.blp:187
 msgid "Body appearance"
 msgstr "Apariencia del cuerpo"
 
-#: data/ui/main_window.blp:185 data/ui/main_window_no_csd.blp:192
+#: data/ui/main_window.blp:184 data/ui/main_window_no_csd.blp:191
 msgid "Wrap content"
 msgstr "Adaptar contenido"
 
-#: data/ui/main_window.blp:190 data/ui/main_window_no_csd.blp:197
+#: data/ui/main_window.blp:189 data/ui/main_window_no_csd.blp:196
 msgid "Show line numbers"
 msgstr "Mostrar números de línea"
 
-#: data/ui/main_window.blp:197 data/ui/main_window_no_csd.blp:204
+#: data/ui/main_window.blp:196 data/ui/main_window_no_csd.blp:203
 msgid "Automatic indentation"
 msgstr "Indentar automáticamente"
 
-#: data/ui/main_window.blp:202 data/ui/main_window_no_csd.blp:209
+#: data/ui/main_window.blp:201 data/ui/main_window_no_csd.blp:208
 msgid "Indent with spaces"
 msgstr "Indentar con espacios"
 
-#: data/ui/main_window.blp:208 data/ui/main_window_no_csd.blp:215
+#: data/ui/main_window.blp:207 data/ui/main_window_no_csd.blp:214
 msgid "Indent with tabs"
 msgstr "Indentar con tabuladores"
 
-#: data/ui/main_window.blp:214 data/ui/main_window_no_csd.blp:221
+#: data/ui/main_window.blp:213 data/ui/main_window_no_csd.blp:220
 msgid "Spaces per tab"
 msgstr "Espacios por tabulador"
 
-#: data/ui/main_window.blp:217 data/ui/main_window_no_csd.blp:224
+#: data/ui/main_window.blp:216 data/ui/main_window_no_csd.blp:223
 msgid "2"
 msgstr "2"
 
-#: data/ui/main_window.blp:223 data/ui/main_window_no_csd.blp:230
+#: data/ui/main_window.blp:222 data/ui/main_window_no_csd.blp:229
 msgid "4"
 msgstr "4"
 
-#: data/ui/main_window.blp:229 data/ui/main_window_no_csd.blp:236
+#: data/ui/main_window.blp:228 data/ui/main_window_no_csd.blp:235
 msgid "8"
 msgstr "8"
 
-#: data/ui/main_window.blp:240 data/ui/main_window_no_csd.blp:247
+#: data/ui/main_window.blp:239 data/ui/main_window_no_csd.blp:246
 msgid "Keyboard shortcuts"
 msgstr "Atajos de teclado"
 
-#: data/ui/main_window.blp:245 data/ui/main_window_no_csd.blp:252
+#: data/ui/main_window.blp:244 data/ui/main_window_no_csd.blp:251
 msgid "About Cartero"
 msgstr "Acerca de Cartero"
 
-#: data/ui/main_window.blp:250 data/ui/main_window_no_csd.blp:257
+#: data/ui/main_window.blp:249 data/ui/main_window_no_csd.blp:256
 msgid "Quit"
 msgstr "Salir"
 
-#: data/ui/method_dropdown.blp:30
+#: data/ui/method_dropdown.blp:29
 msgid "Request method"
 msgstr "Método de petición"
 
-#: data/ui/payload_tab.blp:35
+#: data/ui/payload_tab.blp:34
 msgid "Body type"
 msgstr "Tipo de cuerpo"
 
-#: data/ui/payload_tab.blp:89
+#: data/ui/payload_tab.blp:88
 msgid "URL Encoded"
 msgstr "Codificado como URL"
 
-#: data/ui/payload_tab.blp:90
+#: data/ui/payload_tab.blp:89
 msgid "Multipart Form Data"
 msgstr "Formulario Multipart"
 
-#: data/ui/payload_tab.blp:93
+#: data/ui/payload_tab.blp:92
 msgid "Raw"
 msgstr "En bruto"
 
-#: data/ui/response_panel.blp:29
+#: data/ui/response_panel.blp:28
 msgid "Ready to request"
 msgstr "Listo para enviar"
 
-#: data/ui/response_panel.blp:30
+#: data/ui/response_panel.blp:29
 msgid "Use the Send button to send a network request and it will show here."
 msgstr ""
 "Usa el botón Enviar para enviar una petición de red y ver el resultado aquí."
 
-#: data/ui/search_box.blp:43 data/ui/search_box.blp:44
+#: data/ui/search_box.blp:42 data/ui/search_box.blp:43
 msgid "Search"
 msgstr "Buscar"
 
-#: data/ui/search_box.blp:64
+#: data/ui/search_box.blp:63
 msgid "Previous result"
 msgstr "Resultado anterior"
 
-#: data/ui/search_box.blp:70
+#: data/ui/search_box.blp:69
 msgid "Next result"
 msgstr "Resultado siguiente"
 
-#: data/ui/search_box.blp:82
+#: data/ui/search_box.blp:81
 msgid "Close search"
 msgstr "Cerrar búsqueda"
 
-#: data/ui/settings_dialog.blp:27
+#: data/ui/settings_dialog.blp:26
 msgid "Application"
 msgstr "Aplicación"
 
-#: data/ui/settings_dialog.blp:31
+#: data/ui/settings_dialog.blp:30
 msgid "Appearance"
 msgstr "Apariencia"
 
-#: data/ui/settings_dialog.blp:34
+#: data/ui/settings_dialog.blp:33
 msgid "Application style"
 msgstr "Estilo de la aplicación"
 
-#: data/ui/settings_dialog.blp:38
+#: data/ui/settings_dialog.blp:37
 msgid "Follow system settings"
 msgstr "Seguir opciones del sistema"
 
-#: data/ui/settings_dialog.blp:39
+#: data/ui/settings_dialog.blp:38
 msgid "Light mode"
 msgstr "Modo claro"
 
-#: data/ui/settings_dialog.blp:40
+#: data/ui/settings_dialog.blp:39
 msgid "Dark mode"
 msgstr "Modo oscuro"
 
-#: data/ui/settings_dialog.blp:46
+#: data/ui/settings_dialog.blp:45
 msgid "Use system font"
 msgstr "Usar la fuente del sistema"
 
-#: data/ui/settings_dialog.blp:50
+#: data/ui/settings_dialog.blp:49
 msgid "Custom font"
 msgstr "Fuente personalizada"
 
-#: data/ui/settings_dialog.blp:65
+#: data/ui/settings_dialog.blp:64
 msgid "File settings"
 msgstr "Preferencias de archivos"
 
-#: data/ui/settings_dialog.blp:68
+#: data/ui/settings_dialog.blp:67
 msgid "Create backup files"
 msgstr "Crear copias de seguridad"
 
-#: data/ui/settings_dialog.blp:69
+#: data/ui/settings_dialog.blp:68
 msgid ""
 "You might not want to enable this if you are already using a version control "
 "such as Git"
@@ -507,87 +507,87 @@ msgstr ""
 "Tal vez no quieras activar esta opción si ya estás usando un control de "
 "versiones como Git"
 
-#: data/ui/settings_dialog.blp:75 data/ui/settings_dialog.blp:79
+#: data/ui/settings_dialog.blp:74 data/ui/settings_dialog.blp:78
 msgid "HTTP Client"
 msgstr "Cliente HTTP"
 
-#: data/ui/settings_dialog.blp:82
+#: data/ui/settings_dialog.blp:81
 msgid "Enforce TLS validation"
 msgstr "Exigir validación TLS"
 
-#: data/ui/settings_dialog.blp:83
+#: data/ui/settings_dialog.blp:82
 msgid "Cancel a request if the TLS handshake fails"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:87
+#: data/ui/settings_dialog.blp:86
 msgid "Follow redirects"
 msgstr "Seguir redirecciones"
 
-#: data/ui/settings_dialog.blp:88
+#: data/ui/settings_dialog.blp:87
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:93
+#: data/ui/settings_dialog.blp:92
 msgid "Maximum redirects"
 msgstr "Redirecciones máximas"
 
-#: data/ui/settings_dialog.blp:105
+#: data/ui/settings_dialog.blp:104
 msgid "Request timeout"
 msgstr "Tiempo límite de petición"
 
-#: data/ui/settings_dialog.blp:106
+#: data/ui/settings_dialog.blp:105
 msgid "Seconds to wait before cancelling the request"
 msgstr ""
 
-#: src/error.rs:15
+#: src/error.rs:32
 msgid "The specified URL is not valid"
 msgstr "La URL especificada no es válida"
 
-#: src/error.rs:17
+#: src/error.rs:34
 msgid "The header '{}' is not valid"
 msgstr "La cabecera '{}' no es válida"
 
-#: src/error.rs:20
+#: src/error.rs:37
 msgid "The value for header '{}' is not valid"
 msgstr "El valor de la cabecera '{}' no es válido"
 
-#: src/error.rs:23 src/error.rs:57
+#: src/error.rs:40 src/error.rs:74
 msgid "The given request body could not be encoded correctly"
 msgstr "El cuerpo de petición dado no se pudo codificar correctamente"
 
-#: src/error.rs:52
+#: src/error.rs:69
 msgid "Cannot recognise the URL"
 msgstr "No se puede reconocer la URL"
 
-#: src/error.rs:53
+#: src/error.rs:70
 msgid "The given URL is missing a protocol"
 msgstr "La URL indicada no tiene un protocolo"
 
-#: src/error.rs:55
+#: src/error.rs:72
 msgid "The protocol {}:// is not supported"
 msgstr "El protocolo {}:// no está soportado"
 
-#: src/error.rs:59
+#: src/error.rs:76
 msgid "The variable '{}' is not defined"
 msgstr "La variable '{}' no está definida"
 
-#: src/error.rs:62
+#: src/error.rs:79
 msgid "There was a problem with a variable interpolation, review your inputs"
 msgstr "Hubo un problema interpolando las variables, revisa las entradas"
 
-#: src/error.rs:87
+#: src/error.rs:104
 msgid "There is a network error"
 msgstr "Hay un error de red"
 
-#: src/error.rs:88
+#: src/error.rs:105
 msgid "There is an input/output error"
 msgstr "Hay un error de entrada/salida"
 
-#: src/error.rs:114 src/error.rs:138
+#: src/error.rs:131 src/error.rs:155
 msgid "The current tab is not associated with a file"
 msgstr "La pestaña actual no está asociada con un archivo"
 
-#: src/error.rs:116
+#: src/error.rs:133
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
@@ -595,12 +595,12 @@ msgstr ""
 "El archivo ha sido creado con una versión más reciente de este programa; "
 "¡por favor actualiza!"
 
-#: src/error.rs:120
+#: src/error.rs:137
 msgid "The file is corrupt or does not contain valid data for this application"
 msgstr ""
 "El archivo está corrupto o no contiene datos válidos para esta aplicación"
 
-#: src/file.rs:394
+#: src/file.rs:411
 msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
@@ -608,36 +608,36 @@ msgstr ""
 "El verbo HTTP que se encontró en el archivo era '{}'. No es válido, así que "
 "se reestablecerá a '{}'."
 
-#: src/widgets/dialogs.rs:49
+#: src/widgets/dialogs.rs:48
 msgid "Cannot open '{}'"
 msgstr "No se puede abrir '{}'"
 
-#: src/widgets/dialogs.rs:50
+#: src/widgets/dialogs.rs:49
 msgid "Cannot open the requested file"
 msgstr "No se puede abrir el archivo solicitado"
 
-#: src/widgets/dialogs.rs:59 src/widgets/dialogs.rs:93
-#: src/widgets/dialogs.rs:119 src/widgets/dialogs.rs:135
+#: src/widgets/dialogs.rs:58 src/widgets/dialogs.rs:92
+#: src/widgets/dialogs.rs:118 src/widgets/dialogs.rs:134
 msgid "Close"
 msgstr "Cerrar"
 
-#: src/widgets/dialogs.rs:76
+#: src/widgets/dialogs.rs:75
 msgid "The file '{}' was loaded but had issues"
 msgstr "El archivo '{}' fue cargado pero tenía problemas"
 
-#: src/widgets/dialogs.rs:77
+#: src/widgets/dialogs.rs:76
 msgid "The requested file was loaded but had issues"
 msgstr "El archivo solicitado fue cargado pero tenía problemas"
 
-#: src/widgets/dialogs.rs:110
+#: src/widgets/dialogs.rs:109
 msgid "Cannot save '{}'"
 msgstr "No se puede guardar '{}'"
 
-#: src/widgets/dialogs.rs:111
+#: src/widgets/dialogs.rs:110
 msgid "Cannot save the requested file"
 msgstr "No se puede guardar el archivo solicitado"
 
-#: src/widgets/dialogs.rs:113
+#: src/widgets/dialogs.rs:112
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
@@ -645,15 +645,15 @@ msgstr ""
 "Hubo un error durante el proceso de guardado. Asume que tus cambios todavía "
 "no han sido guardados."
 
-#: src/widgets/dialogs.rs:130
+#: src/widgets/dialogs.rs:129
 msgid "Could not select a valid file from the file chooser"
 msgstr "No se pudo seleccionar un archivo válido desde el selector de archivos"
 
-#: src/widgets/dialogs.rs:147
+#: src/widgets/dialogs.rs:146
 msgid "There are unsaved changes"
 msgstr "Hay cambios sin guardar"
 
-#: src/widgets/dialogs.rs:149
+#: src/widgets/dialogs.rs:148
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
@@ -661,35 +661,35 @@ msgstr ""
 "Cerrar esta ventana perderá cualquier dato no guardado. ¿De verdad quieres "
 "continuar?"
 
-#: src/widgets/dialogs.rs:153
+#: src/widgets/dialogs.rs:152
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: src/widgets/dialogs.rs:154
+#: src/widgets/dialogs.rs:153
 msgid "Close anyway"
 msgstr "Cerrar de todos modos"
 
-#: src/widgets/dialogs.rs:180
+#: src/widgets/dialogs.rs:179
 msgid "Save changes in '{}'?"
 msgstr "¿Guardar cambios en '{}'?"
 
-#: src/widgets/dialogs.rs:181
+#: src/widgets/dialogs.rs:180
 msgid "Save changes?"
 msgstr "¿Guardar cambios?"
 
-#: src/widgets/dialogs.rs:186
+#: src/widgets/dialogs.rs:185
 msgid "There are changes that have not been saved yet. What do you want to do?"
 msgstr "Hay cambios que todavía no han sido guardados. ¿Qué quieres hacer?"
 
-#: src/widgets/dialogs.rs:190
+#: src/widgets/dialogs.rs:189
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: src/widgets/dialogs.rs:191
+#: src/widgets/dialogs.rs:190
 msgid "_Discard"
 msgstr "_Descartar"
 
-#: src/widgets/dialogs.rs:192
+#: src/widgets/dialogs.rs:191
 msgid "_Save"
 msgstr "_Guardar"
 

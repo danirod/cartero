@@ -28,7 +28,14 @@ src/client/isahc_conv.rs
 src/client/local.rs
 src/client/mod.rs
 src/client/request_bodies.rs
-src/entities.rs
+src/entities/endpoint_data.rs
+src/entities/key_value.rs
+src/entities/key_value_table.rs
+src/entities/mod.rs
+src/entities/request_export.rs
+src/entities/request_method.rs
+src/entities/request_payload.rs
+src/entities/response_data.rs
 src/error.rs
 src/file.rs
 src/main.rs

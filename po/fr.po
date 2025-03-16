@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-16 19:40+0100\n"
+"POT-Creation-Date: 2025-03-16 21:49+0100\n"
 "PO-Revision-Date: 2025-02-11 11:02+0000\n"
 "Last-Translator: Altero <aurelien.reinert4@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -265,19 +265,19 @@ msgstr "Paramètres"
 msgid "Headers"
 msgstr "En-têtes"
 
-#: data/ui/endpoint_pane.blp:169
+#: data/ui/endpoint_pane.blp:170
 msgid "Variables"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:192
+#: data/ui/endpoint_pane.blp:194
 msgid "Authorization"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:215 data/ui/response_panel.blp:52
+#: data/ui/endpoint_pane.blp:217 data/ui/response_panel.blp:52
 msgid "Body"
 msgstr "Corps"
 
-#: data/ui/endpoint_pane.blp:225
+#: data/ui/endpoint_pane.blp:227
 msgid "Export request"
 msgstr "Exporter la requête"
 
@@ -289,19 +289,19 @@ msgstr "Exporter vers"
 msgid "Name"
 msgstr "Nom"
 
-#: data/ui/key_value_row.blp:52
+#: data/ui/key_value_row.blp:54
 msgid "Value"
 msgstr "Valeur"
 
-#: data/ui/key_value_row.blp:63
+#: data/ui/key_value_row.blp:65
 msgid "Actions"
 msgstr "Actions"
 
-#: data/ui/key_value_row.blp:77
+#: data/ui/key_value_row.blp:79
 msgid "Toggle secret"
 msgstr ""
 
-#: data/ui/key_value_row.blp:84
+#: data/ui/key_value_row.blp:86
 msgid "Delete"
 msgstr "Supprimer"
 
@@ -709,6 +709,12 @@ msgstr ""
 
 #: src/widgets/file_dialogs.rs:102
 msgid "Open request"
+msgstr ""
+
+#: src/widgets/key_value_row.rs:110
+msgid ""
+"The value for this field will not be used because another field with the "
+"same name is overriding it."
 msgstr ""
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first

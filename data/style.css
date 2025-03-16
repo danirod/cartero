@@ -1,6 +1,10 @@
 .ignored-header text {
+  color: var(--warning-color);
   text-decoration: line-through;
-  opacity: 0.75;
+}
+
+.ignored-header entry image.right {
+  color: var(--warning-color);
 }
 
 .inactive-header text {

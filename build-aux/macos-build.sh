@@ -210,7 +210,7 @@ cat > "$APP_ROOT/Contents/Info.plist" << EOF
     <key>CFBundleVersion</key>
     <string>1</string>
     <key>NSHumanReadableCopyright</key>
-    <string>Copyright © 2024 The Cartero Authors</string>
+    <string>Copyright © 2024-2025 The Cartero authors</string>
     <key>CFBundleSignature</key>
     <string>Cartero</string>
     <key>LSMinimumSystemVersion</key>

@@ -137,6 +137,7 @@ dependencies = [
 name = "cartero"
 version = "0.2.0"
 dependencies = [
+ "formatx",
  "formdata",
  "futures-lite 2.6.0",
  "gettext-rs",
@@ -391,6 +392,12 @@ checksum = "e13624c2627564efccf4934284bdd98cbaa14e79b0b5a141218e507b3a823456"
 dependencies = [
  "percent-encoding 2.3.1",
 ]
+
+[[package]]
+name = "formatx"
+version = "0.2.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fa6f3b9014e23925937fbf4d05f27a6f4efe42545f98690b94f193bdb3f1959e"
 
 [[package]]
 name = "formdata"

@@ -233,31 +233,28 @@ mod imp {
             let dirty = pane.property_expression("dirty");
 
             // Bind title
-            ClosureExpression::new::<String>(
-                [&file, &dirty],
-                glib::closure!(|_: EndpointPane, file: Option<gio::File>, dirty: bool| {
-                    let path = file
-                        .and_then(|f| f.basename())
-                        .map(|bn| bn.file_stem().unwrap().to_str().unwrap().to_string())
-                        .unwrap_or(gettext("(untitled)"));
-                    if dirty {
-                        format!("• {}", &path)
-                    } else {
-                        path
-                    }
-                }),
-            )
+            ClosureExpression::with_callback([&file, &dirty], |args| {
+                let file = args[1].get::<Option<gio::File>>().unwrap();
+                let dirty = args[2].get::<bool>().unwrap();
+                let path = file
+                    .and_then(|f| f.basename())
+                    .map(|bn| bn.file_stem().unwrap().to_str().unwrap().to_string())
+                    .unwrap_or(gettext("(untitled)"));
+                if dirty {
+                    format!("• {}", &path)
+                } else {
+                    path
+                }
+            })
             .bind(&page, "title", Some(pane));
 
             // Bind subtitle
-            ClosureExpression::new::<String>(
-                [&file],
-                glib::closure!(|_: EndpointPane, file: Option<gio::File>| {
-                    file.and_then(|f| f.path())
-                        .map(|bn| bn.display().to_string())
-                        .unwrap_or(gettext("Draft"))
-                }),
-            )
+            ClosureExpression::with_callback([&file], |args| {
+                let file = args[1].get::<Option<gio::File>>().unwrap();
+                file.and_then(|f| f.path())
+                    .map(|bn| bn.display().to_string())
+                    .unwrap_or(gettext("Draft"))
+            })
             .bind(&page, "tooltip", Some(pane));
 
             page
@@ -548,6 +545,26 @@ mod imp {
             }
         }
 
+        fn action_about(&self) {
+            let about = AboutWindow::builder()
+                .transient_for(&*self.obj())
+                .modal(true)
+                .application_name("Cartero")
+                .application_icon(config::APP_ID)
+                .version(config::VERSION)
+                .website("https://github.com/danirod/cartero")
+                .issue_url("https://github.com/danirod/cartero/issues")
+                .support_url("https://github.com/danirod/cartero/discussions")
+                .developer_name(gettext("The Cartero authors"))
+                .copyright(gettext("© 2024-2025 the Cartero authors"))
+                .license_type(gtk::License::Gpl30)
+                .build();
+            if cfg!(target_os = "macos") {
+                about.add_css_class("macos");
+            }
+            about.present();
+        }
+
         pub(super) fn toast_message(&self, msg: &str) {
             let toast = adw::Toast::new(msg);
             self.toaster.add_toast(toast);
@@ -693,23 +710,7 @@ mod imp {
                     #[weak(rename_to = window)]
                     self,
                     move |_, _, _| {
-                        let about = AboutWindow::builder()
-                            .transient_for(&*window.obj())
-                            .modal(true)
-                            .application_name("Cartero")
-                            .application_icon(config::APP_ID)
-                            .version(config::VERSION)
-                            .website("https://github.com/danirod/cartero")
-                            .issue_url("https://github.com/danirod/cartero/issues")
-                            .support_url("https://github.com/danirod/cartero/discussions")
-                            .developer_name(gettext("The Cartero authors"))
-                            .copyright(gettext("© 2024-2025 the Cartero authors"))
-                            .license_type(gtk::License::Gpl30)
-                            .build();
-                        if cfg!(target_os = "macos") {
-                            about.add_css_class("macos");
-                        }
-                        about.present();
+                        window.action_about();
                     }
                 ))
                 .build();

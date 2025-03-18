@@ -131,7 +131,7 @@ img {
 }
 
 body {
-  font-family: Cantarell, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 14pt;
   line-height: 1.3;
   background-color: var(--window-bg-color);
@@ -309,6 +309,17 @@ body {
     padding-left: 20px;
     padding-right: 20px;
     justify-content: center;
+  }
+
+  .screenshot picture:not(.gnome) {
+    display: none;
+  }
+
+  body.is-darwin .screenshot picture:not(.macos) {
+    display: none;
+  }
+  body.is-darwin .screenshot picture.macos {
+    display: flex;
   }
 }
 

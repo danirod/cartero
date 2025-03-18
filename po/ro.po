@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-16 21:49+0100\n"
+"POT-Creation-Date: 2025-03-18 23:24+0100\n"
 "PO-Revision-Date: 2024-07-30 15:00+0200\n"
 "Last-Translator:  <>\n"
 "Language-Team: Romanian\n"
@@ -533,10 +533,12 @@ msgid "The specified URL is not valid"
 msgstr ""
 
 #: src/error.rs:34
+#, rust-format
 msgid "The header '{}' is not valid"
 msgstr ""
 
 #: src/error.rs:37
+#, rust-format
 msgid "The value for header '{}' is not valid"
 msgstr ""
 
@@ -553,10 +555,12 @@ msgid "The given URL is missing a protocol"
 msgstr ""
 
 #: src/error.rs:72
+#, rust-format
 msgid "The protocol {}:// is not supported"
 msgstr ""
 
 #: src/error.rs:76
+#, rust-format
 msgid "The variable '{}' is not defined"
 msgstr ""
 
@@ -588,12 +592,14 @@ msgid "The file is corrupt or does not contain valid data for this application"
 msgstr ""
 
 #: src/file.rs:411
+#, rust-format
 msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
 msgstr ""
 
 #: src/widgets/dialogs.rs:48
+#, rust-format
 msgid "Cannot open '{}'"
 msgstr ""
 
@@ -608,6 +614,7 @@ msgid "Close"
 msgstr "Închideți tab-ul"
 
 #: src/widgets/dialogs.rs:75
+#, rust-format
 msgid "The file '{}' was loaded but had issues"
 msgstr ""
 
@@ -616,6 +623,7 @@ msgid "The requested file was loaded but had issues"
 msgstr ""
 
 #: src/widgets/dialogs.rs:109
+#, rust-format
 msgid "Cannot save '{}'"
 msgstr ""
 
@@ -654,7 +662,7 @@ msgid "Close anyway"
 msgstr "Închideți tab-ul"
 
 #: src/widgets/dialogs.rs:179
-#, fuzzy
+#, fuzzy, rust-format
 msgid "Save changes in '{}'?"
 msgstr "Salvați modificările?"
 
@@ -712,12 +720,14 @@ msgstr ""
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
 #: src/widgets/search_box.rs:254
+#, rust-format
 msgid "{} of {}"
 msgstr ""
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count when only
 #. the number of total ocurrences is known.
 #: src/widgets/search_box.rs:262
+#, rust-format
 msgid "{} result"
 msgid_plural "{} results"
 msgstr[0] ""
@@ -727,14 +737,14 @@ msgstr[1] ""
 msgid "(untitled)"
 msgstr "(fără titlu)"
 
-#: src/win.rs:258
+#: src/win.rs:256
 msgid "Draft"
 msgstr "Proiect"
 
-#: src/win.rs:705
+#: src/win.rs:558
 msgid "The Cartero authors"
 msgstr "Autorii Cartero"
 
-#: src/win.rs:706
+#: src/win.rs:559
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 autorii Cartero"

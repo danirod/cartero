@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-16 19:40+0100\n"
+"POT-Creation-Date: 2025-03-16 21:49+0100\n"
 "PO-Revision-Date: 2024-07-30 15:00+0200\n"
 "Last-Translator:  <>\n"
 "Language-Team: Romanian\n"
@@ -261,19 +261,19 @@ msgstr "Parametrii"
 msgid "Headers"
 msgstr "Antetele"
 
-#: data/ui/endpoint_pane.blp:169
+#: data/ui/endpoint_pane.blp:170
 msgid "Variables"
 msgstr "Variabilele"
 
-#: data/ui/endpoint_pane.blp:192
+#: data/ui/endpoint_pane.blp:194
 msgid "Authorization"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:215 data/ui/response_panel.blp:52
+#: data/ui/endpoint_pane.blp:217 data/ui/response_panel.blp:52
 msgid "Body"
 msgstr "Corpul"
 
-#: data/ui/endpoint_pane.blp:225
+#: data/ui/endpoint_pane.blp:227
 msgid "Export request"
 msgstr ""
 
@@ -285,19 +285,19 @@ msgstr ""
 msgid "Name"
 msgstr "Numele"
 
-#: data/ui/key_value_row.blp:52
+#: data/ui/key_value_row.blp:54
 msgid "Value"
 msgstr "Valoarea"
 
-#: data/ui/key_value_row.blp:63
+#: data/ui/key_value_row.blp:65
 msgid "Actions"
 msgstr "Acțiunile"
 
-#: data/ui/key_value_row.blp:77
+#: data/ui/key_value_row.blp:79
 msgid "Toggle secret"
 msgstr "Comutați secretul"
 
-#: data/ui/key_value_row.blp:84
+#: data/ui/key_value_row.blp:86
 msgid "Delete"
 msgstr "Ștergeți"
 
@@ -702,6 +702,12 @@ msgstr "Cerere"
 #: src/widgets/file_dialogs.rs:102
 msgid "Open request"
 msgstr "Deschideți cererea"
+
+#: src/widgets/key_value_row.rs:110
+msgid ""
+"The value for this field will not be used because another field with the "
+"same name is overriding it."
+msgstr ""
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.

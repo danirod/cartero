@@ -48,6 +48,8 @@ template $CarteroKeyValueRow: Gtk.ListBoxRow {
 
         editable: bind template.read-only inverted;
         hexpand: true;
+        secondary-icon-activatable: false;
+        secondary-icon-sensitive: false;
         text: bind template.header-value bidirectional;
         placeholder-text: _("Value");
         visibility: bind template.secret inverted;

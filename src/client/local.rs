@@ -23,7 +23,7 @@ use crate::{
     error::RequestPreconditionError,
 };
 
-use super::request_bodies::BoundRequestBody;
+use super::{request_auth::BoundAuthorization, request_bodies::BoundRequestBody};
 
 #[derive(Default, Debug, Clone)]
 pub struct BoundRequest {
@@ -67,10 +67,12 @@ impl TryFrom<EndpointData> for BoundRequest {
         let headers = value.headers.render(&processor)?;
 
         let body = BoundRequestBody::try_from(&value)?;
+        let auth = BoundAuthorization::try_from(&value)?;
 
         // Use the request body headers to craft the real request headers.
         let headers = {
             let mut all_headers = HashMap::from_iter(body.headers);
+            all_headers.extend(auth.headers);
             all_headers.extend(headers.to_active_pairs());
             all_headers
         };
@@ -188,6 +190,7 @@ mod tests {
             variables,
             body,
             parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
         };
 
         // Bind the request.
@@ -219,6 +222,7 @@ mod tests {
             variables,
             body,
             parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
         };
 
         let bound = BoundRequest::try_from(endpoint).unwrap();
@@ -242,6 +246,7 @@ mod tests {
             variables,
             body,
             parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
         };
 
         let bound = BoundRequest::try_from(endpoint).unwrap();
@@ -273,6 +278,7 @@ mod tests {
             variables,
             body,
             parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
         };
 
         // Bind the request.
@@ -291,6 +297,7 @@ mod tests {
             variables: KeyValueTable::default(),
             body: RequestPayload::None,
             parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
         };
         let result = BoundRequest::try_from(endpoint);
         assert!(result.is_err_and(|e| e == RequestPreconditionError::MissingProtocol));
@@ -308,6 +315,7 @@ mod tests {
             variables: KeyValueTable::default(),
             body: RequestPayload::None,
             parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
         };
         let result = BoundRequest::try_from(endpoint);
         assert!(result.is_err_and(
@@ -327,6 +335,7 @@ mod tests {
             variables: KeyValueTable::default(),
             body: RequestPayload::None,
             parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
         };
         let result = BoundRequest::try_from(endpoint).unwrap();
         assert_eq!(result.url, "https://example.com/api/v1/users");
@@ -344,6 +353,7 @@ mod tests {
             variables: KeyValueTable::default(),
             body: RequestPayload::None,
             parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
         };
         let result = BoundRequest::try_from(endpoint).unwrap();
         assert_eq!(result.url, "https://example.com/api/v1/users");
@@ -361,6 +371,7 @@ mod tests {
             variables: KeyValueTable::default(),
             body: RequestPayload::None,
             parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
         };
         let result = BoundRequest::try_from(endpoint).unwrap();
         assert_eq!(result.url, "https://example.com/api/v1/users");

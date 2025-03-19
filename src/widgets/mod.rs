@@ -15,6 +15,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+mod authorization_pane;
 mod code_view;
 pub mod dialogs;
 mod endpoint_pane;
@@ -29,6 +30,7 @@ mod response_headers;
 mod response_panel;
 mod search_box;
 
+pub use authorization_pane::*;
 pub use code_view::CodeView;
 pub use endpoint_pane::EndpointPane;
 pub use error_pane::ErrorPane;

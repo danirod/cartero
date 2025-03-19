@@ -1,19 +1,18 @@
-/*
- * Copyright 2024 the Cartero authors
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
+// Copyright 2024-2025 the Cartero authors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
 // SPDX-License-Identifier: GPL-3.0-or-later
 using Gtk 4.0;
 using Adw 1;
@@ -25,7 +24,7 @@ template $CarteroSettingsDialog: Adw.PreferencesDialog {
 
   Adw.PreferencesPage {
     title: _("Application");
-    icon-name: "applications-system";
+    icon-name: "applications-system-symbolic";
 
     Adw.PreferencesGroup {
       title: _("Appearance");
@@ -73,17 +72,19 @@ template $CarteroSettingsDialog: Adw.PreferencesDialog {
 
   Adw.PreferencesPage {
     title: _("HTTP Client");
-    icon-name: "network-transmit-receive";
+    icon-name: "network-transmit-receive-symbolic";
 
     Adw.PreferencesGroup {
       title: _("HTTP Client");
 
       Adw.SwitchRow option_validate_tls {
         title: _("Enforce TLS validation");
+        subtitle: _("Cancel a request if the TLS handshake fails");
       }
 
       Adw.ExpanderRow option_follow_redirects {
         title: _("Follow redirects");
+        subtitle: _("Make follow-up requests if the server returns an HTTP 3xx response");
         show-enable-switch: true;
         enable-expansion: true;
 
@@ -101,7 +102,8 @@ template $CarteroSettingsDialog: Adw.PreferencesDialog {
 
       Adw.SpinRow option_timeout {
         title: _("Request timeout");
-        digits: 3;
+        subtitle: _("Seconds to wait before cancelling the request");
+        digits: 1;
 
         adjustment: Gtk.Adjustment {
           lower: 0;

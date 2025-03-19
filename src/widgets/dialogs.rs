@@ -1,31 +1,30 @@
-/*
- * Copyright 2024-2025 the Cartero authors
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
+// Copyright 2024-2025 the Cartero authors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use crate::{
     error::{FileLoadError, FileSaveError},
     file::FileWarningTag,
-    i18n::i18n_f,
 };
 
 use adw::{
     prelude::{AlertDialogExt, AlertDialogExtManual, WidgetExt},
     AlertDialog,
 };
+use formatx::formatx;
 use gettextrs::gettext;
 use gio::prelude::FileExt;
 use glib::object::IsA;
@@ -46,7 +45,7 @@ pub async fn file_load_error_dialog(
 ) {
     let file_name = file.and_then(get_file_display_name);
     let error_title = match file_name {
-        Some(name) => i18n_f("Cannot open '{}'", &[&name]),
+        Some(name) => formatx!(gettext("Cannot open '{}'"), name).unwrap(),
         None => gettext("Cannot open the requested file"),
     };
     let error_msg = error.to_string();
@@ -73,7 +72,7 @@ pub async fn file_load_warning_dialog(
 ) {
     let file_name = file.and_then(get_file_display_name);
     let error_title = match file_name {
-        Some(name) => i18n_f("The file '{}' was loaded but had issues", &[&name]),
+        Some(name) => formatx!(gettext("The file '{}' was loaded but had issues"), name).unwrap(),
         None => gettext("The requested file was loaded but had issues"),
     };
     let error_msg = if failures.len() > 1 {
@@ -107,10 +106,10 @@ pub async fn file_save_error(
 ) {
     let file_name = file.and_then(get_file_display_name);
     let error_title = match file_name {
-        Some(name) => i18n_f("Cannot save '{}'", &[&name]),
+        Some(name) => formatx!(gettext("Cannot save '{}'"), name).unwrap(),
         None => gettext("Cannot save the requested file"),
     };
-    let error_msg = format!("{}.\n\n{}", gettext("There was an error during the saving process. Assume that your changes are still not saved."), error);
+    let error_msg = format!("{}\n\n{}", gettext("There was an error during the saving process. Assume that your changes are still not saved."), error);
     let alert = AlertDialog::builder()
         .heading(&error_title)
         .body(&error_msg)
@@ -177,7 +176,7 @@ pub async fn confirm_save(
 ) -> SaveAlertDialogResponse {
     let file_name = file.and_then(get_file_display_name);
     let question_title = match file_name {
-        Some(name) => i18n_f("Save changes in '{}'?", &[&name]),
+        Some(name) => formatx!(gettext("Save changes in '{}'?"), name).unwrap(),
         None => gettext("Save changes?"),
     };
     let question = AlertDialog::builder()

@@ -1,6 +1,22 @@
-use crate::i18n::i18n_f;
+// Copyright 2024-2025 the Cartero authors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+use formatx::formatx;
 use gettextrs::gettext;
-use srtemplate::SrTemplateError;
 
 #[derive(Debug, Eq, PartialEq)]
 pub enum RequestBuildError {
@@ -14,9 +30,11 @@ impl std::fmt::Display for RequestBuildError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let message = match self {
             Self::InvalidUrl(_) => gettext("The specified URL is not valid"),
-            Self::InvalidHeaderName(name) => i18n_f("The header '{}' is not valid", &[&name]),
+            Self::InvalidHeaderName(name) => {
+                formatx!(gettext("The header '{}' is not valid"), name).unwrap()
+            }
             Self::InvalidHeaderValue(name) => {
-                i18n_f("The value for header '{}' is not valid", &[name])
+                formatx!(gettext("The value for header '{}' is not valid"), name).unwrap()
             }
             Self::InvalidBodyEncoding => {
                 gettext("The given request body could not be encoded correctly")
@@ -51,10 +69,12 @@ impl std::fmt::Display for RequestPreconditionError {
             Self::UrlBadParse => gettext("Cannot recognise the URL"),
             Self::MissingProtocol => gettext("The given URL is missing a protocol"),
             Self::UnsupportedProtocol(proto) => {
-                i18n_f("The protocol {}:// is not supported", &[&proto])
+                formatx!(gettext("The protocol {}:// is not supported"), proto).unwrap()
             }
             Self::EncodingError => gettext("The given request body could not be encoded correctly"),
-            Self::VariableNotFound(var) => i18n_f("The variable '{}' is not defined", &[&var]),
+            Self::VariableNotFound(var) => {
+                formatx!(gettext("The variable '{}' is not defined"), var).unwrap()
+            }
             Self::BadInterpolation => {
                 gettext("There was a problem with a variable interpolation, review your inputs")
             }
@@ -63,10 +83,10 @@ impl std::fmt::Display for RequestPreconditionError {
     }
 }
 
-impl From<SrTemplateError> for RequestPreconditionError {
-    fn from(value: SrTemplateError) -> Self {
+impl From<srtemplate::Error> for RequestPreconditionError {
+    fn from(value: srtemplate::Error) -> Self {
         match value {
-            SrTemplateError::VariableNotFound(var) => Self::VariableNotFound(var),
+            srtemplate::Error::VariableNotFound(var) => Self::VariableNotFound(var),
             _ => Self::BadInterpolation,
         }
     }

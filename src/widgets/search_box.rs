@@ -1,4 +1,4 @@
-// Copyright 2024 the Cartero authors
+// Copyright 2024-2025 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,6 +26,8 @@ mod imp {
     use std::cell::{OnceCell, RefCell};
     use std::sync::OnceLock;
 
+    use formatx::formatx;
+    use gettextrs::{gettext, ngettext};
     use glib::object::{Cast, ObjectExt};
     use glib::subclass::{InitializingObject, Signal};
     use glib::Properties;
@@ -37,7 +39,6 @@ mod imp {
     use sourceview5::prelude::SearchSettingsExt;
     use sourceview5::{Buffer, SearchContext, SearchSettings};
 
-    use crate::i18n::{i18n_f, ni18n_f};
     use crate::widgets::CodeView;
 
     #[derive(CompositeTemplate, Default, Properties)]
@@ -250,7 +251,7 @@ mod imp {
 
                 // TRANSLATORS: this string is used to build the search box ocurrences count; the first
                 // placeholder is the current ocurrence index, the second one is the total.
-                let label = i18n_f("{} of {}", &[&current, &total]);
+                let label = formatx!(gettext("{} of {}"), current, total).unwrap();
                 self.search_results.set_label(&label);
             } else if total >= 1 {
                 let utotal = total as u32;
@@ -258,7 +259,7 @@ mod imp {
 
                 // TRANSLATORS: this string is used to build the search box ocurrences count when only
                 // the number of total ocurrences is known.
-                let label = ni18n_f("{} result", "{} results", utotal, &[&total]);
+                let label = formatx!(ngettext("{} result", "{} results", utotal), total).unwrap();
                 self.search_results.set_label(&label);
             } else {
                 self.search_results.set_label("");

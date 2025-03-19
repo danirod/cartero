@@ -31,7 +31,7 @@ mod imp {
 
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
     use glib::subclass::InitializingObject;
-    use glib::Properties;
+    use glib::{JoinHandle, Properties};
     use gtk::gio::{self, SimpleAction, SimpleActionGroup};
     use gtk::subclass::prelude::*;
     use gtk::{prelude::*, ClosureExpression, CompositeTemplate};
@@ -44,7 +44,8 @@ mod imp {
     use crate::error::{RequestError, RequestPreconditionError};
     use crate::objects::KeyValueItem;
     use crate::widgets::{
-        ExportTab, ExportType, KeyValuePane, MethodDropdown, PayloadTab, ResponsePanel,
+        AuthorizationPane, ExportTab, ExportType, KeyValuePane, MethodDropdown, PayloadTab,
+        ResponsePanel,
     };
 
     #[derive(CompositeTemplate, Properties, Default)]
@@ -53,6 +54,9 @@ mod imp {
     pub struct EndpointPane {
         #[template_child(id = "send")]
         pub send_button: TemplateChild<gtk::Button>,
+
+        #[template_child(id = "cancel")]
+        cancel_button: TemplateChild<gtk::Button>,
 
         #[template_child]
         pub parameter_pane: TemplateChild<KeyValuePane>,
@@ -76,6 +80,9 @@ mod imp {
         pub export_pane: TemplateChild<ExportTab>,
 
         #[template_child]
+        authorization_pane: TemplateChild<AuthorizationPane>,
+
+        #[template_child]
         pub response: TemplateChild<ResponsePanel>,
 
         #[template_child]
@@ -93,6 +100,8 @@ mod imp {
         // Busy requesting
         #[property(get, set)]
         busy: RefCell<bool>,
+
+        request_thread: Arc<RefCell<Option<JoinHandle<()>>>>,
 
         variable_changing: Arc<Mutex<bool>>,
     }
@@ -197,12 +206,30 @@ mod imp {
         fn init_actions(&self) {
             let obj = self.obj();
 
+            let action_focus_url = SimpleAction::new("focus-url", None);
+            action_focus_url.connect_activate(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |_, _| {
+                    imp.request_url.grab_focus();
+                }
+            ));
+
             let action_request = SimpleAction::new("request", None);
             action_request.connect_activate(glib::clone!(
                 #[weak(rename_to = imp)]
                 self,
                 move |_, _| {
                     imp.action_perform_request();
+                }
+            ));
+
+            let action_cancel = SimpleAction::new("cancel", None);
+            action_cancel.connect_activate(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |_, _| {
+                    imp.action_cancel_request();
                 }
             ));
 
@@ -219,8 +246,19 @@ mod imp {
             )
             .bind(&action_request, "enabled", Some(&*obj));
 
+            /* The cancel should only be possible if currently busy. */
+            busy.bind(&action_cancel, "enabled", gtk::Widget::NONE);
+
+            /* Also, bind the visibility of the cancel button to whether the action is enabled. */
+            action_cancel
+                .bind_property("enabled", &*self.cancel_button, "visible")
+                .sync_create()
+                .build();
+
             let action_group = SimpleActionGroup::new();
+            action_group.add_action(&action_focus_url);
             action_group.add_action(&action_request);
+            action_group.add_action(&action_cancel);
             obj.insert_action_group("endpoint", Some(&action_group));
         }
 
@@ -289,6 +327,11 @@ mod imp {
                 move |_| obj.set_dirty(true)
             ));
             self.export_pane.connect_changed(glib::clone!(
+                #[weak]
+                obj,
+                move |_| obj.set_dirty(true)
+            ));
+            self.authorization_pane.connect_changed(glib::clone!(
                 #[weak]
                 obj,
                 move |_| obj.set_dirty(true)
@@ -400,6 +443,8 @@ mod imp {
             self.header_pane.set_entries(&headers);
             self.variable_pane.set_entries(&variables);
             self.payload_pane.set_payload(&endpoint.body);
+            self.authorization_pane
+                .set_authorization(&endpoint.authorization);
             self.export_pane_load_endpoint_data(endpoint);
 
             // Merge parameters
@@ -447,6 +492,7 @@ mod imp {
                 })
                 .collect();
             let body = self.payload_pane.payload();
+            let authorization = self.authorization_pane.authorization();
             EndpointData {
                 url,
                 method,
@@ -454,6 +500,7 @@ mod imp {
                 headers,
                 variables,
                 body,
+                authorization,
             }
         }
 
@@ -490,8 +537,25 @@ mod imp {
             Ok(response)
         }
 
+        fn action_cancel_request(&self) {
+            let obj = self.obj();
+
+            {
+                let maybe_request_thread = self.request_thread.borrow();
+                if let Some(ref thread_ref) = *maybe_request_thread {
+                    thread_ref.abort();
+
+                    /* reset the user interface state. */
+                    self.response.set_spinning(false);
+                    obj.set_read_only(false);
+                    obj.set_busy(false);
+                }
+            }
+            self.request_thread.replace(None);
+        }
+
         fn action_perform_request(&self) {
-            glib::spawn_future_local(glib::clone!(
+            let thread_ref = glib::spawn_future_local(glib::clone!(
                 #[weak(rename_to = imp)]
                 self,
                 async move {
@@ -508,8 +572,12 @@ mod imp {
                     imp.response.set_spinning(false);
                     obj.set_read_only(false);
                     obj.set_busy(false);
+
+                    imp.request_thread.replace(None);
                 }
             ));
+
+            self.request_thread.replace(Some(thread_ref));
         }
 
         /// Executes an HTTP request based on the current contents of the pane.

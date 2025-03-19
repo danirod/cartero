@@ -60,6 +60,10 @@ jobs:
         run: xvfb-run meson devenv -C build cargo test --manifest-path=../Cargo.toml
       - name: cargo-clippy
         run: meson devenv -C build cargo clippy --manifest-path=../Cargo.toml
+      - name: cargo-deny
+        run: |
+          cargo install --locked cargo-deny
+          meson devenv -C build cargo deny --manifest-path=../Cargo.toml check licenses
       - name: glib-schema
         run: glib-compile-schemas --dry-run --strict data
       - name: glib-desktop

@@ -5,6 +5,7 @@ data/cartero.desktop.in.in
 data/es.danirod.Cartero.gschema.xml
 
 data/gtk/help_overlay.blp
+data/ui/authorization_pane.blp
 data/ui/code_export_pane.blp
 data/ui/endpoint_pane.blp
 data/ui/error_pane.blp
@@ -27,13 +28,23 @@ src/app.rs
 src/client/isahc_conv.rs
 src/client/local.rs
 src/client/mod.rs
+src/client/request_auth.rs
 src/client/request_bodies.rs
-src/entities.rs
+src/entities/endpoint_data.rs
+src/entities/key_value.rs
+src/entities/key_value_table.rs
+src/entities/mod.rs
+src/entities/request_authorization.rs
+src/entities/request_export.rs
+src/entities/request_method.rs
+src/entities/request_payload.rs
+src/entities/response_data.rs
 src/error.rs
 src/file.rs
 src/main.rs
 src/objects/key_value_item.rs
 src/objects/mod.rs
+src/widgets/authorization_pane.rs
 src/widgets/code_view.rs
 src/widgets/dialogs.rs
 src/widgets/endpoint_pane.rs

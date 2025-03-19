@@ -1,4 +1,4 @@
-// Copyright 2024 the Cartero authors
+// Copyright 2024-2025 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,21 +15,20 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use glib::object::ObjectExt;
 use glib::property::PropertySet;
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::{Binding, SignalHandlerId};
-use gtk::gio::{self, PropertyAction, SimpleAction, SimpleActionGroup};
+use gtk::gio;
 use gtk::glib::Object;
-use gtk::prelude::WidgetExt;
-use gtk::prelude::*;
 
 mod imp {
     use std::cell::RefCell;
     use std::sync::OnceLock;
 
+    use gettextrs::gettext;
     use glib::subclass::{InitializingObject, Signal};
     use glib::{Binding, Properties, SignalHandlerId};
+    use gtk::gio::{PropertyAction, SimpleAction, SimpleActionGroup};
     use gtk::subclass::prelude::*;
     use gtk::Entry;
     use gtk::{prelude::*, CompositeTemplate};
@@ -80,10 +79,8 @@ mod imp {
     impl ObjectImpl for KeyValueRow {
         fn constructed(&self) {
             self.parent_constructed();
-
-            let obj = self.obj();
-            obj.setup_actions();
-            obj.setup_signals();
+            self.setup_actions();
+            self.setup_signals();
         }
 
         fn signals() -> &'static [Signal] {
@@ -94,6 +91,53 @@ mod imp {
 
     impl WidgetImpl for KeyValueRow {}
     impl ListBoxRowImpl for KeyValueRow {}
+
+    impl KeyValueRow {
+        fn setup_signals(&self) {
+            let obj = self.obj();
+            obj.connect_active_notify(|row| {
+                if row.active() {
+                    row.remove_css_class("inactive-header");
+                } else {
+                    row.add_css_class("inactive-header");
+                }
+            });
+            obj.connect_ignored_notify(|row| {
+                let imp = row.imp();
+                if row.ignored() {
+                    row.add_css_class("ignored-header");
+                    imp.entry_value.set_secondary_icon_name(Some("eye-not-looking-symbolic"));
+                    imp.entry_value.set_secondary_icon_tooltip_text(Some(&gettext("The value for this field will not be used because another field with the same name is overriding it.")));
+
+                } else {
+                    row.remove_css_class("ignored-header");
+                    imp.entry_value.set_secondary_icon_name(None);
+                    imp.entry_value.set_secondary_icon_tooltip_text(None);
+                }
+            });
+        }
+
+        fn setup_actions(&self) {
+            let obj = self.obj();
+
+            let ag = SimpleActionGroup::new();
+            obj.insert_action_group("row", Some(&ag));
+
+            let toggle_secret = PropertyAction::new("toggle-secret", &*obj, "secret");
+
+            let delete = SimpleAction::new("delete", None);
+            delete.connect_activate(glib::clone!(
+                #[weak]
+                obj,
+                move |_, _| {
+                    obj.emit_by_name::<()>("delete", &[]);
+                }
+            ));
+
+            ag.add_action(&toggle_secret);
+            ag.add_action(&delete);
+        }
+    }
 }
 
 glib::wrapper! {
@@ -111,42 +155,6 @@ impl Default for KeyValueRow {
 }
 
 impl KeyValueRow {
-    pub(self) fn setup_signals(&self) {
-        self.connect_active_notify(|row| {
-            if row.active() {
-                row.remove_css_class("inactive-header");
-            } else {
-                row.add_css_class("inactive-header");
-            }
-        });
-        self.connect_ignored_notify(|row| {
-            if row.ignored() {
-                row.add_css_class("ignored-header");
-            } else {
-                row.remove_css_class("ignored-header");
-            }
-        });
-    }
-
-    pub(self) fn setup_actions(&self) {
-        let ag = SimpleActionGroup::new();
-        self.insert_action_group("row", Some(&ag));
-
-        let toggle_secret = PropertyAction::new("toggle-secret", self, "secret");
-
-        let delete = SimpleAction::new("delete", None);
-        delete.connect_activate(glib::clone!(
-            #[weak(rename_to = widget)]
-            self,
-            move |_, _| {
-                widget.emit_by_name::<()>("delete", &[]);
-            }
-        ));
-
-        ag.add_action(&toggle_secret);
-        ag.add_action(&delete);
-    }
-
     pub fn add_binding(&self, binding: Binding) {
         let imp = self.imp();
         let mut bindings = imp.bindings.borrow_mut();

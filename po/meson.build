@@ -1,4 +1,4 @@
-# Copyright 2024 the Cartero authors
+# Copyright 2024-2025 the Cartero authors
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,12 +18,6 @@
 i18n.gettext(
     gettext_package,
     args: [
-      '--keyword=i18n',
-      '--keyword=i18n_f',
-      '--keyword=i18n_k',
-      '--keyword=ni18n:1,2',
-      '--keyword=ni18n_f:1,2',
-      '--keyword=ni18n_k:1,2',
       '--msgid-bugs-address=https://github.com/danirod/cartero/issues',
     ],
     preset: 'glib'

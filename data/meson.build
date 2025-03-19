@@ -1,4 +1,4 @@
-# Copyright 2024 the Cartero authors
+# Copyright 2024-2025 the Cartero authors
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,6 +17,7 @@
 
 blueprint_files = [
   'gtk/help_overlay.blp',
+  'ui/authorization_pane.blp',
   'ui/code_export_pane.blp',
   'ui/endpoint_pane.blp',
   'ui/error_pane.blp',

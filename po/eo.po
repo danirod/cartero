@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-11 23:06+0100\n"
+"POT-Creation-Date: 2025-03-18 23:24+0100\n"
 "PO-Revision-Date: 2024-11-04 17:46+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/cartero/"
@@ -149,480 +149,534 @@ msgstr ""
 msgid "Whether to create backup files on save"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:26
+#: data/gtk/help_overlay.blp:25
 msgctxt "shortcuts window"
 msgid "General shortcuts"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:29
+#: data/gtk/help_overlay.blp:28
 msgctxt "shortcuts window"
 msgid "Show Keyboard Shortcuts"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:34
+#: data/gtk/help_overlay.blp:33
 msgctxt "shortcuts window"
 msgid "Quit"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:40
+#: data/gtk/help_overlay.blp:39
 msgctxt "shortcuts window"
 msgid "Tab operations"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:43
+#: data/gtk/help_overlay.blp:42
 msgctxt "shortcuts window"
 msgid "New request tab"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:48
+#: data/gtk/help_overlay.blp:47
 msgctxt "shortcuts window"
 msgid "Open request"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:53
+#: data/gtk/help_overlay.blp:52
 msgctxt "shortcuts window"
 msgid "Save request"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:58
+#: data/gtk/help_overlay.blp:57
 msgctxt "shortcuts window"
 msgid "Save request as"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:63
+#: data/gtk/help_overlay.blp:62
 msgctxt "shortcuts window"
 msgid "Close request tab"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:69
+#: data/gtk/help_overlay.blp:68
 msgctxt "shortcuts window"
 msgid "Request operations"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:72
+#: data/gtk/help_overlay.blp:71
 msgctxt "shortcuts window"
 msgid "Send request"
 msgstr ""
 
-#: data/ui/code_export_pane.blp:64
-msgid "Copy"
-msgstr "Kopii"
-
-#: data/ui/endpoint_pane.blp:58
-msgid "Request URL"
-msgstr "URL"
-
-#: data/ui/endpoint_pane.blp:69
-msgid "Send"
-msgstr "Petu"
-
-#: data/ui/endpoint_pane.blp:70
-msgid "Execute this HTTP request"
-msgstr "Sendu ĉi tiun http-peton"
-
-#: data/ui/endpoint_pane.blp:102
-msgid "Parameters"
-msgstr "Parametroj"
-
-#: data/ui/endpoint_pane.blp:123 data/ui/response_panel.blp:97
-msgid "Headers"
-msgstr "Kapoj"
-
-#: data/ui/endpoint_pane.blp:144
-msgid "Variables"
-msgstr "Variabloj"
-
-#: data/ui/endpoint_pane.blp:165 data/ui/response_panel.blp:53
-msgid "Body"
-msgstr "Korpo"
-
-#: data/ui/endpoint_pane.blp:173
-msgid "Export request"
+#: data/ui/authorization_pane.blp:29
+msgid "Authorization method"
 msgstr ""
 
-#: data/ui/export_tab.blp:35
-msgid "Export to"
+#: data/ui/authorization_pane.blp:55
+msgid "Username"
 msgstr ""
 
-#: data/ui/export_tab.blp:69 data/ui/payload_tab.blp:81
+#: data/ui/authorization_pane.blp:60
+msgid "Password"
+msgstr ""
+
+#: data/ui/authorization_pane.blp:76
+msgid "Token"
+msgstr ""
+
+#: data/ui/authorization_pane.blp:87 data/ui/export_tab.blp:69
+#: data/ui/payload_tab.blp:87
 msgid "(none)"
 msgstr "(nenio)"
 
-#: data/ui/key_value_row.blp:40
+#: data/ui/authorization_pane.blp:88
+msgid "Basic auth"
+msgstr ""
+
+#: data/ui/authorization_pane.blp:89
+msgid "Bearer token"
+msgstr ""
+
+#: data/ui/code_export_pane.blp:59
+msgid "Copy"
+msgstr "Kopii"
+
+#: data/ui/endpoint_pane.blp:69
+msgid "Request URL"
+msgstr "URL"
+
+#: data/ui/endpoint_pane.blp:81
+msgid "Cancel request"
+msgstr ""
+
+#: data/ui/endpoint_pane.blp:90
+msgid "Send"
+msgstr "Petu"
+
+#: data/ui/endpoint_pane.blp:91
+msgid "Execute this HTTP request"
+msgstr "Sendu ĉi tiun http-peton"
+
+#: data/ui/endpoint_pane.blp:123
+msgid "Parameters"
+msgstr "Parametroj"
+
+#: data/ui/endpoint_pane.blp:146 data/ui/response_panel.blp:92
+msgid "Headers"
+msgstr "Kapoj"
+
+#: data/ui/endpoint_pane.blp:170
+msgid "Variables"
+msgstr "Variabloj"
+
+#: data/ui/endpoint_pane.blp:194
+msgid "Authorization"
+msgstr ""
+
+#: data/ui/endpoint_pane.blp:217 data/ui/response_panel.blp:52
+msgid "Body"
+msgstr "Korpo"
+
+#: data/ui/endpoint_pane.blp:227
+msgid "Export request"
+msgstr ""
+
+#: data/ui/export_tab.blp:34
+msgid "Export to"
+msgstr ""
+
+#: data/ui/key_value_row.blp:41
 msgid "Name"
 msgstr "Nomo"
 
-#: data/ui/key_value_row.blp:50
+#: data/ui/key_value_row.blp:54
 msgid "Value"
 msgstr "Enhavo"
 
-#: data/ui/key_value_row.blp:61
+#: data/ui/key_value_row.blp:65
 msgid "Actions"
 msgstr "Agoj"
 
-#: data/ui/key_value_row.blp:74
+#: data/ui/key_value_row.blp:79
 msgid "Toggle secret"
 msgstr "Baskuli sekreton"
 
-#: data/ui/key_value_row.blp:81
+#: data/ui/key_value_row.blp:86
 msgid "Delete"
 msgstr "Forigi kapo"
 
-#: data/ui/main_window.blp:41 data/ui/main_window_no_csd.blp:39
+#: data/ui/main_window.blp:40 data/ui/main_window_no_csd.blp:38
 msgid "New"
 msgstr "Nova peto"
 
-#: data/ui/main_window.blp:52 data/ui/main_window.blp:63
-#: data/ui/main_window_no_csd.blp:50 data/ui/main_window_no_csd.blp:61
+#: data/ui/main_window.blp:51 data/ui/main_window.blp:62
+#: data/ui/main_window_no_csd.blp:49 data/ui/main_window_no_csd.blp:60
 #: src/widgets/file_dialogs.rs:101
 msgid "Open"
 msgstr "Malfermi"
 
-#: data/ui/main_window.blp:71 data/ui/main_window_no_csd.blp:69
+#: data/ui/main_window.blp:70 data/ui/main_window_no_csd.blp:68
 #: src/widgets/file_dialogs.rs:137
 msgid "Save"
 msgstr "Konservi"
 
-#: data/ui/main_window.blp:95 data/ui/main_window_no_csd.blp:102
+#: data/ui/main_window.blp:94 data/ui/main_window_no_csd.blp:101
 msgid "Welcome to Cartero"
 msgstr ""
 
-#: data/ui/main_window.blp:96 data/ui/main_window_no_csd.blp:103
+#: data/ui/main_window.blp:95 data/ui/main_window_no_csd.blp:102
 msgid "Create or open a request and start testing APIs now."
 msgstr ""
 
-#: data/ui/main_window.blp:115 data/ui/main_window.blp:149
-#: data/ui/main_window_no_csd.blp:122 data/ui/main_window_no_csd.blp:156
+#: data/ui/main_window.blp:114 data/ui/main_window.blp:148
+#: data/ui/main_window_no_csd.blp:121 data/ui/main_window_no_csd.blp:155
 msgid "New tab"
 msgstr ""
 
-#: data/ui/main_window.blp:128 data/ui/main_window.blp:154
-#: data/ui/main_window_no_csd.blp:135 data/ui/main_window_no_csd.blp:161
+#: data/ui/main_window.blp:127 data/ui/main_window.blp:153
+#: data/ui/main_window_no_csd.blp:134 data/ui/main_window_no_csd.blp:160
 msgid "Open request…"
 msgstr ""
 
-#: data/ui/main_window.blp:159 data/ui/main_window_no_csd.blp:166
+#: data/ui/main_window.blp:158 data/ui/main_window_no_csd.blp:165
 #: src/widgets/file_dialogs.rs:138
 msgid "Save request"
 msgstr ""
 
-#: data/ui/main_window.blp:164 data/ui/main_window_no_csd.blp:171
+#: data/ui/main_window.blp:163 data/ui/main_window_no_csd.blp:170
 msgid "Save request as…"
 msgstr ""
 
-#: data/ui/main_window.blp:169 data/ui/main_window_no_csd.blp:176
+#: data/ui/main_window.blp:168 data/ui/main_window_no_csd.blp:175
 msgid "Close tab"
 msgstr ""
 
-#: data/ui/main_window.blp:176 data/ui/main_window_no_csd.blp:183
-#: data/ui/settings_dialog.blp:22
+#: data/ui/main_window.blp:175 data/ui/main_window_no_csd.blp:182
+#: data/ui/settings_dialog.blp:21
 msgid "Settings"
 msgstr ""
 
-#: data/ui/main_window.blp:181 data/ui/main_window_no_csd.blp:188
+#: data/ui/main_window.blp:180 data/ui/main_window_no_csd.blp:187
 msgid "Body appearance"
 msgstr ""
 
-#: data/ui/main_window.blp:185 data/ui/main_window_no_csd.blp:192
+#: data/ui/main_window.blp:184 data/ui/main_window_no_csd.blp:191
 msgid "Wrap content"
 msgstr ""
 
-#: data/ui/main_window.blp:190 data/ui/main_window_no_csd.blp:197
+#: data/ui/main_window.blp:189 data/ui/main_window_no_csd.blp:196
 msgid "Show line numbers"
 msgstr ""
 
-#: data/ui/main_window.blp:197 data/ui/main_window_no_csd.blp:204
+#: data/ui/main_window.blp:196 data/ui/main_window_no_csd.blp:203
 msgid "Automatic indentation"
 msgstr ""
 
-#: data/ui/main_window.blp:202 data/ui/main_window_no_csd.blp:209
+#: data/ui/main_window.blp:201 data/ui/main_window_no_csd.blp:208
 msgid "Indent with spaces"
 msgstr ""
 
-#: data/ui/main_window.blp:208 data/ui/main_window_no_csd.blp:215
+#: data/ui/main_window.blp:207 data/ui/main_window_no_csd.blp:214
 msgid "Indent with tabs"
 msgstr ""
 
-#: data/ui/main_window.blp:214 data/ui/main_window_no_csd.blp:221
+#: data/ui/main_window.blp:213 data/ui/main_window_no_csd.blp:220
 msgid "Spaces per tab"
 msgstr ""
 
-#: data/ui/main_window.blp:217 data/ui/main_window_no_csd.blp:224
+#: data/ui/main_window.blp:216 data/ui/main_window_no_csd.blp:223
 msgid "2"
 msgstr "2"
 
-#: data/ui/main_window.blp:223 data/ui/main_window_no_csd.blp:230
+#: data/ui/main_window.blp:222 data/ui/main_window_no_csd.blp:229
 msgid "4"
 msgstr "4"
 
-#: data/ui/main_window.blp:229 data/ui/main_window_no_csd.blp:236
+#: data/ui/main_window.blp:228 data/ui/main_window_no_csd.blp:235
 msgid "8"
 msgstr "8"
 
-#: data/ui/main_window.blp:240 data/ui/main_window_no_csd.blp:247
+#: data/ui/main_window.blp:239 data/ui/main_window_no_csd.blp:246
 msgid "Keyboard shortcuts"
 msgstr ""
 
-#: data/ui/main_window.blp:245 data/ui/main_window_no_csd.blp:252
+#: data/ui/main_window.blp:244 data/ui/main_window_no_csd.blp:251
 msgid "About Cartero"
 msgstr "Pri Cartero"
 
-#: data/ui/main_window.blp:250 data/ui/main_window_no_csd.blp:257
+#: data/ui/main_window.blp:249 data/ui/main_window_no_csd.blp:256
 msgid "Quit"
 msgstr ""
 
-#: data/ui/method_dropdown.blp:30
+#: data/ui/method_dropdown.blp:29
 msgid "Request method"
 msgstr "HTTP-metodo"
 
-#: data/ui/payload_tab.blp:35
+#: data/ui/payload_tab.blp:34
 msgid "Body type"
 msgstr ""
 
-#: data/ui/payload_tab.blp:82
+#: data/ui/payload_tab.blp:88
 msgid "URL Encoded"
 msgstr ""
 
-#: data/ui/payload_tab.blp:83
+#: data/ui/payload_tab.blp:89
 msgid "Multipart Form Data"
 msgstr ""
 
-#: data/ui/payload_tab.blp:86
+#: data/ui/payload_tab.blp:92
 msgid "Raw"
 msgstr ""
 
-#: data/ui/response_panel.blp:29
+#: data/ui/response_panel.blp:28
 msgid "Ready to request"
 msgstr ""
 
-#: data/ui/response_panel.blp:30
+#: data/ui/response_panel.blp:29
 msgid "Use the Send button to send a network request and it will show here."
 msgstr ""
 
-#: data/ui/search_box.blp:43 data/ui/search_box.blp:44
+#: data/ui/search_box.blp:42 data/ui/search_box.blp:43
 msgid "Search"
 msgstr ""
 
-#: data/ui/search_box.blp:64
+#: data/ui/search_box.blp:63
 msgid "Previous result"
 msgstr ""
 
-#: data/ui/search_box.blp:70
+#: data/ui/search_box.blp:69
 msgid "Next result"
 msgstr ""
 
-#: data/ui/search_box.blp:82
+#: data/ui/search_box.blp:81
 msgid "Close search"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:27
+#: data/ui/settings_dialog.blp:26
 msgid "Application"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:31
+#: data/ui/settings_dialog.blp:30
 msgid "Appearance"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:34
+#: data/ui/settings_dialog.blp:33
 msgid "Application style"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:38
+#: data/ui/settings_dialog.blp:37
 msgid "Follow system settings"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:39
+#: data/ui/settings_dialog.blp:38
 msgid "Light mode"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:40
+#: data/ui/settings_dialog.blp:39
 msgid "Dark mode"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:46
+#: data/ui/settings_dialog.blp:45
 msgid "Use system font"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:50
+#: data/ui/settings_dialog.blp:49
 msgid "Custom font"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:65
+#: data/ui/settings_dialog.blp:64
 msgid "File settings"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:68
+#: data/ui/settings_dialog.blp:67
 msgid "Create backup files"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:69
+#: data/ui/settings_dialog.blp:68
 msgid ""
 "You might not want to enable this if you are already using a version control "
 "such as Git"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:75 data/ui/settings_dialog.blp:79
+#: data/ui/settings_dialog.blp:74 data/ui/settings_dialog.blp:78
 msgid "HTTP Client"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:82
+#: data/ui/settings_dialog.blp:81
 msgid "Enforce TLS validation"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:82
+msgid "Cancel a request if the TLS handshake fails"
 msgstr ""
 
 #: data/ui/settings_dialog.blp:86
 msgid "Follow redirects"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:91
+#: data/ui/settings_dialog.blp:87
+msgid "Make follow-up requests if the server returns an HTTP 3xx response"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:92
 msgid "Maximum redirects"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:103
+#: data/ui/settings_dialog.blp:104
 msgid "Request timeout"
 msgstr ""
 
-#: src/error.rs:16
+#: data/ui/settings_dialog.blp:105
+msgid "Seconds to wait before cancelling the request"
+msgstr ""
+
+#: src/error.rs:32
 msgid "The specified URL is not valid"
 msgstr ""
 
-#: src/error.rs:17
+#: src/error.rs:34
+#, rust-format
 msgid "The header '{}' is not valid"
 msgstr ""
 
-#: src/error.rs:19
+#: src/error.rs:37
+#, rust-format
 msgid "The value for header '{}' is not valid"
 msgstr ""
 
-#: src/error.rs:22 src/error.rs:56
+#: src/error.rs:40 src/error.rs:74
 msgid "The given request body could not be encoded correctly"
 msgstr ""
 
-#: src/error.rs:51
+#: src/error.rs:69
 msgid "Cannot recognise the URL"
 msgstr ""
 
-#: src/error.rs:52
+#: src/error.rs:70
 msgid "The given URL is missing a protocol"
 msgstr ""
 
-#: src/error.rs:54
+#: src/error.rs:72
+#, rust-format
 msgid "The protocol {}:// is not supported"
 msgstr ""
 
-#: src/error.rs:57
+#: src/error.rs:76
+#, rust-format
 msgid "The variable '{}' is not defined"
 msgstr ""
 
-#: src/error.rs:59
+#: src/error.rs:79
 msgid "There was a problem with a variable interpolation, review your inputs"
 msgstr ""
 
-#: src/error.rs:84
+#: src/error.rs:104
 msgid "There is a network error"
 msgstr ""
 
-#: src/error.rs:85
+#: src/error.rs:105
 msgid "There is an input/output error"
 msgstr ""
 
-#: src/error.rs:111 src/error.rs:135
+#: src/error.rs:131 src/error.rs:155
 msgid "The current tab is not associated with a file"
 msgstr ""
 
-#: src/error.rs:113
+#: src/error.rs:133
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
 
-#: src/error.rs:117
+#: src/error.rs:137
 msgid "The file is corrupt or does not contain valid data for this application"
 msgstr ""
 
-#: src/file.rs:348
+#: src/file.rs:411
+#, rust-format
 msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
 msgstr ""
 
-#: src/widgets/dialogs.rs:49
+#: src/widgets/dialogs.rs:48
+#, rust-format
 msgid "Cannot open '{}'"
 msgstr ""
 
-#: src/widgets/dialogs.rs:50
+#: src/widgets/dialogs.rs:49
 msgid "Cannot open the requested file"
 msgstr ""
 
-#: src/widgets/dialogs.rs:59 src/widgets/dialogs.rs:93
-#: src/widgets/dialogs.rs:119 src/widgets/dialogs.rs:135
+#: src/widgets/dialogs.rs:58 src/widgets/dialogs.rs:92
+#: src/widgets/dialogs.rs:118 src/widgets/dialogs.rs:134
 msgid "Close"
 msgstr ""
 
-#: src/widgets/dialogs.rs:76
+#: src/widgets/dialogs.rs:75
+#, rust-format
 msgid "The file '{}' was loaded but had issues"
 msgstr ""
 
-#: src/widgets/dialogs.rs:77
+#: src/widgets/dialogs.rs:76
 msgid "The requested file was loaded but had issues"
 msgstr ""
 
-#: src/widgets/dialogs.rs:110
+#: src/widgets/dialogs.rs:109
+#, rust-format
 msgid "Cannot save '{}'"
 msgstr ""
 
-#: src/widgets/dialogs.rs:111
+#: src/widgets/dialogs.rs:110
 msgid "Cannot save the requested file"
 msgstr ""
 
-#: src/widgets/dialogs.rs:113
+#: src/widgets/dialogs.rs:112
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
 msgstr ""
 
-#: src/widgets/dialogs.rs:130
+#: src/widgets/dialogs.rs:129
 msgid "Could not select a valid file from the file chooser"
 msgstr ""
 
-#: src/widgets/dialogs.rs:147
+#: src/widgets/dialogs.rs:146
 msgid "There are unsaved changes"
 msgstr ""
 
-#: src/widgets/dialogs.rs:149
+#: src/widgets/dialogs.rs:148
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
 msgstr ""
 
-#: src/widgets/dialogs.rs:153
+#: src/widgets/dialogs.rs:152
 msgid "Cancel"
 msgstr ""
 
-#: src/widgets/dialogs.rs:154
+#: src/widgets/dialogs.rs:153
 msgid "Close anyway"
 msgstr ""
 
-#: src/widgets/dialogs.rs:180
+#: src/widgets/dialogs.rs:179
+#, rust-format
 msgid "Save changes in '{}'?"
 msgstr ""
 
-#: src/widgets/dialogs.rs:181
+#: src/widgets/dialogs.rs:180
 msgid "Save changes?"
 msgstr ""
 
-#: src/widgets/dialogs.rs:186
+#: src/widgets/dialogs.rs:185
 msgid "There are changes that have not been saved yet. What do you want to do?"
 msgstr ""
 
-#: src/widgets/dialogs.rs:190
+#: src/widgets/dialogs.rs:189
 msgid "_Cancel"
 msgstr ""
 
-#: src/widgets/dialogs.rs:191
+#: src/widgets/dialogs.rs:190
 msgid "_Discard"
 msgstr ""
 
-#: src/widgets/dialogs.rs:192
+#: src/widgets/dialogs.rs:191
 msgid "_Save"
 msgstr ""
 
@@ -651,15 +705,23 @@ msgstr ""
 msgid "Open request"
 msgstr ""
 
+#: src/widgets/key_value_row.rs:110
+msgid ""
+"The value for this field will not be used because another field with the "
+"same name is overriding it."
+msgstr ""
+
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
-#: src/widgets/search_box.rs:253
+#: src/widgets/search_box.rs:254
+#, rust-format
 msgid "{} of {}"
 msgstr ""
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count when only
 #. the number of total ocurrences is known.
-#: src/widgets/search_box.rs:261
+#: src/widgets/search_box.rs:262
+#, rust-format
 msgid "{} result"
 msgid_plural "{} results"
 msgstr[0] ""
@@ -669,16 +731,16 @@ msgstr[1] ""
 msgid "(untitled)"
 msgstr ""
 
-#: src/win.rs:258
+#: src/win.rs:256
 msgid "Draft"
 msgstr ""
 
-#: src/win.rs:705
+#: src/win.rs:558
 msgid "The Cartero authors"
 msgstr ""
 
-#: src/win.rs:706
-msgid "© 2024 the Cartero authors"
+#: src/win.rs:559
+msgid "© 2024-2025 the Cartero authors"
 msgstr ""
 
 #~ msgid "Add new header"

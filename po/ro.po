@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-20 22:26+0100\n"
+"POT-Creation-Date: 2025-03-20 22:28+0100\n"
 "PO-Revision-Date: 2024-07-30 15:00+0200\n"
 "Last-Translator:  <>\n"
 "Language-Team: Romanian\n"
@@ -810,6 +810,19 @@ msgstr "Proiect"
 msgid "The Cartero authors"
 msgstr "Autorii Cartero"
 
-#: src/win.rs:562
+#. Translators: Replace "translator-credits" with your names. Put a comma between.
+#: src/win.rs:584
+msgid "translator-credits"
+msgstr "Richardo G.C."
+
+#: src/win.rs:585
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 autorii Cartero"
+
+#: src/win.rs:605
+msgid "User manual"
+msgstr ""
+
+#: src/win.rs:606
+msgid "Help us translate"
+msgstr ""

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-20 22:26+0100\n"
+"POT-Creation-Date: 2025-03-20 22:28+0100\n"
 "PO-Revision-Date: 2024-12-22 20:55+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/cartero/cartero/ta/"
@@ -819,6 +819,19 @@ msgstr "வரைவு"
 msgid "The Cartero authors"
 msgstr "கார்டெரோ ஆசிரியர்கள்"
 
-#: src/win.rs:562
+#. Translators: Replace "translator-credits" with your names. Put a comma between.
+#: src/win.rs:584
+msgid "translator-credits"
+msgstr "தமிழ்நேரம்"
+
+#: src/win.rs:585
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 கார்டெரோ ஆசிரியர்கள்"
+
+#: src/win.rs:605
+msgid "User manual"
+msgstr ""
+
+#: src/win.rs:606
+msgid "Help us translate"
+msgstr ""

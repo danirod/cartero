@@ -555,13 +555,58 @@ mod imp {
                 .application_name("Cartero")
                 .application_icon(config::APP_ID)
                 .version(config::VERSION)
-                .website("https://github.com/danirod/cartero")
+                .website("https://cartero.danirod.es")
                 .issue_url("https://github.com/danirod/cartero/issues")
                 .support_url("https://github.com/danirod/cartero/discussions")
                 .developer_name(gettext("The Cartero authors"))
+                .developers(vec![
+                    // Hey, if you have contributed code to this project, you might want to yourself to this list.
+                    // Note: for people that contributed code before I updated the about dialog, I am taking the
+                    // visible data for their GitHub profiles, update the string and send a PR if you want to
+                    // change it
+                    "Dani Rodríguez https://github.com/danirod",
+                    "Franklin Gabriel https://github.com/AlphaTechnolog",
+                    "Phosphorus Moscu https://github.com/Phosphorus-M",
+                    "@claufedacosta https://github.com/claufedacosta",
+                    "@donaldosan https://github.com/donaldosan",
+                    "Erick Tucto https://github.com/ericktucto",
+                    "Sergio Alejandro Ribera Costa https://github.com/SergioRibera",
+                    "Drsheppard https://github.com/Drsheppard01",
+                    "sekito https://github.com/ser356"
+                ])
+                .documenters(vec![
+                    "David (@davidtaim) https://github.com/davidtaim",
+                    "@SoloAntonio https://github.com/SoloAntonio",
+                    "Victor (@barrientosvctor) https://github.com/barrientosvctor",
+                    "Pablo (@pabloblgra) https://github.com/pabloblgra",
+                    ])
+                    // Translators: Replace "translator-credits" with your names. Put a comma between.
+                .translator_credits(gettext("translator-credits"))
                 .copyright(gettext("© 2024-2025 the Cartero authors"))
+                .release_notes(r#"
+                <p>This is a minor release that addresses some issues and small changes found in the last couple of days. It accepts feedback from the community and even some pull requests received in the last days.</p>
+                <p>Changed:</p>
+                <ul>
+                <li>Pressing the Enter key while focusing the request URL entry will now send the HTTP request</li>
+                <li>The response body page is now the default page for the response notebook</li>
+                <li>The HTTP status code will now use semantic colors to report the status code category (success, client error, server error...)</li>
+                <li>Provided a Metainfo file for submission into Flathub</li>
+                <li>Translation updates</li>
+                </ul>
+                <p>Fixed:</p>
+                <ul>
+                <li>The application may not open files when running as a Flatpak in sandbox mode</li>
+                <li>The Nix flake did not build due to some missing dependencies</li>
+                <li>Clicking on any link on Microsoft Windows did not open the default web browser</li>
+                </ul>
+                "#)
                 .license_type(gtk::License::Gpl30)
                 .build();
+            about.add_link(&gettext("User manual"), "https://cartero.danirod.es/docs/");
+            about.add_link(
+                &gettext("Help us translate"),
+                "https://hosted.weblate.org/projects/cartero/cartero/",
+            );
             about.connect_closed(glib::clone!(
                 #[weak]
                 obj,

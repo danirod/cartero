@@ -15,6 +15,9 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use formatx::formatx;
+use gettextrs::gettext;
+
 use super::KeyValueTable;
 
 #[derive(Debug, Clone, Eq, PartialEq)]
@@ -56,9 +59,18 @@ impl ResponseData {
             .replace("\x00", "�")
     }
 
-    pub fn seconds(&self) -> String {
-        let seconds = (self.duration as f64) / 1000.0;
-        format!("{seconds}")
+    pub fn format_duration(&self) -> String {
+        if self.duration >= 1000 {
+            // Format as seconds
+            let seconds = (self.duration as f64) / 1000.0;
+            let duration = format!("{:.2}", seconds);
+            // TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
+            formatx!(gettext("{} s"), duration).unwrap()
+        } else {
+            // Format as milliseconds.
+            // TRANSLATORS: duration measured in milliseconds, as in "234 ms"
+            formatx!(gettext("{} ms"), self.duration).unwrap()
+        }
     }
 }
 
@@ -127,6 +139,35 @@ mod tests {
                 body: Vec::new(),
             };
             assert_eq!(response.is_xml(), expected);
+        }
+    }
+
+    #[test]
+    fn test_duration() {
+        let cases = [
+            (500u128, "500 ms"),
+            (999u128, "999 ms"),
+            (1000u128, "1.00 s"),
+            (1234u128, "1.23 s"),
+            (16774u128, "16.77 s"),
+            (16775u128, "16.77 s"),
+            (16776u128, "16.78 s"),
+            (16777u128, "16.78 s"),
+        ];
+        for (input, expected) in cases {
+            let response = ResponseData {
+                status_code: 200,
+                duration: input,
+                size: 300,
+                headers: KeyValueTable::default(),
+                body: vec![],
+            };
+            let output = response.format_duration();
+            assert_eq!(
+                output, expected,
+                "Expected {} to be formatted as '{}' (was '{}')",
+                input, expected, output
+            );
         }
     }
 }

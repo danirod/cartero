@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-20 02:03+0100\n"
+"POT-Creation-Date: 2025-03-20 22:26+0100\n"
 "PO-Revision-Date: 2025-02-11 11:02+0000\n"
 "Last-Translator: vesp <vesp@post.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/cartero/cartero/cs/"
@@ -553,6 +553,19 @@ msgstr "Časový limit požadavku"
 msgid "Seconds to wait before cancelling the request"
 msgstr ""
 
+#. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
+#: src/entities/response_data.rs:68
+#, rust-format
+msgid "{} s"
+msgstr ""
+
+#. Format as milliseconds.
+#. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
+#: src/entities/response_data.rs:72
+#, rust-format
+msgid "{} ms"
+msgstr ""
+
 #: src/error.rs:32
 msgid "The specified URL is not valid"
 msgstr ""
@@ -672,82 +685,82 @@ msgstr ""
 msgid "Cannot open the requested file"
 msgstr ""
 
-#: src/widgets/dialogs.rs:58 src/widgets/dialogs.rs:92
-#: src/widgets/dialogs.rs:118 src/widgets/dialogs.rs:134
+#: src/widgets/dialogs.rs:58 src/widgets/dialogs.rs:89
+#: src/widgets/dialogs.rs:112 src/widgets/dialogs.rs:125
 #, fuzzy
 msgid "Close"
 msgstr "Zavřít panel"
 
-#: src/widgets/dialogs.rs:75
+#: src/widgets/dialogs.rs:72
 #, rust-format
 msgid "The file '{}' was loaded but had issues"
 msgstr ""
 
-#: src/widgets/dialogs.rs:76
+#: src/widgets/dialogs.rs:73
 msgid "The requested file was loaded but had issues"
 msgstr ""
 
-#: src/widgets/dialogs.rs:109
+#: src/widgets/dialogs.rs:103
 #, rust-format
 msgid "Cannot save '{}'"
 msgstr ""
 
-#: src/widgets/dialogs.rs:110
+#: src/widgets/dialogs.rs:104
 msgid "Cannot save the requested file"
 msgstr ""
 
-#: src/widgets/dialogs.rs:112
+#: src/widgets/dialogs.rs:106
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
 msgstr ""
 
-#: src/widgets/dialogs.rs:129
+#: src/widgets/dialogs.rs:120
 msgid "Could not select a valid file from the file chooser"
 msgstr ""
 
-#: src/widgets/dialogs.rs:146
+#: src/widgets/dialogs.rs:134
 msgid "There are unsaved changes"
 msgstr ""
 
-#: src/widgets/dialogs.rs:148
+#: src/widgets/dialogs.rs:136
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
 msgstr ""
 
-#: src/widgets/dialogs.rs:152
+#: src/widgets/dialogs.rs:140
 #, fuzzy
 msgid "Cancel"
 msgstr "_Zrušit"
 
-#: src/widgets/dialogs.rs:153
+#: src/widgets/dialogs.rs:141
 #, fuzzy
 msgid "Close anyway"
 msgstr "Zavřít panel"
 
-#: src/widgets/dialogs.rs:179
+#: src/widgets/dialogs.rs:164
 #, fuzzy, rust-format
 msgid "Save changes in '{}'?"
 msgstr "Uložit změny?"
 
-#: src/widgets/dialogs.rs:180
+#: src/widgets/dialogs.rs:165
 msgid "Save changes?"
 msgstr "Uložit změny?"
 
-#: src/widgets/dialogs.rs:185
+#: src/widgets/dialogs.rs:170
 msgid "There are changes that have not been saved yet. What do you want to do?"
 msgstr "Máte neuložené změny. Co chcete udělat?"
 
-#: src/widgets/dialogs.rs:189
+#: src/widgets/dialogs.rs:174
 msgid "_Cancel"
 msgstr "_Zrušit"
 
-#: src/widgets/dialogs.rs:190
+#: src/widgets/dialogs.rs:175
 msgid "_Discard"
 msgstr "Zahodi_t změny"
 
-#: src/widgets/dialogs.rs:191
+#: src/widgets/dialogs.rs:176
 msgid "_Save"
 msgstr "_Uložit"
 
@@ -799,18 +812,18 @@ msgstr[0] "{} požadavek"
 msgstr[1] "{} požadavky"
 msgstr[2] "{} požadavků"
 
-#: src/win.rs:242
+#: src/win.rs:246
 msgid "(untitled)"
 msgstr "(bez názvu)"
 
-#: src/win.rs:256
+#: src/win.rs:260
 msgid "Draft"
 msgstr "Koncept"
 
-#: src/win.rs:558
+#: src/win.rs:561
 msgid "The Cartero authors"
 msgstr "Autoři aplikace Cartero"
 
-#: src/win.rs:559
+#: src/win.rs:562
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 autoři aplikace Cartero"

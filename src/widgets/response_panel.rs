@@ -184,24 +184,6 @@ impl Default for ResponsePanel {
     }
 }
 
-// TODO: Whether to use SI units or base 2 units?
-fn format_bytes(count: usize) -> String {
-    let units = ["B", "KiB", "MiB", "GiB", "TiB", "PiB"];
-    let mut total = count as f64;
-    let mut unit = 0;
-
-    while total > 1024.0 {
-        total /= 1024.0;
-        unit += 1;
-    }
-
-    if unit > 0 {
-        format!("{:.3} {}", total, units[unit])
-    } else {
-        format!("{} {}", total, units[unit])
-    }
-}
-
 impl ResponsePanel {
     pub fn new() -> Self {
         Object::builder().build()
@@ -259,11 +241,10 @@ impl ResponsePanel {
 
         imp.status_code.add_css_class(status_color);
 
-        let duration = format!("{} s", resp.seconds());
-        imp.duration.set_text(&duration);
+        imp.duration.set_text(&resp.format_duration());
         imp.duration.set_visible(true);
 
-        let size = format_bytes(resp.size);
+        let size = glib::format_size(resp.size as u64);
         imp.response_size.set_text(&size);
         imp.response_size.set_visible(true);
 

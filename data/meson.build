@@ -25,6 +25,7 @@ blueprint_files = [
   'ui/formdata_payload_pane.blp',
   'ui/key_value_pane.blp',
   'ui/key_value_row.blp',
+  'ui/mac_menu.blp',
   'ui/main_window.blp',
   'ui/main_window_no_csd.blp',
   'ui/method_dropdown.blp',

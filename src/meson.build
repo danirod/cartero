@@ -57,10 +57,9 @@ if get_option('app-updater').enabled()
   cargo_features += ['app_updater']
 endif
 
+cargo_options += ['--no-default-features']
 if cargo_features.length() > 0
   cargo_options += ['--features', ','.join(cargo_features)]
-else
-  cargo_options += ['--no-default-features']
 endif
 
 message('Building with the following Cargo features:', ' '.join(cargo_features))

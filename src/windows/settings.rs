@@ -89,11 +89,6 @@ mod imp {
             if cfg!(feature = "app_updater") {
                 self.group_updates.set_visible(true);
             }
-
-            if cfg!(target_os = "macos") {
-                let obj = self.obj();
-                obj.add_css_class("macos");
-            }
         }
     }
 

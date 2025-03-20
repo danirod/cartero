@@ -51,6 +51,10 @@ mod imp {
         template(resource = "/es/danirod/Cartero/main_window_no_csd.ui")
     )]
     pub struct CarteroWindow {
+        #[cfg(feature = "csd")]
+        #[template_child]
+        header_bar: TemplateChild<gtk::HeaderBar>,
+
         #[template_child]
         toaster: TemplateChild<adw::ToastOverlay>,
 
@@ -559,9 +563,6 @@ mod imp {
                 .copyright(gettext("© 2024-2025 the Cartero authors"))
                 .license_type(gtk::License::Gpl30)
                 .build();
-            if cfg!(target_os = "macos") {
-                about.add_css_class("macos");
-            }
             about.present();
         }
 
@@ -634,9 +635,21 @@ mod imp {
                 let obj = self.obj();
                 obj.add_css_class("devel");
             }
+
             if cfg!(target_os = "macos") {
-                let obj = self.obj();
-                obj.add_css_class("macos");
+                // Add menu bar and native controls
+                if gtk::major_version() > 4
+                    || (gtk::major_version() == 4 && gtk::minor_version() >= 18)
+                {
+                    #[cfg(feature = "csd")]
+                    self.header_bar.set_property("use-native-controls", true);
+
+                    let builder = gtk::Builder::from_resource("/es/danirod/Cartero/mac_menu.ui");
+                    if let Some(menu) = builder.object::<gio::Menu>("menubar") {
+                        let app = CarteroApplication::get();
+                        app.set_menubar(Some(&menu));
+                    }
+                }
             }
 
             self.init_settings();

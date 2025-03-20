@@ -1,0 +1,229 @@
+// Copyright 2024-2025 the Cartero authors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+using Gtk 4.0;
+
+menu menubar {
+  submenu {
+    label: C_("menubar", "File");
+
+    section {
+      item {
+        label: _("New tab");
+        action: "win.new";
+      }
+
+      item {
+        label: _("Open request…");
+        action: "win.open";
+      }
+
+      item {
+        label: _("Save request");
+        action: "win.save";
+      }
+
+      item {
+        label: _("Save request as…");
+        action: "win.save-as";
+      }
+    }
+
+    section {
+      item {
+        label: _("Close tab");
+        action: "win.close";
+      }
+    }
+  }
+
+  submenu {
+    label: C_("menubar", "Edit");
+
+    section {
+      item {
+        label: C_("menubar", "Undo");
+        action: "text.undo";
+      }
+
+      item {
+        label: C_("menubar", "Redo");
+        action: "text.redo";
+      }
+    }
+
+    section {
+      item {
+        label: C_("menubar", "Cut");
+        action: "clipboard.cut";
+      }
+
+      item {
+        label: C_("menubar", "Copy");
+        action: "clipboard.copy";
+      }
+
+      item {
+        label: C_("menubar", "Paste");
+        action: "clipboard.paste";
+      }
+
+      item {
+        label: C_("menubar", "Delete");
+        action: "selection.delete";
+      }
+    }
+
+    section {
+      item {
+        label: C_("menubar", "Select All");
+        action: "selection.select-all";
+      }
+    }
+  }
+
+  submenu {
+    label: C_("menubar", "Endpoint");
+
+    section {
+      item {
+        label: C_("menubar", "Edit URL");
+        action: "endpoint.focus-url";
+      }
+
+      item {
+        label: _("Send");
+        action: "win.request";
+      }
+
+      item {
+        label: _("Cancel request");
+        action: "endpoint.cancel";
+      }
+    }
+
+    section {
+      submenu {
+        label: _("Body appearance");
+
+        section {
+          item {
+            label: _("Wrap content");
+            action: "win.body-wrap";
+          }
+
+          item {
+            label: _("Show line numbers");
+            action: "win.show-line-numbers";
+          }
+        }
+
+        section {
+          item {
+            label: _("Automatic indentation");
+            action: "win.auto-indent";
+          }
+
+          item {
+            label: _("Indent with spaces");
+            action: "win.indent-style";
+            target: "spaces";
+          }
+
+          item {
+            label: _("Indent with tabs");
+            action: "win.indent-style";
+            target: "tabs";
+          }
+
+          submenu {
+            label: _("Spaces per tab");
+
+            item {
+              label: _("2");
+              action: "win.tab-width";
+              target: "2";
+            }
+
+            item {
+              label: _("4");
+              action: "win.tab-width";
+              target: "4";
+            }
+
+            item {
+              label: _("8");
+              action: "win.tab-width";
+              target: "8";
+            }
+          }
+        }
+      }
+    }
+  }
+
+  submenu {
+    label: C_("menubar", "Window");
+
+    section {
+      item {
+        label: C_("menubar", "Minimize");
+        action: "window.minimize";
+      }
+
+      item {
+        // TRANSLATORS: This item will only be visible in macOS, where the convention is to call it "zoom" instead of "maximize"
+        label: C_("menubar", "Zoom");
+        action: "window.toggle-maximized";
+      }
+    }
+  }
+
+  submenu {
+    label: C_("menubar", "Help");
+
+    section {
+      item {
+        label: C_("menubar", "User manual");
+        action: "app.menubar.user-manual";
+      }
+
+      item {
+        label: C_("menubar", "Report a bug");
+        action: "app.menubar.report-issue";
+      }
+
+      item {
+        label: C_("menubar", "View discussions");
+        action: "app.menubar.view-discussions";
+      }
+    }
+
+    section {
+      item {
+        label: C_("menubar", "Help translate");
+        action: "app.menubar.translate";
+      }
+    }
+
+    section {
+      item {
+        label: _("Check for updates");
+        action: "win.check-updates";
+      }
+    }
+  }
+}

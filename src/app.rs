@@ -92,6 +92,16 @@ mod imp {
             self.parent_startup();
             gtk::Window::set_default_icon_name(APP_ID);
 
+            if cfg!(target_os = "windows") {
+                if let Some(settings) = gtk::Settings::default() {
+                    settings.set_gtk_font_name(Some("Segoe UI 10"));
+                }
+            } else if cfg!(target_os = "macos") {
+                if let Some(settings) = gtk::Settings::default() {
+                    settings.set_gtk_font_name(Some(".AppleSystemUIFont 14.5"));
+                }
+            }
+
             let obj = self.obj();
             obj.set_accels_for_action("win.new", &[accelerator!("t")]);
             obj.set_accels_for_action("win.open", &[accelerator!("o")]);
@@ -195,6 +205,13 @@ impl CarteroApplication {
                 }
             ))
             .build();
+        let about = ActionEntryBuilder::new("about")
+            .activate(|app: &Self, _, _| {
+                if let Some(window) = app.active_window() {
+                    let _ = window.activate_action("win.about", None);
+                }
+            })
+            .build();
         let quit = ActionEntryBuilder::new("quit")
             .activate(glib::clone!(
                 #[weak(rename_to = app)]
@@ -211,7 +228,41 @@ impl CarteroApplication {
             ))
             .build();
 
-        self.add_action_entries([settings, quit]);
+        self.add_action_entries([settings, about, quit]);
+
+        if cfg!(target_os = "macos") {
+            let links = vec![
+                ("menubar.user-manual", "https://cartero.danirod.es/docs/"),
+                (
+                    "menubar.report-issue",
+                    "https://github.com/danirod/cartero/issues",
+                ),
+                (
+                    "menubar.view-discussions",
+                    "https://github.com/danirod/cartero/discussions",
+                ),
+                (
+                    "menubar.translate",
+                    "https://hosted.weblate.org/projects/cartero/cartero",
+                ),
+            ];
+
+            let actions = links
+                .into_iter()
+                .map(|(id, url)| {
+                    ActionEntryBuilder::new(id)
+                        .activate(move |_, _, _| {
+                            glib::spawn_future_local(async move {
+                                let _ = gtk::UriLauncher::new(url)
+                                    .launch_future(gtk::Window::NONE)
+                                    .await;
+                            });
+                        })
+                        .build()
+                })
+                .collect::<Vec<_>>();
+            self.add_action_entries(actions);
+        }
     }
 
     pub fn last_session_tabs(&self) -> Vec<gio::File> {

@@ -22,27 +22,3 @@
   background: var(--headerbar-bg-color);
   border-bottom-left-radius: 10px;
 }
-
-window.macos, dialog.macos {
-  letter-spacing: 0.5px;
-  -gtk-dpi: 86;
-}
-
-dialog.macos {
-  font-size: 14px;
-}
-
-window.macos listview, window.macos popover {
-  letter-spacing: 0;
-  -gtk-dpi: 80;
-}
-
-window.macos .title-2, dialog.macos .title-2 {
-  letter-spacing: 1.5px;
-  font-weight: 700;
-}
-
-window.macos statuspage .title {
-  letter-spacing: 1.5px;
-  font-weight: 700;
-}

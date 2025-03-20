@@ -16,7 +16,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use adw::prelude::AdwDialogExt;
-use glib::{object::IsA, Object};
+use glib::{
+    object::{Cast, IsA},
+    Object,
+};
 use gtk::gio;
 
 mod imp {
@@ -191,6 +194,15 @@ glib::wrapper! {
 impl SettingsDialog {
     pub fn present_for_window(win: &impl IsA<gtk::Widget>) {
         let dialog: Self = Object::builder().build();
+        if let Some(window) = win.as_ref().downcast_ref::<gtk::Window>() {
+            dialog.connect_closed(glib::clone!(
+                #[weak]
+                window,
+                move |_| {
+                    adw::prelude::GtkWindowExt::present(&window);
+                }
+            ));
+        }
         dialog.present(Some(win));
     }
 }

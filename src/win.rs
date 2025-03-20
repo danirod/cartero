@@ -27,7 +27,7 @@ mod imp {
     use adw::prelude::WidgetExt;
     use std::cell::OnceCell;
 
-    use adw::AboutWindow;
+    use adw::AboutDialog;
     use adw::{prelude::*, subclass::prelude::*, TabPage};
     use gettextrs::gettext;
     use gtk::gio::{self, ActionEntry};
@@ -550,9 +550,8 @@ mod imp {
         }
 
         fn action_about(&self) {
-            let about = AboutWindow::builder()
-                .transient_for(&*self.obj())
-                .modal(true)
+            let obj = self.obj();
+            let about = AboutDialog::builder()
                 .application_name("Cartero")
                 .application_icon(config::APP_ID)
                 .version(config::VERSION)
@@ -563,7 +562,14 @@ mod imp {
                 .copyright(gettext("© 2024-2025 the Cartero authors"))
                 .license_type(gtk::License::Gpl30)
                 .build();
-            about.present();
+            about.connect_closed(glib::clone!(
+                #[weak]
+                obj,
+                move |_| {
+                    obj.present();
+                }
+            ));
+            about.present(Some(&*obj));
         }
 
         pub(super) fn toast_message(&self, msg: &str) {

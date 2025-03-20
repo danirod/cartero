@@ -18,10 +18,10 @@ pacman -Sy --noconfirm --needed \
 
 case "$1" in
         devel)
-                MSYS2_ARG_CONV_EXCL="--prefix=" meson setup build --prefix="/" -Dprofile=development -Ddecorations=no-csd
+                MSYS2_ARG_CONV_EXCL="--prefix=" meson setup build --prefix="/" -Dprofile=development -Ddecorations=no-csd $MESON_FLAGS
                 ;;
         stable)
-                MSYS2_ARG_CONV_EXCL="--prefix=" meson setup build --prefix="/" -Dprofile=default -Ddecorations=no-csd
+                MSYS2_ARG_CONV_EXCL="--prefix=" meson setup build --prefix="/" -Dprofile=default -Ddecorations=no-csd $MESON_FLAGS
                 ;;
         *)
                 echo "Usage: $0 [devel / stable]"

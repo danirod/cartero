@@ -69,6 +69,9 @@ function get_absolute_nonrelocated() {
 function get_relative_nonrelocated() {
   otool -L "$1" | grep "@loader_path/../../../.." | awk '{ print $1 }'
 }
+function get_rpath_nonrelocated() {
+  otool -L "$1" | grep "@rpath" | awk '{ print $1 }'
+}
 
 mkdir -p "$RESOURCES_ROOT/lib"
 
@@ -102,6 +105,14 @@ find "$RESOURCES_ROOT/lib/gdk-pixbuf-2.0/2.10.0/loaders" -name '*.so' | while re
     fi
     install_name_tool -change "$dep" "@executable_path/../Resources/lib/$dep_name" "$f"
   done
+  for dep in $(get_rpath_nonrelocated "$f"); do
+    real_name=$(get_rpath_nonrelocated "$f" | sed "s|@rpath|$(brew --prefix)/lib|")
+    dep_name=$(basename "$dep")
+    if ! [ -f "$RESOURCES_ROOT/lib/$dep_name" ]; then
+      cp -v "$real_name" "$RESOURCES_ROOT/lib"
+    fi
+    install_name_tool -change "$dep" "@executable_path/../Resources/lib/$dep_name" "$f"
+  done
 done
 
 # Copy then relocate additional dylibs
@@ -115,9 +126,15 @@ function concat_relative_dylibs() {
     otool -L "$f"
   done | grep "@loader_path/../../../.." | awk '{ print $1 }' | sort | uniq
 }
+function concat_rpath_dylibs() {
+  find "$RESOURCES_ROOT/lib" -name '*.dylib' | while read f; do
+    otool -L "$f"
+  done | grep "@rpath" | awk '{ print $1 }' | sort | uniq
+}
 function any_pending_dylibs() {
   [[ -n "$(concat_absolute_dylibs)" ]] && return 0
   [[ -n "$(concat_relative_dylibs)" ]] && return 0
+  [[ -n "$(concat_rpath_dylibs)" ]] && return 0
   return 1
 }
 
@@ -138,6 +155,15 @@ while any_pending_dylibs; do
     done
     for dep in $(get_relative_nonrelocated "$f"); do
       real_name=$(get_relative_nonrelocated "$f" | sed "s|@loader_path/../../../..|$(brew --prefix)|")
+      dep_name=$(basename "$dep")
+      if ! [ -f "$RESOURCES_ROOT/lib/$dep_name" ]; then
+        cp "$real_name" "$RESOURCES_ROOT/lib"
+      fi
+      # install_name_tool -change "$dep" "@executable_path/../Resources/lib/$dep_name" "$f"
+      install_name_tool -change "$dep" "@executable_path/../Resources/lib/$dep_name" "$f"
+    done
+    for dep in $(get_rpath_nonrelocated "$f"); do
+      real_name=$(get_rpath_nonrelocated "$f" | sed "s|@rpath|$(brew --prefix)/lib|")
       dep_name=$(basename "$dep")
       if ! [ -f "$RESOURCES_ROOT/lib/$dep_name" ]; then
         cp "$real_name" "$RESOURCES_ROOT/lib"

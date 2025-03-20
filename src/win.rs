@@ -652,6 +652,35 @@ mod imp {
                 }
             }
 
+            // Dark title bar on Windows
+            if cfg!(all(target_os = "windows", not(feature = "csd"))) {
+                let obj = self.obj();
+                let style_manager = adw::StyleManager::default();
+                style_manager.connect_color_scheme_notify(glib::clone!(
+                    #[weak]
+                    obj,
+                    move |scheme: &adw::StyleManager| {
+                        let dark = scheme.is_dark();
+                        crate::platform::win32_set_dark_mode(&obj, dark);
+                    }
+                ));
+                style_manager.connect_dark_notify(glib::clone!(
+                    #[weak]
+                    obj,
+                    move |scheme: &adw::StyleManager| {
+                        let dark = scheme.is_dark();
+                        crate::platform::win32_set_dark_mode(&obj, dark);
+                    }
+                ));
+                obj.connect_show(glib::clone!(
+                    #[weak]
+                    style_manager,
+                    move |obj: &super::CarteroWindow| {
+                        crate::platform::win32_set_dark_mode(&*obj, style_manager.is_dark());
+                    }
+                ));
+            }
+
             self.init_settings();
 
             self.tabview.connect_close_page(glib::clone!(
@@ -829,14 +858,14 @@ mod imp {
 glib::wrapper! {
     pub struct CarteroWindow(ObjectSubclass<imp::CarteroWindow>)
         @extends gtk::Widget, gtk::Window, gtk::ApplicationWindow, adw::ApplicationWindow,
-        @implements gio::ActionGroup, gio::ActionMap, gtk::Root;
+        @implements gio::ActionGroup, gio::ActionMap, gtk::Native, gtk::Root;
 }
 
 #[cfg(not(feature = "csd"))]
 glib::wrapper! {
     pub struct CarteroWindow(ObjectSubclass<imp::CarteroWindow>)
         @extends gtk::Widget, gtk::Window, gtk::ApplicationWindow,
-        @implements gio::ActionGroup, gio::ActionMap, gtk::Root;
+        @implements gio::ActionGroup, gio::ActionMap, gtk::Native, gtk::Root;
 }
 
 impl CarteroWindow {

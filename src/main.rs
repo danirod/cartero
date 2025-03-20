@@ -26,6 +26,7 @@ mod widgets;
 mod config;
 mod entities;
 mod objects;
+mod platform;
 #[cfg(feature = "app_updater")]
 mod updates;
 mod win;

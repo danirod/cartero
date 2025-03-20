@@ -30,3 +30,7 @@ srtemplate = { version = "0.3.2", features = [] }
 tokio = { version = "1.44.1", features = ["sync"] }
 toml = "0.8.20"
 url = "2.5.4"
+
+[target.'cfg(windows)'.dependencies]
+winapi = { version = "0.3.9", features = ["dwmapi"] }
+gdk4-win32 = '0.9.5'

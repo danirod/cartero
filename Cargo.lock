@@ -147,6 +147,7 @@ dependencies = [
  "formatx",
  "formdata",
  "futures-lite 2.6.0",
+ "gdk4-win32",
  "gettext-rs",
  "glib",
  "gtk4",
@@ -162,6 +163,7 @@ dependencies = [
  "tokio",
  "toml",
  "url 2.5.4",
+ "winapi",
 ]
 
 [[package]]
@@ -566,6 +568,31 @@ dependencies = [
  "libc",
  "pango-sys",
  "pkg-config",
+ "system-deps",
+]
+
+[[package]]
+name = "gdk4-win32"
+version = "0.9.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e54beb3e19bff7ccc05153e043bf0eea9cf76c07a3387fb0151bfa0fbfce9df0"
+dependencies = [
+ "gdk4",
+ "gdk4-win32-sys",
+ "gio",
+ "glib",
+ "libc",
+]
+
+[[package]]
+name = "gdk4-win32-sys"
+version = "0.9.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d554341f26b2f6191aaf2ecb4d0089f3696a40cadb2dba75dad03e48a6dc0eb9"
+dependencies = [
+ "gdk4-sys",
+ "glib-sys",
+ "libc",
  "system-deps",
 ]
 

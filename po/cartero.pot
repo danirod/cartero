@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-20 01:34+0100\n"
+"POT-Creation-Date: 2025-03-20 02:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -495,43 +495,47 @@ msgid ""
 "such as Git"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:78
+#: data/ui/settings_dialog.blp:74
+msgid "Software updates"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:81
 msgid "Current version"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:82
+#: data/ui/settings_dialog.blp:85
 msgid "Check for updates"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:90 data/ui/settings_dialog.blp:94
+#: data/ui/settings_dialog.blp:93 data/ui/settings_dialog.blp:97
 msgid "HTTP Client"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:97
+#: data/ui/settings_dialog.blp:100
 msgid "Enforce TLS validation"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:98
+#: data/ui/settings_dialog.blp:101
 msgid "Cancel a request if the TLS handshake fails"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:102
+#: data/ui/settings_dialog.blp:105
 msgid "Follow redirects"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:103
+#: data/ui/settings_dialog.blp:106
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:108
+#: data/ui/settings_dialog.blp:111
 msgid "Maximum redirects"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:120
+#: data/ui/settings_dialog.blp:123
 msgid "Request timeout"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:121
+#: data/ui/settings_dialog.blp:124
 msgid "Seconds to wait before cancelling the request"
 msgstr ""
 
@@ -774,18 +778,18 @@ msgid_plural "{} results"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/win.rs:243
+#: src/win.rs:242
 msgid "(untitled)"
 msgstr ""
 
-#: src/win.rs:257
+#: src/win.rs:256
 msgid "Draft"
 msgstr ""
 
-#: src/win.rs:559
+#: src/win.rs:558
 msgid "The Cartero authors"
 msgstr ""
 
-#: src/win.rs:560
+#: src/win.rs:559
 msgid "© 2024-2025 the Cartero authors"
 msgstr ""

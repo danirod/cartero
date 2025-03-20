@@ -47,11 +47,24 @@ else
   message('Building in debug mode')
 endif
 
+cargo_features = []
+
 if get_option('decorations') == 'csd'
-  cargo_options += ['--features=csd']
+  cargo_features += ['csd']
+endif
+
+if get_option('app-updater').enabled()
+  cargo_features += ['app_updater']
+endif
+
+if cargo_features.length() > 0
+  cargo_options += ['--features', ','.join(cargo_features)]
 else
   cargo_options += ['--no-default-features']
 endif
+
+message('Building with the following Cargo features:', ' '.join(cargo_features))
+message('Building with the folllowing Cargo args:', ' '.join(cargo_options))
 
 cargo_env = [ 'CARGO_HOME=' + meson.project_build_root() / 'cargo-home' ]
 

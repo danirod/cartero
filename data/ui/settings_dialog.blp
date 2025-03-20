@@ -69,7 +69,10 @@ template $CarteroSettingsDialog: Adw.PreferencesDialog {
       }
     }
 
-    Adw.PreferencesGroup {
+    Adw.PreferencesGroup group_updates {
+      visible: false;
+      title: _("Software updates");
+
       Adw.ActionRow version_id {
         styles [
           "property",

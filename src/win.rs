@@ -37,7 +37,6 @@ mod imp {
     use crate::app::CarteroApplication;
     use crate::error::FileSaveError;
     use crate::file::{FileLoadFailure, FileLoadResult};
-    use crate::updates::AppUpdateDialogResponse;
     use crate::{config, widgets::*};
     use glib::subclass::InitializingObject;
     use gtk::{CompositeTemplate, TemplateChild};
@@ -571,10 +570,13 @@ mod imp {
             self.toaster.add_toast(toast);
         }
 
+        #[cfg(feature = "app_updater")]
         async fn action_check_updates<T>(&self, root: &T)
         where
             T: IsA<gtk::Widget>,
         {
+            use crate::updates::AppUpdateDialogResponse;
+
             match crate::updates::get_latest_version().await {
                 None => crate::updates::notify_check_update_error(root).await,
                 Some(response) => {
@@ -744,22 +746,6 @@ mod imp {
                 ))
                 .build();
 
-            let action_check_updates = ActionEntry::builder("check-updates")
-                .activate(|window: &super::CarteroWindow, _, _| {
-                    glib::spawn_future_local(glib::clone!(
-                        #[weak]
-                        window,
-                        async move {
-                            let imp = window.imp();
-                            let action = window.lookup_action("check-updates").unwrap();
-                            action.set_property("enabled", false);
-                            imp.action_check_updates(&window).await;
-                            action.set_property("enabled", true);
-                        }
-                    ));
-                })
-                .build();
-
             let obj = self.obj();
             obj.add_action_entries([
                 action_new,
@@ -769,8 +755,27 @@ mod imp {
                 action_save_as,
                 action_close,
                 action_about,
-                action_check_updates,
             ]);
+
+            #[cfg(feature = "app_updater")]
+            {
+                let action_check_updates = ActionEntry::builder("check-updates")
+                    .activate(|window: &super::CarteroWindow, _, _| {
+                        glib::spawn_future_local(glib::clone!(
+                            #[weak]
+                            window,
+                            async move {
+                                let imp = window.imp();
+                                let action = window.lookup_action("check-updates").unwrap();
+                                action.set_property("enabled", false);
+                                imp.action_check_updates(&window).await;
+                                action.set_property("enabled", true);
+                            }
+                        ));
+                    })
+                    .build();
+                obj.add_action_entries([action_check_updates]);
+            }
 
             self.init_tab_bindings();
         }

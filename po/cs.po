@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-20 01:34+0100\n"
+"POT-Creation-Date: 2025-03-20 02:03+0100\n"
 "PO-Revision-Date: 2025-02-11 11:02+0000\n"
 "Last-Translator: vesp <vesp@post.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/cartero/cartero/cs/"
@@ -509,43 +509,47 @@ msgstr ""
 "Tuto volbu možná nebudete chtít povolit, pokud již používáte správu verzí, "
 "jako je Git"
 
-#: data/ui/settings_dialog.blp:78
+#: data/ui/settings_dialog.blp:74
+msgid "Software updates"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:81
 msgid "Current version"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:82
+#: data/ui/settings_dialog.blp:85
 msgid "Check for updates"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:90 data/ui/settings_dialog.blp:94
+#: data/ui/settings_dialog.blp:93 data/ui/settings_dialog.blp:97
 msgid "HTTP Client"
 msgstr "HTTP klient"
 
-#: data/ui/settings_dialog.blp:97
+#: data/ui/settings_dialog.blp:100
 msgid "Enforce TLS validation"
 msgstr "Vynutit ověření TLS"
 
-#: data/ui/settings_dialog.blp:98
+#: data/ui/settings_dialog.blp:101
 msgid "Cancel a request if the TLS handshake fails"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:102
+#: data/ui/settings_dialog.blp:105
 msgid "Follow redirects"
 msgstr "Následovat přesměrování"
 
-#: data/ui/settings_dialog.blp:103
+#: data/ui/settings_dialog.blp:106
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:108
+#: data/ui/settings_dialog.blp:111
 msgid "Maximum redirects"
 msgstr "Maximální počet přesměrování"
 
-#: data/ui/settings_dialog.blp:120
+#: data/ui/settings_dialog.blp:123
 msgid "Request timeout"
 msgstr "Časový limit požadavku"
 
-#: data/ui/settings_dialog.blp:121
+#: data/ui/settings_dialog.blp:124
 msgid "Seconds to wait before cancelling the request"
 msgstr ""
 
@@ -795,18 +799,18 @@ msgstr[0] "{} požadavek"
 msgstr[1] "{} požadavky"
 msgstr[2] "{} požadavků"
 
-#: src/win.rs:243
+#: src/win.rs:242
 msgid "(untitled)"
 msgstr "(bez názvu)"
 
-#: src/win.rs:257
+#: src/win.rs:256
 msgid "Draft"
 msgstr "Koncept"
 
-#: src/win.rs:559
+#: src/win.rs:558
 msgid "The Cartero authors"
 msgstr "Autoři aplikace Cartero"
 
-#: src/win.rs:560
+#: src/win.rs:559
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 autoři aplikace Cartero"

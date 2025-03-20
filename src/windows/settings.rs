@@ -58,6 +58,9 @@ mod imp {
         option_create_backups: TemplateChild<adw::SwitchRow>,
 
         #[template_child]
+        group_updates: TemplateChild<adw::PreferencesGroup>,
+
+        #[template_child]
         version_id: TemplateChild<adw::ActionRow>,
     }
 
@@ -83,6 +86,9 @@ mod imp {
             self.init_settings();
 
             self.version_id.set_subtitle(crate::config::VERSION);
+            if cfg!(feature = "app_updater") {
+                self.group_updates.set_visible(true);
+            }
 
             if cfg!(target_os = "macos") {
                 let obj = self.obj();

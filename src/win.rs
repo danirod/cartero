@@ -659,7 +659,8 @@ mod imp {
             }
 
             // Dark title bar on Windows
-            if cfg!(all(target_os = "windows", not(feature = "csd"))) {
+            #[cfg(all(windows, not(feature = "csd")))]
+            {
                 let obj = self.obj();
                 let style_manager = adw::StyleManager::default();
                 style_manager.connect_color_scheme_notify(glib::clone!(

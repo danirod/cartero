@@ -15,8 +15,10 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+#[cfg(windows)]
 use gtk::prelude::*;
 
+#[cfg(windows)]
 use crate::win::CarteroWindow;
 
 #[cfg(windows)]

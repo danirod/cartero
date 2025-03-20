@@ -83,7 +83,7 @@ template $CarteroSettingsDialog: Adw.PreferencesDialog {
         Gtk.Button {
           valign: center;
           label: _("Check for updates");
-          action-name: "win.check-updates";
+          clicked => $on_check_updates() swapped;
         }
       }
     }

@@ -17,14 +17,17 @@
 
 use adw::prelude::AdwDialogExt;
 use glib::{
-    object::{Cast, IsA},
+    object::{Cast, IsA, ObjectExt},
     Object,
 };
-use gtk::gio;
+use gtk::{gio, prelude::WidgetExt};
 
 mod imp {
+    use std::sync::OnceLock;
+
     use adw::prelude::{ActionRowExt, WidgetExt};
     use adw::subclass::prelude::*;
+    use glib::subclass::Signal;
     use glib::{object::ObjectExt, subclass::InitializingObject};
     use gtk::{
         pango::FontDescription, prelude::SettingsExtManual, template_callbacks, CompositeTemplate,
@@ -92,6 +95,11 @@ mod imp {
             if cfg!(feature = "app_updater") {
                 self.group_updates.set_visible(true);
             }
+        }
+
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| vec![Signal::builder("check-updates").build()])
         }
     }
 
@@ -182,6 +190,12 @@ mod imp {
                 })
                 .build();
         }
+
+        #[template_callback]
+        fn on_check_updates(&self) {
+            let obj = self.obj();
+            obj.emit_by_name::<()>("check-updates", &[]);
+        }
     }
 }
 
@@ -192,6 +206,16 @@ glib::wrapper! {
 }
 
 impl SettingsDialog {
+    pub fn connect_check_updates<F: Fn(&Self) + 'static>(&self, f: F) -> glib::SignalHandlerId {
+        self.connect_closure(
+            "check-updates",
+            true,
+            glib::closure_local!(|dialog| {
+                f(dialog);
+            }),
+        )
+    }
+
     pub fn present_for_window(win: &impl IsA<gtk::Widget>) {
         let dialog: Self = Object::builder().build();
         if let Some(window) = win.as_ref().downcast_ref::<gtk::Window>() {
@@ -202,7 +226,18 @@ impl SettingsDialog {
                     adw::prelude::GtkWindowExt::present(&window);
                 }
             ));
+
+            if cfg!(feature = "app_updater") {
+                dialog.connect_check_updates(glib::clone!(
+                    #[weak]
+                    window,
+                    move |_| {
+                        let _ = window.activate_action("win.check-updates", None);
+                    }
+                ));
+            }
         }
+
         dialog.present(Some(win));
     }
 }

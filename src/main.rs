@@ -35,7 +35,6 @@ use std::path::PathBuf;
 use gettextrs::LocaleCategory;
 use gtk::gio;
 use gtk::prelude::*;
-use updates::get_latest_version;
 
 use self::app::CarteroApplication;
 use self::config::{APP_ID, GETTEXT_PACKAGE};

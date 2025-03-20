@@ -22,7 +22,7 @@ use serde::Deserialize;
 
 use crate::{
     client::BoundRequest,
-    entities::{EndpointData, KeyValueTable, RequestMethod, RequestPayload},
+    entities::{EndpointData, KeyValueTable, RequestAuthorization, RequestMethod, RequestPayload},
 };
 
 /// A little shim so that I can extract the information needed from the endpoint.
@@ -106,8 +106,7 @@ mod tests {
     }
 }
 
-// const API_LATEST_URL: &'static str = "https://api.github.com/repos/danirod/cartero/releases/latest";
-const API_LATEST_URL: &'static str = "http://localhost:8000/latest";
+const API_LATEST_URL: &'static str = "https://api.github.com/repos/danirod/cartero/releases/latest";
 
 fn create_api_check_endpoint() -> EndpointData {
     let headers = vec![("Accept", "application/json").into()];
@@ -118,6 +117,7 @@ fn create_api_check_endpoint() -> EndpointData {
         headers: KeyValueTable::new(&headers),
         body: RequestPayload::None,
         variables: KeyValueTable::default(),
+        authorization: RequestAuthorization::default(),
     }
 }
 
@@ -126,9 +126,20 @@ fn create_api_check_endpoint() -> EndpointData {
 async fn fetch_response(payload: EndpointData) -> Option<String> {
     let endpoint = BoundRequest::try_from(payload).ok()?;
     let request = crate::client::build_request(&endpoint).ok()?;
-    let mut response = request.send_async().await.ok()?;
+    let mut response = request
+        .send_async()
+        .await
+        .map_err(|e| {
+            glib::g_debug!("Cartero", "fetch_response failed with error: {e}");
+            e
+        })
+        .ok()?;
     let response = crate::client::extract_isahc_response(&mut response, &Instant::now())
         .await
+        .map_err(|e| {
+            glib::g_debug!("Cartero", "fetch_response failed with error: {e}");
+            e
+        })
         .ok()?;
     let response = String::from_utf8_lossy(&response.body);
     Some(response.to_string())
@@ -136,6 +147,20 @@ async fn fetch_response(payload: EndpointData) -> Option<String> {
 
 pub async fn get_latest_version() -> Option<GitHubApiResponse> {
     let request = create_api_check_endpoint();
+    glib::g_debug!(
+        "Cartero",
+        "Checking updates by poking the endpoint {}",
+        &request.url
+    );
     let response = fetch_response(request).await?;
-    GitHubApiResponse::from_api_response(&response)
+    let api_response = GitHubApiResponse::from_api_response(&response);
+    glib::g_debug!(
+        "Cartero",
+        "Update query was resolved: {}",
+        match &api_response {
+            None => "Couldn't fetch response".to_string(),
+            Some(resp) => format!("Latest version is {}", resp.get_latest_version()),
+        }
+    );
+    api_response
 }

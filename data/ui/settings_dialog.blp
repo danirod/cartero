@@ -19,8 +19,8 @@ using Adw 1;
 
 template $CarteroSettingsDialog: Adw.PreferencesDialog {
   title: _("Settings");
-  content-width: 640;
-  content-height: 480;
+  content-width: 600;
+  content-height: 640;
 
   Adw.PreferencesPage {
     title: _("Application");
@@ -66,6 +66,22 @@ template $CarteroSettingsDialog: Adw.PreferencesDialog {
       Adw.SwitchRow option_create_backups {
         title: _("Create backup files");
         subtitle: _("You might not want to enable this if you are already using a version control such as Git");
+      }
+    }
+
+    Adw.PreferencesGroup {
+      Adw.ActionRow version_id {
+        styles [
+          "property",
+        ]
+
+        title: _("Current version");
+
+        Gtk.Button {
+          valign: center;
+          label: _("Check for updates");
+          action-name: "win.check-updates";
+        }
       }
     }
   }

@@ -20,7 +20,7 @@ use glib::{object::IsA, Object};
 use gtk::gio;
 
 mod imp {
-    use adw::prelude::WidgetExt;
+    use adw::prelude::{ActionRowExt, WidgetExt};
     use adw::subclass::prelude::*;
     use glib::{object::ObjectExt, subclass::InitializingObject};
     use gtk::{
@@ -56,6 +56,9 @@ mod imp {
 
         #[template_child]
         option_create_backups: TemplateChild<adw::SwitchRow>,
+
+        #[template_child]
+        version_id: TemplateChild<adw::ActionRow>,
     }
 
     #[glib::object_subclass]
@@ -78,6 +81,8 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
             self.init_settings();
+
+            self.version_id.set_subtitle(crate::config::VERSION);
 
             if cfg!(target_os = "macos") {
                 let obj = self.obj();

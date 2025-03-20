@@ -37,6 +37,7 @@ mod imp {
     use crate::app::CarteroApplication;
     use crate::error::FileSaveError;
     use crate::file::{FileLoadFailure, FileLoadResult};
+    use crate::updates::AppUpdateDialogResponse;
     use crate::{config, widgets::*};
     use glib::subclass::InitializingObject;
     use gtk::{CompositeTemplate, TemplateChild};
@@ -569,6 +570,34 @@ mod imp {
             let toast = adw::Toast::new(msg);
             self.toaster.add_toast(toast);
         }
+
+        async fn action_check_updates<T>(&self, root: &T)
+        where
+            T: IsA<gtk::Widget>,
+        {
+            match crate::updates::get_latest_version().await {
+                None => crate::updates::notify_check_update_error(root).await,
+                Some(response) => {
+                    if !response.needs_update(config::VERSION) {
+                        crate::updates::notify_latest_version(root).await;
+                    } else {
+                        match crate::updates::notify_app_available(
+                            root,
+                            &response.get_latest_version(),
+                        )
+                        .await
+                        {
+                            AppUpdateDialogResponse::Skip => {}
+                            AppUpdateDialogResponse::OpenWebsite => {
+                                let _ = gtk::UriLauncher::new("https://cartero.danirod.es")
+                                    .launch_future(gtk::Window::NONE)
+                                    .await;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     #[glib::object_subclass]
@@ -715,6 +744,22 @@ mod imp {
                 ))
                 .build();
 
+            let action_check_updates = ActionEntry::builder("check-updates")
+                .activate(|window: &super::CarteroWindow, _, _| {
+                    glib::spawn_future_local(glib::clone!(
+                        #[weak]
+                        window,
+                        async move {
+                            let imp = window.imp();
+                            let action = window.lookup_action("check-updates").unwrap();
+                            action.set_property("enabled", false);
+                            imp.action_check_updates(&window).await;
+                            action.set_property("enabled", true);
+                        }
+                    ));
+                })
+                .build();
+
             let obj = self.obj();
             obj.add_action_entries([
                 action_new,
@@ -724,6 +769,7 @@ mod imp {
                 action_save_as,
                 action_close,
                 action_about,
+                action_check_updates,
             ]);
 
             self.init_tab_bindings();

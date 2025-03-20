@@ -202,27 +202,3 @@ pub async fn confirm_save(
         _ => SaveAlertDialogResponse::Cancel,
     }
 }
-
-pub enum AppUpdateDialogResponse {
-    OpenWebsite,
-    Skip,
-}
-
-pub async fn app_update_available(
-    root: &impl IsA<gtk::Widget>,
-    version: &str,
-) -> AppUpdateDialogResponse {
-    let question = AlertDialog::builder()
-        .heading(&gettext("There is a new version of Cartero!"))
-        .body(&i18n_f("Version {} has been released. Do you want to visit the website to download the update now?", &[version]))
-        .build();
-    question.add_responses(&[
-        ("open", &gettext("_Open website")),
-        ("skip", &gettext("_Skip")),
-    ]);
-    let response = question.choose_future(root).await;
-    match response.as_str() {
-        "open" => AppUpdateDialogResponse::OpenWebsite,
-        _ => AppUpdateDialogResponse::Skip,
-    }
-}

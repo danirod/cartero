@@ -35,21 +35,27 @@ ArchitecturesInstallIn64BitMode=x64compatible
 ChangesAssociations=yes
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
-LicenseFile={#MesonSourceRoot}\COPYING
+LicenseFile={#MesonSourceRoot}\build-aux\win32-installer\license.rtf
 ; Remove the following line to run in administrative install mode (install for all users.)
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
-OutputBaseFilename=cartero
+OutputBaseFilename=cartero-{#MyAppVersion}-windows-x64
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
+MinVersion=10.0
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "catalan"; MessagesFile: "compiler:Languages\Catalan.isl"
+Name: "czech"; MessagesFile: "compiler:Languages\Czech.isl"
+Name: "esperanto"; MessagesFile: "{#MesonSourceRoot}\build-aux\win32-installer\Esperanto.isl"
+Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
+Name: "french"; MessagesFile: "compiler:Languages\French.isl"
+Name: "brazilianportuguese"; MessagesFIle: "compiler:Languages\BrazilianPortuguese.isl"
 Name: "romanian"; MessagesFile: "{#MesonSourceRoot}\build-aux\win32-installer\Romanian.isl"
 Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
-Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
+Name: "tamil"; MessagesFile: "compiler:Languages\Tamil.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked

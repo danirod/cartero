@@ -44,6 +44,9 @@ src/file.rs
 src/main.rs
 src/objects/key_value_item.rs
 src/objects/mod.rs
+src/updates/checker.rs
+src/updates/mod.rs
+src/updates/ui.rs
 src/widgets/authorization_pane.rs
 src/widgets/code_view.rs
 src/widgets/dialogs.rs

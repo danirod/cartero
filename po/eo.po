@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-18 23:24+0100\n"
+"POT-Creation-Date: 2025-03-20 02:03+0100\n"
 "PO-Revision-Date: 2024-11-04 17:46+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/cartero/"
@@ -494,35 +494,47 @@ msgid ""
 "such as Git"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:74 data/ui/settings_dialog.blp:78
-msgid "HTTP Client"
+#: data/ui/settings_dialog.blp:74
+msgid "Software updates"
 msgstr ""
 
 #: data/ui/settings_dialog.blp:81
+msgid "Current version"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:85
+msgid "Check for updates"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:93 data/ui/settings_dialog.blp:97
+msgid "HTTP Client"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:100
 msgid "Enforce TLS validation"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:82
+#: data/ui/settings_dialog.blp:101
 msgid "Cancel a request if the TLS handshake fails"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:86
+#: data/ui/settings_dialog.blp:105
 msgid "Follow redirects"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:87
+#: data/ui/settings_dialog.blp:106
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:92
+#: data/ui/settings_dialog.blp:111
 msgid "Maximum redirects"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:104
+#: data/ui/settings_dialog.blp:123
 msgid "Request timeout"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:105
+#: data/ui/settings_dialog.blp:124
 msgid "Seconds to wait before cancelling the request"
 msgstr ""
 
@@ -593,6 +605,45 @@ msgstr ""
 msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
+msgstr ""
+
+#: src/updates/ui.rs:33
+msgid "Error checking updates"
+msgstr ""
+
+#: src/updates/ui.rs:35
+msgid "Couldn't receive a valid response from the server. Please, check later."
+msgstr ""
+
+#: src/updates/ui.rs:38 src/updates/ui.rs:48
+msgid "Accept"
+msgstr ""
+
+#: src/updates/ui.rs:45
+msgid "No updates at the moment"
+msgstr ""
+
+#: src/updates/ui.rs:46
+msgid "You are running the latest version of Cartero."
+msgstr ""
+
+#: src/updates/ui.rs:57
+#, rust-format
+msgid ""
+"Version {} has been released. Do you want to visit the website to download "
+"the update now?"
+msgstr ""
+
+#: src/updates/ui.rs:59
+msgid "There is a new version of Cartero!"
+msgstr ""
+
+#: src/updates/ui.rs:63
+msgid "_Open website"
+msgstr ""
+
+#: src/updates/ui.rs:64
+msgid "_Not now"
 msgstr ""
 
 #: src/widgets/dialogs.rs:48

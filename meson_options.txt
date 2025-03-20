@@ -19,3 +19,14 @@ option(
   value: 'csd',
   description: 'Whether to use client side decorations. One of "csd" or "no-csd"'
 )
+
+# Package maintainers: this option is designed for the AppImage, Windows and macOS
+# artifacts hosted at the project website. You might want to keep this feature
+# disabled if the package manager or repository already manages updates on behalf
+# of the user (true for Flathub, Snapcraft, AUR, and many others).
+option(
+  'app-updater',
+  type: 'feature',
+  value: 'disabled',
+  description: 'Whether to enable in-app software update checker',
+)

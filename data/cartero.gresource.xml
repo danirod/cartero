@@ -9,6 +9,7 @@
     <file alias="formdata_payload_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/formdata_payload_pane.ui</file>
     <file alias="key_value_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/key_value_pane.ui</file>
     <file alias="key_value_row.ui" compressed="true" preprocess="xml-stripblanks">ui/key_value_row.ui</file>
+    <file alias="mac_menu.ui" compressed="true" preprocess="xml-stripblanks">ui/mac_menu.ui</file>
     <file alias="main_window_no_csd.ui" compressed="true" preprocess="xml-stripblanks">ui/main_window_no_csd.ui</file>
     <file alias="main_window.ui" compressed="true" preprocess="xml-stripblanks">ui/main_window.ui</file>
     <file alias="method_dropdown.ui" compressed="true" preprocess="xml-stripblanks">ui/method_dropdown.ui</file>

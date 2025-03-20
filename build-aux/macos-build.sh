@@ -9,13 +9,13 @@ case "$1" in
     BUNDLE_ID="es.danirod.Cartero.Devel"
     APP_NAME="Cartero (Devel)"
     APP_VERSION="0.2.0"
-    MESON_FLAGS="-Dprofile=development"
+    MESON_FLAGS="$MESON_FLAGS -Dprofile=development"
     ;;
   stable)
     BUNDLE_ID="es.danirod.Cartero"
     APP_NAME="Cartero"
     APP_VERSION="0.2.0"
-    MESON_FLAGS="-Dprofile=default"
+    MESON_FLAGS="$MESON_FLAGS -Dprofile=default"
     ;;
   *)
     echo "Usage: $0 [devel / stable]"
@@ -23,7 +23,7 @@ case "$1" in
     ;;
 esac
 
-meson setup build --prefix="/" -Ddecorations=no-csd $MESON_FLAGS
+meson setup build --prefix="/" $MESON_FLAGS
 ninja -C build
 
 APP_ROOT="$PWD/build/cartero-darwin/$APP_NAME.app"

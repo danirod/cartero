@@ -92,6 +92,16 @@ mod imp {
             self.parent_startup();
             gtk::Window::set_default_icon_name(APP_ID);
 
+            if cfg!(target_os = "windows") {
+                if let Some(settings) = gtk::Settings::default() {
+                    settings.set_gtk_font_name(Some("Segoe UI 10"));
+                }
+            } else if cfg!(target_os = "macos") {
+                if let Some(settings) = gtk::Settings::default() {
+                    settings.set_gtk_font_name(Some(".AppleSystemUIFont 14.5"));
+                }
+            }
+
             let obj = self.obj();
             obj.set_accels_for_action("win.new", &[accelerator!("t")]);
             obj.set_accels_for_action("win.open", &[accelerator!("o")]);

@@ -559,9 +559,6 @@ mod imp {
                 .copyright(gettext("© 2024-2025 the Cartero authors"))
                 .license_type(gtk::License::Gpl30)
                 .build();
-            if cfg!(target_os = "macos") {
-                about.add_css_class("macos");
-            }
             about.present();
         }
 
@@ -633,10 +630,6 @@ mod imp {
             if config::PROFILE == "Devel" {
                 let obj = self.obj();
                 obj.add_css_class("devel");
-            }
-            if cfg!(target_os = "macos") {
-                let obj = self.obj();
-                obj.add_css_class("macos");
             }
 
             self.init_settings();

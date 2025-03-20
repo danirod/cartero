@@ -319,17 +319,21 @@ impl Default for CodeView {
 fn get_monospace_font_descriptor() -> FontDescription {
     let app = CarteroApplication::get();
     let settings = app.settings();
-    let system_font = settings.get::<bool>("use-system-font");
+    let use_system_font = settings.get::<bool>("use-system-font");
 
-    if system_font {
-        /* Does this work outside of GNOME...? */
-        let settings = gtk::gio::Settings::new("org.gnome.desktop.interface");
-        let monospace = settings.get::<String>("monospace-font-name");
-        FontDescription::from_string(&monospace)
+    let mono_font = if use_system_font {
+        if cfg!(target_os = "macos") {
+            "Menlo 14".to_string()
+        } else if cfg!(target_os = "windows") {
+            "Consolas 11".to_string()
+        } else {
+            let settings = gtk::gio::Settings::new("org.gnome.desktop.interface");
+            settings.get::<String>("monospace-font-name")
+        }
     } else {
-        let current_font_descriptor = settings.get::<String>("custom-font");
-        FontDescription::from_string(&current_font_descriptor)
-    }
+        settings.get::<String>("custom-font")
+    };
+    FontDescription::from_string(&mono_font)
 }
 
 /// Given the zoom level, returns the scaling percentage.

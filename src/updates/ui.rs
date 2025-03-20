@@ -35,7 +35,7 @@ pub async fn notify_check_update_error(root: &impl IsA<gtk::Widget>) {
             "Couldn't receive a valid response from the server. Please, check later.",
         ))
         .build();
-    dialog.add_responses(&[("accept", &gettext("Ok"))]);
+    dialog.add_responses(&[("accept", &gettext("Accept"))]);
     dialog.set_response_appearance("open", adw::ResponseAppearance::Suggested);
     dialog.choose_future(root).await;
 }
@@ -45,7 +45,7 @@ pub async fn notify_latest_version(root: &impl IsA<gtk::Widget>) {
         .heading(&gettext("No updates at the moment"))
         .body(&gettext("You are running the latest version of Cartero."))
         .build();
-    dialog.add_responses(&[("accept", &gettext("Ok"))]);
+    dialog.add_responses(&[("accept", &gettext("Accept"))]);
     dialog.set_response_appearance("open", adw::ResponseAppearance::Suggested);
     dialog.choose_future(root).await;
 }

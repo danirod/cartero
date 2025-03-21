@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Cartero – Make HTTP requests and test APIs</title>
+  <meta name="description"
+    content="Cartero is the native, lightweight, multiplatform and free HTTP client that you can use to test your APIs. Avoid bloat, respect your privacy, reject cloud; that's the motto.">
+  <link rel="icon" href="/assets/cartero.svg">
+
+  <meta property="og:title" content="Cartero: Make HTTP requests and test APIs">
+  <meta property="og:url" content="https://cartero.danirod.es">
+  <meta property="og:description"
+    content="Cartero is the native, lightweight, multiplatform and free HTTP client that youc an use to test your APIs. Avoid bloat, respect your privacy, reject cloud; that's the motto.">
+  <meta property="og:image" content="/assets/social-card.png">
+
+  <meta property="twitter:title" content="Cartero: Make HTTP requests and test APIs">
+  <meta property="twitter:description"
+    content="Cartero is the native, lightweight, multiplatform and free HTTP client that youc an use to test your APIs. Avoid bloat, respect your privacy, reject cloud; that's the motto.">
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:image" content="/assets/social-card.png">
+
+  <link rel="stylesheet" href="/assets/cartero.css">
+</head>
+
+<body>
+  <script>
+    if (window.navigator.userAgent.indexOf('Win') > -1) {
+      document.body.classList.add('is-win32');
+    } else if (window.navigator.userAgent.indexOf('Mac') > -1) {
+      document.body.classList.add('is-darwin');
+    } else {
+      document.body.classList.add('is-gnome');
+    }
+  </script>
+  <header class="hero">
+    <div class="clamp">
+      <div class="brand">
+        <h1>
+          <img src="/assets/cartero.svg" width="56" height="37" alt="">
+          Cartero
+        </h1>
+        <p>Make HTTP requests and test APIs</p>
+      </div>
+
+      <div class="buttons">
+        <a class="adw-button adw-button-suggested" href="/download.html">Download</a>
+        <a class="adw-button" target="_blank" href="https://github.com/danirod/cartero/releases/latest">Release
+          notes</a>
+        <a class="adw-button" target="_blank" href="https://cartero.danirod.es/docs">User manual</a>
+      </div>
+    </div>
+
+    <div class="screenshot">
+      <picture class="gnome">
+        <source srcset="/assets/main-screenshot/crop-gnu-linux-dark.png" media="screen and (prefers-color-scheme: dark)">
+        <source srcset="/assets/main-screenshot/crop-gnu-linux-light.png">
+        <img src="/assets/main-screenshot/crop-gnu-linux-light.png" alt="A screenshot of Cartero">
+      </picture>
+      <picture class="macos" hidden>
+        <source srcset="/assets/main-screenshot/crop-macos-dark.png" media="screen and (prefers-color-scheme: dark)">
+        <source srcset="/assets/main-screenshot/crop-macos-light.png">
+        <img src="/assets/main-screenshot/crop-macos-light.png" alt="A screenshot of Cartero">
+      </picture>
+      <picture class="windows" hidden>
+        <source srcset="/assets/main-screenshot/crop-windows-dark.png" media="screen and (prefers-color-scheme: dark)">
+        <source srcset="/assets/main-screenshot/crop-windows-light.png">
+        <img src="/assets/main-screenshot/crop-windows-light.png" alt="A screenshot of Cartero">
+      </picture>
+    </div>
+  </header>
+
+  <section class="features section">
+    <div class="clamp">
+      <h2 class="section-title">What makes Cartero different?</h2>
+
+      <div class="feature">
+        <div class="feature-icon" style="--symbolic-background: var(--green5); --symbolic-foreground: var(--light1)">
+          <svg width="64" height="64" viewBox="0 0 32 32">
+            <circle class="circle" cx="16" cy="16" r="16" />
+            <g class="symbolic" transform="translate(8, 8)">
+              <use xlink:href="/assets/adwaita-icons/speedometer-symbolic.svg#speedometer-symbolic" />
+            </g>
+          </svg>
+        </div>
+        <div class="feature-text">
+          <p class="title">
+            <strong>Native and lightweight</strong>
+          </p>
+          <p>Cartero is not a web application. It is native and leverages the graphical toolkit of your
+            computer in order to be lightweight and fast.</p>
+        </div>
+      </div>
+
+      <div class="feature feature-reverse">
+        <div class="feature-icon" style="--symbolic-background: var(--yellow5); --symbolic-foreground: var(--light1)">
+          <svg width="64" height="64" viewBox="0 0 32 32">
+            <circle class="circle" cx="16" cy="16" r="16" />
+            <g class="symbolic" transform="translate(8, 8)">
+              <use xlink:href="/assets/adwaita-icons/shield-safe-symbolic.svg#shield-safe-symbolic" />
+            </g>
+          </svg>
+        </div>
+        <div class="feature-text">
+          <p class="title">
+            <strong>Private by design</strong>
+          </p>
+          <p>Does not require a cloud subscription. You are not required to create an account to use it. There is no
+            AI
+            integration in Cartero.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon" style="--symbolic-background: var(--orange5); --symbolic-foreground: var(--light1)">
+          <svg width="64" height="64" viewBox="0 0 32 32">
+            <circle class="circle" cx="16" cy="16" r="16" />
+            <g class="symbolic" transform="translate(8, 8)">
+              <use xlink:href="/assets/adwaita-icons/branch-symbolic.svg#branch-symbolic" />
+            </g>
+          </svg>
+        </div>
+        <div class="feature-text">
+          <p class="title">
+            <strong>Knows how to do teamwork</strong>
+          </p>
+          <p>Use plain text files to persist your requests. Track changes to your requests with Git or any other version
+            control system and share them with your team.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon" style="--symbolic-background: var(--red5); --symbolic-foreground: var(--light1)">
+          <svg width="64" height="64" viewBox="0 0 32 32">
+            <circle class="circle" cx="16" cy="16" r="16" />
+            <g class="symbolic" transform="translate(8, 8)">
+              <use xlink:href="/assets/adwaita-icons/people-symbolic.svg#people-symbolic" />
+            </g>
+          </svg>
+        </div>
+        <div class="feature-text">
+          <p class="title">
+            <strong>Fully free software</strong>
+          </p>
+          <p>Cartero is published under a GPL license. You are free to download
+            the program, to access the code, to learn from it and to change it.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contribute section">
+    <div class="clamp">
+      <h2 class="section-title">Contribute</h2>
+
+      <p>
+        <strong>Using the program is the most direct way to help the project.
+          Talk to your colleagues or share your thoughts to let people know about it.</strong>
+        We are on a mission to make sending HTTP requests over the network
+        something affordable, <strong>as it used to be</strong>, and not a dreadful experience
+        or a luxury.
+      </p>
+
+      <p>
+        However, if Cartero is helping you and you want to help the project back, here's how.
+      </p>
+
+      <div class="contributions-grid">
+
+        <div class="contribution-item">
+          <svg class="contribution-icon" width="64" height="64" viewBox="0 0 32 32">
+            <circle class="circle" cx="16" cy="16" r="16" />
+            <g class="symbolic" transform="translate(8, 8)">
+              <use xlink:href="/assets/adwaita-icons/bug-symbolic.svg#bug-symbolic" />
+            </g>
+          </svg>
+
+          <h3>Found a bug?</h3>
+
+          <p>
+            Report bugs to the issue tracker. It's the only way to make them go away and to stop disrupting everyone.
+          </p>
+
+          <p>
+            <a class="adw-button adw-button-suggested" href="https://github.com/danirod/cartero/issues"
+              target="_blank">Report bugs</a>
+          </p>
+        </div>
+
+        <div class="contribution-item">
+          <svg class="contribution-icon" width="64" height="64" viewBox="0 0 32 32">
+            <circle class="circle" cx="16" cy="16" r="16" />
+            <g class="symbolic" transform="translate(8, 8)">
+              <use xlink:href="/assets/adwaita-icons/build-alt-symbolic.svg#build-alt-symbolic" />
+            </g>
+          </svg>
+
+          <h3>Contribute code</h3>
+
+          <p>
+            Cartero is written in Rust and uses the GTK toolkit, and we try to be as friendly with beginners as
+            we can.
+          </p>
+
+          <p>
+            <a class="adw-button adw-button-suggested" href="https://github.com/danirod/cartero" target="_blank">Get
+              sources</a>
+          </p>
+        </div>
+
+        <div class="contribution-item">
+          <svg class="contribution-icon" width="64" height="64" viewBox="0 0 32 32">
+            <circle class="circle" cx="16" cy="16" r="16" />
+            <g class="symbolic" transform="translate(8, 8)">
+              <use xlink:href="/assets/adwaita-icons/translate-symbolic.svg#translate-symbolic" />
+            </g>
+          </svg>
+
+          <h3>Help translate</h3>
+
+          <p>
+            If the application is not available in your language or is partially translated, you can translate the
+            strings.
+          </p>
+
+          <p>
+            <a class="adw-button adw-button-suggested" href="https://hosted.weblate.org/projects/cartero/cartero/"
+              target="_blank">Translate</a>
+          </p>
+        </div>
+
+        <div class="contribution-item">
+          <svg class="contribution-icon" width="64" height="64" viewBox="0 0 32 32">
+            <circle class="circle" cx="16" cy="16" r="16" />
+            <g class="symbolic" transform="translate(8, 8)">
+              <use xlink:href="/assets/adwaita-icons/cafe-symbolic.svg#cafe-symbolic" />
+            </g>
+          </svg>
+
+          <h3>Tip me a coffee</h3>
+
+          <p>
+            I am not writing this program for money, but funding the project will help me spend more time on it.
+          </p>
+
+          <p>
+            <a class="adw-button adw-button-suggested" href="https://ko-fi.com/danirod" target="_blank">Donate</a>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="colophon">
+    <p><a href="https://fosstodon.org/@cartero" rel="me" title="@cartero@fosstodon.org">⁂ Follow @cartero in the Fediverse!</a></p>
+    <p>
+      Copyright © 2024-2025 the Cartero authors. Maintained by <a href="https://danirod.es">Dani Rodríguez</a>.
+    </p>
+
+    <p>
+      Made in Spain 🇪🇸, with contributions from 🌐 all around the world!
+    </p>
+  </footer>
+</body>
+
+</html>

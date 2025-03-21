@@ -14,6 +14,7 @@ pacman -Sy --noconfirm --needed \
     ${MINGW_PACKAGE_PREFIX}-pkgconf \
     ${MINGW_PACKAGE_PREFIX}-libadwaita \
     ${MINGW_PACKAGE_PREFIX}-blueprint-compiler \
+    ${MINGW_PACKAGE_PREFIX}-vulkan-loader \
     meson
 
 case "$1" in
@@ -42,6 +43,7 @@ cp $(ldd bin/cartero.exe | grep "$MINGW_PREFIX" | awk '{ print $3 }') bin/
 
 cp $MINGW_PREFIX/bin/gdbus.exe bin/
 cp $MINGW_PREFIX/bin/gspawn-win64-helper.exe bin/
+cp $MINGW_PREFIX/bin/vulkan-1.dll bin/
 
 cp -RTn $MINGW_PREFIX/lib/gdk-pixbuf-2.0 lib/gdk-pixbuf-2.0
 cp -RTn $MINGW_PREFIX/share/glib-2.0 share/glib-2.0

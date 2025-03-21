@@ -15,6 +15,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use formatx::formatx;
 use gettextrs::gettext;
 use glib::{prelude::Cast, types::StaticType};
 use gtk::{
@@ -34,12 +35,17 @@ fn new_file_dialog() -> FileDialog {
     let filter = {
         let filter = FileFilter::new();
         filter.add_pattern("*.cartero");
+
+        // TRANSLATORS: presented in file dialogs as the file type for a request
+        let file_format = gettext("Request");
         if cfg!(not(target_os = "windows")) {
             filter.add_mime_type("application/cartero");
             filter.add_suffix("cartero");
-            filter.set_name(Some(&gettext("Request (.cartero)")));
+
+            let file_format = formatx!("{} (.cartero)", file_format).unwrap();
+            filter.set_name(Some(&file_format));
         } else {
-            filter.set_name(Some(&gettext("Request")));
+            filter.set_name(Some(&file_format));
         }
         filter
     };
@@ -137,6 +143,7 @@ pub async fn save_file(win: &CarteroWindow) -> Result<Option<gio::File>, glib::E
     dialog.set_accept_label(Some(&gettext("Save")));
     dialog.set_title(&gettext("Save request"));
     dialog.set_initial_folder(get_file_setting(LAST_SAVE_DIR).as_ref());
+    dialog.set_initial_name(Some(&formatx!("{}.cartero", gettext("Request")).unwrap()));
 
     let file = match dialog.save_future(Some(win)).await {
         Ok(result) => Ok(Some(result)),

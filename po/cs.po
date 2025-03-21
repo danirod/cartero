@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-20 22:28+0100\n"
+"POT-Creation-Date: 2025-03-21 01:46+0100\n"
 "PO-Revision-Date: 2025-02-11 11:02+0000\n"
 "Last-Translator: vesp <vesp@post.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/cartero/cartero/cs/"
@@ -318,12 +318,12 @@ msgstr "Nový"
 
 #: data/ui/main_window.blp:51 data/ui/main_window.blp:62
 #: data/ui/main_window_no_csd.blp:49 data/ui/main_window_no_csd.blp:60
-#: src/widgets/file_dialogs.rs:101
+#: src/widgets/file_dialogs.rs:107
 msgid "Open"
 msgstr "Otevřít"
 
 #: data/ui/main_window.blp:70 data/ui/main_window_no_csd.blp:68
-#: src/widgets/file_dialogs.rs:137
+#: src/widgets/file_dialogs.rs:143
 msgid "Save"
 msgstr "Uložit"
 
@@ -346,7 +346,7 @@ msgid "Open request…"
 msgstr "Otevřít požadavek…"
 
 #: data/ui/main_window.blp:158 data/ui/main_window_no_csd.blp:165
-#: src/widgets/file_dialogs.rs:138
+#: src/widgets/file_dialogs.rs:144
 msgid "Save request"
 msgstr "Uložit požadavek"
 
@@ -777,15 +777,12 @@ msgstr "Spouštějte HTTP volání a testujte API"
 msgid "Content copied to the clipboard"
 msgstr "Obsah zkopírován do schránky"
 
-#: src/widgets/file_dialogs.rs:40
-msgid "Request (.cartero)"
-msgstr "Požadavek (.cartero)"
-
-#: src/widgets/file_dialogs.rs:42
+#. TRANSLATORS: presented in file dialogs as the file type for a request
+#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:146
 msgid "Request"
 msgstr "Požadavek"
 
-#: src/widgets/file_dialogs.rs:102
+#: src/widgets/file_dialogs.rs:108
 msgid "Open request"
 msgstr "Otevřít požadavek"
 
@@ -837,6 +834,9 @@ msgstr "© 2024-2025 autoři aplikace Cartero"
 msgid "User manual"
 msgstr ""
 
-#: src/win.rs:606
+#: src/win.rs:607
 msgid "Help us translate"
 msgstr ""
+
+#~ msgid "Request (.cartero)"
+#~ msgstr "Požadavek (.cartero)"

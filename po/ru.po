@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-20 22:28+0100\n"
+"POT-Creation-Date: 2025-03-21 01:46+0100\n"
 "PO-Revision-Date: 2024-12-22 20:55+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -319,12 +319,12 @@ msgstr "Новая"
 
 #: data/ui/main_window.blp:51 data/ui/main_window.blp:62
 #: data/ui/main_window_no_csd.blp:49 data/ui/main_window_no_csd.blp:60
-#: src/widgets/file_dialogs.rs:101
+#: src/widgets/file_dialogs.rs:107
 msgid "Open"
 msgstr "Открыть"
 
 #: data/ui/main_window.blp:70 data/ui/main_window_no_csd.blp:68
-#: src/widgets/file_dialogs.rs:137
+#: src/widgets/file_dialogs.rs:143
 msgid "Save"
 msgstr "Сохранить"
 
@@ -347,7 +347,7 @@ msgid "Open request…"
 msgstr "Открыть запрос…"
 
 #: data/ui/main_window.blp:158 data/ui/main_window_no_csd.blp:165
-#: src/widgets/file_dialogs.rs:138
+#: src/widgets/file_dialogs.rs:144
 msgid "Save request"
 msgstr "Сохранить запрос"
 
@@ -776,15 +776,12 @@ msgstr "Выполняйте HTTP-запросы и тестируйте API"
 msgid "Content copied to the clipboard"
 msgstr ""
 
-#: src/widgets/file_dialogs.rs:40
-msgid "Request (.cartero)"
-msgstr "Запрос (.cartero)"
-
-#: src/widgets/file_dialogs.rs:42
+#. TRANSLATORS: presented in file dialogs as the file type for a request
+#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:146
 msgid "Request"
 msgstr "Запрос"
 
-#: src/widgets/file_dialogs.rs:102
+#: src/widgets/file_dialogs.rs:108
 msgid "Open request"
 msgstr "Открыть запрос"
 
@@ -836,6 +833,9 @@ msgstr "© 2024-2025 Авторы Cartero"
 msgid "User manual"
 msgstr ""
 
-#: src/win.rs:606
+#: src/win.rs:607
 msgid "Help us translate"
 msgstr ""
+
+#~ msgid "Request (.cartero)"
+#~ msgstr "Запрос (.cartero)"

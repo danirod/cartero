@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-20 22:28+0100\n"
+"POT-Creation-Date: 2025-03-21 01:46+0100\n"
 "PO-Revision-Date: 2025-02-11 11:02+0000\n"
 "Last-Translator: Altero <aurelien.reinert4@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -311,12 +311,12 @@ msgstr "Nouvel onglet"
 
 #: data/ui/main_window.blp:51 data/ui/main_window.blp:62
 #: data/ui/main_window_no_csd.blp:49 data/ui/main_window_no_csd.blp:60
-#: src/widgets/file_dialogs.rs:101
+#: src/widgets/file_dialogs.rs:107
 msgid "Open"
 msgstr "Ouvrir"
 
 #: data/ui/main_window.blp:70 data/ui/main_window_no_csd.blp:68
-#: src/widgets/file_dialogs.rs:137
+#: src/widgets/file_dialogs.rs:143
 msgid "Save"
 msgstr "Enregistrer"
 
@@ -340,7 +340,7 @@ msgid "Open request…"
 msgstr "Ouvrir une requête…"
 
 #: data/ui/main_window.blp:158 data/ui/main_window_no_csd.blp:165
-#: src/widgets/file_dialogs.rs:138
+#: src/widgets/file_dialogs.rs:144
 msgid "Save request"
 msgstr "Enregistrer la requête"
 
@@ -772,15 +772,12 @@ msgstr "Créer des requêtes HTTP et tester des API"
 msgid "Content copied to the clipboard"
 msgstr "Contenu copié dans le presse-papier"
 
-#: src/widgets/file_dialogs.rs:40
-msgid "Request (.cartero)"
-msgstr ""
-
-#: src/widgets/file_dialogs.rs:42
+#. TRANSLATORS: presented in file dialogs as the file type for a request
+#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:146
 msgid "Request"
 msgstr ""
 
-#: src/widgets/file_dialogs.rs:102
+#: src/widgets/file_dialogs.rs:108
 msgid "Open request"
 msgstr ""
 
@@ -831,6 +828,6 @@ msgstr "© 2024-2025 les auteurs de Cartero"
 msgid "User manual"
 msgstr ""
 
-#: src/win.rs:606
+#: src/win.rs:607
 msgid "Help us translate"
 msgstr ""

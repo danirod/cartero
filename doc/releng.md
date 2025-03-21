@@ -18,6 +18,7 @@ Patch releases happen in a branch called release/x.y, where x.y is the major and
    - meson.build: there's a version number when declaring the project info.
 1. Update the NEWS.md file with the release notes for this version.
 1. Reformat the release notes for this version and add them to the releases section of data/cartero.appdata.xml.in.in.
+1. Copy the changelog lines that you added to data/cartero.appdata.xml.in.in to the AboutDialog in win.rs.
 1. Create a release commit, but don't tag it, sign it or push it yet. (If there is an error, it will be easier to correct without force pushing anything or causing double notifications.)
 
 ## Collecting artifact files

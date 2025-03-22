@@ -199,6 +199,10 @@ body {
 }
 
 @media screen and (min-width: 480px) {
+  .hero {
+    padding-bottom: 0;
+  }
+
   .hero .clamp {
     gap: 2em;
   }
@@ -207,7 +211,6 @@ body {
 @media screen and (min-width: 800px) {
   .hero {
     padding-top: 6em;
-    padding-bottom: 0;
     gap: 4em;
   }
 }
@@ -281,6 +284,10 @@ body {
   gap: 1rem;
   grid-auto-flow: row;
   width: 100%;
+}
+
+.buttons .adw-button {
+  align-content: center;
 }
 
 @media screen and (min-width: 480px) {

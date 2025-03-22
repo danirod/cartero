@@ -46,84 +46,92 @@
   <div class="download-page">
     <div class="clamp">
 
-      <h2 id="gnulinux">Download Cartero for GNU/Linux</h2>
+      <div class="platform" data-target="gnulinux">
+        <h2 id="gnulinux">Download Cartero for GNU/Linux</h2>
 
-      <div class="downloads">
-        <a class="adw-button" href="/download/linux/appimage">
-          <img src="/assets/adwaita-icons/application-x-executable.svg" width="48" height="48" alt="">
-          AppImage (x86-64)
-        </a>
+        <div class="downloads">
+          <a class="adw-button" href="/download/linux/appimage">
+            <img src="/assets/adwaita-icons/application-x-executable.svg" width="48" height="48" alt="">
+            AppImage (x86-64)
+          </a>
 
-        <a class="adw-button" href="https://flathub.org/apps/es.danirod.Cartero">
-          <img src="/assets/vendor-icons/flathub.svg" class="symbolic" width="48" height="48" alt="">
-          Flathub
-        </a>
+          <a class="adw-button" href="https://flathub.org/apps/es.danirod.Cartero">
+            <img src="/assets/vendor-icons/flathub.svg" class="symbolic" width="48" height="48" alt="">
+            Flathub
+          </a>
 
-        <a class="adw-button" href="https://snapcraft.io/cartero">
-          <img src="/assets/vendor-icons/snapcraft.svg" width="48" height="48" alt="">
-          Snapcraft
-        </a>
+          <a class="adw-button" href="https://snapcraft.io/cartero">
+            <img src="/assets/vendor-icons/snapcraft.svg" width="48" height="48" alt="">
+            Snapcraft
+          </a>
 
-        <a class="adw-button" href="https://cartero.danirod.es/docs/installing/nixos-flake.html">
-          <img src="/assets/vendor-icons/nix.svg" width="48" height="48" alt="">
-          Nix Flake
-        </a>
+          <a class="adw-button" href="https://cartero.danirod.es/docs/installing/nixos-flake.html">
+            <img src="/assets/vendor-icons/nix.svg" width="48" height="48" alt="">
+            Nix Flake
+          </a>
+        </div>
+
+        <p>Additional third party packages are <a href="https://repology.org/project/cartero/versions">available in some
+            package managers</a>.</p>
+
+        <p>
+          Note: the AppImage version requires glibc 2.36 or newer; if your distro uses an older version (such as RHEL
+          9),
+          you might need to use the Flathub version. ARM64 builds for AppImage coming soon.
+        </p>
       </div>
 
-      <p>Additional third party packages are <a href="https://repology.org/project/cartero/versions">available in some package managers</a>.</p>
+      <div class="platform" data-target="windows">
+        <h2 id="windows">Download Cartero for Windows</h2>
 
-      <p>
-        Note: the AppImage version requires glibc 2.36 or newer; if your distro uses an older version (such as RHEL 9),
-        you might need to use the Flathub version. ARM64 builds for AppImage coming soon.
-      </p>
+        <div class="downloads">
+          <a class="adw-button" href="/download/windows/installer">
+            <img src="/assets/vendor-icons/windows.svg" width="48" height="48" alt="">
+            Installer (x64)
+          </a>
 
-      <h2 id="windows">Download Cartero for Windows</h2>
+          <a class="adw-button" href="/download/windows/portable">
+            <img src="/assets/adwaita-icons/package-x-generic.svg" width="48" height="48" alt="">
+            Portable (x64)
+          </a>
 
-      <div class="downloads">
-        <a class="adw-button" href="/download/windows/installer">
-          <img src="/assets/vendor-icons/windows.svg" width="48" height="48" alt="">
-          Installer (x64)
-        </a>
+          <a class="adw-button" href="https://scoop.sh/#/apps?q=cartero">
+            <img src="/assets/adwaita-icons/icecream-cone-symbolic.svg" class="symbolic" width="48" height="48" alt="">
+            Scoop
+          </a>
+        </div>
 
-        <a class="adw-button" href="/download/windows/portable">
-          <img src="/assets/adwaita-icons/package-x-generic.svg" width="48" height="48" alt="">
-          Portable (x64)
-        </a>
-
-        <a class="adw-button" href="https://scoop.sh/#/apps?q=cartero">
-          <img src="/assets/adwaita-icons/icecream-cone-symbolic.svg" class="symbolic" width="48" height="48" alt="">
-          Scoop
-        </a>
+        <p>
+          Note: the Windows version requires Windows 10 or newer. If you are still using Windows 7 or Windows 8.1,
+          you may use version 0.1.5. The application is signed with a valid codesign certificate, but because it's
+          not EV, some Windows versions may still show a warning.
+        </p>
       </div>
 
-      <p>
-        Note: the Windows version requires Windows 10 or newer. If you are still using Windows 7 or Windows 8.1,
-        you may use version 0.1.5. The application is signed with a valid codesign certificate, but because it's
-        not EV, some Windows versions may still show a warning.
-      </p>
+      <div class="platform" data-target="macos">
+        <h2 id="macos">Download Cartero for macOS</h2>
 
-      <h2 id="macos">Download Cartero for macOS</h2>
+        <div class="downloads">
+          <a class="adw-button" href="/download/macos/arm64">
+            <img src="/assets/vendor-icons/apple.svg" class="symbolic" width="48" height="48" alt="">
+            Silicon (ARM64)
+          </a>
 
-      <div class="downloads">
-        <a class="adw-button" href="/download/macos/arm64">
-          <img src="/assets/vendor-icons/apple.svg" class="symbolic" width="48" height="48" alt="">
-          Silicon (ARM64)
-        </a>
+          <a class="adw-button" href="/download/macos/intel">
+            <img src="/assets/adwaita-icons/application-x-sharedlib.svg" width="48" height="48" alt="">
+            Intel (x86-64)
+          </a>
 
-        <a class="adw-button" href="/download/macos/intel">
-          <img src="/assets/adwaita-icons/application-x-sharedlib.svg" width="48" height="48" alt="">
-          Intel (x86-64)
-        </a>
+          <a class="adw-button" href="https://github.com/soloantonio/homebrew-cartero">
+            <img src="/assets/adwaita-icons/pub-symbolic.svg" class="symbolic" width="48" height="48" alt="">
+            Homebrew
+          </a>
+        </div>
 
-        <a class="adw-button" href="https://github.com/soloantonio/homebrew-cartero">
-          <img src="/assets/adwaita-icons/pub-symbolic.svg" class="symbolic" width="48" height="48" alt="">
-          Homebrew
-        </a>
+        <p>
+          Note: the macOS version requires macOS 11.0 or newer.
+        </p>
       </div>
-
-      <p>
-        Note: the macOS version requires macOS 11.0 or newer.
-      </p>
 
       <h2 id="sources">Build from sources</h2>
 
@@ -144,7 +152,6 @@
     </div>
   </div>
 
-
   <footer class="colophon">
     <p>
       Copyright © 2024-2025 the Cartero authors. Maintained by <a href="https://danirod.es">Dani Rodríguez</a>.
@@ -154,6 +161,27 @@
       Made in Spain 🇪🇸, with contributions from 🌐 all around the world!
     </p>
   </footer>
+
+  <script>
+    function movePlatformToTop(platform) {
+      let root = document.querySelector('.download-page .clamp');
+      let sel = document.querySelector(`.platform[data-target=${platform}]`);
+      if (sel) {
+        root.insertAdjacentElement('afterbegin', sel);
+      }
+    }
+
+    if (window.navigator.userAgent.indexOf('Win') > -1) {
+      document.body.classList.add('is-win32');
+      movePlatformToTop('windows');
+    } else if (window.navigator.userAgent.indexOf('Mac') > -1) {
+      document.body.classList.add('is-darwin');
+      movePlatformToTop('macos');
+    } else {
+      document.body.classList.add('is-gnome');
+      movePlatformToTop('gnulinux');
+    }
+  </script>
 </body>
 
 </html>

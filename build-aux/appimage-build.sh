@@ -22,13 +22,13 @@ VENDOR_BASE=${VENDOR_BASE:=/usr}
 
 case "$1" in
   devel)
-    MESON_FLAGS="$MESON_ARGS -Dprofile=development"
+    MESON_FLAGS="$MESON_FLAGS -Dprofile=development"
     APP_NAME="es.danirod.Cartero.Devel"
     ICON_PATH="AppDir/usr/share/icons/hicolor/scalable/apps/es.danirod.Cartero.Devel.svg"
     DESKTOP_PATH="AppDir/usr/share/applications/es.danirod.Cartero.Devel.desktop"
     ;;
   stable)
-    MESON_FLAGS="$MESON_ARGS -Dprofile=default"
+    MESON_FLAGS="$MESON_FLAGS -Dprofile=default"
     APP_NAME="es.danirod.Cartero"
     ICON_PATH="AppDir/usr/share/icons/hicolor/scalable/apps/es.danirod.Cartero.svg"
     DESKTOP_PATH="AppDir/usr/share/applications/es.danirod.Cartero.desktop"

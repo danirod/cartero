@@ -1,4 +1,4 @@
-![Cartero: the free HTTP client to test your APIs](images/cartero-banner.png)
+![Cartero: the free HTTP client to test your APIs](images/banner-3-1.png)
 
 Cartero is a graphical HTTP client that can be used as a developer tool to
 test web APIs and perform all kind of HTTP requests to web servers. It is

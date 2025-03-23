@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Download page – Cartero</title>
+  <meta name="description"
+    content="Cartero is the native, lightweight, multiplatform and free HTTP client that you can use to test your APIs. Avoid bloat, respect your privacy, reject cloud; that's the motto.">
+  <link rel="icon" href="/assets/cartero.svg">
+  <link rel="apple-touch-icon" href="/assets/social/icon.png">
+
+  <meta property="og:title" content="Cartero: Make HTTP requests and test APIs">
+  <meta property="og:url" content="https://cartero.danirod.es">
+  <meta property="og:description"
+    content="Cartero is the native, lightweight, multiplatform and free HTTP client that youc an use to test your APIs. Avoid bloat, respect your privacy, reject cloud; that's the motto.">
+  <meta property="og:image" content="https://cartero.danirod.es/assets/social/banner-16-9.jpg">
+
+  <meta property="twitter:title" content="Cartero: Make HTTP requests and test APIs">
+  <meta property="twitter:description"
+    content="Cartero is the native, lightweight, multiplatform and free HTTP client that youc an use to test your APIs. Avoid bloat, respect your privacy, reject cloud; that's the motto.">
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:image" content="https://cartero.danirod.es/assets/social/banner-16-9.jpg">
+
+  <link rel="stylesheet" href="/assets/cartero.css">
+</head>
+
+<body>
+  <header class="hero">
+    <div class="clamp">
+      <div class="brand">
+        <h1>
+          <img src="/assets/cartero.svg" width="56" height="37" alt="">
+          Cartero
+        </h1>
+        <p>Make HTTP requests and test APIs</p>
+      </div>
+
+      <div class="buttons">
+        <a class="adw-button" href="/">About Cartero</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="download-page">
+    <div class="clamp">
+
+      <h2 id="gnulinux">Download Cartero for GNU/Linux</h2>
+
+      <div class="downloads">
+        <a class="adw-button" href="/download/linux/appimage">
+          <img src="/assets/adwaita-icons/application-x-executable.svg" width="48" height="48" alt="">
+          AppImage (x86-64)
+        </a>
+
+        <a class="adw-button" href="https://flathub.org/apps/es.danirod.Cartero">
+          <img src="/assets/vendor-icons/flathub.svg" class="symbolic" width="48" height="48" alt="">
+          Flathub
+        </a>
+
+        <a class="adw-button" href="https://snapcraft.io/cartero">
+          <img src="/assets/vendor-icons/snapcraft.svg" width="48" height="48" alt="">
+          Snapcraft
+        </a>
+
+        <a class="adw-button" href="https://cartero.danirod.es/docs/installing/nixos-flake.html">
+          <img src="/assets/vendor-icons/nix.svg" width="48" height="48" alt="">
+          Nix Flake
+        </a>
+      </div>
+
+      <p>Additional third party packages are <a href="https://repology.org/project/cartero/versions">available in some package managers</a>.</p>
+
+      <p>
+        Note: the AppImage version requires glibc 2.36 or newer; if your distro uses an older version (such as RHEL 9),
+        you might need to use the Flathub version. ARM64 builds for AppImage coming soon.
+      </p>
+
+      <h2 id="windows">Download Cartero for Windows</h2>
+
+      <div class="downloads">
+        <a class="adw-button" href="/download/windows/installer">
+          <img src="/assets/vendor-icons/windows.svg" width="48" height="48" alt="">
+          Installer (x64)
+        </a>
+
+        <a class="adw-button" href="/download/windows/portable">
+          <img src="/assets/adwaita-icons/package-x-generic.svg" width="48" height="48" alt="">
+          Portable (x64)
+        </a>
+
+        <a class="adw-button" href="https://scoop.sh/#/apps?q=cartero">
+          <img src="/assets/adwaita-icons/icecream-cone-symbolic.svg" class="symbolic" width="48" height="48" alt="">
+          Scoop
+        </a>
+      </div>
+
+      <p>
+        Note: the Windows version requires Windows 10 or newer. If you are still using Windows 7 or Windows 8.1,
+        you may use version 0.1.5. The application is signed with a valid codesign certificate, but because it's
+        not EV, some Windows versions may still show a warning.
+      </p>
+
+      <h2 id="macos">Download Cartero for macOS</h2>
+
+      <div class="downloads">
+        <a class="adw-button" href="/download/macos/arm64">
+          <img src="/assets/vendor-icons/apple.svg" class="symbolic" width="48" height="48" alt="">
+          Silicon (ARM64)
+        </a>
+
+        <a class="adw-button" href="/download/macos/intel">
+          <img src="/assets/adwaita-icons/application-x-sharedlib.svg" width="48" height="48" alt="">
+          Intel (x86-64)
+        </a>
+
+        <a class="adw-button" href="https://github.com/soloantonio/homebrew-cartero">
+          <img src="/assets/adwaita-icons/pub-symbolic.svg" class="symbolic" width="48" height="48" alt="">
+          Homebrew
+        </a>
+      </div>
+
+      <p>
+        Note: the macOS version requires macOS 11.0 or newer.
+      </p>
+
+      <h2 id="sources">Build from sources</h2>
+
+      <p>If you follow the installation procedures and you have the dependencies installed (this includes the Rust
+        compiler and the libraries that Cartero depends on), you can build it from the sources.</p>
+
+      <div class="downloads">
+        <a class="adw-button" href="/download/source">
+          <img src="/assets/adwaita-icons/package-x-generic.svg" class="symbolic" width="48" height="48" alt="">
+          Tarball
+        </a>
+
+        <a class="adw-button" href="https://github.com/danirod/cartero">
+          <img src="/assets/vendor-icons/git.svg" width="48" height="48" alt="">
+          Git Repository
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+  <footer class="colophon">
+    <p>
+      Copyright © 2024-2025 the Cartero authors. Maintained by <a href="https://danirod.es">Dani Rodríguez</a>.
+    </p>
+
+    <p>
+      Made in Spain 🇪🇸, with contributions from 🌐 all around the world!
+    </p>
+  </footer>
+</body>
+
+</html>

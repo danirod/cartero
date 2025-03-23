@@ -50,6 +50,105 @@
     <color scheme_preference="dark" type="primary">#465563</color>
   </branding>
   <releases>
+    <release date="2025-03-21" version="0.2.0">
+      <description translate="no" translatable="no">
+        <p>Added:</p>
+        <ul>
+          <li>An authorization tab, currently supporting basic authentication and bearer tokens.</li>
+          <li>A Cancel button to stop an HTTP request in progress.</li>
+          <li>An error panel to report errors related to a failing web request.</li>
+          <li>Alert dialogs to report errors related to loading and saving files.</li>
+          <li>New keyboard shortcuts and mouse gestures for zooming text views.</li>
+          <li>Improved the about dialog.</li>
+        </ul>
+        <p>Changed:</p>
+        <ul>
+          <li>Application errors will now properly report the cause of an error and not just generic messages.</li>
+          <li>During a request, the application will now stay clickable and not freeze.</li>
+          <li>Units for the response size will now be internationalized (for instance, 32.4 Ko rather than 32.4 kB when running in French).</li>
+          <li>Reduced the precission of the response duration indicator to prevent confusion.</li>
+          <li>Disabled query params in the Parameters table will now be persisted into the file.</li>
+          <li>Simplified the application icon and updated the branding.</li>
+        </ul>
+        <p>Fixed:</p>
+        <ul>
+          <li>Requests whose URL do not start with http:// or https:// (such as "localhost:3000/users") should not fail now.</li>
+          <li>During prettification of JSON responses, objects were being sorted; they will respect the original order now.</li>
+          <li>The headers and variables tables lost the ability to report when a field name was duplicated.</li>
+          <li>Disabled query params in the Parameters table were lost when the request URL changed.</li>
+          <li>Windows: closing the settings dialog sometimes buried the Cartero main window under other windows.</li>
+          <li>Windows: the title bar stayed in light mode even when the application ran in dark mode.</li>
+        </ul>
+      </description>
+    </release>
+
+    <release date="2025-02-15" version="0.1.5">
+      <description translate="no" translatable="no">
+        <p>Changed:</p>
+        <ul>
+          <li>Changed the error message when a request uses an unsupported protocol for clarity purposes.</li>
+          <li>Translation updates: Czech, French, Brazilian Portuguese.</li>
+        </ul>
+        <p>Fixed:</p>
+        <ul>
+          <li>Prevents tabs from becoming unresponsive if a request fails in certain conditions.</li>
+          <li>Prevents requests from failing if they have a trailing or leading space.</li>
+          <li>Requests whose URL start with a variable (bound to something that starts with http or https) can be made again.</li>
+        </ul>
+      </description>
+    </release>
+    <release date="2025-01-26" version="0.1.4">
+      <description translate="no" translatable="no">
+        <p>Changed:</p>
+        <ul>
+          <li>Translation updates: Czech, French</li>
+        </ul>
+        <p>Fixed:</p>
+        <ul>
+          <li>Sending an HTTP request failed if the protocol was not specified.</li>
+        </ul>
+      </description>
+    </release>
+    <release date="2024-12-23" version="0.1.3">
+      <description translate="no" translatable="no">
+        <p>Added:</p>
+        <ul>
+          <li>Added a tab to generate a cURL command for each request.</li>
+          <li>Added a preferences dialog to control the application settings.</li>
+          <li>Added a search functionality (Ctrl-F) to the text area panes.</li>
+        </ul>
+        <p>Changed:</p>
+        <ul>
+          <li>It is now possible to disable the validation of TLS certificates.</li>
+          <li>It is now possible to follow redirections when performing an HTTP request.</li>
+          <li>It is now possible to configure a timeout for the HTTP request.</li>
+          <li>It is now possible to customize the font used for the text area panes.</li>
+          <li>It is now possible to customize the light or dark appearance of the application.</li>
+          <li>Translation updates: Spanish, Tamil.</li>
+        </ul>
+        <p>Fixed:</p>
+        <ul>
+          <li>Fixed the HTTP response label sometimes having the wrong semantic color.</li>
+        </ul>
+      </description>
+    </release>
+    <release date="2024-10-11" version="0.1.2">
+      <description translate="no" translatable="no">
+        <p>This is a minor release that addresses some issues and fixes some things found.</p>
+        <p>:</p>
+        <ul>
+          <li>It is now possible to open multiple files using the dialog picker.</li>
+          <li>Translation updates (Russian)</li>
+        </ul>
+        <p>Fixed:</p>
+        <ul>
+          <li>Fix translation for the about and shortcuts dialog.</li>
+          <li>Word wrapping of long lines without spaces did not work properly.</li>
+          <li>Deactivate toolbar buttons if no request are open.</li>
+        </ul>
+      </description>
+    </release>
+
     <release date="2024-07-30" version="0.1.1">
       <description translate="no" translatable="no">
         <p>This is a minor release that addresses some issues and small changes found in the last couple of days. It accepts feedback from the community and even some pull requests received in the last days.</p>

@@ -1,4 +1,4 @@
-![Cartero: the free HTTP client to test your APIs](doc/images/cartero-banner.png)
+![Cartero: the free HTTP client to test your APIs](website/assets/social/banner-3-1.jpg)
 
 Cartero is a graphical HTTP client that can be used as a developer tool to
 test web APIs and perform all kind of HTTP requests to web servers. It is
@@ -22,6 +22,10 @@ some unwanted artificial intelligence at users.
 
 ## Download
 
+All the downloads for GNU/Linux, Windows and macOS are collected in the
+**[Download page][downloads]**. You can also
+find the download links for the latest version in the **[GitHub page][ghrel]**.
+
 ### Get it from Flathub
 
 <a href="https://flathub.org/apps/es.danirod.Cartero">
@@ -33,13 +37,6 @@ some unwanted artificial intelligence at users.
 <a href="https://snapcraft.io/cartero">
 <img width="240" alt="Get it from the Snap Store" src=https://snapcraft.io/en/dark/install.svg />
 </a>
-
-### Download an official binary
-
-| Windows | macOS | AppImage |
-| ------- | ----- | --- |
-| ![Windows](doc/windows.png) | ![macOS](doc/macos.png) | ![AppImage](doc/appimage.png) |
-| [x64, installer][windows-x86_64]<br>[x64, portable][windows-portable-x86_64] | [Apple Sillicon][macos-sillicon]<br>[Intel 64-bit][macos-intel] | [amd64][appimage-x86_64] |
 
 ### Get it from your package manager
 
@@ -163,14 +160,11 @@ to Christian as well!
 [ccbysa]: https://creativecommons.org/licenses/by-sa/4.0/
 [contrib]: https://github.com/danirod/cartero/graphs/contributors
 [weblate]: https://hosted.weblate.org/projects/cartero/
-[windows-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.5/Cartero-0.1.5-windows-x64.exe
-[windows-portable-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.5/Cartero-0.1.5-windows-x64.zip
-[macos-sillicon]: https://github.com/danirod/cartero/releases/download/v0.1.5/Cartero-0.1.5-macOS-arm64.dmg
-[macos-intel]: https://github.com/danirod/cartero/releases/download/v0.1.5/Cartero-0.1.5-macOS-x64.dmg
-[appimage-x86_64]: https://github.com/danirod/cartero/releases/download/v0.1.5/Cartero-0.1.5-x86_64.AppImage
 [homebrew]: https://cartero.danirod.es/docs/installing/macos-brew.html
 [flake]: https://cartero.danirod.es/docs/installing/nixos-flake.html
 [hacking]: https://cartero.danirod.es/docs/hacking.html
 [contributing]: https://cartero.danirod.es/docs/contributing.html
 [scoop]: https://scoop.sh/
 [genai]: https://cartero.danirod.es/docs/contributing.html#use-of-generative-ai
+[downloads]: https://cartero.danirod.es/download.html
+[ghrel]: https://github.com/danirod/cartero/releases/latest

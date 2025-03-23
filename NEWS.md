@@ -1,5 +1,40 @@
 # News file for Cartero
 
+## [0.2.0] - 2025-03-21
+
+### Added
+
+* An authorization tab, currently supporting basic authentication and bearer tokens.
+* A Cancel button to stop an HTTP request in progress.
+* An error panel to report errors related to a failing web request.
+* Alert dialogs to report errors related to loading and saving files.
+* New keyboard shortcuts and mouse gestures for zooming text views.
+* Improved the about dialog.
+* Windows, MacOS and AppImage: a software update checker has been added to the settings dialog.
+* MacOS: added a menu bar for quick access to the application commands.
+
+### Changed
+
+* Application errors will now properly report the cause of an error and not just generic messages.
+* During a request, the application will now stay clickable and not freeze.
+* Units for the response size will now be internationalized (for instance, 32.4 Ko rather than 32.4 kB when running in French).
+* Reduced the precission of the response duration indicator to prevent confusion.
+* Disabled query params in the Parameters table will now be persisted into the file.
+* Simplified the application icon and updated the branding.
+* MacOS and Windows: the default application font will now be larger.
+* MacOS: the window now uses an integrated title bar like the GNU/Linux version.
+* Windows: cartero.exe now uses the application icon for the executable file.
+* Windows: require Windows 10 or newer to install the application.
+
+### Fixed
+
+* Requests whose URL do not start with http:// or https:// (such as "localhost:3000/users") should not fail now.
+* During prettification of JSON responses, objects were being sorted; they will respect the original order now.
+* The headers and variables tables lost the ability to report when a field name was duplicated.
+* Disabled query params in the Parameters table were lost when the request URL changed.
+* Windows: closing the settings dialog sometimes buried the Cartero main window under other windows.
+* Windows: the title bar stayed in light mode even when the application ran in dark mode.
+
 ## [0.1.5] - 2025-02-15
 
 ### Changed

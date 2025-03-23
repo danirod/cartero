@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-03-21 01:46+0100\n"
-"PO-Revision-Date: 2025-03-06 22:02+0000\n"
+"PO-Revision-Date: 2025-03-21 01:53+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/cartero/cartero/"
 "es/>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.3-dev\n"
+"X-Generator: Weblate 5.11-dev\n"
 
 #: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -529,7 +529,7 @@ msgstr "Exigir validación TLS"
 
 #: data/ui/settings_dialog.blp:101
 msgid "Cancel a request if the TLS handshake fails"
-msgstr ""
+msgstr "Cancelar una petición si el intercambio TLS falla"
 
 #: data/ui/settings_dialog.blp:105
 msgid "Follow redirects"
@@ -538,6 +538,7 @@ msgstr "Seguir redirecciones"
 #: data/ui/settings_dialog.blp:106
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
 msgstr ""
+"Seguir haciendo peticiones si el servidor devuelve una respuesta HTTP 3xx"
 
 #: data/ui/settings_dialog.blp:111
 msgid "Maximum redirects"
@@ -549,20 +550,20 @@ msgstr "Tiempo límite de petición"
 
 #: data/ui/settings_dialog.blp:124
 msgid "Seconds to wait before cancelling the request"
-msgstr ""
+msgstr "Segundos para esperar antes de cancelar una petición"
 
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
 #: src/entities/response_data.rs:68
 #, rust-format
 msgid "{} s"
-msgstr ""
+msgstr "{} s"
 
 #. Format as milliseconds.
 #. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
 #: src/entities/response_data.rs:72
 #, rust-format
 msgid "{} ms"
-msgstr ""
+msgstr "{} ms"
 
 #: src/error.rs:32
 msgid "The specified URL is not valid"
@@ -837,13 +838,12 @@ msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 los autores de Cartero"
 
 #: src/win.rs:605
-#, fuzzy
 msgid "User manual"
-msgstr "Usuario"
+msgstr "Manual de usuario"
 
 #: src/win.rs:607
 msgid "Help us translate"
-msgstr ""
+msgstr "Ayúdanos a traducir"
 
 #~ msgid "Request (.cartero)"
 #~ msgstr "Petición (.cartero)"

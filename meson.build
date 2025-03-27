@@ -18,7 +18,7 @@
 project(
   'cartero',
   'rust',
-  version: '0.2.0',
+  version: '0.3-git',
   meson_version: '>= 0.64',
   license: 'GPL-3.0-or-later',
 )

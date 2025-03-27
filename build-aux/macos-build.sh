@@ -8,13 +8,13 @@ case "$1" in
   devel)
     BUNDLE_ID="es.danirod.Cartero.Devel"
     APP_NAME="Cartero (Devel)"
-    APP_VERSION="0.2.0"
+    APP_VERSION="0.3-git"
     MESON_FLAGS="$MESON_FLAGS -Dprofile=development"
     ;;
   stable)
     BUNDLE_ID="es.danirod.Cartero"
     APP_NAME="Cartero"
-    APP_VERSION="0.2.0"
+    APP_VERSION="0.3-git"
     MESON_FLAGS="$MESON_FLAGS -Dprofile=default"
     ;;
   *)

@@ -1,0 +1,165 @@
+// Copyright 2024-2025 the Cartero authors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+use gio::prelude::ListModelExt;
+use glib::subclass::prelude::*;
+use glib::{prelude::*, Object};
+
+use crate::field::Field;
+
+glib::wrapper! {
+    pub struct FieldTable(ObjectSubclass<imp::FieldTable>) @implements gio::ListModel;
+}
+
+impl Default for FieldTable {
+    fn default() -> Self {
+        Object::builder().build()
+    }
+}
+
+impl FieldTable {
+    pub fn insert(&self, field: &Field) {
+        {
+            let mut fields = self.imp().fields.borrow_mut();
+            fields.push(field.clone());
+        }
+        let len = { self.imp().fields.borrow().len() };
+        self.items_changed(len as u32, 0, 1);
+    }
+
+    pub fn remove(&self, pos: u32) {
+        {
+            let mut fields = self.imp().fields.borrow_mut();
+            // Panics in case of out of bounds.
+            fields.remove(pos as usize);
+        }
+        // If we reach here, we survived delete.
+        self.items_changed(pos, 1, 0);
+    }
+}
+
+mod imp {
+    use gio::subclass::prelude::ListModelImpl;
+
+    use super::*;
+    use std::cell::RefCell;
+
+    #[derive(Default)]
+    pub struct FieldTable {
+        pub(super) fields: RefCell<Vec<Field>>,
+    }
+
+    #[glib::object_subclass]
+    impl ObjectSubclass for FieldTable {
+        const NAME: &'static str = "CarteroFieldTable";
+        type Type = super::FieldTable;
+        type Interfaces = (gio::ListModel,);
+    }
+
+    impl ObjectImpl for FieldTable {}
+
+    impl ListModelImpl for FieldTable {
+        fn item_type(&self) -> glib::Type {
+            Field::static_type()
+        }
+
+        fn n_items(&self) -> u32 {
+            self.fields.borrow().len() as u32
+        }
+
+        fn item(&self, position: u32) -> Option<glib::Object> {
+            let fields = self.fields.borrow();
+            fields.get(position as usize).map(|f| f.clone().upcast())
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use std::sync::{Arc, Mutex};
+
+    use super::*;
+
+    #[test]
+    pub fn test_valid_builder() {
+        let table: FieldTable = Object::builder().build();
+        assert_eq!(table.n_items(), 0);
+    }
+
+    #[test]
+    pub fn test_insert_get_remove() {
+        let field: Field = Object::builder()
+            .property("key", "User-Agent")
+            .property("value", "Mozilla/5.0")
+            .build();
+        let field2: Field = Object::builder()
+            .property("key", "Content-Type")
+            .property("value", "text/html")
+            .build();
+        let table: FieldTable = Object::builder().build();
+        let inserts = Arc::new(Mutex::new(Vec::new()));
+        let local_inserts = inserts.clone();
+        table.connect_items_changed(move |_, pos, removed, added| {
+            let mut vector = local_inserts.lock().unwrap();
+            vector.push((pos, removed, added));
+        });
+
+        {
+            table.insert(&field);
+            assert_eq!(table.n_items(), 1);
+            let (pos, removed, added) = inserts.lock().unwrap().last().unwrap().to_owned();
+            assert_eq!(pos, 1);
+            assert_eq!(removed, 0);
+            assert_eq!(added, 1);
+        }
+
+        {
+            table.insert(&field2);
+            assert_eq!(table.n_items(), 2);
+            let (pos, removed, added) = inserts.lock().unwrap().last().unwrap().to_owned();
+            assert_eq!(pos, 2);
+            assert_eq!(removed, 0);
+            assert_eq!(added, 1);
+        }
+
+        {
+            assert!(table
+                .item(0)
+                .is_some_and(|f| f.downcast::<Field>().is_ok_and(|f| f == field)));
+            assert!(table
+                .item(1)
+                .is_some_and(|f| f.downcast::<Field>().is_ok_and(|f| f == field2)));
+            assert!(table.item(2).is_none());
+        }
+
+        {
+            table.remove(0);
+            assert_eq!(table.n_items(), 1);
+            let (pos, removed, added) = inserts.lock().unwrap().last().unwrap().to_owned();
+            assert_eq!(pos, 0);
+            assert_eq!(removed, 1);
+            assert_eq!(added, 0);
+        }
+
+        {
+            assert!(table
+                .item(0)
+                .is_some_and(|f| f.downcast::<Field>().is_ok_and(|f| f == field2)));
+            assert!(table.item(1).is_none());
+        }
+    }
+}

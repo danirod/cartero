@@ -4,6 +4,7 @@ members = ["crates/*"]
 [workspace.package]
 edition = "2021"
 version = "0.3.0"
+license = "GPL-3.0-or-later"
 
 [workspace.dependencies]
 glib = { version = "0.20.9", features = ["v2_72"] }
@@ -13,6 +14,7 @@ gio = { version = "0.20.9", features = ["v2_72"] }
 name = "cartero"
 version.workspace = true
 edition.workspace = true
+license.workspace = true
 
 [features]
 default = ["csd"]

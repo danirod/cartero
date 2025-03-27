@@ -168,6 +168,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "cartero_objects"
+version = "0.3.0"
+dependencies = [
+ "gio",
+ "glib",
+]
+
+[[package]]
 name = "castaway"
 version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"

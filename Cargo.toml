@@ -9,6 +9,7 @@ license = "GPL-3.0-or-later"
 [workspace.dependencies]
 glib = { version = "0.20.9", features = ["v2_72"] }
 gio = { version = "0.20.9", features = ["v2_72"] }
+serde = { version = "1.0.219", features = ["derive"] }
 
 [package]
 name = "cartero"
@@ -35,13 +36,11 @@ gtk = { package = "gtk4", version = "0.9.6", features = ["v4_12"] }
 indexmap = "2.8.0"
 isahc = "1.7.2"
 regex = "1.11.1"
-serde = { version = "1.0.219", features = ["derive"] }
 serde_json = { version = "1.0.140", features = ["preserve_order"] }
 serde_urlencoded = "0.7.1"
 sourceview5 = "0.9.1"
 srtemplate = { version = "0.3.2", features = [] }
 tokio = { version = "1.44.1", features = ["sync"] }
-toml = "0.8.20"
 url = "2.5.4"
 
 [target.'cfg(windows)'.dependencies]

@@ -18,7 +18,7 @@
 use glib::subclass::prelude::*;
 use glib::{prelude::*, Object};
 
-use crate::{RequestBodyMultipart, RequestBodyRaw, RequestBodyUrlencoded};
+use crate::{RequestBodyData, RequestBodyMultipart, RequestBodyRaw, RequestBodyUrlencoded};
 
 glib::wrapper! {
     pub struct RequestBody(ObjectSubclass<imp::RequestBody>);
@@ -31,10 +31,14 @@ impl Default for RequestBody {
 }
 
 impl RequestBody {
-    pub fn new() -> Self {
-        Object::builder()
-            .property("auth-type", RequestBodyType::None)
-            .build()
+    pub fn new<T>(body_type: RequestBodyType, body_data: &T) -> Self
+    where
+        T: IsA<RequestBodyData>,
+    {
+        let body = Self::default();
+        body.set_body_type(body_type);
+        body.set_body_data(Some(body_data.clone()));
+        body
     }
 
     pub fn urlencoded(&self) -> Option<RequestBodyUrlencoded> {
@@ -62,16 +66,14 @@ impl RequestBody {
     }
 }
 
-#[derive(Copy, Clone, Default, PartialEq, Eq, glib::Enum)]
+#[derive(Copy, Clone, Debug, Default, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "CarteroRequestBodyType")]
 pub enum RequestBodyType {
-    #[default]
-    #[enum_value(name = "NONE", nick = "None")]
-    None,
     #[enum_value(name = "URL_ENCODED", nick = "URL-Encoded")]
     UrlEncoded,
     #[enum_value(name = "MULTIPART", nick = "Multipart")]
     Multipart,
+    #[default]
     #[enum_value(name = "RAW", nick = "Raw")]
     Raw,
 }
@@ -88,10 +90,10 @@ mod imp {
     #[derive(Default, Properties)]
     #[properties(wrapper_type = super::RequestBody)]
     pub struct RequestBody {
-        #[property(get, set, name = "body-type", builder(RequestBodyType::None))]
+        #[property(get, set, name = "body-type", builder(RequestBodyType::default()))]
         body_type: RefCell<RequestBodyType>,
 
-        #[property(get, name = "body-data", nullable)]
+        #[property(get, set, name = "body-data", nullable)]
         body_data: RefCell<Option<RequestBodyData>>,
     }
 
@@ -111,7 +113,6 @@ mod imp {
                 self,
                 move |body| {
                     let next = match body.body_type() {
-                        RequestBodyType::None => None,
                         RequestBodyType::UrlEncoded => {
                             Some(RequestBodyUrlencoded::default().upcast::<RequestBodyData>())
                         }

@@ -1,0 +1,13 @@
+[package]
+name = "cartero_interop_cartero"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+cartero_objects = { path = "../cartero-objects" }
+cartero_interop = { path = "../cartero-interop" }
+glib.workspace = true
+gio.workspace = true
+serde.workspace = true
+toml = "0.8.20"

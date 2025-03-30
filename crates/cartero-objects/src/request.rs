@@ -58,8 +58,8 @@ mod imp {
         #[property(get)]
         authentication: RefCell<RequestAuthentication>,
 
-        #[property(get)]
-        body: RefCell<RequestBody>,
+        #[property(get, set, nullable)]
+        body: RefCell<Option<RequestBody>>,
     }
 
     #[glib::object_subclass]

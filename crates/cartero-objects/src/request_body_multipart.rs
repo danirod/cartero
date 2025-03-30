@@ -18,6 +18,8 @@
 use glib::subclass::prelude::*;
 use glib::{prelude::*, Object};
 
+use crate::FieldTable;
+
 glib::wrapper! {
     pub struct RequestBodyMultipart(ObjectSubclass<imp::RequestBodyMultipart>) @extends crate::RequestBodyData;
 }
@@ -25,6 +27,12 @@ glib::wrapper! {
 impl Default for RequestBodyMultipart {
     fn default() -> Self {
         Object::builder().build()
+    }
+}
+
+impl RequestBodyMultipart {
+    pub fn new(params: &FieldTable) -> Self {
+        Object::builder().property("params", params).build()
     }
 }
 

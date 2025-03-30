@@ -155,16 +155,33 @@ dependencies = [
  "isahc",
  "libadwaita",
  "regex",
- "serde",
  "serde_json",
  "serde_urlencoded",
  "sourceview5",
  "srtemplate",
  "tokio",
- "toml",
  "url 2.5.4",
  "winapi",
  "winresource",
+]
+
+[[package]]
+name = "cartero_interop"
+version = "0.3.0"
+dependencies = [
+ "cartero_objects",
+]
+
+[[package]]
+name = "cartero_interop_cartero"
+version = "0.3.0"
+dependencies = [
+ "cartero_interop",
+ "cartero_objects",
+ "gio",
+ "glib",
+ "serde",
+ "toml",
 ]
 
 [[package]]

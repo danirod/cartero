@@ -29,7 +29,16 @@ impl Default for RequestBodyRaw {
     }
 }
 
-#[derive(Copy, Clone, Default, PartialEq, Eq, glib::Enum)]
+impl RequestBodyRaw {
+    pub fn new(body_type: RequestBodyRawType, body_data: &glib::Bytes) -> Self {
+        Object::builder()
+            .property("body-type", body_type)
+            .property("payload", Some(body_data))
+            .build()
+    }
+}
+
+#[derive(Copy, Clone, Debug, Default, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "CarteroRequestBodyRawType")]
 pub enum RequestBodyRawType {
     #[default]

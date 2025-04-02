@@ -206,7 +206,7 @@ mod tests {
     }
 
     #[test]
-    fn test_bind_with_duplicate_headers() {
+    fn test_bind_with_duplicate_headers_uses_lowest_value() {
         let url = "https://www.example.com/v1/books".into();
         let method = RequestMethod::Get;
         let headers = KeyValueTable::new(&[
@@ -230,7 +230,7 @@ mod tests {
     }
 
     #[test]
-    fn test_bind_with_duplicate_variables() {
+    fn test_bind_with_duplicate_variables_uses_lowest_value() {
         let url = "https://www.example.com/v1/books".into();
         let method = RequestMethod::Get;
         let headers = KeyValueTable::new(&[("Accept", "{{TYPE}}").into()]);
@@ -251,6 +251,100 @@ mod tests {
 
         let bound = BoundRequest::try_from(endpoint).unwrap();
         assert_eq!(bound.headers["Accept"], "application/json")
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_bind_with_disabled_variable() {
+        let url = "https://www.example.com/v1/books".into();
+        let method = RequestMethod::Get;
+        let headers = KeyValueTable::new(&[("Accept", "{{TYPE}}").into()]);
+        let variables = KeyValueTable::new(&[KeyValue {
+            name: "TYPE".into(),
+            value: "text/html".into(),
+            active: false,
+            secret: false,
+        }]);
+        let body = RequestPayload::None;
+        let endpoint = EndpointData {
+            url,
+            method,
+            headers,
+            variables,
+            body,
+            parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
+        };
+
+        let _ = BoundRequest::try_from(endpoint).unwrap();
+    }
+
+    #[test]
+    fn test_bind_with_disabled_variable_after() {
+        let url = "https://www.example.com/v1/books".into();
+        let method = RequestMethod::Get;
+        let headers = KeyValueTable::new(&[("Accept", "{{TYPE}}").into()]);
+        let variables = KeyValueTable::new(&[
+            KeyValue {
+                name: "TYPE".into(),
+                value: "text/html".into(),
+                active: true,
+                secret: false,
+            },
+            KeyValue {
+                name: "TYPE".into(),
+                value: "application/json".into(),
+                active: false,
+                secret: false,
+            },
+        ]);
+        let body = RequestPayload::None;
+        let endpoint = EndpointData {
+            url,
+            method,
+            headers,
+            variables,
+            body,
+            parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
+        };
+
+        let bound = BoundRequest::try_from(endpoint).unwrap();
+        assert_eq!(bound.headers["Accept"], "text/html");
+    }
+
+    #[test]
+    fn test_bind_with_disabled_variable_before() {
+        let url = "https://www.example.com/v1/books".into();
+        let method = RequestMethod::Get;
+        let headers = KeyValueTable::new(&[("Accept", "{{TYPE}}").into()]);
+        let variables = KeyValueTable::new(&[
+            KeyValue {
+                name: "TYPE".into(),
+                value: "text/html".into(),
+                active: false,
+                secret: false,
+            },
+            KeyValue {
+                name: "TYPE".into(),
+                value: "application/json".into(),
+                active: true,
+                secret: false,
+            },
+        ]);
+        let body = RequestPayload::None;
+        let endpoint = EndpointData {
+            url,
+            method,
+            headers,
+            variables,
+            body,
+            parameters: KeyValueTable::default(),
+            authorization: RequestAuthorization::default(),
+        };
+
+        let bound = BoundRequest::try_from(endpoint).unwrap();
+        assert_eq!(bound.headers["Accept"], "application/json");
     }
 
     #[test]

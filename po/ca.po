@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-03-21 01:46+0100\n"
-"PO-Revision-Date: 2024-12-22 20:55+0000\n"
+"PO-Revision-Date: 2025-04-02 22:10+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/cartero/cartero/"
 "ca/>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10-dev\n"
+"X-Generator: Weblate 5.11-dev\n"
 
 #: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -76,7 +76,7 @@ msgstr "Cartero"
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/cartero.desktop.in.in:10
 msgid "Gnome;GTK;HTTP;REST;"
-msgstr ""
+msgstr "Gnome;GTK;HTTP;REST;"
 
 #: data/es.danirod.Cartero.gschema.xml:12
 msgid "Automatically indent new lines for the request body"
@@ -128,90 +128,90 @@ msgstr "L'última ubicació on es va guardar un arxiu"
 
 #: data/es.danirod.Cartero.gschema.xml:60
 msgid "Whether to validate the TLS certificates during a request"
-msgstr ""
+msgstr "Validar o no els certificats TLS durant una petició"
 
 #: data/es.danirod.Cartero.gschema.xml:64
 msgid "Whether to follow redirections if that is the server response"
-msgstr ""
+msgstr "Seguir redireccions si es la resposta de servidor"
 
 #: data/es.danirod.Cartero.gschema.xml:68
 msgid "Maximum number of redirections to follow before giving up"
-msgstr ""
+msgstr "Nombre màxim de redireccions a seguir abans d'abandonar"
 
 #: data/es.danirod.Cartero.gschema.xml:72
 msgid "Maximum timeout when awaiting for an HTTP response."
-msgstr ""
+msgstr "Temps d'espera màxim en esperar una resposta HTTP."
 
 #: data/es.danirod.Cartero.gschema.xml:76
 msgid "Whether to use light or dark mode."
-msgstr ""
+msgstr "Si s'ha d'utilitzar el mode clar o fosc."
 
 #: data/es.danirod.Cartero.gschema.xml:80
 msgid "The custom font in use"
-msgstr ""
+msgstr "El tipus de lletra personalitzat en ús"
 
 #: data/es.danirod.Cartero.gschema.xml:84
 msgid "Whether to use the system font or a custom one"
-msgstr ""
+msgstr "Utilitzar el tipus de lletra del sistema o un personalitzat"
 
 #: data/es.danirod.Cartero.gschema.xml:88
 msgid "Whether to create backup files on save"
-msgstr ""
+msgstr "Crear copies de seguretat al desar"
 
 #: data/gtk/help_overlay.blp:25
 msgctxt "shortcuts window"
 msgid "General shortcuts"
-msgstr ""
+msgstr "Dreceres generals"
 
 #: data/gtk/help_overlay.blp:28
 msgctxt "shortcuts window"
 msgid "Show Keyboard Shortcuts"
-msgstr ""
+msgstr "Mostra les dreceres de teclat"
 
 #: data/gtk/help_overlay.blp:33
 msgctxt "shortcuts window"
 msgid "Quit"
-msgstr ""
+msgstr "Sortir"
 
 #: data/gtk/help_overlay.blp:39
 msgctxt "shortcuts window"
 msgid "Tab operations"
-msgstr ""
+msgstr "Operacions de la pestanya"
 
 #: data/gtk/help_overlay.blp:42
 msgctxt "shortcuts window"
 msgid "New request tab"
-msgstr ""
+msgstr "Nova pestanya de petició"
 
 #: data/gtk/help_overlay.blp:47
 msgctxt "shortcuts window"
 msgid "Open request"
-msgstr ""
+msgstr "Obrir petició"
 
 #: data/gtk/help_overlay.blp:52
 msgctxt "shortcuts window"
 msgid "Save request"
-msgstr ""
+msgstr "Desar petició"
 
 #: data/gtk/help_overlay.blp:57
 msgctxt "shortcuts window"
 msgid "Save request as"
-msgstr ""
+msgstr "Desar petició com a"
 
 #: data/gtk/help_overlay.blp:62
 msgctxt "shortcuts window"
 msgid "Close request tab"
-msgstr ""
+msgstr "Tancar pestanya de petició"
 
 #: data/gtk/help_overlay.blp:68
 msgctxt "shortcuts window"
 msgid "Request operations"
-msgstr ""
+msgstr "Operacions de petició"
 
 #: data/gtk/help_overlay.blp:71
 msgctxt "shortcuts window"
 msgid "Send request"
-msgstr ""
+msgstr "Enviar petició"
 
 #: data/ui/authorization_pane.blp:29
 msgid "Authorization method"
@@ -360,7 +360,7 @@ msgstr "Tancar pestanya"
 #: data/ui/main_window.blp:175 data/ui/main_window_no_csd.blp:182
 #: data/ui/settings_dialog.blp:21
 msgid "Settings"
-msgstr ""
+msgstr "Configuració"
 
 #: data/ui/main_window.blp:180 data/ui/main_window_no_csd.blp:187
 msgid "Body appearance"
@@ -446,65 +446,67 @@ msgstr ""
 
 #: data/ui/search_box.blp:42 data/ui/search_box.blp:43
 msgid "Search"
-msgstr ""
+msgstr "Cerca"
 
 #: data/ui/search_box.blp:63
 msgid "Previous result"
-msgstr ""
+msgstr "Resultat anterior"
 
 #: data/ui/search_box.blp:69
 msgid "Next result"
-msgstr ""
+msgstr "Resultat següent"
 
 #: data/ui/search_box.blp:81
 msgid "Close search"
-msgstr ""
+msgstr "Tancar cerca"
 
 #: data/ui/settings_dialog.blp:26
 msgid "Application"
-msgstr ""
+msgstr "Aplicació"
 
 #: data/ui/settings_dialog.blp:30
 msgid "Appearance"
-msgstr ""
+msgstr "Aparença"
 
 #: data/ui/settings_dialog.blp:33
 msgid "Application style"
-msgstr ""
+msgstr "Estil de l'aplicació"
 
 #: data/ui/settings_dialog.blp:37
 msgid "Follow system settings"
-msgstr ""
+msgstr "Seguir configuració del sistema"
 
 #: data/ui/settings_dialog.blp:38
 msgid "Light mode"
-msgstr ""
+msgstr "Mode clar"
 
 #: data/ui/settings_dialog.blp:39
 msgid "Dark mode"
-msgstr ""
+msgstr "Mode fosc"
 
 #: data/ui/settings_dialog.blp:45
 msgid "Use system font"
-msgstr ""
+msgstr "Utilitzar font del sistema"
 
 #: data/ui/settings_dialog.blp:49
 msgid "Custom font"
-msgstr ""
+msgstr "Font personalitzada"
 
 #: data/ui/settings_dialog.blp:64
 msgid "File settings"
-msgstr ""
+msgstr "Configuració de fitxer"
 
 #: data/ui/settings_dialog.blp:67
 msgid "Create backup files"
-msgstr ""
+msgstr "Crea fitxers de còpia de seguretat"
 
 #: data/ui/settings_dialog.blp:68
 msgid ""
 "You might not want to enable this if you are already using a version control "
 "such as Git"
 msgstr ""
+"És possible que no vulgueu habilitar això si ja esteu utilitzant un control "
+"de versions com Git"
 
 #: data/ui/settings_dialog.blp:74
 msgid "Software updates"
@@ -520,11 +522,11 @@ msgstr ""
 
 #: data/ui/settings_dialog.blp:93 data/ui/settings_dialog.blp:97
 msgid "HTTP Client"
-msgstr ""
+msgstr "Client HTTP"
 
 #: data/ui/settings_dialog.blp:100
 msgid "Enforce TLS validation"
-msgstr ""
+msgstr "Força la validació TLS"
 
 #: data/ui/settings_dialog.blp:101
 msgid "Cancel a request if the TLS handshake fails"
@@ -532,7 +534,7 @@ msgstr ""
 
 #: data/ui/settings_dialog.blp:105
 msgid "Follow redirects"
-msgstr ""
+msgstr "Seguir redireccions"
 
 #: data/ui/settings_dialog.blp:106
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
@@ -540,11 +542,11 @@ msgstr ""
 
 #: data/ui/settings_dialog.blp:111
 msgid "Maximum redirects"
-msgstr ""
+msgstr "Màxim de redireccions"
 
 #: data/ui/settings_dialog.blp:123
 msgid "Request timeout"
-msgstr ""
+msgstr "Temps d'espera de la petició"
 
 #: data/ui/settings_dialog.blp:124
 msgid "Seconds to wait before cancelling the request"
@@ -612,26 +614,28 @@ msgid "There is an input/output error"
 msgstr ""
 
 #: src/error.rs:131 src/error.rs:155
-#, fuzzy
 msgid "The current tab is not associated with a file"
-msgstr "La llista actual d'arxius oberts"
+msgstr "La pestanya actual no està associada amb un fitxer"
 
 #: src/error.rs:133
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
+"Aquest fitxer s'ha creat amb una versió més nova d'aquesta aplicació; si us "
+"plau actualitzeu!"
 
 #: src/error.rs:137
 msgid "The file is corrupt or does not contain valid data for this application"
 msgstr ""
+"El fitxer està corrupte o no conté dades vàlides per a aquesta aplicació"
 
 #: src/file.rs:411
 #, rust-format
 msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
-msgstr ""
+msgstr "El verb HTTP trobat al fitxer era '{}'. No és vàlid, es tornarà a '{}'."
 
 #: src/updates/ui.rs:33
 msgid "Error checking updates"
@@ -676,22 +680,21 @@ msgstr ""
 #: src/widgets/dialogs.rs:48
 #, rust-format
 msgid "Cannot open '{}'"
-msgstr ""
+msgstr "No es pot obrir '{}'"
 
 #: src/widgets/dialogs.rs:49
 msgid "Cannot open the requested file"
-msgstr ""
+msgstr "No s'ha pogut obrir el fitxer demanat"
 
 #: src/widgets/dialogs.rs:58 src/widgets/dialogs.rs:89
 #: src/widgets/dialogs.rs:112 src/widgets/dialogs.rs:125
-#, fuzzy
 msgid "Close"
-msgstr "Tancar pestanya"
+msgstr "Tancar"
 
 #: src/widgets/dialogs.rs:72
 #, rust-format
 msgid "The file '{}' was loaded but had issues"
-msgstr ""
+msgstr "S'ha carregat el fitxer '{}' pero ha tingut problemes"
 
 #: src/widgets/dialogs.rs:73
 msgid "The requested file was loaded but had issues"

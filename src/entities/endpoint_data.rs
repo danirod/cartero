@@ -36,7 +36,9 @@ impl EndpointData {
     pub fn template_processor(&self) -> SrTemplate {
         let context = SrTemplate::default();
         for item in self.variables.iter() {
-            context.add_variable(item.name.clone(), &item.value);
+            if item.active {
+                context.add_variable(item.name.clone(), &item.value);
+            }
         }
         context
     }

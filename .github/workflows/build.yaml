@@ -74,10 +74,8 @@ jobs:
         rustup toolchain install stable-gnu
         rustup default stable-gnu
         build-aux/msys-build.sh devel
-    - uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
-      name: Create Windows installer
-      with:
-        path: build/win32-installer.iss
+    - name: Create Windows installer
+      run: iscc.exe /O+ build/win32-installer.iss
     - uses: actions/upload-artifact@v4
       name: Upload Windows version
       with:

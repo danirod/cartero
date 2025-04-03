@@ -50,6 +50,18 @@
     <color scheme_preference="dark" type="primary">#465563</color>
   </branding>
   <releases>
+    <release date="2025-04-03" version="0.2.1">
+      <description translate="no" translatable="no">
+        <p>Changed:</p>
+        <ul>
+          <li>Translation updates: Catalan, Galician, Brazilian Portuguese</li>
+        </ul>
+        <p>Fixed:</p>
+        <ul>
+          <li>Disabled variables in the variables table were still being picked</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-03-21" version="0.2.0">
       <description translate="no" translatable="no">
         <p>Added:</p>

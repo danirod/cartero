@@ -584,6 +584,16 @@ mod imp {
                 .translator_credits(gettext("translator-credits"))
                 .copyright(gettext("© 2024-2025 the Cartero authors"))
                 .release_notes(r#"
+                <p>Changed:</p>
+                <ul>
+<li>Translation updates: Catalan, Galician, Brazilian Portuguese</li>
+</ul>
+<p>Fixed:</p>
+<ul>
+<li>Disabled variables in the variables table were still being picked</li>
+                </ul>
+
+                <p><em>Notes for 0.2.0</em></p>
                 <p>Added:</p>
         <ul>
           <li>An authorization tab, currently supporting basic authentication and bearer tokens.</li>

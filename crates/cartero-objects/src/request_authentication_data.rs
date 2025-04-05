@@ -15,13 +15,47 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use glib::subclass::prelude::*;
+use glib::{
+    object::{Cast, IsA, ObjectExt},
+    subclass::prelude::*,
+};
+
+use crate::RequestAuthenticationType;
 
 glib::wrapper! {
     pub struct RequestAuthenticationData(ObjectSubclass<imp::RequestAuthenticationData>);
 }
 
+impl RequestAuthenticationData {
+    pub const NONE: Option<Self> = None::<Self>;
+}
+
+mod ffi {
+    use crate::RequestAuthenticationType;
+
+    #[derive(Copy, Clone)]
+    #[repr(C)]
+    pub struct Class {
+        parent_class: glib::gobject_ffi::GObjectClass,
+        pub(super) auth_type: fn(&super::RequestAuthenticationData) -> RequestAuthenticationType,
+    }
+
+    unsafe impl glib::subclass::types::ClassStruct for Class {
+        type Type = super::imp::RequestAuthenticationData;
+    }
+
+    impl std::ops::Deref for Class {
+        type Target = glib::gobject_ffi::GObjectClass;
+
+        fn deref(&self) -> &Self::Target {
+            &self.parent_class
+        }
+    }
+}
+
 mod imp {
+    use crate::RequestAuthenticationType;
+
     use super::*;
 
     #[derive(Default)]
@@ -30,12 +64,70 @@ mod imp {
     #[glib::object_subclass]
     impl ObjectSubclass for RequestAuthenticationData {
         const NAME: &'static str = "CarteroRequestAuthorizationData";
+        const ABSTRACT: bool = true;
         type Type = super::RequestAuthenticationData;
+        type Class = super::ffi::Class;
+
+        fn class_init(klass: &mut Self::Class) {
+            klass.auth_type = |obj| obj.imp().auth_type_default();
+        }
     }
 
     impl ObjectImpl for RequestAuthenticationData {}
+
+    impl RequestAuthenticationData {
+        fn auth_type_default(&self) -> RequestAuthenticationType {
+            panic!("not implemented");
+        }
+    }
 }
 
-pub trait RequestAuthenticationDataImpl: ObjectImpl {}
+pub trait RequestAuthenticationDataExt: IsA<RequestAuthenticationData> {
+    fn auth_type(&self) -> RequestAuthenticationType {
+        let this = self.upcast_ref();
+        let class = this.class();
+        (class.as_ref().auth_type)(this)
+    }
+}
 
-unsafe impl<T: RequestAuthenticationDataImpl> IsSubclassable<T> for RequestAuthenticationData {}
+impl<T: IsA<RequestAuthenticationData>> RequestAuthenticationDataExt for T {}
+
+pub trait RequestAuthenticationDataImpl: ObjectImpl {
+    fn auth_type(&self) -> RequestAuthenticationType;
+}
+
+pub trait RequestAuthenticationDataImplExt: RequestAuthenticationDataImpl {
+    fn parent_auth_type(&self) -> RequestAuthenticationType {
+        let data = Self::type_data();
+        let parent_class = unsafe { &*(data.as_ref().parent_class() as *const ffi::Class) };
+        let auth_type = parent_class.auth_type;
+        auth_type(unsafe { self.obj().unsafe_cast_ref() })
+    }
+}
+
+impl<T: RequestAuthenticationDataImpl> RequestAuthenticationDataImplExt for T {}
+
+unsafe impl<T: RequestAuthenticationDataImpl> IsSubclassable<T> for RequestAuthenticationData {
+    fn class_init(class: &mut glib::Class<Self>) {
+        Self::parent_class_init::<T>(class);
+
+        let klass = class.as_mut();
+        klass.auth_type = |obj| {
+            let this = unsafe { obj.unsafe_cast_ref::<<T as ObjectSubclass>::Type>().imp() };
+            RequestAuthenticationDataImpl::auth_type(this)
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use glib::Object;
+
+    use super::RequestAuthenticationData;
+
+    #[test]
+    #[should_panic]
+    fn test_data_cannot_be_instanced() {
+        Object::new::<RequestAuthenticationData>();
+    }
+}

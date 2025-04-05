@@ -25,7 +25,13 @@ glib::wrapper! {
 
 impl Default for RequestAuthenticationBearer {
     fn default() -> Self {
-        Object::builder().build()
+        Object::new()
+    }
+}
+
+impl RequestAuthenticationBearer {
+    pub fn new(token: impl AsRef<str>) -> Self {
+        Object::builder().property("token", token.as_ref()).build()
     }
 }
 
@@ -55,5 +61,34 @@ mod imp {
     #[glib::derived_properties]
     impl ObjectImpl for RequestAuthenticationBearer {}
 
-    impl RequestAuthenticationDataImpl for RequestAuthenticationBearer {}
+    impl RequestAuthenticationDataImpl for RequestAuthenticationBearer {
+        fn auth_type(&self) -> crate::RequestAuthenticationType {
+            crate::RequestAuthenticationType::BearerToken
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::{RequestAuthenticationDataExt, RequestAuthenticationType};
+
+    use super::*;
+
+    #[test]
+    pub fn test_default() {
+        let bearer = RequestAuthenticationBearer::default();
+        assert_eq!(bearer.token(), String::default());
+    }
+
+    #[test]
+    pub fn test_new() {
+        let bearer = RequestAuthenticationBearer::new("auth_token");
+        assert_eq!(bearer.token(), "auth_token");
+    }
+
+    #[test]
+    pub fn test_auth_type() {
+        let auth_type = RequestAuthenticationBearer::default().auth_type();
+        assert_eq!(auth_type, RequestAuthenticationType::BearerToken);
+    }
 }

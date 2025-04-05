@@ -25,7 +25,16 @@ glib::wrapper! {
 
 impl Default for RequestAuthenticationBasic {
     fn default() -> Self {
-        Object::builder().build()
+        Object::new()
+    }
+}
+
+impl RequestAuthenticationBasic {
+    pub fn new(username: impl AsRef<str>, password: impl AsRef<str>) -> Self {
+        Object::builder()
+            .property("username", username.as_ref())
+            .property("password", password.as_ref())
+            .build()
     }
 }
 
@@ -58,5 +67,36 @@ mod imp {
     #[glib::derived_properties]
     impl ObjectImpl for RequestAuthenticationBasic {}
 
-    impl RequestAuthenticationDataImpl for RequestAuthenticationBasic {}
+    impl RequestAuthenticationDataImpl for RequestAuthenticationBasic {
+        fn auth_type(&self) -> crate::RequestAuthenticationType {
+            crate::RequestAuthenticationType::BasicAuth
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::{RequestAuthenticationDataExt, RequestAuthenticationType};
+
+    use super::RequestAuthenticationBasic;
+
+    #[test]
+    pub fn test_default() {
+        let basic = RequestAuthenticationBasic::default();
+        assert_eq!(basic.username(), String::default());
+        assert_eq!(basic.password(), String::default());
+    }
+
+    #[test]
+    pub fn test_new() {
+        let basic = RequestAuthenticationBasic::new("admin", "1234");
+        assert_eq!(basic.username(), "admin");
+        assert_eq!(basic.password(), "1234");
+    }
+
+    #[test]
+    pub fn test_auth_type() {
+        let auth_type = RequestAuthenticationBasic::default().auth_type();
+        assert_eq!(auth_type, RequestAuthenticationType::BasicAuth);
+    }
 }

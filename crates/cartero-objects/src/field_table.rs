@@ -52,6 +52,17 @@ impl FieldTable {
     }
 }
 
+impl FromIterator<Field> for FieldTable {
+    fn from_iter<T: IntoIterator<Item = Field>>(iter: T) -> Self {
+        let table = Self::default();
+        table
+            .imp()
+            .fields
+            .replace(iter.into_iter().collect::<Vec<Field>>());
+        table
+    }
+}
+
 mod imp {
     use gio::subclass::prelude::ListModelImpl;
 
@@ -90,7 +101,10 @@ mod imp {
 
 #[cfg(test)]
 mod tests {
-    use std::sync::{Arc, Mutex};
+    use std::{
+        collections::HashSet,
+        sync::{Arc, Mutex},
+    };
 
     use super::*;
 
@@ -98,6 +112,46 @@ mod tests {
     pub fn test_valid_builder() {
         let table: FieldTable = Object::builder().build();
         assert_eq!(table.n_items(), 0);
+    }
+
+    #[test]
+    pub fn test_valid_from_iter_vec() {
+        let field: Field = Object::builder()
+            .property("key", "User-Agent")
+            .property("value", "Mozilla/5.0")
+            .build();
+        let field2: Field = Object::builder()
+            .property("key", "Content-Type")
+            .property("value", "text/html")
+            .build();
+        let fields = vec![field, field2];
+        let table = FieldTable::from_iter(fields);
+        assert_eq!(2, table.n_items());
+        assert_eq!(
+            "User-Agent",
+            table.item(0).and_downcast::<Field>().unwrap().key()
+        );
+        assert_eq!(
+            "Content-Type",
+            table.item(1).and_downcast::<Field>().unwrap().key()
+        );
+    }
+
+    #[test]
+    pub fn test_valid_from_iter_set() {
+        let field: Field = Object::builder()
+            .property("key", "User-Agent")
+            .property("value", "Mozilla/5.0")
+            .build();
+        let field2: Field = Object::builder()
+            .property("key", "Content-Type")
+            .property("value", "text/html")
+            .build();
+        let mut fields = HashSet::new();
+        fields.insert(field);
+        fields.insert(field2);
+        let table = FieldTable::from_iter(fields);
+        assert_eq!(2, table.n_items());
     }
 
     #[test]

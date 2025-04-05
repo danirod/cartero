@@ -135,12 +135,11 @@ mod imp {
         fn set_auth_data(&self, auth_data: Option<RequestAuthenticationData>) {
             let current_type = self.obj().auth_type();
             let valid = match current_type {
-                RequestAuthenticationType::BasicAuth => auth_data
-                    .as_ref()
-                    .is_some_and(|data| data.auth_type() == current_type),
-                RequestAuthenticationType::BearerToken => auth_data
-                    .as_ref()
-                    .is_some_and(|data| data.auth_type() == current_type),
+                RequestAuthenticationType::BasicAuth | RequestAuthenticationType::BearerToken => {
+                    auth_data
+                        .as_ref()
+                        .is_some_and(|data| data.auth_type() == current_type)
+                }
                 _ => auth_data.is_none(),
             };
             if valid {

@@ -18,6 +18,8 @@
 use glib::subclass::prelude::*;
 use glib::{prelude::*, Object};
 
+use crate::FieldTable;
+
 glib::wrapper! {
     pub struct RequestBodyMultipart(ObjectSubclass<imp::RequestBodyMultipart>) @extends crate::RequestBodyData;
 }
@@ -25,6 +27,16 @@ glib::wrapper! {
 impl Default for RequestBodyMultipart {
     fn default() -> Self {
         Object::builder().build()
+    }
+}
+
+impl RequestBodyMultipart {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn from_table(table: &FieldTable) -> Self {
+        Object::builder().property("params", table).build()
     }
 }
 
@@ -54,5 +66,38 @@ mod imp {
     #[glib::derived_properties]
     impl ObjectImpl for RequestBodyMultipart {}
 
-    impl RequestBodyDataImpl for RequestBodyMultipart {}
+    impl RequestBodyDataImpl for RequestBodyMultipart {
+        fn body_type(&self) -> crate::RequestBodyType {
+            crate::RequestBodyType::Multipart
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use gio::prelude::ListModelExt;
+    use glib::object::CastNone;
+
+    use crate::{Field, RequestBodyDataExt, RequestBodyType};
+
+    use super::RequestBodyMultipart;
+
+    #[test]
+    pub fn test_default() {
+        let body = RequestBodyMultipart::default();
+        assert_eq!(0, body.params().n_items());
+        let field = Field::from(("user_id", "1000"));
+        body.params().insert(&field);
+        assert_eq!(1, body.params().n_items());
+        assert_eq!(
+            "user_id",
+            body.params().item(0).and_downcast::<Field>().unwrap().key()
+        );
+    }
+
+    #[test]
+    pub fn test_body_type() {
+        let body = RequestBodyMultipart::default();
+        assert_eq!(body.body_type(), RequestBodyType::Multipart);
+    }
 }

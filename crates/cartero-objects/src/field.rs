@@ -15,11 +15,23 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use glib::prelude::*;
 use glib::subclass::prelude::*;
+use glib::{prelude::*, Object};
 
 glib::wrapper! {
     pub struct Field(ObjectSubclass<imp::Field>);
+}
+
+impl<T> From<(T, T)> for Field
+where
+    T: AsRef<str>,
+{
+    fn from(value: (T, T)) -> Self {
+        Object::builder()
+            .property("key", value.0.as_ref())
+            .property("value", value.1.as_ref())
+            .build()
+    }
 }
 
 mod imp {

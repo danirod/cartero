@@ -29,7 +29,17 @@ impl Default for RequestBodyRaw {
     }
 }
 
-#[derive(Copy, Clone, Default, PartialEq, Eq, glib::Enum)]
+impl RequestBodyRaw {
+    pub fn new(raw_type: RequestBodyRawType, initial: &[u8]) -> Self {
+        let bytes = glib::Bytes::from(initial);
+        Object::builder()
+            .property("payload-type", raw_type)
+            .property("payload", bytes)
+            .build()
+    }
+}
+
+#[derive(Copy, Clone, Default, Debug, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "CarteroRequestBodyRawType")]
 pub enum RequestBodyRawType {
     #[default]
@@ -51,14 +61,28 @@ mod imp {
 
     use super::RequestBodyRawType;
 
-    #[derive(Default, Properties)]
+    #[derive(Properties)]
     #[properties(wrapper_type = super::RequestBodyRaw)]
     pub struct RequestBodyRaw {
-        #[property(get, set, name = "body-type", builder(RequestBodyRawType::OctetStream))]
-        body_type: RefCell<RequestBodyRawType>,
+        #[property(
+            get,
+            set,
+            name = "payload-type",
+            builder(RequestBodyRawType::OctetStream)
+        )]
+        payload_type: RefCell<RequestBodyRawType>,
 
-        #[property(get, set, nullable)]
-        payload: RefCell<Option<glib::Bytes>>,
+        #[property(get, set)]
+        payload: RefCell<glib::Bytes>,
+    }
+
+    impl Default for RequestBodyRaw {
+        fn default() -> Self {
+            Self {
+                payload_type: Default::default(),
+                payload: glib::Bytes::from_static(&[]).into(),
+            }
+        }
     }
 
     #[glib::object_subclass]
@@ -71,5 +95,60 @@ mod imp {
     #[glib::derived_properties]
     impl ObjectImpl for RequestBodyRaw {}
 
-    impl RequestBodyDataImpl for RequestBodyRaw {}
+    impl RequestBodyDataImpl for RequestBodyRaw {
+        fn body_type(&self) -> crate::RequestBodyType {
+            crate::RequestBodyType::Raw
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::{
+        utils::test::assert_emits_signal, RequestBodyDataExt, RequestBodyRawType, RequestBodyType,
+    };
+
+    use super::RequestBodyRaw;
+
+    #[test]
+    fn test_defaults() {
+        let raw = RequestBodyRaw::default();
+        assert_eq!(raw.payload_type(), RequestBodyRawType::OctetStream);
+        assert_eq!(raw.payload().len(), 0);
+    }
+
+    #[test]
+    fn test_new() {
+        let raw = RequestBodyRaw::new(RequestBodyRawType::Xml, "<?xml?>".as_bytes());
+        assert_eq!(raw.payload_type(), RequestBodyRawType::Xml);
+        assert_eq!(raw.payload().len(), 7);
+        let payload = raw.payload();
+        let contents = String::from_utf8_lossy(payload.as_ref());
+        assert_eq!(contents, "<?xml?>");
+    }
+
+    #[test]
+    pub fn test_change_type() {
+        let raw = RequestBodyRaw::default();
+        assert_emits_signal(&raw, "notify::payload-type", || {
+            raw.set_payload_type(RequestBodyRawType::Json)
+        });
+        assert_eq!(RequestBodyRawType::Json, raw.payload_type());
+    }
+
+    #[test]
+    pub fn test_change_payload() {
+        let raw = RequestBodyRaw::default();
+        assert_emits_signal(&raw, "notify::payload", || {
+            let new_body = "hello world".as_bytes();
+            raw.set_payload(glib::Bytes::from(new_body));
+        });
+        assert_eq!(11, raw.payload().len());
+    }
+
+    #[test]
+    pub fn test_body_type() {
+        let body: RequestBodyRaw = RequestBodyRaw::default();
+        assert_eq!(body.body_type(), RequestBodyType::Raw);
+    }
 }

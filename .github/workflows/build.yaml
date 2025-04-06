@@ -42,7 +42,7 @@ jobs:
           git config --global user.name "GitHub Actions"
           git commit -am "clean working directory"
       - name: meson-dist
-        run: ninja -C build dist
+        run: xvfb-run ninja -C build dist
       - name: upload
         uses: actions/upload-artifact@v4
         with:

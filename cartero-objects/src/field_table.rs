@@ -22,6 +22,49 @@ use glib::{prelude::*, Object};
 use crate::field::Field;
 
 glib::wrapper! {
+    /// A sorted table that groups multiple [fields][Field].
+    ///
+    /// Internally, a field table is treated like a list of fields, assigning
+    /// a position to every item in the list. The table allows to collect
+    /// fields and to iterate over them.
+    ///
+    /// ## Properties
+    ///
+    /// `FieldTable` currently does not expose properties. FieldTable implements
+    /// `ListModel`, and thus data is accessed using the ListModel interface.
+    ///
+    /// ## Building a Table
+    ///
+    /// There are two ways:
+    ///
+    /// - Use the `default` function to create an empty table.
+    ///
+    /// ```
+    /// use cartero_objects::{Field, FieldTable};
+    ///
+    /// let table = FieldTable::default();
+    /// let field = Field::from(("User-Agent", "Mozilla/5.0"));
+    /// table.insert(&field);
+    /// ```
+    ///
+    /// - Use the `from_iter()` function to build a table from an existing
+    ///   collection of fields.
+    ///
+    /// ```
+    /// use cartero_objects::{Field, FieldTable};
+    ///
+    /// let field1 = Field::from(("user_id", "1000"));
+    /// let field2 = Field::from(("category_id", "10"));
+    /// let fields = vec![field1, field2];
+    /// let table = FieldTable::from_iter(fields);
+    /// ```
+    ///
+    /// Once you have a table, you may use the standard [Gio.ListModel]
+    /// interface methods and signals to read the contents of the table, and
+    /// use the impl methods of this object to change the inner elements of
+    /// the table.
+    ///
+    /// [Gio.ListModel]: https://docs.gtk.org/gio/iface.ListModel.html
     pub struct FieldTable(ObjectSubclass<imp::FieldTable>) @implements gio::ListModel;
 }
 
@@ -32,6 +75,11 @@ impl Default for FieldTable {
 }
 
 impl FieldTable {
+    /// Add a new field to the table.
+    ///
+    /// The given `field` is inserted at the bottom of the table, and
+    /// assigned the highest position so far in the table. Emits an
+    /// `items-changed` signal when done.
     pub fn insert(&self, field: &Field) {
         {
             let mut fields = self.imp().fields.borrow_mut();
@@ -41,6 +89,12 @@ impl FieldTable {
         self.items_changed(len as u32, 0, 1);
     }
 
+    /// Remove a field from the table.
+    ///
+    /// The position of the element to remove has to be given as a parameter,
+    /// and the field at that position will be yanked. **Will panic if the
+    /// given index is out of bounds**. Emits an `items-changed` signal when
+    /// done.
     pub fn remove(&self, pos: u32) {
         {
             let mut fields = self.imp().fields.borrow_mut();
@@ -49,6 +103,17 @@ impl FieldTable {
         }
         // If we reach here, we survived delete.
         self.items_changed(pos, 1, 0);
+    }
+}
+
+impl FromIterator<Field> for FieldTable {
+    fn from_iter<T: IntoIterator<Item = Field>>(iter: T) -> Self {
+        let table = Self::default();
+        table
+            .imp()
+            .fields
+            .replace(iter.into_iter().collect::<Vec<Field>>());
+        table
     }
 }
 
@@ -90,7 +155,10 @@ mod imp {
 
 #[cfg(test)]
 mod tests {
-    use std::sync::{Arc, Mutex};
+    use std::{
+        collections::HashSet,
+        sync::{Arc, Mutex},
+    };
 
     use super::*;
 
@@ -98,6 +166,46 @@ mod tests {
     pub fn test_valid_builder() {
         let table: FieldTable = Object::builder().build();
         assert_eq!(table.n_items(), 0);
+    }
+
+    #[test]
+    pub fn test_valid_from_iter_vec() {
+        let field: Field = Object::builder()
+            .property("key", "User-Agent")
+            .property("value", "Mozilla/5.0")
+            .build();
+        let field2: Field = Object::builder()
+            .property("key", "Content-Type")
+            .property("value", "text/html")
+            .build();
+        let fields = vec![field, field2];
+        let table = FieldTable::from_iter(fields);
+        assert_eq!(2, table.n_items());
+        assert_eq!(
+            "User-Agent",
+            table.item(0).and_downcast::<Field>().unwrap().key()
+        );
+        assert_eq!(
+            "Content-Type",
+            table.item(1).and_downcast::<Field>().unwrap().key()
+        );
+    }
+
+    #[test]
+    pub fn test_valid_from_iter_set() {
+        let field: Field = Object::builder()
+            .property("key", "User-Agent")
+            .property("value", "Mozilla/5.0")
+            .build();
+        let field2: Field = Object::builder()
+            .property("key", "Content-Type")
+            .property("value", "text/html")
+            .build();
+        let mut fields = HashSet::new();
+        fields.insert(field);
+        fields.insert(field2);
+        let table = FieldTable::from_iter(fields);
+        assert_eq!(2, table.n_items());
     }
 
     #[test]

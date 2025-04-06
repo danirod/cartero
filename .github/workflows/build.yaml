@@ -33,7 +33,7 @@ jobs:
       - name: clone
         uses: actions/checkout@v4
       - name: stamp
-        run: build-aux/stamp-version.sh
+        run: build-aux/stamp-version.sh build
       - name: commit
         run: git commit -am "clean working directory"
       - name: meson-setup

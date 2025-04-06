@@ -35,7 +35,10 @@ jobs:
       - name: stamp
         run: build-aux/stamp-version.sh build
       - name: commit
-        run: git commit -am "clean working directory"
+        run: |
+          git config --global user.email "noreply@github.com"
+          git config --global user.name "GitHub Actions"
+          git commit -am "clean working directory"
       - name: meson-setup
         run: meson setup build
       - name: meson-dist

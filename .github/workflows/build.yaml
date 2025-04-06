@@ -23,6 +23,9 @@ on:
     branches:
       - trunk
 name: Build
+concurrency:
+  group: ${{github.ref}}
+  cancel-in-progress: true
 jobs:
   tarball:
     runs-on: ubuntu-latest

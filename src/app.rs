@@ -28,11 +28,13 @@ use crate::windows::SettingsDialog;
 #[macro_export]
 macro_rules! accelerator {
     ($accel:expr) => {
+        let concat_for_accel: String = "<Primary>";
+
         if cfg!(target_os = "macos") {
-            concat!("<Meta>", $accel)
-        } else {
-            concat!("<Primary>", $accel)
+            concat_for_accel = "<Meta>";
         }
+
+        concat!(concat_for_accel, $accel)
     };
 }
 

@@ -26,9 +26,8 @@ name: Build
 jobs:
   flatpak:
     runs-on: ubuntu-latest
-    if: false # disabled until https://github.com/flatpak/flatpak-github-actions/issues/214 is fixed
     container:
-      image: bilelmoussaoui/flatpak-github-actions:gnome-47
+      image: bilelmoussaoui/flatpak-github-actions:gnome-48
       options: --privileged
     strategy:
       matrix:

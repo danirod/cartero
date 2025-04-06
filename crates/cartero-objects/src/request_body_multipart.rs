@@ -21,6 +21,30 @@ use glib::{prelude::*, Object};
 use crate::FieldTable;
 
 glib::wrapper! {
+    /// Body payload with a rich multipart stream encoded.
+    ///
+    /// The preferred content-type is `multipart/form-data`. This is a more
+    /// complex content-type that is defined by the RFC 7578 spec. It is a
+    /// complex key-value form, where every value can have its own content
+    /// type and additional metadata, supporting both inline strings, but also
+    /// raw files.
+    ///
+    /// (Note that attaching files to a `RequestBodyMultipart` is still not
+    /// supported, but it is a pending feature).
+    ///
+    /// ## Properties
+    ///
+    /// - `params`: the field table in use.
+    ///
+    /// Currently, the `params` property is a table of `Field` instances. Once
+    /// support for file attachments is added, this may change to allow for
+    /// richer types.
+    ///
+    /// ## Setting up an instance
+    ///
+    /// - Use the `default` or the `new` method to create empty payloads.
+    /// - Use the [`from_table`][RequestBodyMultipart::from_table] function to
+    ///   initialise the payload to the given table.
     pub struct RequestBodyMultipart(ObjectSubclass<imp::RequestBodyMultipart>) @extends crate::RequestBodyData;
 }
 
@@ -31,10 +55,12 @@ impl Default for RequestBodyMultipart {
 }
 
 impl RequestBodyMultipart {
+    /// Create a new payload with an empty field table with no data.
     pub fn new() -> Self {
         Self::default()
     }
 
+    /// Create a new payload with the given table as initial data.
     pub fn from_table(table: &FieldTable) -> Self {
         Object::builder().property("params", table).build()
     }

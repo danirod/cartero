@@ -15,24 +15,70 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+/// The HTTP verb in use during an HTTP request.
+///
+/// The actual list of verbs may be larger, but these are the ones we
+/// currently support. Each one is linked to a verb used during an HTTP
+/// request, and can be picked from the dropdown in the user interface.
+///
+/// Each verb can be converted to a string or string-like object using the
+/// `.as_ref()` function, because the trait `AsRef<str>` is implemented,
+/// allowing to do things such as:
+///
+/// ```
+/// use cartero_objects::RequestMethod;
+///
+/// let verb = RequestMethod::Post;
+/// let str = verb.to_string();
+/// assert_eq!("POST", str);
+/// ```
+///
+/// Additionally, the `TryFrom<&'a str>` trait is implemented, allowing to
+/// try-cast a verb into a variant of this enum. If the verb is not supported,
+/// an error is returned.
+///
+/// ```
+/// use cartero_objects::RequestMethod;
+///
+/// let try_get = RequestMethod::try_from("GET");
+/// assert!(try_get.is_ok_and(|verb| verb == RequestMethod::Get));
+///
+/// let try_harder = RequestMethod::try_from("HARDER");
+/// assert!(try_harder.is_err());
+/// ```
 #[derive(Debug, Copy, Clone, Default, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "CarteroRequestMethod")]
 pub enum RequestMethod {
+    /// GET request.
     #[default]
     #[enum_value(name = "GET")]
     Get,
+
+    /// POST request.
     #[enum_value(name = "POST")]
     Post,
+
+    /// PUT request.
     #[enum_value(name = "PUT")]
     Put,
+
+    /// PATCH request.
     #[enum_value(name = "PATCH")]
     Patch,
+
+    /// DELETE request.
     #[enum_value(name = "DELETE")]
     Delete,
+
+    /// OPTIONS request.
     #[enum_value(name = "OPTIONS")]
     Options,
+
+    /// HEAD request.
     #[enum_value(name = "HEAD")]
     Head,
+
+    /// TRACE request.
     #[enum_value(name = "TRACE")]
     Trace,
 }

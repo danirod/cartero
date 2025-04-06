@@ -15,6 +15,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+#![doc = include_str!("../README.md")]
+
 mod field;
 mod field_table;
 mod request;

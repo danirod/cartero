@@ -19,6 +19,26 @@ use glib::subclass::prelude::*;
 use glib::{prelude::*, Object};
 
 glib::wrapper! {
+    /// Authentication type based on the RFC 6750 spec.
+    ///
+    /// In bearer authentication, a special token called bearer token is
+    /// provided. This token is like a special and longer passcode issued by
+    /// some authentication agent after checking the identity of the client,
+    /// usually with a login protocol such as OAuth 2.0. The bearer token is
+    /// provided as part of an HTTP request by adding an `Authorization` HTTP
+    /// header with the value `Bearer`, followed by a space, and then the
+    /// bearer token. For instance, `Bearer 0489161709`. Read the RFC for
+    /// more help.
+    ///
+    /// ## Properties
+    ///
+    /// - `token`: the current token.
+    ///
+    /// ## Setting up an instance
+    ///
+    /// - Use the `default` function to define an empty auth-data object.
+    /// - Use the [`new`][RequestAuthenticationBearer::new] function to assign
+    ///   an initial token.
     pub struct RequestAuthenticationBearer(ObjectSubclass<imp::RequestAuthenticationBearer>)
         @extends crate::RequestAuthenticationData;
 }

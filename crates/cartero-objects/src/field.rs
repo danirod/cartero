@@ -19,6 +19,49 @@ use glib::subclass::prelude::*;
 use glib::{prelude::*, Object};
 
 glib::wrapper! {
+    /// A key-valued string container with additional metadata.
+    ///
+    /// Fields are used to represent headers, parameters, payloads and
+    /// variables within the application. They are usually grouped in
+    /// [tables][crate::FieldTable], allowing multiple fields to be combined
+    /// to detect things such as duplicates or parameter arrays.
+    ///
+    /// ## Properties
+    ///
+    /// - `key`: the name of the field.
+    /// - `value`: the value of the field.
+    /// - `active`: whether the field is meant to be used (for instance,
+    ///   during a request).
+    /// - `masked`: whether the value of the field is meant to be treated as
+    ///   a password. If this value is true, entries and other text areas
+    ///   designed to interact with the value of a field should treat the
+    ///   value as a password.
+    ///
+    /// ## Building a Field
+    ///
+    /// To create an empty Field, the `Default` trait can be used. The
+    /// properties can change value later.
+    ///
+    /// ```
+    /// use cartero_objects::Field;
+    ///
+    /// let field = Field::default();
+    /// field.set_key("User-Agent");
+    /// field.set_value("Mozilla/5.0");
+    /// ```
+    ///
+    /// However, to programatically create Fields, there is a shortcut.
+    /// A pair of `AsRef<str>` can be given to the `.from()` function in order
+    /// to quickly initialise the key and value to some known strings. The
+    /// default active and masked value are kept:
+    ///
+    /// ```
+    /// use cartero_objects::Field;
+    ///
+    /// let field = Field::from(("User-Agent", "Mozilla/5.0"));
+    /// assert_eq!(field.key(), "User-Agent");
+    /// assert_eq!(field.value(), "Mozilla/5.0");
+    /// ```
     pub struct Field(ObjectSubclass<imp::Field>);
 }
 
@@ -31,6 +74,12 @@ where
             .property("key", value.0.as_ref())
             .property("value", value.1.as_ref())
             .build()
+    }
+}
+
+impl Default for Field {
+    fn default() -> Self {
+        Object::new()
     }
 }
 

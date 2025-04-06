@@ -23,10 +23,20 @@ use glib::{
 use crate::RequestAuthenticationType;
 
 glib::wrapper! {
+    /// The base class to group request authentication payloads.
+    ///
+    /// This class is abstract and cannot be instantiated. However, subclasses
+    /// may provide parameters with information required by some authentication
+    /// types in a [RequestAuthentication][super::RequestAuthentication].
     pub struct RequestAuthenticationData(ObjectSubclass<imp::RequestAuthenticationData>);
 }
 
 impl RequestAuthenticationData {
+    /// A special value that encodes a lack of RequestAuthenticationData.
+    ///
+    /// You can use this value if you prefer to skip all the generic typing
+    /// when using a `Option::None::<RequestAuthenticationData>` in your
+    /// constructors, builders and setters.
     pub const NONE: Option<Self> = None::<Self>;
 }
 
@@ -82,6 +92,7 @@ mod imp {
     }
 }
 
+#[doc(hidden)]
 pub trait RequestAuthenticationDataExt: IsA<RequestAuthenticationData> {
     fn auth_type(&self) -> RequestAuthenticationType {
         let this = self.upcast_ref();
@@ -92,10 +103,18 @@ pub trait RequestAuthenticationDataExt: IsA<RequestAuthenticationData> {
 
 impl<T: IsA<RequestAuthenticationData>> RequestAuthenticationDataExt for T {}
 
+/// Trait with operations for subclasses of [RequestAuthenticationData].
 pub trait RequestAuthenticationDataImpl: ObjectImpl {
+    /// Returns the auth-type associated with this class.
+    ///
+    /// Returns the specific [RequestAuthenticationType][super::RequestAuthenticationType]
+    /// variant where it makes sense to use the current class as an
+    /// authentication payload. This is also used during validation when the
+    /// auth-type of a [RequestAuthentication][super::RequestAuthentication] changes.
     fn auth_type(&self) -> RequestAuthenticationType;
 }
 
+#[doc(hidden)]
 pub trait RequestAuthenticationDataImplExt: RequestAuthenticationDataImpl {
     fn parent_auth_type(&self) -> RequestAuthenticationType {
         let data = Self::type_data();

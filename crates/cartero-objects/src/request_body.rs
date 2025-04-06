@@ -21,6 +21,141 @@ use glib::{prelude::*, Object};
 use crate::{RequestBodyData, RequestBodyMultipart, RequestBodyRaw, RequestBodyUrlencoded};
 
 glib::wrapper! {
+    /// A special object to assign payload data to a request.
+    ///
+    /// This object is meant to be decoded when issuing an HTTP request in
+    /// order to build the request body that is sent with the request, if
+    /// applicable. The user interface may present widgets and forms in order
+    /// to let the user change the payload stored in a request. The body
+    /// may be saved to disk when persisting a request, or exported to
+    /// different formats.
+    ///
+    /// ## Body data and body type
+    ///
+    /// There are different kinds of bodies. Each kind of payload is bound to
+    /// a **type**, backed by one of the variants of [RequestBodyType][super::RequestBodyType].
+    /// You can use the `body-type` property of a `RequestBody` to get the
+    /// current type of payload in use.
+    ///
+    /// Most of the types are then bound to a specific **data**, which is
+    /// the actual payload attached to the request. Each body type provides a
+    /// custom body data class, with its custom strategy on how to assign the
+    /// body of a request, and params to get or set the contents of the payload.
+    ///
+    /// Each one of these datas is a subclass of [RequestBodyData][super::RequestBodyData].
+    ///
+    /// | Type | Data |
+    /// | ---- | ---- |
+    /// | [`None`][RequestBodyType::None] | (none) |
+    /// | [`UrlEncoded`][RequestBodyType::UrlEncoded] | [RequestBodyUrlencoded][super::RequestBodyUrlencoded] |
+    /// | [`Multipart`][RequestBodyType::Multipart] | [RequestBodyMultipart][super::RequestBodyMultipart] |
+    /// | [`Raw`][RequestBodyType::Raw] | [RequestBodyRaw][super::RequestBodyRaw] |
+    ///
+    /// Note that the `body-data` property is of type `RequestBodyData`. You will
+    /// have to downcast using the `.downcast()` and `.and_downcast()` methods
+    /// in order to get a reference of the proper type if you want to read or
+    /// update the contents of the payload. There are methods in a `RequestBody`
+    /// to help with this.
+    ///
+    /// ## Parameters
+    ///
+    /// - `body-data`: the body data object that defines the payload of a request.
+    /// - `body-type`: the type of payload in use for this `RequestBody`.
+    ///
+    /// ## Creating a Body object
+    ///
+    /// There are two ways to create a RequestBody:
+    ///
+    /// - Use the `default()` method to create a new `RequestBody` object with
+    ///   the payload set to None. This is an empty object, and it is treated
+    ///   as a noop when creating an HTTP request, without sending an actual
+    ///   body. Most exporters wouldn't even set the payload when saving or
+    ///   exporting the request into a file.
+    ///
+    /// ```
+    /// use cartero_objects::{RequestBody, RequestBodyType};
+    ///
+    /// let body = RequestBody::default();
+    /// assert_eq!(body.body_type(), RequestBodyType::None);
+    /// assert!(body.body_data().is_none());
+    /// ```
+    ///
+    /// - Use the `new()` method to initialise the body with an initial type
+    ///   and optionally some initial payload. This payload can be `None` to
+    ///   set it to the default value for that specific type.
+    ///
+    /// ```
+    /// use cartero_objects::*;
+    ///
+    /// // Create a new body of type urlencoded, with empty parameters.
+    /// let urlencoded = RequestBody::new(RequestBodyType::UrlEncoded, RequestBodyData::NONE);
+    /// assert_eq!(urlencoded.body_type(), RequestBodyType::UrlEncoded);
+    /// assert!(urlencoded.body_data().is_some_and(|d| d.body_type() == RequestBodyType::UrlEncoded));
+    ///
+    /// let data = r#"{"error": true, "detail": "User not found"}"#;
+    /// let raw = RequestBodyRaw::new(RequestBodyRawType::Json, data.as_bytes());
+    /// let body = RequestBody::new(RequestBodyType::Raw, Some(raw));
+    /// assert_eq!(body.body_type(), RequestBodyType::Raw);
+    /// assert!(body.body_data().is_some_and(|d| d.body_type() == RequestBodyType::Raw));
+    /// ```
+    ///
+    /// ## Type checking and restrictions
+    ///
+    /// Some body types require a specific class of body data. Therefore, the
+    /// setters in `RequestBody` will do their best to assert that the
+    /// `body-data` of a `RequestBody` is always compatible with the
+    /// `body-type`.
+    ///
+    /// - When the `body-type` of a `RequestBody` changes, the `body-data` is
+    ///   also reset to an empty object associated to the type of the new
+    ///   `body-type`. Therefore, the following shall be verified:
+    ///
+    /// ```
+    /// use cartero_objects::*;
+    /// use glib::object::ObjectExt;
+    ///
+    /// // Start with a request body payload of type Urlencoded.
+    /// let body = RequestBody::new(RequestBodyType::UrlEncoded, RequestBodyData::NONE);
+    ///
+    /// // Therefore, the body-data is currently for UrlEncoded.
+    /// assert!(body.body_data().is_some_and(|d| d.is::<RequestBodyUrlencoded>()));
+    ///
+    /// // But if we change the type...
+    /// body.set_body_type(RequestBodyType::Multipart);
+    ///
+    /// // ...the body-data changes to a new type too.
+    /// assert!(body.body_data().is_some_and(|d| d.is::<RequestBodyMultipart>()));
+    /// ```
+    ///
+    /// - If the `body-data` changes to a different object, type checking will
+    ///   be done to make sure that the given `body-data` is compatible with
+    ///   the current `body-type`.- If it's not, then the value will not
+    ///   actually change. **I wish I could make the setter panic**, but+
+    ///   unfortunately it seems that gtk-rs does not support so (or I couldn't
+    ///   manage to panic and successfully unwind the panic). However, the
+    ///   `notify::body-data` signal is not emitted.
+    ///
+    /// ```
+    /// use cartero_objects::*;
+    /// use glib::object::CastNone;
+    /// use gio::prelude::ListModelExt;
+    ///
+    /// // Start with a specific payload.
+    /// let urlencoded = RequestBodyUrlencoded::default();
+    /// let body = RequestBody::new(RequestBodyType::UrlEncoded, Some(urlencoded));
+    /// assert_eq!(body.body_data().and_downcast::<RequestBodyUrlencoded>().unwrap().params().n_items(), 0);
+    ///
+    /// // We can change to a new object of the same type.
+    /// let urlencoded2 = RequestBodyUrlencoded::default();
+    /// urlencoded2.params().insert(&Field::from(("user_id", "1000")));
+    /// body.set_body_data(Some(urlencoded2));
+    /// assert_eq!(body.body_data().and_downcast::<RequestBodyUrlencoded>().unwrap().params().n_items(), 1);
+    ///
+    /// // However, you cannot just change to a different class.
+    /// let raw = RequestBodyRaw::default();
+    /// body.set_body_data(Some(raw));
+    /// assert_eq!(body.body_data().unwrap().body_type(), RequestBodyType::UrlEncoded)
+    /// ```
     pub struct RequestBody(ObjectSubclass<imp::RequestBody>);
 }
 
@@ -40,6 +175,11 @@ fn default_body_data(body_type: RequestBodyType) -> Option<RequestBodyData> {
 }
 
 impl RequestBody {
+    /// Create a new request body with the given initial values.
+    ///
+    /// The `body_type` variant specifies the initial type of payload, and
+    /// optionally a `body_data` can be given with the actual payload of that
+    /// specific kind.
     pub fn new<T>(body_type: RequestBodyType, body_data: Option<T>) -> Self
     where
         T: IsA<RequestBodyData>,
@@ -53,6 +193,7 @@ impl RequestBody {
             .build()
     }
 
+    /// Returns the urlencoded payload, if the body is of such type.
     pub fn urlencoded(&self) -> Option<RequestBodyUrlencoded> {
         if self.body_type() == RequestBodyType::UrlEncoded {
             self.body_data().and_downcast::<RequestBodyUrlencoded>()
@@ -61,6 +202,7 @@ impl RequestBody {
         }
     }
 
+    /// Returns the multipart payload, if the body is of such type.
     pub fn multipart(&self) -> Option<RequestBodyMultipart> {
         if self.body_type() == RequestBodyType::Multipart {
             self.body_data().and_downcast::<RequestBodyMultipart>()
@@ -69,6 +211,7 @@ impl RequestBody {
         }
     }
 
+    /// Returns the raw payload, if the body is of such type.
     pub fn raw(&self) -> Option<RequestBodyRaw> {
         if self.body_type() == RequestBodyType::Raw {
             self.body_data().and_downcast::<RequestBodyRaw>()
@@ -78,16 +221,37 @@ impl RequestBody {
     }
 }
 
+/// The kind of body being used in a [RequestBody] form.
+///
+/// There are different kinds of bodies, and this enum allows both the
+/// user interface and the interoperabilityh libraries know which one is
+/// the one in use.
+///
+/// Changing the type of a `RequestBody` may also change the state of the
+/// user interface or form, in order to accomodate for the different inputs
+/// required by the changed type.
+///
+/// Please see the doc for [RequestBody] to know more about the relationship
+/// between this enum and the form object.
 #[derive(Copy, Clone, Default, Debug, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "CarteroRequestBodyType")]
 pub enum RequestBodyType {
+    /// No body is set.
     #[default]
     #[enum_value(name = "NONE", nick = "None")]
     None,
+
+    /// The body is a set of url-encoded key value pairs.
     #[enum_value(name = "URL_ENCODED", nick = "URL-Encoded")]
     UrlEncoded,
+
+    /// The body is encoded as a multipart/form-data object.
     #[enum_value(name = "MULTIPART", nick = "Multipart")]
     Multipart,
+
+    /// The body is encoded in raw: the bytes of the payload will be provided
+    /// and maybe the content type will be infered from the `Content-Type`
+    /// header.
     #[enum_value(name = "RAW", nick = "Raw")]
     Raw,
 }

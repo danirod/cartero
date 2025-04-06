@@ -23,10 +23,21 @@ use glib::{
 use crate::RequestBodyType;
 
 glib::wrapper! {
+    /// The base class to group request body payloads.
+    ///
+    /// This class is abstract and cannot be instantiated. However, subclasses
+    /// may provide parameters and custom semantics on how to encode and
+    /// decode the payload when issuing an HTTP request. See the
+    /// [RequestBody][super::RequestBody] for more information.
     pub struct RequestBodyData(ObjectSubclass<imp::RequestBodyData>);
 }
 
 impl RequestBodyData {
+    /// A special value that encodes a lack of RequestBodyData.
+    ///
+    /// You can use this value if you prefer to skip all the generic typing
+    /// when using a `Option::None::<RequestBodyData>` in your constructors,
+    /// builders and setters.
     pub const NONE: Option<Self> = None::<Self>;
 }
 
@@ -82,6 +93,7 @@ mod imp {
     }
 }
 
+#[doc(hidden)]
 pub trait RequestBodyDataExt: IsA<RequestBodyData> {
     fn body_type(&self) -> RequestBodyType {
         let this = self.upcast_ref();
@@ -92,10 +104,18 @@ pub trait RequestBodyDataExt: IsA<RequestBodyData> {
 
 impl<T: IsA<RequestBodyData>> RequestBodyDataExt for T {}
 
+/// Trait with operations for subclasses of [RequestBodyData].
 pub trait RequestBodyDataImpl: ObjectImpl {
+    /// Returns the body-type associated with this class.
+    ///
+    /// Returns the specific [RequestBodyType][super::RequestBodyType] variant
+    /// where it makes sense to use the current class as a body payload. This
+    /// is also used during validation when the body-type of a
+    /// [RequestBody][super::RequestBody] changes.
     fn body_type(&self) -> RequestBodyType;
 }
 
+#[doc(hidden)]
 pub trait RequestBodyDataImplExt: RequestBodyDataImpl {
     fn parent_body_type(&self) -> RequestBodyType {
         let data = Self::type_data();
@@ -105,6 +125,7 @@ pub trait RequestBodyDataImplExt: RequestBodyDataImpl {
     }
 }
 
+#[doc(hidden)]
 impl<T: RequestBodyDataImpl> RequestBodyDataImplExt for T {}
 
 unsafe impl<T: RequestBodyDataImpl> IsSubclassable<T> for RequestBodyData {

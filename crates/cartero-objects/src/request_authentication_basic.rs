@@ -19,6 +19,25 @@ use glib::subclass::prelude::*;
 use glib::{prelude::*, Object};
 
 glib::wrapper! {
+    /// Authentication type based on the RFC 7617 spec.
+    ///
+    /// In basic authentication, an username and a password are concatenated
+    /// by a colon symbol, and then encoded as Base64. Then, the value is
+    /// added to the `Authentication` HTTP header prefixed by the string
+    /// `"Basic "`. For instance, to authorize as `root` with the password
+    /// `toor`, the HTTP request requires a header called `Authorization` with
+    /// the value set to `Basic cm9vdDp0b29y`. Read the RFC for more help.
+    ///
+    /// ## Properties
+    ///
+    /// - `username`: the username in use.
+    /// - `password`: the password in use.
+    ///
+    /// ## Setting up an instance
+    ///
+    /// - Use the `default` function to define an empty auth-data object.
+    /// - Use the [`new`][RequestAuthenticationBasic::new] function to assign
+    ///   an initial username and password.
     pub struct RequestAuthenticationBasic(ObjectSubclass<imp::RequestAuthenticationBasic>)
         @extends crate::RequestAuthenticationData;
 }
@@ -30,6 +49,7 @@ impl Default for RequestAuthenticationBasic {
 }
 
 impl RequestAuthenticationBasic {
+    /// Create a new authentication object with the given `username` and `password`.
     pub fn new(username: impl AsRef<str>, password: impl AsRef<str>) -> Self {
         Object::builder()
             .property("username", username.as_ref())

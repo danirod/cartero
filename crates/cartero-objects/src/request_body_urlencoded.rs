@@ -21,6 +21,25 @@ use glib::{prelude::*, Object};
 use crate::FieldTable;
 
 glib::wrapper! {
+    /// Body payload with key-value pairs encoded as an URL string.
+    ///
+    /// The preferred content-type is `application/x-www-form-urlencoded`, and
+    /// it is usually the value of the `Content-Type` header. The payload
+    /// consists of a set of key-value pairs (internally encoded using
+    /// [`FieldTable`s][super::FieldTable]), encoded as a string as defined
+    /// by the [chapter 5 of the URL Standard][url-standard-ch05].
+    ///
+    /// [url-standard-ch05]: https://url.spec.whatwg.org/#application/x-www-form-urlencoded
+    ///
+    /// ## Properties
+    ///
+    /// `params`: the field table in use.
+    ///
+    /// ## Setting up an instance
+    ///
+    /// - Use the `default` or the `new` method to create empty urlencoded payloads.
+    /// - Use the [`from_table`][RequestBodyUrlencoded::from_table] function to
+    ///   initialise the payload to a given table.
     pub struct RequestBodyUrlencoded(ObjectSubclass<imp::RequestBodyUrlencoded>) @extends crate::RequestBodyData;
 }
 
@@ -31,10 +50,12 @@ impl Default for RequestBodyUrlencoded {
 }
 
 impl RequestBodyUrlencoded {
+    /// Create a new payload with an empty field table with no data.
     pub fn new() -> Self {
         Self::default()
     }
 
+    /// Create a new payload with the given table as initial data.
     pub fn from_table(table: &FieldTable) -> Self {
         Object::builder().property("params", table).build()
     }

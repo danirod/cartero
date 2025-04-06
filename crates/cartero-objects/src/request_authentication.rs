@@ -18,7 +18,10 @@
 use glib::subclass::prelude::*;
 use glib::{prelude::*, Object};
 
-use crate::{RequestAuthenticationBasic, RequestAuthenticationBearer, RequestAuthenticationData};
+use crate::{
+    RequestAuthenticationBasic, RequestAuthenticationBearer, RequestAuthenticationData,
+    RequestAuthenticationDataExt,
+};
 
 fn default_authentication_data(
     auth_type: RequestAuthenticationType,
@@ -34,7 +37,174 @@ fn default_authentication_data(
     }
 }
 
+fn is_appropiate_payload(
+    auth_type: RequestAuthenticationType,
+    auth_data: Option<&RequestAuthenticationData>,
+) -> bool {
+    match auth_type {
+        RequestAuthenticationType::None | RequestAuthenticationType::Inherit => auth_data.is_none(),
+        _ => auth_data.is_some_and(|a| a.auth_type() == auth_type),
+    }
+}
+
 glib::wrapper! {
+    /// A special object to assign authentication information.
+    ///
+    /// Even though users could manually add an `Authorization` header to their
+    /// HTTP requests, this object will make things easier by providing a way
+    /// to assign authentication data to an HTTP request.
+    ///
+    /// For instance, the user interface may display a form to let the user
+    /// type the username and the password, and then use this information to
+    /// automatically craft the proper HTTP headers before the request is sent.
+    ///
+    /// ## Auth data and auth type
+    ///
+    /// There are multiple authentication schemas. In fact, there are
+    /// [a lot][mdn-auth]. We aim to support as much as we can, but some of
+    /// them are not supported yet.
+    ///
+    /// Each authentication scheme is linked to a **type**. It is a key of
+    /// the [RequestAuthenticationType][super::RequestAuthenticationType] enum.
+    /// Use the `auth-type` property of a `RequestAuthentication` to get or
+    /// set the current type.
+    ///
+    /// Some authentication types may require additional inputs, some of them
+    /// not. For instance, when the type is set to [`Inherit`][RequestAuthenticationType::Inherit],
+    /// no additional inputs is needed, because the semantics are the type
+    /// itself. However, some of them do, such as the [`BasicAuth`][RequestAuthenticationType::BasicAuth],
+    /// because it requires an username and a password to actually use.
+    ///
+    /// Therefore, some authentication types are also linked to an
+    /// **authentication data**. It is a payload object that has different
+    /// extra properties. When a request is being crafted, these properties
+    /// are read and used as input to build the extra HTTP headers, parameters
+    /// or payload required to fulfill the HTTP request.
+    ///
+    /// Each payload is a subclass of [RequestAuthenticationData][super::RequestAuthenticationData].
+    ///
+    /// | Type | Data |
+    /// | ---- | ---- |
+    /// | [`None`][RequestAuthenticationType::None] | (none) |
+    /// | [`Inherit`][RequestAuthenticationType::Inherit] | (none) |
+    /// | [`BasicAuth`][RequestAuthenticationType::BasicAuth] | [`RequestAuthenticationBasic`][super::RequestAuthenticationBasic] |
+    /// | [`BearerToken`][RequestAuthenticationType::BearerToken] | [`RequestAuthenticationBearer`][super::RequestAuthenticationBearer] |
+    ///
+    /// Note that `RequestAuthentication` uses the base `RequestAuthenticationData`
+    /// object to store the additional payload. You will have to **downcast** to the
+    /// proper subtype. There are methods in this class to help with this,
+    /// or you can manually use methods such as `.downcast()` or `.and_downcast()`.
+    ///
+    /// [mdn-auth]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Authentication#authentication_schemes
+    ///
+    /// ## Parameters
+    ///
+    /// - `auth-data`: the authentication data object that can be filled with
+    ///   information that is specific to the type in use.
+    /// - `auth-type`: the authentication type in use.
+    ///
+    /// ## Creating an Authentication object
+    ///
+    /// There are two ways.
+    ///
+    /// - Use the `default()` method to craft a new RequestAuthentication
+    ///   object with the authentication type set to
+    ///   [NONE][`super::RequestAuthenticationType::None`]. This would
+    ///   indicate that there is actually no authorization in use, and it
+    ///   would usually be a noop, ignored during an HTTP request and not
+    ///   even persisted into a file or exported.
+    ///
+    /// ```
+    /// use cartero_objects::{Request, RequestAuthentication, RequestAuthenticationType};
+    ///
+    /// let authentication = RequestAuthentication::default();
+    /// assert_eq!(RequestAuthenticationType::None, authentication.auth_type());
+    /// assert!(authentication.auth_data().is_none());
+    /// ```
+    ///
+    /// - Manually initialise the authentication object with a specific type.
+    ///   You can optionally provide also an initial form, but if not given,
+    ///   the default will be assumed.
+    ///
+    /// ```
+    /// use cartero_objects::*;
+    ///
+    /// let authentication = RequestAuthentication::new(RequestAuthenticationType::BasicAuth, RequestAuthenticationData::NONE);
+    /// assert_eq!(authentication.auth_type(), RequestAuthenticationType::BasicAuth);
+    /// assert!(authentication.auth_data().is_some());
+    ///
+    /// let token = RequestAuthenticationBearer::new("auth_token");
+    /// let authentication = RequestAuthentication::new(RequestAuthenticationType::BearerToken, Some(token));
+    /// assert_eq!(authentication.auth_type(), RequestAuthenticationType::BearerToken);
+    /// assert!(authentication.auth_data().is_some());
+    /// ```
+    ///
+    /// ## Type checking and restrictions
+    ///
+    /// As the table in the previous section presents, some authentication types
+    /// may require additional payloads. The setters for `RequestAuthentication`
+    /// will attempt their best to make both parameters have the same type.
+    ///
+    /// - If the `auth-type` of a `RequestAuthentication` changes, the `auth-data`
+    ///   will be reset to an empty object of the appropiate class for the new
+    ///   authentication type. Therefore, the following shall be verified:
+    ///
+    /// ```
+    /// # use cartero_objects::*;
+    /// use glib::object::ObjectExt;
+    ///
+    /// // We start with a request authentication object of type BearerToken.
+    /// let token = RequestAuthenticationBearer::new("auth_token");
+    /// let authentication = RequestAuthentication::new(RequestAuthenticationType::BearerToken, Some(token));
+    ///
+    /// // The auth-data is currently a RequestAuthenticationBearer.
+    /// assert!(authentication.auth_data().is_some_and(|d| d.is::<RequestAuthenticationBearer>()));
+    ///
+    /// // However, if we change the authentication type.
+    /// authentication.set_auth_type(RequestAuthenticationType::BasicAuth);
+    ///
+    /// // Then the auth-data is reset to a new object of the appropiate type too.
+    /// assert!(authentication.auth_data().is_some_and(|d| d.is::<RequestAuthenticationBasic>()));
+    /// ```
+    ///
+    /// - If the `auth-data` changes to a different object, type checking will
+    ///   be applied and if the type of the given `auth-data` is incompatible
+    ///   with the current `auth-type`, it will not actually change.
+    ///   **I wish the setter would panic instead**, but unfortunately this
+    ///   seems to not be supported by gtk-rs. At least the `notify::auth-data`
+    ///   signal is not emitted.
+    ///
+    /// ```
+    /// # use cartero_objects::*;
+    /// use glib::object::{CastNone, ObjectExt};
+    ///
+    /// // We start again with a bearer authentication.
+    /// let token = RequestAuthenticationBearer::new("auth_token");
+    /// let authentication = RequestAuthentication::new(RequestAuthenticationType::BearerToken, Some(token));
+    ///
+    /// // The auth-data is currently a RequestAuthenticationBearer with the proper value.
+    /// assert!(authentication.auth_data().is_some_and(|d| d.is::<RequestAuthenticationBearer>()));
+    /// let bearer = authentication.auth_data().and_downcast::<RequestAuthenticationBearer>().unwrap();
+    /// assert_eq!("auth_token", bearer.token());
+    ///
+    /// // You can manually change it to a different object of the same type.
+    /// let new_token = RequestAuthenticationBearer::new("next_auth_token");
+    /// authentication.set_auth_data(Some(new_token));
+    ///
+    /// // The auth-data is still valid and changed.
+    /// assert!(authentication.auth_data().is_some_and(|d| d.is::<RequestAuthenticationBearer>()));
+    /// let bearer = authentication.auth_data().and_downcast::<RequestAuthenticationBearer>().unwrap();
+    /// assert_eq!("next_auth_token", bearer.token());
+    ///
+    /// // However, if we change it to an invalid type.
+    /// let basic_auth = RequestAuthenticationBasic::new("root", "toor");
+    /// authentication.set_auth_data(Some(basic_auth));
+    ///
+    /// // Then the auth-data does not change.
+    /// assert!(authentication.auth_data().is_some_and(|d| d.is::<RequestAuthenticationBearer>()));
+    /// let bearer = authentication.auth_data().and_downcast::<RequestAuthenticationBearer>().unwrap();
+    /// assert_eq!("next_auth_token", bearer.token());
+    /// ```
     pub struct RequestAuthentication(ObjectSubclass<imp::RequestAuthentication>);
 }
 
@@ -45,6 +215,15 @@ impl Default for RequestAuthentication {
 }
 
 impl RequestAuthentication {
+    /// Creates a new authentication object with the given data.
+    ///
+    /// The `auth_type` is provided, and optionally an `auth_data` object
+    /// can be given if the authentication type supports so, and if there
+    /// is initial data to assign. Otherwise, the default data for that
+    /// type is used.
+    ///
+    /// This function does in fact panic if the auth-data has an invalid
+    /// type that does not match the given auth-type.
     pub fn new<T>(auth_type: RequestAuthenticationType, auth_data: Option<T>) -> Self
     where
         T: IsA<RequestAuthenticationData>,
@@ -52,12 +231,16 @@ impl RequestAuthentication {
         let auth_data: Option<RequestAuthenticationData> = auth_data
             .map(|data| data.upcast())
             .or_else(|| default_authentication_data(auth_type));
+        if !is_appropiate_payload(auth_type, auth_data.as_ref()) {
+            panic!("auth_data type does not match auth_type");
+        }
         Object::builder()
             .property("auth-type", auth_type)
             .property("auth-data", auth_data)
             .build()
     }
 
+    /// Returns the basic authentication data, if it's the current type.
     pub fn basic_auth(&self) -> Option<RequestAuthenticationBasic> {
         if self.auth_type() == RequestAuthenticationType::BasicAuth {
             self.auth_data()
@@ -67,6 +250,7 @@ impl RequestAuthentication {
         }
     }
 
+    /// Returns the bearer token data, if it's the current type.
     pub fn bearer_token(&self) -> Option<RequestAuthenticationBearer> {
         if self.auth_type() == RequestAuthenticationType::BearerToken {
             self.auth_data()
@@ -77,16 +261,37 @@ impl RequestAuthentication {
     }
 }
 
+/// The kind of authentication being used in a [RequestAuthentication] form.
+///
+/// There are multiple types of authentications, and this enum allows both the
+/// user interface and the interoperability libraries to know which one is
+/// the one in use for this request.
+///
+/// Changing the type of a `RequestAuthentication` may change the parameters
+/// visible in the screen and may even change the internal state of the
+/// authentication object itself in order to accomodate different kind of
+/// information.
+///
+/// Please see the doc for [RequestAuthentication] to know more about the
+/// relationship between this enum and the form object.
 #[derive(Copy, Clone, Default, Debug, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "CarteroRequestAuthenticationType")]
 pub enum RequestAuthenticationType {
+    /// No authentication in use.
     #[default]
     #[enum_value(name = "NONE", nick = "None")]
     None,
+
+    /// Inherit the authentication from the collection of parent folder.
     #[enum_value(name = "INHERIT", nick = "Inherit")]
     Inherit,
+
+    /// Basic Authentication based on the RFC 7617.
     #[enum_value(name = "BASIC_AUTHENTICATION", nick = "Basic Authentication")]
     BasicAuth,
+
+    /// A special token usually retrieved as a result of other authentication
+    /// methods such as OAuth 2.0, based on the RFC 6750.
     #[enum_value(name = "BEARER_TOKEN", nick = "Bearer Token")]
     BearerToken,
 }
@@ -96,7 +301,7 @@ mod imp {
 
     use glib::Properties;
 
-    use crate::{RequestAuthenticationData, RequestAuthenticationDataExt};
+    use crate::RequestAuthenticationData;
 
     use super::*;
 
@@ -134,15 +339,7 @@ mod imp {
         // type of the given data is acceptable for the current auth-type the object is set to.
         fn set_auth_data(&self, auth_data: Option<RequestAuthenticationData>) {
             let current_type = self.obj().auth_type();
-            let valid = match current_type {
-                RequestAuthenticationType::BasicAuth | RequestAuthenticationType::BearerToken => {
-                    auth_data
-                        .as_ref()
-                        .is_some_and(|data| data.auth_type() == current_type)
-                }
-                _ => auth_data.is_none(),
-            };
-            if valid {
+            if is_appropiate_payload(current_type, auth_data.as_ref()) {
                 self.auth_data.replace(auth_data);
                 self.obj().notify_auth_data();
             } else {
@@ -161,6 +358,13 @@ mod tests {
     };
 
     use super::*;
+
+    #[test]
+    pub fn new_default() {
+        let authentication = RequestAuthentication::default();
+        assert_eq!(RequestAuthenticationType::None, authentication.auth_type());
+        assert!(authentication.auth_data().is_none());
+    }
 
     #[test]
     pub fn new_for_none() {

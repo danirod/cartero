@@ -20,6 +20,33 @@ use glib::subclass::prelude::*;
 use glib::Object;
 
 glib::wrapper! {
+    /// Body payload with the request body encoded as provided.
+    ///
+    /// This is a more complex payload where the bytes that will be sent as
+    /// part of an HTTP request are manually provided and encoded, and the
+    /// semantics have to be provided by the user, usually encoding the
+    /// payload as a JSON or XML document.
+    ///
+    /// A property to indicate the payload type is added, allowing to store
+    /// these semantics as a field that can influentiate later the value of
+    /// the `Content-Type` header when the request is issued.
+    ///
+    /// ## Properties
+    ///
+    /// - `payload`: the bytes object with the value that will be sent during
+    ///   an HTTP request.
+    /// - `payload-type`: a value that encodes the semantics of the payload.
+    ///   This one is provided by the user and has values such as JSON, XML...
+    ///   It is used both to set the default `Content-Type` header during
+    ///   a request, and to choose the proper syntax highlighting in the text
+    ///   editor used to set the payload.
+    ///
+    /// ## Setting up an instance
+    ///
+    /// - Use the `default` method to craft a new raw payload initialised to
+    ///   an empty payload of type `octet-stream`.
+    /// - Use the [`new`][RequestBodyRaw::new] method to craft a new payload,
+    ///   specifiying both the payload and the payload type.
     pub struct RequestBodyRaw(ObjectSubclass<imp::RequestBodyRaw>) @extends crate::RequestBodyData;
 }
 
@@ -30,6 +57,10 @@ impl Default for RequestBodyRaw {
 }
 
 impl RequestBodyRaw {
+    /// Create a new payload.
+    ///
+    /// The payload will be initialised to the type `raw_type`, and the given
+    /// byte slice will be the initial contents of the payload data.
     pub fn new(raw_type: RequestBodyRawType, initial: &[u8]) -> Self {
         let bytes = glib::Bytes::from(initial);
         Object::builder()
@@ -39,14 +70,28 @@ impl RequestBodyRaw {
     }
 }
 
+/// Define the semantics of a [RequestBodyRaw] payload.
 #[derive(Copy, Clone, Default, Debug, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "CarteroRequestBodyRawType")]
 pub enum RequestBodyRawType {
+    /// The payload has no semantics. By default this is linked to the
+    /// application/octet-stream content-type, and it's the one that will be
+    /// used when sending a request unless the user overrides the value.
     #[default]
     #[enum_value(name = "OCTET_STREAM", nick = "Octet Stream")]
     OctetStream,
+
+    /// The payload should be treated as a JSON. The user interface may apply
+    /// syntax highlighting in the text editor as if it was a JSON document.
+    /// The default content type is application/json, unless overriden by the
+    /// user.
     #[enum_value(name = "JSON", nick = "JSON")]
     Json,
+
+    /// The payload should be treated as a XML. The user interface may apply
+    /// syntax highlighting in the text editor as if it was a XML document.
+    /// The default content type is application/xml, unless overriden by the
+    /// user.
     #[enum_value(name = "XML", nick = "XML")]
     Xml,
 }

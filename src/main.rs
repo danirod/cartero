@@ -44,7 +44,7 @@ use self::config::{APP_ID, GETTEXT_PACKAGE};
 
 const SHARE_DIR: String = "share".to_owned();
 const LOCALE_DIR: String = "locale".to_owned();
-const LOCALE_PATH: String = SHARE_DIR.to_owned().as_str().to_string()
+const LOCALE_PATH: String = SHARE_DIR.to_owned()
     + MAIN_SEPARATOR.to_string().as_str()
     + LOCALE_DIR.as_str();
 fn app_rel_path(dir: &str) -> PathBuf {

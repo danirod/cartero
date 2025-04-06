@@ -34,6 +34,11 @@ jobs:
         uses: actions/checkout@v4
       - name: setup
         run: meson setup build
+      - name: cache-cargo-home
+        uses: actions/cache@v4
+        with:
+          path: build/cargo-home
+          key: check-cargo-home
       - name: blueprint
         run: subprojects/blueprint-compiler/blueprint-compiler.py format data/ui
       - name: build
@@ -55,11 +60,17 @@ jobs:
           ! git -c core.pager="" diff -U0 po | grep -v '^@@' | grep 'msgid'
           git checkout -- po
       - name: cargo-fmt
-        run: meson devenv -C build cargo fmt --manifest-path=../Cargo.toml --check --all
+        run: |
+          export CARGO_HOME=$(realpath build/cargo-home)
+          meson devenv -C build cargo fmt --manifest-path=../Cargo.toml --check --all
       - name: cargo-test
-        run: xvfb-run meson devenv -C build cargo test --workspace --manifest-path=../Cargo.toml
+        run: |
+          export CARGO_HOME=$(realpath build/cargo-home)
+          xvfb-run meson devenv -C build cargo test --workspace --manifest-path=../Cargo.toml
       - name: cargo-clippy
-        run: meson devenv -C build cargo clippy --workspace --manifest-path=../Cargo.toml
+        run: |
+          export CARGO_HOME=$(realpath build/cargo-home)
+          meson devenv -C build cargo clippy --workspace --manifest-path=../Cargo.toml
       - name: cargo-deny
         uses: EmbarkStudios/cargo-deny-action@v2
         with:

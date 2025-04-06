@@ -41,7 +41,7 @@ jobs:
       - name: meson-dist
         run: ninja -C build dist
       - name: upload
-        run: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4
         with:
           name: cartero-src
           path: build/meson-dist/*.tar.xz

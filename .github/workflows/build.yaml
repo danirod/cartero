@@ -24,6 +24,28 @@ on:
       - trunk
 name: Build
 jobs:
+  tarball:
+    runs-on: ubuntu-latest
+    name: "Tarball"
+    steps:
+      - name: dependencies
+        run: sudo apt update && sudo apt install -y --no-install-recommends gettext meson libgtk-4-dev libadwaita-1-dev libgtksourceview-5-dev desktop-file-utils xvfb
+      - name: clone
+        uses: actions/checkout@v4
+      - name: stamp
+        run: build-aux/stamp-version.sh
+      - name: commit
+        run: git commit -am "clean working directory"
+      - name: meson-setup
+        run: meson setup build
+      - name: meson-dist
+        run: ninja -C build dist
+      - name: upload
+        run: actions/upload-artifact@v4
+        with:
+          name: cartero-src
+          path: build/meson-dist/*.tar.xz
+          retention-days: 7
   flatpak:
     runs-on: ubuntu-latest
     container:

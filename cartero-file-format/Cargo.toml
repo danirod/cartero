@@ -10,4 +10,4 @@ cartero_interop = { path = "../cartero-interop" }
 glib.workspace = true
 gio.workspace = true
 serde.workspace = true
-toml = "0.8.20"
+toml.workspace = true

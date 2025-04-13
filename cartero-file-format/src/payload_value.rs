@@ -76,6 +76,9 @@ pub(crate) enum PayloadValue {
 impl From<RequestBody> for PayloadValue {
     fn from(value: RequestBody) -> Self {
         match value.body_type() {
+            RequestBodyType::None => {
+                panic!("please don't convert from RequestBodyType::None to a PayloadValue");
+            }
             RequestBodyType::UrlEncoded => {
                 let urlencoded = value.urlencoded().unwrap();
                 Self::UrlEncoded {
@@ -90,12 +93,9 @@ impl From<RequestBody> for PayloadValue {
             }
             RequestBodyType::Raw => {
                 let raw = value.raw().unwrap();
-                let payload = raw
-                    .payload()
-                    .map(|payload| String::from_utf8_lossy(&payload).to_string())
-                    .unwrap_or_default();
+                let payload = String::from_utf8_lossy(&raw.bytes()).to_string();
                 Self::Raw {
-                    format: Some(raw.body_type().into()),
+                    format: Some(raw.payload_type().into()),
                     body: payload,
                 }
             }
@@ -111,17 +111,17 @@ impl From<PayloadValue> for RequestBody {
                     format.unwrap_or(PayloadRawFormat::OctetStream).into();
                 let parsed_content = glib::Bytes::from(body.as_bytes());
                 let parsed_body = RequestBodyRaw::new(parsed_format, &parsed_content);
-                RequestBody::new(RequestBodyType::Raw, &parsed_body)
+                RequestBody::new(RequestBodyType::Raw, Some(parsed_body))
             }
             PayloadValue::Multipart { variables } => {
                 let parsed_variables = variables.map(|ft| FieldTable::from(ft)).unwrap_or_default();
-                let parsed_body = RequestBodyMultipart::new(&parsed_variables);
-                RequestBody::new(RequestBodyType::Multipart, &parsed_body)
+                let parsed_body = RequestBodyMultipart::from_table(&parsed_variables);
+                RequestBody::new(RequestBodyType::Multipart, Some(parsed_body))
             }
             PayloadValue::UrlEncoded { variables } => {
                 let parsed_variables = variables.map(FieldTable::from).unwrap_or_default();
-                let parsed_body = RequestBodyUrlencoded::new(&parsed_variables);
-                let body = RequestBody::new(RequestBodyType::UrlEncoded, &parsed_body);
+                let parsed_body = RequestBodyUrlencoded::from_table(&parsed_variables);
+                let body = RequestBody::new(RequestBodyType::UrlEncoded, Some(parsed_body));
                 body
             }
         }
@@ -188,10 +188,10 @@ mod tests {
         let param4 = Field::from(("group_id", "100"));
         param4.set_active(false);
         let param5 = Field::from(("category", "2"));
-        let table = FieldTable::from(&[param1, param2, param3, param4, param5]);
+        let table = FieldTable::from_iter([param1, param2, param3, param4, param5]);
         let body = RequestBody::new(
             RequestBodyType::UrlEncoded,
-            &RequestBodyUrlencoded::new(&table),
+            Some(RequestBodyUrlencoded::from_table(&table)),
         );
 
         let serial = PayloadValue::from(body);
@@ -296,10 +296,10 @@ mod tests {
         let param4 = Field::from(("group_id", "100"));
         param4.set_active(false);
         let param5 = Field::from(("category", "2"));
-        let table = FieldTable::from(&[param1, param2, param3, param4, param5]);
+        let table = FieldTable::from_iter([param1, param2, param3, param4, param5]);
         let body = RequestBody::new(
             RequestBodyType::Multipart,
-            &RequestBodyMultipart::new(&table),
+            Some(RequestBodyMultipart::from_table(&table)),
         );
 
         let serial = PayloadValue::from(body);
@@ -373,24 +373,18 @@ mod tests {
         let parsed = RequestBody::from(body);
         assert_eq!(parsed.body_type(), RequestBodyType::Raw);
         let body = parsed.raw().unwrap();
-        assert_eq!(body.body_type(), RequestBodyRawType::OctetStream);
-        assert_eq!(
-            body.payload()
-                .map(|bytes| bytes.into_data())
-                .unwrap_or_default(),
-            *"this is the content".as_bytes()
-        );
+        assert_eq!(body.payload_type(), RequestBodyRawType::OctetStream);
+        assert_eq!(body.bytes(), b"this is the content");
     }
 
     #[test]
     fn serialize_octet_stream() {
-        let body = {
-            let content = "this is the content".as_bytes();
-            glib::Bytes::from(content)
-        };
         let body = RequestBody::new(
             RequestBodyType::Raw,
-            &RequestBodyRaw::new(RequestBodyRawType::OctetStream, &body),
+            Some(RequestBodyRaw::new(
+                RequestBodyRawType::OctetStream,
+                b"this is the content",
+            )),
         );
 
         let parsed = PayloadValue::from(body);
@@ -410,24 +404,18 @@ mod tests {
         let parsed = RequestBody::from(body);
         assert_eq!(parsed.body_type(), RequestBodyType::Raw);
         let body = parsed.raw().unwrap();
-        assert_eq!(body.body_type(), RequestBodyRawType::Json);
-        assert_eq!(
-            body.payload()
-                .map(|bytes| bytes.into_data())
-                .unwrap_or_default(),
-            *"{\"result\": \"hello world\"}".as_bytes()
-        );
+        assert_eq!(body.payload_type(), RequestBodyRawType::Json);
+        assert_eq!(body.bytes(), b"{\"result\": \"hello world\"}");
     }
 
     #[test]
     fn serialize_json() {
-        let body = {
-            let content = r#"{"user_id": "200"}"#.as_bytes();
-            glib::Bytes::from(content)
-        };
         let body = RequestBody::new(
             RequestBodyType::Raw,
-            &RequestBodyRaw::new(RequestBodyRawType::Json, &body),
+            Some(RequestBodyRaw::new(
+                RequestBodyRawType::Json,
+                br#"{"user_id": "200"}"#,
+            )),
         );
 
         let parsed = PayloadValue::from(body);
@@ -447,24 +435,18 @@ mod tests {
         let parsed = RequestBody::from(body);
         assert_eq!(parsed.body_type(), RequestBodyType::Raw);
         let body = parsed.raw().unwrap();
-        assert_eq!(body.body_type(), RequestBodyRawType::Xml);
-        assert_eq!(
-            body.payload()
-                .map(|bytes| bytes.into_data())
-                .unwrap_or_default(),
-            *"<result>hello world</result>".as_bytes()
-        );
+        assert_eq!(body.payload_type(), RequestBodyRawType::Xml);
+        assert_eq!(body.bytes(), b"<result>hello world</result>");
     }
 
     #[test]
     fn serialize_xml() {
-        let body = {
-            let content = "<message>hello world</message>".as_bytes();
-            glib::Bytes::from(content)
-        };
         let body = RequestBody::new(
             RequestBodyType::Raw,
-            &RequestBodyRaw::new(RequestBodyRawType::Xml, &body),
+            Some(RequestBodyRaw::new(
+                RequestBodyRawType::Xml,
+                b"<message>hello world</message>",
+            )),
         );
 
         let parsed = PayloadValue::from(body);

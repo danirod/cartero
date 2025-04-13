@@ -19,6 +19,21 @@ use glib::prelude::*;
 use glib::subclass::prelude::*;
 
 glib::wrapper! {
+    /// The high order class that represents a response.
+    ///
+    ///  A `Response` class is made of different information components that
+    /// are received by the HTTP client and that are used in order to present
+    /// the response to the user, for instance, via the user interface.
+    /// The response is not usually modifiable.
+    ///
+    /// ## Properties
+    ///
+    /// - `body`: the body of the response (may be empty, for instance, during
+    ///   an HTTP HEAD request or if the server returns 204).
+    /// - `duration`: the length in milliseconds the request took to complete.
+    /// - `headers`: a FieldTable with the response headers sent by the server.
+    /// - `size`: the amount in bytes of data contained in the body.
+    /// - `status-code`: the numerical status code returned by the server.
     pub struct Response(ObjectSubclass<imp::Response>);
 }
 

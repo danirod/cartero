@@ -23,6 +23,39 @@ pub(crate) mod test {
     use glib::object::IsA;
     use glib::object::ObjectExt;
 
+    pub(crate) fn assert_emits_signals<T, F>(obj: &T, signals: &[&str], callback: F)
+    where
+        T: IsA<glib::Object>,
+        F: Fn(),
+    {
+        let triggers = signals
+            .iter()
+            .map(|signal| (signal, Arc::new(Mutex::new(AtomicBool::new(false)))))
+            .collect::<Vec<_>>();
+        let handlers = triggers
+            .iter()
+            .map(|(signal, trigger)| {
+                let trigger_cb = trigger.clone();
+                obj.connect_local(signal, true, move |_| {
+                    let ab = trigger_cb.lock().unwrap();
+                    ab.store(true, std::sync::atomic::Ordering::Relaxed);
+                    None
+                })
+            })
+            .collect::<Vec<_>>();
+        callback();
+        for handler in handlers {
+            obj.disconnect(handler);
+        }
+        for (signal, trigger) in triggers {
+            let value = trigger
+                .lock()
+                .unwrap()
+                .load(std::sync::atomic::Ordering::Relaxed);
+            assert!(value, "signal {} was not emitted", signal);
+        }
+    }
+
     pub(crate) fn assert_emits_signal<T, F>(obj: &T, signal: &str, callback: F)
     where
         T: IsA<glib::Object>,

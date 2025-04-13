@@ -106,7 +106,7 @@ where
             .iter()
             .flat_map(|(key, values)| values.to_fields(key))
             .collect();
-        Self::from(&fields)
+        Self::from_iter(fields)
     }
 }
 
@@ -163,7 +163,7 @@ mod tests {
             .property("value", "session=2345")
             .build();
         let fields = vec![field, field2, field3];
-        let table = FieldTable::from(&fields);
+        let table = FieldTable::from_iter(fields);
 
         let value: FieldTableValue<FieldValue> = FieldTableValue::from(table);
         assert_eq!(2, value.0.len());

@@ -34,6 +34,8 @@ dependency('gtksourceview-5', version: '>= 5.4')
 dependency('libadwaita-1', version: '>= 1.5')
 dependency('openssl', version: '>= 1.0')
 
+dependency('gsettings-desktop-schemas')
+
 glib_compile_resources = find_program('glib-compile-resources', required: true)
 glib_compile_schemas = find_program('glib-compile-schemas', required: true)
 desktop_file_validate = find_program('desktop-file-validate', required: false)

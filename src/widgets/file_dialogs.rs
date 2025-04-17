@@ -143,7 +143,13 @@ pub async fn save_file(win: &CarteroWindow) -> Result<Option<gio::File>, glib::E
     dialog.set_accept_label(Some(&gettext("Save")));
     dialog.set_title(&gettext("Save request"));
     dialog.set_initial_folder(get_file_setting(LAST_SAVE_DIR).as_ref());
-    dialog.set_initial_name(Some(&formatx!("{}.cartero", gettext("Request")).unwrap()));
+    let initial_file_name = if cfg!(target_os = "macos") {
+        // The macOS native file dialog will already add the extension for us.
+        gettext("Request")
+    } else {
+        formatx!("{}.cartero", gettext("Request")).unwrap()
+    };
+    dialog.set_initial_name(Some(&initial_file_name));
 
     let file = match dialog.save_future(Some(win)).await {
         Ok(result) => Ok(Some(result)),

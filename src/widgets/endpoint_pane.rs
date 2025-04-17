@@ -17,6 +17,7 @@
 
 use glib::{subclass::types::ObjectSubclassIsExt, Object};
 use gtk::glib;
+use url::form_urlencoded;
 
 use crate::{
     entities::EndpointData,
@@ -36,7 +37,6 @@ mod imp {
     use gtk::subclass::prelude::*;
     use gtk::{prelude::*, ClosureExpression, CompositeTemplate};
     use isahc::RequestExt;
-    use url::Url;
 
     use crate::app::CarteroApplication;
     use crate::client::BoundRequest;
@@ -160,9 +160,7 @@ mod imp {
                     // is_ok() does not capture the mutex and will cause sync issues.
                     #[allow(clippy::redundant_pattern_matching)]
                     if let Ok(_) = parameter_arc.try_lock() {
-                        if let Err(err) = window.update_url_from_query_params() {
-                            println!("{err}");
-                        }
+                        window.update_url_from_query_params();
                     }
                 }
             ));
@@ -262,34 +260,31 @@ mod imp {
             obj.insert_action_group("endpoint", Some(&action_group));
         }
 
-        fn update_url_from_query_params(&self) -> Result<(), url::ParseError> {
-            let table = self.parameter_pane.get_entries();
-
-            let parsed_url = self.request_url.text().to_string();
-            let mut url = Url::parse(&parsed_url)?;
-            {
-                let mut pairs = url.query_pairs_mut();
-                pairs.clear();
-                for item in table {
-                    if item.active() {
-                        let key = item.header_name();
-                        let value = item.header_value();
-                        pairs.append_pair(&key, &value);
+        fn update_url_from_query_params(&self) {
+            let active_params = self
+                .parameter_pane
+                .get_entries()
+                .into_iter()
+                .filter_map(|item| {
+                    if item.is_usable() {
+                        Some((item.header_name(), item.header_value()))
+                    } else {
+                        None
                     }
-                }
-            }
-            self.request_url.set_text(url.as_str());
-            Ok(())
+                })
+                .collect::<Vec<(String, String)>>();
+
+            let current_url = self.request_url.text().to_string();
+            let next_url = super::update_queryparams(&current_url, &active_params);
+            self.request_url.set_text(&next_url);
         }
 
         fn update_query_params(&self) -> Result<(), url::ParseError> {
             let parsed_url = self.request_url.text().to_string();
-            let url = Url::parse(&parsed_url)?;
-            let new_query_pairs = url.query_pairs();
-            let mut new_query_entries: Vec<KeyValueItem> = new_query_pairs
+            let decoded_params = super::extract_queryparams(&parsed_url);
+            let mut new_query_entries: Vec<KeyValueItem> = decoded_params
+                .into_iter()
                 .map(|(key, value)| {
-                    let key = String::from(key);
-                    let value = String::from(value);
                     let entry = KeyValue::from((key, value));
                     let value = KeyValueItem::from(entry);
                     value.set_active(true);
@@ -662,5 +657,186 @@ impl EndpointPane {
             }
             None => Err(FileSaveError::AnonymousPane),
         }
+    }
+}
+
+fn extract_queryparams(url: &str) -> Vec<(String, String)> {
+    let parts = url.split("?").collect::<Vec<&str>>();
+    if parts.len() < 2 {
+        vec![]
+    } else {
+        let combined = parts[1..].join("?");
+        let params = form_urlencoded::parse(combined.as_bytes());
+        params
+            .into_iter()
+            .map(|(key, value)| (String::from(key), String::from(value)))
+            .collect::<_>()
+    }
+}
+
+fn update_queryparams(url: &str, params: &[(impl AsRef<str>, impl AsRef<str>)]) -> String {
+    let url_without_querystring = if url.contains("?") {
+        let parts = url.split("?").collect::<Vec<&str>>();
+        parts[0]
+    } else {
+        url
+    };
+
+    if params.is_empty() {
+        return url_without_querystring.to_string();
+    }
+
+    // This is a hand-crafted implementation of x-www-form-urlencoded
+    // serializing according to the URL spec from WHATWG section 5.2. However,
+    // we skip asserting that the params are scalar strings and we don't
+    // percent-encode them, because the URL doesn't have to be valid yet since
+    // the output of this string is going to the textarea. There's time to
+    // validate and encode the URL when the user sends the request.
+    let mut output = String::new();
+    for (key, value) in params {
+        if !output.is_empty() {
+            output.push('&');
+        }
+        output.push_str(key.as_ref());
+        output.push('=');
+        output.push_str(value.as_ref());
+    }
+    [url_without_querystring, &output].join("?")
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn update_queryparams_good_case() {
+        let url = "https://www.example.com/index.html?a=1&b=2&c=3";
+        let params = vec![("a", "2"), ("d", "4"), ("z", "9")];
+        let result = update_queryparams(url, &params);
+        assert_eq!(result, "https://www.example.com/index.html?a=2&d=4&z=9");
+    }
+
+    #[test]
+    fn update_queryparams_empty() {
+        let empty: &[(&str, &str)] = &[];
+        let result = update_queryparams("", &empty);
+        assert_eq!(result, "");
+    }
+
+    #[test]
+    fn update_queryparams_valid_url_without_qs_and_empty_params() {
+        let empty: &[(&str, &str)] = &[];
+        let result = update_queryparams("https://www.example.com/index.html", &empty);
+        assert_eq!(result, "https://www.example.com/index.html");
+    }
+
+    #[test]
+    fn update_queryparams_removes_querystring_if_empty_params() {
+        let empty: &[(&str, &str)] = &[];
+        let result = update_queryparams("https://www.example.com/index.html?a=1&b=2", &empty);
+        assert_eq!(result, "https://www.example.com/index.html");
+    }
+
+    #[test]
+    fn update_queryparams_adds_queryparams() {
+        let url = "https://www.example.com/index.html";
+        let params = vec![("a", "2"), ("d", "4"), ("z", "9")];
+        let result = update_queryparams(url, &params);
+        assert_eq!(result, "https://www.example.com/index.html?a=2&d=4&z=9");
+    }
+
+    #[test]
+    fn update_queryparams_adds_queryparams_partial_urls() {
+        let url = "/api/v1/users";
+        let params = vec![("page", "2"), ("sort", "-created")];
+        let result = update_queryparams(url, &params);
+        assert_eq!(result, "/api/v1/users?page=2&sort=-created")
+    }
+
+    #[test]
+    fn update_queryparams_updates_queryparams() {
+        let url = "http://{{ROOT}}/users?page=1&sort=-created";
+        let params = vec![("page", "2")];
+        let result = update_queryparams(url, &params);
+        assert_eq!(result, "http://{{ROOT}}/users?page=2")
+    }
+
+    #[test]
+    fn update_queryparams_updates_queryparams_with_variables() {
+        let url = "http://www.example.com/api/users?page=1&sort=-created";
+        let params = vec![("page", "{{PID}}"), ("sort", "created")];
+        let result = update_queryparams(url, &params);
+        assert_eq!(
+            result,
+            "http://www.example.com/api/users?page={{PID}}&sort=created"
+        );
+    }
+
+    #[test]
+    fn extract_queryparams_no_params() {
+        let url = "https://www.example.com/foobar.html";
+        let result = extract_queryparams(url);
+        assert!(result.is_empty());
+    }
+
+    #[test]
+    fn extract_queryparams_straight_case() {
+        let url = "https://www.example.com/foobar.html?a=1&b=2&c=3&d=4";
+        let expected = vec![("a", "1"), ("b", "2"), ("c", "3"), ("d", "4")];
+        let result = extract_queryparams(&url);
+        assert_eq!(result.len(), expected.len());
+        for (result, expect) in result.iter().zip(expected) {
+            assert_eq!(result.0, expect.0);
+            assert_eq!(result.1, expect.1);
+        }
+    }
+
+    #[test]
+    fn extract_queryparams_multiple_questions() {
+        // You should probably URL-encode this, tho.
+        let url =
+            "https://www.example.com/foobar.html?question1=where?&question2=how?&question3=when?";
+        let expected = vec![
+            ("question1", "where?"),
+            ("question2", "how?"),
+            ("question3", "when?"),
+        ];
+        let result = extract_queryparams(&url);
+        assert_eq!(result.len(), expected.len());
+        for (result, expect) in result.iter().zip(expected) {
+            assert_eq!(result.0, expect.0);
+            assert_eq!(result.1, expect.1);
+        }
+    }
+
+    #[test]
+    fn extract_queryparams_variables_before() {
+        // It's going to do what it can.
+        let url = "https://{{ROOT}}/users?limit=20&offset=30";
+        let expected = vec![("limit", "20"), ("offset", "30")];
+        let result = extract_queryparams(&url);
+        for (result, expect) in result.iter().zip(expected) {
+            assert_eq!(result.0, expect.0);
+            assert_eq!(result.1, expect.1);
+        }
+    }
+
+    #[test]
+    fn extract_queryparams_variables_inside() {
+        let url = "https://www.example.com/users?limit=10&page={{PID}}&order=desc";
+        let expected = vec![("limit", "10"), ("page", "{{PID}}"), ("order", "desc")];
+        let result = extract_queryparams(&url);
+        for (result, expect) in result.iter().zip(expected) {
+            assert_eq!(result.0, expect.0);
+            assert_eq!(result.1, expect.1);
+        }
+    }
+
+    #[test]
+    fn extract_queryparams_variables_inappropiate() {
+        // Imagine that PREFIX = www.example.com/users?page=
+        let url = "https://{{PREFIX}}2";
+        let result = extract_queryparams(&url);
+        assert!(result.is_empty()); // yeah, I can't do magic here
     }
 }

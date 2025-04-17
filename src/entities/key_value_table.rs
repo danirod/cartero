@@ -71,6 +71,7 @@ impl KeyValueTable {
     pub fn render(&self, renderer: &SrTemplate) -> Result<KeyValueTable, srtemplate::Error> {
         let entries = self
             .iter()
+            .filter(|var| var.active)
             .map(|var| {
                 let name = renderer.render(var.name.clone())?;
                 let value = renderer.render(var.value.clone())?;

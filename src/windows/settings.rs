@@ -34,10 +34,9 @@ mod imp {
     use adw::subclass::prelude::*;
     use glib::object::CastNone;
     use glib::subclass::Signal;
-    use glib::types::StaticType;
     use glib::value::ToValue;
     use glib::{object::ObjectExt, subclass::InitializingObject};
-    use gtk::PropertyExpression;
+    use gtk::ClosureExpression;
     use gtk::{
         pango::FontDescription, prelude::SettingsExtManual, template_callbacks, CompositeTemplate,
         TemplateChild,
@@ -83,6 +82,9 @@ mod imp {
 
         #[template_child]
         version_id: TemplateChild<adw::ActionRow>,
+
+        #[template_child]
+        locale_changed: TemplateChild<adw::Banner>,
     }
 
     #[glib::object_subclass]
@@ -108,14 +110,21 @@ mod imp {
             // Init locale list before loading settings.
             let locale_model = LocaleRepr::get_model();
             self.option_locale.set_model(Some(&locale_model));
-            self.option_locale
-                .set_expression(Some(PropertyExpression::new(
-                    LocaleRepr::static_type(),
-                    None::<gtk::Expression>,
-                    "name",
-                )));
+            let expr: ClosureExpression =
+                gtk::ClosureExpression::with_callback(gtk::Expression::NONE, |args| {
+                    let repr = args[0].get::<LocaleRepr>().unwrap();
+                    let iso = repr.iso();
+                    let language = repr.name();
+                    if !iso.is_empty() {
+                        format!("{language} [{iso}]")
+                    } else {
+                        language
+                    }
+                });
+            self.option_locale.set_expression(Some(&expr));
 
             self.init_settings();
+            self.init_locale_banner();
 
             self.version_id.set_subtitle(crate::config::VERSION);
             if cfg!(feature = "app_updater") {
@@ -139,6 +148,21 @@ mod imp {
 
     #[template_callbacks]
     impl SettingsDialog {
+        fn init_locale_banner(&self) {
+            let app = CarteroApplication::default();
+            let settings = app.settings();
+
+            settings
+                .bind("locale", &*self.locale_changed, "revealed")
+                .get_only()
+                .mapping(|variant, _| {
+                    let locale = variant.get::<String>().expect("Expected a string");
+                    let current = std::env::var("LANGUAGE").unwrap_or(String::from(""));
+                    Some((locale != current).to_value())
+                })
+                .build();
+        }
+
         fn init_settings(&self) {
             let app = CarteroApplication::default();
             let settings = app.settings();

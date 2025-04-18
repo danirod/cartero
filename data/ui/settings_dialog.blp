@@ -26,13 +26,23 @@ template $CarteroSettingsDialog: Adw.PreferencesDialog {
     title: _("Application");
     icon-name: "applications-system-symbolic";
 
+    Adw.Banner locale_changed {
+      title: _("You need to restart the program for the new locale to be used.");
+    }
+
+    Adw.PreferencesGroup {
+      Adw.ComboRow option_locale {
+        css-classes: [
+          "property",
+        ];
+
+        title: _("Language");
+        use-subtitle: true;
+      }
+    }
+
     Adw.PreferencesGroup {
       title: _("Appearance");
-
-      Adw.ComboRow option_locale {
-        title: _("Language");
-        subtitle: _("Restart the application to use the new language");
-      }
 
       Adw.ComboRow option_theme {
         title: _("Application style");

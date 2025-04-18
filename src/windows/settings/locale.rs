@@ -37,6 +37,13 @@ const LOCALES: [(&str, &str); 13] = [
 use glib::subclass::prelude::*;
 use glib::{prelude::*, Object};
 
+// Returns true if there is a file called locale/{iso}/LC_MESSAGES/cartero.mo in the datadir.
+fn locale_exists(iso: &str) -> bool {
+    let path = format!("share/locale/{iso}/LC_MESSAGES/cartero.mo");
+    let file = crate::app_rel_path(&path);
+    file.exists() && file.is_file()
+}
+
 mod imp {
     use std::cell::RefCell;
 
@@ -77,35 +84,14 @@ impl LocaleRepr {
             .build();
         store.append(&default);
         for (iso, name) in LOCALES {
-            let repr: Self = Object::builder()
-                .property("iso", iso.to_string())
-                .property("name", name.to_string())
-                .build();
-            store.append(&repr);
+            if locale_exists(iso) {
+                let repr: Self = Object::builder()
+                    .property("iso", iso.to_string())
+                    .property("name", name.to_string())
+                    .build();
+                store.append(&repr);
+            }
         }
         store
-    }
-
-    pub fn index_for_code(code: &str) -> Option<u32> {
-        if code.is_empty() {
-            return Some(0);
-        }
-        LOCALES
-            .iter()
-            .enumerate()
-            .find(|(_, (iso, _))| *iso == code)
-            .map(|(idx, _)| (idx as u32) + 1)
-    }
-
-    pub fn index_to_code(idx: u32) -> Option<&'static str> {
-        if idx == 0 {
-            return Some("");
-        }
-        let array_idx = (idx as usize) - 1;
-        if array_idx < LOCALES.len() {
-            Some(LOCALES[array_idx].0)
-        } else {
-            None
-        }
     }
 }

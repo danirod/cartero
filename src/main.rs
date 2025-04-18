@@ -42,7 +42,7 @@ use gtk::prelude::*;
 use self::app::CarteroApplication;
 use self::config::{APP_ID, GETTEXT_PACKAGE};
 
-fn app_rel_path(dir: &str) -> PathBuf {
+pub fn app_rel_path(dir: &str) -> PathBuf {
     let root_dir = std::env::current_exe()
         .map(|p| p.parent().unwrap().parent().unwrap().to_path_buf())
         .unwrap();

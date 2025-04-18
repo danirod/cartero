@@ -32,6 +32,7 @@ mod imp {
 
     use adw::prelude::{ActionRowExt, ComboRowExt, WidgetExt};
     use adw::subclass::prelude::*;
+    use glib::object::CastNone;
     use glib::subclass::Signal;
     use glib::types::StaticType;
     use glib::value::ToValue;
@@ -41,6 +42,7 @@ mod imp {
         pango::FontDescription, prelude::SettingsExtManual, template_callbacks, CompositeTemplate,
         TemplateChild,
     };
+    use sourceview5::prelude::{ListModelExt, ListModelExtManual};
 
     use crate::app::CarteroApplication;
 
@@ -216,15 +218,35 @@ mod imp {
 
             settings
                 .bind("locale", &*self.option_locale, "selected")
-                .mapping(|variant, _| {
-                    let locale = variant.get::<String>().expect("Expected a string");
-                    LocaleRepr::index_for_code(&locale).map(|l| l.to_value())
-                })
-                .set_mapping(|item, _| {
-                    let index = item.get::<u32>().expect("What the heck");
-                    let iso = LocaleRepr::index_to_code(index).map(String::from);
-                    iso.map(|iso| iso.into())
-                })
+                .mapping(glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    #[upgrade_or_panic]
+                    move |variant, _| {
+                        let locale = variant.get::<String>().expect("Expected a string");
+                        let model = imp.option_locale.model().unwrap();
+                        let result = model.iter::<LocaleRepr>().enumerate().find(|(_, obj)| {
+                            match obj {
+                                Ok(repr) => repr.iso() == locale,
+                                Err(_) => false, // ???
+                            }
+                        });
+                        result.map(|(idx, _)| (idx as u32).to_value())
+                    }
+                ))
+                .set_mapping(glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    #[upgrade_or_panic]
+                    move |item, _| {
+                        let index = item.get::<u32>().expect("What the heck");
+                        let model = imp.option_locale.model().unwrap();
+                        model
+                            .item(index)
+                            .and_downcast_ref::<LocaleRepr>()
+                            .map(|repr| repr.iso().into())
+                    }
+                ))
                 .build();
         }
 

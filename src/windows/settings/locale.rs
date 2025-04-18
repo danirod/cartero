@@ -77,14 +77,16 @@ glib::wrapper! {
 
 impl LocaleRepr {
     pub fn get_model() -> ListStore {
+        // Has to be a separate variable due to variable lifetimes.
+        let system = gettext("Follow system settings");
+        let mut languages = Vec::from(LOCALES);
+        languages.push(("", &system));
+        languages.push(("en", "English"));
+        languages.sort_by_key(|l| l.0);
+
         let store = ListStore::new::<Self>();
-        let default: Self = Object::builder()
-            .property("iso", "")
-            .property("name", &gettext("Follow system settings"))
-            .build();
-        store.append(&default);
-        for (iso, name) in LOCALES {
-            if locale_exists(iso) {
+        for (iso, name) in languages {
+            if iso == "" || iso == "en" || locale_exists(iso) {
                 let repr: Self = Object::builder()
                     .property("iso", iso.to_string())
                     .property("name", name.to_string())

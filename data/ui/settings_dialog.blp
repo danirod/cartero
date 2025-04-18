@@ -19,7 +19,7 @@ using Adw 1;
 
 template $CarteroSettingsDialog: Adw.PreferencesDialog {
   title: _("Settings");
-  content-width: 600;
+  content-width: 720;
   content-height: 640;
 
   Adw.PreferencesPage {
@@ -28,6 +28,11 @@ template $CarteroSettingsDialog: Adw.PreferencesDialog {
 
     Adw.PreferencesGroup {
       title: _("Appearance");
+
+      Adw.ComboRow option_locale {
+        title: _("Language");
+        subtitle: _("Restart the application to use the new language");
+      }
 
       Adw.ComboRow option_theme {
         title: _("Application style");

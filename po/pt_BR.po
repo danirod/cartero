@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-21 01:46+0100\n"
+"POT-Creation-Date: 2025-04-18 00:11+0200\n"
 "PO-Revision-Date: 2025-03-22 12:44+0000\n"
 "Last-Translator: John Peter Sa <johnppetersa@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
@@ -81,82 +81,87 @@ msgid "Gnome;GTK;HTTP;REST;"
 msgstr "Gnome; gtk; http; descanso;"
 
 #: data/es.danirod.Cartero.gschema.xml:12
+msgid ""
+"A specific locale to use within the application instead of the system default"
+msgstr ""
+
+#: data/es.danirod.Cartero.gschema.xml:16
 msgid "Automatically indent new lines for the request body"
 msgstr "Recomete novas linhas automaticamente para o corpo de solicitação"
 
-#: data/es.danirod.Cartero.gschema.xml:16
+#: data/es.danirod.Cartero.gschema.xml:20
 msgid "Wrap the body content"
 msgstr "Enrole o conteúdo do corpo"
 
-#: data/es.danirod.Cartero.gschema.xml:20
+#: data/es.danirod.Cartero.gschema.xml:24
 msgid "Whether to indent the request body with spaces or tabs"
 msgstr "Se deve recuperar o corpo de solicitação com espaços ou guias"
 
-#: data/es.danirod.Cartero.gschema.xml:24
+#: data/es.danirod.Cartero.gschema.xml:28
 msgid "Show line numbers in the request and response bodies"
 msgstr "Mostrar números de linha nos órgãos de solicitação e resposta"
 
-#: data/es.danirod.Cartero.gschema.xml:28
+#: data/es.danirod.Cartero.gschema.xml:32
 msgid "How many characters to pad when indenting the request body"
 msgstr "Quantos personagens preencherem ao recuar o corpo do pedido"
 
-#: data/es.danirod.Cartero.gschema.xml:32
+#: data/es.danirod.Cartero.gschema.xml:36
 msgid "How large should new windows be"
 msgstr "Quão grande deve ser as novas janelas"
 
-#: data/es.danirod.Cartero.gschema.xml:36
+#: data/es.danirod.Cartero.gschema.xml:40
 msgid "How tall should new windows be"
 msgstr "Qual a altura das novas janelas"
 
-#: data/es.danirod.Cartero.gschema.xml:40
+#: data/es.danirod.Cartero.gschema.xml:44
 msgid "Whether the application should open maximized"
 msgstr "Se o aplicativo deve abrir maximizado"
 
-#: data/es.danirod.Cartero.gschema.xml:44
+#: data/es.danirod.Cartero.gschema.xml:48
 msgid "The position of the split between two windows"
 msgstr "A posição da divisão entre duas janelas"
 
-#: data/es.danirod.Cartero.gschema.xml:48
+#: data/es.danirod.Cartero.gschema.xml:52
 msgid "The current list of opened files"
 msgstr "A lista atual de arquivos abertos"
 
-#: data/es.danirod.Cartero.gschema.xml:52
+#: data/es.danirod.Cartero.gschema.xml:56
 msgid "The last location where a file was opened"
 msgstr "O último local onde um arquivo foi aberto"
 
-#: data/es.danirod.Cartero.gschema.xml:56
+#: data/es.danirod.Cartero.gschema.xml:60
 msgid "The last location where a file was saved"
 msgstr "O último local onde um arquivo foi salvo"
 
-#: data/es.danirod.Cartero.gschema.xml:60
+#: data/es.danirod.Cartero.gschema.xml:64
 msgid "Whether to validate the TLS certificates during a request"
 msgstr "Se deve validar os certificados TLS durante uma solicitação"
 
-#: data/es.danirod.Cartero.gschema.xml:64
+#: data/es.danirod.Cartero.gschema.xml:68
 msgid "Whether to follow redirections if that is the server response"
 msgstr "Se deve seguir os redirecionamentos, se essa é a resposta do servidor"
 
-#: data/es.danirod.Cartero.gschema.xml:68
+#: data/es.danirod.Cartero.gschema.xml:72
 msgid "Maximum number of redirections to follow before giving up"
 msgstr "Número máximo de redirecimentos a seguir antes de desistir"
 
-#: data/es.danirod.Cartero.gschema.xml:72
+#: data/es.danirod.Cartero.gschema.xml:76
 msgid "Maximum timeout when awaiting for an HTTP response."
 msgstr "Tempo limite máximo ao aguardar uma resposta HTTP."
 
-#: data/es.danirod.Cartero.gschema.xml:76
+#: data/es.danirod.Cartero.gschema.xml:80
 msgid "Whether to use light or dark mode."
 msgstr "Se deve usar o modo claro ou escuro."
 
-#: data/es.danirod.Cartero.gschema.xml:80
+#: data/es.danirod.Cartero.gschema.xml:84
 msgid "The custom font in use"
 msgstr "A fonte personalizada em uso"
 
-#: data/es.danirod.Cartero.gschema.xml:84
+#: data/es.danirod.Cartero.gschema.xml:88
 msgid "Whether to use the system font or a custom one"
 msgstr "Se deve usar a fonte do sistema ou personalizada"
 
-#: data/es.danirod.Cartero.gschema.xml:88
+#: data/es.danirod.Cartero.gschema.xml:92
 msgid "Whether to create backup files on save"
 msgstr "Se deve criar arquivos de backup em salvar"
 
@@ -470,38 +475,47 @@ msgid "Appearance"
 msgstr "Aparência"
 
 #: data/ui/settings_dialog.blp:33
+msgid "Language"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:34
+#, fuzzy
+msgid "Restart the application to use the new language"
+msgstr "Se o aplicativo deve abrir maximizado"
+
+#: data/ui/settings_dialog.blp:38
 msgid "Application style"
 msgstr "Estilo de aplicativo"
 
-#: data/ui/settings_dialog.blp:37
+#: data/ui/settings_dialog.blp:42
 msgid "Follow system settings"
 msgstr "Siga as configurações do sistema"
 
-#: data/ui/settings_dialog.blp:38
+#: data/ui/settings_dialog.blp:43
 msgid "Light mode"
 msgstr "Modo Claro"
 
-#: data/ui/settings_dialog.blp:39
+#: data/ui/settings_dialog.blp:44
 msgid "Dark mode"
 msgstr "Modo escuro"
 
-#: data/ui/settings_dialog.blp:45
+#: data/ui/settings_dialog.blp:50
 msgid "Use system font"
 msgstr "Use a fonte do sistema"
 
-#: data/ui/settings_dialog.blp:49
+#: data/ui/settings_dialog.blp:54
 msgid "Custom font"
 msgstr "Fonte personalizada"
 
-#: data/ui/settings_dialog.blp:64
+#: data/ui/settings_dialog.blp:69
 msgid "File settings"
 msgstr "Configurações de arquivo"
 
-#: data/ui/settings_dialog.blp:67
+#: data/ui/settings_dialog.blp:72
 msgid "Create backup files"
 msgstr "Crie arquivos de backup"
 
-#: data/ui/settings_dialog.blp:68
+#: data/ui/settings_dialog.blp:73
 msgid ""
 "You might not want to enable this if you are already using a version control "
 "such as Git"
@@ -509,49 +523,49 @@ msgstr ""
 "Você pode não querer ativar isso se já estiver usando um controle de versão "
 "como Git"
 
-#: data/ui/settings_dialog.blp:74
+#: data/ui/settings_dialog.blp:79
 msgid "Software updates"
 msgstr "Atualizações de software"
 
-#: data/ui/settings_dialog.blp:81
+#: data/ui/settings_dialog.blp:86
 msgid "Current version"
 msgstr "Versão atual"
 
-#: data/ui/settings_dialog.blp:85
+#: data/ui/settings_dialog.blp:90
 msgid "Check for updates"
 msgstr "Verificar atualizações"
 
-#: data/ui/settings_dialog.blp:93 data/ui/settings_dialog.blp:97
+#: data/ui/settings_dialog.blp:98 data/ui/settings_dialog.blp:102
 msgid "HTTP Client"
 msgstr "Cliente http"
 
-#: data/ui/settings_dialog.blp:100
+#: data/ui/settings_dialog.blp:105
 msgid "Enforce TLS validation"
 msgstr "Aplicar a validação do TLS"
 
-#: data/ui/settings_dialog.blp:101
+#: data/ui/settings_dialog.blp:106
 msgid "Cancel a request if the TLS handshake fails"
 msgstr "Cancelar uma solicitação se o handshake TLS falhar"
 
-#: data/ui/settings_dialog.blp:105
+#: data/ui/settings_dialog.blp:110
 msgid "Follow redirects"
 msgstr "Siga os redirecionamentos"
 
-#: data/ui/settings_dialog.blp:106
+#: data/ui/settings_dialog.blp:111
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
 msgstr ""
 "Faça solicitações de acompanhamento se o servidor retornar uma resposta HTTP "
 "3xx"
 
-#: data/ui/settings_dialog.blp:111
+#: data/ui/settings_dialog.blp:116
 msgid "Maximum redirects"
 msgstr "Redirecionamentos máximos"
 
-#: data/ui/settings_dialog.blp:123
+#: data/ui/settings_dialog.blp:128
 msgid "Request timeout"
 msgstr "Solicitar tempo limite"
 
-#: data/ui/settings_dialog.blp:124
+#: data/ui/settings_dialog.blp:129
 msgid "Seconds to wait before cancelling the request"
 msgstr "Segundos para esperar antes de cancelar a solicitação"
 
@@ -788,7 +802,9 @@ msgid "Content copied to the clipboard"
 msgstr "Conteúdo copiado para a área de transferência"
 
 #. TRANSLATORS: presented in file dialogs as the file type for a request
-#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:146
+#. The macOS native file dialog will already add the extension for us.
+#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:148
+#: src/widgets/file_dialogs.rs:150
 msgid "Request"
 msgstr "Solicitação"
 
@@ -841,11 +857,11 @@ msgstr "john peter"
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 Os autores Cartero"
 
-#: src/win.rs:605
+#: src/win.rs:617
 msgid "User manual"
 msgstr "Manual do usuário"
 
-#: src/win.rs:607
+#: src/win.rs:619
 msgid "Help us translate"
 msgstr "Ajude-nos a traduzir"
 

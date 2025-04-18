@@ -5,8 +5,12 @@
     <value nick="light" value="1" />
     <value nick="dark" value="2" />
   </enum>
-  
+
   <schema id="es.danirod.Cartero" path="/es/danirod/Cartero/">
+    <key name="locale" type="s">
+      <default>''</default>
+      <summary>A specific locale to use within the application instead of the system default</summary>
+    </key>
     <key name="auto-indent" type="b">
       <default>false</default>
       <summary>Automatically indent new lines for the request body</summary>

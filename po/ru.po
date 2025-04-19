@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-04-18 00:11+0200\n"
+"POT-Creation-Date: 2025-04-19 00:40+0200\n"
 "PO-Revision-Date: 2024-12-22 20:55+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -472,97 +472,96 @@ msgid "Application"
 msgstr ""
 
 #: data/ui/settings_dialog.blp:30
-msgid "Appearance"
+msgid "You need to restart the program for the new locale to be used."
 msgstr ""
 
-#: data/ui/settings_dialog.blp:33
+#: data/ui/settings_dialog.blp:39
 msgid "Language"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:34
-#, fuzzy
-msgid "Restart the application to use the new language"
-msgstr "Открывать приложение в полноэкранном режиме"
+#: data/ui/settings_dialog.blp:45
+msgid "Appearance"
+msgstr ""
 
-#: data/ui/settings_dialog.blp:38
+#: data/ui/settings_dialog.blp:48
 msgid "Application style"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:42
+#: data/ui/settings_dialog.blp:52
 msgid "Follow system settings"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:43
+#: data/ui/settings_dialog.blp:53
 msgid "Light mode"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:44
+#: data/ui/settings_dialog.blp:54
 msgid "Dark mode"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:50
+#: data/ui/settings_dialog.blp:60
 msgid "Use system font"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:54
+#: data/ui/settings_dialog.blp:64
 msgid "Custom font"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:69
+#: data/ui/settings_dialog.blp:79
 msgid "File settings"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:72
+#: data/ui/settings_dialog.blp:82
 msgid "Create backup files"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:73
+#: data/ui/settings_dialog.blp:83
 msgid ""
 "You might not want to enable this if you are already using a version control "
 "such as Git"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:79
+#: data/ui/settings_dialog.blp:89
 msgid "Software updates"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:86
+#: data/ui/settings_dialog.blp:96
 msgid "Current version"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:90
+#: data/ui/settings_dialog.blp:100
 msgid "Check for updates"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:98 data/ui/settings_dialog.blp:102
+#: data/ui/settings_dialog.blp:108 data/ui/settings_dialog.blp:112
 msgid "HTTP Client"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:105
+#: data/ui/settings_dialog.blp:115
 msgid "Enforce TLS validation"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:106
+#: data/ui/settings_dialog.blp:116
 msgid "Cancel a request if the TLS handshake fails"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:110
+#: data/ui/settings_dialog.blp:120
 msgid "Follow redirects"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:111
+#: data/ui/settings_dialog.blp:121
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:116
+#: data/ui/settings_dialog.blp:126
 msgid "Maximum redirects"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:128
+#: data/ui/settings_dialog.blp:138
 msgid "Request timeout"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:129
+#: data/ui/settings_dialog.blp:139
 msgid "Seconds to wait before cancelling the request"
 msgstr ""
 
@@ -852,6 +851,10 @@ msgstr ""
 #: src/win.rs:619
 msgid "Help us translate"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Restart the application to use the new language"
+#~ msgstr "Открывать приложение в полноэкранном режиме"
 
 #~ msgid "Request (.cartero)"
 #~ msgstr "Запрос (.cartero)"

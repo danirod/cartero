@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-04-18 00:11+0200\n"
+"POT-Creation-Date: 2025-04-19 00:40+0200\n"
 "PO-Revision-Date: 2025-03-21 01:53+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -469,51 +469,50 @@ msgid "Application"
 msgstr "Aplicación"
 
 #: data/ui/settings_dialog.blp:30
-msgid "Appearance"
-msgstr "Apariencia"
+msgid "You need to restart the program for the new locale to be used."
+msgstr ""
 
-#: data/ui/settings_dialog.blp:33
+#: data/ui/settings_dialog.blp:39
 msgid "Language"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:34
-#, fuzzy
-msgid "Restart the application to use the new language"
-msgstr "Si la aplicación se debe abrir maximizada"
+#: data/ui/settings_dialog.blp:45
+msgid "Appearance"
+msgstr "Apariencia"
 
-#: data/ui/settings_dialog.blp:38
+#: data/ui/settings_dialog.blp:48
 msgid "Application style"
 msgstr "Estilo de la aplicación"
 
-#: data/ui/settings_dialog.blp:42
+#: data/ui/settings_dialog.blp:52
 msgid "Follow system settings"
 msgstr "Seguir opciones del sistema"
 
-#: data/ui/settings_dialog.blp:43
+#: data/ui/settings_dialog.blp:53
 msgid "Light mode"
 msgstr "Modo claro"
 
-#: data/ui/settings_dialog.blp:44
+#: data/ui/settings_dialog.blp:54
 msgid "Dark mode"
 msgstr "Modo oscuro"
 
-#: data/ui/settings_dialog.blp:50
+#: data/ui/settings_dialog.blp:60
 msgid "Use system font"
 msgstr "Usar la fuente del sistema"
 
-#: data/ui/settings_dialog.blp:54
+#: data/ui/settings_dialog.blp:64
 msgid "Custom font"
 msgstr "Fuente personalizada"
 
-#: data/ui/settings_dialog.blp:69
+#: data/ui/settings_dialog.blp:79
 msgid "File settings"
 msgstr "Preferencias de archivos"
 
-#: data/ui/settings_dialog.blp:72
+#: data/ui/settings_dialog.blp:82
 msgid "Create backup files"
 msgstr "Crear copias de seguridad"
 
-#: data/ui/settings_dialog.blp:73
+#: data/ui/settings_dialog.blp:83
 msgid ""
 "You might not want to enable this if you are already using a version control "
 "such as Git"
@@ -521,48 +520,48 @@ msgstr ""
 "Tal vez no quieras activar esta opción si ya estás usando un control de "
 "versiones como Git"
 
-#: data/ui/settings_dialog.blp:79
+#: data/ui/settings_dialog.blp:89
 msgid "Software updates"
 msgstr "Actualizaciones de software"
 
-#: data/ui/settings_dialog.blp:86
+#: data/ui/settings_dialog.blp:96
 msgid "Current version"
 msgstr "Versión actual"
 
-#: data/ui/settings_dialog.blp:90
+#: data/ui/settings_dialog.blp:100
 msgid "Check for updates"
 msgstr "Comprobar actualizaciones"
 
-#: data/ui/settings_dialog.blp:98 data/ui/settings_dialog.blp:102
+#: data/ui/settings_dialog.blp:108 data/ui/settings_dialog.blp:112
 msgid "HTTP Client"
 msgstr "Cliente HTTP"
 
-#: data/ui/settings_dialog.blp:105
+#: data/ui/settings_dialog.blp:115
 msgid "Enforce TLS validation"
 msgstr "Exigir validación TLS"
 
-#: data/ui/settings_dialog.blp:106
+#: data/ui/settings_dialog.blp:116
 msgid "Cancel a request if the TLS handshake fails"
 msgstr "Cancelar una petición si el intercambio TLS falla"
 
-#: data/ui/settings_dialog.blp:110
+#: data/ui/settings_dialog.blp:120
 msgid "Follow redirects"
 msgstr "Seguir redirecciones"
 
-#: data/ui/settings_dialog.blp:111
+#: data/ui/settings_dialog.blp:121
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
 msgstr ""
 "Seguir haciendo peticiones si el servidor devuelve una respuesta HTTP 3xx"
 
-#: data/ui/settings_dialog.blp:116
+#: data/ui/settings_dialog.blp:126
 msgid "Maximum redirects"
 msgstr "Redirecciones máximas"
 
-#: data/ui/settings_dialog.blp:128
+#: data/ui/settings_dialog.blp:138
 msgid "Request timeout"
 msgstr "Tiempo límite de petición"
 
-#: data/ui/settings_dialog.blp:129
+#: data/ui/settings_dialog.blp:139
 msgid "Seconds to wait before cancelling the request"
 msgstr "Segundos para esperar antes de cancelar una petición"
 
@@ -860,6 +859,10 @@ msgstr "Manual de usuario"
 #: src/win.rs:619
 msgid "Help us translate"
 msgstr "Ayúdanos a traducir"
+
+#, fuzzy
+#~ msgid "Restart the application to use the new language"
+#~ msgstr "Si la aplicación se debe abrir maximizada"
 
 #~ msgid "Request (.cartero)"
 #~ msgstr "Petición (.cartero)"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-04-18 00:11+0200\n"
+"POT-Creation-Date: 2025-04-19 00:40+0200\n"
 "PO-Revision-Date: 2025-04-16 11:02+0000\n"
 "Last-Translator: vesp <vesp@post.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/cartero/cartero/cs/"
@@ -470,51 +470,50 @@ msgid "Application"
 msgstr "Aplikace"
 
 #: data/ui/settings_dialog.blp:30
-msgid "Appearance"
-msgstr "Vzhled"
+msgid "You need to restart the program for the new locale to be used."
+msgstr ""
 
-#: data/ui/settings_dialog.blp:33
+#: data/ui/settings_dialog.blp:39
 msgid "Language"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:34
-#, fuzzy
-msgid "Restart the application to use the new language"
-msgstr "Zda má být aplikace otevřena maximalizovaně"
+#: data/ui/settings_dialog.blp:45
+msgid "Appearance"
+msgstr "Vzhled"
 
-#: data/ui/settings_dialog.blp:38
+#: data/ui/settings_dialog.blp:48
 msgid "Application style"
 msgstr "Styl vzhledu"
 
-#: data/ui/settings_dialog.blp:42
+#: data/ui/settings_dialog.blp:52
 msgid "Follow system settings"
 msgstr "Podle systému"
 
-#: data/ui/settings_dialog.blp:43
+#: data/ui/settings_dialog.blp:53
 msgid "Light mode"
 msgstr "Světlé téma"
 
-#: data/ui/settings_dialog.blp:44
+#: data/ui/settings_dialog.blp:54
 msgid "Dark mode"
 msgstr "Tmavé téma"
 
-#: data/ui/settings_dialog.blp:50
+#: data/ui/settings_dialog.blp:60
 msgid "Use system font"
 msgstr "Použít systémové písmo"
 
-#: data/ui/settings_dialog.blp:54
+#: data/ui/settings_dialog.blp:64
 msgid "Custom font"
 msgstr "Vlastní písmo"
 
-#: data/ui/settings_dialog.blp:69
+#: data/ui/settings_dialog.blp:79
 msgid "File settings"
 msgstr "Volby souborů"
 
-#: data/ui/settings_dialog.blp:72
+#: data/ui/settings_dialog.blp:82
 msgid "Create backup files"
 msgstr "Vytvářet záložní soubory"
 
-#: data/ui/settings_dialog.blp:73
+#: data/ui/settings_dialog.blp:83
 msgid ""
 "You might not want to enable this if you are already using a version control "
 "such as Git"
@@ -522,48 +521,48 @@ msgstr ""
 "Tuto volbu možná nebudete chtít povolit, pokud již používáte správu verzí, "
 "jako je Git"
 
-#: data/ui/settings_dialog.blp:79
+#: data/ui/settings_dialog.blp:89
 msgid "Software updates"
 msgstr "Aktualizace softwaru"
 
-#: data/ui/settings_dialog.blp:86
+#: data/ui/settings_dialog.blp:96
 msgid "Current version"
 msgstr "Aktuální verze"
 
-#: data/ui/settings_dialog.blp:90
+#: data/ui/settings_dialog.blp:100
 msgid "Check for updates"
 msgstr "Vyhledat aktualizace"
 
-#: data/ui/settings_dialog.blp:98 data/ui/settings_dialog.blp:102
+#: data/ui/settings_dialog.blp:108 data/ui/settings_dialog.blp:112
 msgid "HTTP Client"
 msgstr "HTTP klient"
 
-#: data/ui/settings_dialog.blp:105
+#: data/ui/settings_dialog.blp:115
 msgid "Enforce TLS validation"
 msgstr "Vynutit ověření TLS"
 
-#: data/ui/settings_dialog.blp:106
+#: data/ui/settings_dialog.blp:116
 msgid "Cancel a request if the TLS handshake fails"
 msgstr "Zrušit požadavek, pokud selže TLS handshake"
 
-#: data/ui/settings_dialog.blp:110
+#: data/ui/settings_dialog.blp:120
 msgid "Follow redirects"
 msgstr "Následovat přesměrování"
 
-#: data/ui/settings_dialog.blp:111
+#: data/ui/settings_dialog.blp:121
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
 msgstr ""
 "Provést následné požadavky, pokud server vrátí odpověď s kódem HTTP 3xx"
 
-#: data/ui/settings_dialog.blp:116
+#: data/ui/settings_dialog.blp:126
 msgid "Maximum redirects"
 msgstr "Maximální počet přesměrování"
 
-#: data/ui/settings_dialog.blp:128
+#: data/ui/settings_dialog.blp:138
 msgid "Request timeout"
 msgstr "Časový limit požadavku"
 
-#: data/ui/settings_dialog.blp:129
+#: data/ui/settings_dialog.blp:139
 msgid "Seconds to wait before cancelling the request"
 msgstr "Počet sekund, jak dlouho čekat před ukončením požadavku"
 
@@ -858,6 +857,10 @@ msgstr "Uživatelská příručka"
 #: src/win.rs:619
 msgid "Help us translate"
 msgstr "Pomozte nám s překladem"
+
+#, fuzzy
+#~ msgid "Restart the application to use the new language"
+#~ msgstr "Zda má být aplikace otevřena maximalizovaně"
 
 #~ msgid "Request (.cartero)"
 #~ msgstr "Požadavek (.cartero)"

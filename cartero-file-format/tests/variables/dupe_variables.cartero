@@ -1,0 +1,13 @@
+version = 1
+url = "{{API_ROOT}}/api/users?page={{PAGE}}"
+method = "PUT"
+
+[variables]
+API_ROOT = [
+    { value = "https://www.example.com", active = false, secret = true },
+    { value = "http://localhost:3000", active = true, secret = true },
+]
+PAGE = [
+    { value = "1", active = false, secret = false },
+    "2",
+]

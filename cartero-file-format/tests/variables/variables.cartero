@@ -1,0 +1,7 @@
+version = 1
+url = "{{API_ROOT}}/api/users?page={{PAGE}}"
+method = "PUT"
+
+[variables]
+API_ROOT = "https://www.example.com"
+PAGE = "2"

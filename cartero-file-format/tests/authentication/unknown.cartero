@@ -1,0 +1,6 @@
+version = 1
+url = "https://www.example.com/dashboard"
+method = "GET"
+
+[authorization]
+type = "dummy"

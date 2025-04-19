@@ -19,12 +19,26 @@ use std::error::Error;
 
 type InnerError = Box<dyn Error + Send + Sync + 'static>;
 
-pub struct FileLoadResult<T> {
+#[derive(Debug)]
+pub struct FileLoadResult<T>
+where
+    T: Clone,
+{
     object: T,
     warnings: Vec<FileWarningTag>,
 }
 
-impl<T> FileLoadResult<T> {
+impl<T> FileLoadResult<T>
+where
+    T: Clone,
+{
+    pub fn new(obj: T, warnings: &[FileWarningTag]) -> Self {
+        Self {
+            object: obj.clone(),
+            warnings: warnings.to_vec(),
+        }
+    }
+
     pub fn object(&self) -> &T {
         &self.object
     }
@@ -47,6 +61,7 @@ pub enum FileWarningTag {
 /// An unrecoverable error, like a parse error. The file cannot be opened due
 /// to a critical condition. Given that the format is plain text, the user may
 /// be able to open the affected file to recover data.
+#[derive(Debug)]
 pub enum FileLoadError {
     /// The file is using a schema that is too recent for this version of the app.
     SchemaTooNew,

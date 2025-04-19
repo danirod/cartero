@@ -1,0 +1,8 @@
+version = 1
+url = "https://www.example.com/login"
+method = "POST"
+
+[body]
+type = "raw"
+format = "json"
+body = "{\"message\": \"hello world\"}"

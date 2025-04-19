@@ -20,7 +20,7 @@ use std::{collections::HashMap, ops::Deref};
 use cartero_objects::{Field, FieldTable};
 use serde::{Deserialize, Serialize};
 
-use crate::{field_value::FieldValue, ToField};
+use crate::ToField;
 
 #[derive(Clone, Debug, Serialize, Deserialize, Eq, PartialEq)]
 #[serde(untagged)]

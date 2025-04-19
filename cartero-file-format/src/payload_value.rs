@@ -19,14 +19,12 @@ use cartero_objects::{
     FieldTable, RequestBody, RequestBodyMultipart, RequestBodyRaw, RequestBodyRawType,
     RequestBodyType, RequestBodyUrlencoded,
 };
-use gio::prelude::ListModelExt;
 use serde::{Deserialize, Serialize};
 
 use crate::{field_table_value::FieldTableValue, field_value::FieldValue};
 
-#[derive(Clone, Default, Serialize, Deserialize, Debug, Eq, PartialEq)]
+#[derive(Clone, Serialize, Deserialize, Debug, Eq, PartialEq)]
 pub(crate) enum PayloadRawFormat {
-    #[default]
     #[serde(rename = "octet-stream")]
     OctetStream,
     #[serde(rename = "json")]
@@ -131,7 +129,8 @@ impl From<PayloadValue> for RequestBody {
 /// We actually never encode into this, but this allows to read TOML files where
 /// the payload is just a string. Some of the early builds of Cartero accepted
 /// raw strings rather than objects.
-#[derive(Clone, Deserialize)]
+#[derive(Clone, Deserialize, Serialize)]
+#[serde(untagged)]
 pub(crate) enum PayloadValueOrString {
     Raw(String),
     Structured(PayloadValue),
@@ -362,6 +361,19 @@ mod tests {
             }
             _ => panic!("Not the expected type"),
         }
+    }
+
+    #[test]
+    fn deserialize_raw() {
+        let body = PayloadValue::Raw {
+            format: None,
+            body: String::from("this is the content"),
+        };
+        let parsed = RequestBody::from(body);
+        assert_eq!(parsed.body_type(), RequestBodyType::Raw);
+        let body = parsed.raw().unwrap();
+        assert_eq!(body.payload_type(), RequestBodyRawType::OctetStream);
+        assert_eq!(body.bytes(), b"this is the content");
     }
 
     #[test]

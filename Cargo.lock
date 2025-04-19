@@ -168,22 +168,23 @@ dependencies = [
 ]
 
 [[package]]
-name = "cartero_interop"
-version = "0.3.0"
-dependencies = [
- "cartero_objects",
-]
-
-[[package]]
-name = "cartero_interop_cartero"
+name = "cartero_file_format"
 version = "0.3.0"
 dependencies = [
  "cartero_interop",
  "cartero_objects",
+ "form_urlencoded",
  "gio",
  "glib",
  "serde",
  "toml",
+]
+
+[[package]]
+name = "cartero_interop"
+version = "0.3.0"
+dependencies = [
+ "cartero_objects",
 ]
 
 [[package]]

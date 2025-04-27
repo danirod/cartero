@@ -18,7 +18,7 @@
 project(
   'cartero',
   'rust',
-  version: '0.2.0',
+  version: '0.3-git',
   meson_version: '>= 0.64',
   license: 'GPL-3.0-or-later',
 )
@@ -33,6 +33,13 @@ dependency('gtk4', version: '>= 4.14')
 dependency('gtksourceview-5', version: '>= 5.4')
 dependency('libadwaita-1', version: '>= 1.5')
 dependency('openssl', version: '>= 1.0')
+
+if host_machine.system() == 'linux'
+  schemas = dependency('gsettings-desktop-schemas', required: false)
+  if not schemas.found()
+    message('gsettings-desktop-schemas is not found: the default monospace font may look odd')
+  endif
+endif
 
 glib_compile_resources = find_program('glib-compile-resources', required: true)
 glib_compile_schemas = find_program('glib-compile-schemas', required: true)

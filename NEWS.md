@@ -1,5 +1,15 @@
 # News file for Cartero
 
+## [0.2.1] - 2025-04-03
+
+### Changed
+
+* Translation updates: Catalan, Galician, Brazilian Portuguese
+
+### Fixed
+
+* Disabled variables in the variables table were still being picked
+
 ## [0.2.0] - 2025-03-21
 
 ### Added

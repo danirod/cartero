@@ -18,6 +18,7 @@ Patch releases happen in a branch called release/x.y, where x.y is the major and
    - meson.build: there's a version number when declaring the project info.
 1. Update the NEWS.md file with the release notes for this version.
 1. Reformat the release notes for this version and add them to the releases section of data/cartero.appdata.xml.in.in.
+1. Copy the changelog lines that you added to data/cartero.appdata.xml.in.in to the AboutDialog in win.rs.
 1. Create a release commit, but don't tag it, sign it or push it yet. (If there is an error, it will be easier to correct without force pushing anything or causing double notifications.)
 
 ## Collecting artifact files
@@ -82,15 +83,15 @@ Also, don't use WSL. That would create another GNU/Linux version.
 1. Check that `build/cartero-win32/bin/cartero.exe` opens and works.
 1. Sign the executable:
    - Step 1: `signtool sign /n "[Sign identifier]" /t http://time.certum.pl /fd sha1 /v build/cartero-win32/bin/cartero.exe`
-   - Step 2: `signtool sign /n "[Sign identifier]" /tr http://time.certum.pl /fd sha256 /as /v build/cartero-win32/bin/cartero.exe`
+   - Step 2: `signtool sign /n "[Sign identifier]" /tr http://time.certum.pl /fd sha256 /td sha256 /as /v build/cartero-win32/bin/cartero.exe`
 1. Bundle the portable version. Switch to the build/cartero-win32 directory and prepare it with `zip -r cartero-$VER-windows-$ARCH.zip bin lib share`.
 1. Take the zip out of the build/cartero-win32 directory to prevent adding it to the installer.
 1. The build process should have created the file `build/win32-installer.iss`. Compile it with InnoSetup to generate an installer.
 1. The installer should be located at `build/Output/cartero.exe`. Test it.
 1. Sign the installer:
-   - Step 1: `signtool sign /n "[Sign identifier]" /t http://time.certum.pl /fd sha1 /v build/Output/cartero.exe`
-   - Step 2: `signtool sign /n "[Sign identifier]" /tr http://time.certum.pl /fd sha256 /as /v build/Output/cartero.exe`
-1. Collect the installer (build/Output/cartero.exe) as `cartero-$VER-windows-$arch.exe`.
+   - Step 1: `signtool sign /n "[Sign identifier]" /t http://time.certum.pl /fd sha1 /v build/Output/cartero-$VER-windows-$ARCH.exe`
+   - Step 2: `signtool sign /n "[Sign identifier]" /tr http://time.certum.pl /fd sha256 /td sha256 /as /v build/Output/cartero-$VER-windows-$ARCH.exe`
+1. Collect the installer (build/Output/cartero.exe) as `cartero-$VER-windows-$ARCH.exe`.
 
 **Artifacts**: the Windows portable ZIP and the Windows installer.
 
@@ -124,11 +125,6 @@ export MACOSX_DEPLOYMENT_TARGET=11.0
 
 if ! [ -d $DIR ]; then
 git clone git@github.com:Homebrew/brew $DIR
-fi
-
-if ! [ -d $DIR/Library/Taps/homebrew ]; then
-mkdir -p $DIR/Library/Taps/homebrew
-git clone git@github.com:Homebrew/homebrew-core $DIR/Library/Taps/homebrew/homebrew-core
 fi
 
 eval "$($DIR/bin/brew shellenv)"
@@ -196,7 +192,7 @@ To build the application, the following steps should be done:
 
 1. Make sure the PATH is reset so that existing Homebrew or MacPorts installations are ignored. For example, `export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin`.
 1. Load the expected Homebrew distribution: `eval "$(homebrew-$(arch)/bin/brew shellenv)"`.
-1. Export a variable called `CODESIGN_IDENTITY` with the key ID you get when running `find-identity -p codesigning -v`.
+1. Export a variable called `CODESIGN_IDENTITY` with the key ID you get when running `security find-identity -p codesigning -v`.
 1. Export a variable called `NOTARY_PROFILE` with the notarization profile. If you don't have one, you can create it the following way:
    - Issue an application password on your developer account at <https://account.apple.com/account/manage>.
    - Check the profile for the developer account at <https://developer.apple.com> to get the team ID.

@@ -61,11 +61,45 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl KeyValuePane {
-        fn set_model(&self, model: &ListStore) {
-            let this_model = self.model.get().unwrap();
-            let items = Vec::from_iter(model.iter::<glib::Object>().map(Result::unwrap));
-            this_model.remove_all();
-            this_model.splice(0, 0, &items);
+        fn set_model(&self, next_model: &ListStore) {
+            let current_model = self.model.get().unwrap();
+
+            for (idx, next_row) in next_model.iter::<KeyValueItem>().enumerate() {
+                let next_row = next_row.expect("next_model was modified during iteration");
+                let idx = idx as u32;
+                match current_model.item(idx) {
+                    Some(current_row) => {
+                        let current_row = current_row
+                            .downcast::<KeyValueItem>()
+                            .expect("No KeyValueItem?");
+                        current_row.set_header_name(next_row.header_name());
+                        current_row.set_header_value(next_row.header_value());
+                        current_row.set_active(next_row.active());
+                        current_row.set_ignored(next_row.ignored());
+                        current_row.set_dirty(next_row.dirty());
+                    }
+                    None => {
+                        /* This row is new in the table. */
+                        let new_row = KeyValueItem::new();
+                        new_row.set_header_name(next_row.header_name());
+                        new_row.set_header_value(next_row.header_value());
+                        new_row.set_active(next_row.active());
+                        new_row.set_ignored(next_row.ignored());
+                        new_row.set_dirty(next_row.dirty());
+                        current_model.append(&new_row);
+                    }
+                }
+            }
+
+            if current_model.n_items() > next_model.n_items() {
+                /* Delete the rest of the table. */
+                let empty: Vec<glib::Object> = vec![];
+                current_model.splice(
+                    next_model.n_items(),
+                    current_model.n_items() - next_model.n_items(),
+                    &empty,
+                );
+            }
         }
     }
 
@@ -254,6 +288,10 @@ impl KeyValuePane {
         }
     }
 
+    pub fn item_at(&self, pos: u32) -> Option<KeyValueItem> {
+        self.model().item(pos).and_downcast::<KeyValueItem>()
+    }
+
     pub fn get_entries(&self) -> Vec<KeyValueItem> {
         let model = &self.model();
         let iter = model.iter::<KeyValueItem>();
@@ -307,6 +345,474 @@ mod tests {
         let pane = KeyValuePane::default();
         pane.set_model(&list);
         assert_eq!(pane.model().n_items(), 2);
+    }
+
+    #[gtk::test]
+    pub fn test_set_model_again_with_same_items() {
+        crate::init_test_resources();
+
+        // [ ] Content-Type: application/json
+        // [x] Content-Length: 42
+        let ctype = KeyValueItem::from(("Content-Type", "application/json"));
+        ctype.set_active(false);
+        let clen = KeyValueItem::from(("Content-Length", "42"));
+        let list = ListStore::with_type(KeyValueItem::static_type());
+        list.append(&ctype);
+        list.append(&clen);
+        let pane = KeyValuePane::default();
+        pane.set_model(&list);
+        assert_eq!(
+            pane.model()
+                .item(0)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_name(),
+            "Content-Type"
+        );
+        assert_eq!(
+            pane.model()
+                .item(0)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_value(),
+            "application/json"
+        );
+        assert_eq!(
+            pane.model()
+                .item(0)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .active(),
+            false
+        );
+        assert_eq!(
+            pane.model()
+                .item(1)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_name(),
+            "Content-Length"
+        );
+        assert_eq!(
+            pane.model()
+                .item(1)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_value(),
+            "42"
+        );
+        assert_eq!(
+            pane.model()
+                .item(1)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .active(),
+            true
+        );
+
+        // [x] Accept: text/html
+        // [ ] Accept-Encoding: br
+        let accept = KeyValueItem::from(("Accept", "text/html"));
+        let enc = KeyValueItem::from(("Accept-Encoding", "br"));
+        enc.set_active(false);
+        let list2 = ListStore::with_type(KeyValueItem::static_type());
+        list2.append(&accept);
+        list2.append(&enc);
+        pane.set_model(&list2);
+        assert_eq!(
+            pane.model()
+                .item(0)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_name(),
+            "Accept"
+        );
+        assert_eq!(
+            pane.model()
+                .item(0)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_value(),
+            "text/html"
+        );
+        assert_eq!(
+            pane.model()
+                .item(0)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .active(),
+            true
+        );
+        assert_eq!(
+            pane.model()
+                .item(1)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_name(),
+            "Accept-Encoding"
+        );
+        assert_eq!(
+            pane.model()
+                .item(1)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_value(),
+            "br"
+        );
+        assert_eq!(
+            pane.model()
+                .item(1)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .active(),
+            false
+        );
+    }
+
+    #[gtk::test]
+    pub fn test_set_model_again_with_more_items() {
+        crate::init_test_resources();
+
+        // [ ] Content-Type: application/json
+        // [x] Content-Length: 42
+        let ctype = KeyValueItem::from(("Content-Type", "application/json"));
+        ctype.set_active(false);
+        let clen = KeyValueItem::from(("Content-Length", "42"));
+        let list = ListStore::with_type(KeyValueItem::static_type());
+        list.append(&ctype);
+        list.append(&clen);
+        let pane = KeyValuePane::default();
+        pane.set_model(&list);
+        assert_eq!(pane.model().n_items(), 2);
+        assert_eq!(
+            pane.model()
+                .item(0)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_name(),
+            "Content-Type"
+        );
+        assert_eq!(
+            pane.model()
+                .item(0)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_value(),
+            "application/json"
+        );
+        assert_eq!(
+            pane.model()
+                .item(0)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .active(),
+            false
+        );
+        assert_eq!(
+            pane.model()
+                .item(1)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_name(),
+            "Content-Length"
+        );
+        assert_eq!(
+            pane.model()
+                .item(1)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_value(),
+            "42"
+        );
+        assert_eq!(
+            pane.model()
+                .item(1)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .active(),
+            true
+        );
+
+        let accept = KeyValueItem::from(("Accept", "text/html"));
+        let enc = KeyValueItem::from(("Accept-Encoding", "br"));
+        let auth = KeyValueItem::from(("Authorization", "Bearer 1234"));
+        let refer = KeyValueItem::from(("Referer", "example.com"));
+        enc.set_active(false);
+        let list2 = ListStore::with_type(KeyValueItem::static_type());
+        list2.append(&accept);
+        list2.append(&enc);
+        list2.append(&auth);
+        list2.append(&refer);
+        pane.set_model(&list2);
+        assert_eq!(pane.model().n_items(), 4);
+        assert_eq!(
+            pane.model()
+                .item(0)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_name(),
+            "Accept"
+        );
+        assert_eq!(
+            pane.model()
+                .item(0)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_value(),
+            "text/html"
+        );
+        assert_eq!(
+            pane.model()
+                .item(0)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .active(),
+            true
+        );
+        assert_eq!(
+            pane.model()
+                .item(1)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_name(),
+            "Accept-Encoding"
+        );
+        assert_eq!(
+            pane.model()
+                .item(1)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_value(),
+            "br"
+        );
+        assert_eq!(
+            pane.model()
+                .item(1)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .active(),
+            false
+        );
+        assert_eq!(
+            pane.model()
+                .item(2)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_name(),
+            "Authorization"
+        );
+        assert_eq!(
+            pane.model()
+                .item(2)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_value(),
+            "Bearer 1234"
+        );
+        assert_eq!(
+            pane.model()
+                .item(2)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .active(),
+            true
+        );
+        assert_eq!(
+            pane.model()
+                .item(3)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_name(),
+            "Referer"
+        );
+        assert_eq!(
+            pane.model()
+                .item(3)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_value(),
+            "example.com"
+        );
+        assert_eq!(
+            pane.model()
+                .item(3)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .active(),
+            true
+        );
+    }
+
+    #[gtk::test]
+    pub fn test_set_model_again_with_less_items() {
+        crate::init_test_resources();
+
+        let pane = KeyValuePane::default();
+        let accept = KeyValueItem::from(("Accept", "text/html"));
+        let enc = KeyValueItem::from(("Accept-Encoding", "br"));
+        let auth = KeyValueItem::from(("Authorization", "Bearer 1234"));
+        let refer = KeyValueItem::from(("Referer", "example.com"));
+        enc.set_active(false);
+        let list = ListStore::with_type(KeyValueItem::static_type());
+        list.append(&accept);
+        list.append(&enc);
+        list.append(&auth);
+        list.append(&refer);
+        pane.set_model(&list);
+        assert_eq!(pane.model().n_items(), 4);
+        assert_eq!(
+            pane.model()
+                .item(0)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_name(),
+            "Accept"
+        );
+        assert_eq!(
+            pane.model()
+                .item(0)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_value(),
+            "text/html"
+        );
+        assert_eq!(
+            pane.model()
+                .item(0)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .active(),
+            true
+        );
+        assert_eq!(
+            pane.model()
+                .item(1)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_name(),
+            "Accept-Encoding"
+        );
+        assert_eq!(
+            pane.model()
+                .item(1)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_value(),
+            "br"
+        );
+        assert_eq!(
+            pane.model()
+                .item(1)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .active(),
+            false
+        );
+        assert_eq!(
+            pane.model()
+                .item(2)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_name(),
+            "Authorization"
+        );
+        assert_eq!(
+            pane.model()
+                .item(2)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_value(),
+            "Bearer 1234"
+        );
+        assert_eq!(
+            pane.model()
+                .item(2)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .active(),
+            true
+        );
+        assert_eq!(
+            pane.model()
+                .item(3)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_name(),
+            "Referer"
+        );
+        assert_eq!(
+            pane.model()
+                .item(3)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_value(),
+            "example.com"
+        );
+        assert_eq!(
+            pane.model()
+                .item(3)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .active(),
+            true
+        );
+
+        let ctype = KeyValueItem::from(("Content-Type", "application/json"));
+        ctype.set_active(false);
+        let clen = KeyValueItem::from(("Content-Length", "42"));
+        let list2 = ListStore::with_type(KeyValueItem::static_type());
+        list2.append(&ctype);
+        list2.append(&clen);
+        pane.set_model(&list2);
+        assert_eq!(pane.model().n_items(), 2);
+        assert_eq!(
+            pane.model()
+                .item(0)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_name(),
+            "Content-Type"
+        );
+        assert_eq!(
+            pane.model()
+                .item(0)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_value(),
+            "application/json"
+        );
+        assert_eq!(
+            pane.model()
+                .item(0)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .active(),
+            false
+        );
+        assert_eq!(
+            pane.model()
+                .item(1)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_name(),
+            "Content-Length"
+        );
+        assert_eq!(
+            pane.model()
+                .item(1)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .header_value(),
+            "42"
+        );
+        assert_eq!(
+            pane.model()
+                .item(1)
+                .and_downcast::<KeyValueItem>()
+                .unwrap()
+                .active(),
+            true
+        );
     }
 
     #[gtk::test]
@@ -367,6 +873,7 @@ mod tests {
         assert!(connected.get());
     }
 
+    #[test]
     #[gtk::test]
     pub fn test_model_get_set_entries() {
         crate::init_test_resources();

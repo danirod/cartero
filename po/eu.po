@@ -1,16 +1,18 @@
-#
-#  <>, 2024.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the cartero package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-03-21 01:46+0100\n"
-"PO-Revision-Date: 2025-04-02 22:10+0000\n"
-"Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
-"Language-Team: Catalan <https://hosted.weblate.org/projects/cartero/cartero/"
-"ca/>\n"
-"Language: ca\n"
+"PO-Revision-Date: 2025-04-11 14:17+0000\n"
+"Last-Translator: Ibai Oihanguren Sala <ibaios@disroot.org>\n"
+"Language-Team: Basque <https://hosted.weblate.org/projects/cartero/cartero/"
+"eu/>\n"
+"Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,7 +21,7 @@ msgstr ""
 
 #: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
-msgstr "Fes peticions HTTP i testeja APIs"
+msgstr "Egin HTTP eskaerak eta probatu APIak"
 
 #: data/cartero.appdata.xml.in.in:11
 msgid ""
@@ -28,46 +30,45 @@ msgid ""
 "compatible with any REST, SOAP or XML-RPC API and it supports multiple "
 "request methods as well as attaching body payloads to compatible requests."
 msgstr ""
-"Cartero és un client HTTP gràfic el qual es pot utilitzar com una eina "
-"dedesenvolupament per testejar APIs web i fer qualsevol classe de peticions "
-"HTTP a serveis web. És compatible amb qualsevol API REST, SOAP o XML-RPC i "
-"suporta múltiples mètodes de petició així com adjuntar cossos a les "
-"peticions compatibles."
+"Cartero HTTP bezero grafikoa da, garapen tresna gisa erabil daitekeena web "
+"APIak probatu eta web zerbitzarietara edozein motatako HTTP eskaerak "
+"egiteko. Edozein REST, SOAP edo XML-RPC APIrekin bateragarria da, hainbat "
+"eskaera metodo onartzen ditu, eta baita eskaera bateragarriei gorputzak "
+"eranstea ere."
 
 #: data/cartero.appdata.xml.in.in:12
 msgid "Features:"
-msgstr "Característiques:"
+msgstr "Eginbideak:"
 
 #: data/cartero.appdata.xml.in.in:14
 msgid ""
 "Loads and saves to plain Git-friendly TOML files, so that you can own your "
 "data."
 msgstr ""
-"Carrega i guarda a arxius TOML amigables amb Git, perquè puguis tenir les "
-"teves dades."
+"Kargatzeko eta gordetzeko Git-ekin ondo moldatzen diren TOML testu hutseko "
+"fitxategiak darabiltza, zeu izan zaitezen zure datuen jabe bakarra."
 
 #: data/cartero.appdata.xml.in.in:15
 msgid ""
 "Customization and modification of the request headers and body payloads."
-msgstr ""
-"Personalització i modificació de les capçaleres i cossos d'una petició."
+msgstr "Eskaeren goiburu eta gorputzak pertsonalizatu eta aldatzeko aukera."
 
 #: data/cartero.appdata.xml.in.in:16
 msgid "Variable binding for API keys and other secret information."
 msgstr ""
-"Enllaçament de variables per claus API i altres tipus d'informació secreta."
+"APIen gakoak eta bestelako informazio sekretua aldagai bidez lotzeko aukera."
 
 #: data/cartero.appdata.xml.in.in:22
 msgid "Main window of Cartero"
-msgstr "Finestra principal de Cartero"
+msgstr "Carteroren leiho nagusia"
 
 #: data/cartero.appdata.xml.in.in:26
 msgid "Modifying HTTP headers"
-msgstr "Modificant les capçaleres HTTP"
+msgstr "HTTP goiburuak aldatzen"
 
 #: data/cartero.appdata.xml.in.in:30
 msgid "Setting the request payload"
-msgstr "Establint el cos de la petició"
+msgstr "Eskaeraren karga erabilgarria ezartzen"
 
 #: data/cartero.desktop.in.in:2
 msgid "Cartero"
@@ -80,315 +81,317 @@ msgstr "Gnome;GTK;HTTP;REST;"
 
 #: data/es.danirod.Cartero.gschema.xml:12
 msgid "Automatically indent new lines for the request body"
-msgstr "Indentar automàticament noves línies del cos de la petició"
+msgstr "Txertatu koska automatikoki eskaeraren gorputzeko lerro berrietan"
 
 #: data/es.danirod.Cartero.gschema.xml:16
 msgid "Wrap the body content"
-msgstr "Salts de línia en el cos"
+msgstr "Itzulbiratu testua gorputzeko edukian"
 
 #: data/es.danirod.Cartero.gschema.xml:20
 msgid "Whether to indent the request body with spaces or tabs"
-msgstr "Indentar el cos de la petició amb espais o tabuladors"
+msgstr ""
+"Eskaeraren gorputzean koskak txertatzeko zuriuneak edo tabulazioak erabili"
 
 #: data/es.danirod.Cartero.gschema.xml:24
 msgid "Show line numbers in the request and response bodies"
-msgstr "Mostrar els números de línia en els cossos de petició i resposta"
+msgstr "Erakutsi lerro zenbakiak eskaerrena eta erantzunaren gorputzetan"
 
 #: data/es.danirod.Cartero.gschema.xml:28
 msgid "How many characters to pad when indenting the request body"
-msgstr "Quants caràcters utilitzar al indentar el cos de la petició"
+msgstr "Eskaeraren gorputzari koska txertatzean zenbat karaktere erabili"
 
 #: data/es.danirod.Cartero.gschema.xml:32
 msgid "How large should new windows be"
-msgstr "Que llargues han de ser les finestres noves"
+msgstr "Leiho berriek zer zabalera izan behar duten"
 
 #: data/es.danirod.Cartero.gschema.xml:36
 msgid "How tall should new windows be"
-msgstr "Que altes han de ser les finestres noves"
+msgstr "Leiho berriek zer garaiera izan behar duten"
 
 #: data/es.danirod.Cartero.gschema.xml:40
 msgid "Whether the application should open maximized"
-msgstr "Si l'aplicació hauria d'obrir-se maximitzada"
+msgstr "Aplikazioa maximizatuta ireki behar den"
 
 #: data/es.danirod.Cartero.gschema.xml:44
 msgid "The position of the split between two windows"
-msgstr "La posició del separador entre ambdues finestres"
+msgstr "Bi leihoren arteko banatzailearen kokalekua"
 
 #: data/es.danirod.Cartero.gschema.xml:48
 msgid "The current list of opened files"
-msgstr "La llista actual d'arxius oberts"
+msgstr "Une honetan irekita dauden fitxategien zerrenda"
 
 #: data/es.danirod.Cartero.gschema.xml:52
 msgid "The last location where a file was opened"
-msgstr "L'última ubicació on es va obrir un arxiu"
+msgstr "Ireki den azken fitxategiaren kokalekua"
 
 #: data/es.danirod.Cartero.gschema.xml:56
 msgid "The last location where a file was saved"
-msgstr "L'última ubicació on es va guardar un arxiu"
+msgstr "Gorde den azken fitxategiaren kokalekua"
 
 #: data/es.danirod.Cartero.gschema.xml:60
 msgid "Whether to validate the TLS certificates during a request"
-msgstr "Validar o no els certificats TLS durant una petició"
+msgstr "Eskaerako TLS ziurtagiriak balioztatu behar diren edo ez"
 
 #: data/es.danirod.Cartero.gschema.xml:64
 msgid "Whether to follow redirections if that is the server response"
-msgstr "Seguir redireccions si es la resposta de servidor"
+msgstr ""
+"Zerbitzariaren erantzuna berbideratze bat bada, berbideratzeari jarraitu edo "
+"ez"
 
 #: data/es.danirod.Cartero.gschema.xml:68
 msgid "Maximum number of redirections to follow before giving up"
-msgstr "Nombre màxim de redireccions a seguir abans d'abandonar"
+msgstr "Gehienez zenbat berbideratzeri jarraitu behar zaion"
 
 #: data/es.danirod.Cartero.gschema.xml:72
 msgid "Maximum timeout when awaiting for an HTTP response."
-msgstr "Temps d'espera màxim en esperar una resposta HTTP."
+msgstr "HTTP erantzunaren zain eman beharreko gehieneko denbora."
 
 #: data/es.danirod.Cartero.gschema.xml:76
 msgid "Whether to use light or dark mode."
-msgstr "Si s'ha d'utilitzar el mode clar o fosc."
+msgstr "Modu argia edo iluna erabiliko den."
 
 #: data/es.danirod.Cartero.gschema.xml:80
 msgid "The custom font in use"
-msgstr "El tipus de lletra personalitzat en ús"
+msgstr "Une honetan erabiltzen ari den letra-tipo pertsonalizatua"
 
 #: data/es.danirod.Cartero.gschema.xml:84
 msgid "Whether to use the system font or a custom one"
-msgstr "Utilitzar el tipus de lletra del sistema o un personalitzat"
+msgstr "Sistemako letra-tipoa edo pertsonalizatua erabili behar den"
 
 #: data/es.danirod.Cartero.gschema.xml:88
 msgid "Whether to create backup files on save"
-msgstr "Crear copies de seguretat al desar"
+msgstr "Gordetzerakoan segurtasun kopiak sortu edo ez"
 
 #: data/gtk/help_overlay.blp:25
 msgctxt "shortcuts window"
 msgid "General shortcuts"
-msgstr "Dreceres generals"
+msgstr "Laster-tekla orokorrak"
 
 #: data/gtk/help_overlay.blp:28
 msgctxt "shortcuts window"
 msgid "Show Keyboard Shortcuts"
-msgstr "Mostra les dreceres de teclat"
+msgstr "Erakutsi laster-teklak"
 
 #: data/gtk/help_overlay.blp:33
 msgctxt "shortcuts window"
 msgid "Quit"
-msgstr "Sortir"
+msgstr "Irten"
 
 #: data/gtk/help_overlay.blp:39
 msgctxt "shortcuts window"
 msgid "Tab operations"
-msgstr "Operacions de la pestanya"
+msgstr "Fitxetako eragiketak"
 
 #: data/gtk/help_overlay.blp:42
 msgctxt "shortcuts window"
 msgid "New request tab"
-msgstr "Nova pestanya de petició"
+msgstr "Eskaera fitxa berria"
 
 #: data/gtk/help_overlay.blp:47
 msgctxt "shortcuts window"
 msgid "Open request"
-msgstr "Obrir petició"
+msgstr "Ireki eskaera"
 
 #: data/gtk/help_overlay.blp:52
 msgctxt "shortcuts window"
 msgid "Save request"
-msgstr "Desar petició"
+msgstr "Gorde eskaera"
 
 #: data/gtk/help_overlay.blp:57
 msgctxt "shortcuts window"
 msgid "Save request as"
-msgstr "Desar petició com a"
+msgstr "Gorde eskaera honela"
 
 #: data/gtk/help_overlay.blp:62
 msgctxt "shortcuts window"
 msgid "Close request tab"
-msgstr "Tancar pestanya de petició"
+msgstr "Itxi eskaeraren fitxa"
 
 #: data/gtk/help_overlay.blp:68
 msgctxt "shortcuts window"
 msgid "Request operations"
-msgstr "Operacions de petició"
+msgstr "Eskaeren eragiketak"
 
 #: data/gtk/help_overlay.blp:71
 msgctxt "shortcuts window"
 msgid "Send request"
-msgstr "Enviar petició"
+msgstr "Bidali eskaera"
 
 #: data/ui/authorization_pane.blp:29
 msgid "Authorization method"
-msgstr ""
+msgstr "Baimen metodoa"
 
 #: data/ui/authorization_pane.blp:55
 msgid "Username"
-msgstr ""
+msgstr "Erabiltzaile-izena"
 
 #: data/ui/authorization_pane.blp:60
 msgid "Password"
-msgstr ""
+msgstr "Pasahitza"
 
 #: data/ui/authorization_pane.blp:76
 msgid "Token"
-msgstr ""
+msgstr "Tokena"
 
 #: data/ui/authorization_pane.blp:87 data/ui/export_tab.blp:69
 #: data/ui/payload_tab.blp:87
 msgid "(none)"
-msgstr "(nada)"
+msgstr "(bat ere ez)"
 
 #: data/ui/authorization_pane.blp:88
 msgid "Basic auth"
-msgstr ""
+msgstr "Oinarrizko baimena"
 
 #: data/ui/authorization_pane.blp:89
 msgid "Bearer token"
-msgstr ""
+msgstr "Eramaile-tokena"
 
 #: data/ui/code_export_pane.blp:59
 msgid "Copy"
-msgstr "Copiar"
+msgstr "Kopiatu"
 
 #: data/ui/endpoint_pane.blp:69
 msgid "Request URL"
-msgstr "URL de petició"
+msgstr "Eskaeraren URLa"
 
 #: data/ui/endpoint_pane.blp:81
-#, fuzzy
 msgid "Cancel request"
-msgstr "Guardar petició"
+msgstr "Ezeztatu eskaera"
 
 #: data/ui/endpoint_pane.blp:90
 msgid "Send"
-msgstr "Enviar"
+msgstr "Bidali"
 
 #: data/ui/endpoint_pane.blp:91
 msgid "Execute this HTTP request"
-msgstr "Executar aquesta petició HTTP"
+msgstr "Exekutatu HTTP eskaera hau"
 
 #: data/ui/endpoint_pane.blp:123
 msgid "Parameters"
-msgstr "Paràmetres"
+msgstr "Parametroak"
 
 #: data/ui/endpoint_pane.blp:146 data/ui/response_panel.blp:92
 msgid "Headers"
-msgstr "Capçaleres"
+msgstr "Goiburuak"
 
 #: data/ui/endpoint_pane.blp:170
 msgid "Variables"
-msgstr "Variables"
+msgstr "Aldagaiak"
 
 #: data/ui/endpoint_pane.blp:194
 msgid "Authorization"
-msgstr ""
+msgstr "Baimenak"
 
 #: data/ui/endpoint_pane.blp:217 data/ui/response_panel.blp:52
 msgid "Body"
-msgstr "Cos"
+msgstr "Gorputza"
 
 #: data/ui/endpoint_pane.blp:227
 msgid "Export request"
-msgstr "Exportar petició"
+msgstr "Esportatu eskaera"
 
 #: data/ui/export_tab.blp:34
 msgid "Export to"
-msgstr "Exportar com"
+msgstr "Esportatu hona"
 
 #: data/ui/key_value_row.blp:41
 msgid "Name"
-msgstr "Nom"
+msgstr "Izena"
 
 #: data/ui/key_value_row.blp:54
 msgid "Value"
-msgstr "Valor"
+msgstr "Balioa"
 
 #: data/ui/key_value_row.blp:65
 msgid "Actions"
-msgstr "Accions"
+msgstr "Ekintzak"
 
 #: data/ui/key_value_row.blp:79
 msgid "Toggle secret"
-msgstr "Alternar secret"
+msgstr "Balio sekretua"
 
 #: data/ui/key_value_row.blp:86
 msgid "Delete"
-msgstr "Esborrar"
+msgstr "Ezabatu"
 
 #: data/ui/main_window.blp:40 data/ui/main_window_no_csd.blp:38
 msgid "New"
-msgstr "Nou"
+msgstr "Berria"
 
 #: data/ui/main_window.blp:51 data/ui/main_window.blp:62
 #: data/ui/main_window_no_csd.blp:49 data/ui/main_window_no_csd.blp:60
 #: src/widgets/file_dialogs.rs:107
 msgid "Open"
-msgstr "Obrir"
+msgstr "Ireki"
 
 #: data/ui/main_window.blp:70 data/ui/main_window_no_csd.blp:68
 #: src/widgets/file_dialogs.rs:143
 msgid "Save"
-msgstr "Guardar"
+msgstr "Gorde"
 
 #: data/ui/main_window.blp:94 data/ui/main_window_no_csd.blp:101
 msgid "Welcome to Cartero"
-msgstr "Benvolgut a Cartero"
+msgstr "Ongi etorri Carterora"
 
 #: data/ui/main_window.blp:95 data/ui/main_window_no_csd.blp:102
 msgid "Create or open a request and start testing APIs now."
-msgstr "Crea o obre una petició i comença a provar APIs ara."
+msgstr "Sortu edo ireki eskaera bat eta hasi APIak probatzen orain."
 
 #: data/ui/main_window.blp:114 data/ui/main_window.blp:148
 #: data/ui/main_window_no_csd.blp:121 data/ui/main_window_no_csd.blp:155
 msgid "New tab"
-msgstr "Nova pestanya"
+msgstr "Fitxa berria"
 
 #: data/ui/main_window.blp:127 data/ui/main_window.blp:153
 #: data/ui/main_window_no_csd.blp:134 data/ui/main_window_no_csd.blp:160
 msgid "Open request…"
-msgstr "Obrir petició…"
+msgstr "Ireki eskaera…"
 
 #: data/ui/main_window.blp:158 data/ui/main_window_no_csd.blp:165
 #: src/widgets/file_dialogs.rs:144
 msgid "Save request"
-msgstr "Guardar petició"
+msgstr "Gorde eskaera"
 
 #: data/ui/main_window.blp:163 data/ui/main_window_no_csd.blp:170
 msgid "Save request as…"
-msgstr "Guardar petició com…"
+msgstr "Gorde eskaera honela…"
 
 #: data/ui/main_window.blp:168 data/ui/main_window_no_csd.blp:175
 msgid "Close tab"
-msgstr "Tancar pestanya"
+msgstr "Itxi fitxa"
 
 #: data/ui/main_window.blp:175 data/ui/main_window_no_csd.blp:182
 #: data/ui/settings_dialog.blp:21
 msgid "Settings"
-msgstr "Configuració"
+msgstr "Ezarpenak"
 
 #: data/ui/main_window.blp:180 data/ui/main_window_no_csd.blp:187
 msgid "Body appearance"
-msgstr "Aparença del cos"
+msgstr "Gorputzaren itxura"
 
 #: data/ui/main_window.blp:184 data/ui/main_window_no_csd.blp:191
 msgid "Wrap content"
-msgstr "Adaptar contingut"
+msgstr "Itzulbiratu edukia"
 
 #: data/ui/main_window.blp:189 data/ui/main_window_no_csd.blp:196
 msgid "Show line numbers"
-msgstr "Mostrar números de línia"
+msgstr "Erakutsi lerro-zenbakiak"
 
 #: data/ui/main_window.blp:196 data/ui/main_window_no_csd.blp:203
 msgid "Automatic indentation"
-msgstr "Indentar automàticament"
+msgstr "Koska automatikoa"
 
 #: data/ui/main_window.blp:201 data/ui/main_window_no_csd.blp:208
 msgid "Indent with spaces"
-msgstr "Indentar amb espais"
+msgstr "Erabili zuriuneak koskarako"
 
 #: data/ui/main_window.blp:207 data/ui/main_window_no_csd.blp:214
 msgid "Indent with tabs"
-msgstr "Indentar amb tabuladors"
+msgstr "Erabili tabulazioak koskarako"
 
 #: data/ui/main_window.blp:213 data/ui/main_window_no_csd.blp:220
 msgid "Spaces per tab"
-msgstr "Espais per tabulador"
+msgstr "Tabulazio bakoitzeko zuriuneak"
 
 #: data/ui/main_window.blp:216 data/ui/main_window_no_csd.blp:223
 msgid "2"
@@ -404,258 +407,259 @@ msgstr "8"
 
 #: data/ui/main_window.blp:239 data/ui/main_window_no_csd.blp:246
 msgid "Keyboard shortcuts"
-msgstr "Dreceres de teclat"
+msgstr "Laster-teklak"
 
 #: data/ui/main_window.blp:244 data/ui/main_window_no_csd.blp:251
 msgid "About Cartero"
-msgstr "Quant a Cartero"
+msgstr "Carterori buruz"
 
 #: data/ui/main_window.blp:249 data/ui/main_window_no_csd.blp:256
 msgid "Quit"
-msgstr "Sortir"
+msgstr "Irten"
 
 #: data/ui/method_dropdown.blp:29
 msgid "Request method"
-msgstr "Mètode de petició"
+msgstr "Eskaera metodoa"
 
 #: data/ui/payload_tab.blp:34
 msgid "Body type"
-msgstr "Tipus de cos"
+msgstr "Gorputz mota"
 
 #: data/ui/payload_tab.blp:88
 msgid "URL Encoded"
-msgstr "Codificat com URL"
+msgstr "URL kodetua"
 
 #: data/ui/payload_tab.blp:89
 msgid "Multipart Form Data"
-msgstr "Formulari Multipart"
+msgstr "Multipart inprimaki datuak"
 
 #: data/ui/payload_tab.blp:92
 msgid "Raw"
-msgstr "En brut"
+msgstr "Gordina"
 
 #: data/ui/response_panel.blp:28
 msgid "Ready to request"
-msgstr "Preparat per enviar"
+msgstr "Eskaera egiteko prest"
 
 #: data/ui/response_panel.blp:29
 msgid "Use the Send button to send a network request and it will show here."
 msgstr ""
-"Utilitza el botó Enviar per enviar una petició de xarxa i veure el resultat "
-"aquí."
+"Erabili Bidali botoia sareko eskaera bat bidaltzeko, eta hemen azalduko da."
 
 #: data/ui/search_box.blp:42 data/ui/search_box.blp:43
 msgid "Search"
-msgstr "Cerca"
+msgstr "Bilatu"
 
 #: data/ui/search_box.blp:63
 msgid "Previous result"
-msgstr "Resultat anterior"
+msgstr "Aurreko emaitza"
 
 #: data/ui/search_box.blp:69
 msgid "Next result"
-msgstr "Resultat següent"
+msgstr "Hurrengo emaitza"
 
 #: data/ui/search_box.blp:81
 msgid "Close search"
-msgstr "Tancar cerca"
+msgstr "Itxi bilaketa"
 
 #: data/ui/settings_dialog.blp:26
 msgid "Application"
-msgstr "Aplicació"
+msgstr "Aplikazioa"
 
 #: data/ui/settings_dialog.blp:30
 msgid "Appearance"
-msgstr "Aparença"
+msgstr "Itxura"
 
 #: data/ui/settings_dialog.blp:33
 msgid "Application style"
-msgstr "Estil de l'aplicació"
+msgstr "Aplikazioaren estiloa"
 
 #: data/ui/settings_dialog.blp:37
 msgid "Follow system settings"
-msgstr "Seguir configuració del sistema"
+msgstr "Sistemako ezarpenen araberakoa"
 
 #: data/ui/settings_dialog.blp:38
 msgid "Light mode"
-msgstr "Mode clar"
+msgstr "Modu argia"
 
 #: data/ui/settings_dialog.blp:39
 msgid "Dark mode"
-msgstr "Mode fosc"
+msgstr "Modu iluna"
 
 #: data/ui/settings_dialog.blp:45
 msgid "Use system font"
-msgstr "Utilitzar font del sistema"
+msgstr "Erabili sistemako letra-tipoa"
 
 #: data/ui/settings_dialog.blp:49
 msgid "Custom font"
-msgstr "Font personalitzada"
+msgstr "Letra-tipo pertsonalizatua"
 
 #: data/ui/settings_dialog.blp:64
 msgid "File settings"
-msgstr "Configuració de fitxer"
+msgstr "Fitxategien ezarpenak"
 
 #: data/ui/settings_dialog.blp:67
 msgid "Create backup files"
-msgstr "Crea fitxers de còpia de seguretat"
+msgstr "Sortu segurtasun kopiak"
 
 #: data/ui/settings_dialog.blp:68
 msgid ""
 "You might not want to enable this if you are already using a version control "
 "such as Git"
 msgstr ""
-"És possible que no vulgueu habilitar això si ja esteu utilitzant un control "
-"de versions com Git"
+"Bertsioen kontrolerako Git moduko sistema bat badarabilzu, agian ez duzu hau "
+"aktibatu nahiko"
 
 #: data/ui/settings_dialog.blp:74
 msgid "Software updates"
-msgstr ""
+msgstr "Software eguneraketak"
 
 #: data/ui/settings_dialog.blp:81
 msgid "Current version"
-msgstr ""
+msgstr "Uneko bertsioa"
 
 #: data/ui/settings_dialog.blp:85
 msgid "Check for updates"
-msgstr ""
+msgstr "Bilatu eguneraketak"
 
 #: data/ui/settings_dialog.blp:93 data/ui/settings_dialog.blp:97
 msgid "HTTP Client"
-msgstr "Client HTTP"
+msgstr "HTTP bezeroa"
 
 #: data/ui/settings_dialog.blp:100
 msgid "Enforce TLS validation"
-msgstr "Força la validació TLS"
+msgstr "Behartu TLS balidazioa erabiltzera"
 
 #: data/ui/settings_dialog.blp:101
 msgid "Cancel a request if the TLS handshake fails"
-msgstr ""
+msgstr "Ezeztatu eskaera bat TLS diosalak huts egiten badu"
 
 #: data/ui/settings_dialog.blp:105
 msgid "Follow redirects"
-msgstr "Seguir redireccions"
+msgstr "Jarraitu berbideratzeak"
 
 #: data/ui/settings_dialog.blp:106
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
-msgstr ""
+msgstr "Jarraitu eskaerak egiten zerbitzariak HTTP 3xx erantzuna itzultzen badu"
 
 #: data/ui/settings_dialog.blp:111
 msgid "Maximum redirects"
-msgstr "Màxim de redireccions"
+msgstr "Gehieneko berbideratze kopurua"
 
 #: data/ui/settings_dialog.blp:123
 msgid "Request timeout"
-msgstr "Temps d'espera de la petició"
+msgstr "Eskaeraren denbora-muga"
 
 #: data/ui/settings_dialog.blp:124
 msgid "Seconds to wait before cancelling the request"
-msgstr ""
+msgstr "Eskaera ezeztatu aurretik itxaron beharreko segundo kopurua"
 
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
 #: src/entities/response_data.rs:68
 #, rust-format
 msgid "{} s"
-msgstr ""
+msgstr "{} s"
 
 #. Format as milliseconds.
 #. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
 #: src/entities/response_data.rs:72
 #, rust-format
 msgid "{} ms"
-msgstr ""
+msgstr "{} ms"
 
 #: src/error.rs:32
 msgid "The specified URL is not valid"
-msgstr ""
+msgstr "Zehaztutako URLa ez da baliozkoa"
 
 #: src/error.rs:34
 #, rust-format
 msgid "The header '{}' is not valid"
-msgstr ""
+msgstr "'{}' goiburua ez da baliozkoa"
 
 #: src/error.rs:37
 #, rust-format
 msgid "The value for header '{}' is not valid"
-msgstr ""
+msgstr "'{}' goiburuaren balioa ez da baliozkoa"
 
 #: src/error.rs:40 src/error.rs:74
 msgid "The given request body could not be encoded correctly"
-msgstr ""
+msgstr "Emandako eskaeraren gorputza ezin izan da behar bezala kodetu"
 
 #: src/error.rs:69
 msgid "Cannot recognise the URL"
-msgstr ""
+msgstr "Ez da URLa ezagutzen"
 
 #: src/error.rs:70
 msgid "The given URL is missing a protocol"
-msgstr ""
+msgstr "Emandako URLak ez dauka protokolorik"
 
 #: src/error.rs:72
 #, rust-format
 msgid "The protocol {}:// is not supported"
-msgstr ""
+msgstr "{}:// protokoloa ez dago onartua"
 
 #: src/error.rs:76
 #, rust-format
 msgid "The variable '{}' is not defined"
-msgstr ""
+msgstr "'{}' aldagaia ez dago definitua"
 
 #: src/error.rs:79
 msgid "There was a problem with a variable interpolation, review your inputs"
-msgstr ""
+msgstr "Arazo bat egon da aldagaiak tartekatzean, berrikusi sarrerak"
 
 #: src/error.rs:104
 msgid "There is a network error"
-msgstr ""
+msgstr "Sareko errore bat egon da"
 
 #: src/error.rs:105
 msgid "There is an input/output error"
-msgstr ""
+msgstr "Sarrera/irteerako errore bat egon da"
 
 #: src/error.rs:131 src/error.rs:155
 msgid "The current tab is not associated with a file"
-msgstr "La pestanya actual no està associada amb un fitxer"
+msgstr "Uneko fitxa ez dago fitxategi bati lotua"
 
 #: src/error.rs:133
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
-"Aquest fitxer s'ha creat amb una versió més nova d'aquesta aplicació; si us "
-"plau actualitzeu!"
+"Fitxategi hau aplikazioaren bertsio berriago batekin sortu da; eguneratu "
+"aplikazioa!"
 
 #: src/error.rs:137
 msgid "The file is corrupt or does not contain valid data for this application"
 msgstr ""
-"El fitxer està corrupte o no conté dades vàlides per a aquesta aplicació"
+"Fitxategia hondatua dago edo ez du aplikazio honentzako baliozko daturik"
 
 #: src/file.rs:411
 #, rust-format
 msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
-msgstr "El verb HTTP trobat al fitxer era '{}'. No és vàlid, es tornarà a '{}'."
+msgstr ""
+"Fitxategian aurkitutako HTTP aditza '{}' da. Ez da baliozkoa, '{}' balio "
+"lehenetsia erabiliko da."
 
 #: src/updates/ui.rs:33
 msgid "Error checking updates"
-msgstr ""
+msgstr "Errorea eguneraketak bilatzerakoan"
 
 #: src/updates/ui.rs:35
 msgid "Couldn't receive a valid response from the server. Please, check later."
-msgstr ""
+msgstr "Zerbitzariak ez du baliozko erantzunik itzuli. Saiatu berriz geroago."
 
 #: src/updates/ui.rs:38 src/updates/ui.rs:48
 msgid "Accept"
-msgstr "Acceptar"
+msgstr "Onartu"
 
 #: src/updates/ui.rs:45
 msgid "No updates at the moment"
-msgstr ""
+msgstr "Ez dago eguneraketarik oraingoz"
 
 #: src/updates/ui.rs:46
 msgid "You are running the latest version of Cartero."
-msgstr ""
+msgstr "Carteroren azken bertsioa darabilzu."
 
 #: src/updates/ui.rs:57
 #, rust-format
@@ -663,140 +667,146 @@ msgid ""
 "Version {} has been released. Do you want to visit the website to download "
 "the update now?"
 msgstr ""
+"{} bertsioa argitaratu da. Webgunea orain bisitatu nahi duzu eguneraketa "
+"deskargatzeko?"
 
 #: src/updates/ui.rs:59
 msgid "There is a new version of Cartero!"
-msgstr ""
+msgstr "Carteroren bertsio berriagoa dago!"
 
 #: src/updates/ui.rs:63
-#, fuzzy
 msgid "_Open website"
-msgstr "Obir petició"
+msgstr "_Ireki webgunea"
 
 #: src/updates/ui.rs:64
 msgid "_Not now"
-msgstr ""
+msgstr "Orain _ez"
 
 #: src/widgets/dialogs.rs:48
 #, rust-format
 msgid "Cannot open '{}'"
-msgstr "No es pot obrir '{}'"
+msgstr "Ezin izan da '{}' ireki"
 
 #: src/widgets/dialogs.rs:49
 msgid "Cannot open the requested file"
-msgstr "No s'ha pogut obrir el fitxer demanat"
+msgstr "Ezin izan da eskatutako fitxategia ireki"
 
 #: src/widgets/dialogs.rs:58 src/widgets/dialogs.rs:89
 #: src/widgets/dialogs.rs:112 src/widgets/dialogs.rs:125
 msgid "Close"
-msgstr "Tancar"
+msgstr "Itxi"
 
 #: src/widgets/dialogs.rs:72
 #, rust-format
 msgid "The file '{}' was loaded but had issues"
-msgstr "S'ha carregat el fitxer '{}' pero ha tingut problemes"
+msgstr "'{}' fitxategia kargatu da, baina arazoak zituen"
 
 #: src/widgets/dialogs.rs:73
 msgid "The requested file was loaded but had issues"
-msgstr ""
+msgstr "Eskatutako fitxategia kargatu da, baina arazoak zituen"
 
 #: src/widgets/dialogs.rs:103
 #, rust-format
 msgid "Cannot save '{}'"
-msgstr ""
+msgstr "Ezin izan da '{}' gorde"
 
 #: src/widgets/dialogs.rs:104
 msgid "Cannot save the requested file"
-msgstr ""
+msgstr "Ezin izan da eskatutako fitxategia gorde"
 
 #: src/widgets/dialogs.rs:106
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
 msgstr ""
+"Errore bat gertatu da gordetze-prozesuan. Kontuan izan ziurrenik aldaketak "
+"oraindik ez direla gorde."
 
 #: src/widgets/dialogs.rs:120
 msgid "Could not select a valid file from the file chooser"
 msgstr ""
+"Ezin izan da fitxategi-hautatzailearen bidez baliozko fitxategia aukeratu"
 
 #: src/widgets/dialogs.rs:134
 msgid "There are unsaved changes"
-msgstr ""
+msgstr "Gorde gabeko aldaketak daude"
 
 #: src/widgets/dialogs.rs:136
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
 msgstr ""
+"Leiho hau itxiz gero gorde gabeko datu guztiak galduko dira. Ziur aurrera "
+"jarraitu nahi duzula?"
 
 #: src/widgets/dialogs.rs:140
 msgid "Cancel"
-msgstr "Cancel·lar"
+msgstr "Utzi"
 
 #: src/widgets/dialogs.rs:141
-#, fuzzy
 msgid "Close anyway"
-msgstr "Tancar pestanya"
+msgstr "Itxi halere"
 
 #: src/widgets/dialogs.rs:164
-#, fuzzy, rust-format
+#, rust-format
 msgid "Save changes in '{}'?"
-msgstr "¿Guardar cambis?"
+msgstr "'{}' fitxategiko aldaketak gorde?"
 
 #: src/widgets/dialogs.rs:165
 msgid "Save changes?"
-msgstr "¿Guardar cambis?"
+msgstr "Aldaketak gorde?"
 
 #: src/widgets/dialogs.rs:170
 msgid "There are changes that have not been saved yet. What do you want to do?"
-msgstr "Hi ha canvis que encara no han sigut guardats. ¿Què vols fer?"
+msgstr "Oraindik gorde ez diren aldaketak daude. Zer egin nahi duzu?"
 
 #: src/widgets/dialogs.rs:174
 msgid "_Cancel"
-msgstr "_Cancel·lar"
+msgstr "_Utzi"
 
 #: src/widgets/dialogs.rs:175
 msgid "_Discard"
-msgstr "_Descartar"
+msgstr "_Baztertu"
 
 #: src/widgets/dialogs.rs:176
 msgid "_Save"
-msgstr "_Guardar"
+msgstr "_Gorde"
 
 #: src/widgets/error_pane.rs:91 src/widgets/error_pane.rs:105
 msgid "The request data is not valid"
-msgstr ""
+msgstr "Eskaeraren datuak ez dira baliozkoak"
 
 #: src/widgets/error_pane.rs:98
-#, fuzzy
 msgid "The request failed"
-msgstr "Fes peticions HTTP i testeja APIs"
+msgstr "Eskaerak huts egin du"
 
 #: src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"
-msgstr "Contingut copiat al porta-retalls"
+msgstr "Edukia arbelera kopiatu da"
 
 #. TRANSLATORS: presented in file dialogs as the file type for a request
 #: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:146
 msgid "Request"
-msgstr "Petició"
+msgstr "Eskaera"
 
 #: src/widgets/file_dialogs.rs:108
 msgid "Open request"
-msgstr "Obir petició"
+msgstr "Ireki eskaera"
 
 #: src/widgets/key_value_row.rs:110
 msgid ""
 "The value for this field will not be used because another field with the "
 "same name is overriding it."
 msgstr ""
+"Eremu honen balioa ez da erabiliko, izen bereko beste eremu batek "
+"gainidazten duelako bere balioa."
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
 #: src/widgets/search_box.rs:254
 #, rust-format
 msgid "{} of {}"
-msgstr ""
+msgstr "{} / {}"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count when only
 #. the number of total ocurrences is known.
@@ -804,52 +814,34 @@ msgstr ""
 #, rust-format
 msgid "{} result"
 msgid_plural "{} results"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Emaitza {}"
+msgstr[1] "{} emaitza"
 
 #: src/win.rs:246
 msgid "(untitled)"
-msgstr "(sense títol)"
+msgstr "(izengabea)"
 
 #: src/win.rs:260
 msgid "Draft"
-msgstr "Esborrany"
+msgstr "Zirriborroa"
 
 #: src/win.rs:561
 msgid "The Cartero authors"
-msgstr "Els autors de Cartero"
+msgstr "Carteroren egileak"
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
 #: src/win.rs:584
 msgid "translator-credits"
-msgstr "Ivan Garcia"
+msgstr "Ibai Oihanguren Sala"
 
 #: src/win.rs:585
 msgid "© 2024-2025 the Cartero authors"
-msgstr "© 2024-2025 Els autors de Cartero"
+msgstr "© 2024-2025 Carteroren egileak"
 
 #: src/win.rs:605
 msgid "User manual"
-msgstr ""
+msgstr "Erabiltzailearen eskuliburua"
 
 #: src/win.rs:607
 msgid "Help us translate"
-msgstr ""
-
-#~ msgid "Request (.cartero)"
-#~ msgstr "Petició (.cartero)"
-
-#~ msgid "Cartero request"
-#~ msgstr "Guardar petició"
-
-#~ msgid "Try making a new request"
-#~ msgstr "Prova de fer una nova petició"
-
-#~ msgid "Use the button in the toolbar to create or open a request."
-#~ msgstr "Utilitza el botó de la barra d'eines per crear o obrir una petició."
-
-#~ msgid "Add new header"
-#~ msgstr "Afegir capçalera"
-
-#~ msgid "Wrap bodies"
-#~ msgstr "Ajustar línia del cos"
+msgstr "Lagun gaitzazu itzultzen"

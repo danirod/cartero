@@ -54,19 +54,21 @@ jobs:
           ninja -C build cartero-update-po
           ! git -c core.pager="" diff -U0 po | grep -v '^@@' | grep 'msgid'
           git checkout -- po
-      - name: cargo-fmt
-        run: meson devenv -C build cargo fmt --manifest-path=../Cargo.toml --check --all
-      - name: cargo-test
-        run: xvfb-run meson devenv -C build cargo test --manifest-path=../Cargo.toml
-      - name: cargo-clippy
-        run: meson devenv -C build cargo clippy --manifest-path=../Cargo.toml
-      - name: cargo-deny
-        run: |
-          cargo install --locked cargo-deny
-          meson devenv -C build cargo deny --manifest-path=../Cargo.toml check licenses
       - name: glib-schema
-        run: glib-compile-schemas --dry-run --strict data
+        run: glib-compile-schemas --targetdir build --strict data
       - name: glib-desktop
         run: meson devenv -C build desktop-file-validate data/es.danirod.Cartero.desktop
       - name: glib-appstream
         run: meson devenv -C build appstreamcli validate data/es.danirod.Cartero.appdata.xml
+      - name: cargo-fmt
+        run: meson devenv -C build cargo fmt --manifest-path=../Cargo.toml --check --all
+      - name: cargo-test
+        run: |
+          export GSETTINGS_SCHEMA_DIR=$PWD/build
+          xvfb-run meson devenv -C build cargo test --workspace --manifest-path=../Cargo.toml
+      - name: cargo-clippy
+        run: meson devenv -C build cargo clippy --workspace --manifest-path=../Cargo.toml
+      - name: cargo-deny
+        run: |
+          cargo install --locked cargo-deny
+          meson devenv -C build cargo deny --workspace --manifest-path=../Cargo.toml check licenses

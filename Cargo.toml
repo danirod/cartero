@@ -1,7 +1,20 @@
+[workspace]
+members = ["cartero-*"]
+
+[workspace.package]
+edition = "2021"
+version = "0.3.0"
+license = "GPL-3.0-or-later"
+
+[workspace.dependencies]
+glib = { version = "0.20.9", features = ["v2_72"] }
+gio = { version = "0.20.9", features = ["v2_72"] }
+
 [package]
 name = "cartero"
-version = "0.2.0"
-edition = "2021"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
 
 [features]
 default = ["csd"]
@@ -17,7 +30,7 @@ formatx = "0.2.3"
 formdata = "0.13.0"
 futures-lite = "2.6.0"
 gettext-rs = { version = "0.7.2", features = ["gettext-system"] }
-glib = { version = "0.20.9", features = ["v2_72"] }
+glib.workspace = true
 gtk = { package = "gtk4", version = "0.9.6", features = ["v4_12"] }
 indexmap = "2.8.0"
 isahc = "1.7.2"

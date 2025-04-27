@@ -141,7 +141,7 @@ dependencies = [
 
 [[package]]
 name = "cartero"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "base64 0.22.1",
  "formatx",
@@ -165,6 +165,14 @@ dependencies = [
  "url 2.5.4",
  "winapi",
  "winresource",
+]
+
+[[package]]
+name = "cartero_objects"
+version = "0.3.0"
+dependencies = [
+ "gio",
+ "glib",
 ]
 
 [[package]]

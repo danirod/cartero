@@ -1,0 +1,9 @@
+[package]
+name = "cartero_objects"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+glib.workspace = true
+gio.workspace = true

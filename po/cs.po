@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-03-21 01:46+0100\n"
-"PO-Revision-Date: 2025-02-11 11:02+0000\n"
+"PO-Revision-Date: 2025-04-16 11:02+0000\n"
 "Last-Translator: vesp <vesp@post.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/cartero/cartero/cs/"
 ">\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.10-dev\n"
+"X-Generator: Weblate 5.11.1-dev\n"
 
 #: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -172,7 +172,7 @@ msgstr "Zobrazit klávesové zkratky"
 #: data/gtk/help_overlay.blp:33
 msgctxt "shortcuts window"
 msgid "Quit"
-msgstr "Zavřít"
+msgstr "Ukončit"
 
 #: data/gtk/help_overlay.blp:39
 msgctxt "shortcuts window"
@@ -216,19 +216,19 @@ msgstr "Odeslat požadavek"
 
 #: data/ui/authorization_pane.blp:29
 msgid "Authorization method"
-msgstr ""
+msgstr "Způsob autorizace"
 
 #: data/ui/authorization_pane.blp:55
 msgid "Username"
-msgstr ""
+msgstr "Uživatelské jméno"
 
 #: data/ui/authorization_pane.blp:60
 msgid "Password"
-msgstr ""
+msgstr "Heslo"
 
 #: data/ui/authorization_pane.blp:76
 msgid "Token"
-msgstr ""
+msgstr "Token"
 
 #: data/ui/authorization_pane.blp:87 data/ui/export_tab.blp:69
 #: data/ui/payload_tab.blp:87
@@ -237,11 +237,11 @@ msgstr "(nic)"
 
 #: data/ui/authorization_pane.blp:88
 msgid "Basic auth"
-msgstr ""
+msgstr "Basic auth"
 
 #: data/ui/authorization_pane.blp:89
 msgid "Bearer token"
-msgstr ""
+msgstr "Bearer token"
 
 #: data/ui/code_export_pane.blp:59
 msgid "Copy"
@@ -252,9 +252,8 @@ msgid "Request URL"
 msgstr "URL požadavku"
 
 #: data/ui/endpoint_pane.blp:81
-#, fuzzy
 msgid "Cancel request"
-msgstr "Uložit požadavek"
+msgstr "Zrušit požadavek"
 
 #: data/ui/endpoint_pane.blp:90
 msgid "Send"
@@ -278,7 +277,7 @@ msgstr "Proměnné"
 
 #: data/ui/endpoint_pane.blp:194
 msgid "Authorization"
-msgstr ""
+msgstr "Autorizace"
 
 #: data/ui/endpoint_pane.blp:217 data/ui/response_panel.blp:52
 msgid "Body"
@@ -425,15 +424,15 @@ msgstr "Typ těla"
 
 #: data/ui/payload_tab.blp:88
 msgid "URL Encoded"
-msgstr ""
+msgstr "URL Encoded"
 
 #: data/ui/payload_tab.blp:89
 msgid "Multipart Form Data"
-msgstr ""
+msgstr "Multipart Form Data"
 
 #: data/ui/payload_tab.blp:92
 msgid "Raw"
-msgstr ""
+msgstr "Raw"
 
 #: data/ui/response_panel.blp:28
 msgid "Ready to request"
@@ -511,15 +510,15 @@ msgstr ""
 
 #: data/ui/settings_dialog.blp:74
 msgid "Software updates"
-msgstr ""
+msgstr "Aktualizace softwaru"
 
 #: data/ui/settings_dialog.blp:81
 msgid "Current version"
-msgstr ""
+msgstr "Aktuální verze"
 
 #: data/ui/settings_dialog.blp:85
 msgid "Check for updates"
-msgstr ""
+msgstr "Vyhledat aktualizace"
 
 #: data/ui/settings_dialog.blp:93 data/ui/settings_dialog.blp:97
 msgid "HTTP Client"
@@ -531,7 +530,7 @@ msgstr "Vynutit ověření TLS"
 
 #: data/ui/settings_dialog.blp:101
 msgid "Cancel a request if the TLS handshake fails"
-msgstr ""
+msgstr "Zrušit požadavek, pokud selže TLS handshake"
 
 #: data/ui/settings_dialog.blp:105
 msgid "Follow redirects"
@@ -539,7 +538,7 @@ msgstr "Následovat přesměrování"
 
 #: data/ui/settings_dialog.blp:106
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
-msgstr ""
+msgstr "Provést následné požadavky, pokud server vrátí odpověď s kódem HTTP 3xx"
 
 #: data/ui/settings_dialog.blp:111
 msgid "Maximum redirects"
@@ -551,83 +550,83 @@ msgstr "Časový limit požadavku"
 
 #: data/ui/settings_dialog.blp:124
 msgid "Seconds to wait before cancelling the request"
-msgstr ""
+msgstr "Počet sekund, jak dlouho čekat před ukončením požadavku"
 
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
 #: src/entities/response_data.rs:68
 #, rust-format
 msgid "{} s"
-msgstr ""
+msgstr "{} s"
 
 #. Format as milliseconds.
 #. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
 #: src/entities/response_data.rs:72
 #, rust-format
 msgid "{} ms"
-msgstr ""
+msgstr "{} ms"
 
 #: src/error.rs:32
 msgid "The specified URL is not valid"
-msgstr ""
+msgstr "Zadaná URL není platná"
 
 #: src/error.rs:34
 #, rust-format
 msgid "The header '{}' is not valid"
-msgstr ""
+msgstr "Hlavička '{}' není platná"
 
 #: src/error.rs:37
 #, rust-format
 msgid "The value for header '{}' is not valid"
-msgstr ""
+msgstr "Hodnota hlavičky '{}' není platná"
 
 #: src/error.rs:40 src/error.rs:74
 msgid "The given request body could not be encoded correctly"
-msgstr ""
+msgstr "Zadané tělo požadavku nebylo možné správně zakódovat"
 
 #: src/error.rs:69
 msgid "Cannot recognise the URL"
-msgstr ""
+msgstr "Nelze rozpoznat URL adresu"
 
 #: src/error.rs:70
 msgid "The given URL is missing a protocol"
-msgstr ""
+msgstr "V zadané URL adrese chybí protokol"
 
 #: src/error.rs:72
 #, rust-format
 msgid "The protocol {}:// is not supported"
-msgstr ""
+msgstr "Protokol {}:// není podporován"
 
 #: src/error.rs:76
 #, rust-format
 msgid "The variable '{}' is not defined"
-msgstr ""
+msgstr "Proměnná '{}' není definována"
 
 #: src/error.rs:79
 msgid "There was a problem with a variable interpolation, review your inputs"
-msgstr ""
+msgstr "Nastal problém s interpolací proměnných, zkontrolujte vstupy"
 
 #: src/error.rs:104
 msgid "There is a network error"
-msgstr ""
+msgstr "Nastal problém se sítí"
 
 #: src/error.rs:105
 msgid "There is an input/output error"
-msgstr ""
+msgstr "Došlo k chybě vstupu/výstupu"
 
 #: src/error.rs:131 src/error.rs:155
-#, fuzzy
 msgid "The current tab is not associated with a file"
-msgstr "Aktuální seznam otevřených souborů"
+msgstr "Aktuální karta není přidružena k souboru"
 
 #: src/error.rs:133
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
+"Tento soubor byl vytvořen s novější verzí aplikace, prosím aktualizujte!"
 
 #: src/error.rs:137
 msgid "The file is corrupt or does not contain valid data for this application"
-msgstr ""
+msgstr "Soubor je poškozen nebo neobsahuje data platná pro tuto aplikaci"
 
 #: src/file.rs:411
 #, rust-format
@@ -638,23 +637,25 @@ msgstr ""
 
 #: src/updates/ui.rs:33
 msgid "Error checking updates"
-msgstr ""
+msgstr "Chyba při kontrole aktualizací"
 
 #: src/updates/ui.rs:35
 msgid "Couldn't receive a valid response from the server. Please, check later."
 msgstr ""
+"Ze serveru se nepodařilo se získat platnou odpověď. Prosím, zkuste to "
+"později."
 
 #: src/updates/ui.rs:38 src/updates/ui.rs:48
 msgid "Accept"
-msgstr ""
+msgstr "Přijmout"
 
 #: src/updates/ui.rs:45
 msgid "No updates at the moment"
-msgstr ""
+msgstr "Nyní nejsou žádné aktualizace"
 
 #: src/updates/ui.rs:46
 msgid "You are running the latest version of Cartero."
-msgstr ""
+msgstr "Používáte nejnovější verzi aplikace Cartero."
 
 #: src/updates/ui.rs:57
 #, rust-format
@@ -662,87 +663,89 @@ msgid ""
 "Version {} has been released. Do you want to visit the website to download "
 "the update now?"
 msgstr ""
+"Byla vydána verze {}. Chcete navštívit webovou stránku pro stažení "
+"aktualizace?"
 
 #: src/updates/ui.rs:59
 msgid "There is a new version of Cartero!"
-msgstr ""
+msgstr "Je k dispozici nová verze aplikace Cartero!"
 
 #: src/updates/ui.rs:63
-#, fuzzy
 msgid "_Open website"
-msgstr "Otevřít požadavek"
+msgstr "_Otevřít webovou stránku"
 
 #: src/updates/ui.rs:64
 msgid "_Not now"
-msgstr ""
+msgstr "_Nyní ne"
 
 #: src/widgets/dialogs.rs:48
 #, rust-format
 msgid "Cannot open '{}'"
-msgstr ""
+msgstr "Nelze otevřít '{}'"
 
 #: src/widgets/dialogs.rs:49
 msgid "Cannot open the requested file"
-msgstr ""
+msgstr "Nelze otevřít požadovaný soubor"
 
 #: src/widgets/dialogs.rs:58 src/widgets/dialogs.rs:89
 #: src/widgets/dialogs.rs:112 src/widgets/dialogs.rs:125
-#, fuzzy
 msgid "Close"
-msgstr "Zavřít panel"
+msgstr "Zavřít"
 
 #: src/widgets/dialogs.rs:72
 #, rust-format
 msgid "The file '{}' was loaded but had issues"
-msgstr ""
+msgstr "Soubor '{}' byl načten, ale vyskytly se s ním problémy"
 
 #: src/widgets/dialogs.rs:73
 msgid "The requested file was loaded but had issues"
-msgstr ""
+msgstr "Požadovaný soubor byl načten, ale vyskytly se s ním problémy"
 
 #: src/widgets/dialogs.rs:103
 #, rust-format
 msgid "Cannot save '{}'"
-msgstr ""
+msgstr "Nelze uložit '{}'"
 
 #: src/widgets/dialogs.rs:104
 msgid "Cannot save the requested file"
-msgstr ""
+msgstr "Nelze uložit požadovaný soubor"
 
 #: src/widgets/dialogs.rs:106
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
 msgstr ""
+"Během procesu ukládání došlo k chybě. Je možné, že vaše změny stále nejsou "
+"uloženy."
 
 #: src/widgets/dialogs.rs:120
 msgid "Could not select a valid file from the file chooser"
-msgstr ""
+msgstr "Nelze vybrat platný soubor z nástroje pro výběr souborů"
 
 #: src/widgets/dialogs.rs:134
 msgid "There are unsaved changes"
-msgstr ""
+msgstr "Existují neuložené změny"
 
 #: src/widgets/dialogs.rs:136
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
 msgstr ""
+"Zavřením tohoto okna budou ztracena všechna neuložená data. Opravdu chcete "
+"pokračovat?"
 
 #: src/widgets/dialogs.rs:140
-#, fuzzy
 msgid "Cancel"
-msgstr "_Zrušit"
+msgstr "Zrušit"
 
 #: src/widgets/dialogs.rs:141
-#, fuzzy
 msgid "Close anyway"
-msgstr "Zavřít panel"
+msgstr "Opravdu zavřít"
 
 #: src/widgets/dialogs.rs:164
-#, fuzzy, rust-format
+#, rust-format
 msgid "Save changes in '{}'?"
-msgstr "Uložit změny?"
+msgstr "Uložit změny v '{}'?"
 
 #: src/widgets/dialogs.rs:165
 msgid "Save changes?"
@@ -766,12 +769,11 @@ msgstr "_Uložit"
 
 #: src/widgets/error_pane.rs:91 src/widgets/error_pane.rs:105
 msgid "The request data is not valid"
-msgstr ""
+msgstr "Data požadavku nejsou platná"
 
 #: src/widgets/error_pane.rs:98
-#, fuzzy
 msgid "The request failed"
-msgstr "Spouštějte HTTP volání a testujte API"
+msgstr "Požadavek se nezdařil"
 
 #: src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"
@@ -791,6 +793,8 @@ msgid ""
 "The value for this field will not be used because another field with the "
 "same name is overriding it."
 msgstr ""
+"Hodnota pro toto pole nebude použita, protože ji přepisuje jiné pole se "
+"stejným názvem."
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
@@ -832,11 +836,11 @@ msgstr "© 2024-2025 autoři aplikace Cartero"
 
 #: src/win.rs:605
 msgid "User manual"
-msgstr ""
+msgstr "Uživatelská příručka"
 
 #: src/win.rs:607
 msgid "Help us translate"
-msgstr ""
+msgstr "Pomozte nám s překladem"
 
 #~ msgid "Request (.cartero)"
 #~ msgstr "Požadavek (.cartero)"

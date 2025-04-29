@@ -1,10 +1,10 @@
 .ignored-header text {
-  color: var(--warning-color);
+  color: @warning_color;
   text-decoration: line-through;
 }
 
 .ignored-header entry image.right {
-  color: var(--warning-color);
+  color: @warning_color;
 }
 
 .inactive-header text {
@@ -19,6 +19,6 @@
 
 /* Style for search bar elements. */
 .searchbar {
-  background: var(--headerbar-bg-color);
+  background: @headerbar_bg_color;
   border-bottom-left-radius: 10px;
 }

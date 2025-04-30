@@ -32,7 +32,8 @@ mod updates;
 mod win;
 mod windows;
 
-use std::path::PathBuf;
+use std::borrow::ToOwned;
+use std::path::{PathBuf, MAIN_SEPARATOR};
 
 use gettextrs::LocaleCategory;
 use gtk::gio;
@@ -41,6 +42,11 @@ use gtk::prelude::*;
 use self::app::CarteroApplication;
 use self::config::{APP_ID, GETTEXT_PACKAGE};
 
+const SHARE_DIR: String = "share".to_owned();
+const LOCALE_DIR: String = "locale".to_owned();
+const LOCALE_PATH: String = SHARE_DIR.to_owned()
+    + MAIN_SEPARATOR.to_string().as_str()
+    + LOCALE_DIR.as_str();
 fn app_rel_path(dir: &str) -> PathBuf {
     let root_dir = std::env::current_exe()
         .map(|p| p.parent().unwrap().parent().unwrap().to_path_buf())
@@ -59,7 +65,7 @@ fn app_rel_path(dir: &str) -> PathBuf {
 }
 
 fn init_data_dir() {
-    let datadir = app_rel_path("share");
+    let datadir = app_rel_path(SHARE_DIR.to_string().as_str());
     let xdg_data_dirs: Vec<PathBuf> = match std::env::var("XDG_DATA_DIRS") {
         Ok(dirs) => std::env::split_paths(&dirs).collect(),
         Err(_) => vec![],
@@ -73,7 +79,7 @@ fn init_data_dir() {
 }
 
 fn init_locale() {
-    let localedir = app_rel_path("share/locale");
+    let localedir = app_rel_path(LOCALE_PATH.as_str());
     gettextrs::setlocale(LocaleCategory::LcAll, "");
     gettextrs::bindtextdomain(GETTEXT_PACKAGE, localedir).expect("Unable to bind the text domain");
     gettextrs::bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8").unwrap();

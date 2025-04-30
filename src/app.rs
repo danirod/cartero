@@ -24,15 +24,17 @@ use gtk::prelude::ActionMapExtManual;
 use crate::config::{APP_ID, BASE_ID, RESOURCE_PATH};
 use crate::win::CarteroWindow;
 use crate::windows::SettingsDialog;
-
+static MACOS: &str = "macos";
 #[macro_export]
 macro_rules! accelerator {
     ($accel:expr) => {
-        if cfg!(target_os = "macos") {
-            concat!("<Meta>", $accel)
-        } else {
-            concat!("<Primary>", $accel)
+        let concat_for_accel: String = "<Primary>";
+
+        if cfg!(target_os = MACOS) {
+            concat_for_accel = "<Meta>";
         }
+
+        concat!(concat_for_accel, $accel)
     };
 }
 
@@ -96,7 +98,7 @@ mod imp {
                 if let Some(settings) = gtk::Settings::default() {
                     settings.set_gtk_font_name(Some("Segoe UI 10"));
                 }
-            } else if cfg!(target_os = "macos") {
+            } else if cfg!(target_os = MACOS) {
                 if let Some(settings) = gtk::Settings::default() {
                     settings.set_gtk_font_name(Some(".AppleSystemUIFont 14.5"));
                 }
@@ -230,7 +232,7 @@ impl CarteroApplication {
 
         self.add_action_entries([settings, about, quit]);
 
-        if cfg!(target_os = "macos") {
+        if cfg!(target_os = MACOS) {
             let links = vec![
                 ("menubar.user-manual", "https://cartero.danirod.es/docs/"),
                 (

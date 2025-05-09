@@ -18,7 +18,7 @@
 use serde_json::{Error, Value};
 
 use crate::client::BoundRequest;
-use crate::entities::{EndpointData, RequestPayload};
+use crate::entities::{EndpointData, RawEncoding, RequestPayload};
 use crate::error::RequestPreconditionError;
 
 pub struct CodeExportService {
@@ -68,31 +68,37 @@ impl CodeExportService {
             }
         }
 
-        if let RequestPayload::Raw {
-            encoding: _,
-            content,
-        } = &self.endpoint_data.body
-        {
-            command.push_str(&'fmt: {
-                let body = String::from_utf8_lossy(content).to_string();
-                let value: Result<Value, Error> = serde_json::from_str(body.as_ref());
+        if let RequestPayload::Raw { encoding, content } = &self.endpoint_data.body {
+            if *encoding == RawEncoding::Json {
+                command.push_str(&'fmt: {
+                    let body = String::from_utf8_lossy(content).to_string();
+                    let value: Result<Value, Error> = serde_json::from_str(body.as_ref());
 
-                if value.is_err() {
-                    break 'fmt String::new();
-                }
+                    if value.is_err() {
+                        break 'fmt String::new();
+                    }
 
-                let value = value.unwrap();
-                let trimmed_json_str = serde_json::to_string(&value);
+                    let value = value.unwrap();
+                    let trimmed_json_str = serde_json::to_string(&value);
 
-                if trimmed_json_str.is_err() {
-                    break 'fmt String::new();
-                }
+                    if trimmed_json_str.is_err() {
+                        break 'fmt String::new();
+                    }
 
-                let trimmed_json_str = trimmed_json_str.unwrap();
-                let trimmed_json_str = trimmed_json_str.replace("'", "\\\\'");
+                    let trimmed_json_str = trimmed_json_str.unwrap();
+                    let trimmed_json_str = trimmed_json_str.replace("'", "\\\\'");
 
-                format!(" \\\n  -d '{}'", trimmed_json_str)
-            });
+                    format!(" \\\n  -d '{}'", trimmed_json_str)
+                });
+            } else if *encoding == RawEncoding::Xml {
+                command.push_str(&{
+                    let xml_str = String::from_utf8_lossy(content).to_string();
+
+                    format!(" \\\n  -d '{}'", xml_str)
+                });
+            } else {
+                command.push_str(&String::new());
+            }
         }
 
         Ok(command)

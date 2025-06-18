@@ -160,6 +160,8 @@ mod tests {
         sync::{Arc, Mutex},
     };
 
+    use crate::FieldBuilder;
+
     use super::*;
 
     #[test]
@@ -170,14 +172,8 @@ mod tests {
 
     #[test]
     pub fn test_valid_from_iter_vec() {
-        let field: Field = Object::builder()
-            .property("key", "User-Agent")
-            .property("value", "Mozilla/5.0")
-            .build();
-        let field2: Field = Object::builder()
-            .property("key", "Content-Type")
-            .property("value", "text/html")
-            .build();
+        let field = FieldBuilder::new("User-Agent", "Mozilla/5.0").build();
+        let field2 = FieldBuilder::new("Content-Type", "text/html").build();
         let fields = vec![field, field2];
         let table = FieldTable::from_iter(fields);
         assert_eq!(2, table.n_items());
@@ -193,14 +189,8 @@ mod tests {
 
     #[test]
     pub fn test_valid_from_iter_set() {
-        let field: Field = Object::builder()
-            .property("key", "User-Agent")
-            .property("value", "Mozilla/5.0")
-            .build();
-        let field2: Field = Object::builder()
-            .property("key", "Content-Type")
-            .property("value", "text/html")
-            .build();
+        let field = FieldBuilder::new("User-Agent", "Mozilla/5.0").build();
+        let field2 = FieldBuilder::new("Content-Type", "text/html").build();
         let mut fields = HashSet::new();
         fields.insert(field);
         fields.insert(field2);
@@ -210,14 +200,8 @@ mod tests {
 
     #[test]
     pub fn test_insert_get_remove() {
-        let field: Field = Object::builder()
-            .property("key", "User-Agent")
-            .property("value", "Mozilla/5.0")
-            .build();
-        let field2: Field = Object::builder()
-            .property("key", "Content-Type")
-            .property("value", "text/html")
-            .build();
+        let field = FieldBuilder::new("User-Agent", "Mozilla/5.0").build();
+        let field2 = FieldBuilder::new("Content-Type", "text/html").build();
         let table: FieldTable = Object::builder().build();
         let inserts = Arc::new(Mutex::new(Vec::new()));
         let local_inserts = inserts.clone();

@@ -15,6 +15,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use glib::object::ObjectBuilder;
 use glib::subclass::prelude::*;
 use glib::{prelude::*, Object};
 
@@ -126,6 +127,37 @@ mod imp {
     impl ObjectImpl for Field {}
 }
 
+pub struct FieldBuilder {
+    builder: ObjectBuilder<'static, Field>,
+}
+
+impl FieldBuilder {
+    pub fn new<K, V>(key: K, value: V) -> Self
+    where
+        K: AsRef<str>,
+        V: AsRef<str>,
+    {
+        let builder = glib::Object::builder()
+            .property("key", key.as_ref())
+            .property("value", value.as_ref());
+        Self { builder }
+    }
+
+    pub fn build(self) -> Field {
+        self.builder.build()
+    }
+
+    pub fn active(mut self, active: bool) -> Self {
+        self.builder = self.builder.property("active", active);
+        self
+    }
+
+    pub fn masked(mut self, masked: bool) -> Self {
+        self.builder = self.builder.property("masked", masked);
+        self
+    }
+}
+
 #[cfg(test)]
 mod tests {
 
@@ -136,11 +168,8 @@ mod tests {
     use super::*;
 
     #[test]
-    pub fn test_valid_builder() {
-        let field: Field = Object::builder()
-            .property("key", "User-Agent")
-            .property("value", "Mozilla/5.0")
-            .build();
+    pub fn test_valid_defaults() {
+        let field = FieldBuilder::new("User-Agent", "Mozilla/5.0").build();
         assert_eq!(field.key(), "User-Agent");
         assert_eq!(field.value(), "Mozilla/5.0");
         assert!(field.active());
@@ -148,12 +177,20 @@ mod tests {
     }
 
     #[test]
-    pub fn test_notifies_changes() {
-        let field: Field = Object::builder()
-            .property("key", "User-Agent")
-            .property("value", "Mozilla/5.0")
+    pub fn test_valid_builder() {
+        let field = FieldBuilder::new("User-Agent", "Mozilla/5.0")
+            .active(false)
+            .masked(true)
             .build();
+        assert_eq!(field.key(), "User-Agent");
+        assert_eq!(field.value(), "Mozilla/5.0");
+        assert!(!field.active());
+        assert!(field.masked());
+    }
 
+    #[test]
+    pub fn test_notifies_changes() {
+        let field = FieldBuilder::new("User-Agent", "Mozilla/5.0").build();
         assert_emits_signal(&field, "notify", || field.set_key("Accept"));
         assert_emits_signal(&field, "notify", || field.set_value("text/html"));
         assert_emits_signal(&field, "notify", || field.set_active(false));

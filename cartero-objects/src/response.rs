@@ -18,6 +18,8 @@
 use glib::prelude::*;
 use glib::subclass::prelude::*;
 
+use crate::{FieldTable, Request};
+
 glib::wrapper! {
     /// The high order class that represents a response.
     ///
@@ -35,6 +37,12 @@ glib::wrapper! {
     /// - `size`: the amount in bytes of data contained in the body.
     /// - `status-code`: the numerical status code returned by the server.
     pub struct Response(ObjectSubclass<imp::Response>);
+}
+
+impl Response {
+    pub fn builder(request: &Request) -> builder::ResponseBuilder {
+        builder::ResponseBuilder::new(request)
+    }
 }
 
 mod imp {
@@ -70,4 +78,96 @@ mod imp {
 
     #[glib::derived_properties]
     impl ObjectImpl for Response {}
+}
+
+mod builder {
+    use glib::{object::ObjectBuilder, Object};
+
+    use super::*;
+
+    pub struct ResponseBuilder {
+        builder: ObjectBuilder<'static, Response>,
+    }
+
+    impl ResponseBuilder {
+        pub fn new(request: &Request) -> Self {
+            Self {
+                builder: Object::builder().property("request", request),
+            }
+        }
+
+        pub fn build(self) -> Response {
+            self.builder.build()
+        }
+
+        pub fn status_code(mut self, code: u32) -> Self {
+            self.builder = self.builder.property("status-code", code);
+            self
+        }
+
+        pub fn duration(mut self, duration: u64) -> Self {
+            self.builder = self.builder.property("duration", duration);
+            self
+        }
+
+        pub fn size(mut self, size: u64) -> Self {
+            self.builder = self.builder.property("size", size);
+            self
+        }
+
+        pub fn headers(mut self, table: &FieldTable) -> Self {
+            self.builder = self.builder.property("headers", table);
+            self
+        }
+
+        pub fn body(mut self, body: &[u8]) -> Self {
+            let bytes = glib::Bytes::from(body);
+            self.builder = self.builder.property("body", bytes);
+            self
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use gio::prelude::ListModelExt;
+
+    use crate::{Field, RequestMethod};
+
+    use super::*;
+
+    fn request() -> Request {
+        Request::builder("https://www.example.com/api/users", RequestMethod::Get).build()
+    }
+
+    #[test]
+    pub fn test_builder() {
+        let response = Response::builder(&request()).build();
+        assert_eq!(response.status_code(), 0);
+        assert_eq!(response.duration(), 0);
+        assert_eq!(response.size(), 0);
+        assert_eq!(response.headers().n_items(), 0);
+        assert!(response.body().is_none());
+    }
+
+    #[test]
+    pub fn test_builder_full() {
+        let response_headers = FieldTable::from_iter(vec![
+            Field::builder("Server", "nginx/1.0").build(),
+            Field::builder("Content-Type", "text/plain").build(),
+        ]);
+        let response = Response::builder(&request())
+            .status_code(404)
+            .duration(532)
+            .size(1234)
+            .headers(&response_headers)
+            .body(b"Not found!")
+            .build();
+        assert_eq!(response.status_code(), 404);
+        assert_eq!(response.duration(), 532);
+        assert_eq!(response.size(), 1234);
+        assert_eq!(response.headers().n_items(), 2);
+        let data = response.body().unwrap().into_data();
+        assert_eq!(data.as_ref(), b"Not found!");
+    }
 }

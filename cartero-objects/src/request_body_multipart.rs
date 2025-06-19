@@ -60,6 +60,10 @@ impl RequestBodyMultipart {
         Self::default()
     }
 
+    pub fn builder() -> builder::RequestBodyMultipartBuilder {
+        builder::RequestBodyMultipartBuilder::default()
+    }
+
     /// Create a new payload with the given table as initial data.
     pub fn from_table(table: &FieldTable) -> Self {
         Object::builder().property("params", table).build()
@@ -99,14 +103,88 @@ mod imp {
     }
 }
 
+mod builder {
+    use glib::object::ObjectBuilder;
+
+    use crate::Field;
+
+    use super::*;
+
+    pub struct RequestBodyMultipartBuilder {
+        builder: ObjectBuilder<'static, RequestBodyMultipart>,
+        field_table: FieldTable,
+    }
+
+    impl Default for RequestBodyMultipartBuilder {
+        fn default() -> Self {
+            let builder = Object::builder();
+            Self {
+                builder,
+                field_table: FieldTable::default(),
+            }
+        }
+    }
+
+    impl RequestBodyMultipartBuilder {
+        pub fn build(self) -> RequestBodyMultipart {
+            let object = self.builder.build();
+            object.set_params(&self.field_table);
+            object
+        }
+
+        pub fn field(self, field: &Field) -> Self {
+            self.field_table.insert(field);
+            self
+        }
+
+        pub fn params(self, params: &FieldTable) -> Self {
+            self.field_table.replace(params);
+            self
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use gio::prelude::ListModelExt;
     use glib::object::CastNone;
 
-    use crate::{Field, RequestBodyDataExt, RequestBodyType};
+    use crate::{Field, FieldTable, RequestBodyDataExt, RequestBodyType};
 
     use super::RequestBodyMultipart;
+
+    // TODO: This test sometimes lock the test suite.
+    #[test]
+    pub fn test_builder_empty() {
+        let body = RequestBodyMultipart::builder().build();
+        assert_eq!(0, body.params().n_items());
+    }
+
+    // TODO: This test sometimes lock the test suite.
+    #[test]
+    pub fn test_builder_from_fields_table() {
+        let field1 = Field::builder("User-Agent", "Mozilla/5.0").build();
+        let field2 = Field::builder("Accept", "application/json").build();
+        let field_table = FieldTable::from_iter(vec![field1, field2]);
+        let body = RequestBodyMultipart::builder().params(&field_table).build();
+        assert_eq!(2, body.params().n_items());
+        assert_eq!("User-Agent", body.params().field(0).unwrap().key());
+        assert_eq!("Accept", body.params().field(1).unwrap().key());
+    }
+
+    // TODO: This test sometimes lock the test suite.
+    #[test]
+    pub fn test_builder_adding_fields() {
+        let field1 = Field::builder("User-Agent", "Mozilla/5.0").build();
+        let field2 = Field::builder("Accept", "application/json").build();
+        let body = RequestBodyMultipart::builder()
+            .field(&field1)
+            .field(&field2)
+            .build();
+        assert_eq!(2, body.params().n_items());
+        assert_eq!("User-Agent", body.params().field(0).unwrap().key());
+        assert_eq!("Accept", body.params().field(1).unwrap().key());
+    }
 
     #[test]
     pub fn test_default() {

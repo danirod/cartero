@@ -89,6 +89,24 @@ impl FieldTable {
         self.items_changed(len as u32, 0, 1);
     }
 
+    pub fn field(&self, pos: u32) -> Option<Field> {
+        self.item(pos).and_downcast::<Field>()
+    }
+
+    pub fn replace(&self, table: &Self) {
+        let old_len = self.n_items();
+        let new_len = table.n_items();
+
+        {
+            let mut fields = self.imp().fields.borrow_mut();
+            let mut new_fields = { table.imp().fields.borrow().clone() };
+            fields.clear();
+            fields.append(&mut new_fields);
+        }
+
+        self.items_changed(0, old_len, new_len);
+    }
+
     /// Remove a field from the table.
     ///
     /// The position of the element to remove has to be given as a parameter,
@@ -160,8 +178,6 @@ mod tests {
         sync::{Arc, Mutex},
     };
 
-    use crate::FieldBuilder;
-
     use super::*;
 
     #[test]
@@ -172,25 +188,19 @@ mod tests {
 
     #[test]
     pub fn test_valid_from_iter_vec() {
-        let field = FieldBuilder::new("User-Agent", "Mozilla/5.0").build();
-        let field2 = FieldBuilder::new("Content-Type", "text/html").build();
+        let field = Field::builder("User-Agent", "Mozilla/5.0").build();
+        let field2 = Field::builder("Content-Type", "text/html").build();
         let fields = vec![field, field2];
         let table = FieldTable::from_iter(fields);
         assert_eq!(2, table.n_items());
-        assert_eq!(
-            "User-Agent",
-            table.item(0).and_downcast::<Field>().unwrap().key()
-        );
-        assert_eq!(
-            "Content-Type",
-            table.item(1).and_downcast::<Field>().unwrap().key()
-        );
+        assert_eq!("User-Agent", table.field(0).unwrap().key(),);
+        assert_eq!("Content-Type", table.field(1).unwrap().key(),);
     }
 
     #[test]
     pub fn test_valid_from_iter_set() {
-        let field = FieldBuilder::new("User-Agent", "Mozilla/5.0").build();
-        let field2 = FieldBuilder::new("Content-Type", "text/html").build();
+        let field = Field::builder("User-Agent", "Mozilla/5.0").build();
+        let field2 = Field::builder("Content-Type", "text/html").build();
         let mut fields = HashSet::new();
         fields.insert(field);
         fields.insert(field2);
@@ -200,8 +210,8 @@ mod tests {
 
     #[test]
     pub fn test_insert_get_remove() {
-        let field = FieldBuilder::new("User-Agent", "Mozilla/5.0").build();
-        let field2 = FieldBuilder::new("Content-Type", "text/html").build();
+        let field = Field::builder("User-Agent", "Mozilla/5.0").build();
+        let field2 = Field::builder("Content-Type", "text/html").build();
         let table: FieldTable = Object::builder().build();
         let inserts = Arc::new(Mutex::new(Vec::new()));
         let local_inserts = inserts.clone();
@@ -229,13 +239,9 @@ mod tests {
         }
 
         {
-            assert!(table
-                .item(0)
-                .is_some_and(|f| f.downcast::<Field>().is_ok_and(|f| f == field)));
-            assert!(table
-                .item(1)
-                .is_some_and(|f| f.downcast::<Field>().is_ok_and(|f| f == field2)));
-            assert!(table.item(2).is_none());
+            assert!(table.field(0).is_some_and(|f| f == field));
+            assert!(table.field(1).is_some_and(|f| f == field2));
+            assert!(table.field(2).is_none());
         }
 
         {
@@ -248,10 +254,32 @@ mod tests {
         }
 
         {
-            assert!(table
-                .item(0)
-                .is_some_and(|f| f.downcast::<Field>().is_ok_and(|f| f == field2)));
+            assert!(table.field(0).is_some_and(|f| f == field2));
             assert!(table.item(1).is_none());
         }
+    }
+
+    #[test]
+    pub fn test_replace_field_table() {
+        let table1 = FieldTable::from_iter(vec![
+            Field::builder("User-Agent", "Mozilla/5.0").build(),
+            Field::builder("Accept", "application/json").build(),
+        ]);
+        let table2 = FieldTable::from_iter(vec![
+            Field::builder("Content-Type", "text/html").build(),
+            Field::builder("Host", "example.com").build(),
+            Field::builder("Server", "nginx/1.0").build(),
+        ]);
+
+        assert_eq!(2, table1.n_items());
+        assert_eq!("User-Agent", table1.field(0).unwrap().key());
+        assert_eq!("Accept", table1.field(1).unwrap().key());
+
+        table1.replace(&table2);
+
+        assert_eq!(3, table1.n_items());
+        assert_eq!("Content-Type", table1.field(0).unwrap().key());
+        assert_eq!("Host", table1.field(1).unwrap().key());
+        assert_eq!("Server", table1.field(2).unwrap().key());
     }
 }

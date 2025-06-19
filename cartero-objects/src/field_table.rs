@@ -188,8 +188,14 @@ mod tests {
 
     #[test]
     pub fn test_valid_from_iter_vec() {
-        let field = Field::builder("User-Agent", "Mozilla/5.0").build();
-        let field2 = Field::builder("Content-Type", "text/html").build();
+        let field = Field::builder()
+            .key("User-Agent")
+            .value("Mozilla/5.0")
+            .build();
+        let field2 = Field::builder()
+            .key("Content-Type")
+            .value("text/html")
+            .build();
         let fields = vec![field, field2];
         let table = FieldTable::from_iter(fields);
         assert_eq!(2, table.n_items());
@@ -199,8 +205,14 @@ mod tests {
 
     #[test]
     pub fn test_valid_from_iter_set() {
-        let field = Field::builder("User-Agent", "Mozilla/5.0").build();
-        let field2 = Field::builder("Content-Type", "text/html").build();
+        let field = Field::builder()
+            .key("User-Agent")
+            .value("Mozilla/5.0")
+            .build();
+        let field2 = Field::builder()
+            .key("Content-Type")
+            .value("text/html")
+            .build();
         let mut fields = HashSet::new();
         fields.insert(field);
         fields.insert(field2);
@@ -210,8 +222,14 @@ mod tests {
 
     #[test]
     pub fn test_insert_get_remove() {
-        let field = Field::builder("User-Agent", "Mozilla/5.0").build();
-        let field2 = Field::builder("Content-Type", "text/html").build();
+        let field = Field::builder()
+            .key("User-Agent")
+            .value("Mozilla/5.0")
+            .build();
+        let field2 = Field::builder()
+            .key("Content-Type")
+            .value("text/html")
+            .build();
         let table: FieldTable = Object::builder().build();
         let inserts = Arc::new(Mutex::new(Vec::new()));
         let local_inserts = inserts.clone();
@@ -262,13 +280,22 @@ mod tests {
     #[test]
     pub fn test_replace_field_table() {
         let table1 = FieldTable::from_iter(vec![
-            Field::builder("User-Agent", "Mozilla/5.0").build(),
-            Field::builder("Accept", "application/json").build(),
+            Field::builder()
+                .key("User-Agent")
+                .value("Mozilla/5.0")
+                .build(),
+            Field::builder()
+                .key("Accept")
+                .value("application/json")
+                .build(),
         ]);
         let table2 = FieldTable::from_iter(vec![
-            Field::builder("Content-Type", "text/html").build(),
-            Field::builder("Host", "example.com").build(),
-            Field::builder("Server", "nginx/1.0").build(),
+            Field::builder()
+                .key("Content-Type")
+                .value("text/html")
+                .build(),
+            Field::builder().key("Host").value("example.com").build(),
+            Field::builder().key("Server").value("nginx/1.0").build(),
         ]);
 
         assert_eq!(2, table1.n_items());

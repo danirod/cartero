@@ -153,8 +153,11 @@ mod tests {
     #[test]
     pub fn test_builder_full() {
         let response_headers = FieldTable::from_iter(vec![
-            Field::builder("Server", "nginx/1.0").build(),
-            Field::builder("Content-Type", "text/plain").build(),
+            Field::builder().key("Server").value("nginx/1.0").build(),
+            Field::builder()
+                .key("Content-Type")
+                .value("text/plain")
+                .build(),
         ]);
         let response = Response::builder(&request())
             .status_code(404)

@@ -162,8 +162,8 @@ mod tests {
     #[test]
     pub fn test_builder_from_table() {
         let fields = vec![
-            Field::builder("user_id", "1").build(),
-            Field::builder("cat_id", "10").build(),
+            Field::builder().key("user_id").value("1").build(),
+            Field::builder().key("cat_id").value("10").build(),
         ];
         let table = FieldTable::from_iter(fields);
         let body = RequestBodyUrlencoded::builder().params(&table).build();
@@ -175,8 +175,8 @@ mod tests {
 
     #[test]
     pub fn test_builder_with_field() {
-        let field1 = Field::builder("user_id", "1").build();
-        let field2 = Field::builder("cat_id", "10").build();
+        let field1 = Field::builder().key("user_id").value("1").build();
+        let field2 = Field::builder().key("cat_id").value("10").build();
         let body = RequestBodyUrlencoded::builder()
             .field(&field1)
             .field(&field2)

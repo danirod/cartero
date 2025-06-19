@@ -502,7 +502,7 @@ mod tests {
     #[test]
     pub fn builder_urlencoded() {
         let urlencoded = RequestBodyUrlencoded::builder()
-            .field(&Field::builder("user_id", "1").build())
+            .field(&Field::builder().key("user_id").value("1").build())
             .build();
         let body = RequestBody::builder().urlencoded(&urlencoded).build();
         assert_eq!(body.body_type(), RequestBodyType::UrlEncoded);
@@ -513,7 +513,7 @@ mod tests {
     #[test]
     pub fn builder_multipart() {
         let multipart = RequestBodyMultipart::builder()
-            .field(&Field::builder("user_id", "1").build())
+            .field(&Field::builder().key("user_id").value("1").build())
             .build();
         let body = RequestBody::builder().multipart(&multipart).build();
         assert_eq!(body.body_type(), RequestBodyType::Multipart);

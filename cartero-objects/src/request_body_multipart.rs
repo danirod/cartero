@@ -163,8 +163,14 @@ mod tests {
     // TODO: This test sometimes lock the test suite.
     #[test]
     pub fn test_builder_from_fields_table() {
-        let field1 = Field::builder("User-Agent", "Mozilla/5.0").build();
-        let field2 = Field::builder("Accept", "application/json").build();
+        let field1 = Field::builder()
+            .key("User-Agent")
+            .value("Mozilla/5.0")
+            .build();
+        let field2 = Field::builder()
+            .key("Accept")
+            .value("application/json")
+            .build();
         let field_table = FieldTable::from_iter(vec![field1, field2]);
         let body = RequestBodyMultipart::builder().params(&field_table).build();
         assert_eq!(2, body.params().n_items());
@@ -175,8 +181,14 @@ mod tests {
     // TODO: This test sometimes lock the test suite.
     #[test]
     pub fn test_builder_adding_fields() {
-        let field1 = Field::builder("User-Agent", "Mozilla/5.0").build();
-        let field2 = Field::builder("Accept", "application/json").build();
+        let field1 = Field::builder()
+            .key("User-Agent")
+            .value("Mozilla/5.0")
+            .build();
+        let field2 = Field::builder()
+            .key("Accept")
+            .value("application/json")
+            .build();
         let body = RequestBodyMultipart::builder()
             .field(&field1)
             .field(&field2)

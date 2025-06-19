@@ -181,8 +181,8 @@ mod tests {
     use super::*;
 
     #[test]
-    pub fn test_valid_builder() {
-        let table: FieldTable = Object::builder().build();
+    pub fn test_default() {
+        let table = FieldTable::default();
         assert_eq!(table.n_items(), 0);
     }
 

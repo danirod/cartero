@@ -50,7 +50,7 @@ glib::wrapper! {
 
 impl Default for RequestBodyMultipart {
     fn default() -> Self {
-        Object::builder().build()
+        Object::new()
     }
 }
 

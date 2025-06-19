@@ -99,8 +99,6 @@ mod imp {
 }
 
 mod builder {
-    use std::cell::RefCell;
-
     use glib::object::ObjectBuilder;
 
     use crate::Field;
@@ -109,35 +107,33 @@ mod builder {
 
     pub struct RequestBodyUrlencodedBuilder {
         builder: ObjectBuilder<'static, RequestBodyUrlencoded>,
-        field_table: RefCell<FieldTable>,
+        field_table: FieldTable,
     }
 
     impl Default for RequestBodyUrlencodedBuilder {
         fn default() -> Self {
             let builder = Object::builder();
-            let field_table = RefCell::new(FieldTable::default());
             Self {
                 builder,
-                field_table,
+                field_table: FieldTable::default(),
             }
         }
     }
 
     impl RequestBodyUrlencodedBuilder {
         pub fn build(self) -> RequestBodyUrlencoded {
-            let field_table = self.field_table.borrow().clone();
             let object = self.builder.build();
-            object.set_params(&field_table);
+            object.set_params(&self.field_table);
             object
         }
 
         pub fn field(self, field: &Field) -> Self {
-            self.field_table.borrow().insert(field);
+            self.field_table.insert(field);
             self
         }
 
-        pub fn params(self, params: &FieldTable) -> Self {
-            self.field_table.replace(params.clone());
+        pub fn params(mut self, params: &FieldTable) -> Self {
+            self.field_table = params.clone();
             self
         }
     }

@@ -47,3 +47,11 @@ pub use crate::request_body_raw::*;
 pub use crate::request_body_urlencoded::*;
 pub use crate::request_method::*;
 pub use crate::response::*;
+
+#[cfg(test)]
+#[ctor::ctor]
+fn register_types() {
+    use glib::types::StaticType;
+
+    FieldTable::static_type();
+}

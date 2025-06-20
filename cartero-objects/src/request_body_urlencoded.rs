@@ -55,6 +55,10 @@ impl RequestBodyUrlencoded {
         Self::default()
     }
 
+    pub fn builder() -> builder::RequestBodyUrlencodedBuilder {
+        builder::RequestBodyUrlencodedBuilder::default()
+    }
+
     /// Create a new payload with the given table as initial data.
     pub fn from_table(table: &FieldTable) -> Self {
         Object::builder().property("params", table).build()
@@ -94,14 +98,90 @@ mod imp {
     }
 }
 
+mod builder {
+    use glib::object::ObjectBuilder;
+
+    use crate::Field;
+
+    use super::*;
+
+    pub struct RequestBodyUrlencodedBuilder {
+        builder: ObjectBuilder<'static, RequestBodyUrlencoded>,
+        field_table: FieldTable,
+    }
+
+    impl Default for RequestBodyUrlencodedBuilder {
+        fn default() -> Self {
+            let builder = Object::builder();
+            Self {
+                builder,
+                field_table: FieldTable::default(),
+            }
+        }
+    }
+
+    impl RequestBodyUrlencodedBuilder {
+        pub fn build(self) -> RequestBodyUrlencoded {
+            let object = self.builder.build();
+            object.set_params(&self.field_table);
+            object
+        }
+
+        pub fn field(self, field: &Field) -> Self {
+            self.field_table.insert(field);
+            self
+        }
+
+        pub fn params(mut self, params: &FieldTable) -> Self {
+            self.field_table = params.clone();
+            self
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use gio::prelude::ListModelExt;
     use glib::object::CastNone;
 
-    use crate::{Field, RequestBodyDataExt, RequestBodyType};
+    use crate::{Field, FieldTable, RequestBodyDataExt, RequestBodyType};
 
     use super::RequestBodyUrlencoded;
+
+    #[test]
+    pub fn test_builder() {
+        let body = RequestBodyUrlencoded::builder().build();
+        assert_eq!(body.body_type(), RequestBodyType::UrlEncoded);
+        assert_eq!(body.params().n_items(), 0);
+    }
+
+    #[test]
+    pub fn test_builder_from_table() {
+        let fields = vec![
+            Field::builder().key("user_id").value("1").build(),
+            Field::builder().key("cat_id").value("10").build(),
+        ];
+        let table = FieldTable::from_iter(fields);
+        let body = RequestBodyUrlencoded::builder().params(&table).build();
+        assert_eq!(body.body_type(), RequestBodyType::UrlEncoded);
+        assert_eq!(body.params().n_items(), 2);
+        assert_eq!(body.params().field(0).unwrap().key(), "user_id");
+        assert_eq!(body.params().field(1).unwrap().key(), "cat_id");
+    }
+
+    #[test]
+    pub fn test_builder_with_field() {
+        let field1 = Field::builder().key("user_id").value("1").build();
+        let field2 = Field::builder().key("cat_id").value("10").build();
+        let body = RequestBodyUrlencoded::builder()
+            .field(&field1)
+            .field(&field2)
+            .build();
+        assert_eq!(body.body_type(), RequestBodyType::UrlEncoded);
+        assert_eq!(body.params().n_items(), 2);
+        assert_eq!(body.params().field(0).unwrap().key(), "user_id");
+        assert_eq!(body.params().field(1).unwrap().key(), "cat_id");
+    }
 
     #[test]
     pub fn test_default() {

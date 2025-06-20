@@ -68,6 +68,10 @@ impl RequestBodyRaw {
             .property("payload", bytes)
             .build()
     }
+
+    pub fn builder(payload_type: RequestBodyRawType) -> builder::RequestBodyRawBuilder {
+        builder::RequestBodyRawBuilder::new(payload_type)
+    }
 }
 
 /// Define the semantics of a [RequestBodyRaw] payload.
@@ -147,6 +151,33 @@ mod imp {
     }
 }
 
+mod builder {
+    use glib::object::ObjectBuilder;
+
+    use super::*;
+
+    pub struct RequestBodyRawBuilder {
+        builder: ObjectBuilder<'static, RequestBodyRaw>,
+    }
+
+    impl RequestBodyRawBuilder {
+        pub fn new(raw_type: RequestBodyRawType) -> Self {
+            Self {
+                builder: glib::Object::builder().property("payload-type", raw_type),
+            }
+        }
+
+        pub fn build(self) -> RequestBodyRaw {
+            self.builder.build()
+        }
+
+        pub fn payload(mut self, payload: &glib::Bytes) -> Self {
+            self.builder = self.builder.property("payload", payload);
+            self
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use crate::{
@@ -154,6 +185,18 @@ mod tests {
     };
 
     use super::RequestBodyRaw;
+
+    #[test]
+    fn test_builder() {
+        let raw = RequestBodyRaw::builder(RequestBodyRawType::Xml)
+            .payload(&glib::Bytes::from(br#"<?xml version="1.0" ?><document />"#))
+            .build();
+        assert_eq!(raw.payload_type(), RequestBodyRawType::Xml);
+        assert_eq!(
+            String::from_utf8_lossy(&raw.payload().into_data()),
+            r#"<?xml version="1.0" ?><document />"#
+        );
+    }
 
     #[test]
     fn test_defaults() {

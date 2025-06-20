@@ -65,6 +65,12 @@ glib::wrapper! {
     pub struct Field(ObjectSubclass<imp::Field>);
 }
 
+impl Field {
+    pub fn builder() -> builder::FieldBuilder {
+        builder::FieldBuilder::default()
+    }
+}
+
 impl<T> From<(T, T)> for Field
 where
     T: AsRef<str>,
@@ -126,20 +132,66 @@ mod imp {
     impl ObjectImpl for Field {}
 }
 
+mod builder {
+    use super::*;
+    use glib::object::ObjectBuilder;
+
+    pub struct FieldBuilder {
+        builder: ObjectBuilder<'static, Field>,
+    }
+
+    impl Default for FieldBuilder {
+        fn default() -> Self {
+            Self {
+                builder: Object::builder(),
+            }
+        }
+    }
+
+    impl FieldBuilder {
+        pub fn build(self) -> Field {
+            self.builder.build()
+        }
+
+        pub fn key<T>(mut self, key: T) -> Self
+        where
+            T: AsRef<str>,
+        {
+            self.builder = self.builder.property("key", key.as_ref());
+            self
+        }
+
+        pub fn value<T>(mut self, value: T) -> Self
+        where
+            T: AsRef<str>,
+        {
+            self.builder = self.builder.property("value", value.as_ref());
+            self
+        }
+
+        pub fn active(mut self, active: bool) -> Self {
+            self.builder = self.builder.property("active", active);
+            self
+        }
+
+        pub fn masked(mut self, masked: bool) -> Self {
+            self.builder = self.builder.property("masked", masked);
+            self
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
-
-    use glib::Object;
-
     use crate::utils::test::assert_emits_signal;
 
     use super::*;
 
     #[test]
-    pub fn test_valid_builder() {
-        let field: Field = Object::builder()
-            .property("key", "User-Agent")
-            .property("value", "Mozilla/5.0")
+    pub fn test_valid_defaults() {
+        let field = Field::builder()
+            .key("User-Agent")
+            .value("Mozilla/5.0")
             .build();
         assert_eq!(field.key(), "User-Agent");
         assert_eq!(field.value(), "Mozilla/5.0");
@@ -148,12 +200,25 @@ mod tests {
     }
 
     #[test]
-    pub fn test_notifies_changes() {
-        let field: Field = Object::builder()
-            .property("key", "User-Agent")
-            .property("value", "Mozilla/5.0")
+    pub fn test_valid_builder() {
+        let field = Field::builder()
+            .key("User-Agent")
+            .value("Mozilla/5.0")
+            .active(false)
+            .masked(true)
             .build();
+        assert_eq!(field.key(), "User-Agent");
+        assert_eq!(field.value(), "Mozilla/5.0");
+        assert!(!field.active());
+        assert!(field.masked());
+    }
 
+    #[test]
+    pub fn test_notifies_changes() {
+        let field = Field::builder()
+            .key("User-Agent")
+            .value("Mozilla/5.0")
+            .build();
         assert_emits_signal(&field, "notify", || field.set_key("Accept"));
         assert_emits_signal(&field, "notify", || field.set_value("text/html"));
         assert_emits_signal(&field, "notify", || field.set_active(false));

@@ -56,6 +56,10 @@ impl RequestAuthenticationBasic {
             .property("password", password.as_ref())
             .build()
     }
+
+    pub fn builder() -> builder::RequestAuthenticationBasicBuilder {
+        builder::RequestAuthenticationBasicBuilder::default()
+    }
 }
 
 mod imp {
@@ -94,11 +98,50 @@ mod imp {
     }
 }
 
+mod builder {
+    use glib::object::ObjectBuilder;
+
+    use super::*;
+
+    pub struct RequestAuthenticationBasicBuilder {
+        builder: ObjectBuilder<'static, RequestAuthenticationBasic>,
+    }
+
+    impl Default for RequestAuthenticationBasicBuilder {
+        fn default() -> Self {
+            let builder = Object::builder();
+            Self { builder }
+        }
+    }
+
+    impl RequestAuthenticationBasicBuilder {
+        pub fn build(self) -> RequestAuthenticationBasic {
+            self.builder.build()
+        }
+
+        pub fn username<T>(mut self, username: T) -> Self
+        where
+            T: AsRef<str>,
+        {
+            self.builder = self.builder.property("username", username.as_ref());
+            self
+        }
+
+        pub fn password<T>(mut self, password: T) -> Self
+        where
+            T: AsRef<str>,
+        {
+            self.builder = self.builder.property("password", password.as_ref());
+            self
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use crate::{RequestAuthenticationDataExt, RequestAuthenticationType};
 
-    use super::RequestAuthenticationBasic;
+    use super::*;
 
     #[test]
     pub fn test_default() {
@@ -118,5 +161,24 @@ mod tests {
     pub fn test_auth_type() {
         let auth_type = RequestAuthenticationBasic::default().auth_type();
         assert_eq!(auth_type, RequestAuthenticationType::BasicAuth);
+    }
+
+    #[test]
+    pub fn test_builder_default() {
+        let basic = RequestAuthenticationBasic::builder().build();
+        assert_eq!(basic.username(), String::default());
+        assert_eq!(basic.password(), String::default());
+        assert_eq!(basic.auth_type(), RequestAuthenticationType::BasicAuth);
+    }
+
+    #[test]
+    pub fn test_builder_credentials() {
+        let basic = RequestAuthenticationBasic::builder()
+            .username("admin")
+            .password("1234")
+            .build();
+        assert_eq!(basic.username(), "admin");
+        assert_eq!(basic.password(), "1234");
+        assert_eq!(basic.auth_type(), RequestAuthenticationType::BasicAuth);
     }
 }

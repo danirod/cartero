@@ -240,6 +240,10 @@ impl RequestAuthentication {
             .build()
     }
 
+    pub fn builder() -> builder::RequestAuthenticationBuilder {
+        builder::RequestAuthenticationBuilder::default()
+    }
+
     /// Returns the basic authentication data, if it's the current type.
     pub fn basic_auth(&self) -> Option<RequestAuthenticationBasic> {
         if self.auth_type() == RequestAuthenticationType::BasicAuth {
@@ -350,6 +354,58 @@ mod imp {
     }
 }
 
+mod builder {
+    use super::*;
+    use glib::object::ObjectBuilder;
+
+    pub struct RequestAuthenticationBuilder {
+        builder: ObjectBuilder<'static, RequestAuthentication>,
+    }
+
+    impl Default for RequestAuthenticationBuilder {
+        fn default() -> Self {
+            let builder = Object::builder();
+            Self { builder }
+        }
+    }
+
+    impl RequestAuthenticationBuilder {
+        pub fn build(self) -> RequestAuthentication {
+            self.builder.build()
+        }
+
+        pub fn none(mut self) -> Self {
+            self.builder = self
+                .builder
+                .property("auth-type", RequestAuthenticationType::None);
+            self
+        }
+
+        pub fn inherit(mut self) -> Self {
+            self.builder = self
+                .builder
+                .property("auth-type", RequestAuthenticationType::Inherit);
+            self
+        }
+
+        pub fn basic_auth(mut self, basic_auth: &RequestAuthenticationBasic) -> Self {
+            self.builder = self
+                .builder
+                .property("auth-type", RequestAuthenticationType::BasicAuth)
+                .property("auth-data", Some(basic_auth));
+            self
+        }
+
+        pub fn bearer_token(mut self, bearer: &RequestAuthenticationBearer) -> Self {
+            self.builder = self
+                .builder
+                .property("auth-type", RequestAuthenticationType::BearerToken)
+                .property("auth-data", Some(bearer));
+            self
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use crate::{
@@ -358,6 +414,46 @@ mod tests {
     };
 
     use super::*;
+
+    #[test]
+    pub fn builder_default() {
+        let auth = RequestAuthentication::builder().build();
+        assert_eq!(auth.auth_type(), RequestAuthenticationType::None);
+        assert!(auth.auth_data().is_none());
+    }
+
+    #[test]
+    pub fn builder_inherit() {
+        let auth = RequestAuthentication::builder().inherit().build();
+        assert_eq!(auth.auth_type(), RequestAuthenticationType::Inherit);
+        assert!(auth.auth_data().is_none());
+    }
+
+    #[test]
+    pub fn builder_basic_auth() {
+        let basic = RequestAuthenticationBasic::builder()
+            .username("user")
+            .password("pass")
+            .build();
+        let auth = RequestAuthentication::builder().basic_auth(&basic).build();
+        assert_eq!(auth.auth_type(), RequestAuthenticationType::BasicAuth);
+        let basic = auth.basic_auth().unwrap();
+        assert_eq!(basic.username(), "user");
+        assert_eq!(basic.password(), "pass");
+    }
+
+    #[test]
+    pub fn builder_bearer() {
+        let bearer = RequestAuthenticationBearer::builder()
+            .token("aabbccdd")
+            .build();
+        let auth = RequestAuthentication::builder()
+            .bearer_token(&bearer)
+            .build();
+        assert_eq!(auth.auth_type(), RequestAuthenticationType::BearerToken);
+        let bearer = auth.bearer_token().unwrap();
+        assert_eq!(bearer.token(), "aabbccdd");
+    }
 
     #[test]
     pub fn new_default() {

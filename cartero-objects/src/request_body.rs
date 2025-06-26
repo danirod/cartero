@@ -159,6 +159,12 @@ glib::wrapper! {
     pub struct RequestBody(ObjectSubclass<imp::RequestBody>);
 }
 
+impl RequestBody {
+    pub fn builder() -> builder::RequestBodyBuilder {
+        builder::RequestBodyBuilder::default()
+    }
+}
+
 impl Default for RequestBody {
     fn default() -> Self {
         Object::builder().build()
@@ -254,6 +260,57 @@ pub enum RequestBodyType {
     /// header.
     #[enum_value(name = "RAW", nick = "Raw")]
     Raw,
+}
+
+mod builder {
+    use glib::object::ObjectBuilder;
+
+    use super::*;
+
+    pub struct RequestBodyBuilder {
+        builder: ObjectBuilder<'static, RequestBody>,
+    }
+
+    impl RequestBodyBuilder {
+        pub fn default() -> Self {
+            Self {
+                builder: Object::builder(),
+            }
+        }
+
+        pub fn build(self) -> RequestBody {
+            self.builder.build()
+        }
+
+        pub fn none(mut self) -> Self {
+            self.builder = self.builder.property("body-type", RequestBodyType::None);
+            self
+        }
+
+        pub fn urlencoded(mut self, url: &RequestBodyUrlencoded) -> Self {
+            self.builder = self
+                .builder
+                .property("body-type", RequestBodyType::UrlEncoded)
+                .property("body-data", url);
+            self
+        }
+
+        pub fn multipart(mut self, mp: &RequestBodyMultipart) -> Self {
+            self.builder = self
+                .builder
+                .property("body-type", RequestBodyType::Multipart)
+                .property("body-data", mp);
+            self
+        }
+
+        pub fn raw(mut self, raw: &RequestBodyRaw) -> Self {
+            self.builder = self
+                .builder
+                .property("body-type", RequestBodyType::Raw)
+                .property("body-data", raw);
+            self
+        }
+    }
 }
 
 mod imp {
@@ -433,5 +490,47 @@ mod tests {
         assert_not_emits_signal(&body, "notify::body-data", || {
             body.set_body_data(Some(payload.as_ref()))
         });
+    }
+
+    #[test]
+    pub fn builder_default() {
+        let body = RequestBody::builder().build();
+        assert_eq!(body.body_type(), RequestBodyType::None);
+        assert!(body.body_data().is_none());
+    }
+
+    #[test]
+    pub fn builder_urlencoded() {
+        let urlencoded = RequestBodyUrlencoded::builder()
+            .field(&Field::builder().key("user_id").value("1").build())
+            .build();
+        let body = RequestBody::builder().urlencoded(&urlencoded).build();
+        assert_eq!(body.body_type(), RequestBodyType::UrlEncoded);
+        let data = body.urlencoded().unwrap();
+        assert_eq!(1, data.params().n_items());
+    }
+
+    #[test]
+    pub fn builder_multipart() {
+        let multipart = RequestBodyMultipart::builder()
+            .field(&Field::builder().key("user_id").value("1").build())
+            .build();
+        let body = RequestBody::builder().multipart(&multipart).build();
+        assert_eq!(body.body_type(), RequestBodyType::Multipart);
+        let data = body.multipart().unwrap();
+        assert_eq!(1, data.params().n_items());
+    }
+
+    #[test]
+    pub fn test_raw() {
+        let raw = RequestBodyRaw::builder(RequestBodyRawType::OctetStream)
+            .payload(&glib::Bytes::from(b"hello world"))
+            .build();
+        let body = RequestBody::builder().raw(&raw).build();
+        assert_eq!(body.body_type(), RequestBodyType::Raw);
+        let data = body.raw().unwrap();
+        assert_eq!(data.payload_type(), RequestBodyRawType::OctetStream);
+        let bytes = data.payload().into_data();
+        assert_eq!(bytes.as_ref(), b"hello world");
     }
 }

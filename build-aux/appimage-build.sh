@@ -14,6 +14,9 @@
 set -e
 cd "$(dirname "$0")/.."
 
+# The original directory for the project
+SOURCE_DIR="$PWD"
+
 # Vendor base is the directory where the datafiles to copy are expected to be, such
 # as the GtkSourceView themes or the Adwaita icons. This is set to /usr in case you
 # are building for yourself. Set to a different value if running in a special
@@ -171,6 +174,16 @@ for lib in AppDir/usr/lib/*.so AppDir/usr/lib/*.so.*; do
     fi
   done
   done
+done
+
+# Provide aditional locales
+echo "Installing additional locales..."
+for lang in $(cat "$SOURCE_DIR/po/LINGUAS" | grep -v '^#'); do
+        for pkg in gdk-pixbuf gettext-runtime glib20 gtk40 gtksourceview-5 libadwaita shared-mime-info; do
+                if [ -f $VENDOR_BASE/share/locale/$lang/LC_MESSAGES/$pkg.mo ]; then
+                        cp -f $VENDOR_BASE/share/locale/$lang/LC_MESSAGES/$pkg.mo AppDir/usr/share/locale/$lang/LC_MESSAGES
+                fi
+        done
 done
 
 # Remove linuxbrew stuff if present

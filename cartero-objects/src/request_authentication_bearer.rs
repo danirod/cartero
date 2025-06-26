@@ -53,6 +53,10 @@ impl RequestAuthenticationBearer {
     pub fn new(token: impl AsRef<str>) -> Self {
         Object::builder().property("token", token.as_ref()).build()
     }
+
+    pub fn builder() -> builder::RequestAuthenticationBearerBuilder {
+        builder::RequestAuthenticationBearerBuilder::default()
+    }
 }
 
 mod imp {
@@ -88,6 +92,37 @@ mod imp {
     }
 }
 
+mod builder {
+    use glib::object::ObjectBuilder;
+
+    use super::*;
+
+    pub struct RequestAuthenticationBearerBuilder {
+        builder: ObjectBuilder<'static, RequestAuthenticationBearer>,
+    }
+
+    impl Default for RequestAuthenticationBearerBuilder {
+        fn default() -> Self {
+            let builder = Object::builder();
+            Self { builder }
+        }
+    }
+
+    impl RequestAuthenticationBearerBuilder {
+        pub fn build(self) -> RequestAuthenticationBearer {
+            self.builder.build()
+        }
+
+        pub fn token<T>(mut self, token: T) -> Self
+        where
+            T: AsRef<str>,
+        {
+            self.builder = self.builder.property("token", token.as_ref());
+            self
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use crate::{RequestAuthenticationDataExt, RequestAuthenticationType};
@@ -110,5 +145,21 @@ mod tests {
     pub fn test_auth_type() {
         let auth_type = RequestAuthenticationBearer::default().auth_type();
         assert_eq!(auth_type, RequestAuthenticationType::BearerToken);
+    }
+
+    #[test]
+    pub fn test_builder_default() {
+        let bearer = RequestAuthenticationBearer::builder().build();
+        assert_eq!(bearer.token(), String::default());
+        assert_eq!(bearer.auth_type(), RequestAuthenticationType::BearerToken);
+    }
+
+    #[test]
+    pub fn test_builder_with_token() {
+        let bearer = RequestAuthenticationBearer::builder()
+            .token("aabbccdd")
+            .build();
+        assert_eq!(bearer.token(), "aabbccdd");
+        assert_eq!(bearer.auth_type(), RequestAuthenticationType::BearerToken);
     }
 }

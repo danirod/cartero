@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-04-19 00:40+0200\n"
-"PO-Revision-Date: 2024-12-22 20:55+0000\n"
-"Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
+"POT-Creation-Date: 2025-03-21 01:46+0100\n"
+"PO-Revision-Date: 2025-04-27 13:08+0000\n"
+"Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/cartero/cartero/ta/"
 ">\n"
 "Language: ta\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10-dev\n"
+"X-Generator: Weblate 5.12-dev\n"
 
 #: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -79,89 +79,84 @@ msgid "Gnome;GTK;HTTP;REST;"
 msgstr "Gnome; gtk; http; ஓய்வு;"
 
 #: data/es.danirod.Cartero.gschema.xml:12
-msgid ""
-"A specific locale to use within the application instead of the system default"
-msgstr ""
-
-#: data/es.danirod.Cartero.gschema.xml:16
 msgid "Automatically indent new lines for the request body"
 msgstr "கோரிக்கை உடலுக்கு புதிய வரிகளை தானாகவே உள்தள்ளுங்கள்"
 
-#: data/es.danirod.Cartero.gschema.xml:20
+#: data/es.danirod.Cartero.gschema.xml:16
 msgid "Wrap the body content"
 msgstr "உடல் உள்ளடக்கத்தை மடிக்கவும்"
 
-#: data/es.danirod.Cartero.gschema.xml:24
+#: data/es.danirod.Cartero.gschema.xml:20
 msgid "Whether to indent the request body with spaces or tabs"
 msgstr "கோரிக்கை உடலை இடைவெளிகள் அல்லது தாவல்களுடன் உள்தள்ள வேண்டுமா"
 
-#: data/es.danirod.Cartero.gschema.xml:28
+#: data/es.danirod.Cartero.gschema.xml:24
 msgid "Show line numbers in the request and response bodies"
 msgstr "கோரிக்கை மற்றும் மறுமொழி அமைப்புகளில் வரி எண்களைக் காட்டு"
 
-#: data/es.danirod.Cartero.gschema.xml:32
+#: data/es.danirod.Cartero.gschema.xml:28
 msgid "How many characters to pad when indenting the request body"
 msgstr "கோரிக்கை உடலை உள்தள்ளும்போது எத்தனை எழுத்துக்கள் திண்டு"
 
-#: data/es.danirod.Cartero.gschema.xml:36
+#: data/es.danirod.Cartero.gschema.xml:32
 msgid "How large should new windows be"
 msgstr "புதிய சன்னல்கள் எவ்வளவு பெரியதாக இருக்க வேண்டும்"
 
-#: data/es.danirod.Cartero.gschema.xml:40
+#: data/es.danirod.Cartero.gschema.xml:36
 msgid "How tall should new windows be"
 msgstr "புதிய சன்னல்கள் எவ்வளவு உயரமாக இருக்க வேண்டும்"
 
-#: data/es.danirod.Cartero.gschema.xml:44
+#: data/es.danirod.Cartero.gschema.xml:40
 msgid "Whether the application should open maximized"
 msgstr "பயன்பாடு அதிகரிக்கப்பட வேண்டுமா"
 
-#: data/es.danirod.Cartero.gschema.xml:48
+#: data/es.danirod.Cartero.gschema.xml:44
 msgid "The position of the split between two windows"
 msgstr "இரண்டு சன்னல்களுக்கு இடையிலான பிளவுகளின் நிலை"
 
-#: data/es.danirod.Cartero.gschema.xml:52
+#: data/es.danirod.Cartero.gschema.xml:48
 msgid "The current list of opened files"
 msgstr "திறந்த கோப்புகளின் தற்போதைய பட்டியல்"
 
-#: data/es.danirod.Cartero.gschema.xml:56
+#: data/es.danirod.Cartero.gschema.xml:52
 msgid "The last location where a file was opened"
 msgstr "ஒரு கோப்பு திறக்கப்பட்ட கடைசி இடம்"
 
-#: data/es.danirod.Cartero.gschema.xml:60
+#: data/es.danirod.Cartero.gschema.xml:56
 msgid "The last location where a file was saved"
 msgstr "ஒரு கோப்பு சேமிக்கப்பட்ட கடைசி இடம்"
 
-#: data/es.danirod.Cartero.gschema.xml:64
+#: data/es.danirod.Cartero.gschema.xml:60
 msgid "Whether to validate the TLS certificates during a request"
-msgstr ""
+msgstr "கோரிக்கையின் போது TLS சான்றிதழ்களை சரிபார்க்கலாமா"
+
+#: data/es.danirod.Cartero.gschema.xml:64
+msgid "Whether to follow redirections if that is the server response"
+msgstr "சேவையக பதில் என்றால் திருப்பிவிடுதல்களைப் பின்பற்ற வேண்டுமா"
 
 #: data/es.danirod.Cartero.gschema.xml:68
-msgid "Whether to follow redirections if that is the server response"
-msgstr ""
+msgid "Maximum number of redirections to follow before giving up"
+msgstr "விட்டுக்கொடுப்பதற்கு முன் பின்பற்ற வேண்டிய அதிகபட்ச திருப்பிவிடங்கள்"
 
 #: data/es.danirod.Cartero.gschema.xml:72
-msgid "Maximum number of redirections to follow before giving up"
-msgstr ""
+msgid "Maximum timeout when awaiting for an HTTP response."
+msgstr "HTTP பதிலுக்காக காத்திருக்கும்போது அதிகபட்ச நேரம் முடிந்தது."
 
 #: data/es.danirod.Cartero.gschema.xml:76
-msgid "Maximum timeout when awaiting for an HTTP response."
-msgstr ""
+msgid "Whether to use light or dark mode."
+msgstr "ஒளி அல்லது இருண்ட பயன்முறையைப் பயன்படுத்த வேண்டுமா."
 
 #: data/es.danirod.Cartero.gschema.xml:80
-msgid "Whether to use light or dark mode."
-msgstr ""
+msgid "The custom font in use"
+msgstr "பயன்பாட்டில் உள்ள தனிப்பயன் எழுத்துரு"
 
 #: data/es.danirod.Cartero.gschema.xml:84
-msgid "The custom font in use"
-msgstr ""
+msgid "Whether to use the system font or a custom one"
+msgstr "கணினி எழுத்துரு அல்லது தனிப்பயன் ஒன்றைப் பயன்படுத்தலாமா"
 
 #: data/es.danirod.Cartero.gschema.xml:88
-msgid "Whether to use the system font or a custom one"
-msgstr ""
-
-#: data/es.danirod.Cartero.gschema.xml:92
 msgid "Whether to create backup files on save"
-msgstr ""
+msgstr "சேமிப்பில் காப்பு கோப்புகளை உருவாக்க வேண்டுமா"
 
 #: data/gtk/help_overlay.blp:25
 msgctxt "shortcuts window"
@@ -220,19 +215,19 @@ msgstr "கோரிக்கையை அனுப்பவும்"
 
 #: data/ui/authorization_pane.blp:29
 msgid "Authorization method"
-msgstr ""
+msgstr "அங்கீகார முறை"
 
 #: data/ui/authorization_pane.blp:55
 msgid "Username"
-msgstr ""
+msgstr "பயனர்பெயர்"
 
 #: data/ui/authorization_pane.blp:60
 msgid "Password"
-msgstr ""
+msgstr "கடவுச்சொல்"
 
 #: data/ui/authorization_pane.blp:76
 msgid "Token"
-msgstr ""
+msgstr "கிள்ளாக்கு"
 
 #: data/ui/authorization_pane.blp:87 data/ui/export_tab.blp:69
 #: data/ui/payload_tab.blp:87
@@ -241,11 +236,11 @@ msgstr "(எதுவுமில்லை)"
 
 #: data/ui/authorization_pane.blp:88
 msgid "Basic auth"
-msgstr ""
+msgstr "அடிப்படை ஏற்பு"
 
 #: data/ui/authorization_pane.blp:89
 msgid "Bearer token"
-msgstr ""
+msgstr "தாங்கி கிள்ளாக்கு"
 
 #: data/ui/code_export_pane.blp:59
 msgid "Copy"
@@ -256,9 +251,8 @@ msgid "Request URL"
 msgstr "முகவரி ஐக் கோருங்கள்"
 
 #: data/ui/endpoint_pane.blp:81
-#, fuzzy
 msgid "Cancel request"
-msgstr "கோரிக்கையைச் சேமிக்கவும்"
+msgstr "கோரிக்கையை நீக்கறல்"
 
 #: data/ui/endpoint_pane.blp:90
 msgid "Send"
@@ -282,7 +276,7 @@ msgstr "மாறிகள்"
 
 #: data/ui/endpoint_pane.blp:194
 msgid "Authorization"
-msgstr ""
+msgstr "ஏற்பு"
 
 #: data/ui/endpoint_pane.blp:217 data/ui/response_panel.blp:52
 msgid "Body"
@@ -365,7 +359,7 @@ msgstr "தாவலை மூடு"
 #: data/ui/main_window.blp:175 data/ui/main_window_no_csd.blp:182
 #: data/ui/settings_dialog.blp:21
 msgid "Settings"
-msgstr ""
+msgstr "அமைப்புகள்"
 
 #: data/ui/main_window.blp:180 data/ui/main_window_no_csd.blp:187
 msgid "Body appearance"
@@ -450,193 +444,189 @@ msgstr ""
 
 #: data/ui/search_box.blp:42 data/ui/search_box.blp:43
 msgid "Search"
-msgstr ""
+msgstr "தேடல்"
 
 #: data/ui/search_box.blp:63
 msgid "Previous result"
-msgstr ""
+msgstr "முந்தைய முடிவு"
 
 #: data/ui/search_box.blp:69
 msgid "Next result"
-msgstr ""
+msgstr "அடுத்த முடிவு"
 
 #: data/ui/search_box.blp:81
 msgid "Close search"
-msgstr ""
+msgstr "தேடலை மூடு"
 
 #: data/ui/settings_dialog.blp:26
 msgid "Application"
-msgstr ""
+msgstr "பயன்பாடு"
 
 #: data/ui/settings_dialog.blp:30
-msgid "You need to restart the program for the new locale to be used."
-msgstr ""
+msgid "Appearance"
+msgstr "தோற்றம்"
+
+#: data/ui/settings_dialog.blp:33
+msgid "Application style"
+msgstr "பயன்பாட்டு நடை"
+
+#: data/ui/settings_dialog.blp:37
+msgid "Follow system settings"
+msgstr "கணினி அமைப்புகளைப் பின்பற்றவும்"
+
+#: data/ui/settings_dialog.blp:38
+msgid "Light mode"
+msgstr "ஒளி பயன்முறை"
 
 #: data/ui/settings_dialog.blp:39
-msgid "Language"
-msgstr ""
+msgid "Dark mode"
+msgstr "இருண்ட முறை"
 
 #: data/ui/settings_dialog.blp:45
-msgid "Appearance"
-msgstr ""
-
-#: data/ui/settings_dialog.blp:48
-msgid "Application style"
-msgstr ""
-
-#: data/ui/settings_dialog.blp:52
-msgid "Follow system settings"
-msgstr ""
-
-#: data/ui/settings_dialog.blp:53
-msgid "Light mode"
-msgstr ""
-
-#: data/ui/settings_dialog.blp:54
-msgid "Dark mode"
-msgstr ""
-
-#: data/ui/settings_dialog.blp:60
 msgid "Use system font"
-msgstr ""
+msgstr "கணினி எழுத்துருவைப் பயன்படுத்தவும்"
+
+#: data/ui/settings_dialog.blp:49
+msgid "Custom font"
+msgstr "தனிப்பயன் எழுத்துரு"
 
 #: data/ui/settings_dialog.blp:64
-msgid "Custom font"
-msgstr ""
-
-#: data/ui/settings_dialog.blp:79
 msgid "File settings"
-msgstr ""
+msgstr "கோப்பு அமைப்புகள்"
 
-#: data/ui/settings_dialog.blp:82
+#: data/ui/settings_dialog.blp:67
 msgid "Create backup files"
-msgstr ""
+msgstr "காப்பு கோப்புகளை உருவாக்கவும்"
 
-#: data/ui/settings_dialog.blp:83
+#: data/ui/settings_dialog.blp:68
 msgid ""
 "You might not want to enable this if you are already using a version control "
 "such as Git"
 msgstr ""
+"நீங்கள் ஏற்கனவே அறிவிலி போன்ற பதிப்பு கட்டுப்பாட்டைப் பயன்படுத்துகிறீர்கள் என்றால் இதை இயக்க "
+"நீங்கள் விரும்ப மாட்டீர்கள்"
 
-#: data/ui/settings_dialog.blp:89
+#: data/ui/settings_dialog.blp:74
 msgid "Software updates"
-msgstr ""
+msgstr "மென்பொருள் புதுப்பிப்புகள்"
 
-#: data/ui/settings_dialog.blp:96
+#: data/ui/settings_dialog.blp:81
 msgid "Current version"
-msgstr ""
+msgstr "தற்போதைய பதிப்பு"
+
+#: data/ui/settings_dialog.blp:85
+msgid "Check for updates"
+msgstr "புதுப்பிப்புகளை சரிபார்க்கவும்"
+
+#: data/ui/settings_dialog.blp:93 data/ui/settings_dialog.blp:97
+msgid "HTTP Client"
+msgstr "HTTP கிளையன்ட்"
 
 #: data/ui/settings_dialog.blp:100
-msgid "Check for updates"
-msgstr ""
-
-#: data/ui/settings_dialog.blp:108 data/ui/settings_dialog.blp:112
-msgid "HTTP Client"
-msgstr ""
-
-#: data/ui/settings_dialog.blp:115
 msgid "Enforce TLS validation"
-msgstr ""
+msgstr "TLS சரிபார்ப்பை செயல்படுத்தவும்"
 
-#: data/ui/settings_dialog.blp:116
+#: data/ui/settings_dialog.blp:101
 msgid "Cancel a request if the TLS handshake fails"
-msgstr ""
+msgstr "டி.எல்.எச் ஏண்ட்சேக் தோல்வியுற்றால் கோரிக்கையை நீக்கறல்"
 
-#: data/ui/settings_dialog.blp:120
+#: data/ui/settings_dialog.blp:105
 msgid "Follow redirects"
-msgstr ""
+msgstr "வழிமாற்றுகளைப் பின்தொடரவும்"
 
-#: data/ui/settings_dialog.blp:121
+#: data/ui/settings_dialog.blp:106
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
 msgstr ""
+"சேவையகம் ஒரு HTTP 3xx பதிலை வழங்கினால் பின்தொடர்தல் கோரிக்கைகளைச் செய்யுங்கள்"
 
-#: data/ui/settings_dialog.blp:126
+#: data/ui/settings_dialog.blp:111
 msgid "Maximum redirects"
-msgstr ""
+msgstr "அதிகபட்ச வழிமாற்றுகள்"
 
-#: data/ui/settings_dialog.blp:138
+#: data/ui/settings_dialog.blp:123
 msgid "Request timeout"
-msgstr ""
+msgstr "நேரம் முடிந்தது"
 
-#: data/ui/settings_dialog.blp:139
+#: data/ui/settings_dialog.blp:124
 msgid "Seconds to wait before cancelling the request"
-msgstr ""
+msgstr "கோரிக்கையை ரத்து செய்வதற்கு முன் காத்திருக்க வேண்டிய விநாடிகள்"
 
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
 #: src/entities/response_data.rs:68
 #, rust-format
 msgid "{} s"
-msgstr ""
+msgstr "{} கள்"
 
 #. Format as milliseconds.
 #. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
 #: src/entities/response_data.rs:72
 #, rust-format
 msgid "{} ms"
-msgstr ""
+msgstr "{} எம்.எச்"
 
 #: src/error.rs:32
 msgid "The specified URL is not valid"
-msgstr ""
+msgstr "குறிப்பிட்ட முகவரி செல்லுபடியாகாது"
 
 #: src/error.rs:34
 #, rust-format
 msgid "The header '{}' is not valid"
-msgstr ""
+msgstr "'{}' தலைப்பு செல்லுபடியாகாது"
 
 #: src/error.rs:37
 #, rust-format
 msgid "The value for header '{}' is not valid"
-msgstr ""
+msgstr "'{}' என்ற தலைப்புக்கான மதிப்பு செல்லுபடியாகாது"
 
 #: src/error.rs:40 src/error.rs:74
 msgid "The given request body could not be encoded correctly"
-msgstr ""
+msgstr "கொடுக்கப்பட்ட கோரிக்கை உடலை சரியாக குறியாக்கம் செய்ய முடியவில்லை"
 
 #: src/error.rs:69
 msgid "Cannot recognise the URL"
-msgstr ""
+msgstr "முகவரி ஐ அங்கீகரிக்க முடியாது"
 
 #: src/error.rs:70
 msgid "The given URL is missing a protocol"
-msgstr ""
+msgstr "கொடுக்கப்பட்ட முகவரி ஒரு நெறிமுறையைக் காணவில்லை"
 
 #: src/error.rs:72
 #, rust-format
 msgid "The protocol {}:// is not supported"
-msgstr ""
+msgstr "நெறிமுறை {}: // ஆதரிக்கப்படவில்லை"
 
 #: src/error.rs:76
 #, rust-format
 msgid "The variable '{}' is not defined"
-msgstr ""
+msgstr "'{}' மாறி வரையறுக்கப்படவில்லை"
 
 #: src/error.rs:79
 msgid "There was a problem with a variable interpolation, review your inputs"
 msgstr ""
+"மாறி இடைக்கணிப்பில் சிக்கல் இருந்தது, உங்கள் உள்ளீடுகளை மதிப்பாய்வு செய்யவும்"
 
 #: src/error.rs:104
 msgid "There is a network error"
-msgstr ""
+msgstr "பிணைய பிழை உள்ளது"
 
 #: src/error.rs:105
 msgid "There is an input/output error"
-msgstr ""
+msgstr "உள்ளீடு/வெளியீட்டு பிழை உள்ளது"
 
 #: src/error.rs:131 src/error.rs:155
-#, fuzzy
 msgid "The current tab is not associated with a file"
-msgstr "திறந்த கோப்புகளின் தற்போதைய பட்டியல்"
+msgstr "தற்போதைய தாவல் ஒரு கோப்போடு தொடர்புடையது அல்ல"
 
 #: src/error.rs:133
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
+"இந்த பயன்பாட்டின் புதிய பதிப்போடு இந்த கோப்பு உருவாக்கப்பட்டது; தயவுசெய்து புதுப்பிக்கவும்!"
 
 #: src/error.rs:137
 msgid "The file is corrupt or does not contain valid data for this application"
-msgstr ""
+msgstr "கோப்பு ஊழல் நிறைந்தது அல்லது இந்த பயன்பாட்டிற்கான சரியான தரவு இல்லை"
 
 #: src/file.rs:411
 #, rust-format
@@ -644,26 +634,29 @@ msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
 msgstr ""
+"கோப்பில் காணப்படும் HTTP வினைச்சொல் '{}' ஆகும். இது செல்லுபடியாகாது, அது '{}' க்கு "
+"குறையும்."
 
 #: src/updates/ui.rs:33
 msgid "Error checking updates"
-msgstr ""
+msgstr "புதுப்பிப்புகளைச் சரிபார்ப்பதில் பிழை"
 
 #: src/updates/ui.rs:35
 msgid "Couldn't receive a valid response from the server. Please, check later."
 msgstr ""
+"சேவையகத்திலிருந்து சரியான பதிலைப் பெற முடியவில்லை. தயவுசெய்து, பின்னர் சரிபார்க்கவும்."
 
 #: src/updates/ui.rs:38 src/updates/ui.rs:48
 msgid "Accept"
-msgstr ""
+msgstr "ஏற்றுக்கொள்"
 
 #: src/updates/ui.rs:45
 msgid "No updates at the moment"
-msgstr ""
+msgstr "இந்த நேரத்தில் புதுப்பிப்புகள் இல்லை"
 
 #: src/updates/ui.rs:46
 msgid "You are running the latest version of Cartero."
-msgstr ""
+msgstr "கார்டெரோவின் அண்மைக் கால பதிப்பை இயக்குகிறீர்கள்."
 
 #: src/updates/ui.rs:57
 #, rust-format
@@ -671,87 +664,90 @@ msgid ""
 "Version {} has been released. Do you want to visit the website to download "
 "the update now?"
 msgstr ""
+"பதிப்பு {} வெளியிடப்பட்டது. புதுப்பிப்பைப் பதிவிறக்க வலைத்தளத்தைப் பார்வையிட "
+"விரும்புகிறீர்களா?"
 
 #: src/updates/ui.rs:59
 msgid "There is a new version of Cartero!"
-msgstr ""
+msgstr "கார்டெரோவின் புதிய பதிப்பு உள்ளது!"
 
 #: src/updates/ui.rs:63
-#, fuzzy
 msgid "_Open website"
-msgstr "திறந்த கோரிக்கை"
+msgstr "_ திறந்த வலைத்தளம்"
 
 #: src/updates/ui.rs:64
 msgid "_Not now"
-msgstr ""
+msgstr "_ இப்போது இல்லை"
 
 #: src/widgets/dialogs.rs:48
 #, rust-format
 msgid "Cannot open '{}'"
-msgstr ""
+msgstr "'{}' திறக்க முடியாது"
 
 #: src/widgets/dialogs.rs:49
 msgid "Cannot open the requested file"
-msgstr ""
+msgstr "கோரப்பட்ட கோப்பைத் திறக்க முடியாது"
 
 #: src/widgets/dialogs.rs:58 src/widgets/dialogs.rs:89
 #: src/widgets/dialogs.rs:112 src/widgets/dialogs.rs:125
-#, fuzzy
 msgid "Close"
-msgstr "தாவலை மூடு"
+msgstr "மூடு"
 
 #: src/widgets/dialogs.rs:72
 #, rust-format
 msgid "The file '{}' was loaded but had issues"
-msgstr ""
+msgstr "'{}' கோப்பு ஏற்றப்பட்டது, ஆனால் சிக்கல்கள் இருந்தன"
 
 #: src/widgets/dialogs.rs:73
 msgid "The requested file was loaded but had issues"
-msgstr ""
+msgstr "கோரப்பட்ட கோப்பு ஏற்றப்பட்டது, ஆனால் சிக்கல்கள் இருந்தன"
 
 #: src/widgets/dialogs.rs:103
 #, rust-format
 msgid "Cannot save '{}'"
-msgstr ""
+msgstr "'{}' சேமிக்க முடியாது"
 
 #: src/widgets/dialogs.rs:104
 msgid "Cannot save the requested file"
-msgstr ""
+msgstr "கோரப்பட்ட கோப்பை சேமிக்க முடியாது"
 
 #: src/widgets/dialogs.rs:106
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
 msgstr ""
+"சேமிப்பு செயல்பாட்டின் போது பிழை ஏற்பட்டது. உங்கள் மாற்றங்கள் இன்னும் சேமிக்கப்படவில்லை என்று "
+"வைத்துக் கொள்ளுங்கள்."
 
 #: src/widgets/dialogs.rs:120
 msgid "Could not select a valid file from the file chooser"
 msgstr ""
+"கோப்பு தேர்வாளரிடமிருந்து செல்லுபடியாகும் கோப்பைத் தேர்ந்தெடுக்க முடியவில்லை"
 
 #: src/widgets/dialogs.rs:134
 msgid "There are unsaved changes"
-msgstr ""
+msgstr "There அரே unsaved changes"
 
 #: src/widgets/dialogs.rs:136
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
 msgstr ""
+"Closing this சாளரம் will lose அனைத்தும் unsaved data. Do you really want பெறுநர் "
+"proceed?"
 
 #: src/widgets/dialogs.rs:140
-#, fuzzy
 msgid "Cancel"
-msgstr "_CANCEL"
+msgstr "ரத்துசெய்"
 
 #: src/widgets/dialogs.rs:141
-#, fuzzy
 msgid "Close anyway"
-msgstr "தாவலை மூடு"
+msgstr "எப்படியும் மூடு"
 
 #: src/widgets/dialogs.rs:164
-#, fuzzy, rust-format
+#, rust-format
 msgid "Save changes in '{}'?"
-msgstr "மாற்றங்களைச் சேமிக்கவா?"
+msgstr "சேமி changes in '{}'?"
 
 #: src/widgets/dialogs.rs:165
 msgid "Save changes?"
@@ -775,21 +771,18 @@ msgstr "_சேவ்"
 
 #: src/widgets/error_pane.rs:91 src/widgets/error_pane.rs:105
 msgid "The request data is not valid"
-msgstr ""
+msgstr "The request தகவல்கள் is not valid"
 
 #: src/widgets/error_pane.rs:98
-#, fuzzy
 msgid "The request failed"
-msgstr "HTTP கோரிக்கைகளைச் செய்து பநிஇ களை சோதனை செய்யுங்கள்"
+msgstr "கோரிக்கை தோல்வியடைந்தது"
 
 #: src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"
 msgstr "கிளிப்போர்டுக்கு உள்ளடக்கம் நகலெடுக்கப்பட்டது"
 
 #. TRANSLATORS: presented in file dialogs as the file type for a request
-#. The macOS native file dialog will already add the extension for us.
-#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:148
-#: src/widgets/file_dialogs.rs:150
+#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:146
 msgid "Request"
 msgstr "கோரிக்கை"
 
@@ -802,13 +795,15 @@ msgid ""
 "The value for this field will not be used because another field with the "
 "same name is overriding it."
 msgstr ""
+"The மதிப்பு க்கு this புலம் will not be used because another புலம் with the same "
+"பெயர் is overriding it."
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
 #: src/widgets/search_box.rs:254
 #, rust-format
 msgid "{} of {}"
-msgstr ""
+msgstr "{} of}"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count when only
 #. the number of total ocurrences is known.
@@ -816,8 +811,8 @@ msgstr ""
 #, rust-format
 msgid "{} result"
 msgid_plural "{} results"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} முடிவு"
+msgstr[1] "{} முடிவுகள்"
 
 #: src/win.rs:246
 msgid "(untitled)"
@@ -840,17 +835,13 @@ msgstr "தமிழ்நேரம்"
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 கார்டெரோ ஆசிரியர்கள்"
 
-#: src/win.rs:617
+#: src/win.rs:605
 msgid "User manual"
-msgstr ""
+msgstr "பயனர் கையேடு"
 
-#: src/win.rs:619
+#: src/win.rs:607
 msgid "Help us translate"
-msgstr ""
-
-#, fuzzy
-#~ msgid "Restart the application to use the new language"
-#~ msgstr "பயன்பாடு அதிகரிக்கப்பட வேண்டுமா"
+msgstr "உதவி us மொழிபெயர்த்திடு"
 
 #~ msgid "Request (.cartero)"
 #~ msgstr "கோரிக்கை (.கார்டெரோ)"

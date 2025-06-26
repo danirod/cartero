@@ -5,9 +5,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-04-19 00:40+0200\n"
-"PO-Revision-Date: 2025-04-02 22:10+0000\n"
-"Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
+"POT-Creation-Date: 2025-03-21 01:46+0100\n"
+"PO-Revision-Date: 2025-05-22 15:06+0000\n"
+"Last-Translator: alesdevux <aleswebgit@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/cartero/cartero/"
 "ca/>\n"
 "Language: ca\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.11-dev\n"
+"X-Generator: Weblate 5.12-dev\n"
 
 #: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -79,87 +79,82 @@ msgid "Gnome;GTK;HTTP;REST;"
 msgstr "Gnome;GTK;HTTP;REST;"
 
 #: data/es.danirod.Cartero.gschema.xml:12
-msgid ""
-"A specific locale to use within the application instead of the system default"
-msgstr ""
-
-#: data/es.danirod.Cartero.gschema.xml:16
 msgid "Automatically indent new lines for the request body"
 msgstr "Indentar automàticament noves línies del cos de la petició"
 
-#: data/es.danirod.Cartero.gschema.xml:20
+#: data/es.danirod.Cartero.gschema.xml:16
 msgid "Wrap the body content"
 msgstr "Salts de línia en el cos"
 
-#: data/es.danirod.Cartero.gschema.xml:24
+#: data/es.danirod.Cartero.gschema.xml:20
 msgid "Whether to indent the request body with spaces or tabs"
 msgstr "Indentar el cos de la petició amb espais o tabuladors"
 
-#: data/es.danirod.Cartero.gschema.xml:28
+#: data/es.danirod.Cartero.gschema.xml:24
 msgid "Show line numbers in the request and response bodies"
 msgstr "Mostrar els números de línia en els cossos de petició i resposta"
 
-#: data/es.danirod.Cartero.gschema.xml:32
+#: data/es.danirod.Cartero.gschema.xml:28
 msgid "How many characters to pad when indenting the request body"
 msgstr "Quants caràcters utilitzar al indentar el cos de la petició"
 
-#: data/es.danirod.Cartero.gschema.xml:36
+#: data/es.danirod.Cartero.gschema.xml:32
 msgid "How large should new windows be"
 msgstr "Que llargues han de ser les finestres noves"
 
-#: data/es.danirod.Cartero.gschema.xml:40
+#: data/es.danirod.Cartero.gschema.xml:36
 msgid "How tall should new windows be"
 msgstr "Que altes han de ser les finestres noves"
 
-#: data/es.danirod.Cartero.gschema.xml:44
+#: data/es.danirod.Cartero.gschema.xml:40
 msgid "Whether the application should open maximized"
 msgstr "Si l'aplicació hauria d'obrir-se maximitzada"
 
-#: data/es.danirod.Cartero.gschema.xml:48
+#: data/es.danirod.Cartero.gschema.xml:44
 msgid "The position of the split between two windows"
 msgstr "La posició del separador entre ambdues finestres"
 
-#: data/es.danirod.Cartero.gschema.xml:52
+#: data/es.danirod.Cartero.gschema.xml:48
 msgid "The current list of opened files"
 msgstr "La llista actual d'arxius oberts"
 
-#: data/es.danirod.Cartero.gschema.xml:56
+#: data/es.danirod.Cartero.gschema.xml:52
 msgid "The last location where a file was opened"
 msgstr "L'última ubicació on es va obrir un arxiu"
 
-#: data/es.danirod.Cartero.gschema.xml:60
+#: data/es.danirod.Cartero.gschema.xml:56
 msgid "The last location where a file was saved"
 msgstr "L'última ubicació on es va guardar un arxiu"
 
-#: data/es.danirod.Cartero.gschema.xml:64
+#: data/es.danirod.Cartero.gschema.xml:60
 msgid "Whether to validate the TLS certificates during a request"
 msgstr "Validar o no els certificats TLS durant una petició"
 
-#: data/es.danirod.Cartero.gschema.xml:68
+#: data/es.danirod.Cartero.gschema.xml:64
 msgid "Whether to follow redirections if that is the server response"
 msgstr "Seguir redireccions si es la resposta de servidor"
 
-#: data/es.danirod.Cartero.gschema.xml:72
+#: data/es.danirod.Cartero.gschema.xml:68
 msgid "Maximum number of redirections to follow before giving up"
 msgstr "Nombre màxim de redireccions a seguir abans d'abandonar"
 
-#: data/es.danirod.Cartero.gschema.xml:76
+#: data/es.danirod.Cartero.gschema.xml:72
 msgid "Maximum timeout when awaiting for an HTTP response."
 msgstr "Temps d'espera màxim en esperar una resposta HTTP."
 
-#: data/es.danirod.Cartero.gschema.xml:80
+#: data/es.danirod.Cartero.gschema.xml:76
 msgid "Whether to use light or dark mode."
 msgstr "Si s'ha d'utilitzar el mode clar o fosc."
 
-#: data/es.danirod.Cartero.gschema.xml:84
+#: data/es.danirod.Cartero.gschema.xml:80
 msgid "The custom font in use"
 msgstr "El tipus de lletra personalitzat en ús"
 
-#: data/es.danirod.Cartero.gschema.xml:88
+#: data/es.danirod.Cartero.gschema.xml:84
 msgid "Whether to use the system font or a custom one"
 msgstr "Utilitzar el tipus de lletra del sistema o un personalitzat"
 
-#: data/es.danirod.Cartero.gschema.xml:92
+#: data/es.danirod.Cartero.gschema.xml:88
 msgid "Whether to create backup files on save"
 msgstr "Crear copies de seguretat al desar"
 
@@ -220,15 +215,15 @@ msgstr "Enviar petició"
 
 #: data/ui/authorization_pane.blp:29
 msgid "Authorization method"
-msgstr ""
+msgstr "Mètode d’autorització"
 
 #: data/ui/authorization_pane.blp:55
 msgid "Username"
-msgstr ""
+msgstr "Nom d’usuari"
 
 #: data/ui/authorization_pane.blp:60
 msgid "Password"
-msgstr ""
+msgstr "Contrassenya"
 
 #: data/ui/authorization_pane.blp:76
 msgid "Token"
@@ -237,11 +232,11 @@ msgstr ""
 #: data/ui/authorization_pane.blp:87 data/ui/export_tab.blp:69
 #: data/ui/payload_tab.blp:87
 msgid "(none)"
-msgstr "(nada)"
+msgstr "(res)"
 
 #: data/ui/authorization_pane.blp:88
 msgid "Basic auth"
-msgstr ""
+msgstr "Autenticació bàsica"
 
 #: data/ui/authorization_pane.blp:89
 msgid "Bearer token"
@@ -249,16 +244,15 @@ msgstr ""
 
 #: data/ui/code_export_pane.blp:59
 msgid "Copy"
-msgstr "Copiar"
+msgstr "Copia"
 
 #: data/ui/endpoint_pane.blp:69
 msgid "Request URL"
 msgstr "URL de petició"
 
 #: data/ui/endpoint_pane.blp:81
-#, fuzzy
 msgid "Cancel request"
-msgstr "Guardar petició"
+msgstr "Cancel·la la petició"
 
 #: data/ui/endpoint_pane.blp:90
 msgid "Send"
@@ -282,7 +276,7 @@ msgstr "Variables"
 
 #: data/ui/endpoint_pane.blp:194
 msgid "Authorization"
-msgstr ""
+msgstr "Autorització"
 
 #: data/ui/endpoint_pane.blp:217 data/ui/response_panel.blp:52
 msgid "Body"
@@ -470,50 +464,42 @@ msgid "Application"
 msgstr "Aplicació"
 
 #: data/ui/settings_dialog.blp:30
-msgid "You need to restart the program for the new locale to be used."
-msgstr ""
-
-#: data/ui/settings_dialog.blp:39
-msgid "Language"
-msgstr ""
-
-#: data/ui/settings_dialog.blp:45
 msgid "Appearance"
 msgstr "Aparença"
 
-#: data/ui/settings_dialog.blp:48
+#: data/ui/settings_dialog.blp:33
 msgid "Application style"
 msgstr "Estil de l'aplicació"
 
-#: data/ui/settings_dialog.blp:52
+#: data/ui/settings_dialog.blp:37
 msgid "Follow system settings"
 msgstr "Seguir configuració del sistema"
 
-#: data/ui/settings_dialog.blp:53
+#: data/ui/settings_dialog.blp:38
 msgid "Light mode"
 msgstr "Mode clar"
 
-#: data/ui/settings_dialog.blp:54
+#: data/ui/settings_dialog.blp:39
 msgid "Dark mode"
 msgstr "Mode fosc"
 
-#: data/ui/settings_dialog.blp:60
+#: data/ui/settings_dialog.blp:45
 msgid "Use system font"
 msgstr "Utilitzar font del sistema"
 
-#: data/ui/settings_dialog.blp:64
+#: data/ui/settings_dialog.blp:49
 msgid "Custom font"
 msgstr "Font personalitzada"
 
-#: data/ui/settings_dialog.blp:79
+#: data/ui/settings_dialog.blp:64
 msgid "File settings"
 msgstr "Configuració de fitxer"
 
-#: data/ui/settings_dialog.blp:82
+#: data/ui/settings_dialog.blp:67
 msgid "Create backup files"
 msgstr "Crea fitxers de còpia de seguretat"
 
-#: data/ui/settings_dialog.blp:83
+#: data/ui/settings_dialog.blp:68
 msgid ""
 "You might not want to enable this if you are already using a version control "
 "such as Git"
@@ -521,98 +507,99 @@ msgstr ""
 "És possible que no vulgueu habilitar això si ja esteu utilitzant un control "
 "de versions com Git"
 
-#: data/ui/settings_dialog.blp:89
+#: data/ui/settings_dialog.blp:74
 msgid "Software updates"
-msgstr ""
+msgstr "Actualitzacions del programari"
 
-#: data/ui/settings_dialog.blp:96
+#: data/ui/settings_dialog.blp:81
 msgid "Current version"
-msgstr ""
+msgstr "Versió actual"
 
-#: data/ui/settings_dialog.blp:100
+#: data/ui/settings_dialog.blp:85
 msgid "Check for updates"
-msgstr ""
+msgstr "Comprova si hi ha actualitzacions"
 
-#: data/ui/settings_dialog.blp:108 data/ui/settings_dialog.blp:112
+#: data/ui/settings_dialog.blp:93 data/ui/settings_dialog.blp:97
 msgid "HTTP Client"
 msgstr "Client HTTP"
 
-#: data/ui/settings_dialog.blp:115
+#: data/ui/settings_dialog.blp:100
 msgid "Enforce TLS validation"
 msgstr "Força la validació TLS"
 
-#: data/ui/settings_dialog.blp:116
+#: data/ui/settings_dialog.blp:101
 msgid "Cancel a request if the TLS handshake fails"
-msgstr ""
+msgstr "Cancel·la la sol·licitud si la connexió TLS falla"
 
-#: data/ui/settings_dialog.blp:120
+#: data/ui/settings_dialog.blp:105
 msgid "Follow redirects"
 msgstr "Seguir redireccions"
 
-#: data/ui/settings_dialog.blp:121
+#: data/ui/settings_dialog.blp:106
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
 msgstr ""
+"Fer sol·licituds de seguiment si el servidor retorna una resposta HTTP 3xx"
 
-#: data/ui/settings_dialog.blp:126
+#: data/ui/settings_dialog.blp:111
 msgid "Maximum redirects"
 msgstr "Màxim de redireccions"
 
-#: data/ui/settings_dialog.blp:138
+#: data/ui/settings_dialog.blp:123
 msgid "Request timeout"
 msgstr "Temps d'espera de la petició"
 
-#: data/ui/settings_dialog.blp:139
+#: data/ui/settings_dialog.blp:124
 msgid "Seconds to wait before cancelling the request"
-msgstr ""
+msgstr "Segons a esperar abans de cancel·lar una petició"
 
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
 #: src/entities/response_data.rs:68
 #, rust-format
 msgid "{} s"
-msgstr ""
+msgstr "{} s"
 
 #. Format as milliseconds.
 #. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
 #: src/entities/response_data.rs:72
 #, rust-format
 msgid "{} ms"
-msgstr ""
+msgstr "{} ms"
 
 #: src/error.rs:32
 msgid "The specified URL is not valid"
-msgstr ""
+msgstr "L’URL especificat no és vàlid"
 
 #: src/error.rs:34
 #, rust-format
 msgid "The header '{}' is not valid"
-msgstr ""
+msgstr "La capçalera '{}' no és vàlida"
 
 #: src/error.rs:37
 #, rust-format
 msgid "The value for header '{}' is not valid"
-msgstr ""
+msgstr "El valor de la capçalera '{}' no és vàlid"
 
 #: src/error.rs:40 src/error.rs:74
 msgid "The given request body could not be encoded correctly"
-msgstr ""
+msgstr "No s'ha pogut codificar correctament el cos de la petició"
 
 #: src/error.rs:69
 msgid "Cannot recognise the URL"
-msgstr ""
+msgstr "No es pot reconèixer l'URL"
 
 #: src/error.rs:70
 msgid "The given URL is missing a protocol"
-msgstr ""
+msgstr "Falta el protocol a l’URL"
 
 #: src/error.rs:72
 #, rust-format
 msgid "The protocol {}:// is not supported"
-msgstr ""
+msgstr "El protocol {}:// no està suportat"
 
 #: src/error.rs:76
 #, rust-format
 msgid "The variable '{}' is not defined"
-msgstr ""
+msgstr "La variable '{}' no està definida"
 
 #: src/error.rs:79
 msgid "There was a problem with a variable interpolation, review your inputs"
@@ -620,7 +607,7 @@ msgstr ""
 
 #: src/error.rs:104
 msgid "There is a network error"
-msgstr ""
+msgstr "Hi ha un error de xarxa"
 
 #: src/error.rs:105
 msgid "There is an input/output error"
@@ -648,16 +635,17 @@ msgstr ""
 msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
-msgstr ""
-"El verb HTTP trobat al fitxer era '{}'. No és vàlid, es tornarà a '{}'."
+msgstr "El verb HTTP trobat al fitxer era '{}'. No és vàlid, es tornarà a '{}'."
 
 #: src/updates/ui.rs:33
 msgid "Error checking updates"
-msgstr ""
+msgstr "S'ha produït un error en comprovar les actualitzacions"
 
 #: src/updates/ui.rs:35
 msgid "Couldn't receive a valid response from the server. Please, check later."
 msgstr ""
+"No s'ha pogut rebre una resposta vàlida del servidor. Si us plau, comprova-"
+"ho més tard."
 
 #: src/updates/ui.rs:38 src/updates/ui.rs:48
 msgid "Accept"
@@ -665,11 +653,11 @@ msgstr "Acceptar"
 
 #: src/updates/ui.rs:45
 msgid "No updates at the moment"
-msgstr ""
+msgstr "No hi ha actualitzacions en aquest moment"
 
 #: src/updates/ui.rs:46
 msgid "You are running the latest version of Cartero."
-msgstr ""
+msgstr "Esteu executant l'última versió de Cartero."
 
 #: src/updates/ui.rs:57
 #, rust-format
@@ -677,19 +665,20 @@ msgid ""
 "Version {} has been released. Do you want to visit the website to download "
 "the update now?"
 msgstr ""
+"S'ha publicat la versió {}. Vols visitar la web per descarregar "
+"l'actualització ara?"
 
 #: src/updates/ui.rs:59
 msgid "There is a new version of Cartero!"
-msgstr ""
+msgstr "Hi ha una nova versió de Cartero!"
 
 #: src/updates/ui.rs:63
-#, fuzzy
 msgid "_Open website"
-msgstr "Obir petició"
+msgstr "_Obir web"
 
 #: src/updates/ui.rs:64
 msgid "_Not now"
-msgstr ""
+msgstr "_No ara"
 
 #: src/widgets/dialogs.rs:48
 #, rust-format
@@ -712,16 +701,16 @@ msgstr "S'ha carregat el fitxer '{}' pero ha tingut problemes"
 
 #: src/widgets/dialogs.rs:73
 msgid "The requested file was loaded but had issues"
-msgstr ""
+msgstr "S'ha carregat el fitxer sol·licitat però ha tingut problemes"
 
 #: src/widgets/dialogs.rs:103
 #, rust-format
 msgid "Cannot save '{}'"
-msgstr ""
+msgstr "No es pot desar '{}'"
 
 #: src/widgets/dialogs.rs:104
 msgid "Cannot save the requested file"
-msgstr ""
+msgstr "No es pot desar el fitxer sol·licitat"
 
 #: src/widgets/dialogs.rs:106
 msgid ""
@@ -731,35 +720,36 @@ msgstr ""
 
 #: src/widgets/dialogs.rs:120
 msgid "Could not select a valid file from the file chooser"
-msgstr ""
+msgstr "No s'ha pogut seleccionar un fitxer vàlid des del selector de fitxers"
 
 #: src/widgets/dialogs.rs:134
 msgid "There are unsaved changes"
-msgstr ""
+msgstr "Hi ha canvis no guardats"
 
 #: src/widgets/dialogs.rs:136
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
 msgstr ""
+"Al tancar aquesta finestra perdrà totes les dades sense desar. Estàs segur "
+"que vols continuar?"
 
 #: src/widgets/dialogs.rs:140
 msgid "Cancel"
 msgstr "Cancel·lar"
 
 #: src/widgets/dialogs.rs:141
-#, fuzzy
 msgid "Close anyway"
-msgstr "Tancar pestanya"
+msgstr "Tancar igualment"
 
 #: src/widgets/dialogs.rs:164
-#, fuzzy, rust-format
+#, rust-format
 msgid "Save changes in '{}'?"
-msgstr "¿Guardar cambis?"
+msgstr "Guardar canvis a '{}'?"
 
 #: src/widgets/dialogs.rs:165
 msgid "Save changes?"
-msgstr "¿Guardar cambis?"
+msgstr "Guardar canvis?"
 
 #: src/widgets/dialogs.rs:170
 msgid "There are changes that have not been saved yet. What do you want to do?"
@@ -779,21 +769,18 @@ msgstr "_Guardar"
 
 #: src/widgets/error_pane.rs:91 src/widgets/error_pane.rs:105
 msgid "The request data is not valid"
-msgstr ""
+msgstr "Les dades de la petició no són vàlides"
 
 #: src/widgets/error_pane.rs:98
-#, fuzzy
 msgid "The request failed"
-msgstr "Fes peticions HTTP i testeja APIs"
+msgstr "La petició a fallat"
 
 #: src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"
 msgstr "Contingut copiat al porta-retalls"
 
 #. TRANSLATORS: presented in file dialogs as the file type for a request
-#. The macOS native file dialog will already add the extension for us.
-#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:148
-#: src/widgets/file_dialogs.rs:150
+#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:146
 msgid "Request"
 msgstr "Petició"
 
@@ -806,13 +793,15 @@ msgid ""
 "The value for this field will not be used because another field with the "
 "same name is overriding it."
 msgstr ""
+"El valor d'aquest camp no s'utilitzarà perquè un altre camp amb el mateix "
+"nom l'està sobreescrivint."
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
 #: src/widgets/search_box.rs:254
 #, rust-format
 msgid "{} of {}"
-msgstr ""
+msgstr "{} de {}"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count when only
 #. the number of total ocurrences is known.
@@ -820,8 +809,8 @@ msgstr ""
 #, rust-format
 msgid "{} result"
 msgid_plural "{} results"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} resultat"
+msgstr[1] "{} resultats"
 
 #: src/win.rs:246
 msgid "(untitled)"
@@ -838,23 +827,19 @@ msgstr "Els autors de Cartero"
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
 #: src/win.rs:584
 msgid "translator-credits"
-msgstr "Ivan Garcia"
+msgstr "Ivan Garcia, Àlex Serra (alesdevux)"
 
 #: src/win.rs:585
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 Els autors de Cartero"
 
-#: src/win.rs:617
+#: src/win.rs:605
 msgid "User manual"
-msgstr ""
+msgstr "Manual d’usuari"
 
-#: src/win.rs:619
+#: src/win.rs:607
 msgid "Help us translate"
-msgstr ""
-
-#, fuzzy
-#~ msgid "Restart the application to use the new language"
-#~ msgstr "Si l'aplicació hauria d'obrir-se maximitzada"
+msgstr "Ajuda’ns a traduir"
 
 #~ msgid "Request (.cartero)"
 #~ msgstr "Petició (.cartero)"

@@ -297,6 +297,7 @@ mod imp {
             let old_entries: Vec<KeyValueItem> = old_entries
                 .into_iter()
                 .filter(|entry| !entry.active())
+                .map(|entry| entry.cloned())
                 .collect();
             new_query_entries.extend(old_entries);
 
@@ -597,6 +598,153 @@ mod imp {
                 Ok(data) => self.response.assign_from_response(&data),
                 Err(e) => self.response.show_request_error(e),
             };
+        }
+    }
+
+    #[cfg(test)]
+    mod tests {
+        use glib::subclass::types::ObjectSubclassIsExt;
+        use gtk::prelude::EditableExt;
+        use sourceview5::prelude::ListModelExt;
+
+        use crate::{app::CarteroApplication, objects::KeyValueItem};
+
+        use super::super::EndpointPane;
+
+        fn assert_row(row: &KeyValueItem, name: &str, value: &str, active: bool, secret: bool) {
+            assert_eq!(row.header_name(), name);
+            assert_eq!(row.header_value(), value);
+            assert_eq!(row.active(), active);
+            assert_eq!(row.secret(), secret);
+        }
+
+        #[gtk::test]
+        fn test_setting_the_url_address_updates_params() {
+            crate::init_test_resources();
+            let _app = CarteroApplication::new();
+
+            let pane = EndpointPane::default();
+            let imp = pane.imp();
+
+            /* So far, only the placeholder row in the param pane. */
+            assert_eq!(1, imp.parameter_pane.model().n_items());
+
+            imp.request_url
+                .set_text("https://www.example.com/foobar.html?a=1&b=2&c=3&d=4");
+            assert_eq!(5, imp.parameter_pane.model().n_items());
+            assert_row(
+                &imp.parameter_pane.item_at(0).unwrap(),
+                "a",
+                "1",
+                true,
+                false,
+            );
+            assert_row(
+                &imp.parameter_pane.item_at(1).unwrap(),
+                "b",
+                "2",
+                true,
+                false,
+            );
+            assert_row(
+                &imp.parameter_pane.item_at(2).unwrap(),
+                "c",
+                "3",
+                true,
+                false,
+            );
+            assert_row(
+                &imp.parameter_pane.item_at(3).unwrap(),
+                "d",
+                "4",
+                true,
+                false,
+            );
+        }
+
+        #[gtk::test]
+        fn test_updating_parameter_row_changes_url() {
+            crate::init_test_resources();
+            let _app = CarteroApplication::new();
+
+            let pane = EndpointPane::default();
+            let imp = pane.imp();
+            imp.request_url
+                .set_text("https://www.example.com/foobar.html?a=1&b=2&c=3&d=4");
+
+            imp.parameter_pane.item_at(2).unwrap().set_header_value("9");
+            assert_eq!(
+                imp.request_url.text(),
+                "https://www.example.com/foobar.html?a=1&b=2&c=9&d=4"
+            );
+        }
+
+        #[gtk::test]
+        fn test_disabling_parameter_row_changes_url() {
+            crate::init_test_resources();
+            let _app = CarteroApplication::new();
+
+            let pane = EndpointPane::default();
+            let imp = pane.imp();
+            imp.request_url
+                .set_text("https://www.example.com/foobar.html?a=1&b=2&c=3&d=4");
+
+            imp.parameter_pane.item_at(2).unwrap().set_active(false);
+            assert_eq!(
+                imp.request_url.text(),
+                "https://www.example.com/foobar.html?a=1&b=2&d=4"
+            );
+        }
+
+        #[gtk::test]
+        fn test_updating_url_moves_disabled_params_to_bottom() {
+            crate::init_test_resources();
+            let _app = CarteroApplication::new();
+
+            let pane = EndpointPane::default();
+            let imp = pane.imp();
+            imp.request_url
+                .set_text("https://www.example.com/foobar.html?a=1&b=2&c=3&d=4");
+            imp.parameter_pane.item_at(2).unwrap().set_active(false);
+            imp.request_url
+                .set_text("https://www.example.com/foobar.html?a=1&b=2&d=4&e=5");
+
+            assert_eq!(6, imp.parameter_pane.model().n_items());
+            assert_row(
+                &imp.parameter_pane.item_at(0).unwrap(),
+                "a",
+                "1",
+                true,
+                false,
+            );
+            assert_row(
+                &imp.parameter_pane.item_at(1).unwrap(),
+                "b",
+                "2",
+                true,
+                false,
+            );
+            assert_row(
+                &imp.parameter_pane.item_at(2).unwrap(),
+                "d",
+                "4",
+                true,
+                false,
+            );
+            assert_row(
+                &imp.parameter_pane.item_at(3).unwrap(),
+                "e",
+                "5",
+                true,
+                false,
+            );
+            assert_row(
+                &imp.parameter_pane.item_at(4).unwrap(),
+                "c",
+                "3",
+                false,
+                false,
+            );
         }
     }
 }

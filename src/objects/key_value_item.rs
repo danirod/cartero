@@ -74,6 +74,17 @@ glib::wrapper! {
 }
 
 impl KeyValueItem {
+    pub fn cloned(&self) -> Self {
+        glib::Object::builder()
+            .property("header-name", self.header_name())
+            .property("header-value", self.header_value())
+            .property("dirty", self.dirty())
+            .property("active", self.active())
+            .property("secret", self.secret())
+            .property("ignored", self.ignored())
+            .build()
+    }
+
     pub(self) fn setup_signals(&self) {
         self.connect_header_name_notify(|item| {
             if !item.dirty() {

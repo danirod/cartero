@@ -34,6 +34,7 @@ mod windows;
 
 use std::path::PathBuf;
 
+use config::BASE_ID;
 use gettextrs::LocaleCategory;
 use gtk::gio;
 use gtk::prelude::*;
@@ -41,7 +42,7 @@ use gtk::prelude::*;
 use self::app::CarteroApplication;
 use self::config::{APP_ID, GETTEXT_PACKAGE};
 
-fn app_rel_path(dir: &str) -> PathBuf {
+pub fn app_rel_path(dir: &str) -> PathBuf {
     let root_dir = std::env::current_exe()
         .map(|p| p.parent().unwrap().parent().unwrap().to_path_buf())
         .unwrap();
@@ -90,6 +91,16 @@ fn init_gio_resources() {
     gio::resources_register(&res);
 }
 
+fn get_locale_from_schema() -> Option<String> {
+    let settings = gio::Settings::new(BASE_ID);
+    let locale = settings.get::<String>("locale");
+    if locale.is_empty() {
+        None
+    } else {
+        Some(locale)
+    }
+}
+
 fn main() -> glib::ExitCode {
     #[cfg(target_os = "windows")]
     {
@@ -108,6 +119,9 @@ fn main() -> glib::ExitCode {
     }
 
     init_data_dir();
+    if let Some(locale) = get_locale_from_schema() {
+        std::env::set_var("LANGUAGE", locale);
+    }
     init_locale();
     init_glib();
     init_gio_resources();

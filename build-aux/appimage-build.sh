@@ -96,14 +96,14 @@ glib-compile-schemas AppDir/usr/share/glib-2.0/schemas
 gtk4-update-icon-cache -q -t -f AppDir/usr/share/icons/hicolor
 
 # Start packaging process
-[ -x appimagetool-x86_64.AppImage ] || curl -OL https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
-[ -x linuxdeploy-x86_64.AppImage ] || curl -OL https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+[ -x appimagetool-$(uname -m).AppImage ] || curl -OL https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-$(uname -m).AppImage
+[ -x linuxdeploy-$(uname -m).AppImage ] || curl -OL https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-$(uname -m).AppImage
 [ -x linuxdeploy-plugin-gtk.sh ] || curl -OL https://raw.githubusercontent.com/linuxdeploy/linuxdeploy-plugin-gtk/master/linuxdeploy-plugin-gtk.sh
-chmod +x appimagetool-x86_64.AppImage linuxdeploy-x86_64.AppImage linuxdeploy-plugin-gtk.sh
+chmod +x appimagetool-$(uname -m).AppImage linuxdeploy-$(uname -m).AppImage linuxdeploy-plugin-gtk.sh
 
 # First iteration
 export DEPLOY_GTK_VERSION=4
-./linuxdeploy-x86_64.AppImage --appdir AppDir --plugin gtk --output appimage \
+./linuxdeploy-$(uname -m).AppImage --appdir AppDir --plugin gtk --output appimage \
   --executable AppDir/usr/bin/cartero \
   --icon-file "$ICON_PATH" \
   --desktop-file "$DESKTOP_PATH"
@@ -138,7 +138,7 @@ done
 
 # Prepare to use patchelf
 echo "Unpacking patchelf..."
-./linuxdeploy-x86_64.AppImage --appimage-extract
+./linuxdeploy-$(uname -m).AppImage --appimage-extract
 mv squashfs-root linuxdeploy-root
 PATCHELF=linuxdeploy-root/usr/bin/patchelf
 
@@ -191,4 +191,4 @@ done
 [ -d AppDir/usr/home ] && rm -rf AppDir/usr/home
 
 # Recompile with the changes.
-./appimagetool-x86_64.AppImage AppDir
+./appimagetool-$(uname -m).AppImage AppDir

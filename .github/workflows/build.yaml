@@ -79,20 +79,20 @@ jobs:
         DESTDIR=$PWD/build/cartero-win32 ninja -C build install
     - name: Create Windows installer
       run: |
-        "C:\Program Files (x86)\Inno Setup 6\iscc.exe" build/cartero-win32/win32-installer.iss
+        "C:\Program Files (x86)\Inno Setup 6\iscc.exe" build/cartero-win32/msys64/win32-installer.iss
     - uses: actions/upload-artifact@v4
       name: Upload Windows version
       with:
         name: es.danirod.Cartero-windows-x86_64
         path: |
-          build/cartero-win32/bin
-          build/cartero-win32/lib
-          build/cartero-win32/share
+          build/cartero-win32/msys64/bin
+          build/cartero-win32/msys64/lib
+          build/cartero-win32/msys64/share
     - uses: actions/upload-artifact@v4
       name: Upload Windows version
       with:
         name: es.danirod.Cartero-windows-x86_64-installer
-        path: build/Output/cartero-*.exe
+        path: build/cartero-win32/msys64/Output/cartero-*.exe
   macos:
     strategy:
       matrix:

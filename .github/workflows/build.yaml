@@ -70,8 +70,8 @@ jobs:
     - uses: actions/checkout@v4
     - name: Build Windows version
       run: |
-        pacman -S pactoys
-        pacboy -S blueprint-compiler desktop-file-utils gcc gettext gtk4 gtksourceview5 libadwaita librsvg libxml2 meson pkgconf
+        pacman -Sy --noconfirm pactoys
+        pacboy -Sy --noconfirm blueprint-compiler desktop-file-utils gcc gettext gtk4 gtksourceview5 libadwaita librsvg libxml2 meson pkgconf
         export PATH=/c/Users/$USER/.cargo/bin:$PATH
         rustup toolchain install stable-gnu
         rustup default stable-gnu

@@ -95,13 +95,15 @@ gnome.post_install(
 )
 
 if host_machine.system() == 'windows'
+  meson.add_install_script('packaging/win32/dependencies.py')
+
   windows_setup = configure_file(
-    input: 'build-aux/win32-installer/installer.iss.in',
-    output: 'win32-installer.iss',
+    input: 'packaging/win32/installer.iss.in',
+    output: 'installer.iss',
     configuration: {
       'MESON_SOURCE_ROOT': meson.project_source_root(),
-      'MESON_BUILD_ROOT': meson.project_build_root(),
       'VERSION': version,
     },
   )
+  install_data(windows_setup, install_dir: '.')
 endif

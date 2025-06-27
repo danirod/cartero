@@ -79,18 +79,18 @@ To sign the releases, it is required to install SignTool. This tool is provided 
 Also, don't use WSL. That would create another GNU/Linux version.
 
 1. Extract the distfile.
-1. Run `build-aux/msys-build.sh stable` in the distribution.
-1. Check that `build/cartero-win32/bin/cartero.exe` opens and works.
+1. Run `meson setup build -Dprofile=default -Ddecorations=no-csd -Dapp-updater=enabled --prefix=/`.
+1. Run `DESTDIR=$PWD/build/cartero-win32 ninja -C build install`.
+1. Check that the generated distribution at `$PWD/build/cartero-win32` is valid.
 1. Sign the executable:
-   - Step 1: `signtool sign /n "[Sign identifier]" /t http://time.certum.pl /fd sha1 /v build/cartero-win32/bin/cartero.exe`
-   - Step 2: `signtool sign /n "[Sign identifier]" /tr http://time.certum.pl /fd sha256 /td sha256 /as /v build/cartero-win32/bin/cartero.exe`
+   - Step 1: `signtool sign /n "[Sign identifier]" /t http://time.certum.pl /fd sha1 /v build/cartero-win32/bin/cartero.exe`.
+   - Step 2: `signtool sign /n "[Sign identifier]" /tr http://time.certum.pl /fd sha256 /td sha256 /as /v build/cartero-win32/bin/cartero.exe`.
 1. Bundle the portable version. Switch to the build/cartero-win32 directory and prepare it with `zip -r cartero-$VER-windows-$ARCH.zip bin lib share`.
-1. Take the zip out of the build/cartero-win32 directory to prevent adding it to the installer.
-1. The build process should have created the file `build/win32-installer.iss`. Compile it with InnoSetup to generate an installer.
-1. The installer should be located at `build/Output/cartero.exe`. Test it.
+1. The build process should have created an .iss file in `build/cartero-win32.iss`. Compile it with InnoSetup to generate an installer.
+1. The installer should be located at `build/cartero-win32/Output/cartero.exe`. Test it.
 1. Sign the installer:
-   - Step 1: `signtool sign /n "[Sign identifier]" /t http://time.certum.pl /fd sha1 /v build/Output/cartero-$VER-windows-$ARCH.exe`
-   - Step 2: `signtool sign /n "[Sign identifier]" /tr http://time.certum.pl /fd sha256 /td sha256 /as /v build/Output/cartero-$VER-windows-$ARCH.exe`
+   - Step 1: `signtool sign /n "[Sign identifier]" /t http://time.certum.pl /fd sha1 /v build/cartero-win32/Output/cartero-$VER-windows-$ARCH.exe`.
+   - Step 2: `signtool sign /n "[Sign identifier]" /tr http://time.certum.pl /fd sha256 /td sha256 /as /v build/cartero-win32/Output/cartero-$VER-windows-$ARCH.exe`.
 1. Collect the installer (build/Output/cartero.exe) as `cartero-$VER-windows-$ARCH.exe`.
 
 **Artifacts**: the Windows portable ZIP and the Windows installer.

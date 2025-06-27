@@ -10,7 +10,6 @@
 #define MyAppAssocExt ".cartero"
 #define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt
 #define MesonSourceRoot "@MESON_SOURCE_ROOT@"
-#define MesonBuildRoot "@MESON_BUILD_ROOT@"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
@@ -35,7 +34,7 @@ ArchitecturesInstallIn64BitMode=x64compatible
 ChangesAssociations=yes
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
-LicenseFile={#MesonSourceRoot}\build-aux\win32-installer\license.rtf
+LicenseFile={#MesonSourceRoot}\packaging\GPL-3.0.rtf
 ; Remove the following line to run in administrative install mode (install for all users.)
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
@@ -49,12 +48,12 @@ MinVersion=10.0
 Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "catalan"; MessagesFile: "compiler:Languages\Catalan.isl"
 Name: "czech"; MessagesFile: "compiler:Languages\Czech.isl"
-Name: "esperanto"; MessagesFile: "{#MesonSourceRoot}\build-aux\win32-installer\Esperanto.isl"
+Name: "esperanto"; MessagesFile: "{#MesonSourceRoot}\packaging\win32\Esperanto.isl"
 Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 Name: "french"; MessagesFile: "compiler:Languages\French.isl"
-Name: "galician"; MessagesFile: "{#MesonSourceRoot}\build-aux\win32-installer\Galician.isl"
+Name: "galician"; MessagesFile: "{#MesonSourceRoot}\packaging\win32\Galician.isl"
 Name: "brazilianportuguese"; MessagesFIle: "compiler:Languages\BrazilianPortuguese.isl"
-Name: "romanian"; MessagesFile: "{#MesonSourceRoot}\build-aux\win32-installer\Romanian.isl"
+Name: "romanian"; MessagesFile: "{#MesonSourceRoot}\packaging\win32\Romanian.isl"
 Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
 Name: "tamil"; MessagesFile: "compiler:Languages\Tamil.isl"
 
@@ -62,9 +61,11 @@ Name: "tamil"; MessagesFile: "compiler:Languages\Tamil.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "{#MesonSourceRoot}\build-aux\win32-installer\cartero.ico"; DestDir: "{app}\icons"; Flags: ignoreversion
-Source: "{#MesonSourceRoot}\build-aux\win32-installer\cartero-request.ico"; DestDir: "{app}\icons"; Flags: ignoreversion
-Source: "{#MesonBuildRoot}\cartero-win32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#MesonSourceRoot}\packaging\win32\cartero.ico"; DestDir: "{app}\icons"; Flags: ignoreversion
+Source: "{#MesonSourceRoot}\packaging\win32\cartero-request.ico"; DestDir: "{app}\icons"; Flags: ignoreversion
+Source: "bin\*"; DestDir: "{app}\bin"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "lib\*"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "share\*"; DestDir: "{app}\share"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Registry]
 Root: HKA; Subkey: "Software\Classes\{#MyAppAssocExt}\OpenWithProgids"; ValueType: string; ValueName: "{#MyAppAssocKey}"; ValueData: ""; Flags: uninsdeletevalue

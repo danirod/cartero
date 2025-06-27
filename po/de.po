@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-03-21 01:46+0100\n"
-"PO-Revision-Date: 2025-04-10 15:58+0000\n"
-"Last-Translator: Marco <mstffn@gmail.com>\n"
+"PO-Revision-Date: 2025-05-17 00:02+0000\n"
+"Last-Translator: Juan Manuel Nani <jn4625070@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/cartero/cartero/"
 "de/>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.11-dev\n"
+"X-Generator: Weblate 5.12-dev\n"
 
 #: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -69,7 +69,7 @@ msgstr "Ändern von HTTP-Kopfzeilen"
 
 #: data/cartero.appdata.xml.in.in:30
 msgid "Setting the request payload"
-msgstr ""
+msgstr "Festlegen der Anfragenutzlast"
 
 #: data/cartero.desktop.in.in:2
 msgid "Cartero"
@@ -86,79 +86,82 @@ msgstr "Neue Zeilen für den Anfragekörper automatisch einrücken"
 
 #: data/es.danirod.Cartero.gschema.xml:16
 msgid "Wrap the body content"
-msgstr ""
+msgstr "Den Body-Inhalt umschließen"
 
 #: data/es.danirod.Cartero.gschema.xml:20
 msgid "Whether to indent the request body with spaces or tabs"
-msgstr ""
+msgstr "Ob der Anfragetext mit Leerzeichen oder Tabs eingerückt werden soll"
 
 #: data/es.danirod.Cartero.gschema.xml:24
 msgid "Show line numbers in the request and response bodies"
-msgstr ""
+msgstr "Zeilennummern im Anfrage- und Antworttext anzeigen"
 
 #: data/es.danirod.Cartero.gschema.xml:28
 msgid "How many characters to pad when indenting the request body"
 msgstr ""
+"Wie viele Zeichen beim Einrücken des Anfragekörpers aufgefüllt werden sollen"
 
 #: data/es.danirod.Cartero.gschema.xml:32
 msgid "How large should new windows be"
-msgstr ""
+msgstr "Wie groß sollten neue Fenster sein"
 
 #: data/es.danirod.Cartero.gschema.xml:36
 msgid "How tall should new windows be"
-msgstr ""
+msgstr "Wie hoch sollten neue Fenster sein"
 
 #: data/es.danirod.Cartero.gschema.xml:40
 msgid "Whether the application should open maximized"
-msgstr ""
+msgstr "Ob die Anwendung maximiert geöffnet werden soll"
 
 #: data/es.danirod.Cartero.gschema.xml:44
 msgid "The position of the split between two windows"
-msgstr ""
+msgstr "Die Position der Teilung zwischen zwei Fenstern"
 
 #: data/es.danirod.Cartero.gschema.xml:48
 msgid "The current list of opened files"
-msgstr ""
+msgstr "Die aktuelle Liste der geöffneten Dateien"
 
 #: data/es.danirod.Cartero.gschema.xml:52
 msgid "The last location where a file was opened"
-msgstr ""
+msgstr "Der letzte Ort, an dem eine Datei geöffnet wurde"
 
 #: data/es.danirod.Cartero.gschema.xml:56
 msgid "The last location where a file was saved"
-msgstr ""
+msgstr "Der letzte Ort, an dem eine Datei gespeichert wurde"
 
 #: data/es.danirod.Cartero.gschema.xml:60
 msgid "Whether to validate the TLS certificates during a request"
-msgstr ""
+msgstr "ob die TLS-Zertifikate während einer Anfrage validiert werden sollen"
 
 #: data/es.danirod.Cartero.gschema.xml:64
 msgid "Whether to follow redirections if that is the server response"
 msgstr ""
+"ob Umleitungen befolgt werden sollen, wenn dies die Antwort des Servers ist"
 
 #: data/es.danirod.Cartero.gschema.xml:68
 msgid "Maximum number of redirections to follow before giving up"
-msgstr ""
+msgstr "Maximale Anzahl von Umleitungen, die zu folgen sind, bevor man aufgibt"
 
 #: data/es.danirod.Cartero.gschema.xml:72
 msgid "Maximum timeout when awaiting for an HTTP response."
-msgstr ""
+msgstr "Maximale Zeitüberschreitung beim Warten auf eine HTTP-Antwort."
 
 #: data/es.danirod.Cartero.gschema.xml:76
 msgid "Whether to use light or dark mode."
-msgstr ""
+msgstr "Ob der helle oder dunkle Modus verwendet werden soll."
 
 #: data/es.danirod.Cartero.gschema.xml:80
 msgid "The custom font in use"
-msgstr ""
+msgstr "Die verwendete benutzerdefinierte Schriftart"
 
 #: data/es.danirod.Cartero.gschema.xml:84
 msgid "Whether to use the system font or a custom one"
 msgstr ""
+"Ob die Systemschriftart oder eine eigene Schriftart verwendet werden soll"
 
 #: data/es.danirod.Cartero.gschema.xml:88
 msgid "Whether to create backup files on save"
-msgstr ""
+msgstr "Ob Sicherungsdateien beim Speichern erstellt werden sollen"
 
 #: data/gtk/help_overlay.blp:25
 msgctxt "shortcuts window"
@@ -238,11 +241,11 @@ msgstr "(nichts)"
 
 #: data/ui/authorization_pane.blp:88
 msgid "Basic auth"
-msgstr ""
+msgstr "Grundlegende Autorisierung"
 
 #: data/ui/authorization_pane.blp:89
 msgid "Bearer token"
-msgstr ""
+msgstr "Inhaber Token"
 
 #: data/ui/code_export_pane.blp:59
 msgid "Copy"
@@ -329,11 +332,13 @@ msgstr "Speichern"
 
 #: data/ui/main_window.blp:94 data/ui/main_window_no_csd.blp:101
 msgid "Welcome to Cartero"
-msgstr ""
+msgstr "Willkommen bei Cartero"
 
 #: data/ui/main_window.blp:95 data/ui/main_window_no_csd.blp:102
 msgid "Create or open a request and start testing APIs now."
 msgstr ""
+"Erstellen oder öffnen Sie eine Anfrage und beginnen Sie jetzt mit dem Testen "
+"von APIs."
 
 #: data/ui/main_window.blp:114 data/ui/main_window.blp:148
 #: data/ui/main_window_no_csd.blp:121 data/ui/main_window_no_csd.blp:155
@@ -365,7 +370,7 @@ msgstr "Einstellungen"
 
 #: data/ui/main_window.blp:180 data/ui/main_window_no_csd.blp:187
 msgid "Body appearance"
-msgstr ""
+msgstr "Aussehen des Körpers"
 
 #: data/ui/main_window.blp:184 data/ui/main_window_no_csd.blp:191
 msgid "Wrap content"
@@ -421,7 +426,7 @@ msgstr "Anfrage-Methode"
 
 #: data/ui/payload_tab.blp:34
 msgid "Body type"
-msgstr ""
+msgstr "Körperbau"
 
 #: data/ui/payload_tab.blp:88
 msgid "URL Encoded"
@@ -429,7 +434,7 @@ msgstr "URL-Kodiert"
 
 #: data/ui/payload_tab.blp:89
 msgid "Multipart Form Data"
-msgstr ""
+msgstr "Mehrteilige Formulardaten"
 
 #: data/ui/payload_tab.blp:92
 msgid "Raw"
@@ -437,11 +442,13 @@ msgstr "Rohdaten"
 
 #: data/ui/response_panel.blp:28
 msgid "Ready to request"
-msgstr ""
+msgstr "Bereit zur Anfrage"
 
 #: data/ui/response_panel.blp:29
 msgid "Use the Send button to send a network request and it will show here."
 msgstr ""
+"Verwenden Sie die Schaltfläche Senden, um eine Netzwerkanfrage zu senden, "
+"die dann hier angezeigt wird."
 
 #: data/ui/search_box.blp:42 data/ui/search_box.blp:43
 msgid "Search"
@@ -580,7 +587,7 @@ msgstr "Der Wert für die Kopfzeile '{}' ist nicht gültig"
 
 #: src/error.rs:40 src/error.rs:74
 msgid "The given request body could not be encoded correctly"
-msgstr ""
+msgstr "Der angegebene Request Body konnte nicht korrekt kodiert werden"
 
 #: src/error.rs:69
 msgid "Cannot recognise the URL"
@@ -603,6 +610,8 @@ msgstr "Die Variable '{}' ist nicht definiert"
 #: src/error.rs:79
 msgid "There was a problem with a variable interpolation, review your inputs"
 msgstr ""
+"Es gab ein Problem mit einer variablen Interpolation, überprüfen Sie Ihre "
+"Eingaben"
 
 #: src/error.rs:104
 msgid "There is a network error"
@@ -636,6 +645,8 @@ msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
 msgstr ""
+"Das in der Datei gefundene HTTP-Verb war '{}'. Es ist nicht gültig und wird "
+"auf '{}' zurückgesetzt."
 
 #: src/updates/ui.rs:33
 msgid "Error checking updates"
@@ -644,6 +655,8 @@ msgstr "Fehler beim prüfen der Aktualisierungen"
 #: src/updates/ui.rs:35
 msgid "Couldn't receive a valid response from the server. Please, check later."
 msgstr ""
+"Es konnte keine gültige Antwort vom Server empfangen werden. Bitte prüfen "
+"Sie später."
 
 #: src/updates/ui.rs:38 src/updates/ui.rs:48
 msgid "Accept"
@@ -721,16 +734,19 @@ msgstr ""
 #: src/widgets/dialogs.rs:120
 msgid "Could not select a valid file from the file chooser"
 msgstr ""
+"Es konnte keine gültige Datei aus dem Dateiauswahlmenü ausgewählt werden"
 
 #: src/widgets/dialogs.rs:134
 msgid "There are unsaved changes"
-msgstr ""
+msgstr "Es gibt nicht gespeicherte Änderungen"
 
 #: src/widgets/dialogs.rs:136
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
 msgstr ""
+"Wenn Sie dieses Fenster schließen, gehen alle nicht gespeicherten Daten "
+"verloren. Wollen Sie wirklich fortfahren?"
 
 #: src/widgets/dialogs.rs:140
 msgid "Cancel"

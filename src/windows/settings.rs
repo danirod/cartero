@@ -15,26 +15,37 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+mod locale;
+
 use adw::prelude::AdwDialogExt;
 use glib::{
     object::{Cast, IsA, ObjectExt},
     Object,
 };
-use gtk::{gio, prelude::WidgetExt};
+use gtk::{
+    gio::{self},
+    prelude::WidgetExt,
+};
 
 mod imp {
     use std::sync::OnceLock;
 
-    use adw::prelude::{ActionRowExt, WidgetExt};
+    use adw::prelude::{ActionRowExt, ComboRowExt, WidgetExt};
     use adw::subclass::prelude::*;
+    use glib::object::CastNone;
     use glib::subclass::Signal;
+    use glib::value::ToValue;
     use glib::{object::ObjectExt, subclass::InitializingObject};
+    use gtk::ClosureExpression;
     use gtk::{
         pango::FontDescription, prelude::SettingsExtManual, template_callbacks, CompositeTemplate,
         TemplateChild,
     };
+    use sourceview5::prelude::{ListModelExt, ListModelExtManual};
 
     use crate::app::CarteroApplication;
+
+    use super::locale::LocaleRepr;
 
     #[derive(CompositeTemplate, Default)]
     #[template(resource = "/es/danirod/Cartero/settings_dialog.ui")]
@@ -50,6 +61,9 @@ mod imp {
 
         #[template_child]
         option_timeout: TemplateChild<adw::SpinRow>,
+
+        #[template_child]
+        option_locale: TemplateChild<adw::ComboRow>,
 
         #[template_child]
         option_theme: TemplateChild<adw::ComboRow>,
@@ -68,6 +82,9 @@ mod imp {
 
         #[template_child]
         version_id: TemplateChild<adw::ActionRow>,
+
+        #[template_child]
+        locale_changed: TemplateChild<adw::Banner>,
     }
 
     #[glib::object_subclass]
@@ -89,7 +106,25 @@ mod imp {
     impl ObjectImpl for SettingsDialog {
         fn constructed(&self) {
             self.parent_constructed();
+
+            // Init locale list before loading settings.
+            let locale_model = LocaleRepr::get_model();
+            self.option_locale.set_model(Some(&locale_model));
+            let expr: ClosureExpression =
+                gtk::ClosureExpression::with_callback(gtk::Expression::NONE, |args| {
+                    let repr = args[0].get::<LocaleRepr>().unwrap();
+                    let iso = repr.iso();
+                    let language = repr.name();
+                    if !iso.is_empty() {
+                        format!("{language} [{iso}]")
+                    } else {
+                        language
+                    }
+                });
+            self.option_locale.set_expression(Some(&expr));
+
             self.init_settings();
+            self.init_locale_banner();
 
             self.version_id.set_subtitle(crate::config::VERSION);
             if cfg!(feature = "app_updater") {
@@ -113,6 +148,21 @@ mod imp {
 
     #[template_callbacks]
     impl SettingsDialog {
+        fn init_locale_banner(&self) {
+            let app = CarteroApplication::default();
+            let settings = app.settings();
+
+            settings
+                .bind("locale", &*self.locale_changed, "revealed")
+                .get_only()
+                .mapping(|variant, _| {
+                    let locale = variant.get::<String>().expect("Expected a string");
+                    let current = std::env::var("LANGUAGE").unwrap_or(String::from(""));
+                    Some((locale != current).to_value())
+                })
+                .build();
+        }
+
         fn init_settings(&self) {
             let app = CarteroApplication::default();
             let settings = app.settings();
@@ -188,6 +238,39 @@ mod imp {
                     };
                     Some(setting.into())
                 })
+                .build();
+
+            settings
+                .bind("locale", &*self.option_locale, "selected")
+                .mapping(glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    #[upgrade_or_panic]
+                    move |variant, _| {
+                        let locale = variant.get::<String>().expect("Expected a string");
+                        let model = imp.option_locale.model().unwrap();
+                        let result = model.iter::<LocaleRepr>().enumerate().find(|(_, obj)| {
+                            match obj {
+                                Ok(repr) => repr.iso() == locale,
+                                Err(_) => false, // ???
+                            }
+                        });
+                        result.map(|(idx, _)| (idx as u32).to_value())
+                    }
+                ))
+                .set_mapping(glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    #[upgrade_or_panic]
+                    move |item, _| {
+                        let index = item.get::<u32>().expect("What the heck");
+                        let model = imp.option_locale.model().unwrap();
+                        model
+                            .item(index)
+                            .and_downcast_ref::<LocaleRepr>()
+                            .map(|repr| repr.iso().into())
+                    }
+                ))
                 .build();
         }
 

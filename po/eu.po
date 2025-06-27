@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-03-21 01:46+0100\n"
-"PO-Revision-Date: 2025-04-11 14:17+0000\n"
+"PO-Revision-Date: 2025-05-01 14:01+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <ibaios@disroot.org>\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/cartero/cartero/"
 "eu/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.11-dev\n"
+"X-Generator: Weblate 5.12-dev\n"
 
 #: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -219,7 +219,7 @@ msgstr "Bidali eskaera"
 
 #: data/ui/authorization_pane.blp:29
 msgid "Authorization method"
-msgstr "Baimen metodoa"
+msgstr "Baimentze metodoa"
 
 #: data/ui/authorization_pane.blp:55
 msgid "Username"
@@ -431,7 +431,7 @@ msgstr "URL kodetua"
 
 #: data/ui/payload_tab.blp:89
 msgid "Multipart Form Data"
-msgstr "Multipart inprimaki datuak"
+msgstr "Multipart inprimakia"
 
 #: data/ui/payload_tab.blp:92
 msgid "Raw"
@@ -444,7 +444,8 @@ msgstr "Eskaera egiteko prest"
 #: data/ui/response_panel.blp:29
 msgid "Use the Send button to send a network request and it will show here."
 msgstr ""
-"Erabili Bidali botoia sareko eskaera bat bidaltzeko, eta hemen azalduko da."
+"Erabili Bidali botoia sareko eskaera bat bidaltzeko, eta emaitza hemen "
+"azalduko da."
 
 #: data/ui/search_box.blp:42 data/ui/search_box.blp:43
 msgid "Search"
@@ -476,7 +477,7 @@ msgstr "Aplikazioaren estiloa"
 
 #: data/ui/settings_dialog.blp:37
 msgid "Follow system settings"
-msgstr "Sistemako ezarpenen araberakoa"
+msgstr "Sistemako ezarpenenena"
 
 #: data/ui/settings_dialog.blp:38
 msgid "Light mode"

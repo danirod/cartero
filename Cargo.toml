@@ -7,8 +7,8 @@ version = "0.3.0"
 license = "GPL-3.0-or-later"
 
 [workspace.dependencies]
-glib = { version = "0.20.9", features = ["v2_72"] }
-gio = { version = "0.20.9", features = ["v2_72"] }
+glib = { version = "0.20.10", features = ["v2_72"] }
+gio = { version = "0.20.11", features = ["v2_72"] }
 
 [package]
 name = "cartero"

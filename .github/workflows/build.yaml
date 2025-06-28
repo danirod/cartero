@@ -75,12 +75,13 @@ jobs:
     - uses: msys2/setup-msys2@v2
       with:
         update: true
+        install: >-
+          git
         pacboy: >-
           blueprint-compiler
           desktop-file-utils
           gcc
           gettext
-          git
           gtk4
           gtksourceview5
           libadwaita

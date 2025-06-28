@@ -145,5 +145,5 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
-        name: es.danirod.Cartero.Devel-AppImage
+        name: es.danirod.Cartero.Devel-${{ matrix.platform.name }}.AppImage
         path: build/appimagetool/Cartero-${{ matrix.platform.name }}.AppImage

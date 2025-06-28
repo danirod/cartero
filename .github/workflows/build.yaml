@@ -25,35 +25,28 @@ on:
 name: Build
 jobs:
   flatpak:
-    runs-on: ubuntu-latest
-    if: false # disabled until https://github.com/flatpak/flatpak-github-actions/issues/214 is fixed
-    container:
-      image: bilelmoussaoui/flatpak-github-actions:gnome-47
-      options: --privileged
     strategy:
       matrix:
-        arch: [x86_64, aarch64]
+        platform:
+          - runs-on: ubuntu-latest
+            name: x86_64
+          - runs-on: ubuntu-24.04-arm
+            name: aarch64
       fail-fast: false
-    name: "Flatpak (${{ matrix.arch }})"
+    runs-on: ${{ matrix.platform.runs-on }}
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:gnome-48
+      options: --privileged
+    name: "Flatpak (${{ matrix.platform.name }})"
     steps:
       - uses: actions/checkout@v4
-      - name: (ARM) Install Docker
-        if: ${{ matrix.arch != 'x86_64' }}
-        run: |
-          dnf -y install docker
-      - name: (ARM) Set up QEMU
-        if: ${{ matrix.arch != 'x86_64' }}
-        id: qemu
-        uses: docker/setup-qemu-action@v2
-        with:
-          platforms: arm64
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
           bundle: es.danirod.Cartero.Devel.flatpak
           manifest-path: build-aux/es.danirod.Cartero.Devel.json
           cache-key: flatpak-builder-${{ github.sha }}
           build-bundle: true
-          arch: ${{ matrix.arch }}
+          arch: ${{ matrix.platform.name }}
   windows:
     name: "Windows"
     runs-on: windows-latest
@@ -120,8 +113,16 @@ jobs:
         name: Cartero-${{github.sha }}-macOS-${{ matrix.platform.name }}
         path: build/Cartero-*.dmg
   appimage:
-    name: "AppImage (GNU/Linux)"
-    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        platform:
+          - runs-on: ubuntu-latest
+            name: x86_64
+          - runs-on: ubuntu-24.04-arm
+            name: aarch64
+      fail-fast: false
+    runs-on: ${{ matrix.platform.runs-on }}
+    name: "AppImage (${{ matrix.platform.name }})"
     steps:
     - name: Install dependencies
       run: |
@@ -139,4 +140,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: es.danirod.Cartero.Devel-AppImage
-        path: build/appimagetool/Cartero-x86_64.AppImage
+        path: build/appimagetool/Cartero-${{ matrix.platform.name }}.AppImage

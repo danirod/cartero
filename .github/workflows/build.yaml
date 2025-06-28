@@ -75,24 +75,24 @@ jobs:
         export PATH=/c/Users/$USER/.cargo/bin:$PATH
         rustup toolchain install stable-gnu
         rustup default stable-gnu
-        meson setup build -Dprofile=development -Dapp-updater=enabled -Ddecorations=no-csd --prefix=/
+        meson setup build -Dprofile=development -Dapp-updater=enabled -Ddecorations=no-csd --prefix=\\
         DESTDIR=$PWD/build/cartero-win32 ninja -C build install
     - name: Create Windows installer
       run: |
-        "C:\Program Files (x86)\Inno Setup 6\iscc.exe" build/cartero-win32/msys64/installer.iss
+        "C:\Program Files (x86)\Inno Setup 6\iscc.exe" build/cartero-win32/installer.iss
     - uses: actions/upload-artifact@v4
       name: Upload Windows version
       with:
         name: es.danirod.Cartero-windows-x86_64
         path: |
-          build/cartero-win32/msys64/bin
-          build/cartero-win32/msys64/lib
-          build/cartero-win32/msys64/share
+          build/cartero-win32/bin
+          build/cartero-win32/lib
+          build/cartero-win32/share
     - uses: actions/upload-artifact@v4
       name: Upload Windows version
       with:
         name: es.danirod.Cartero-windows-x86_64-installer
-        path: build/cartero-win32/msys64/Output/cartero-*.exe
+        path: build/cartero-win32/Output/cartero-*.exe
   macos:
     strategy:
       matrix:

@@ -96,10 +96,14 @@ jobs:
   macos:
     strategy:
       matrix:
-        os: [macos-13, macos-14, macos-15]
+        platform:
+          - runs-on: macos-13
+            name: x64
+          - runs-on: macos-15
+            name: arm64
       fail-fast: false
-    name: "macOS (${{ matrix.os }})"
-    runs-on: ${{ matrix.os }}
+    name: "macOS ${{ matrix.platform.name }}"
+    runs-on: ${{ matrix.platform.runs-on }}
     steps:
     - uses: actions/checkout@v4
     - name: Install dependencies
@@ -113,7 +117,7 @@ jobs:
     - uses: actions/upload-artifact@v4
       name: Upload macOS version
       with:
-        name: es.danirod.Cartero-${{ matrix.os }}-${{ runner.arch }}
+        name: Cartero-${{github.sha }}-macOS-${{ matrix.platform.name }}
         path: build/Cartero-*.dmg
   appimage:
     name: "AppImage (GNU/Linux)"

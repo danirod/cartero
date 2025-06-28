@@ -37,7 +37,7 @@ jobs:
     container:
       image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-48
       options: --privileged
-    name: "Flatpak (${{ matrix.platform.name }})"
+    name: "Flatpak ${{ matrix.platform.name }}"
     steps:
       - uses: actions/checkout@v4
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
@@ -48,8 +48,18 @@ jobs:
           build-bundle: true
           arch: ${{ matrix.platform.name }}
   windows:
-    name: "Windows"
-    runs-on: windows-latest
+    strategy:
+      matrix:
+        platform:
+          - runs-on: windows-latest
+            name: x64
+            msystem: ucrt64
+          - runs-on: windows-11-arm
+            name: arm64
+            msystem: clangarm64
+      fail-fast: false
+    runs-on: ${{ matrix.platform.runs-on }}
+    name: "Windows ${{ matrix.platform.name }}"
     defaults:
       run:
         shell: msys2 {0}
@@ -59,7 +69,7 @@ jobs:
         update: true
         install: >-
           git
-        msystem: ucrt64
+        msystem: ${{ matrix.platform.msystem }}
     - uses: actions/checkout@v4
     - name: Build Windows version
       run: |
@@ -76,7 +86,7 @@ jobs:
     - uses: actions/upload-artifact@v4
       name: Upload Windows version
       with:
-        name: es.danirod.Cartero-windows-x86_64
+        name: cartero-${{ github.sha }}-windows-${{ matrix.platform.name }}-portable
         path: |
           build/cartero-win32/bin
           build/cartero-win32/lib
@@ -84,7 +94,7 @@ jobs:
     - uses: actions/upload-artifact@v4
       name: Upload Windows version
       with:
-        name: es.danirod.Cartero-windows-x86_64-installer
+        name: cartero-${{ github.sha }}-windows-${{ matrix.platform.name }}-installer
         path: build/cartero-win32/Output/cartero-*.exe
   macos:
     strategy:
@@ -122,7 +132,7 @@ jobs:
             name: aarch64
       fail-fast: false
     runs-on: ${{ matrix.platform.runs-on }}
-    name: "AppImage (${{ matrix.platform.name }})"
+    name: "AppImage ${{ matrix.platform.name }}"
     steps:
     - name: Install Linuxbrew
       run: |

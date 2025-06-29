@@ -54,11 +54,9 @@ jobs:
           - runs-on: windows-latest
             name: x64
             msystem: ucrt64
-            rust: stable-x86_64-pc-windows-gnu
           - runs-on: windows-11-arm
             name: arm64
             msystem: clangarm64
-            rust: stable-aarch64-pc-windows-gnullvm
       fail-fast: false
     runs-on: ${{ matrix.platform.runs-on }}
     name: "Windows ${{ matrix.platform.name }}"
@@ -66,12 +64,6 @@ jobs:
       run:
         shell: msys2 {0}
     steps:
-    - uses: actions-rust-lang/setup-rust-toolchain@v1
-      with:
-        toolchain: ${{ matrix.platform.rust }}
-        cache: true
-        cache-on-failure: true
-        matcher: true
     - uses: msys2/setup-msys2@v2
       with:
         update: true
@@ -89,11 +81,11 @@ jobs:
           libxml2
           meson
           pkgconf
+          rust
         msystem: ${{ matrix.platform.msystem }}
     - uses: actions/checkout@v4
     - name: Build Windows version
       run: |
-        export PATH=/c/Users/$USER/.cargo/bin:$PATH
         meson setup build -Dprofile=development -Dapp-updater=enabled -Ddecorations=no-csd --prefix=\\
         DESTDIR=$PWD/build/cartero-win32 ninja -C build install
     - name: Create Windows installer

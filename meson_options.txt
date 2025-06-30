@@ -30,3 +30,11 @@ option(
   value: 'disabled',
   description: 'Whether to enable in-app software update checker',
 )
+
+# When running the install target, will also create an AppImage.
+option(
+  'appimage',
+  type: 'feature',
+  value: 'disabled',
+  description: 'Whether to create an AppImage when installing',
+)

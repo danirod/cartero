@@ -199,6 +199,7 @@ apprun_in = template_path / "AppRun.in"
 apprun = apprun_in.read_text().replace("%LOADER%", ld_so)
 apprun_file = destdir / "AppRun"
 apprun_file.write_text(apprun)
+apprun_file.chmod(0o755)
 
 # Create AppImage icons
 icon_root = datadir / "icons" / "hicolor"

@@ -17,4 +17,4 @@ export QT_XKB_CONFIG_ROOT=/usr/share/X11/xkb
 export LD_LIBRARY_PATH="$HERE/usr/lib:$LD_LIBRARY_PATH"
 export LD_PRELOAD="$HERE/usr/lib/libc.so.6"
 
-exec "$HERE/usr/lib/ld-linux-x86-64.so.2" "$HERE/usr/bin/cartero" "$@"
+exec "$HERE/usr/lib/%LOADER%" "$HERE/usr/bin/cartero" "$@"

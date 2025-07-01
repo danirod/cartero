@@ -195,7 +195,10 @@ for loader in pixbuf_loaders.glob("*.so"):
         deps = next_deps
 
 # Copy AppRun script
-shutil.copy(template_path / "AppRun", destdir / "AppRun")
+apprun_in = template_path / "AppRun.in"
+apprun = apprun_in.read_text().replace("%LOADER%", ld_so)
+apprun_file = destdir / "AppRun"
+apprun_file.write_text(apprun)
 
 # Create AppImage icons
 icon_root = datadir / "icons" / "hicolor"

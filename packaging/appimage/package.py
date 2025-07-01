@@ -18,24 +18,28 @@ import subprocess
 from pathlib import Path
 
 
+def panic(msg):
+    sys.stderr.write(msg + "\n")
+    sys.exit(1)
+
+
 def var_lib(env_var):
-    value = os.environ.get(env_var)
-    if not value:
-        print(f"{env_var} variable not set")
-        sys.exit(1)
+    value = os.environ.get(env_var) or panic(f"{env_var} variable not set")
     path = Path(value)
     if not path.exists():
-        print(f"Directory {path} pointed by {env_var} does not exist")
-        sys.exit(1)
+        panic(f"Directory {path} pointed by {env_var} does not exist")
     return path
 
 
 def which(app):
-    path = shutil.which(app)
-    if not path:
-        print(f"Executable {app} not found")
-        sys.exit(1)
+    path = shutil.which(app) or panic(f"Executable {app} not found")
     return Path(path)
+
+
+def ldconfig_p():
+    output = subprocess.check_output(["ldconfig", "-p"]).decode("utf-8")
+    groups = re.finditer(r"\t(.*)\s\(.*\) => (.*)", output)
+    return dict([(m.group(1), Path(m.group(2)).resolve()) for m in groups])
 
 
 # Required to copy files such as AppRun
@@ -54,11 +58,11 @@ datadir = install_dir / "share"
 # patchelf will take care of relocating executables and libraries
 patchelf = which("patchelf")
 
-# Guess where GTK is installed using the location of one of its dev binaries
-# Yes, we use resolve() because on some systems, /sbin is a symlink to /usr/bin
-gtk_root = which("gtk4-update-icon-cache").parent.resolve().parent
+# ldconfig catalog will be used to vendor shared libraries
+ldconfig = ldconfig_p()
 
-# Some information has to be infered from the argv.
+# Some information has to be infered from the argv still.
+# TODO: Parse the metainfo file to avoid having to do this.
 if len(sys.argv) < 2:
     print(f"Missing arguments: {sys.argv[0]} [app_id]")
     sys.exit(1)
@@ -67,6 +71,7 @@ _, app_id = sys.argv
 
 def patchelf_needed(path):
     """Wraps a call to patchelf --print-needed"""
+    print(f"Querying needed for {path}...")
     args = [patchelf, "--print-needed", path]
     cmd = subprocess.run(args, stdout=subprocess.PIPE)
     stdout = cmd.stdout.decode("utf-8").strip()
@@ -90,7 +95,7 @@ def copy_shared_libraries(path):
     if not libdir.exists():
         libdir.mkdir()
     for dep_name in patchelf_needed(path):
-        dep_file = (gtk_root / "lib" / dep_name).resolve()
+        dep_file = ldconfig[dep_name]
         target_loc = libdir / dep_name
         if not target_loc.exists():
             print(f"Vendoring {dep_file} to {target_loc} as a dependency...")
@@ -104,6 +109,8 @@ def copy_shared_libraries(path):
 # Relocate usr/bin/cartero
 patchelf_set_rpath(bindir / "cartero", "$ORIGIN/../lib")
 new_deps = copy_shared_libraries(bindir / "cartero")
+
+# Recursively relocate dependency tree
 while len(new_deps) > 0:
     next_deps = set()
     for new_dep in new_deps:
@@ -111,38 +118,76 @@ while len(new_deps) > 0:
         next_deps = next_deps.union(copy_shared_libraries(new_dep_path))
     new_deps = next_deps
 
-# Copy gdk-pixbuf-2.0 loaders
-gdk_pixbuf = libdir / "gdk-pixbuf-2.0" / "2.10.0" / "loaders"
-gdk_pixbuf.mkdir(exist_ok=True, parents=True)
-gdk_pixbuf_src = gtk_root / "lib" / "gdk-pixbuf-2.0" / "2.10.0" / "loaders"
-shutil.copytree(gdk_pixbuf_src, gdk_pixbuf, dirs_exist_ok=True)
+# The following components are part of the glibc library and have to be copied
+# together. You cannot just copy libc.so.6 or ld-linux-x86-64.so.2 and expect
+# things to work. Everything has to go in a single pack.
+libc_components = [
+    "ld-linux-x86-64.so.2",
+    "libanl.so.1",
+    "libBrokenLocale.so.1",
+    "libc_malloc_debug.so.0",
+    "libc.so.6",
+    "libdl.so.2",
+    "libm.so.6",
+    "libmvec.so.1",
+    "libnsl.so.1",
+    "libnss_compat.so.2",
+    "libnss_db.so.2",
+    "libnss_dns.so.2",
+    "libnss_files.so.2",
+    "libnss_hesiod.so.2",
+    "libpthread.so.0",
+    "libresolv.so.2",
+    "librt.so.1",
+    "libthread_db.so.1",
+    "libutil.so.1",
+]
+for libc_component in libc_components:
+    if libc_component in ldconfig:
+        source_lib = ldconfig[libc_component]
+        target_path = libdir / libc_component
+        shutil.copy(source_lib, target_path)
 
-# Recompile loaders
-gdk_pixbuf_loaders = subprocess.run(
-    ["gdk-pixbuf-query-loaders"],
-    env={"GDK_PIXBUF_MODULEDIR": str(gdk_pixbuf)},
-    stdout=subprocess.PIPE,
-)
-gdk_pixbuf_loaders = gdk_pixbuf_loaders.stdout.decode("utf-8")
-gdk_pixbuf_loaders = re.sub(
-    r".*/lib/gdk-pixbuf-2.0", r'"gdk-pixbuf-2.0', gdk_pixbuf_loaders
-)
-gdk_pixbuf_loader_cache = libdir / "gdk-pixbuf-2.0" / "2.10.0" / "loaders.cache"
-with open(gdk_pixbuf_loader_cache, mode="w") as file:
-    file.write(gdk_pixbuf_loaders)
+# Bring the gdk-pixbuf loaders
+query_loaders = shutil.which("gdk-pixbuf-query-loaders")
+if not query_loaders:
+    query_loaders = shutil.which("gdk-pixbuf-query-loaders-64")
+if not query_loaders:
+    panic("Cannot infer location of gdk-pixbuf-query-loaders")
+loader_cache = subprocess.check_output(query_loaders).decode("utf-8")
+loaders_dir = Path(re.findall(r"LoaderDir = (.*)", loader_cache)[0]).resolve()
 
-# Then relocate loaders too
-pixbuf_deps = set()
-for pixbuf_loader in gdk_pixbuf.glob("*.so"):
-    patchelf_set_rpath(pixbuf_loader, "$ORIGIN/../../../")
-    pixbuf_deps = pixbuf_deps.union(copy_shared_libraries(pixbuf_loader))
-while len(pixbuf_deps) > 0:
-    next_deps = set()
-    for pixbuf_dep in pixbuf_deps:
-        pixbuf_dep_path = libdir / pixbuf_dep
-        next_deps = next_deps.union(copy_shared_libraries(pixbuf_dep_path))
-    pixbuf_deps = next_deps
+# Copy the loaders
+pixbuf_moduledir = libdir / "gdk-pixbuf-2.0" / "2.10.0"
+if not pixbuf_moduledir.exists():
+    pixbuf_moduledir.mkdir(parents=True, exist_ok=True)
+pixbuf_loaders = pixbuf_moduledir / "loaders"
+shutil.copytree(loaders_dir, pixbuf_loaders)
 
+# Generate a new loaders.cache file
+loaders_cache = subprocess.check_output(
+    [query_loaders],
+    env={
+        "GDK_PIXBUF_MODULEDIR": pixbuf_loaders,
+    },
+).decode("utf-8")
+loaders_cache = loaders_cache.replace(str(pixbuf_loaders) + "/", "")
+with open(pixbuf_moduledir / "loaders.cache", mode="w") as file:
+    file.write(loaders_cache)
+
+# With the loaders.cache file written, reposition the loaders.
+# Relocate the loaders
+for loader in pixbuf_loaders.glob("*.so"):
+    shutil.move(loader, libdir / loader.name)
+    patchelf_set_rpath(libdir / loader.name, "$ORIGIN")
+    deps = set([loader.name])
+    while len(deps) > 0:
+        next_deps = set()
+        for dep in deps:
+            dep_path = libdir / dep
+            new_deps = copy_shared_libraries(dep_path)
+            next_deps = next_deps.union(new_deps)
+        deps = next_deps
 
 # Copy AppRun script
 shutil.copy(template_path / "AppRun", destdir / "AppRun")
@@ -200,7 +245,9 @@ else:
     dir_icon.symlink_to(f"{app_id}.svg")
 
 # Vendor icon theme
-adwaita_icons_src = gtk_root / "share" / "icons" / "Adwaita"
+adwaita_icons_src = (
+    ldconfig["libadwaita-1.so"].parent.parent / "share" / "icons" / "Adwaita"
+)
 adwaita_icons = datadir / "icons" / "Adwaita"
 shutil.copytree(adwaita_icons_src, adwaita_icons, dirs_exist_ok=True)
 subprocess.run(
@@ -208,12 +255,16 @@ subprocess.run(
 )
 
 # Vendor GtkSource data files
-gtksource_src = gtk_root / "share" / "gtksourceview-5"
+gtksource_src = (
+    ldconfig["libgtksourceview-5.so"].parent.parent / "share" / "gtksourceview-5"
+)
 gtksource = datadir / "gtksourceview-5"
 shutil.copytree(gtksource_src, gtksource, dirs_exist_ok=True)
 
 # Vendor GTK schemas
-glib_schemas_src = gtk_root / "share" / "glib-2.0" / "schemas"
+glib_schemas_src = (
+    ldconfig["libglib-2.0.so"].parent.parent / "share" / "glib-2.0" / "schemas"
+)
 glib_schemas = datadir / "glib-2.0" / "schemas"
 for root, _, files in glib_schemas_src.walk():
     for file in files:

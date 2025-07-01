@@ -149,7 +149,7 @@ jobs:
       run: |
         meson setup build -Dappimage=enabled -Dprofile=development --prefix=/usr
         ninja -C build
-        DESTDIR=AppDir ninja -C build install
+        DESTDIR=$PWD/AppDir ninja -C build install
         curl -LO https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-$(uname -m).AppImage
         chmod a+x appimagetool-$(uname -m).AppImage
         ./appimagetool-$(uname -m).AppImage AppDir

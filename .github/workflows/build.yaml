@@ -143,7 +143,7 @@ jobs:
     name: "AppImage ${{ matrix.platform.name }}"
     steps:
     - name: Install dependencies
-      run: sudo apt install --no-install-recommends desktop-file-utils gettext libadwaita-1-dev libfuse2 libgtk-4-dev libgtksourceview-5-dev meson
+      run: sudo apt install --no-install-recommends desktop-file-utils gettext libadwaita-1-dev libfuse2 libgtk-4-bin libgtk-4-dev libgtksourceview-5-dev meson
     - uses: actions/checkout@v4
     - name: Build
       run: |

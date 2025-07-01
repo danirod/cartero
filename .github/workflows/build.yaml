@@ -152,7 +152,7 @@ jobs:
         DESTDIR=$PWD/AppDir ninja -C build install
         curl -LO https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-$(uname -m).AppImage
         chmod a+x appimagetool-$(uname -m).AppImage
-        ./appimagetool-$(uname -m).AppImage AppDir
+        ARCH=$(uname -m) ./appimagetool-$(uname -m).AppImage AppDir
     - name: Upload
       uses: actions/upload-artifact@v4
       with:

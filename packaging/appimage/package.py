@@ -23,6 +23,12 @@ def panic(msg):
     sys.exit(1)
 
 
+def pkg_config(package, variable):
+    args = ["pkg-config", "--variable=" + variable, package]
+    output = subprocess.check_output(args).decode("utf-8")
+    return output.strip()
+
+
 def var_lib(env_var):
     value = os.environ.get(env_var) or panic(f"{env_var} variable not set")
     path = Path(value)
@@ -119,10 +125,11 @@ while len(new_deps) > 0:
     new_deps = next_deps
 
 # The following components are part of the glibc library and have to be copied
-# together. You cannot just copy libc.so.6 or ld-linux-x86-64.so.2 and expect
+# together. You cannot just copy libc.so.6 or ld-linux-$(arch).so.2 and expect
 # things to work. Everything has to go in a single pack.
+ld_so = Path(shutil.which("ld.so")).resolve().name
 libc_components = [
-    "ld-linux-x86-64.so.2",
+    ld_so,
     "libanl.so.1",
     "libBrokenLocale.so.1",
     "libc_malloc_debug.so.0",
@@ -149,15 +156,7 @@ for libc_component in libc_components:
         shutil.copy(source_lib, target_path)
 
 # Bring the gdk-pixbuf loaders
-query_loaders = shutil.which("gdk-pixbuf-query-loaders")
-if not query_loaders:
-    query_loaders = shutil.which("gdk-pixbuf-query-loaders-64")
-if not query_loaders:
-    panic("Cannot infer location of gdk-pixbuf-query-loaders")
-loader_cache = subprocess.check_output(query_loaders).decode("utf-8")
-loaders_dir = Path(re.findall(r"LoaderDir = (.*)", loader_cache)[0]).resolve()
-
-# Copy the loaders
+loaders_dir = Path(pkg_config("gdk-pixbuf-2.0", "gdk_pixbuf_moduledir"))
 pixbuf_moduledir = libdir / "gdk-pixbuf-2.0" / "2.10.0"
 if not pixbuf_moduledir.exists():
     pixbuf_moduledir.mkdir(parents=True, exist_ok=True)
@@ -165,6 +164,7 @@ pixbuf_loaders = pixbuf_moduledir / "loaders"
 shutil.copytree(loaders_dir, pixbuf_loaders)
 
 # Generate a new loaders.cache file
+query_loaders = pkg_config("gdk-pixbuf-2.0", "gdk_pixbuf_query_loaders")
 loaders_cache = subprocess.check_output(
     [query_loaders],
     env={
@@ -245,9 +245,8 @@ else:
     dir_icon.symlink_to(f"{app_id}.svg")
 
 # Vendor icon theme
-adwaita_icons_src = (
-    ldconfig["libadwaita-1.so"].parent.parent / "share" / "icons" / "Adwaita"
-)
+gtk_root = Path(pkg_config("gtk4", "prefix"))
+adwaita_icons_src = gtk_root / "share" / "icons" / "Adwaita"
 adwaita_icons = datadir / "icons" / "Adwaita"
 shutil.copytree(adwaita_icons_src, adwaita_icons, dirs_exist_ok=True)
 subprocess.run(
@@ -255,16 +254,14 @@ subprocess.run(
 )
 
 # Vendor GtkSource data files
-gtksource_src = (
-    ldconfig["libgtksourceview-5.so"].parent.parent / "share" / "gtksourceview-5"
-)
+gtksource_root = Path(pkg_config("gtksourceview-5", "prefix"))
+gtksource_src = gtksource_root / "share" / "gtksourceview-5"
 gtksource = datadir / "gtksourceview-5"
 shutil.copytree(gtksource_src, gtksource, dirs_exist_ok=True)
 
 # Vendor GTK schemas
-glib_schemas_src = (
-    ldconfig["libglib-2.0.so"].parent.parent / "share" / "glib-2.0" / "schemas"
-)
+glib_root = Path(pkg_config("glib-2.0", "prefix"))
+glib_schemas_src = glib_root / "share" / "glib-2.0" / "schemas"
 glib_schemas = datadir / "glib-2.0" / "schemas"
 for root, _, files in glib_schemas_src.walk():
     for file in files:

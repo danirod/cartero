@@ -10,6 +10,7 @@
 # - MESON_INSTALL_DESTDIR_PREFIX: DESTDIR + MESON_INSTALL_PREFIX.
 
 import os
+import platform
 import re
 import sys
 import shutil
@@ -43,7 +44,11 @@ def which(app):
 
 
 def ldconfig_p():
+    VALID_ARCHS = {"x86_64": "x86-64", "aarch64": "aarch64"}
     output = subprocess.check_output(["ldconfig", "-p"]).decode("utf-8")
+    arch = VALID_ARCHS[platform.machine()]
+    lines = [line for line in output.splitlines() if arch in line]
+    output = "\n".join(lines)
     groups = re.finditer(r"\t(.*)\s\(.*\) => (.*)", output)
     return dict([(m.group(1), Path(m.group(2)).resolve()) for m in groups])
 

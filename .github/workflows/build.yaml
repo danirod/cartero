@@ -157,11 +157,14 @@ jobs:
     - uses: actions/checkout@v4
     - name: Build
       run: |
-        export VENDOR_BASE="$(brew --prefix)"
-        export LD_LIBRARY_PATH="$(brew --prefix)/lib"
-        build-aux/appimage-build.sh devel
+        meson setup build -Dappimage=enabled -Dprofile=development --prefix=/usr
+        ninja -C build
+        DESTDIR=AppDir ninja -C build install
+        curl -LO https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-$(uname -m).AppImage
+        chmod a+x appimagetool-$(uname -m).AppImage
+        ./appimagetool-$(uname -m).AppImage AppDir
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
         name: es.danirod.Cartero.Devel-${{ matrix.platform.name }}.AppImage
-        path: build/appimagetool/Cartero-${{ matrix.platform.name }}.AppImage
+        path: Cartero-${{ matrix.platform.name }}.AppImage

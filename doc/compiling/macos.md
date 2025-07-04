@@ -6,6 +6,10 @@ The process is not very clean at the moment.
 1. Install Rust (suggestion: rustup)
 1. The following dependencies should be available (suggestion: Homebrew):
    `meson pkg-config gtk4 gtksourceview5 desktop-file-utils pygobject3 libadwaita adwaita-icon-theme shared-mime-info`.
+1. If you are using Homebrew, remember to export an env var called 
+   `GETTEXT_DIR` to override the default system gettext and force the
+   compile process to use the Homebrew one:
+   `export GETTEXT_DIR=$(brew --prefix)/opt/gettext`
 1. You can compile the application using Meson like on any other platform,
    as long as the dependencies are accessible to Meson.
 

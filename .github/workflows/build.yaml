@@ -121,6 +121,8 @@ jobs:
       run: brew unlink pkg-config && brew install pkg-config meson gtk4 gtksourceview5 desktop-file-utils pygobject3 libadwaita adwaita-icon-theme gettext shared-mime-info && brew link pkgconf
     - name: Fix PYTHONPATH for blueprint-compiler
       run: echo "PYTHONPATH=$(brew --prefix)/lib/python3.13/site-packages:$PYTHONPATH" >> $GITHUB_ENV
+    - name: Fix GETTEXT_DIR for macOS
+      run: echo "GETTEXT_DIR=$(brew --prefix)/opt/gettext" >> $GITHUB_ENV
     - name: Build macOS version
       run: |
         meson setup -Dmacos-dmg=enabled build

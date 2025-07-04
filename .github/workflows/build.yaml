@@ -91,7 +91,7 @@ jobs:
         echo "version=$(build-aux/gen-nightly-version.sh)" >> $GITHUB_OUTPUT
     - name: Build Windows version
       run: |
-        meson rewrite kwargs set project / version ${{ steps.version-code.outputs.version }}
+        meson rewrite kwargs set project // version ${{ steps.version-code.outputs.version }}
         meson setup build -Dprofile=development -Ddecorations=no-csd -Dwin32-bundle=enabled --prefix=\\
         DESTDIR=$PWD/build/cartero-win32 ninja -C build install
     - uses: actions/upload-artifact@v4

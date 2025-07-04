@@ -48,11 +48,16 @@ jobs:
           echo "full-version=$(build-aux/gen-nightly-version.py --nightly)-${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
-          bundle: Cartero-${{ steps.version-code.outputs.full-version }}-flatpak
+          bundle: Cartero-${{ steps.version-code.outputs.full-version }}-${{ matrix.platform.name }}.flatpak
           manifest-path: build-aux/es.danirod.Cartero.Devel.json
           cache-key: flatpak-builder-${{ github.sha }}-${{ matrix.platform.name }}
           build-bundle: true
           arch: ${{ matrix.platform.name }}
+          upload-artifact: false
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Cartero-${{ steps.version-code.outputs.full-version }}-flatpak-${{ matrix.platform-name }}
+          path: Cartero-*.flatpak
   windows:
     strategy:
       matrix:

@@ -125,8 +125,10 @@ jobs:
       run: echo "GETTEXT_DIR=$(brew --prefix)/opt/gettext" >> $GITHUB_ENV
     - name: Build macOS version
       run: |
+        meson rewrite kwargs set project / version $(build-aux/gen-nightly-version.sh)
         meson setup -Dmacos-dmg=enabled build
         DESTDIR=$PWD/output ninja -C build install
+        mv output/Cartero.dmg Cartero-$(build-aux/gen-nightly-version.sh)-macOS-${{ matrix.platform.name }}.dmg
     - uses: actions/upload-artifact@v4
       name: Upload macOS version
       with:

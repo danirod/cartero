@@ -18,7 +18,7 @@
 project(
   'cartero',
   'rust',
-  version: '0.3-git',
+  version: run_command('build-aux/gen-nightly-version.py', check: true).stdout().strip(),
   meson_version: '>= 0.64',
   license: 'GPL-3.0-or-later',
 )

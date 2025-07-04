@@ -43,12 +43,12 @@ jobs:
       - name: Generate version code
         id: version-code
         run: |
-          echo "version=$(build-aux/gen-nightly-version.sh)" >> $GITHUB_OUTPUT
-      - name: Update version number
-        run: meson rewrite kwargs set project / version ${{ steps.version-code.outputs.version }}
+          echo "CARTERO_NIGHTLY_VERSION=1" >> $GITHUB_ENV
+          echo "version=$(build-aux/gen-nightly-version.py --nightly)" >> $GITHUB_OUTPUT
+          echo "full-version=$(build-aux/gen-nightly-version.py --nightly)+$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
-          bundle: Cartero-${{ steps.version-code.outputs.version }}.flatpak
+          bundle: Cartero-${{ steps.version-code.outputs.full-version }}-flatpak
           manifest-path: build-aux/es.danirod.Cartero.Devel.json
           cache-key: flatpak-builder-${{ github.sha }}-${{ matrix.platform.name }}
           build-bundle: true
@@ -94,16 +94,17 @@ jobs:
     - name: Generate version code
       id: version-code
       run: |
-        echo "version=$(build-aux/gen-nightly-version.sh)" >> $GITHUB_OUTPUT
+        echo "CARTERO_NIGHTLY_VERSION=1" >> $GITHUB_ENV
+        echo "version=$(build-aux/gen-nightly-version.py --nightly)" >> $GITHUB_OUTPUT
+        echo "full-version=$(build-aux/gen-nightly-version.py --nightly)+$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
     - name: Build Windows version
       run: |
-        meson rewrite kwargs set project // version ${{ steps.version-code.outputs.version }}
         meson setup build -Dprofile=development -Ddecorations=no-csd -Dwin32-bundle=enabled --prefix=\\
         DESTDIR=$PWD/build/cartero-win32 ninja -C build install
     - uses: actions/upload-artifact@v4
       name: Upload Windows version
       with:
-        name: cartero-${{ steps.version-code.outputs.version }}-windows-${{ matrix.platform.name }}
+        name: cartero-${{ steps.version-code.outputs.full-version }}-windows-${{ matrix.platform.name }}
         path: |
           build/cartero-win32/bin
           build/cartero-win32/lib
@@ -130,16 +131,17 @@ jobs:
     - name: Generate version code
       id: version-code
       run: |
-        echo "version=$(build-aux/gen-nightly-version.sh)" >> $GITHUB_OUTPUT
+        echo "CARTERO_NIGHTLY_VERSION=1" >> $GITHUB_ENV
+        echo "version=$(build-aux/gen-nightly-version.py --nightly)" >> $GITHUB_OUTPUT
+        echo "full-version=$(build-aux/gen-nightly-version.py --nightly)+$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
     - name: Build macOS version
       run: |
-        meson rewrite kwargs set project / version ${{ steps.version-code.outputs.version }}
         meson setup -Dprofile=development -Dmacos-app=enabled --prefix=/ build
         DESTDIR=$PWD/output ninja -C build install
     - uses: actions/upload-artifact@v4
       name: Upload macOS version
       with:
-        name: Cartero-${{ steps.version-code.outputs.version }}-macOS-${{ matrix.platform.name }}
+        name: Cartero-${{ steps.version-code.outputs.full-version }}-macOS-${{ matrix.platform.name }}
         path: output/*
   appimage:
     strategy:
@@ -159,18 +161,19 @@ jobs:
     - name: Generate version code
       id: version-code
       run: |
-        echo "version=$(build-aux/gen-nightly-version.sh)" >> $GITHUB_OUTPUT
+        echo "CARTERO_NIGHTLY_VERSION=1" >> $GITHUB_ENV
+        echo "version=$(build-aux/gen-nightly-version.py --nightly)" >> $GITHUB_OUTPUT
+        echo "full-version=$(build-aux/gen-nightly-version.py --nightly)+$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
     - name: Build
       run: |
-        meson rewrite kwargs set project / version ${{ steps.version-code.outputs.version }}
         meson setup build -Dappimage=enabled -Dprofile=development --prefix=/usr
         ninja -C build
         DESTDIR=$PWD/AppDir ninja -C build install
         curl -LO https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-$(uname -m).AppImage
         chmod a+x appimagetool-$(uname -m).AppImage
-        VERSION="${{ steps.version-code.outputs.version}}" ./appimagetool-$(uname -m).AppImage AppDir
+        VERSION="${{ steps.version-code.outputs.full-version }}" ./appimagetool-$(uname -m).AppImage AppDir
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
-        name: Cartero-${{ steps.version-code.outputs.version }}-appimage-${{ matrix.platform.name }}
+        name: Cartero-${{ steps.version-code.outputs.full-version }}-appimage-${{ matrix.platform.name }}
         path: Cartero-*.AppImage

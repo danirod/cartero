@@ -148,8 +148,12 @@ jobs:
     name: "AppImage ${{ matrix.platform.name }}"
     steps:
     - name: Install dependencies
-      run: sudo apt install --no-install-recommends desktop-file-utils gettext libadwaita-1-dev libfuse2 libgtk-4-bin libgtk-4-dev libgtksourceview-5-dev librsvg2-common meson
+      run: sudo apt install --no-install-recommends desktop-file-utils gettext libadwaita-1-dev libfuse2 libgtk-4-bin libgtk-4-dev libgtksourceview-5-dev librsvg2-common meson jq
     - uses: actions/checkout@v4
+    - name: Generate version code
+      id: version-code
+      run: |
+        echo "version=$(build-aux/gen-nightly-version.sh)" >> $GITHUB_OUTPUT
     - name: Build
       run: |
         meson setup build -Dappimage=enabled -Dprofile=development --prefix=/usr
@@ -157,9 +161,9 @@ jobs:
         DESTDIR=$PWD/AppDir ninja -C build install
         curl -LO https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-$(uname -m).AppImage
         chmod a+x appimagetool-$(uname -m).AppImage
-        ./appimagetool-$(uname -m).AppImage AppDir
+        VERSION="${{ steps.version-code.outputs.version}}" ./appimagetool-$(uname -m).AppImage AppDir
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
-        name: es.danirod.Cartero.Devel-${{ matrix.platform.name }}.AppImage
-        path: Cartero-${{ matrix.platform.name }}.AppImage
+        name: Cartero-${{ steps.version-code.outputs.version }}-appimage-${{ matrix.platform.name }}
+        path: Cartero-*.AppImage

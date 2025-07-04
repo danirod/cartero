@@ -60,6 +60,7 @@ template_path = Path(__file__).parent
 destdir = var_lib("DESTDIR")
 root_dir = var_lib("MESON_INSTALL_PREFIX")
 install_dir = var_lib("MESON_INSTALL_DESTDIR_PREFIX")
+source_dir = var_lib("MESON_SOURCE_ROOT")
 
 # Common directories for the installer
 bindir = install_dir / "bin"
@@ -279,3 +280,30 @@ for root, _, files in glib_schemas_src.walk():
             dest_file = glib_schemas / file
             shutil.copy(src_file, dest_file)
 subprocess.run(["glib-compile-schemas", datadir / "glib-2.0" / "schemas"])
+
+# Vendor additional locales
+linguas_file = source_dir / "po" / "LINGUAS"
+linguas = [
+    lingua.strip()
+    for lingua in open(linguas_file).readlines()
+    if not lingua.startswith("#")
+]
+gettext_packages = [
+    "gdk-pixbuf",
+    "gettext-runtime",
+    "glib20",
+    "gtk40",
+    "gtksourceview-5",
+    "libadwaita",
+    "shared-mime-info",
+]
+for lang in linguas:
+    for pkg in gettext_packages:
+        mo_file = glib_root / "share" / "locale" / lang / "LC_MESSAGES" / f"{pkg}.mo"
+        if mo_file.exists():
+            print(f"Copying .mo file for {pkg} ({lang})...")
+            shutil.copy(
+                mo_file, datadir / "locale" / lang / "LC_MESSAGES" / f"{pkg}.mo"
+            )
+        else:
+            print(f".mo file for {pkg} not found for locale {lang}, skipping...")

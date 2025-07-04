@@ -41,6 +41,7 @@ option(
 
 option('win32-bundle', type: 'feature', value: 'disabled', description: 'Whether to bundle all external dependencies when running the install target on Windows')
 option('win32-installer', type: 'feature', value: 'disabled', description: 'Whether to compile a Windows installer when running the install target on Windows')
+option('win32-sign-subject', type: 'string', value: '', description: 'When bundling for Windows, the subject name or a substring that will be passed to signtool if provided')
 option('macos-app', type: 'feature', value: 'disabled', description: 'Whether to create an .app when running the install target on macOS')
 option('macos-dmg', type: 'feature', value: 'disabled', description: 'Whether to create an .dmg when running the install target on macOS')
 option('macos-codesign-identity', type: 'string', value: '-', description: 'When creating an .app, the identity to use to sign the app')

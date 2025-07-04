@@ -1,6 +1,12 @@
 if host_machine.system() == 'windows'
+  sign_subject = get_option('win32-sign-subject').strip()
+  
   if get_option('win32-bundle').enabled() or get_option('win32-installer').enabled()
-    meson.add_install_script('dependencies.py')
+    if sign_subject != ''
+      meson.add_install_script('dependencies.py', '-n', sign_subject)
+    else
+      meson.add_install_script('dependencies.py')
+    endif
   endif
 
   if get_option('win32-installer').enabled()
@@ -12,6 +18,11 @@ if host_machine.system() == 'windows'
         'VERSION': version,
         },
     )
-    meson.add_install_script('installer.py', windows_setup)
+
+    if sign_subject != ''
+      meson.add_install_script('installer.py', '-i', windows_setup, '-n', sign_subject)
+    else
+      meson.add_install_script('installer.py', '-i', windows_setup)
+    endif
   endif
 endif

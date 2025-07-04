@@ -123,15 +123,15 @@ However, if you plan to distribute the compiled artifacts, or just want to run
 the application outside of MSYS2, you have to create a **distribution**, and
 vendor every dependency, including DLL files and other data files.
 
-Calling the `install` target when using Meson on Windows will automatically
-trigger the `packaging/win32/dependencies.py` script. You should review what
-it does if you want to learn more or if you want to do things manually.
+There is a Meson option called `win32-bundle`. Enable this option and when
+the `install` target is called using a custom DESTDIR, it will vendor every
+required dependency and their datafiles.
 
 Therefore, compiling a proper distribution requires running something similar
 to the following:
 
 ```sh
-meson setup build -Ddecorations=no-csd --prefix=\\
+meson setup build -Ddecorations=no-csd -Dwin32-bundle=enabled --prefix=\\
 DESTDIR=$PWD/win32 ninja -C build install
 ```
 
@@ -148,8 +148,17 @@ copying bin\cartero.exe, every datafile of Cartero itself, and also vendor
 every required library, additional gettext locale file, image loader, icons
 and other support files.
 
-There will even be an .iss file if you want to create your own installer.
-You can use [InnoSetup][innosetup] to compile the installer for convenience.
+## Creating an installer
+
+If you have [Inno Setup][innosetup] installed and iscc.exe is available in the
+PATH, you can also enable the `win32-installer` option. It will cause the
+application to be bundled just like the `win32-bundle` option, but it will
+also trigger the creation of a InnoSetup installer in the DESTDIR.
+
+```sh
+meson setup build -Ddecorations=no-csd -Dwin32-installer=enabled --prefix=\\
+DESTDIR=$PWD/win32 ninja -C build install
+```
 
 [innosetup]: https://jrsoftware.org/isinfo.php
 
@@ -165,9 +174,28 @@ you should have a valid certificate to sign the application. Otherwise, when
 running the program on a different system, a warning will be presented, that
 has to be accepted to run the application.
 
-The [releng document](../releng.md) contains the instructions and commands that
-are being used to code sign the official Cartero downloads that are available
-in the Cartero repository and web site.
+The Meson buildscript has an option called `win32-sign-subject`. If the option
+is defined, the `signtool.exe` program will be called after bundling the
+application if the `win32-bundle` or `win32-installer` options are enabled,
+and after creating the installer, if the `win32-installer` option is enabled.
+
+The `win32-sign-subject` is a string option that maps to the `/n` parameter
+provided to signtool.exe. The signtool call is configured to dual-sign the
+given executables both with a SHA-1 and a SHA-256 signature. The timestamp
+server is already set to the one from Certum. Use the meson option to provide
+the subject name of the certificate, and be ready to provide a PIN if needed.
+(You may have to enter the PIN up to 4 times, because it's calling signtool.exe
+up to 4 times depending on whether the installer is enabled or not.
+
+```sh
+meson setup build -Ddecorations=no-csd -Dwin32-installer=enabled -Dwin32-sign-subject="John Doe" --prefix=\\
+DESTDIR=$PWD/win32 ninja -C build install
+```
+
+This step is probably too coupled to the [release engineering](../releng.md)
+process. Official Cartero binary distribution files for Windows are signed
+with a Certum open source certificate, which explains why the timestamp
+server is the one from Certum.
 
 ## Experimental workflows
 
@@ -178,4 +206,4 @@ Microsoft Windows for programming.
 
 If you regularly develop for Rust and/or GTK on a Windows environment and
 you have a way to enhance the process, start a discussion or send a pull
-   request. If it works and it makes things better, it will be accepted.
+request. If it works and it makes things better, it will be accepted.

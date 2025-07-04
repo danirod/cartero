@@ -6,6 +6,7 @@ import sys
 import shutil
 import subprocess
 
+from argparse import ArgumentParser
 from pathlib import Path, PureWindowsPath
 
 # This script bundles the required dependencies to use Cartero in Windows
@@ -15,6 +16,10 @@ from pathlib import Path, PureWindowsPath
 # if MSYS2 is not installed.
 
 LDD_REGEX = re.compile(r"\s*(.+) => (.+) \(0x[a-z0-9]+\)")
+
+parser = ArgumentParser(description='Package Windows dependencies')
+parser.add_argument('-n', '--name', help='If given, will sign the application with the certificate owned by the given subject name')
+args = parser.parse_args()
 
 def cygpath(path):
     path = subprocess.run(['cygpath', path], stdout=subprocess.PIPE).stdout
@@ -34,6 +39,12 @@ def var_lib(env_var):
     if not path.exists():
         return None
     return path
+
+def sign(path: Path, subject: str):
+    args1 = ["signtool", "sign", "/n", subject, "/t", "http://time.certum.pl", "/fd", "sha1", "/v", path]
+    args2 = ["signtool", "sign", "/n", subject, "/tr", "http://time.certum.pl", "/fd", "sha256", "/td", "sha256", "/as", "/v", path]
+    subprocess.run(args1)
+    subprocess.run(args2)
 
 msys = var_lib('MINGW_PREFIX')
 if msys is None:
@@ -126,3 +137,7 @@ for lang in linguas:
 # Post-install GTK actions...
 subprocess.run(["glib-compile-schemas.exe", str(datadir / 'glib-2.0' / 'schemas')])
 subprocess.run(["gtk4-update-icon-cache.exe", str(datadir / 'icons' / 'hicolor')])
+
+# Sign the application if a signature has been given
+if args.name:
+    sign(bindir / "cartero.exe", args.name)

@@ -40,11 +40,17 @@ jobs:
     name: "Flatpak ${{ matrix.platform.name }}"
     steps:
       - uses: actions/checkout@v4
+      - name: Generate version code
+        id: version-code
+        run: |
+          echo "version=$(build-aux/gen-nightly-version.sh)" >> $GITHUB_OUTPUT
+      - name: Update version number
+        run: meson rewrite kwargs set project / version ${{ steps.version-code.outputs.version }}
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
-          bundle: es.danirod.Cartero.Devel.flatpak
+          bundle: Cartero-${{ steps.version-code.outputs.version }}.flatpak
           manifest-path: build-aux/es.danirod.Cartero.Devel.json
-          cache-key: flatpak-builder-${{ github.sha }}
+          cache-key: flatpak-builder-${{ github.sha }}-${{ matrix.platform.name }}
           build-bundle: true
           arch: ${{ matrix.platform.name }}
   windows:
@@ -156,6 +162,7 @@ jobs:
         echo "version=$(build-aux/gen-nightly-version.sh)" >> $GITHUB_OUTPUT
     - name: Build
       run: |
+        meson rewrite kwargs set project / version ${{ steps.version-code.outputs.version }}
         meson setup build -Dappimage=enabled -Dprofile=development --prefix=/usr
         ninja -C build
         DESTDIR=$PWD/AppDir ninja -C build install

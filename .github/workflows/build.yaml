@@ -130,7 +130,7 @@ jobs:
     - name: Build macOS version
       run: |
         meson rewrite kwargs set project / version ${{ steps.version-code.outputs.version }}
-        meson setup -Dmacos-app=enabled build
+        meson setup -Dmacos-app=enabled --prefix=/ build
         DESTDIR=$PWD/output ninja -C build install
     - uses: actions/upload-artifact@v4
       name: Upload macOS version

@@ -85,7 +85,8 @@ for lib in loader_libs:
 # lib,opt,share => .app/Contents/Resources
 app_resources.mkdir(exist_ok=True, parents=True)
 for res_dir in ["lib", "opt", "share"]:
-    shutil.move(install_dir / res_dir, app_resources / res_dir)
+    if (install_dir / res_dir).exists():
+        shutil.move(install_dir / res_dir, app_resources / res_dir)
 
 # Move additional resources
 for icns in ['Cartero.icns', 'Cartero-request.icns']:

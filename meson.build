@@ -106,18 +106,3 @@ if host_machine.system() == 'linux' and get_option('appimage').enabled()
   # install_symlink('.DirIcon', install_dir: '/', pointing_to: icon)
   meson.add_install_script('packaging/appimage/package.py', application_id)
 endif
-
-if host_machine.system() == 'windows'
-  meson.add_install_script('packaging/win32/dependencies.py')
-
-  windows_setup = configure_file(
-    input: 'packaging/win32/installer.iss.in',
-    output: 'installer.iss',
-    configuration: {
-      'MESON_SOURCE_ROOT': meson.project_source_root(),
-      'VERSION': version,
-    },
-  )
-  install_data(windows_setup, install_dir: '.')
-endif
-

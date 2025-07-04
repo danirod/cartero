@@ -38,7 +38,10 @@ LicenseFile={#MesonSourceRoot}\packaging\GPL-3.0.rtf
 ; Remove the following line to run in administrative install mode (install for all users.)
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
-OutputBaseFilename=cartero-{#MyAppVersion}-windows-x64
+OutputBaseFilename=cartero-{#MyAppVersion}
+#ifdef SOURCE_DIR
+SourceDir={#SOURCE_DIR}
+#endif
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern

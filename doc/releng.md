@@ -13,8 +13,6 @@ Patch releases happen in a branch called release/x.y, where x.y is the major and
 1. Update the version number from the following files:
    - Cargo.toml: update the version number in the project metadata.
    - Cargo.lock: run `cargo b` to press the new version number after updating Cargo.toml.
-   - build-aux/macos-build.sh: there should be two APP_VERSION variables in the file header.
-   - build-aux/macos-installer.sh: there should be two strings declaring the .dmg name.
    - meson.build: there's a version number when declaring the project info.
 1. Update the NEWS.md file with the release notes for this version.
 1. Reformat the release notes for this version and add them to the releases section of data/cartero.metainfo.xml.in.in.
@@ -188,20 +186,24 @@ Make sure you run it multiple times until you can confirm that it is not downloa
 
 As a result of running both scripts on both architectures, a directory called `homebrew-i386` should exist with dependencies prepared for the Intel version, and a directory called `homebrew-arm64` should exist with dependencies prepared for the Apple Silicon version.
 
+To distribute the application, you will require a valid Apple Developer ID, a codesign identity and a keychain profile. The codesign identity can be retrieved with the `security find-identity -p codesigning -v` command.
+If you don't have a keychain profile for notarization purposes, you can create it the following way:
+- Issue an application password on your developer account at <https://account.apple.com/account/manage>.
+- Check the profile for the developer account at <https://developer.apple.com> to get the team ID.
+- Run the following command `xcrun notarytool store-credentials [Profile name] --apple-id [Apple ID] --team-id [Team ID] --password [App Password]`. Then, the notary profile is the value you provided at `[Profile name]`.
+
 To build the application, the following steps should be done:
 
 1. Make sure the PATH is reset so that existing Homebrew or MacPorts installations are ignored. For example, `export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin`.
 1. Load the expected Homebrew distribution: `eval "$(homebrew-$(arch)/bin/brew shellenv)"`.
-1. Export a variable called `CODESIGN_IDENTITY` with the key ID you get when running `security find-identity -p codesigning -v`.
-1. Export a variable called `NOTARY_PROFILE` with the notarization profile. If you don't have one, you can create it the following way:
-   - Issue an application password on your developer account at <https://account.apple.com/account/manage>.
-   - Check the profile for the developer account at <https://developer.apple.com> to get the team ID.
-   - Run the following command `xcrun notarytool store-credentials [Profile name] --apple-id [Apple ID] --team-id [Team ID] --password [App Password]`. Then, the notary profile is the value you provided at `[Profile name]`.
-1. Extract the distfile and switch to the directory.
-1. Run `build-aux/macos-build.sh stable` to build the macOS version of the app.
-1. Run `build-aux/macos-build/sign.sh build/cartero-darwin/Cartero.app` to sign the .app file.
-1. Run `build-aux/macos-installer.sh stable` to create the installer.
-1. Run `for f in build-aux/*.dmg; do xcrun notarytool submit $f --keychain-profile "$NOTARY_PROFILE" --wait; done` to notarize every DMG file.
-1. Run `for f in build-aux/*.dmg; do xcrun stapler staple $f; done` to staple the DMG with the notarization result, so that systems do not depend on an internet connection to first run the DMG or the application.
+1. As described in the compilation instructions for macOS, setup the Meson project with the proper app options:
+`meson setup --prefix=/ -Dmacos-dmg=enabled -Dmacos-codesign-identity='ABCABC...' -Dmacos-notary-profile='profile' build` then `DESTDIR=$PWD/output ninja -C build install`.
+
+To build for different architectures you should get used with the `arch` command:
+
+```bash
+uname -m              # Outputs: arm64
+arch -x86_64 uname -m # Outputs: x86_64
+```
 
 **Artifacts**: the macOS DMG for Apple Silicon and the macOS DMG for Intel 64.

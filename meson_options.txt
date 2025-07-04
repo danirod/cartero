@@ -38,3 +38,8 @@ option(
   value: 'disabled',
   description: 'Whether to create an AppImage when installing',
 )
+
+option('macos-app', type: 'feature', value: 'disabled', description: 'Whether to create an .app when running the install target on macOS')
+option('macos-dmg', type: 'feature', value: 'disabled', description: 'Whether to create an .dmg when running the install target on macOS')
+option('macos-codesign-identity', type: 'string', value: '-', description: 'When creating an .app, the identity to use to sign the app')
+option('macos-notary-profile', type: 'string', value: '', description: 'When creating a .dmg, the keychain profile to use to notarize the app')

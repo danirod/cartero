@@ -122,14 +122,14 @@ jobs:
     - name: Fix PYTHONPATH for blueprint-compiler
       run: echo "PYTHONPATH=$(brew --prefix)/lib/python3.13/site-packages:$PYTHONPATH" >> $GITHUB_ENV
     - name: Build macOS version
-      run: build-aux/macos-build.sh devel
-    - name: Build installer
-      run: build-aux/macos-installer.sh
+      run: |
+        meson setup -Dmacos-dmg=enabled build
+        DESTDIR=$PWD/output ninja -C build install
     - uses: actions/upload-artifact@v4
       name: Upload macOS version
       with:
         name: Cartero-${{github.sha }}-macOS-${{ matrix.platform.name }}
-        path: build/Cartero-*.dmg
+        path: output/Cartero*.dmg
   appimage:
     strategy:
       matrix:

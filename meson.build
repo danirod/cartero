@@ -84,6 +84,7 @@ if get_option('profile') == 'development'
 endif
 
 subdir('data')
+subdir('packaging')
 subdir('po')
 subdir('src')
 
@@ -119,3 +120,4 @@ if host_machine.system() == 'windows'
   )
   install_data(windows_setup, install_dir: '.')
 endif
+

@@ -132,7 +132,6 @@ jobs:
         meson rewrite kwargs set project / version ${{ steps.version-code.outputs.version }}
         meson setup -Dmacos-app=enabled build
         DESTDIR=$PWD/output ninja -C build install
-        mv output/Cartero.dmg output/Cartero-$(build-aux/gen-nightly-version.sh)-macOS-${{ matrix.platform.name }}.dmg
     - uses: actions/upload-artifact@v4
       name: Upload macOS version
       with:

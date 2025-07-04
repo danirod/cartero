@@ -123,7 +123,7 @@ jobs:
       run: echo "PYTHONPATH=$(brew --prefix)/lib/python3.13/site-packages:$PYTHONPATH" >> $GITHUB_ENV
     - name: Fix GETTEXT_DIR for macOS
       run: echo "GETTEXT_DIR=$(brew --prefix)/opt/gettext" >> $GITHUB_ENV
-    - name: Generate version code:
+    - name: Generate version code
       id: version-code
       run: |
         echo "version=$(build-aux/gen-nightly-version.sh)" >> $GITHUB_OUTPUT

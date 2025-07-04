@@ -125,6 +125,8 @@ gdk_pixbuf_rpath = [
 pixbuf_moduledir_src = Path(pkg_config("gdk-pixbuf-2.0", "gdk_pixbuf_moduledir"))
 for module in pixbuf_moduledir_src.glob("*.so"):
     target_path = pixbuf_moduledir / module.name
+    if target_path.exists():
+        target_path.unlink()
     shutil.copy(module, target_path)
     relocate_and_vendor(target_path, "@loader_path/../../..", rpath=gdk_pixbuf_rpath)
 

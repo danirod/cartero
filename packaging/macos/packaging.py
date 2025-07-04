@@ -10,6 +10,7 @@
 # - MESON_INSTALL_DESTDIR_PREFIX: DESTDIR + MESON_INSTALL_PREFIX.
 
 import os
+import re
 import sys
 import shutil
 import subprocess
@@ -29,11 +30,23 @@ def var_lib(env_var):
     return path
 
 def sign(identity: str, path: Path):
-    if not identity:
+    if not identity or identity == '-':
         args = ["codesign", "--sign", "-", "--force", "--preserve-metadata=entitlements,requirements,flags,runtime", path]
     else:
         args = ["codesign", "-v", "-f", "--timestamp", "--options=runtime", "--sign", identity, path]
-    subprocess.run(args)  
+    subprocess.run(args)
+
+def shared_libraries(path):
+    args = ["otool", "-L", path]
+    output = subprocess.check_output(args).decode("utf-8")
+    otool_lib = r'\t(.*) \(.*\)'
+    return re.findall(otool_lib, output)
+
+def relink_dependency(path, old, new):
+    """ Wraps a call to install_name_tool """
+    args = ["install_name_tool", "-change", old, new, path]
+    print("relinking:", args)
+    subprocess.run(args)
 
 # Environment variables for main paths
 destdir = var_lib("DESTDIR")
@@ -50,47 +63,45 @@ args = parser.parse_args()
 app = install_dir / "Cartero.app"
 if app.exists():
     shutil.rmtree(app)
-for dmg in install_dir.glob("*.dmg"):
-    dmg.unlink()
 
-# Get the list of directories currently present in install_dir
-dirs = [l.name for l in install_dir.glob("*")]
+# Directories of interest within the app bundle
+app_contents = app / "Contents"
+app_macos = app_contents / "MacOS"
+app_resources = app_contents / "Resources"
 
-# Wrap them as Resources.
-resources_dir = app / "Contents" / "Resources"
-resources_dir.mkdir(parents=True, exist_ok=True)
-for rdir in dirs:
-    shutil.move(install_dir / rdir, resources_dir / rdir)
+# bin/cartero => .app/Contents/MacOS/Cartero
+app_macos.mkdir(exist_ok=True, parents=True)
+bin_cartero = app_macos / "Cartero"
+shutil.move(install_dir / "bin" / "cartero", bin_cartero)
+(install_dir / "bin").rmdir()
 
-# For cosmetic purposes, rename bin/cartero to bin/Cartero
-# (the file name is used for the "About" entry in the menu bar)
-if (resources_dir / "bin" / "cartero").exists():
-    shutil.move(resources_dir / "bin" / "cartero", resources_dir / "bin" / "Cartero")
+# bin/cartero has moved locations, so we have to update the path to the shared libraries.
+# TODO: Can't just switch to rpath to avoid having to do this?
+loader_libs = [dep for dep in shared_libraries(bin_cartero) if dep.startswith("@loader_path")]
+for lib in loader_libs:
+    new_lib = lib.replace("@loader_path/../lib", "@loader_path/../Resources/lib")
+    relink_dependency(bin_cartero, lib, new_lib)
 
-# Copy the launcher
-macos_dir = app / "Contents" / "MacOS"
-macos_dir.mkdir(parents=True, exist_ok=True)
-app_run = macos_dir / "Cartero"
-shutil.copy(template_dir / "AppRun.sh", app_run)
-app_run.chmod(0o755)
+# lib,opt,share => .app/Contents/Resources
+app_resources.mkdir(exist_ok=True, parents=True)
+for res_dir in ["lib", "opt", "share"]:
+    shutil.move(install_dir / res_dir, app_resources / res_dir)
 
 # Move additional resources
 for icns in ['Cartero.icns', 'Cartero-request.icns']:
-    shutil.copy(template_dir / icns, resources_dir / icns)
+    shutil.copy(template_dir / icns, app_resources / icns)
 
 # Copy the .plist
 plist_src = build_dir / "packaging" / "macos" / "Info.plist"
-plist_target = app / "Contents" / "info.plist"
+plist_target = app_contents / "Info.plist"
 shutil.copy(plist_src, plist_target)
 
 # Sign the application
-for file in macos_dir.glob("*"):
+for file in app_macos.glob("*"):
     sign(args.identity, file)
-for file in (resources_dir / "bin").glob("*"):
+for file in (app_resources / "lib").glob("**/*.so"):
     sign(args.identity, file)
-for file in (resources_dir / "lib").glob("**/*.so"):
+for file in (app_resources / "lib").glob("**/*.dylib"):
     sign(args.identity, file)
-for file in (resources_dir / "lib").glob("**/*.dylib"):
-    sign(args.identity, file)
-sign(args.identity, app / "Contents" / "Info.plist")
+sign(args.identity, app_contents / "Info.plist")
 sign(args.identity, app)

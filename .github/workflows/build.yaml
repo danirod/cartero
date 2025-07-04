@@ -76,6 +76,7 @@ jobs:
           gettext
           gtk4
           gtksourceview5
+          jq
           libadwaita
           librsvg
           libxml2
@@ -84,26 +85,23 @@ jobs:
           rust
         msystem: ${{ matrix.platform.msystem }}
     - uses: actions/checkout@v4
+    - name: Generate version code
+      id: version-code
+      run: |
+        echo "version=$(build-aux/gen-nightly-version.sh)" >> $GITHUB_OUTPUT
     - name: Build Windows version
       run: |
-        meson setup build -Dprofile=development -Dapp-updater=enabled -Ddecorations=no-csd --prefix=\\
+        meson rewrite kwargs set project / version ${{ steps.version-code.outputs.version }}
+        meson setup build -Dprofile=development -Ddecorations=no-csd -Dwin32-bundle=enabled --prefix=\\
         DESTDIR=$PWD/build/cartero-win32 ninja -C build install
-    - name: Create Windows installer
-      run: |
-        "C:\Program Files (x86)\Inno Setup 6\iscc.exe" build/cartero-win32/installer.iss
     - uses: actions/upload-artifact@v4
       name: Upload Windows version
       with:
-        name: cartero-${{ github.sha }}-windows-${{ matrix.platform.name }}-portable
+        name: cartero-${{ steps.version-code.outputs.version }}-windows-${{ matrix.platform.name }}
         path: |
           build/cartero-win32/bin
           build/cartero-win32/lib
           build/cartero-win32/share
-    - uses: actions/upload-artifact@v4
-      name: Upload Windows version
-      with:
-        name: cartero-${{ github.sha }}-windows-${{ matrix.platform.name }}-installer
-        path: build/cartero-win32/Output/cartero-*.exe
   macos:
     strategy:
       matrix:

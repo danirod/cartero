@@ -123,17 +123,21 @@ jobs:
       run: echo "PYTHONPATH=$(brew --prefix)/lib/python3.13/site-packages:$PYTHONPATH" >> $GITHUB_ENV
     - name: Fix GETTEXT_DIR for macOS
       run: echo "GETTEXT_DIR=$(brew --prefix)/opt/gettext" >> $GITHUB_ENV
+    - name: Generate version code:
+      id: version-code
+      run: |
+        echo "version=$(build-aux/gen-nightly-version.sh)" >> $GITHUB_OUTPUT
     - name: Build macOS version
       run: |
-        meson rewrite kwargs set project / version $(build-aux/gen-nightly-version.sh)
-        meson setup -Dmacos-dmg=enabled build
+        meson rewrite kwargs set project / version ${{ steps.version-code.outputs.version }}
+        meson setup -Dmacos-app=enabled build
         DESTDIR=$PWD/output ninja -C build install
-        mv output/Cartero.dmg Cartero-$(build-aux/gen-nightly-version.sh)-macOS-${{ matrix.platform.name }}.dmg
+        mv output/Cartero.dmg output/Cartero-$(build-aux/gen-nightly-version.sh)-macOS-${{ matrix.platform.name }}.dmg
     - uses: actions/upload-artifact@v4
       name: Upload macOS version
       with:
-        name: Cartero-${{github.sha }}-macOS-${{ matrix.platform.name }}
-        path: output/Cartero*.dmg
+        name: Cartero-${{ steps.version-code.outputs.version }}-macOS-${{ matrix.platform.name }}
+        path: output/*
   appimage:
     strategy:
       matrix:

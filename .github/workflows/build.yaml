@@ -44,8 +44,8 @@ jobs:
         id: version-code
         run: |
           echo "CARTERO_NIGHTLY_VERSION=1" >> $GITHUB_ENV
-          echo "version=$(build-aux/gen-nightly-version.py --nightly)" >> $GITHUB_OUTPUT
-          echo "full-version=$(build-aux/gen-nightly-version.py --nightly)-${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
+          echo "version=$(build-aux/gen-version.py --nightly)" >> $GITHUB_OUTPUT
+          echo "full-version=$(build-aux/gen-version.py --nightly)-${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
           bundle: Cartero-${{ steps.version-code.outputs.full-version }}-${{ matrix.platform.name }}.flatpak
@@ -100,8 +100,8 @@ jobs:
       id: version-code
       run: |
         echo "CARTERO_NIGHTLY_VERSION=1" >> $GITHUB_ENV
-        echo "version=$(build-aux/gen-nightly-version.py --nightly)" >> $GITHUB_OUTPUT
-        echo "full-version=$(build-aux/gen-nightly-version.py --nightly)-${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
+        echo "version=$(build-aux/gen-version.py --nightly)" >> $GITHUB_OUTPUT
+        echo "full-version=$(build-aux/gen-version.py --nightly)-${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
     - name: Build Windows version
       run: |
         meson setup build -Dprofile=development -Ddecorations=no-csd -Dwin32-bundle=enabled --prefix=\\
@@ -137,8 +137,8 @@ jobs:
       id: version-code
       run: |
         echo "CARTERO_NIGHTLY_VERSION=1" >> $GITHUB_ENV
-        echo "version=$(build-aux/gen-nightly-version.py --nightly)" >> $GITHUB_OUTPUT
-        echo "full-version=$(build-aux/gen-nightly-version.py --nightly)-${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
+        echo "version=$(build-aux/gen-version.py --nightly)" >> $GITHUB_OUTPUT
+        echo "full-version=$(build-aux/gen-version.py --nightly)-${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
     - name: Build macOS version
       run: |
         meson setup -Dprofile=development -Dmacos-app=enabled --prefix=/ build
@@ -167,8 +167,8 @@ jobs:
       id: version-code
       run: |
         echo "CARTERO_NIGHTLY_VERSION=1" >> $GITHUB_ENV
-        echo "version=$(build-aux/gen-nightly-version.py --nightly)" >> $GITHUB_OUTPUT
-        echo "full-version=$(build-aux/gen-nightly-version.py --nightly)-${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
+        echo "version=$(build-aux/gen-version.py --nightly)" >> $GITHUB_OUTPUT
+        echo "full-version=$(build-aux/gen-version.py --nightly)-${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
     - name: Build
       run: |
         meson setup build -Dappimage=enabled -Dprofile=development --prefix=/usr

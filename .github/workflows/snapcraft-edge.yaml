@@ -1,9 +1,10 @@
 name: Snapcraft Edge
+
 on:
   workflow_dispatch:
   schedule:
     - cron: '0 6 * * *'
-  workflow_dispatch:
+
 jobs:
   new-commits:
     name: Check if there are new commits
@@ -22,7 +23,6 @@ jobs:
           else
             echo "new-commits=true" >> $GITHUB_OUTPUT
           fi
-
   publish:
     needs: new-commits
     if: ${{ needs.new-commits.outputs.new-commits == 'true' }}

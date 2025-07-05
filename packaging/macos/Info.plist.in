@@ -5,7 +5,7 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>English</string>
     <key>CFBundleExecutable</key>
-    <string>cartero</string>
+    <string>Cartero</string>
     <key>CFBundleDocumentTypes</key>
     <array>
       <dict>

@@ -24,6 +24,21 @@ on:
       - trunk
 name: Build
 jobs:
+  flake:
+    strategy:
+      matrix:
+        platform:
+          - runs-on: ubuntu-latest
+            name: x86_64
+          - runs-on: ubuntu-24.04-arm
+            name: aarch64
+    runs-on: ${{ matrix.platform.runs-on }}
+    name: "Flake ${{ matrix.platform.name }}"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v31
+      - run: nix build
+      - run: nix flake check
   flatpak:
     strategy:
       matrix:

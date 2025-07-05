@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+#
+# Generates the version number for meson.build based on what the Cargo.toml
+# says. If the --nightly otpion is given or the CARTERO_NIGHTLY_VERSION env
+# var is set, it will treat the version number as nightly and thus add the
+# compilation date too. (Meson will add the Git hash in development profile).
 
 import datetime
 import os
@@ -19,10 +24,11 @@ args = parser.parse_args()
 root_dir = Path(__file__).parent.parent
 cargo_file = root_dir / "Cargo.toml"
 cargo_doc = tomllib.loads(cargo_file.read_text())
-
 cargo_version = cargo_doc["workspace"]["package"]["version"]
+
 if args.nightly or os.environ.get("CARTERO_NIGHTLY_VERSION"):
     now = datetime.datetime.now(datetime.UTC)
     date = now.strftime("%Y%m%d")
     cargo_version = f"{cargo_version}-nightly.{date}"
+
 print(cargo_version)

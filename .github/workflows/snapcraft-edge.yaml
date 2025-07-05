@@ -28,3 +28,4 @@ jobs:
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_LOGIN }}
         with:
           snap: ${{ steps.build-snap.outputs.snap }}
+          release: edge

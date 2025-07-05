@@ -47,7 +47,7 @@ parts:
   cartero:
     plugin: meson
     source: .
-    build-environment.
+    build-environment:
       - CARTERO_NIGHTLY_VERSION: 1
     build-packages:
       - libssl-dev

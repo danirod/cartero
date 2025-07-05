@@ -69,6 +69,6 @@ jobs:
       - name: cargo-clippy
         run: meson devenv -C build cargo clippy --manifest-path=../Cargo.toml
       - name: cargo-deny
-        run: |
-          cargo install --locked cargo-deny
-          meson devenv -C build cargo deny --manifest-path=../Cargo.toml check licenses
+        uses: EmbarkStudios/cargo-deny-action@v2
+        with:
+          command: check licenses

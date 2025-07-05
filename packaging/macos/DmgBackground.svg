@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="640"
+   height="360"
+   viewBox="0 0 169.33333 95.25"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
+   sodipodi:docname="DmgBackground.svg"
+   inkscape:export-filename="DmgBackground.png"
+   inkscape:export-xdpi="128.10001"
+   inkscape:export-ydpi="128.10001"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     inkscape:zoom="1.3362794"
+     inkscape:cx="355.0904"
+     inkscape:cy="271.2756"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <symbol
+       id="AigaSymbols.svg:RightArrow">
+      <title
+         id="title272">Right Arrow</title>
+      <path
+         d="M 63,36 41,58 H 26 L 42,42 H 10 V 30 H 42 L 26,14 h 15 z"
+         style="stroke:none"
+         id="path272" />
+    </symbol>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ccdef9;stroke-width:6.194;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;paint-order:fill markers stroke;fill-opacity:1"
+       id="rect1"
+       width="169.33333"
+       height="95.399055"
+       x="1.7097982e-06"
+       y="-0.07452821" />
+    <rect
+       style="fill:#fbfaf9;stroke-width:6.194;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;paint-order:fill markers stroke;fill-opacity:0.59924388"
+       id="rect2"
+       width="33.866665"
+       height="33.866665"
+       x="110.08801"
+       y="30.691668"
+       rx="2.6458333"
+       ry="2.6458333" />
+    <text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:4.58611px;line-height:0.9;font-family:Montserrat;-inkscape-font-specification:'Montserrat Bold';text-align:end;letter-spacing:-0.134937px;word-spacing:0px;writing-mode:lr-tb;direction:ltr;text-anchor:end;fill:#deddda;stroke-width:6.194;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;paint-order:fill markers stroke"
+       x="113.1651"
+       y="80.371613"
+       id="text2"><tspan
+         sodipodi:role="line"
+         id="tspan2"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:4.58611px;font-family:Cantarell;-inkscape-font-specification:'Cantarell Bold';letter-spacing:-0.134937px;fill:#000000;stroke-width:6.194"
+         x="113.03017"
+         y="80.371613">Thank you for trying Cartero!</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:4.58611px;line-height:0.9;font-family:Montserrat;-inkscape-font-specification:'Montserrat Bold';text-align:end;letter-spacing:-0.134937px;word-spacing:0px;writing-mode:lr-tb;direction:ltr;text-anchor:end;fill:#deddda;stroke-width:6.194;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;paint-order:fill markers stroke"
+       x="106.63017"
+       y="17.258574"
+       id="text3"><tspan
+         sodipodi:role="line"
+         id="tspan3"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:4.58611px;font-family:Cantarell;-inkscape-font-specification:'Cantarell Bold';letter-spacing:-0.134937px;fill:#000000;stroke-width:6.194"
+         x="106.49522"
+         y="17.258574">Drag the icon to install</tspan></text>
+    <use
+       xlink:href="#AigaSymbols.svg:RightArrow"
+       style="fill:#000000;stroke:#000000"
+       id="use1"
+       transform="matrix(0.26458333,0,0,0.26458333,75.009373,38.099998)" />
+    <rect
+       style="fill:#fbfaf9;stroke-width:6.194;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;paint-order:fill markers stroke;fill-opacity:0.59924388"
+       id="rect3"
+       width="33.866665"
+       height="33.866665"
+       x="25.378651"
+       y="30.691666"
+       rx="2.6458333"
+       ry="2.6458333" />
+  </g>
+</svg>

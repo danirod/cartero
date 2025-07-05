@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-21 01:46+0100\n"
+"POT-Creation-Date: 2025-07-05 20:41+0200\n"
 "PO-Revision-Date: 2025-05-17 00:02+0000\n"
 "Last-Translator: Juan Manuel Nani <jn4625070@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -19,11 +19,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12-dev\n"
 
-#: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:3
+#: data/es.danirod.Cartero.metainfo.xml.in.in:8 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
 msgstr "HTTP-Anfragen stellen und APIs testen"
 
-#: data/cartero.appdata.xml.in.in:11
+#: data/es.danirod.Cartero.metainfo.xml.in.in:11
 msgid ""
 "Cartero is a graphical HTTP client that can be used as a developer tool to "
 "test web APIs and perform all kind of HTTP requests to web servers. It is "
@@ -36,11 +36,11 @@ msgstr ""
 "RPC-API kompatibel und unterstützt mehrere Anfragemethoden sowie das "
 "Anhängen von Body-Payloads an kompatible Anfragen."
 
-#: data/cartero.appdata.xml.in.in:12
+#: data/es.danirod.Cartero.metainfo.xml.in.in:12
 msgid "Features:"
 msgstr "Besonderheiten:"
 
-#: data/cartero.appdata.xml.in.in:14
+#: data/es.danirod.Cartero.metainfo.xml.in.in:14
 msgid ""
 "Loads and saves to plain Git-friendly TOML files, so that you can own your "
 "data."
@@ -48,26 +48,26 @@ msgstr ""
 "Lädt und speichert in einfachen Git-freundlichen TOML-Dateien, so dass Sie "
 "Ihre Daten selbst verwalten können."
 
-#: data/cartero.appdata.xml.in.in:15
+#: data/es.danirod.Cartero.metainfo.xml.in.in:15
 msgid ""
 "Customization and modification of the request headers and body payloads."
 msgstr "Anpassung und Änderung der Anfragekopfzeilen und Body-Payloads."
 
-#: data/cartero.appdata.xml.in.in:16
+#: data/es.danirod.Cartero.metainfo.xml.in.in:16
 msgid "Variable binding for API keys and other secret information."
 msgstr ""
 "Unterstütztung von Variablen für API-Schlüssel und andere geheime "
 "Informationen."
 
-#: data/cartero.appdata.xml.in.in:22
+#: data/es.danirod.Cartero.metainfo.xml.in.in:22
 msgid "Main window of Cartero"
 msgstr "Hauptfenster von Cartero"
 
-#: data/cartero.appdata.xml.in.in:26
+#: data/es.danirod.Cartero.metainfo.xml.in.in:26
 msgid "Modifying HTTP headers"
 msgstr "Ändern von HTTP-Kopfzeilen"
 
-#: data/cartero.appdata.xml.in.in:30
+#: data/es.danirod.Cartero.metainfo.xml.in.in:30
 msgid "Setting the request payload"
 msgstr "Festlegen der Anfragenutzlast"
 
@@ -544,7 +544,8 @@ msgstr "Weiterleitungen folgen"
 
 #: data/ui/settings_dialog.blp:106
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
-msgstr "Folgeanfragen stellen, wenn der Server eine HTTP 3xx-Antwort zurückgibt"
+msgstr ""
+"Folgeanfragen stellen, wenn der Server eine HTTP 3xx-Antwort zurückgibt"
 
 #: data/ui/settings_dialog.blp:111
 msgid "Maximum redirects"
@@ -796,7 +797,9 @@ msgid "Content copied to the clipboard"
 msgstr "Inhalt in die Zwischenablage kopiert"
 
 #. TRANSLATORS: presented in file dialogs as the file type for a request
-#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:146
+#. The macOS native file dialog will already add the extension for us.
+#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:148
+#: src/widgets/file_dialogs.rs:150
 msgid "Request"
 msgstr "Anfrage"
 
@@ -849,10 +852,10 @@ msgstr "mstffn"
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 die Cartero Autoren"
 
-#: src/win.rs:605
+#: src/win.rs:589
 msgid "User manual"
 msgstr "Benutzerhandbuch"
 
-#: src/win.rs:607
+#: src/win.rs:591
 msgid "Help us translate"
 msgstr "Bei der Übersetzung helfen"

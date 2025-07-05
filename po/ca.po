@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-21 01:46+0100\n"
+"POT-Creation-Date: 2025-07-05 20:41+0200\n"
 "PO-Revision-Date: 2025-05-22 15:06+0000\n"
 "Last-Translator: alesdevux <aleswebgit@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -17,11 +17,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12-dev\n"
 
-#: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:3
+#: data/es.danirod.Cartero.metainfo.xml.in.in:8 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
 msgstr "Fes peticions HTTP i testeja APIs"
 
-#: data/cartero.appdata.xml.in.in:11
+#: data/es.danirod.Cartero.metainfo.xml.in.in:11
 msgid ""
 "Cartero is a graphical HTTP client that can be used as a developer tool to "
 "test web APIs and perform all kind of HTTP requests to web servers. It is "
@@ -34,11 +34,11 @@ msgstr ""
 "suporta múltiples mètodes de petició així com adjuntar cossos a les "
 "peticions compatibles."
 
-#: data/cartero.appdata.xml.in.in:12
+#: data/es.danirod.Cartero.metainfo.xml.in.in:12
 msgid "Features:"
 msgstr "Característiques:"
 
-#: data/cartero.appdata.xml.in.in:14
+#: data/es.danirod.Cartero.metainfo.xml.in.in:14
 msgid ""
 "Loads and saves to plain Git-friendly TOML files, so that you can own your "
 "data."
@@ -46,26 +46,26 @@ msgstr ""
 "Carrega i guarda a arxius TOML amigables amb Git, perquè puguis tenir les "
 "teves dades."
 
-#: data/cartero.appdata.xml.in.in:15
+#: data/es.danirod.Cartero.metainfo.xml.in.in:15
 msgid ""
 "Customization and modification of the request headers and body payloads."
 msgstr ""
 "Personalització i modificació de les capçaleres i cossos d'una petició."
 
-#: data/cartero.appdata.xml.in.in:16
+#: data/es.danirod.Cartero.metainfo.xml.in.in:16
 msgid "Variable binding for API keys and other secret information."
 msgstr ""
 "Enllaçament de variables per claus API i altres tipus d'informació secreta."
 
-#: data/cartero.appdata.xml.in.in:22
+#: data/es.danirod.Cartero.metainfo.xml.in.in:22
 msgid "Main window of Cartero"
 msgstr "Finestra principal de Cartero"
 
-#: data/cartero.appdata.xml.in.in:26
+#: data/es.danirod.Cartero.metainfo.xml.in.in:26
 msgid "Modifying HTTP headers"
 msgstr "Modificant les capçaleres HTTP"
 
-#: data/cartero.appdata.xml.in.in:30
+#: data/es.danirod.Cartero.metainfo.xml.in.in:30
 msgid "Setting the request payload"
 msgstr "Establint el cos de la petició"
 
@@ -635,7 +635,8 @@ msgstr ""
 msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
-msgstr "El verb HTTP trobat al fitxer era '{}'. No és vàlid, es tornarà a '{}'."
+msgstr ""
+"El verb HTTP trobat al fitxer era '{}'. No és vàlid, es tornarà a '{}'."
 
 #: src/updates/ui.rs:33
 msgid "Error checking updates"
@@ -780,7 +781,9 @@ msgid "Content copied to the clipboard"
 msgstr "Contingut copiat al porta-retalls"
 
 #. TRANSLATORS: presented in file dialogs as the file type for a request
-#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:146
+#. The macOS native file dialog will already add the extension for us.
+#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:148
+#: src/widgets/file_dialogs.rs:150
 msgid "Request"
 msgstr "Petició"
 
@@ -833,11 +836,11 @@ msgstr "Ivan Garcia, Àlex Serra (alesdevux)"
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 Els autors de Cartero"
 
-#: src/win.rs:605
+#: src/win.rs:589
 msgid "User manual"
 msgstr "Manual d’usuari"
 
-#: src/win.rs:607
+#: src/win.rs:591
 msgid "Help us translate"
 msgstr "Ajuda’ns a traduir"
 

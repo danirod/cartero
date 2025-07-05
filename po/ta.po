@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-21 01:46+0100\n"
+"POT-Creation-Date: 2025-07-05 20:41+0200\n"
 "PO-Revision-Date: 2025-04-27 13:08+0000\n"
 "Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/cartero/cartero/ta/"
@@ -19,11 +19,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12-dev\n"
 
-#: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:3
+#: data/es.danirod.Cartero.metainfo.xml.in.in:8 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
 msgstr "HTTP கோரிக்கைகளைச் செய்து பநிஇ களை சோதனை செய்யுங்கள்"
 
-#: data/cartero.appdata.xml.in.in:11
+#: data/es.danirod.Cartero.metainfo.xml.in.in:11
 msgid ""
 "Cartero is a graphical HTTP client that can be used as a developer tool to "
 "test web APIs and perform all kind of HTTP requests to web servers. It is "
@@ -36,11 +36,11 @@ msgstr ""
 "இணக்கமானது, மேலும் இது பல கோரிக்கை முறைகளை ஆதரிக்கிறது, அத்துடன் இணக்கமான "
 "கோரிக்கைகளுக்கு உடல் பேலோடுகளை இணைப்பது."
 
-#: data/cartero.appdata.xml.in.in:12
+#: data/es.danirod.Cartero.metainfo.xml.in.in:12
 msgid "Features:"
 msgstr "அம்சங்கள்:"
 
-#: data/cartero.appdata.xml.in.in:14
+#: data/es.danirod.Cartero.metainfo.xml.in.in:14
 msgid ""
 "Loads and saves to plain Git-friendly TOML files, so that you can own your "
 "data."
@@ -48,24 +48,24 @@ msgstr ""
 "உங்கள் தரவை நீங்கள் சொந்தமாக வைத்திருக்க முடியும் என்பதற்காக வெற்று கிட்-நட்பு டாம்ல் "
 "கோப்புகளை ஏற்றுகிறது மற்றும் சேமிக்கிறது."
 
-#: data/cartero.appdata.xml.in.in:15
+#: data/es.danirod.Cartero.metainfo.xml.in.in:15
 msgid ""
 "Customization and modification of the request headers and body payloads."
 msgstr "கோரிக்கை தலைப்புகள் மற்றும் உடல் பேலோடுகளின் தனிப்பயனாக்கம் மற்றும் மாற்றம்."
 
-#: data/cartero.appdata.xml.in.in:16
+#: data/es.danirod.Cartero.metainfo.xml.in.in:16
 msgid "Variable binding for API keys and other secret information."
 msgstr "பநிஇ விசைகள் மற்றும் பிற ரகசிய தகவல்களுக்கான மாறுபட்ட பிணைப்பு."
 
-#: data/cartero.appdata.xml.in.in:22
+#: data/es.danirod.Cartero.metainfo.xml.in.in:22
 msgid "Main window of Cartero"
 msgstr "கார்டெரோவின் முதன்மையான சாளரம்"
 
-#: data/cartero.appdata.xml.in.in:26
+#: data/es.danirod.Cartero.metainfo.xml.in.in:26
 msgid "Modifying HTTP headers"
 msgstr "HTTP தலைப்புகளை மாற்றியமைத்தல்"
 
-#: data/cartero.appdata.xml.in.in:30
+#: data/es.danirod.Cartero.metainfo.xml.in.in:30
 msgid "Setting the request payload"
 msgstr "கோரிக்கை பேலோடை அமைத்தல்"
 
@@ -536,8 +536,7 @@ msgstr "வழிமாற்றுகளைப் பின்தொடரவ�
 
 #: data/ui/settings_dialog.blp:106
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
-msgstr ""
-"சேவையகம் ஒரு HTTP 3xx பதிலை வழங்கினால் பின்தொடர்தல் கோரிக்கைகளைச் செய்யுங்கள்"
+msgstr "சேவையகம் ஒரு HTTP 3xx பதிலை வழங்கினால் பின்தொடர்தல் கோரிக்கைகளைச் செய்யுங்கள்"
 
 #: data/ui/settings_dialog.blp:111
 msgid "Maximum redirects"
@@ -602,8 +601,7 @@ msgstr "'{}' மாறி வரையறுக்கப்படவில்ல
 
 #: src/error.rs:79
 msgid "There was a problem with a variable interpolation, review your inputs"
-msgstr ""
-"மாறி இடைக்கணிப்பில் சிக்கல் இருந்தது, உங்கள் உள்ளீடுகளை மதிப்பாய்வு செய்யவும்"
+msgstr "மாறி இடைக்கணிப்பில் சிக்கல் இருந்தது, உங்கள் உள்ளீடுகளை மதிப்பாய்வு செய்யவும்"
 
 #: src/error.rs:104
 msgid "There is a network error"
@@ -721,8 +719,7 @@ msgstr ""
 
 #: src/widgets/dialogs.rs:120
 msgid "Could not select a valid file from the file chooser"
-msgstr ""
-"கோப்பு தேர்வாளரிடமிருந்து செல்லுபடியாகும் கோப்பைத் தேர்ந்தெடுக்க முடியவில்லை"
+msgstr "கோப்பு தேர்வாளரிடமிருந்து செல்லுபடியாகும் கோப்பைத் தேர்ந்தெடுக்க முடியவில்லை"
 
 #: src/widgets/dialogs.rs:134
 msgid "There are unsaved changes"
@@ -782,7 +779,9 @@ msgid "Content copied to the clipboard"
 msgstr "கிளிப்போர்டுக்கு உள்ளடக்கம் நகலெடுக்கப்பட்டது"
 
 #. TRANSLATORS: presented in file dialogs as the file type for a request
-#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:146
+#. The macOS native file dialog will already add the extension for us.
+#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:148
+#: src/widgets/file_dialogs.rs:150
 msgid "Request"
 msgstr "கோரிக்கை"
 
@@ -835,11 +834,11 @@ msgstr "தமிழ்நேரம்"
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 கார்டெரோ ஆசிரியர்கள்"
 
-#: src/win.rs:605
+#: src/win.rs:589
 msgid "User manual"
 msgstr "பயனர் கையேடு"
 
-#: src/win.rs:607
+#: src/win.rs:591
 msgid "Help us translate"
 msgstr "உதவி us மொழிபெயர்த்திடு"
 

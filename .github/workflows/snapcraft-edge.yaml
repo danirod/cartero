@@ -1,14 +1,31 @@
 name: Snapcraft Edge
 on:
-  push:
-    branches:
-      - trunk
-  pull_request:
-    branches:
-      - trunk
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *'
   workflow_dispatch:
 jobs:
+  new-commits:
+    name: Check if there are new commits
+    runs-on: ubuntu-latest
+    outputs:
+      new-commits: ${{ steps.check.outputs.new-commits }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: get new commits
+        id: check
+        run: |
+          if [ -z "$(git rev-list --after="24 hours" HEAD)" ]; then
+            echo "new-commits=false" >> $GITHUB_OUTPUT
+          else
+            echo "new-commits=true" >> $GITHUB_OUTPUT
+          fi
+
   publish:
+    needs: new-commits
+    if: ${{ needs.new-commits.outputs.new-commits == 'true' }}
     strategy:
       matrix:
         platform:

@@ -16,11 +16,11 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 project(
-  'cartero',
-  'rust',
-  version: run_command('build-aux/gen-nightly-version.py', check: true).stdout().strip(),
-  meson_version: '>= 0.64',
-  license: 'GPL-3.0-or-later',
+    'cartero',
+    'rust',
+    version: run_command('build-aux/gen-nightly-version.py', check: true).stdout().strip(),
+    meson_version: '>= 0.64',
+    license: 'GPL-3.0-or-later',
 )
 
 i18n = import('i18n')
@@ -35,10 +35,12 @@ dependency('libadwaita-1', version: '>= 1.5')
 dependency('openssl', version: '>= 1.0')
 
 if host_machine.system() == 'linux'
-  schemas = dependency('gsettings-desktop-schemas', required: false)
-  if not schemas.found()
-    message('gsettings-desktop-schemas is not found: the default monospace font may look odd')
-  endif
+    schemas = dependency('gsettings-desktop-schemas', required: false)
+    if not schemas.found()
+        message(
+            'gsettings-desktop-schemas is not found: the default monospace font may look odd',
+        )
+    endif
 endif
 
 glib_compile_resources = find_program('glib-compile-resources', required: true)
@@ -57,30 +59,36 @@ iconsdir = datadir / 'icons'
 gettext_package = meson.project_name()
 
 if get_option('profile') == 'development'
-  profile = 'Devel'
-  vcs_tag = run_command('git', 'rev-parse', '--short', 'HEAD', check: false).stdout().strip()
-  if vcs_tag == ''
-    version_suffix = '-devel'
-  else
-    version_suffix = '-@0@'.format(vcs_tag)
-  endif
-  application_id = '@0@.@1@'.format(base_id, profile)
+    profile = 'Devel'
+    vcs_tag = run_command('git', 'rev-parse', '--short', 'HEAD', check: false).stdout().strip()
+    if vcs_tag == ''
+        version_suffix = '-devel'
+    else
+        version_suffix = '-@0@'.format(vcs_tag)
+    endif
+    application_id = '@0@.@1@'.format(base_id, profile)
 else
-  profile = ''
-  version_suffix = ''
-  application_id = base_id
+    profile = ''
+    version_suffix = ''
+    application_id = base_id
 endif
 
 meson.add_dist_script(
-  'build-aux/dist-vendor.sh',
-  meson.project_build_root() / 'meson-dist' / meson.project_name() + '-' + version,
-  meson.project_source_root()
+    'build-aux/dist-vendor.sh',
+    meson.project_build_root() / 'meson-dist' / meson.project_name() + '-' + version,
+    meson.project_source_root(),
 )
 
 if get_option('profile') == 'development'
-  # Setup pre-commit hook for ensuring coding style is always consistent
-  message('Setting up git pre-commit hook..')
-  run_command('cp', '-f', 'hooks/pre-commit.hook', '.git/hooks/pre-commit', check: false)
+    # Setup pre-commit hook for ensuring coding style is always consistent
+    message('Setting up git pre-commit hook..')
+    run_command(
+        'cp',
+        '-f',
+        'hooks/pre-commit.hook',
+        '.git/hooks/pre-commit',
+        check: false,
+    )
 endif
 
 subdir('data')
@@ -89,8 +97,8 @@ subdir('po')
 subdir('src')
 
 gnome.post_install(
-  gtk_update_icon_cache: true,
-  glib_compile_schemas: true,
-  update_desktop_database: true,
-  update_mime_database: true,
+    gtk_update_icon_cache: true,
+    glib_compile_schemas: true,
+    update_desktop_database: true,
+    update_mime_database: true,
 )

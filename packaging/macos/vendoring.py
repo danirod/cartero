@@ -18,6 +18,7 @@ import subprocess
 
 from pathlib import Path
 
+
 def panic(msg):
     sys.stderr.write(msg + "\n")
     sys.exit(1)
@@ -36,27 +37,39 @@ def var_lib(env_var):
         panic(f"Directory {path} pointed by {env_var} does not exist")
     return path
 
+
 def shared_library_is_standard(path):
     # These are protected directories in macOS, so if a library is here, it is
     # part of the system, it hasn't been added by a program.
-    return path.startswith('/usr/lib') or path.startswith('/System/Library')
+    return path.startswith("/usr/lib") or path.startswith("/System/Library")
+
 
 def shared_libraries(path):
     args = ["otool", "-L", path]
     output = subprocess.check_output(args).decode("utf-8")
-    otool_lib = r'\t(.*) \(.*\)'
+    otool_lib = r"\t(.*) \(.*\)"
     return re.findall(otool_lib, output)
 
+
 def force_sign_file(path):
-    args = ["codesign", "--sign", "-", "--force", "--preserve-metadata=entitlements,requirements,flags,runtime", path]
+    args = [
+        "codesign",
+        "--sign",
+        "-",
+        "--force",
+        "--preserve-metadata=entitlements,requirements,flags,runtime",
+        path,
+    ]
     subprocess.run(args)
 
+
 def relink_dependency(path, old, new):
-    """ Wraps a call to install_name_tool """
+    """Wraps a call to install_name_tool"""
     args = ["install_name_tool", "-change", old, new, path]
     print("relinking:", args)
     subprocess.run(args)
     force_sign_file(path)
+
 
 # Environment variables for main paths
 destdir = var_lib("DESTDIR")
@@ -73,21 +86,24 @@ datadir = install_dir / "share"
 def gettext_linguas():
     linguas_file = source_dir / "po" / "LINGUAS"
     linguas_data = linguas_file.read_text().splitlines()
-    return [l for l in linguas_data if not l.startswith('#')]
+    return [l for l in linguas_data if not l.startswith("#")]
 
 
 def relocate_and_vendor(path, relative_linker_path_to_lib, rpath=[]):
     print(f"Relocating {path}...")
     relative_linker_path = Path(relative_linker_path_to_lib)
-    third_party_deps = [Path(dep)
-                        for dep in shared_libraries(path)
-                        if not shared_library_is_standard(dep)]
+    third_party_deps = [
+        Path(dep)
+        for dep in shared_libraries(path)
+        if not shared_library_is_standard(dep)
+    ]
     for dep_path in third_party_deps:
         real_dep_path = dep_path
-        if str(dep_path).startswith('@rpath'):
+        if str(dep_path).startswith("@rpath"):
             # Unmangle rpath by looking for the first lib in rpath that exists.
-            rpath_candidates = [Path(str(dep_path).replace('@rpath', str(r))).resolve()
-                                for r in rpath]
+            rpath_candidates = [
+                Path(str(dep_path).replace("@rpath", str(r))).resolve() for r in rpath
+            ]
             dep_path = next((p for p in rpath_candidates if p.exists()))
 
         new_dep_path = relative_linker_path / dep_path.name
@@ -99,7 +115,7 @@ def relocate_and_vendor(path, relative_linker_path_to_lib, rpath=[]):
             if not libdir.exists():
                 libdir.mkdir()
             shutil.copy(dep_path, target_path)
-            relocate_and_vendor(target_path, '@loader_path', rpath)
+            relocate_and_vendor(target_path, "@loader_path", rpath)
 
 
 # Get the application ID from the argv.
@@ -138,7 +154,9 @@ loaders_cache = subprocess.check_output(
         "GDK_PIXBUF_MODULEDIR": pixbuf_moduledir,
     },
 ).decode("utf-8")
-loaders_cache = loaders_cache.replace(str(pixbuf_moduledir) + "/", "@loader_path/gdk-pixbuf-2.0/2.10.0/loaders/")
+loaders_cache = loaders_cache.replace(
+    str(pixbuf_moduledir) + "/", "@loader_path/gdk-pixbuf-2.0/2.10.0/loaders/"
+)
 with open(pixbuf_bindir / "loaders.cache", mode="w") as file:
     file.write(loaders_cache)
 
@@ -180,7 +198,14 @@ for root, _, files in gtk4_schemas_src.walk():
 subprocess.run(["glib-compile-schemas", datadir / "glib-2.0" / "schemas"])
 
 # Vendor additional gettext packages
-packages = ["gdk-pixbuf-2.0", "glib-2.0", "gtk4", "gtksourceview-5", "libadwaita-1", "shared-mime-info"]
+packages = [
+    "gdk-pixbuf-2.0",
+    "glib-2.0",
+    "gtk4",
+    "gtksourceview-5",
+    "libadwaita-1",
+    "shared-mime-info",
+]
 linguas = gettext_linguas()
 for package in packages:
     package_root = pkg_config(package, "prefix")

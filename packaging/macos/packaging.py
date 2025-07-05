@@ -18,9 +18,11 @@ import subprocess
 from argparse import ArgumentParser
 from pathlib import Path
 
+
 def panic(msg):
     sys.stderr.write(msg + "\n")
     sys.exit(1)
+
 
 def var_lib(env_var):
     value = os.environ.get(env_var) or panic(f"{env_var} variable not set")
@@ -29,24 +31,44 @@ def var_lib(env_var):
         panic(f"Directory {path} pointed by {env_var} does not exist")
     return path
 
+
 def sign(identity: str, path: Path):
-    if not identity or identity == '-':
-        args = ["codesign", "--sign", "-", "--force", "--preserve-metadata=entitlements,requirements,flags,runtime", path]
+    if not identity or identity == "-":
+        args = [
+            "codesign",
+            "--sign",
+            "-",
+            "--force",
+            "--preserve-metadata=entitlements,requirements,flags,runtime",
+            path,
+        ]
     else:
-        args = ["codesign", "-v", "-f", "--timestamp", "--options=runtime", "--sign", identity, path]
+        args = [
+            "codesign",
+            "-v",
+            "-f",
+            "--timestamp",
+            "--options=runtime",
+            "--sign",
+            identity,
+            path,
+        ]
     subprocess.run(args)
+
 
 def shared_libraries(path):
     args = ["otool", "-L", path]
     output = subprocess.check_output(args).decode("utf-8")
-    otool_lib = r'\t(.*) \(.*\)'
+    otool_lib = r"\t(.*) \(.*\)"
     return re.findall(otool_lib, output)
 
+
 def relink_dependency(path, old, new):
-    """ Wraps a call to install_name_tool """
+    """Wraps a call to install_name_tool"""
     args = ["install_name_tool", "-change", old, new, path]
     print("relinking:", args)
     subprocess.run(args)
+
 
 # Environment variables for main paths
 destdir = var_lib("DESTDIR")
@@ -56,8 +78,8 @@ root_dir = var_lib("MESON_INSTALL_PREFIX")
 install_dir = var_lib("MESON_INSTALL_DESTDIR_PREFIX")
 template_dir = Path(__file__).parent
 
-parser = ArgumentParser(description='Package an application bundle')
-parser.add_argument('-i', '--identity', help='The digital identity for codesigning')
+parser = ArgumentParser(description="Package an application bundle")
+parser.add_argument("-i", "--identity", help="The digital identity for codesigning")
 args = parser.parse_args()
 
 app = install_dir / "Cartero.app"
@@ -77,7 +99,9 @@ shutil.move(install_dir / "bin" / "cartero", bin_cartero)
 
 # bin/cartero has moved locations, so we have to update the path to the shared libraries.
 # TODO: Can't just switch to rpath to avoid having to do this?
-loader_libs = [dep for dep in shared_libraries(bin_cartero) if dep.startswith("@loader_path")]
+loader_libs = [
+    dep for dep in shared_libraries(bin_cartero) if dep.startswith("@loader_path")
+]
 for lib in loader_libs:
     new_lib = lib.replace("@loader_path/../lib", "@loader_path/../Resources/lib")
     relink_dependency(bin_cartero, lib, new_lib)
@@ -89,7 +113,7 @@ for res_dir in ["lib", "opt", "share"]:
         shutil.move(install_dir / res_dir, app_resources / res_dir)
 
 # Move additional resources
-for icns in ['Cartero.icns', 'Cartero-request.icns']:
+for icns in ["Cartero.icns", "Cartero-request.icns"]:
     shutil.copy(template_dir / icns, app_resources / icns)
 
 # Copy the .plist

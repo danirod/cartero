@@ -32,6 +32,7 @@ jobs:
             name: x86_64
           - runs-on: ubuntu-24.04-arm
             name: aarch64
+      fail-fast: false
     runs-on: ${{ matrix.platform.runs-on }}
     name: "Flake ${{ matrix.platform.name }}"
     steps:

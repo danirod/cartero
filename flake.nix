@@ -54,6 +54,7 @@
             nativeBuildInputs = [
               meson
               ninja
+              python313
               cargo
               rustc
               rustfmt

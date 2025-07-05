@@ -24,7 +24,7 @@ args = parser.parse_args()
 root_dir = Path(__file__).parent.parent
 cargo_file = root_dir / "Cargo.toml"
 cargo_doc = tomllib.loads(cargo_file.read_text())
-cargo_version = cargo_doc["workspace"]["package"]["version"]
+cargo_version = cargo_doc["package"]["version"]
 
 if args.nightly or os.environ.get("CARTERO_NIGHTLY_VERSION"):
     now = datetime.datetime.now(datetime.UTC)

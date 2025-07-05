@@ -32,6 +32,8 @@ jobs:
         run: sudo apt update && sudo apt install -y --no-install-recommends gettext meson libgtk-4-dev libadwaita-1-dev libgtksourceview-5-dev desktop-file-utils xvfb
       - name: clone
         uses: actions/checkout@v4
+      - name: meson-fmt
+        run: meson fmt -q -r . meson_options.txt
       - name: setup
         run: meson setup build
       - name: blueprint

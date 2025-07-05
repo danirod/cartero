@@ -20,6 +20,7 @@ in
     nativeBuildInputs = with pkgs; [
       meson
       ninja
+      python313
       cargo
       rustc
       pkg-config
@@ -36,7 +37,7 @@ in
       gtksourceview5
       pango
       gdk-pixbuf
-      openssl_3_3
+      openssl_3
       graphene
       libadwaita
     ];
@@ -55,6 +56,10 @@ in
         type = "Application";
       })
     ];
+
+    postPatch = ''
+      patchShebangs build-aux/gen-version.py
+    '';
 
     configurePhase = ''
       runHook cargoSetupHook

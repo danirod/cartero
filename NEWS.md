@@ -1,5 +1,15 @@
 # News file for Cartero
 
+## [0.2.3] - 2025-07-05
+
+### Changed
+
+* Translation updates: Catalan, German, Basque, Portuguese (Brazil), Russian
+
+### Fixed
+
+* Exporting a request as cURL did not include the request payload when the type is XML.
+
 ## [0.2.2] - 2025-04-30
 
 ### Changed

@@ -59,7 +59,7 @@ jobs:
       - name: glib-desktop
         run: meson devenv -C build desktop-file-validate data/es.danirod.Cartero.desktop
       - name: glib-appstream
-        run: meson devenv -C build appstreamcli validate data/es.danirod.Cartero.appdata.xml
+        run: meson devenv -C build appstreamcli validate data/es.danirod.Cartero.metainfo.xml
       - name: cargo-fmt
         run: meson devenv -C build cargo fmt --manifest-path=../Cargo.toml --check --all
       - name: cargo-test

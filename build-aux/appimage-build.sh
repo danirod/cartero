@@ -48,9 +48,6 @@ DESTDIR=$PWD/build/appimagetool/AppDir/usr ninja -C build install
 
 cd build/appimagetool
 
-# Apparently AppImage calls this metainfo rather than appinfo
-cp -r AppDir/usr/share/appdata AppDir/usr/share/metainfo
-
 # Prepare icon
 LARGE_ICON_PATH="$ICON_PATH"
 if command -v rsvg-convert 2>&1 >/dev/null; then

@@ -9,7 +9,16 @@ on:
   workflow_dispatch:
 jobs:
   publish:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform:
+          - runs-on: ubuntu-latest
+            name: x86_64
+          - runs-on: ubuntu-24.04-arm
+            name: aarch64
+      fail-fast: false
+    runs-on: ${{ matrix.platform.runs-on }}
+    name: "Edge ${{ matrix.platform.name }}"
     steps:
       - uses: actions/checkout@v4
       - uses: snapcore/action-build@v1

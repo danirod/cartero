@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+
+import datetime
+import os
+
+try:
+    import tomllib
+except ImportError:
+    from pip._vendor import tomli as tomllib
+
+from argparse import ArgumentParser, BooleanOptionalAction
+from pathlib import Path
+
+parser = ArgumentParser(description="Generate the version number")
+parser.add_argument("--nightly", action=BooleanOptionalAction)
+parser.set_defaults(nightly=False)
+args = parser.parse_args()
+
+root_dir = Path(__file__).parent.parent
+cargo_file = root_dir / "Cargo.toml"
+cargo_doc = tomllib.loads(cargo_file.read_text())
+
+cargo_version = cargo_doc["workspace"]["package"]["version"]
+if args.nightly or os.environ.get("CARTERO_NIGHTLY_VERSION"):
+    now = datetime.datetime.now(datetime.UTC)
+    date = now.strftime("%Y%m%d")
+    cargo_version = f"{cargo_version}-nightly.{date}"
+print(cargo_version)

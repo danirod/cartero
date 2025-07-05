@@ -23,82 +23,74 @@ global_conf.set_quoted('PROFILE', profile)
 global_conf.set_quoted('RESOURCE_PATH', '/es/danirod/Cartero/')
 global_conf.set_quoted('VERSION', version + version_suffix)
 configure_file(
-  input: 'config.rs.in',
-  output: 'config.rs',
-  configuration: global_conf
+    input: 'config.rs.in',
+    output: 'config.rs',
+    configuration: global_conf,
 )
 # Copy the config.rs output to the source directory.
 run_command(
-  'cp',
-  meson.project_build_root() / 'src' / 'config.rs',
-  meson.project_source_root() / 'src' / 'config.rs',
-  check: true
+    'cp',
+    meson.project_build_root() / 'src' / 'config.rs',
+    meson.project_source_root() / 'src' / 'config.rs',
+    check: true,
 )
 
-cargo_options = [ '--manifest-path', meson.project_source_root() / 'Cargo.toml' ]
-cargo_options += [ '--target-dir', meson.project_build_root() / 'src' ]
+cargo_options = ['--manifest-path', meson.project_source_root() / 'Cargo.toml']
+cargo_options += ['--target-dir', meson.project_build_root() / 'src']
 
 if get_option('profile') == 'default' or host_machine.system() == 'windows'
-  cargo_options += [ '--release' ]
-  rust_target = 'release'
-  message('Building in release mode')
+    cargo_options += ['--release']
+    rust_target = 'release'
+    message('Building in release mode')
 else
-  rust_target = 'debug'
-  message('Building in debug mode')
+    rust_target = 'debug'
+    message('Building in debug mode')
 endif
 
 cargo_features = []
 
 if get_option('decorations') == 'csd'
-  cargo_features += ['csd']
+    cargo_features += ['csd']
 endif
 
 if get_option('app-updater').enabled()
-  cargo_features += ['app_updater']
+    cargo_features += ['app_updater']
 endif
 
 cargo_options += ['--no-default-features']
 if cargo_features.length() > 0
-  cargo_options += ['--features', ','.join(cargo_features)]
+    cargo_options += ['--features', ','.join(cargo_features)]
 endif
 
 message('Building with the following Cargo features:', ' '.join(cargo_features))
 message('Building with the folllowing Cargo args:', ' '.join(cargo_options))
 
-cargo_env = [ 'CARGO_HOME=' + meson.project_build_root() / 'cargo-home' ]
+cargo_env = ['CARGO_HOME=' + meson.project_build_root() / 'cargo-home']
 
 cartero_bin = meson.project_name()
 if host_machine.system() == 'windows'
-  cartero_bin = '@0@.exe'.format(cartero_bin)
+    cartero_bin = '@0@.exe'.format(cartero_bin)
 endif
 
 cargo_build = custom_target(
-  'cargo-build',
-  build_by_default: true,
-  build_always_stale: true,
-  output: rust_target,
-  console: true,
-  depends: resources,
-  env: cargo_env,
-  command: [
-    cargo, 'build',
-    cargo_options
-  ]
+    'cargo-build',
+    build_by_default: true,
+    build_always_stale: true,
+    output: rust_target,
+    console: true,
+    depends: resources,
+    env: cargo_env,
+    command: [cargo, 'build', cargo_options],
 )
 
 cartero_copy = custom_target(
-  'cartero-copy-binary',
-  depends: cargo_build,
-  build_by_default: true,
-  build_always_stale: true,
-  output: meson.project_name(),
-  console: true,
-  install: true,
-  install_dir: bindir,
-  output: cartero_bin,
-  command: [
-    'cp',
-    'src' / rust_target / cartero_bin,
-    '@OUTPUT@',
-  ]
+    'cartero-copy-binary',
+    depends: cargo_build,
+    build_by_default: true,
+    build_always_stale: true,
+    output: cartero_bin,
+    console: true,
+    install: true,
+    install_dir: bindir,
+    command: ['cp', 'src' / rust_target / cartero_bin, '@OUTPUT@'],
 )

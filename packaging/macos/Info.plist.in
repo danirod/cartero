@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>English</string>
+    <key>CFBundleExecutable</key>
+    <string>cartero</string>
+    <key>CFBundleDocumentTypes</key>
+    <array>
+      <dict>
+        <key>CFBundleTypeExtensions</key>
+        <array>
+          <string>cartero</string>
+        </array>
+        <key>CFBundleTypeIconFile</key>
+        <string>Cartero-request.icns</string>
+        <key>CFBundleTypeMIMETypes</key>
+        <array>
+          <string>application/cartero</string>
+        </array>
+        <key>CFBundleTypeName</key>
+        <string>Cartero request</string>
+        <key>CFBundleTypeRole</key>
+        <string>Editor</string>
+      </dict>
+    </array>
+    <key>CFBundleIconFile</key>
+    <string>Cartero.icns</string>
+    <key>CFBundleIdentifier</key>
+    <string>@BUNDLE_ID@</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleName</key>
+    <string>Cartero</string>
+    <key>CFBundleShortVersionString</key>
+    <string>@APP_VERSION@</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>NSHumanReadableCopyright</key>
+    <string>Copyright © 2024-2025 The Cartero authors</string>
+    <key>CFBundleSignature</key>
+    <string>Cartero</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>11.0</string>
+    <key>LSArchitecturePriority</key>
+    <array>
+        <string>@ARCH@</string>
+    </array>
+  </dict>
+</plist>

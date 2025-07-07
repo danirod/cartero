@@ -24,6 +24,8 @@
   <meta property="twitter:image" content="https://cartero.danirod.es/assets/social/banner-16-9.jpg">
 
   <link rel="stylesheet" href="/assets/cartero.css">
+  <link rel="me" href="https://floss.social/@cartero" /><!-- Main: do not promote in the footer until the account is 14 days old -->
+  <link rel="me" href="https://fosstodon.org/@cartero" /><!-- Legacy: we are leaving this account, but I think keeping the verification is valid for federated servers? -->
 </head>
 
 <body>
@@ -50,9 +52,14 @@
         <h2 id="gnulinux">Download Cartero for GNU/Linux</h2>
 
         <div class="downloads">
-          <a class="adw-button" href="/download/linux/appimage">
+          <a class="adw-button" href="/download/linux/appimage/x86_64">
             <img src="/assets/adwaita-icons/application-x-executable.svg" width="48" height="48" alt="">
-            AppImage (x86-64)
+            AppImage (x86_64)
+          </a>
+
+          <a class="adw-button" href="/download/linux/appimage/aarch64">
+            <img src="/assets/adwaita-icons/application-x-executable.svg" width="48" height="48" alt="">
+            AppImage (aarch64)
           </a>
 
           <a class="adw-button" href="https://flathub.org/apps/es.danirod.Cartero">
@@ -73,26 +80,30 @@
 
         <p>Additional third party packages are <a href="https://repology.org/project/cartero/versions">available in some
             package managers</a>.</p>
-
-        <p>
-          Note: the AppImage version requires glibc 2.36 or newer; if your distro uses an older version (such as RHEL
-          9),
-          you might need to use the Flathub version. ARM64 builds for AppImage coming soon.
-        </p>
       </div>
 
       <div class="platform" data-target="windows">
         <h2 id="windows">Download Cartero for Windows</h2>
 
         <div class="downloads">
-          <a class="adw-button" href="/download/windows/installer">
+          <a class="adw-button" href="/download/windows/installer/x64">
             <img src="/assets/vendor-icons/windows.svg" width="48" height="48" alt="">
             Installer (x64)
           </a>
 
-          <a class="adw-button" href="/download/windows/portable">
+          <a class="adw-button" href="/download/windows/portable/x64">
             <img src="/assets/adwaita-icons/package-x-generic.svg" width="48" height="48" alt="">
             Portable (x64)
+          </a>
+
+          <a class="adw-button" href="/download/windows/installer/arm64">
+            <img src="/assets/vendor-icons/windows.svg" width="48" height="48" alt="">
+            Installer (ARM64)
+          </a>
+
+          <a class="adw-button" href="/download/windows/portable/arm64">
+            <img src="/assets/adwaita-icons/package-x-generic.svg" width="48" height="48" alt="">
+            Portable (ARM64)
           </a>
 
           <a class="adw-button" href="https://scoop.sh/#/apps?q=cartero">
@@ -102,9 +113,10 @@
         </div>
 
         <p>
-          Note: the Windows version requires Windows 10 or newer. If you are still using Windows 7 or Windows 8.1,
-          you may use version 0.1.5. The application is signed with a valid codesign certificate, but because it's
-          not EV, some Windows versions may still show a warning.
+          Note: the Windows x64 version requires Windows 10 or newer. The Windows ARM version requires Windows 11.
+          The application is signed with a valid codesign certificate, but because it's not EV, some Windows
+          versions may still show a warning. If you don't trust the precompiled binaries, you can always build it
+          from sources.
         </p>
       </div>
 

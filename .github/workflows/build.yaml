@@ -24,39 +24,69 @@ on:
       - trunk
 name: Build
 jobs:
-  flatpak:
-    runs-on: ubuntu-latest
-    if: false # disabled until https://github.com/flatpak/flatpak-github-actions/issues/214 is fixed
-    container:
-      image: bilelmoussaoui/flatpak-github-actions:gnome-47
-      options: --privileged
+  flake:
     strategy:
       matrix:
-        arch: [x86_64, aarch64]
+        platform:
+          - runs-on: ubuntu-latest
+            name: x86_64
+          - runs-on: ubuntu-24.04-arm
+            name: aarch64
       fail-fast: false
-    name: "Flatpak (${{ matrix.arch }})"
+    runs-on: ${{ matrix.platform.runs-on }}
+    name: "Flake ${{ matrix.platform.name }}"
     steps:
       - uses: actions/checkout@v4
-      - name: (ARM) Install Docker
-        if: ${{ matrix.arch != 'x86_64' }}
+      - uses: cachix/install-nix-action@v31
+      - run: nix build
+      - run: nix flake check
+  flatpak:
+    strategy:
+      matrix:
+        platform:
+          - runs-on: ubuntu-latest
+            name: x86_64
+          - runs-on: ubuntu-24.04-arm
+            name: aarch64
+      fail-fast: false
+    runs-on: ${{ matrix.platform.runs-on }}
+    container:
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-48
+      options: --privileged
+    name: "Flatpak ${{ matrix.platform.name }}"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate version code
+        id: version-code
         run: |
-          dnf -y install docker
-      - name: (ARM) Set up QEMU
-        if: ${{ matrix.arch != 'x86_64' }}
-        id: qemu
-        uses: docker/setup-qemu-action@v2
-        with:
-          platforms: arm64
+          echo "CARTERO_NIGHTLY_VERSION=1" >> $GITHUB_ENV
+          echo "version=$(build-aux/gen-version.py --nightly)" >> $GITHUB_OUTPUT
+          echo "full-version=$(build-aux/gen-version.py --nightly)-${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
-          bundle: es.danirod.Cartero.Devel.flatpak
+          bundle: Cartero-${{ steps.version-code.outputs.full-version }}-${{ matrix.platform.name }}.flatpak
           manifest-path: build-aux/es.danirod.Cartero.Devel.json
-          cache-key: flatpak-builder-${{ github.sha }}
+          cache-key: flatpak-builder-${{ github.sha }}-${{ matrix.platform.name }}
           build-bundle: true
-          arch: ${{ matrix.arch }}
+          arch: ${{ matrix.platform.name }}
+          upload-artifact: false
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Cartero-${{ steps.version-code.outputs.full-version }}-flatpak-${{ matrix.platform.name }}
+          path: Cartero-*.flatpak
   windows:
-    name: "Windows"
-    runs-on: windows-latest
+    strategy:
+      matrix:
+        platform:
+          - runs-on: windows-latest
+            name: x64
+            msystem: ucrt64
+          - runs-on: windows-11-arm
+            name: arm64
+            msystem: clangarm64
+      fail-fast: false
+    runs-on: ${{ matrix.platform.runs-on }}
+    name: "Windows ${{ matrix.platform.name }}"
     defaults:
       run:
         shell: msys2 {0}
@@ -66,67 +96,105 @@ jobs:
         update: true
         install: >-
           git
-        msystem: ucrt64
+        pacboy: >-
+          blueprint-compiler
+          desktop-file-utils
+          gcc
+          gettext
+          gtk4
+          gtksourceview5
+          jq
+          libadwaita
+          librsvg
+          libxml2
+          meson
+          pkgconf
+          rust
+        msystem: ${{ matrix.platform.msystem }}
     - uses: actions/checkout@v4
+    - name: Generate version code
+      id: version-code
+      run: |
+        echo "CARTERO_NIGHTLY_VERSION=1" >> $GITHUB_ENV
+        echo "version=$(build-aux/gen-version.py --nightly)" >> $GITHUB_OUTPUT
+        echo "full-version=$(build-aux/gen-version.py --nightly)-${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
     - name: Build Windows version
       run: |
-        export PATH=/c/Users/$USER/.cargo/bin:$PATH
-        rustup toolchain install stable-gnu
-        rustup default stable-gnu
-        build-aux/msys-build.sh devel
-    - name: Create Windows installer
-      run: |
-        "C:\Program Files (x86)\Inno Setup 6\iscc.exe" build/win32-installer.iss
+        meson setup build -Dprofile=development -Ddecorations=no-csd -Dwin32-bundle=enabled --prefix=\\
+        DESTDIR=$PWD/build/cartero-win32 ninja -C build install
     - uses: actions/upload-artifact@v4
       name: Upload Windows version
       with:
-        name: es.danirod.Cartero-windows-x86_64
-        path: build/cartero-win32
-    - uses: actions/upload-artifact@v4
-      name: Upload Windows version
-      with:
-        name: es.danirod.Cartero-windows-x86_64-installer
-        path: build/Output/cartero.exe
+        name: cartero-${{ steps.version-code.outputs.full-version }}-windows-${{ matrix.platform.name }}
+        path: |
+          build/cartero-win32/bin
+          build/cartero-win32/lib
+          build/cartero-win32/share
   macos:
     strategy:
       matrix:
-        os: [macos-13, macos-14, macos-15]
+        platform:
+          - runs-on: macos-13
+            name: x64
+          - runs-on: macos-15
+            name: arm64
       fail-fast: false
-    name: "macOS (${{ matrix.os }})"
-    runs-on: ${{ matrix.os }}
+    name: "macOS ${{ matrix.platform.name }}"
+    runs-on: ${{ matrix.platform.runs-on }}
     steps:
     - uses: actions/checkout@v4
     - name: Install dependencies
-      run: brew unlink pkg-config && brew install pkg-config meson gtk4 gtksourceview5 desktop-file-utils pygobject3 libadwaita adwaita-icon-theme gettext shared-mime-info && brew link pkgconf
+      run: brew install meson gtk4 gtksourceview5 desktop-file-utils pygobject3 libadwaita adwaita-icon-theme shared-mime-info create-dmg
     - name: Fix PYTHONPATH for blueprint-compiler
       run: echo "PYTHONPATH=$(brew --prefix)/lib/python3.13/site-packages:$PYTHONPATH" >> $GITHUB_ENV
+    - name: Fix GETTEXT_DIR for macOS
+      run: echo "GETTEXT_DIR=$(brew --prefix)/opt/gettext" >> $GITHUB_ENV
+    - name: Generate version code
+      id: version-code
+      run: |
+        echo "CARTERO_NIGHTLY_VERSION=1" >> $GITHUB_ENV
+        echo "version=$(build-aux/gen-version.py --nightly)" >> $GITHUB_OUTPUT
+        echo "full-version=$(build-aux/gen-version.py --nightly)-${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
     - name: Build macOS version
-      run: build-aux/macos-build.sh devel
-    - name: Build installer
-      run: build-aux/macos-installer.sh
+      run: |
+        meson setup -Dprofile=development -Dmacos-app=enabled --prefix=/ build
+        DESTDIR=$PWD/output ninja -C build install
     - uses: actions/upload-artifact@v4
       name: Upload macOS version
       with:
-        name: es.danirod.Cartero-${{ matrix.os }}-${{ runner.arch }}
-        path: build/Cartero-*.dmg
+        name: Cartero-${{ steps.version-code.outputs.full-version }}-macOS-${{ matrix.platform.name }}
+        path: output/*
   appimage:
-    name: "AppImage (GNU/Linux)"
-    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        platform:
+          - runs-on: ubuntu-latest
+            name: x86_64
+          - runs-on: ubuntu-24.04-arm
+            name: aarch64
+      fail-fast: false
+    runs-on: ${{ matrix.platform.runs-on }}
+    name: "AppImage ${{ matrix.platform.name }}"
     steps:
     - name: Install dependencies
-      run: |
-        sudo apt install --no-install-recommends libfuse2
-        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-        brew install meson gtk4 gtksourceview5 desktop-file-utils pygobject3 libadwaita adwaita-icon-theme gettext shared-mime-info
+      run: sudo apt install --no-install-recommends desktop-file-utils gettext libadwaita-1-dev libfuse2 libgtk-4-bin libgtk-4-dev libgtksourceview-5-dev librsvg2-common meson jq
     - uses: actions/checkout@v4
+    - name: Generate version code
+      id: version-code
+      run: |
+        echo "CARTERO_NIGHTLY_VERSION=1" >> $GITHUB_ENV
+        echo "version=$(build-aux/gen-version.py --nightly)" >> $GITHUB_OUTPUT
+        echo "full-version=$(build-aux/gen-version.py --nightly)-${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
     - name: Build
       run: |
-        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-        export VENDOR_BASE="$(brew --prefix)"
-        export LD_LIBRARY_PATH="$(brew --prefix)/lib"
-        build-aux/appimage-build.sh devel
+        meson setup build -Dappimage=enabled -Dprofile=development --prefix=/usr
+        ninja -C build
+        DESTDIR=$PWD/AppDir ninja -C build install
+        curl -LO https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-$(uname -m).AppImage
+        chmod a+x appimagetool-$(uname -m).AppImage
+        VERSION="${{ steps.version-code.outputs.full-version }}" ./appimagetool-$(uname -m).AppImage AppDir
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
-        name: es.danirod.Cartero.Devel-AppImage
-        path: build/appimagetool/Cartero-x86_64.AppImage
+        name: Cartero-${{ steps.version-code.outputs.full-version }}-appimage-${{ matrix.platform.name }}
+        path: Cartero-*.AppImage

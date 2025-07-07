@@ -18,6 +18,8 @@
 use glib::subclass::prelude::*;
 use glib::{prelude::*, Object};
 
+use crate::RequestMethod;
+
 glib::wrapper! {
     /// The high order class that represents a request.
     ///
@@ -66,6 +68,12 @@ impl Default for Request {
     }
 }
 
+impl Request {
+    pub fn builder(url: &str, method: RequestMethod) -> builder::RequestBuilder {
+        builder::RequestBuilder::new(url, method)
+    }
+}
+
 mod imp {
     use std::cell::RefCell;
 
@@ -108,4 +116,112 @@ mod imp {
 
     #[glib::derived_properties]
     impl ObjectImpl for Request {}
+}
+
+mod builder {
+    use crate::{RequestAuthentication, RequestBody};
+
+    use super::*;
+    use glib::object::ObjectBuilder;
+
+    pub struct RequestBuilder {
+        builder: ObjectBuilder<'static, Request>,
+        authentication: RequestAuthentication,
+        body: RequestBody,
+    }
+
+    impl RequestBuilder {
+        pub fn new(url: &str, method: RequestMethod) -> Self {
+            let builder = glib::Object::builder()
+                .property("url", url)
+                .property("method", method);
+            let authentication = RequestAuthentication::default();
+            let body = RequestBody::default();
+            Self {
+                builder,
+                authentication,
+                body,
+            }
+        }
+
+        pub fn with_auth(mut self, authentication: RequestAuthentication) -> Self {
+            self.authentication = authentication;
+            self
+        }
+
+        pub fn with_body(mut self, body: RequestBody) -> Self {
+            self.body = body;
+            self
+        }
+
+        pub fn build(self) -> Request {
+            let req = self.builder.build();
+            req.authentication()
+                .set_auth_type(self.authentication.auth_type());
+            req.authentication()
+                .set_auth_data(self.authentication.auth_data());
+            req.body().set_body_type(self.body.body_type());
+            req.body().set_body_data(self.body.body_data());
+            req
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::{
+        RequestAuthentication, RequestAuthenticationBearer, RequestAuthenticationType, RequestBody,
+        RequestBodyRaw, RequestBodyRawType, RequestBodyType,
+    };
+
+    use super::*;
+
+    #[test]
+    pub fn test_valid_builder() {
+        let request =
+            Request::builder("https://www.example.com/api/users", RequestMethod::Get).build();
+        assert_eq!(request.url(), "https://www.example.com/api/users");
+        assert_eq!(request.method(), RequestMethod::Get);
+        assert_eq!(
+            request.authentication().auth_type(),
+            RequestAuthenticationType::None
+        );
+        assert!(request.authentication().auth_data().is_none());
+    }
+
+    #[test]
+    pub fn test_builder_can_change_authentication() {
+        let bearer = RequestAuthenticationBearer::builder().token("1234").build();
+        let request = Request::builder("https://www.example.com/api/users", RequestMethod::Get)
+            .with_auth(
+                RequestAuthentication::builder()
+                    .bearer_token(&bearer)
+                    .build(),
+            )
+            .build();
+        assert_eq!(request.url(), "https://www.example.com/api/users");
+        assert_eq!(request.method(), RequestMethod::Get);
+        assert_eq!(
+            request.authentication().auth_type(),
+            RequestAuthenticationType::BearerToken
+        );
+        let bearer = request.authentication().bearer_token().unwrap();
+        assert_eq!(bearer.token(), "1234");
+    }
+
+    #[test]
+    pub fn test_builder_can_change_body() {
+        let body = RequestBodyRaw::builder(RequestBodyRawType::OctetStream)
+            .payload(&glib::Bytes::from(b"hello world"))
+            .build();
+        let request = Request::builder("https://www.example.com/api/users", RequestMethod::Get)
+            .with_body(RequestBody::builder().raw(&body).build())
+            .build();
+        assert_eq!(request.url(), "https://www.example.com/api/users");
+        assert_eq!(request.method(), RequestMethod::Get);
+        assert_eq!(request.body().body_type(), RequestBodyType::Raw);
+        let bearer = request.body().raw().unwrap();
+        assert_eq!(bearer.payload_type(), RequestBodyRawType::OctetStream);
+        assert_eq!(bearer.payload().into_data().as_ref(), b"hello world");
+    }
 }

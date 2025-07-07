@@ -7,3 +7,6 @@ license.workspace = true
 [dependencies]
 glib.workspace = true
 gio.workspace = true
+
+[dev-dependencies]
+ctor = "0.4.2"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-21 01:46+0100\n"
-"PO-Revision-Date: 2025-02-11 11:02+0000\n"
+"POT-Creation-Date: 2025-06-30 00:52+0200\n"
+"PO-Revision-Date: 2025-04-16 11:02+0000\n"
 "Last-Translator: vesp <vesp@post.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/cartero/cartero/cs/"
 ">\n"
@@ -17,13 +17,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.10-dev\n"
+"X-Generator: Weblate 5.11.1-dev\n"
 
-#: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:3
+#: data/es.danirod.Cartero.metainfo.xml.in.in:8 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
 msgstr "Spouštějte HTTP volání a testujte API"
 
-#: data/cartero.appdata.xml.in.in:11
+#: data/es.danirod.Cartero.metainfo.xml.in.in:11
 msgid ""
 "Cartero is a graphical HTTP client that can be used as a developer tool to "
 "test web APIs and perform all kind of HTTP requests to web servers. It is "
@@ -36,11 +36,11 @@ msgstr ""
 "a podporuje množství metod volání, stejně tak i připojení těla požadavku k "
 "podporovanému volání."
 
-#: data/cartero.appdata.xml.in.in:12
+#: data/es.danirod.Cartero.metainfo.xml.in.in:12
 msgid "Features:"
 msgstr "Funkce:"
 
-#: data/cartero.appdata.xml.in.in:14
+#: data/es.danirod.Cartero.metainfo.xml.in.in:14
 msgid ""
 "Loads and saves to plain Git-friendly TOML files, so that you can own your "
 "data."
@@ -48,24 +48,24 @@ msgstr ""
 "Načítá a ukládá do čistých TOML souborů kompatibilních se systémem Git, "
 "takže sami vlastníte svá data."
 
-#: data/cartero.appdata.xml.in.in:15
+#: data/es.danirod.Cartero.metainfo.xml.in.in:15
 msgid ""
 "Customization and modification of the request headers and body payloads."
 msgstr "Přizpůsobení a úprava hlaviček požadavku a těla volání."
 
-#: data/cartero.appdata.xml.in.in:16
+#: data/es.danirod.Cartero.metainfo.xml.in.in:16
 msgid "Variable binding for API keys and other secret information."
 msgstr "Vazba proměnných na API klíče a ostatní důvěrné informace."
 
-#: data/cartero.appdata.xml.in.in:22
+#: data/es.danirod.Cartero.metainfo.xml.in.in:22
 msgid "Main window of Cartero"
 msgstr "Hlavní okno aplikace Cartero"
 
-#: data/cartero.appdata.xml.in.in:26
+#: data/es.danirod.Cartero.metainfo.xml.in.in:26
 msgid "Modifying HTTP headers"
 msgstr "Úprava HTTP hlaviček"
 
-#: data/cartero.appdata.xml.in.in:30
+#: data/es.danirod.Cartero.metainfo.xml.in.in:30
 msgid "Setting the request payload"
 msgstr "Nastavení volání požadavku"
 
@@ -79,83 +79,88 @@ msgid "Gnome;GTK;HTTP;REST;"
 msgstr "Gnome;GTK;HTTP;REST;"
 
 #: data/es.danirod.Cartero.gschema.xml:12
+msgid ""
+"A specific locale to use within the application instead of the system default"
+msgstr ""
+
+#: data/es.danirod.Cartero.gschema.xml:16
 msgid "Automatically indent new lines for the request body"
 msgstr "Automaticky odsazovat nové řádky v těle požadavku"
 
-#: data/es.danirod.Cartero.gschema.xml:16
+#: data/es.danirod.Cartero.gschema.xml:20
 msgid "Wrap the body content"
 msgstr "Zalamovat obsah těla"
 
-#: data/es.danirod.Cartero.gschema.xml:20
+#: data/es.danirod.Cartero.gschema.xml:24
 msgid "Whether to indent the request body with spaces or tabs"
 msgstr "Zda se má tělo požadavku odsadit mezerami nebo tabulátory"
 
-#: data/es.danirod.Cartero.gschema.xml:24
+#: data/es.danirod.Cartero.gschema.xml:28
 msgid "Show line numbers in the request and response bodies"
 msgstr "Zobrazit čísla řádků v požadavku a těle odpovědi"
 
-#: data/es.danirod.Cartero.gschema.xml:28
+#: data/es.danirod.Cartero.gschema.xml:32
 msgid "How many characters to pad when indenting the request body"
 msgstr "Kolik použít znaků při odsazení těla požadavku"
 
-#: data/es.danirod.Cartero.gschema.xml:32
+#: data/es.danirod.Cartero.gschema.xml:36
 msgid "How large should new windows be"
 msgstr "Jak má být široké nové okno"
 
-#: data/es.danirod.Cartero.gschema.xml:36
+#: data/es.danirod.Cartero.gschema.xml:40
 msgid "How tall should new windows be"
 msgstr "Jak má být vysoké nové okno"
 
-#: data/es.danirod.Cartero.gschema.xml:40
+#: data/es.danirod.Cartero.gschema.xml:44
 msgid "Whether the application should open maximized"
 msgstr "Zda má být aplikace otevřena maximalizovaně"
 
-#: data/es.danirod.Cartero.gschema.xml:44
+#: data/es.danirod.Cartero.gschema.xml:48
 msgid "The position of the split between two windows"
 msgstr "Pozice rozdělení dvou oken"
 
-#: data/es.danirod.Cartero.gschema.xml:48
+#: data/es.danirod.Cartero.gschema.xml:52
 msgid "The current list of opened files"
 msgstr "Aktuální seznam otevřených souborů"
 
-#: data/es.danirod.Cartero.gschema.xml:52
+#: data/es.danirod.Cartero.gschema.xml:56
 msgid "The last location where a file was opened"
 msgstr "Umístění posledně otevřeného souboru"
 
-#: data/es.danirod.Cartero.gschema.xml:56
+#: data/es.danirod.Cartero.gschema.xml:60
 msgid "The last location where a file was saved"
 msgstr "Umístění posledně uloženého souboru"
 
-#: data/es.danirod.Cartero.gschema.xml:60
+#: data/es.danirod.Cartero.gschema.xml:64
 msgid "Whether to validate the TLS certificates during a request"
 msgstr "Zda mají být během požadavku ověřovány TLS certifikáty"
 
-#: data/es.danirod.Cartero.gschema.xml:64
+#: data/es.danirod.Cartero.gschema.xml:68
 msgid "Whether to follow redirections if that is the server response"
 msgstr ""
 "Zda mají být následována přesměrování, pokud jsou obsažena v odpovědi serveru"
 
-#: data/es.danirod.Cartero.gschema.xml:68
+#: data/es.danirod.Cartero.gschema.xml:72
 msgid "Maximum number of redirections to follow before giving up"
 msgstr "Maximální počet následovaných přesměrování"
 
-#: data/es.danirod.Cartero.gschema.xml:72
+#: data/es.danirod.Cartero.gschema.xml:76
 msgid "Maximum timeout when awaiting for an HTTP response."
 msgstr "Časový limit čekání na HTTP odpověď."
 
-#: data/es.danirod.Cartero.gschema.xml:76
+#: data/es.danirod.Cartero.gschema.xml:80
 msgid "Whether to use light or dark mode."
 msgstr "Zda použít světlý nebo tmavý režim."
 
-#: data/es.danirod.Cartero.gschema.xml:80
+#: data/es.danirod.Cartero.gschema.xml:84
 msgid "The custom font in use"
 msgstr "Používané vlastní písmo"
 
-#: data/es.danirod.Cartero.gschema.xml:84
+#: data/es.danirod.Cartero.gschema.xml:88
 msgid "Whether to use the system font or a custom one"
 msgstr "Zda použít systémové nebo vlastní písmo"
 
-#: data/es.danirod.Cartero.gschema.xml:88
+#: data/es.danirod.Cartero.gschema.xml:92
 msgid "Whether to create backup files on save"
 msgstr "Zda při ukládání vytvářet zálohy souborů"
 
@@ -172,7 +177,7 @@ msgstr "Zobrazit klávesové zkratky"
 #: data/gtk/help_overlay.blp:33
 msgctxt "shortcuts window"
 msgid "Quit"
-msgstr "Zavřít"
+msgstr "Ukončit"
 
 #: data/gtk/help_overlay.blp:39
 msgctxt "shortcuts window"
@@ -216,19 +221,19 @@ msgstr "Odeslat požadavek"
 
 #: data/ui/authorization_pane.blp:29
 msgid "Authorization method"
-msgstr ""
+msgstr "Způsob autorizace"
 
 #: data/ui/authorization_pane.blp:55
 msgid "Username"
-msgstr ""
+msgstr "Uživatelské jméno"
 
 #: data/ui/authorization_pane.blp:60
 msgid "Password"
-msgstr ""
+msgstr "Heslo"
 
 #: data/ui/authorization_pane.blp:76
 msgid "Token"
-msgstr ""
+msgstr "Token"
 
 #: data/ui/authorization_pane.blp:87 data/ui/export_tab.blp:69
 #: data/ui/payload_tab.blp:87
@@ -237,11 +242,11 @@ msgstr "(nic)"
 
 #: data/ui/authorization_pane.blp:88
 msgid "Basic auth"
-msgstr ""
+msgstr "Basic auth"
 
 #: data/ui/authorization_pane.blp:89
 msgid "Bearer token"
-msgstr ""
+msgstr "Bearer token"
 
 #: data/ui/code_export_pane.blp:59
 msgid "Copy"
@@ -252,9 +257,8 @@ msgid "Request URL"
 msgstr "URL požadavku"
 
 #: data/ui/endpoint_pane.blp:81
-#, fuzzy
 msgid "Cancel request"
-msgstr "Uložit požadavek"
+msgstr "Zrušit požadavek"
 
 #: data/ui/endpoint_pane.blp:90
 msgid "Send"
@@ -278,7 +282,7 @@ msgstr "Proměnné"
 
 #: data/ui/endpoint_pane.blp:194
 msgid "Authorization"
-msgstr ""
+msgstr "Autorizace"
 
 #: data/ui/endpoint_pane.blp:217 data/ui/response_panel.blp:52
 msgid "Body"
@@ -425,15 +429,15 @@ msgstr "Typ těla"
 
 #: data/ui/payload_tab.blp:88
 msgid "URL Encoded"
-msgstr ""
+msgstr "URL Encoded"
 
 #: data/ui/payload_tab.blp:89
 msgid "Multipart Form Data"
-msgstr ""
+msgstr "Multipart Form Data"
 
 #: data/ui/payload_tab.blp:92
 msgid "Raw"
-msgstr ""
+msgstr "Raw"
 
 #: data/ui/response_panel.blp:28
 msgid "Ready to request"
@@ -466,42 +470,50 @@ msgid "Application"
 msgstr "Aplikace"
 
 #: data/ui/settings_dialog.blp:30
+msgid "You need to restart the program for the new locale to be used."
+msgstr ""
+
+#: data/ui/settings_dialog.blp:39
+msgid "Language"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:45
 msgid "Appearance"
 msgstr "Vzhled"
 
-#: data/ui/settings_dialog.blp:33
+#: data/ui/settings_dialog.blp:48
 msgid "Application style"
 msgstr "Styl vzhledu"
 
-#: data/ui/settings_dialog.blp:37
+#: data/ui/settings_dialog.blp:52
 msgid "Follow system settings"
 msgstr "Podle systému"
 
-#: data/ui/settings_dialog.blp:38
+#: data/ui/settings_dialog.blp:53
 msgid "Light mode"
 msgstr "Světlé téma"
 
-#: data/ui/settings_dialog.blp:39
+#: data/ui/settings_dialog.blp:54
 msgid "Dark mode"
 msgstr "Tmavé téma"
 
-#: data/ui/settings_dialog.blp:45
+#: data/ui/settings_dialog.blp:60
 msgid "Use system font"
 msgstr "Použít systémové písmo"
 
-#: data/ui/settings_dialog.blp:49
+#: data/ui/settings_dialog.blp:64
 msgid "Custom font"
 msgstr "Vlastní písmo"
 
-#: data/ui/settings_dialog.blp:64
+#: data/ui/settings_dialog.blp:79
 msgid "File settings"
 msgstr "Volby souborů"
 
-#: data/ui/settings_dialog.blp:67
+#: data/ui/settings_dialog.blp:82
 msgid "Create backup files"
 msgstr "Vytvářet záložní soubory"
 
-#: data/ui/settings_dialog.blp:68
+#: data/ui/settings_dialog.blp:83
 msgid ""
 "You might not want to enable this if you are already using a version control "
 "such as Git"
@@ -509,125 +521,126 @@ msgstr ""
 "Tuto volbu možná nebudete chtít povolit, pokud již používáte správu verzí, "
 "jako je Git"
 
-#: data/ui/settings_dialog.blp:74
+#: data/ui/settings_dialog.blp:89
 msgid "Software updates"
-msgstr ""
+msgstr "Aktualizace softwaru"
 
-#: data/ui/settings_dialog.blp:81
+#: data/ui/settings_dialog.blp:96
 msgid "Current version"
-msgstr ""
+msgstr "Aktuální verze"
 
-#: data/ui/settings_dialog.blp:85
+#: data/ui/settings_dialog.blp:100
 msgid "Check for updates"
-msgstr ""
+msgstr "Vyhledat aktualizace"
 
-#: data/ui/settings_dialog.blp:93 data/ui/settings_dialog.blp:97
+#: data/ui/settings_dialog.blp:108 data/ui/settings_dialog.blp:112
 msgid "HTTP Client"
 msgstr "HTTP klient"
 
-#: data/ui/settings_dialog.blp:100
+#: data/ui/settings_dialog.blp:115
 msgid "Enforce TLS validation"
 msgstr "Vynutit ověření TLS"
 
-#: data/ui/settings_dialog.blp:101
+#: data/ui/settings_dialog.blp:116
 msgid "Cancel a request if the TLS handshake fails"
-msgstr ""
+msgstr "Zrušit požadavek, pokud selže TLS handshake"
 
-#: data/ui/settings_dialog.blp:105
+#: data/ui/settings_dialog.blp:120
 msgid "Follow redirects"
 msgstr "Následovat přesměrování"
 
-#: data/ui/settings_dialog.blp:106
+#: data/ui/settings_dialog.blp:121
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
 msgstr ""
+"Provést následné požadavky, pokud server vrátí odpověď s kódem HTTP 3xx"
 
-#: data/ui/settings_dialog.blp:111
+#: data/ui/settings_dialog.blp:126
 msgid "Maximum redirects"
 msgstr "Maximální počet přesměrování"
 
-#: data/ui/settings_dialog.blp:123
+#: data/ui/settings_dialog.blp:138
 msgid "Request timeout"
 msgstr "Časový limit požadavku"
 
-#: data/ui/settings_dialog.blp:124
+#: data/ui/settings_dialog.blp:139
 msgid "Seconds to wait before cancelling the request"
-msgstr ""
+msgstr "Počet sekund, jak dlouho čekat před ukončením požadavku"
 
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
 #: src/entities/response_data.rs:68
 #, rust-format
 msgid "{} s"
-msgstr ""
+msgstr "{} s"
 
 #. Format as milliseconds.
 #. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
 #: src/entities/response_data.rs:72
 #, rust-format
 msgid "{} ms"
-msgstr ""
+msgstr "{} ms"
 
 #: src/error.rs:32
 msgid "The specified URL is not valid"
-msgstr ""
+msgstr "Zadaná URL není platná"
 
 #: src/error.rs:34
 #, rust-format
 msgid "The header '{}' is not valid"
-msgstr ""
+msgstr "Hlavička '{}' není platná"
 
 #: src/error.rs:37
 #, rust-format
 msgid "The value for header '{}' is not valid"
-msgstr ""
+msgstr "Hodnota hlavičky '{}' není platná"
 
 #: src/error.rs:40 src/error.rs:74
 msgid "The given request body could not be encoded correctly"
-msgstr ""
+msgstr "Zadané tělo požadavku nebylo možné správně zakódovat"
 
 #: src/error.rs:69
 msgid "Cannot recognise the URL"
-msgstr ""
+msgstr "Nelze rozpoznat URL adresu"
 
 #: src/error.rs:70
 msgid "The given URL is missing a protocol"
-msgstr ""
+msgstr "V zadané URL adrese chybí protokol"
 
 #: src/error.rs:72
 #, rust-format
 msgid "The protocol {}:// is not supported"
-msgstr ""
+msgstr "Protokol {}:// není podporován"
 
 #: src/error.rs:76
 #, rust-format
 msgid "The variable '{}' is not defined"
-msgstr ""
+msgstr "Proměnná '{}' není definována"
 
 #: src/error.rs:79
 msgid "There was a problem with a variable interpolation, review your inputs"
-msgstr ""
+msgstr "Nastal problém s interpolací proměnných, zkontrolujte vstupy"
 
 #: src/error.rs:104
 msgid "There is a network error"
-msgstr ""
+msgstr "Nastal problém se sítí"
 
 #: src/error.rs:105
 msgid "There is an input/output error"
-msgstr ""
+msgstr "Došlo k chybě vstupu/výstupu"
 
 #: src/error.rs:131 src/error.rs:155
-#, fuzzy
 msgid "The current tab is not associated with a file"
-msgstr "Aktuální seznam otevřených souborů"
+msgstr "Aktuální karta není přidružena k souboru"
 
 #: src/error.rs:133
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
+"Tento soubor byl vytvořen s novější verzí aplikace, prosím aktualizujte!"
 
 #: src/error.rs:137
 msgid "The file is corrupt or does not contain valid data for this application"
-msgstr ""
+msgstr "Soubor je poškozen nebo neobsahuje data platná pro tuto aplikaci"
 
 #: src/file.rs:411
 #, rust-format
@@ -638,23 +651,25 @@ msgstr ""
 
 #: src/updates/ui.rs:33
 msgid "Error checking updates"
-msgstr ""
+msgstr "Chyba při kontrole aktualizací"
 
 #: src/updates/ui.rs:35
 msgid "Couldn't receive a valid response from the server. Please, check later."
 msgstr ""
+"Ze serveru se nepodařilo se získat platnou odpověď. Prosím, zkuste to "
+"později."
 
 #: src/updates/ui.rs:38 src/updates/ui.rs:48
 msgid "Accept"
-msgstr ""
+msgstr "Přijmout"
 
 #: src/updates/ui.rs:45
 msgid "No updates at the moment"
-msgstr ""
+msgstr "Nyní nejsou žádné aktualizace"
 
 #: src/updates/ui.rs:46
 msgid "You are running the latest version of Cartero."
-msgstr ""
+msgstr "Používáte nejnovější verzi aplikace Cartero."
 
 #: src/updates/ui.rs:57
 #, rust-format
@@ -662,87 +677,89 @@ msgid ""
 "Version {} has been released. Do you want to visit the website to download "
 "the update now?"
 msgstr ""
+"Byla vydána verze {}. Chcete navštívit webovou stránku pro stažení "
+"aktualizace?"
 
 #: src/updates/ui.rs:59
 msgid "There is a new version of Cartero!"
-msgstr ""
+msgstr "Je k dispozici nová verze aplikace Cartero!"
 
 #: src/updates/ui.rs:63
-#, fuzzy
 msgid "_Open website"
-msgstr "Otevřít požadavek"
+msgstr "_Otevřít webovou stránku"
 
 #: src/updates/ui.rs:64
 msgid "_Not now"
-msgstr ""
+msgstr "_Nyní ne"
 
 #: src/widgets/dialogs.rs:48
 #, rust-format
 msgid "Cannot open '{}'"
-msgstr ""
+msgstr "Nelze otevřít '{}'"
 
 #: src/widgets/dialogs.rs:49
 msgid "Cannot open the requested file"
-msgstr ""
+msgstr "Nelze otevřít požadovaný soubor"
 
 #: src/widgets/dialogs.rs:58 src/widgets/dialogs.rs:89
 #: src/widgets/dialogs.rs:112 src/widgets/dialogs.rs:125
-#, fuzzy
 msgid "Close"
-msgstr "Zavřít panel"
+msgstr "Zavřít"
 
 #: src/widgets/dialogs.rs:72
 #, rust-format
 msgid "The file '{}' was loaded but had issues"
-msgstr ""
+msgstr "Soubor '{}' byl načten, ale vyskytly se s ním problémy"
 
 #: src/widgets/dialogs.rs:73
 msgid "The requested file was loaded but had issues"
-msgstr ""
+msgstr "Požadovaný soubor byl načten, ale vyskytly se s ním problémy"
 
 #: src/widgets/dialogs.rs:103
 #, rust-format
 msgid "Cannot save '{}'"
-msgstr ""
+msgstr "Nelze uložit '{}'"
 
 #: src/widgets/dialogs.rs:104
 msgid "Cannot save the requested file"
-msgstr ""
+msgstr "Nelze uložit požadovaný soubor"
 
 #: src/widgets/dialogs.rs:106
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
 msgstr ""
+"Během procesu ukládání došlo k chybě. Je možné, že vaše změny stále nejsou "
+"uloženy."
 
 #: src/widgets/dialogs.rs:120
 msgid "Could not select a valid file from the file chooser"
-msgstr ""
+msgstr "Nelze vybrat platný soubor z nástroje pro výběr souborů"
 
 #: src/widgets/dialogs.rs:134
 msgid "There are unsaved changes"
-msgstr ""
+msgstr "Existují neuložené změny"
 
 #: src/widgets/dialogs.rs:136
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
 msgstr ""
+"Zavřením tohoto okna budou ztracena všechna neuložená data. Opravdu chcete "
+"pokračovat?"
 
 #: src/widgets/dialogs.rs:140
-#, fuzzy
 msgid "Cancel"
-msgstr "_Zrušit"
+msgstr "Zrušit"
 
 #: src/widgets/dialogs.rs:141
-#, fuzzy
 msgid "Close anyway"
-msgstr "Zavřít panel"
+msgstr "Opravdu zavřít"
 
 #: src/widgets/dialogs.rs:164
-#, fuzzy, rust-format
+#, rust-format
 msgid "Save changes in '{}'?"
-msgstr "Uložit změny?"
+msgstr "Uložit změny v '{}'?"
 
 #: src/widgets/dialogs.rs:165
 msgid "Save changes?"
@@ -766,19 +783,20 @@ msgstr "_Uložit"
 
 #: src/widgets/error_pane.rs:91 src/widgets/error_pane.rs:105
 msgid "The request data is not valid"
-msgstr ""
+msgstr "Data požadavku nejsou platná"
 
 #: src/widgets/error_pane.rs:98
-#, fuzzy
 msgid "The request failed"
-msgstr "Spouštějte HTTP volání a testujte API"
+msgstr "Požadavek se nezdařil"
 
 #: src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"
 msgstr "Obsah zkopírován do schránky"
 
 #. TRANSLATORS: presented in file dialogs as the file type for a request
-#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:146
+#. The macOS native file dialog will already add the extension for us.
+#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:148
+#: src/widgets/file_dialogs.rs:150
 msgid "Request"
 msgstr "Požadavek"
 
@@ -791,6 +809,8 @@ msgid ""
 "The value for this field will not be used because another field with the "
 "same name is overriding it."
 msgstr ""
+"Hodnota pro toto pole nebude použita, protože ji přepisuje jiné pole se "
+"stejným názvem."
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
@@ -830,13 +850,17 @@ msgstr "vesp"
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 autoři aplikace Cartero"
 
-#: src/win.rs:605
+#: src/win.rs:617
 msgid "User manual"
-msgstr ""
+msgstr "Uživatelská příručka"
 
-#: src/win.rs:607
+#: src/win.rs:619
 msgid "Help us translate"
-msgstr ""
+msgstr "Pomozte nám s překladem"
+
+#, fuzzy
+#~ msgid "Restart the application to use the new language"
+#~ msgstr "Zda má být aplikace otevřena maximalizovaně"
 
 #~ msgid "Request (.cartero)"
 #~ msgstr "Požadavek (.cartero)"

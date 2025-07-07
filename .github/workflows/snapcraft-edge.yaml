@@ -1,0 +1,48 @@
+name: Snapcraft Edge
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *'
+
+jobs:
+  new-commits:
+    name: Check if there are new commits
+    runs-on: ubuntu-latest
+    outputs:
+      new-commits: ${{ steps.check.outputs.new-commits }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: get new commits
+        id: check
+        run: |
+          if [ -z "$(git rev-list --after="24 hours" HEAD)" ]; then
+            echo "new-commits=false" >> $GITHUB_OUTPUT
+          else
+            echo "new-commits=true" >> $GITHUB_OUTPUT
+          fi
+  publish:
+    needs: new-commits
+    if: ${{ needs.new-commits.outputs.new-commits == 'true' }}
+    strategy:
+      matrix:
+        platform:
+          - runs-on: ubuntu-latest
+            name: x86_64
+          - runs-on: ubuntu-24.04-arm
+            name: aarch64
+      fail-fast: false
+    runs-on: ${{ matrix.platform.runs-on }}
+    name: "Edge ${{ matrix.platform.name }}"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: snapcore/action-build@v1
+        id: build-snap
+      - uses: snapcore/action-publish@v1
+        env:
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_LOGIN }}
+        with:
+          snap: ${{ steps.build-snap.outputs.snap }}
+          release: edge

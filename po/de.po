@@ -7,611 +7,651 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-03-21 01:46+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"POT-Creation-Date: 2025-06-30 00:52+0200\n"
+"PO-Revision-Date: 2025-05-17 00:02+0000\n"
+"Last-Translator: Juan Manuel Nani <jn4625070@gmail.com>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/cartero/cartero/"
+"de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.12-dev\n"
 
-#: data/cartero.appdata.xml.in.in:8 data/cartero.desktop.in.in:3
+#: data/es.danirod.Cartero.metainfo.xml.in.in:8 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
-msgstr ""
+msgstr "HTTP-Anfragen stellen und APIs testen"
 
-#: data/cartero.appdata.xml.in.in:11
+#: data/es.danirod.Cartero.metainfo.xml.in.in:11
 msgid ""
 "Cartero is a graphical HTTP client that can be used as a developer tool to "
 "test web APIs and perform all kind of HTTP requests to web servers. It is "
 "compatible with any REST, SOAP or XML-RPC API and it supports multiple "
 "request methods as well as attaching body payloads to compatible requests."
 msgstr ""
+"Cartero ist ein grafischer HTTP-Client, der als Entwicklerwerkzeug zum "
+"Testen von Web-APIs und zur Durchführung aller Arten von HTTP-Anfragen an "
+"Webserver verwendet werden kann. Cartero ist mit jeder REST-, SOAP- oder XML-"
+"RPC-API kompatibel und unterstützt mehrere Anfragemethoden sowie das "
+"Anhängen von Body-Payloads an kompatible Anfragen."
 
-#: data/cartero.appdata.xml.in.in:12
+#: data/es.danirod.Cartero.metainfo.xml.in.in:12
 msgid "Features:"
-msgstr ""
+msgstr "Besonderheiten:"
 
-#: data/cartero.appdata.xml.in.in:14
+#: data/es.danirod.Cartero.metainfo.xml.in.in:14
 msgid ""
 "Loads and saves to plain Git-friendly TOML files, so that you can own your "
 "data."
 msgstr ""
+"Lädt und speichert in einfachen Git-freundlichen TOML-Dateien, so dass Sie "
+"Ihre Daten selbst verwalten können."
 
-#: data/cartero.appdata.xml.in.in:15
+#: data/es.danirod.Cartero.metainfo.xml.in.in:15
 msgid ""
 "Customization and modification of the request headers and body payloads."
-msgstr ""
+msgstr "Anpassung und Änderung der Anfragekopfzeilen und Body-Payloads."
 
-#: data/cartero.appdata.xml.in.in:16
+#: data/es.danirod.Cartero.metainfo.xml.in.in:16
 msgid "Variable binding for API keys and other secret information."
 msgstr ""
+"Unterstütztung von Variablen für API-Schlüssel und andere geheime "
+"Informationen."
 
-#: data/cartero.appdata.xml.in.in:22
+#: data/es.danirod.Cartero.metainfo.xml.in.in:22
 msgid "Main window of Cartero"
-msgstr ""
+msgstr "Hauptfenster von Cartero"
 
-#: data/cartero.appdata.xml.in.in:26
+#: data/es.danirod.Cartero.metainfo.xml.in.in:26
 msgid "Modifying HTTP headers"
-msgstr ""
+msgstr "Ändern von HTTP-Kopfzeilen"
 
-#: data/cartero.appdata.xml.in.in:30
+#: data/es.danirod.Cartero.metainfo.xml.in.in:30
 msgid "Setting the request payload"
-msgstr ""
+msgstr "Festlegen der Anfragenutzlast"
 
 #: data/cartero.desktop.in.in:2
 msgid "Cartero"
-msgstr ""
+msgstr "Cartero"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/cartero.desktop.in.in:10
 msgid "Gnome;GTK;HTTP;REST;"
-msgstr ""
+msgstr "Gnome;GTK;HTTP;REST;"
 
 #: data/es.danirod.Cartero.gschema.xml:12
-msgid "Automatically indent new lines for the request body"
+msgid ""
+"A specific locale to use within the application instead of the system default"
 msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:16
-msgid "Wrap the body content"
-msgstr ""
+msgid "Automatically indent new lines for the request body"
+msgstr "Neue Zeilen für den Anfragekörper automatisch einrücken"
 
 #: data/es.danirod.Cartero.gschema.xml:20
-msgid "Whether to indent the request body with spaces or tabs"
-msgstr ""
+msgid "Wrap the body content"
+msgstr "Den Body-Inhalt umschließen"
 
 #: data/es.danirod.Cartero.gschema.xml:24
-msgid "Show line numbers in the request and response bodies"
-msgstr ""
+msgid "Whether to indent the request body with spaces or tabs"
+msgstr "Ob der Anfragetext mit Leerzeichen oder Tabs eingerückt werden soll"
 
 #: data/es.danirod.Cartero.gschema.xml:28
-msgid "How many characters to pad when indenting the request body"
-msgstr ""
+msgid "Show line numbers in the request and response bodies"
+msgstr "Zeilennummern im Anfrage- und Antworttext anzeigen"
 
 #: data/es.danirod.Cartero.gschema.xml:32
-msgid "How large should new windows be"
+msgid "How many characters to pad when indenting the request body"
 msgstr ""
+"Wie viele Zeichen beim Einrücken des Anfragekörpers aufgefüllt werden sollen"
 
 #: data/es.danirod.Cartero.gschema.xml:36
-msgid "How tall should new windows be"
-msgstr ""
+msgid "How large should new windows be"
+msgstr "Wie groß sollten neue Fenster sein"
 
 #: data/es.danirod.Cartero.gschema.xml:40
-msgid "Whether the application should open maximized"
-msgstr ""
+msgid "How tall should new windows be"
+msgstr "Wie hoch sollten neue Fenster sein"
 
 #: data/es.danirod.Cartero.gschema.xml:44
-msgid "The position of the split between two windows"
-msgstr ""
+msgid "Whether the application should open maximized"
+msgstr "Ob die Anwendung maximiert geöffnet werden soll"
 
 #: data/es.danirod.Cartero.gschema.xml:48
-msgid "The current list of opened files"
-msgstr ""
+msgid "The position of the split between two windows"
+msgstr "Die Position der Teilung zwischen zwei Fenstern"
 
 #: data/es.danirod.Cartero.gschema.xml:52
-msgid "The last location where a file was opened"
-msgstr ""
+msgid "The current list of opened files"
+msgstr "Die aktuelle Liste der geöffneten Dateien"
 
 #: data/es.danirod.Cartero.gschema.xml:56
-msgid "The last location where a file was saved"
-msgstr ""
+msgid "The last location where a file was opened"
+msgstr "Der letzte Ort, an dem eine Datei geöffnet wurde"
 
 #: data/es.danirod.Cartero.gschema.xml:60
-msgid "Whether to validate the TLS certificates during a request"
-msgstr ""
+msgid "The last location where a file was saved"
+msgstr "Der letzte Ort, an dem eine Datei gespeichert wurde"
 
 #: data/es.danirod.Cartero.gschema.xml:64
-msgid "Whether to follow redirections if that is the server response"
-msgstr ""
+msgid "Whether to validate the TLS certificates during a request"
+msgstr "ob die TLS-Zertifikate während einer Anfrage validiert werden sollen"
 
 #: data/es.danirod.Cartero.gschema.xml:68
-msgid "Maximum number of redirections to follow before giving up"
+msgid "Whether to follow redirections if that is the server response"
 msgstr ""
+"ob Umleitungen befolgt werden sollen, wenn dies die Antwort des Servers ist"
 
 #: data/es.danirod.Cartero.gschema.xml:72
-msgid "Maximum timeout when awaiting for an HTTP response."
-msgstr ""
+msgid "Maximum number of redirections to follow before giving up"
+msgstr "Maximale Anzahl von Umleitungen, die zu folgen sind, bevor man aufgibt"
 
 #: data/es.danirod.Cartero.gschema.xml:76
-msgid "Whether to use light or dark mode."
-msgstr ""
+msgid "Maximum timeout when awaiting for an HTTP response."
+msgstr "Maximale Zeitüberschreitung beim Warten auf eine HTTP-Antwort."
 
 #: data/es.danirod.Cartero.gschema.xml:80
-msgid "The custom font in use"
-msgstr ""
+msgid "Whether to use light or dark mode."
+msgstr "Ob der helle oder dunkle Modus verwendet werden soll."
 
 #: data/es.danirod.Cartero.gschema.xml:84
-msgid "Whether to use the system font or a custom one"
-msgstr ""
+msgid "The custom font in use"
+msgstr "Die verwendete benutzerdefinierte Schriftart"
 
 #: data/es.danirod.Cartero.gschema.xml:88
-msgid "Whether to create backup files on save"
+msgid "Whether to use the system font or a custom one"
 msgstr ""
+"Ob die Systemschriftart oder eine eigene Schriftart verwendet werden soll"
+
+#: data/es.danirod.Cartero.gschema.xml:92
+msgid "Whether to create backup files on save"
+msgstr "Ob Sicherungsdateien beim Speichern erstellt werden sollen"
 
 #: data/gtk/help_overlay.blp:25
 msgctxt "shortcuts window"
 msgid "General shortcuts"
-msgstr ""
+msgstr "Allgemeine Tastenkürzel"
 
 #: data/gtk/help_overlay.blp:28
 msgctxt "shortcuts window"
 msgid "Show Keyboard Shortcuts"
-msgstr ""
+msgstr "Tastenkombinationen anzeigen"
 
 #: data/gtk/help_overlay.blp:33
 msgctxt "shortcuts window"
 msgid "Quit"
-msgstr ""
+msgstr "Beenden"
 
 #: data/gtk/help_overlay.blp:39
 msgctxt "shortcuts window"
 msgid "Tab operations"
-msgstr ""
+msgstr "Tab-Aktionen"
 
 #: data/gtk/help_overlay.blp:42
 msgctxt "shortcuts window"
 msgid "New request tab"
-msgstr ""
+msgstr "Neuer Anfrage-Tab"
 
 #: data/gtk/help_overlay.blp:47
 msgctxt "shortcuts window"
 msgid "Open request"
-msgstr ""
+msgstr "Anfrage öffnen"
 
 #: data/gtk/help_overlay.blp:52
 msgctxt "shortcuts window"
 msgid "Save request"
-msgstr ""
+msgstr "Anfrage speichern"
 
 #: data/gtk/help_overlay.blp:57
 msgctxt "shortcuts window"
 msgid "Save request as"
-msgstr ""
+msgstr "Anfrage speichern unter"
 
 #: data/gtk/help_overlay.blp:62
 msgctxt "shortcuts window"
 msgid "Close request tab"
-msgstr ""
+msgstr "Anfrage-Tab schließen"
 
 #: data/gtk/help_overlay.blp:68
 msgctxt "shortcuts window"
 msgid "Request operations"
-msgstr ""
+msgstr "Anfrage-Aktionen"
 
 #: data/gtk/help_overlay.blp:71
 msgctxt "shortcuts window"
 msgid "Send request"
-msgstr ""
+msgstr "Anfrage senden"
 
 #: data/ui/authorization_pane.blp:29
 msgid "Authorization method"
-msgstr ""
+msgstr "Autorisierungsmethode"
 
 #: data/ui/authorization_pane.blp:55
 msgid "Username"
-msgstr ""
+msgstr "Benutzername"
 
 #: data/ui/authorization_pane.blp:60
 msgid "Password"
-msgstr ""
+msgstr "Passwort"
 
 #: data/ui/authorization_pane.blp:76
 msgid "Token"
-msgstr ""
+msgstr "Token"
 
 #: data/ui/authorization_pane.blp:87 data/ui/export_tab.blp:69
 #: data/ui/payload_tab.blp:87
 msgid "(none)"
-msgstr ""
+msgstr "(nichts)"
 
 #: data/ui/authorization_pane.blp:88
 msgid "Basic auth"
-msgstr ""
+msgstr "Grundlegende Autorisierung"
 
 #: data/ui/authorization_pane.blp:89
 msgid "Bearer token"
-msgstr ""
+msgstr "Inhaber Token"
 
 #: data/ui/code_export_pane.blp:59
 msgid "Copy"
-msgstr ""
+msgstr "Kopieren"
 
 #: data/ui/endpoint_pane.blp:69
 msgid "Request URL"
-msgstr ""
+msgstr "Anfrage-URL"
 
 #: data/ui/endpoint_pane.blp:81
 msgid "Cancel request"
-msgstr ""
+msgstr "Anfrage abbrechen"
 
 #: data/ui/endpoint_pane.blp:90
 msgid "Send"
-msgstr ""
+msgstr "Senden"
 
 #: data/ui/endpoint_pane.blp:91
 msgid "Execute this HTTP request"
-msgstr ""
+msgstr "Diese HTTP-Anfrage ausführen"
 
 #: data/ui/endpoint_pane.blp:123
 msgid "Parameters"
-msgstr ""
+msgstr "Parameter"
 
 #: data/ui/endpoint_pane.blp:146 data/ui/response_panel.blp:92
 msgid "Headers"
-msgstr ""
+msgstr "Kopfzeilen"
 
 #: data/ui/endpoint_pane.blp:170
 msgid "Variables"
-msgstr ""
+msgstr "Variablen"
 
 #: data/ui/endpoint_pane.blp:194
 msgid "Authorization"
-msgstr ""
+msgstr "Autorisation"
 
 #: data/ui/endpoint_pane.blp:217 data/ui/response_panel.blp:52
 msgid "Body"
-msgstr ""
+msgstr "Body"
 
 #: data/ui/endpoint_pane.blp:227
 msgid "Export request"
-msgstr ""
+msgstr "Anfrage exportieren"
 
 #: data/ui/export_tab.blp:34
 msgid "Export to"
-msgstr ""
+msgstr "Exportieren zu"
 
 #: data/ui/key_value_row.blp:41
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 #: data/ui/key_value_row.blp:54
 msgid "Value"
-msgstr ""
+msgstr "Wert"
 
 #: data/ui/key_value_row.blp:65
 msgid "Actions"
-msgstr ""
+msgstr "Aktionen"
 
 #: data/ui/key_value_row.blp:79
 msgid "Toggle secret"
-msgstr ""
+msgstr "Geheimnis umschalten"
 
 #: data/ui/key_value_row.blp:86
 msgid "Delete"
-msgstr ""
+msgstr "Löschen"
 
 #: data/ui/main_window.blp:40 data/ui/main_window_no_csd.blp:38
 msgid "New"
-msgstr ""
+msgstr "Neuer Tab"
 
 #: data/ui/main_window.blp:51 data/ui/main_window.blp:62
 #: data/ui/main_window_no_csd.blp:49 data/ui/main_window_no_csd.blp:60
 #: src/widgets/file_dialogs.rs:107
 msgid "Open"
-msgstr ""
+msgstr "Öffnen"
 
 #: data/ui/main_window.blp:70 data/ui/main_window_no_csd.blp:68
 #: src/widgets/file_dialogs.rs:143
 msgid "Save"
-msgstr ""
+msgstr "Speichern"
 
 #: data/ui/main_window.blp:94 data/ui/main_window_no_csd.blp:101
 msgid "Welcome to Cartero"
-msgstr ""
+msgstr "Willkommen bei Cartero"
 
 #: data/ui/main_window.blp:95 data/ui/main_window_no_csd.blp:102
 msgid "Create or open a request and start testing APIs now."
 msgstr ""
+"Erstellen oder öffnen Sie eine Anfrage und beginnen Sie jetzt mit dem Testen "
+"von APIs."
 
 #: data/ui/main_window.blp:114 data/ui/main_window.blp:148
 #: data/ui/main_window_no_csd.blp:121 data/ui/main_window_no_csd.blp:155
 msgid "New tab"
-msgstr ""
+msgstr "Neuer Tab"
 
 #: data/ui/main_window.blp:127 data/ui/main_window.blp:153
 #: data/ui/main_window_no_csd.blp:134 data/ui/main_window_no_csd.blp:160
 msgid "Open request…"
-msgstr ""
+msgstr "Anfrage öffnen…"
 
 #: data/ui/main_window.blp:158 data/ui/main_window_no_csd.blp:165
 #: src/widgets/file_dialogs.rs:144
 msgid "Save request"
-msgstr ""
+msgstr "Anfrage speichern"
 
 #: data/ui/main_window.blp:163 data/ui/main_window_no_csd.blp:170
 msgid "Save request as…"
-msgstr ""
+msgstr "Anfrage speichern unter…"
 
 #: data/ui/main_window.blp:168 data/ui/main_window_no_csd.blp:175
 msgid "Close tab"
-msgstr ""
+msgstr "Tab schließen"
 
 #: data/ui/main_window.blp:175 data/ui/main_window_no_csd.blp:182
 #: data/ui/settings_dialog.blp:21
 msgid "Settings"
-msgstr ""
+msgstr "Einstellungen"
 
 #: data/ui/main_window.blp:180 data/ui/main_window_no_csd.blp:187
 msgid "Body appearance"
-msgstr ""
+msgstr "Aussehen des Körpers"
 
 #: data/ui/main_window.blp:184 data/ui/main_window_no_csd.blp:191
 msgid "Wrap content"
-msgstr ""
+msgstr "Inhalte umbrechen"
 
 #: data/ui/main_window.blp:189 data/ui/main_window_no_csd.blp:196
 msgid "Show line numbers"
-msgstr ""
+msgstr "Zeilennummern anzeigen"
 
 #: data/ui/main_window.blp:196 data/ui/main_window_no_csd.blp:203
 msgid "Automatic indentation"
-msgstr ""
+msgstr "Automatische Einrückung"
 
 #: data/ui/main_window.blp:201 data/ui/main_window_no_csd.blp:208
 msgid "Indent with spaces"
-msgstr ""
+msgstr "Einrücken mit Leerzeichen"
 
 #: data/ui/main_window.blp:207 data/ui/main_window_no_csd.blp:214
 msgid "Indent with tabs"
-msgstr ""
+msgstr "Einrücken mit Tabs"
 
 #: data/ui/main_window.blp:213 data/ui/main_window_no_csd.blp:220
 msgid "Spaces per tab"
-msgstr ""
+msgstr "Leerzeichen pro Tab"
 
 #: data/ui/main_window.blp:216 data/ui/main_window_no_csd.blp:223
 msgid "2"
-msgstr ""
+msgstr "2"
 
 #: data/ui/main_window.blp:222 data/ui/main_window_no_csd.blp:229
 msgid "4"
-msgstr ""
+msgstr "4"
 
 #: data/ui/main_window.blp:228 data/ui/main_window_no_csd.blp:235
 msgid "8"
-msgstr ""
+msgstr "8"
 
 #: data/ui/main_window.blp:239 data/ui/main_window_no_csd.blp:246
 msgid "Keyboard shortcuts"
-msgstr ""
+msgstr "Tastenkürzel"
 
 #: data/ui/main_window.blp:244 data/ui/main_window_no_csd.blp:251
 msgid "About Cartero"
-msgstr ""
+msgstr "Über Cartero"
 
 #: data/ui/main_window.blp:249 data/ui/main_window_no_csd.blp:256
 msgid "Quit"
-msgstr ""
+msgstr "Beenden"
 
 #: data/ui/method_dropdown.blp:29
 msgid "Request method"
-msgstr ""
+msgstr "Anfrage-Methode"
 
 #: data/ui/payload_tab.blp:34
 msgid "Body type"
-msgstr ""
+msgstr "Körperbau"
 
 #: data/ui/payload_tab.blp:88
 msgid "URL Encoded"
-msgstr ""
+msgstr "URL-Kodiert"
 
 #: data/ui/payload_tab.blp:89
 msgid "Multipart Form Data"
-msgstr ""
+msgstr "Mehrteilige Formulardaten"
 
 #: data/ui/payload_tab.blp:92
 msgid "Raw"
-msgstr ""
+msgstr "Rohdaten"
 
 #: data/ui/response_panel.blp:28
 msgid "Ready to request"
-msgstr ""
+msgstr "Bereit zur Anfrage"
 
 #: data/ui/response_panel.blp:29
 msgid "Use the Send button to send a network request and it will show here."
 msgstr ""
+"Verwenden Sie die Schaltfläche Senden, um eine Netzwerkanfrage zu senden, "
+"die dann hier angezeigt wird."
 
 #: data/ui/search_box.blp:42 data/ui/search_box.blp:43
 msgid "Search"
-msgstr ""
+msgstr "Suche"
 
 #: data/ui/search_box.blp:63
 msgid "Previous result"
-msgstr ""
+msgstr "Vorheriges Ergebnis"
 
 #: data/ui/search_box.blp:69
 msgid "Next result"
-msgstr ""
+msgstr "Nächstes Ergebnis"
 
 #: data/ui/search_box.blp:81
 msgid "Close search"
-msgstr ""
+msgstr "Suche schließen"
 
 #: data/ui/settings_dialog.blp:26
 msgid "Application"
-msgstr ""
+msgstr "Anwendung"
 
 #: data/ui/settings_dialog.blp:30
-msgid "Appearance"
-msgstr ""
-
-#: data/ui/settings_dialog.blp:33
-msgid "Application style"
-msgstr ""
-
-#: data/ui/settings_dialog.blp:37
-msgid "Follow system settings"
-msgstr ""
-
-#: data/ui/settings_dialog.blp:38
-msgid "Light mode"
+msgid "You need to restart the program for the new locale to be used."
 msgstr ""
 
 #: data/ui/settings_dialog.blp:39
-msgid "Dark mode"
+msgid "Language"
 msgstr ""
 
 #: data/ui/settings_dialog.blp:45
-msgid "Use system font"
-msgstr ""
+msgid "Appearance"
+msgstr "Erscheinungsbild"
 
-#: data/ui/settings_dialog.blp:49
-msgid "Custom font"
-msgstr ""
+#: data/ui/settings_dialog.blp:48
+msgid "Application style"
+msgstr "Anwendungsthema"
+
+#: data/ui/settings_dialog.blp:52
+msgid "Follow system settings"
+msgstr "Systemeinstellungen verwenden"
+
+#: data/ui/settings_dialog.blp:53
+msgid "Light mode"
+msgstr "Heller Modus"
+
+#: data/ui/settings_dialog.blp:54
+msgid "Dark mode"
+msgstr "Dunkler Modus"
+
+#: data/ui/settings_dialog.blp:60
+msgid "Use system font"
+msgstr "Systemschrift verwenden"
 
 #: data/ui/settings_dialog.blp:64
+msgid "Custom font"
+msgstr "Benutzerdefinierte Schrift"
+
+#: data/ui/settings_dialog.blp:79
 msgid "File settings"
-msgstr ""
+msgstr "Dateioptionen"
 
-#: data/ui/settings_dialog.blp:67
+#: data/ui/settings_dialog.blp:82
 msgid "Create backup files"
-msgstr ""
+msgstr "Sicherungsdateien erstellen"
 
-#: data/ui/settings_dialog.blp:68
+#: data/ui/settings_dialog.blp:83
 msgid ""
 "You might not want to enable this if you are already using a version control "
 "such as Git"
 msgstr ""
+"Sie sollten dies nicht aktivieren, wenn Sie bereits eine Versionskontrolle "
+"wie Git verwenden"
 
-#: data/ui/settings_dialog.blp:74
+#: data/ui/settings_dialog.blp:89
 msgid "Software updates"
-msgstr ""
+msgstr "Software-Aktualisierungen"
 
-#: data/ui/settings_dialog.blp:81
+#: data/ui/settings_dialog.blp:96
 msgid "Current version"
-msgstr ""
-
-#: data/ui/settings_dialog.blp:85
-msgid "Check for updates"
-msgstr ""
-
-#: data/ui/settings_dialog.blp:93 data/ui/settings_dialog.blp:97
-msgid "HTTP Client"
-msgstr ""
+msgstr "Aktuelle Version"
 
 #: data/ui/settings_dialog.blp:100
+msgid "Check for updates"
+msgstr "Nach Aktualisierungen suchen"
+
+#: data/ui/settings_dialog.blp:108 data/ui/settings_dialog.blp:112
+msgid "HTTP Client"
+msgstr "HTTP-Client"
+
+#: data/ui/settings_dialog.blp:115
 msgid "Enforce TLS validation"
-msgstr ""
+msgstr "TLS-Validierung erzwingen"
 
-#: data/ui/settings_dialog.blp:101
+#: data/ui/settings_dialog.blp:116
 msgid "Cancel a request if the TLS handshake fails"
-msgstr ""
+msgstr "Anfrage abbrechen, wenn der TLS-Handshake fehlschlägt"
 
-#: data/ui/settings_dialog.blp:105
+#: data/ui/settings_dialog.blp:120
 msgid "Follow redirects"
-msgstr ""
+msgstr "Weiterleitungen folgen"
 
-#: data/ui/settings_dialog.blp:106
+#: data/ui/settings_dialog.blp:121
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
 msgstr ""
+"Folgeanfragen stellen, wenn der Server eine HTTP 3xx-Antwort zurückgibt"
 
-#: data/ui/settings_dialog.blp:111
+#: data/ui/settings_dialog.blp:126
 msgid "Maximum redirects"
-msgstr ""
+msgstr "Maximale Weiterleitungen"
 
-#: data/ui/settings_dialog.blp:123
+#: data/ui/settings_dialog.blp:138
 msgid "Request timeout"
-msgstr ""
+msgstr "Zeitüberschreitung der Anfrage"
 
-#: data/ui/settings_dialog.blp:124
+#: data/ui/settings_dialog.blp:139
 msgid "Seconds to wait before cancelling the request"
-msgstr ""
+msgstr "Sekunden bis zum Abbruch der Anfrage"
 
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
 #: src/entities/response_data.rs:68
 #, rust-format
 msgid "{} s"
-msgstr ""
+msgstr "{} s"
 
 #. Format as milliseconds.
 #. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
 #: src/entities/response_data.rs:72
 #, rust-format
 msgid "{} ms"
-msgstr ""
+msgstr "{} ms"
 
 #: src/error.rs:32
 msgid "The specified URL is not valid"
-msgstr ""
+msgstr "Die angegebene URL ist nicht gültig"
 
 #: src/error.rs:34
 #, rust-format
 msgid "The header '{}' is not valid"
-msgstr ""
+msgstr "Die Kopfzeile '{}' ist nicht gültig"
 
 #: src/error.rs:37
 #, rust-format
 msgid "The value for header '{}' is not valid"
-msgstr ""
+msgstr "Der Wert für die Kopfzeile '{}' ist nicht gültig"
 
 #: src/error.rs:40 src/error.rs:74
 msgid "The given request body could not be encoded correctly"
-msgstr ""
+msgstr "Der angegebene Request Body konnte nicht korrekt kodiert werden"
 
 #: src/error.rs:69
 msgid "Cannot recognise the URL"
-msgstr ""
+msgstr "Die URL kann nicht erkannt werden"
 
 #: src/error.rs:70
 msgid "The given URL is missing a protocol"
-msgstr ""
+msgstr "Der angegebenen URL fehlt ein Protokoll"
 
 #: src/error.rs:72
 #, rust-format
 msgid "The protocol {}:// is not supported"
-msgstr ""
+msgstr "Das Protokoll {}:// wird nicht unterstützt"
 
 #: src/error.rs:76
 #, rust-format
 msgid "The variable '{}' is not defined"
-msgstr ""
+msgstr "Die Variable '{}' ist nicht definiert"
 
 #: src/error.rs:79
 msgid "There was a problem with a variable interpolation, review your inputs"
 msgstr ""
+"Es gab ein Problem mit einer variablen Interpolation, überprüfen Sie Ihre "
+"Eingaben"
 
 #: src/error.rs:104
 msgid "There is a network error"
-msgstr ""
+msgstr "Ein Netzwerkfehler liegt vor"
 
 #: src/error.rs:105
 msgid "There is an input/output error"
-msgstr ""
+msgstr "Es liegt ein Eingabe-/Ausgabefehler vor"
 
 #: src/error.rs:131 src/error.rs:155
 msgid "The current tab is not associated with a file"
-msgstr ""
+msgstr "Der aktuelle Tab ist nicht mit einer Datei verknüpft"
 
 #: src/error.rs:133
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
+"Diese Datei wurde mit einer neueren Version dieser Anwendung erstellt; Bitte "
+"aktualisieren!"
 
 #: src/error.rs:137
 msgid "The file is corrupt or does not contain valid data for this application"
 msgstr ""
+"Die Datei ist beschädigt oder enthält keine gültigen Daten für diese "
+"Anwendung"
 
 #: src/file.rs:411
 #, rust-format
@@ -619,26 +659,30 @@ msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
 msgstr ""
+"Das in der Datei gefundene HTTP-Verb war '{}'. Es ist nicht gültig und wird "
+"auf '{}' zurückgesetzt."
 
 #: src/updates/ui.rs:33
 msgid "Error checking updates"
-msgstr ""
+msgstr "Fehler beim prüfen der Aktualisierungen"
 
 #: src/updates/ui.rs:35
 msgid "Couldn't receive a valid response from the server. Please, check later."
 msgstr ""
+"Es konnte keine gültige Antwort vom Server empfangen werden. Bitte prüfen "
+"Sie später."
 
 #: src/updates/ui.rs:38 src/updates/ui.rs:48
 msgid "Accept"
-msgstr ""
+msgstr "Annehmen"
 
 #: src/updates/ui.rs:45
 msgid "No updates at the moment"
-msgstr ""
+msgstr "Zurzeit keine Aktualisierungen"
 
 #: src/updates/ui.rs:46
 msgid "You are running the latest version of Cartero."
-msgstr ""
+msgstr "Sie verwenden die neueste Version von Cartero."
 
 #: src/updates/ui.rs:57
 #, rust-format
@@ -646,137 +690,150 @@ msgid ""
 "Version {} has been released. Do you want to visit the website to download "
 "the update now?"
 msgstr ""
+"Version {} wurde veröffentlicht. Möchten Sie die Webseite besuchen, um das "
+"Update jetzt herunterzuladen?"
 
 #: src/updates/ui.rs:59
 msgid "There is a new version of Cartero!"
-msgstr ""
+msgstr "Es gibt eine neue Version von Cartero!"
 
 #: src/updates/ui.rs:63
 msgid "_Open website"
-msgstr ""
+msgstr "_Webseite öffnen"
 
 #: src/updates/ui.rs:64
 msgid "_Not now"
-msgstr ""
+msgstr "_Nicht jetzt"
 
 #: src/widgets/dialogs.rs:48
 #, rust-format
 msgid "Cannot open '{}'"
-msgstr ""
+msgstr "Kann '{}' nicht öffnen"
 
 #: src/widgets/dialogs.rs:49
 msgid "Cannot open the requested file"
-msgstr ""
+msgstr "Kann die angeforderte Datei nicht öffnen"
 
 #: src/widgets/dialogs.rs:58 src/widgets/dialogs.rs:89
 #: src/widgets/dialogs.rs:112 src/widgets/dialogs.rs:125
 msgid "Close"
-msgstr ""
+msgstr "Schließen"
 
 #: src/widgets/dialogs.rs:72
 #, rust-format
 msgid "The file '{}' was loaded but had issues"
-msgstr ""
+msgstr "Die Datei '{}' wurde geladen, aber es gab Probleme"
 
 #: src/widgets/dialogs.rs:73
 msgid "The requested file was loaded but had issues"
-msgstr ""
+msgstr "Die angeforderte Datei wurde geladen, aber es gab Probleme"
 
 #: src/widgets/dialogs.rs:103
 #, rust-format
 msgid "Cannot save '{}'"
-msgstr ""
+msgstr "Kann '{}' nicht speichern"
 
 #: src/widgets/dialogs.rs:104
 msgid "Cannot save the requested file"
-msgstr ""
+msgstr "Kann die angeforderte Datei nicht speichern"
 
 #: src/widgets/dialogs.rs:106
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
 msgstr ""
+"Während des Speichervorgangs ist ein Fehler aufgetreten. Gehe davon aus, "
+"dass Änderungen noch nicht gespeichert sind."
 
 #: src/widgets/dialogs.rs:120
 msgid "Could not select a valid file from the file chooser"
 msgstr ""
+"Es konnte keine gültige Datei aus dem Dateiauswahlmenü ausgewählt werden"
 
 #: src/widgets/dialogs.rs:134
 msgid "There are unsaved changes"
-msgstr ""
+msgstr "Es gibt nicht gespeicherte Änderungen"
 
 #: src/widgets/dialogs.rs:136
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
 msgstr ""
+"Wenn Sie dieses Fenster schließen, gehen alle nicht gespeicherten Daten "
+"verloren. Wollen Sie wirklich fortfahren?"
 
 #: src/widgets/dialogs.rs:140
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #: src/widgets/dialogs.rs:141
 msgid "Close anyway"
-msgstr ""
+msgstr "Trotzdem schließen"
 
 #: src/widgets/dialogs.rs:164
 #, rust-format
 msgid "Save changes in '{}'?"
-msgstr ""
+msgstr "Änderungen in '{}' speichern?"
 
 #: src/widgets/dialogs.rs:165
 msgid "Save changes?"
-msgstr ""
+msgstr "Änderungen speichern?"
 
 #: src/widgets/dialogs.rs:170
 msgid "There are changes that have not been saved yet. What do you want to do?"
 msgstr ""
+"Es sind Änderungen vorhanden die noch nicht gespeichert wurden. Was möchtest "
+"du tun?"
 
 #: src/widgets/dialogs.rs:174
 msgid "_Cancel"
-msgstr ""
+msgstr "_Abbrechen"
 
 #: src/widgets/dialogs.rs:175
 msgid "_Discard"
-msgstr ""
+msgstr "_Verwerfen"
 
 #: src/widgets/dialogs.rs:176
 msgid "_Save"
-msgstr ""
+msgstr "_Speichern"
 
 #: src/widgets/error_pane.rs:91 src/widgets/error_pane.rs:105
 msgid "The request data is not valid"
-msgstr ""
+msgstr "Die Anfragedaten sind ungültig"
 
 #: src/widgets/error_pane.rs:98
 msgid "The request failed"
-msgstr ""
+msgstr "Anfrage fehlgeschlagen"
 
 #: src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"
-msgstr ""
+msgstr "Inhalt in die Zwischenablage kopiert"
 
 #. TRANSLATORS: presented in file dialogs as the file type for a request
-#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:146
+#. The macOS native file dialog will already add the extension for us.
+#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:148
+#: src/widgets/file_dialogs.rs:150
 msgid "Request"
-msgstr ""
+msgstr "Anfrage"
 
 #: src/widgets/file_dialogs.rs:108
 msgid "Open request"
-msgstr ""
+msgstr "Anfrage öffnen"
 
 #: src/widgets/key_value_row.rs:110
 msgid ""
 "The value for this field will not be used because another field with the "
 "same name is overriding it."
 msgstr ""
+"Der Wert für dieses Feld wird nicht verwendet, da es von einem anderen Feld "
+"mit demselben Namen überschrieben wird."
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
 #: src/widgets/search_box.rs:254
 #, rust-format
 msgid "{} of {}"
-msgstr ""
+msgstr "{} von {}"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count when only
 #. the number of total ocurrences is known.
@@ -784,34 +841,34 @@ msgstr ""
 #, rust-format
 msgid "{} result"
 msgid_plural "{} results"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} Ergebnis"
+msgstr[1] "{} Ergebnisse"
 
 #: src/win.rs:246
 msgid "(untitled)"
-msgstr ""
+msgstr "(unbenannt)"
 
 #: src/win.rs:260
 msgid "Draft"
-msgstr ""
+msgstr "Entwurf"
 
 #: src/win.rs:561
 msgid "The Cartero authors"
-msgstr ""
+msgstr "Die Autoren von Cartero"
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
 #: src/win.rs:584
 msgid "translator-credits"
-msgstr ""
+msgstr "mstffn"
 
 #: src/win.rs:585
 msgid "© 2024-2025 the Cartero authors"
-msgstr ""
+msgstr "© 2024-2025 die Cartero Autoren"
 
-#: src/win.rs:605
+#: src/win.rs:617
 msgid "User manual"
-msgstr ""
+msgstr "Benutzerhandbuch"
 
-#: src/win.rs:607
+#: src/win.rs:619
 msgid "Help us translate"
-msgstr ""
+msgstr "Bei der Übersetzung helfen"

@@ -1,0 +1,68 @@
+# This is the development / nightly version of Cartero only!
+# For the stable version, check out http://github.com/danirod/cartero-snap
+
+name: cartero
+base: core24
+version: 0.0.0
+adopt-info: cartero
+summary: Make HTTP requests and test APIs
+description: |
+  Cartero is a graphical HTTP client that can be used as a developer tool to
+  test web APIs and perform all kind of HTTP requests to web servers. It is
+  compatible with any REST, SOAP or XML-RPC API and it supports multiple
+  request methods as well as attaching body payloads to compatible requests.
+grade: devel
+
+confinement: strict
+license: GPL-3.0-or-later
+compression: lzo
+website: https://cartero.danirod.es
+source-code: https://github.com/danirod/cartero
+issues: https://github.com/danirod/cartero/issues
+
+platforms:
+  amd64:
+  arm64:
+
+apps:
+  cartero:
+    extensions: [gnome]
+    command: usr/bin/cartero
+    desktop: usr/share/applications/es.danirod.Cartero.Devel.desktop
+    common-id: es.danirod.Cartero.Devel
+    plugs:
+      - home
+      - removable-media
+      - gsettings
+      - network
+      - network-status
+
+parts:
+  rust:
+    plugin: rust
+    source: .
+    rust-channel: "1.88"
+    override-build: "" # nop
+    override-prime: "" # nop
+  cartero:
+    plugin: meson
+    source: .
+    build-environment:
+      - CARTERO_NIGHTLY_VERSION: 1
+    build-packages:
+      - libssl-dev
+    meson-parameters:
+      - --prefix=/usr
+      - --buildtype=release
+      - -Dprofile=development
+    parse-info: [usr/share/metainfo/es.danirod.Cartero.Devel.metainfo.xml]
+    override-pull: |
+      craftctl default
+      craftctl set version="$(build-aux/gen-version.py --nightly)"
+      sed -i.bak -e 's|Icon=@app_id@|Icon=/usr/share/icons/hicolor/scalable/apps/es.danirod.Cartero.Devel.svg|' data/cartero.desktop.in.in
+
+slots:
+  cartero:
+    interface: dbus
+    bus: session
+    name: es.danirod.Cartero

@@ -19,12 +19,27 @@ using Adw 1;
 
 template $CarteroSettingsDialog: Adw.PreferencesDialog {
   title: _("Settings");
-  content-width: 600;
+  content-width: 720;
   content-height: 640;
 
   Adw.PreferencesPage {
     title: _("Application");
     icon-name: "applications-system-symbolic";
+
+    Adw.Banner locale_changed {
+      title: _("You need to restart the program for the new locale to be used.");
+    }
+
+    Adw.PreferencesGroup {
+      Adw.ComboRow option_locale {
+        styles [
+          "property",
+        ]
+
+        title: _("Language");
+        use-subtitle: true;
+      }
+    }
 
     Adw.PreferencesGroup {
       title: _("Appearance");

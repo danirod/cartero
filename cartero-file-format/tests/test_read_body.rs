@@ -214,3 +214,25 @@ pub fn json() {
     assert_eq!(raw.payload_type(), RequestBodyRawType::Json);
     assert_eq!(raw.bytes(), b"{\"message\": \"hello world\"}");
 }
+
+#[test]
+pub fn multiline_json() {
+    let contents = include_str!("body/multiline_json.cartero");
+    let result = deserialize_request(contents).unwrap();
+
+    assert!(result.warnings().is_empty());
+    let request = result.object();
+
+    assert_eq!(request.body().body_type(), RequestBodyType::Raw);
+    let raw = request.body().raw().unwrap();
+    assert_eq!(raw.payload_type(), RequestBodyRawType::Json);
+    assert_eq!(
+        raw.bytes(),
+        br#"{
+  "message": {
+    "code": "HELLO_WORLD",
+    "text": "Hello world!"
+  }
+}"#
+    );
+}

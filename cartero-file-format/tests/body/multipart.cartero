@@ -6,7 +6,7 @@ method = "POST"
 type = "multipart"
 
 [body.variables]
-username = "foo"
+csrf_token = { value = "token", active = false, secret = true }
 password = { value = "bar", active = true, secret = true }
 remember_me = { value = "1", active = false, secret = false }
-csrf_token = { value = "token", active = false, secret = true }
+username = "foo"

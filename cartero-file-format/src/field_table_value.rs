@@ -18,6 +18,7 @@
 use std::{collections::HashMap, ops::Deref};
 
 use cartero_objects::{Field, FieldTable};
+use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
 
 use crate::ToField;
@@ -60,20 +61,28 @@ where
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub(crate) struct FieldTableValue<T>(HashMap<String, FieldValueTableRow<T>>)
 where
-    T: From<Field> + ToField;
+    T: From<Field> + ToField + Clone;
 
 impl<T> FieldTableValue<T>
 where
-    T: From<Field> + ToField,
+    T: From<Field> + ToField + Clone,
 {
+    #[cfg(test)]
     pub(crate) fn new(map: HashMap<String, FieldValueTableRow<T>>) -> Self {
         Self(map)
+    }
+
+    pub(crate) fn sorted(&self) -> IndexMap<String, FieldValueTableRow<T>> {
+        let hm = self.0.clone();
+        let mut entries: Vec<(String, FieldValueTableRow<T>)> = hm.into_iter().collect();
+        entries.sort_unstable_by_key(|e| e.0.clone());
+        IndexMap::from_iter(entries)
     }
 }
 
 impl<T> Deref for FieldTableValue<T>
 where
-    T: From<Field> + ToField,
+    T: From<Field> + ToField + Clone,
 {
     type Target = HashMap<String, FieldValueTableRow<T>>;
 
@@ -84,7 +93,7 @@ where
 
 impl<T> From<FieldTable> for FieldTableValue<T>
 where
-    T: From<Field> + ToField,
+    T: From<Field> + ToField + Clone,
 {
     fn from(value: FieldTable) -> Self {
         let rows = value.group_by_key();
@@ -98,7 +107,7 @@ where
 
 impl<T> From<FieldTableValue<T>> for FieldTable
 where
-    T: From<Field> + ToField,
+    T: From<Field> + ToField + Clone,
 {
     fn from(value: FieldTableValue<T>) -> Self {
         let fields: Vec<Field> = value
@@ -208,5 +217,22 @@ mod tests {
         assert!(value
             .iter::<Field>()
             .any(|f| f.is_ok_and(|f| f.key() == "Cookie" && f.value() == "session=2345")));
+    }
+
+    #[test]
+    pub fn test_field_table_value_sorted() {
+        let cookies = FieldValueTableRow::Multiple(vec![
+            FieldValue::Simple("admin=1234".into()),
+            FieldValue::Simple("session=2345".into()),
+        ]);
+        let types = FieldValueTableRow::Unique(FieldValue::Simple("text/html".into()));
+        let rows = HashMap::from([
+            ("Cookie".to_string(), cookies),
+            ("Accept".to_string(), types),
+        ]);
+        let table = FieldTableValue(rows);
+
+        let sorted = table.sorted();
+        assert_eq!(sorted.len(), 2);
     }
 }

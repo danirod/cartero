@@ -20,7 +20,7 @@ use std::error::Error;
 type InnerError = Box<dyn Error + Send + Sync + 'static>;
 
 #[derive(Debug)]
-pub struct FileLoadResult<T>
+pub struct FileOpResult<T>
 where
     T: Clone,
 {
@@ -28,7 +28,7 @@ where
     warnings: Vec<FileWarningTag>,
 }
 
-impl<T> FileLoadResult<T>
+impl<T> FileOpResult<T>
 where
     T: Clone,
 {
@@ -72,6 +72,7 @@ pub enum FileLoadError {
 /// An unrecoverable error that prevents data from being saved. It should be
 /// assumed that if this error is thrown in the program, then the data might
 /// not actually have been saved.
+#[derive(Debug)]
 pub enum FileSaveError {
     SerializationError(InnerError),
 }
@@ -82,7 +83,7 @@ mod tests {
 
     #[test]
     pub fn test_file_load_result() {
-        let result = FileLoadResult {
+        let result = FileOpResult {
             object: "foobar".to_string(),
             warnings: vec![FileWarningTag::InvalidHttpVerb("DELETE".into())],
         };

@@ -16,12 +16,12 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use cartero_objects::{
-    FieldTable, RequestBody, RequestBodyMultipart, RequestBodyRaw, RequestBodyRawType,
+    Field, FieldTable, RequestBody, RequestBodyMultipart, RequestBodyRaw, RequestBodyRawType,
     RequestBodyType, RequestBodyUrlencoded,
 };
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize, Serializer};
 
-use crate::{field_table_value::FieldTableValue, field_value::FieldValue};
+use crate::{field_table_value::FieldTableValue, field_value::FieldValue, ToField};
 
 #[derive(Clone, Serialize, Deserialize, Debug, Eq, PartialEq)]
 pub(crate) enum PayloadRawFormat {
@@ -62,6 +62,7 @@ pub(crate) enum PayloadValue {
     },
     #[serde(rename = "multipart")]
     Multipart {
+        #[serde(serialize_with = "alphabetical_field_table")]
         variables: Option<FieldTableValue<FieldValue>>,
     },
     #[serde(rename = "raw")]
@@ -134,6 +135,22 @@ impl From<PayloadValue> for RequestBody {
 pub(crate) enum PayloadValueOrString {
     Raw(String),
     Structured(PayloadValue),
+}
+
+fn alphabetical_field_table<T, S>(
+    field_table: &Option<FieldTableValue<T>>,
+    serializer: S,
+) -> Result<S::Ok, S::Error>
+where
+    T: From<Field> + ToField + Clone + Serialize,
+    S: Serializer,
+{
+    if let Some(field_table) = field_table {
+        let table = field_table.sorted();
+        table.serialize(serializer)
+    } else {
+        serializer.serialize_none()
+    }
 }
 
 #[cfg(test)]

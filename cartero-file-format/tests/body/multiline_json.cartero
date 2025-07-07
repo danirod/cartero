@@ -5,4 +5,10 @@ method = "POST"
 [body]
 type = "raw"
 format = "json"
-body = '{"message": "hello world"}'
+body = """
+{
+  "message": {
+    "code": "HELLO_WORLD",
+    "text": "Hello world!"
+  }
+}"""

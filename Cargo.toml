@@ -10,7 +10,7 @@ license = "GPL-3.0-or-later"
 glib = { version = "0.20.9", features = ["v2_72"] }
 gio = { version = "0.20.9", features = ["v2_72"] }
 serde = { version = "1.0.219", features = ["derive"] }
-toml = "0.8.20"
+toml = "0.8.23"
 
 [package]
 name = "cartero"

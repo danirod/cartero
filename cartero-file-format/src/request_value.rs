@@ -15,7 +15,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use cartero_interop::{FileLoadError, FileLoadResult, FileWarningTag};
+use cartero_interop::{FileLoadError, FileOpResult, FileWarningTag};
 use cartero_objects::{
     Field, FieldTable, Request, RequestAuthenticationBasic, RequestAuthenticationBearer,
     RequestAuthenticationType, RequestBody, RequestMethod,
@@ -47,7 +47,7 @@ pub(crate) struct RequestValue {
     inactive_params: Option<FieldTableValue<QueryValue>>,
 }
 
-impl TryFrom<RequestValue> for FileLoadResult<Request> {
+impl TryFrom<RequestValue> for FileOpResult<Request> {
     type Error = FileLoadError;
 
     fn try_from(value: RequestValue) -> Result<Self, Self::Error> {
@@ -119,7 +119,7 @@ impl TryFrom<RequestValue> for FileLoadResult<Request> {
             request.body().set_body_data(body.body_data());
         }
 
-        Ok(FileLoadResult::new(request, &tags))
+        Ok(FileOpResult::new(request, &tags))
     }
 }
 
@@ -201,7 +201,7 @@ fn extract_queryparams(url: &str) -> Vec<(String, String)> {
 
 #[cfg(test)]
 mod tests {
-    use cartero_interop::{FileLoadError, FileLoadResult, FileWarningTag};
+    use cartero_interop::{FileLoadError, FileOpResult, FileWarningTag};
     use cartero_objects::{
         Field, FieldTable, Request, RequestAuthenticationBearer, RequestAuthenticationType,
         RequestBodyRaw, RequestBodyType, RequestMethod,
@@ -427,7 +427,7 @@ mod tests {
             inactive_params: None,
             variables: None,
         };
-        let result: Result<FileLoadResult<Request>, FileLoadError> = value.try_into();
+        let result: Result<FileOpResult<Request>, FileLoadError> = value.try_into();
         assert!(result.is_err_and(|e| match e {
             FileLoadError::SchemaTooNew => true,
             _ => false,
@@ -446,7 +446,7 @@ mod tests {
             inactive_params: None,
             variables: None,
         };
-        let result: Result<FileLoadResult<Request>, FileLoadError> = value.try_into();
+        let result: Result<FileOpResult<Request>, FileLoadError> = value.try_into();
         assert!(result.is_err_and(|e| match e {
             FileLoadError::SchemaTooNew => true,
             _ => false,
@@ -465,7 +465,7 @@ mod tests {
             inactive_params: None,
             variables: None,
         };
-        let result: Result<FileLoadResult<Request>, FileLoadError> = value.try_into();
+        let result: Result<FileOpResult<Request>, FileLoadError> = value.try_into();
         assert!(result.is_ok_and(|result| {
             assert_eq!(1, result.warnings().len());
             assert!(match &result.warnings()[0] {
@@ -489,7 +489,7 @@ mod tests {
             inactive_params: None,
             variables: None,
         };
-        let result: Result<FileLoadResult<Request>, FileLoadError> = value.try_into();
+        let result: Result<FileOpResult<Request>, FileLoadError> = value.try_into();
         assert!(result.is_ok_and(|result| {
             assert!(result.warnings().is_empty());
             let request = result.object();
@@ -522,7 +522,7 @@ mod tests {
             inactive_params: None,
             variables: None,
         };
-        let result: Result<FileLoadResult<Request>, FileLoadError> = value.try_into();
+        let result: Result<FileOpResult<Request>, FileLoadError> = value.try_into();
         assert!(result.is_ok_and(|result| {
             assert!(result.warnings().is_empty());
             let request = result.object();
@@ -557,7 +557,7 @@ mod tests {
             inactive_params: None,
             variables: None,
         };
-        let result: Result<FileLoadResult<Request>, FileLoadError> = value.try_into();
+        let result: Result<FileOpResult<Request>, FileLoadError> = value.try_into();
         assert!(result.is_ok_and(|result| {
             assert!(result.warnings().is_empty());
             let request = result.object();

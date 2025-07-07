@@ -17,7 +17,7 @@
 
 #![doc = include_str!("../README.md")]
 
-use cartero_interop::{FileLoadError, FileLoadResult};
+use cartero_interop::{FileLoadError, FileOpResult, FileSaveError};
 use cartero_objects::{Field, Request};
 
 mod authorization_value;
@@ -26,6 +26,7 @@ mod field_value;
 mod payload_value;
 mod query_value;
 mod request_value;
+mod serializer;
 
 pub(crate) trait ToField {
     fn to_field(&self, key: &str) -> Field;
@@ -44,9 +45,7 @@ pub(crate) trait ToField {
 /// In case of error, this is received by the Err() part of the given Result.
 /// The Result returns Ok() if the file can be loaded, and any possible
 /// warnings can be checked from the [`FileLoadResult`] object, if apply.
-pub fn deserialize_request(
-    input: impl AsRef<str>,
-) -> Result<FileLoadResult<Request>, FileLoadError> {
+pub fn deserialize_request(input: impl AsRef<str>) -> Result<FileOpResult<Request>, FileLoadError> {
     let value = toml::from_str::<request_value::RequestValue>(input.as_ref());
     match value {
         Ok(value) => value.try_into(),
@@ -54,13 +53,52 @@ pub fn deserialize_request(
     }
 }
 
+pub fn serialize_request(req: &Request) -> Result<String, FileSaveError> {
+    let value = request_value::RequestValue::from(req.clone());
+    crate::serializer::serialize(&value)
+}
+
 #[cfg(test)]
 mod tests {
-    use crate::deserialize_request;
+    use crate::{deserialize_request, serialize_request};
+    use cartero_objects::{Field, Request, RequestBodyMultipart, RequestBodyType, RequestMethod};
 
     #[test]
     fn deserialize_trash() {
         let result = deserialize_request("hello");
         assert!(result.is_err());
+    }
+
+    #[test]
+    fn serialize_req() {
+        let req: Request = glib::Object::builder()
+            .property("url", "https://www.example.com/test.html")
+            .property("method", RequestMethod::Get)
+            .build();
+        let encoded = serialize_request(&req).unwrap();
+        assert!(encoded.contains("url = \"https://www.example.com/test.html"));
+        assert!(encoded.contains("method = \"GET\""));
+    }
+
+    // This test mostly checks that inline tables and non-inline tables are
+    // used successfully. Variables should be encoded as an inline table,
+    // period. For deeper serialization tests, check the integration tests.
+    #[test]
+    fn serialize_req_with_param_table() {
+        let req: Request = glib::Object::builder()
+            .property("url", "https://www.example.com/api/foo")
+            .property("method", RequestMethod::Post)
+            .build();
+        let field = Field::from(("foo", "bar"));
+        field.set_active(false);
+        field.set_masked(true);
+        let multipart = RequestBodyMultipart::new();
+        multipart.params().insert(&field);
+        req.body().set_body_type(RequestBodyType::Multipart);
+        req.body().set_body_data(Some(multipart.as_ref()));
+
+        let encoded = serialize_request(&req).unwrap();
+        assert!(!encoded.contains("[body.variables.foo]"));
+        assert!(encoded.contains("foo = { value = \"bar\", active = false, secret = true"));
     }
 }

@@ -119,7 +119,7 @@ mod imp {
 }
 
 mod builder {
-    use crate::{RequestAuthentication, RequestBody};
+    use crate::{Field, FieldTable, RequestAuthentication, RequestBody};
 
     use super::*;
     use glib::object::ObjectBuilder;
@@ -128,6 +128,9 @@ mod builder {
         builder: ObjectBuilder<'static, Request>,
         authentication: RequestAuthentication,
         body: RequestBody,
+        headers: FieldTable,
+        params: FieldTable,
+        variables: FieldTable,
     }
 
     impl RequestBuilder {
@@ -137,10 +140,16 @@ mod builder {
                 .property("method", method);
             let authentication = RequestAuthentication::default();
             let body = RequestBody::default();
+            let headers = FieldTable::default();
+            let params = FieldTable::default();
+            let variables = FieldTable::default();
             Self {
                 builder,
                 authentication,
                 body,
+                headers,
+                params,
+                variables,
             }
         }
 
@@ -154,6 +163,36 @@ mod builder {
             self
         }
 
+        pub fn header(self, header: &Field) -> Self {
+            self.headers.insert(header);
+            self
+        }
+
+        pub fn headers(self, headers: &FieldTable) -> Self {
+            self.headers.replace(headers);
+            self
+        }
+
+        pub fn param(self, param: &Field) -> Self {
+            self.params.insert(param);
+            self
+        }
+
+        pub fn params(self, params: &FieldTable) -> Self {
+            self.params.replace(params);
+            self
+        }
+
+        pub fn variable(self, variable: &Field) -> Self {
+            self.variables.insert(variable);
+            self
+        }
+
+        pub fn variables(self, variables: &FieldTable) -> Self {
+            self.variables.replace(variables);
+            self
+        }
+
         pub fn build(self) -> Request {
             let req = self.builder.build();
             req.authentication()
@@ -162,6 +201,9 @@ mod builder {
                 .set_auth_data(self.authentication.auth_data());
             req.body().set_body_type(self.body.body_type());
             req.body().set_body_data(self.body.body_data());
+            req.headers().replace(&self.headers);
+            req.params().replace(&self.params);
+            req.variables().replace(&self.variables);
             req
         }
     }
@@ -170,8 +212,9 @@ mod builder {
 #[cfg(test)]
 mod tests {
     use crate::{
-        RequestAuthentication, RequestAuthenticationBearer, RequestAuthenticationType, RequestBody,
-        RequestBodyRaw, RequestBodyRawType, RequestBodyType,
+        Field, FieldTable, RequestAuthentication, RequestAuthenticationBearer,
+        RequestAuthenticationType, RequestBody, RequestBodyRaw, RequestBodyRawType,
+        RequestBodyType,
     };
 
     use super::*;
@@ -223,5 +266,88 @@ mod tests {
         let bearer = request.body().raw().unwrap();
         assert_eq!(bearer.payload_type(), RequestBodyRawType::OctetStream);
         assert_eq!(bearer.payload().into_data().as_ref(), b"hello world");
+    }
+
+    #[test]
+    fn test_builder_without_headers() {
+        let body =
+            Request::builder("https://www.example.com/api/users", RequestMethod::Get).build();
+        assert_eq!(0, body.headers().group_by_key().len());
+    }
+
+    #[test]
+    pub fn test_builder_can_add_header() {
+        let body = Request::builder("https://www.example.com/api/users", RequestMethod::Get)
+            .header(
+                &(Field::builder()
+                    .key("Content-Type")
+                    .value("application/xml")
+                    .build()),
+            )
+            .build();
+        assert_eq!(1, body.headers().group_by_key().len());
+    }
+
+    #[test]
+    pub fn test_builder_can_add_header_and_header() {
+        let body = Request::builder("https://www.example.com/api/users", RequestMethod::Get)
+            .header(
+                &(Field::builder()
+                    .key("Content-Type")
+                    .value("application/xml")
+                    .build()),
+            )
+            .header(
+                &(Field::builder()
+                    .key("Authorization")
+                    .value("Bearer 1234")
+                    .build()),
+            )
+            .build();
+        assert_eq!(2, body.headers().group_by_key().len());
+    }
+
+    #[test]
+    pub fn test_builder_can_add_duplicate_header() {
+        let body = Request::builder("https://www.example.com/@profile", RequestMethod::Get)
+            .header(
+                &(Field::builder()
+                    .key("Accept")
+                    .value("application/activity+json")
+                    .build()),
+            )
+            .header(
+                &(Field::builder()
+                    .key("Accept")
+                    .value("application/json")
+                    .build()),
+            )
+            .build();
+
+        let headers = body.headers().group_by_key();
+        assert_eq!(1, headers.len());
+
+        let accept = headers.get("Accept").unwrap();
+        assert_eq!(2, accept.len());
+        assert_eq!("application/activity+json", accept[0].value());
+        assert_eq!("application/json", accept[1].value());
+    }
+
+    #[test]
+    pub fn test_builder_can_add_headers() {
+        let headers = FieldTable::from_iter(vec![
+            Field::builder()
+                .key("Accept")
+                .value("application/json")
+                .build(),
+            Field::builder()
+                .key("Authorization")
+                .value("Bearer 1234")
+                .build(),
+        ]);
+        let body = Request::builder("https://www.example.com/api/users", RequestMethod::Get)
+            .headers(&headers)
+            .build();
+        assert_eq!(2, body.headers().group_by_key().len());
     }
 }

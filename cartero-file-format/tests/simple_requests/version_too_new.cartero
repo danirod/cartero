@@ -1,0 +1,4 @@
+# The version on this one is too new for this decoder
+version = 2
+url = "https://www.example.com"
+method = "GET"

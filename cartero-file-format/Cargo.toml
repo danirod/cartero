@@ -1,0 +1,16 @@
+[package]
+name = "cartero_file_format"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+cartero_objects = { path = "../cartero-objects" }
+cartero_interop = { path = "../cartero-interop" }
+form_urlencoded = "1.2.1"
+indexmap = { version = "2.9.0", features = ["serde"] }
+glib.workspace = true
+gio.workspace = true
+serde.workspace = true
+toml.workspace = true
+toml_edit = "0.22.27"

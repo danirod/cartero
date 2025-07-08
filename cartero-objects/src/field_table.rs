@@ -15,7 +15,9 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use gio::prelude::ListModelExt;
+use std::collections::HashMap;
+
+use gio::prelude::{ListModelExt, ListModelExtManual};
 use glib::subclass::prelude::*;
 use glib::{prelude::*, Object};
 
@@ -121,6 +123,21 @@ impl FieldTable {
         }
         // If we reach here, we survived delete.
         self.items_changed(pos, 1, 0);
+    }
+
+    /// Groups by key every field contained in this table, accepting duplicates.
+    pub fn group_by_key(&self) -> HashMap<String, Vec<Field>> {
+        self.iter::<Field>().fold(HashMap::new(), |mut map, item| {
+            if let Ok(field) = item {
+                match map.get_mut(field.key().as_str()) {
+                    None => {
+                        map.insert(field.key().to_string(), vec![field.clone()]);
+                    }
+                    Some(old) => old.push(field.clone()),
+                };
+            }
+            map
+        })
     }
 }
 
@@ -275,6 +292,35 @@ mod tests {
             assert!(table.field(0).is_some_and(|f| f == field2));
             assert!(table.item(1).is_none());
         }
+    }
+
+    #[test]
+    fn test_group_by_key() {
+        let fields = vec![
+            Field::from(("category_id", "10")),
+            Field::from(("tag_id", "20")),
+            Field::from(("tag_id", "30")),
+        ];
+        let table = FieldTable::from_iter(fields);
+
+        let group = table.group_by_key();
+        assert_eq!(group.len(), 2);
+
+        let category_id = group.get("category_id").unwrap();
+        assert_eq!(category_id.len(), 1);
+        assert_eq!(category_id[0].value(), "10");
+
+        let tag_id = group.get("tag_id").unwrap();
+        assert_eq!(tag_id.len(), 2);
+        if tag_id[0].value() == "20" {
+            assert_eq!(tag_id[1].value(), "30");
+        } else if tag_id[0].value() == "30" {
+            assert_eq!(tag_id[1].value(), "20");
+        } else {
+            panic!("invalid elements in the tag");
+        }
+
+        assert!(group.get("empty").is_none());
     }
 
     #[test]

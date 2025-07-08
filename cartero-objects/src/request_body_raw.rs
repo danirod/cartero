@@ -69,6 +69,11 @@ impl RequestBodyRaw {
             .build()
     }
 
+    /// Returns an owned vector of the bytes contained in the payload.
+    pub fn bytes(&self) -> Vec<u8> {
+        self.payload().into_data().into()
+    }
+
     pub fn builder(payload_type: RequestBodyRawType) -> builder::RequestBodyRawBuilder {
         builder::RequestBodyRawBuilder::new(payload_type)
     }
@@ -213,6 +218,16 @@ mod tests {
         let payload = raw.payload();
         let contents = String::from_utf8_lossy(payload.as_ref());
         assert_eq!(contents, "<?xml?>");
+    }
+
+    #[test]
+    pub fn test_bytes() {
+        let raw = RequestBodyRaw::new(RequestBodyRawType::Xml, "<?xml?>".as_bytes());
+        assert_eq!(raw.payload_type(), RequestBodyRawType::Xml);
+        assert_eq!(raw.payload().len(), 7);
+        let value = raw.bytes();
+        assert_eq!(value.len(), 7);
+        assert_eq!(value, b"<?xml?>");
     }
 
     #[test]

@@ -1,0 +1,4 @@
+# There is no such thing as version 0
+version = 0
+url = "https://www.example.com"
+method = "GET"

@@ -177,7 +177,7 @@ jobs:
     name: "AppImage ${{ matrix.platform.name }}"
     steps:
     - name: Install dependencies
-      run: sudo apt install --no-install-recommends desktop-file-utils gettext libadwaita-1-dev libfuse2 libgtk-4-bin libgtk-4-dev libgtksourceview-5-dev librsvg2-common meson jq
+      run: sudo apt update && sudo apt install --no-install-recommends desktop-file-utils gettext libadwaita-1-dev libfuse2 libgtk-4-bin libgtk-4-dev libgtksourceview-5-dev librsvg2-common meson jq
     - uses: actions/checkout@v4
     - name: Generate version code
       id: version-code

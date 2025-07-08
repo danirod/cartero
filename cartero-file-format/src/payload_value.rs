@@ -114,15 +114,14 @@ impl From<PayloadValue> for RequestBody {
                 RequestBody::new(RequestBodyType::Raw, Some(parsed_body))
             }
             PayloadValue::Multipart { variables } => {
-                let parsed_variables = variables.map(|ft| FieldTable::from(ft)).unwrap_or_default();
+                let parsed_variables = variables.map(FieldTable::from).unwrap_or_default();
                 let parsed_body = RequestBodyMultipart::from_table(&parsed_variables);
                 RequestBody::new(RequestBodyType::Multipart, Some(parsed_body))
             }
             PayloadValue::UrlEncoded { variables } => {
                 let parsed_variables = variables.map(FieldTable::from).unwrap_or_default();
                 let parsed_body = RequestBodyUrlencoded::from_table(&parsed_variables);
-                let body = RequestBody::new(RequestBodyType::UrlEncoded, Some(parsed_body));
-                body
+                RequestBody::new(RequestBodyType::UrlEncoded, Some(parsed_body))
             }
         }
     }

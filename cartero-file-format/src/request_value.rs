@@ -136,7 +136,7 @@ impl From<Request> for RequestValue {
             cartero_objects::RequestBodyType::None => None,
             _ => Some(PayloadValue::from(value.body())),
         };
-        let body = body.map(|body| PayloadValueOrString::Structured(body));
+        let body = body.map(PayloadValueOrString::Structured);
         let headers = if value.headers().n_items() > 0 {
             Some(value.headers().into())
         } else {
@@ -161,7 +161,7 @@ impl From<Request> for RequestValue {
             .map(|map| map.unwrap())
             .filter(|param| !param.active())
             .collect::<Vec<Field>>();
-        let inactive_params = if inactive_params.len() > 0 {
+        let inactive_params = if !inactive_params.is_empty() {
             let table = FieldTable::from_iter(inactive_params);
             Some(table.into())
         } else {

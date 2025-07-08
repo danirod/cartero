@@ -40,10 +40,15 @@ pub(crate) struct RequestValue {
     url: String,
     method: String,
     body: Option<PayloadValueOrString>,
+    #[serde(serialize_with = "crate::serializer::alphabetical_field_table")]
     headers: Option<FieldTableValue<FieldValue>>,
+    #[serde(serialize_with = "crate::serializer::alphabetical_field_table")]
     variables: Option<FieldTableValue<FieldValue>>,
     authorization: Option<AuthorizationValue>,
-    #[serde(rename = "inactive-params")]
+    #[serde(
+        rename = "inactive-params",
+        serialize_with = "crate::serializer::alphabetical_field_table"
+    )]
     inactive_params: Option<FieldTableValue<QueryValue>>,
 }
 

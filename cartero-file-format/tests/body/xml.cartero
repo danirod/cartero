@@ -5,4 +5,4 @@ method = "POST"
 [body]
 type = "raw"
 format = "xml"
-body = "<?xml version=\"1.0\" ?><payload value=\"Hello world\" />"
+body = '<?xml version="1.0" ?><payload value="Hello world" />'

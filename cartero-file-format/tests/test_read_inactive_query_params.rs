@@ -15,11 +15,11 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+mod common;
+
 use cartero_file_format::deserialize_request;
 use common::assert_field;
 use gio::prelude::ListModelExt;
-
-mod common;
 
 #[test]
 fn no_inactive() {

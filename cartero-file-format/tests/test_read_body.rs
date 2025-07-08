@@ -92,16 +92,43 @@ pub fn url_encoded_duplicate() {
 
     assert_eq!(request.body().body_type(), RequestBodyType::UrlEncoded);
     let urlenc = request.body().urlencoded().unwrap();
+    assert_eq!(urlenc.params().n_items(), 4);
+    let vars = urlenc.params().group_by_key();
+
+    let category = vars.get("category").unwrap();
+    assert_eq!(category.len(), 4);
+    assert_field(category[0].as_ref(), "category", "10", true, false);
+    assert_field(category[1].as_ref(), "category", "20", false, false);
+    assert_field(category[2].as_ref(), "category", "30", false, true);
+    assert_field(category[3].as_ref(), "category", "40", true, true);
+}
+
+#[test]
+pub fn url_encoded_combined() {
+    let contents = include_str!("body/url_encoded_combined.cartero");
+    let result = deserialize_request(contents).unwrap();
+
+    assert!(result.warnings().is_empty());
+    let request = result.object();
+
+    assert_eq!(request.body().body_type(), RequestBodyType::UrlEncoded);
+    let urlenc = request.body().urlencoded().unwrap();
     assert_eq!(urlenc.params().n_items(), 5);
     let vars = urlenc.params().group_by_key();
 
     let category = vars.get("category").unwrap();
-    assert_eq!(category.len(), 5);
-    assert_field(category[0].as_ref(), "category", "10", true, false);
-    assert_field(category[1].as_ref(), "category", "20", true, false);
-    assert_field(category[2].as_ref(), "category", "30", false, false);
-    assert_field(category[3].as_ref(), "category", "40", false, true);
-    assert_field(category[4].as_ref(), "category", "50", true, true);
+    assert_eq!(category.len(), 3);
+    assert_field(category[0].as_ref(), "category", "kitchenware", true, false);
+    assert_field(category[1].as_ref(), "category", "decoration", true, false);
+    assert_field(category[2].as_ref(), "category", "garden", true, false);
+
+    let max_price = vars.get("max_price").unwrap();
+    assert_eq!(max_price.len(), 1);
+    assert_field(max_price[0].as_ref(), "max_price", "25", true, false);
+
+    let min_price = vars.get("min_price").unwrap();
+    assert_eq!(min_price.len(), 1);
+    assert_field(min_price[0].as_ref(), "min_price", "10", true, false);
 }
 
 #[test]
@@ -144,16 +171,43 @@ pub fn multipart_duplicate() {
 
     assert_eq!(request.body().body_type(), RequestBodyType::Multipart);
     let multipart = request.body().multipart().unwrap();
-    assert_eq!(multipart.params().n_items(), 5);
+    assert_eq!(multipart.params().n_items(), 4);
     let vars = multipart.params().group_by_key();
 
     let category = vars.get("category").unwrap();
-    assert_eq!(category.len(), 5);
+    assert_eq!(category.len(), 4);
     assert_field(category[0].as_ref(), "category", "10", true, false);
-    assert_field(category[1].as_ref(), "category", "20", true, false);
-    assert_field(category[2].as_ref(), "category", "30", false, false);
-    assert_field(category[3].as_ref(), "category", "40", false, true);
-    assert_field(category[4].as_ref(), "category", "50", true, true);
+    assert_field(category[1].as_ref(), "category", "20", false, false);
+    assert_field(category[2].as_ref(), "category", "30", false, true);
+    assert_field(category[3].as_ref(), "category", "40", true, true);
+}
+
+#[test]
+pub fn multipart_combined() {
+    let contents = include_str!("body/multipart_combined.cartero");
+    let result = deserialize_request(contents).unwrap();
+
+    assert!(result.warnings().is_empty());
+    let request = result.object();
+
+    assert_eq!(request.body().body_type(), RequestBodyType::Multipart);
+    let urlenc = request.body().multipart().unwrap();
+    assert_eq!(urlenc.params().n_items(), 5);
+    let vars = urlenc.params().group_by_key();
+
+    let category = vars.get("category").unwrap();
+    assert_eq!(category.len(), 3);
+    assert_field(category[0].as_ref(), "category", "kitchenware", true, false);
+    assert_field(category[1].as_ref(), "category", "decoration", true, false);
+    assert_field(category[2].as_ref(), "category", "garden", true, false);
+
+    let max_price = vars.get("max_price").unwrap();
+    assert_eq!(max_price.len(), 1);
+    assert_field(max_price[0].as_ref(), "max_price", "25", true, false);
+
+    let min_price = vars.get("min_price").unwrap();
+    assert_eq!(min_price.len(), 1);
+    assert_field(min_price[0].as_ref(), "min_price", "10", true, false);
 }
 
 #[test]

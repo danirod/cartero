@@ -8,8 +8,7 @@ type = "urlencoded"
 [body.variables]
 category = [
     "10",
-    { value = "20", active = true, secret = false },
-    { value = "30", active = false, secret = false },
-    { value = "40", active = false, secret = true },
-    { value = "50", active = true, secret = true },
+    { value = "20", active = false, secret = false },
+    { value = "30", active = false, secret = true },
+    { value = "40", active = true, secret = true },
 ]

@@ -1,0 +1,16 @@
+[package]
+name = "cartero_http"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+base64 = "0.22.1"
+cartero_objects = { path = "../cartero-objects" }
+url = "2.5.4"
+srtemplate = "0.3.3"
+glib.workspace = true
+gio.workspace = true
+serde_urlencoded = "0.7.1"
+formdata = "0.13.0"
+

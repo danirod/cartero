@@ -183,10 +183,32 @@ dependencies = [
 ]
 
 [[package]]
+name = "cartero_http"
+version = "0.3.0"
+dependencies = [
+ "base64 0.22.1",
+ "cartero_objects",
+ "formdata",
+ "gio",
+ "glib",
+ "serde_urlencoded",
+ "srtemplate",
+ "url 2.5.4",
+]
+
+[[package]]
 name = "cartero_interop"
 version = "0.3.0"
 dependencies = [
  "cartero_objects",
+]
+
+[[package]]
+name = "cartero_isahc_client"
+version = "0.3.0"
+dependencies = [
+ "cartero_objects",
+ "isahc",
 ]
 
 [[package]]
@@ -196,6 +218,7 @@ dependencies = [
  "ctor",
  "gio",
  "glib",
+ "srtemplate",
 ]
 
 [[package]]
@@ -1849,9 +1872,9 @@ dependencies = [
 
 [[package]]
 name = "srtemplate"
-version = "0.3.2"
+version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c9ad90c2a5c43001b6daf78bd7757b78fea66ee1fb9fbda3458e470b4657701f"
+checksum = "e41fff3c5e0a3d397a26a90c6611eb922b771c02d353171224fc26798ae93789"
 dependencies = [
  "dashmap",
  "paste",

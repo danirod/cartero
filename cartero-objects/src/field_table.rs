@@ -20,6 +20,7 @@ use std::collections::HashMap;
 use gio::prelude::{ListModelExt, ListModelExtManual};
 use glib::subclass::prelude::*;
 use glib::{prelude::*, Object};
+use srtemplate::SrTemplate;
 
 use crate::field::Field;
 
@@ -138,6 +139,32 @@ impl FieldTable {
             }
             map
         })
+    }
+
+    pub fn render(&self, template: &SrTemplate) -> Result<Self, srtemplate::Error> {
+        self.iter::<Field>()
+            .filter_map(|r| r.ok())
+            .map(|field| {
+                let key = template.render(field.key())?;
+                let value = template.render(field.value())?;
+                Ok(Field::builder()
+                    .key(key)
+                    .value(value)
+                    .active(field.active())
+                    .masked(field.masked())
+                    .build())
+            })
+            .collect::<Result<Self, srtemplate::Error>>()
+    }
+
+    pub fn template_processor(&self) -> SrTemplate<'static> {
+        self.iter::<Field>()
+            .filter_map(|r| r.ok())
+            .filter(|field| field.active())
+            .fold(SrTemplate::default(), |acc, field| {
+                acc.add_variable(field.key(), field.value());
+                acc
+            })
     }
 }
 
@@ -354,5 +381,202 @@ mod tests {
         assert_eq!("Content-Type", table1.field(0).unwrap().key());
         assert_eq!("Host", table1.field(1).unwrap().key());
         assert_eq!("Server", table1.field(2).unwrap().key());
+    }
+
+    #[test]
+    fn test_template_processor() {
+        let table = FieldTable::from_iter(vec![
+            Field::builder()
+                .key("API_ROOT")
+                .value("http://localhost:8000")
+                .build(),
+            Field::builder().key("TOKEN").value("12341234").build(),
+        ]);
+
+        let processor = table.template_processor();
+        assert!(processor.contains_variable("API_ROOT"));
+        assert!(processor.contains_variable("TOKEN"));
+        assert_eq!(
+            processor.render("{{API_ROOT}}/api/v1").unwrap(),
+            "http://localhost:8000/api/v1"
+        );
+        assert!(processor.render("{{INVALID}}").is_err());
+    }
+
+    #[test]
+    fn test_template_processor_is_immutable() {
+        let field = Field::builder()
+            .key("API_ROOT")
+            .value("http://localhost:3000")
+            .build();
+        let table = FieldTable::from_iter(vec![field.clone()]);
+
+        // The processor renders the current state of the field table
+        let processor = table.template_processor();
+        assert_eq!(
+            processor.render("{{ API_ROOT }}/api/v1").unwrap(),
+            "http://localhost:3000/api/v1"
+        );
+
+        // Just because you update a value, it won't update the processor
+        field.set_value("http://api.example.com");
+        assert_eq!(
+            processor.render("{{ API_ROOT }}/api/v1").unwrap(),
+            "http://localhost:3000/api/v1"
+        );
+
+        // Of course if you create a new processor, the value is updated
+        let processor = table.template_processor();
+        assert_eq!(
+            processor.render("{{ API_ROOT }}/api/v1").unwrap(),
+            "http://api.example.com/api/v1"
+        );
+    }
+
+    #[test]
+    fn test_template_processor_can_survive_the_field_table() {
+        let processor = {
+            let field = Field::builder()
+                .key("API_ROOT")
+                .value("http://localhost:3000")
+                .build();
+            let table = FieldTable::from_iter(vec![field.clone()]);
+            table.template_processor()
+        };
+        assert!(processor.contains_variable("API_ROOT"));
+    }
+
+    #[test]
+    fn test_template_processor_deactivated_variable() {
+        let table = FieldTable::from_iter(vec![Field::builder()
+            .key("API_ROOT")
+            .value("http://localhost:8000")
+            .active(false)
+            .build()]);
+
+        let processor = table.template_processor();
+        assert!(!processor.contains_variable("API_ROOT"));
+    }
+
+    #[test]
+    fn test_template_processor_overriding_variable() {
+        let table = FieldTable::from_iter(vec![
+            Field::builder()
+                .key("API_ROOT")
+                .value("http://localhost:3000")
+                .build(),
+            Field::builder()
+                .key("API_ROOT")
+                .value("https://api.example.com")
+                .build(),
+        ]);
+
+        let processor = table.template_processor();
+        assert_eq!(
+            processor.render("{{ API_ROOT }}").unwrap(),
+            "https://api.example.com"
+        );
+    }
+
+    #[test]
+    fn test_template_processor_overriding_variable_is_disabled() {
+        let table = FieldTable::from_iter(vec![
+            Field::builder()
+                .key("API_ROOT")
+                .value("http://localhost:3000")
+                .build(),
+            Field::builder()
+                .key("API_ROOT")
+                .value("https://api.example.com")
+                .active(false)
+                .build(),
+        ]);
+
+        let processor = table.template_processor();
+        assert_eq!(
+            processor.render("{{ API_ROOT }}").unwrap(),
+            "http://localhost:3000"
+        );
+    }
+
+    #[test]
+    fn test_render_with_valid_variables() {
+        let template = SrTemplate::default();
+        template.add_variable("API_ROOT", "http://localhost:3000");
+        template.add_variable("API_KEY", "12341234");
+        template.add_variable("KEY", "category");
+
+        let table = FieldTable::from_iter(vec![
+            Field::builder()
+                .key("Location")
+                .value("{{ API_ROOT }}/v1/users")
+                .build(),
+            Field::builder()
+                .key("{{ KEY }}")
+                .value("10")
+                .active(false)
+                .build(),
+            Field::builder()
+                .key("Authorization")
+                .value("Bearer {{ API_KEY }}")
+                .masked(true)
+                .build(),
+            Field::builder()
+                .key("X-Api-Key")
+                .value("{{API_KEY}}")
+                .active(false)
+                .masked(true)
+                .build(),
+        ]);
+
+        let render_table = table.render(&template).unwrap();
+        assert_eq!(render_table.n_items(), 4);
+
+        let values = render_table.group_by_key();
+
+        assert_field(
+            &values["Location"][0],
+            "Location",
+            "http://localhost:3000/v1/users",
+            true,
+            false,
+        );
+        assert_field(
+            &values["Authorization"][0],
+            "Authorization",
+            "Bearer 12341234",
+            true,
+            true,
+        );
+        assert_field(
+            &values["X-Api-Key"][0],
+            "X-Api-Key",
+            "12341234",
+            false,
+            true,
+        );
+        assert_field(&values["category"][0], "category", "10", false, false);
+    }
+
+    #[test]
+    fn test_render_with_invalid_variables() {
+        let template = SrTemplate::default();
+
+        let table = FieldTable::from_iter(vec![Field::builder()
+            .key("Location")
+            .value("{{ API_ROOT }}/v1/users")
+            .build()]);
+        let render_table = table.render(&template);
+        let Err(srtemplate::Error::VariableNotFound(var)) = render_table else {
+            panic!("expected err");
+        };
+        assert_eq!(var, "API_ROOT");
+    }
+
+    fn assert_field(f: &Field, key: &str, value: &str, active: bool, masked: bool) {
+        assert_eq!(f.key(), key);
+        assert_eq!(f.value(), value);
+        assert_eq!(f.active(), active);
+        assert_eq!(f.masked(), masked);
     }
 }

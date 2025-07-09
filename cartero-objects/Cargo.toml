@@ -7,6 +7,7 @@ license.workspace = true
 [dependencies]
 glib.workspace = true
 gio.workspace = true
+srtemplate = "0.3.3"
 
 [dev-dependencies]
 ctor = "0.4.2"

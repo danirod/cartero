@@ -17,6 +17,7 @@
 
 use glib::subclass::prelude::*;
 use glib::{prelude::*, Object};
+use srtemplate::SrTemplate;
 
 use crate::RequestMethod;
 
@@ -71,6 +72,11 @@ impl Default for Request {
 impl Request {
     pub fn builder(url: &str, method: RequestMethod) -> builder::RequestBuilder {
         builder::RequestBuilder::new(url, method)
+    }
+
+    pub fn template_processor(&self) -> SrTemplate<'static> {
+        // Currently only delegates to variables(). In the future may be bound to an environment.
+        self.variables().template_processor()
     }
 }
 
@@ -349,5 +355,45 @@ mod tests {
             .headers(&headers)
             .build();
         assert_eq!(2, body.headers().group_by_key().len());
+    }
+
+    #[test]
+    fn test_template_processor() {
+        let request = Request::builder("https://www.example.com/api/users", RequestMethod::Get)
+            .variable(
+                &Field::builder()
+                    .key("API_ROOT")
+                    .value("http://localhost:3000")
+                    .build(),
+            )
+            .build();
+        let processor = request.template_processor();
+
+        assert!(processor.contains_variable("API_ROOT"));
+        assert_eq!(
+            processor.render("{{ API_ROOT }}/v1/users").unwrap(),
+            "http://localhost:3000/v1/users"
+        );
+    }
+
+    #[test]
+    fn test_template_processor_outlives_the_request() {
+        let processor = {
+            let request = Request::builder("https://www.example.com/api/users", RequestMethod::Get)
+                .variable(
+                    &Field::builder()
+                        .key("API_ROOT")
+                        .value("http://localhost:3000")
+                        .build(),
+                )
+                .build();
+            request.template_processor()
+        };
+
+        assert!(processor.contains_variable("API_ROOT"));
+        assert_eq!(
+            processor.render("{{ API_ROOT }}/v1/users").unwrap(),
+            "http://localhost:3000/v1/users"
+        );
     }
 }

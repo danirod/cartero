@@ -21,7 +21,6 @@ mod key_value_table;
 mod request_authorization;
 mod request_method;
 mod request_payload;
-mod response_data;
 
 pub use endpoint_data::EndpointData;
 pub use key_value::KeyValue;
@@ -29,4 +28,3 @@ pub use key_value_table::KeyValueTable;
 pub use request_authorization::RequestAuthorization;
 pub use request_method::RequestMethod;
 pub use request_payload::{RawEncoding, RequestPayload};
-pub use response_data::ResponseData;

@@ -17,8 +17,10 @@
 
 use std::path::PathBuf;
 
+use cartero_objects::Response;
+use formatx::formatx;
+use gettextrs::gettext;
 use glib::Object;
-use gtk::gio::{ListModel, ListStore};
 use gtk::glib;
 use gtk::prelude::TextViewExt;
 use gtk::prelude::*;
@@ -26,9 +28,7 @@ use serde_json::Value;
 use sourceview5::prelude::BufferExt;
 use sourceview5::LanguageManager;
 
-use crate::entities::ResponseData;
 use crate::error::{RequestBuildError, RequestError, RequestPreconditionError};
-use crate::objects::KeyValueItem;
 use glib::subclass::types::ObjectSubclassIsExt;
 
 mod imp {
@@ -38,6 +38,7 @@ mod imp {
     use crate::widgets::{CodeView, ErrorPane, ResponseHeaders, SearchBox};
     use adw::prelude::*;
     use adw::subclass::bin::BinImpl;
+    use cartero_objects::Response;
     use glib::object::Cast;
     use glib::subclass::InitializingObject;
     use glib::Properties;
@@ -79,9 +80,8 @@ mod imp {
         #[template_child]
         search_revealer: TemplateChild<Revealer>,
 
-        #[property(get = Self::has_response_impl)]
-        _has_response: RefCell<bool>,
-
+        #[property(get, set, nullable)]
+        response: RefCell<Option<Response>>,
         #[property(get = Self::spinning, set = Self::set_spinning)]
         _spinning: RefCell<bool>,
     }
@@ -103,20 +103,7 @@ mod imp {
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for ResponsePanel {
-        fn constructed(&self) {
-            self.parent_constructed();
-
-            self.stack.connect_visible_child_name_notify(glib::clone!(
-                #[weak(rename_to = panel)]
-                self,
-                move |_| {
-                    let obj = panel.obj();
-                    obj.notify("has-response");
-                }
-            ));
-        }
-    }
+    impl ObjectImpl for ResponsePanel {}
 
     impl WidgetImpl for ResponsePanel {}
 
@@ -124,10 +111,6 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl ResponsePanel {
-        fn has_response_impl(&self) -> bool {
-            self.stack.visible_child_name().unwrap_or_default() == "response"
-        }
-
         fn spinning(&self) -> bool {
             self.metadata_stack
                 .visible_child()
@@ -230,22 +213,18 @@ impl ResponsePanel {
         imp.metadata_stack.set_visible_child(&*imp.spinner);
     }
 
-    pub fn assign_from_response(&self, resp: &ResponseData) {
+    pub fn assign_from_response(&self, resp: &Response) {
+        self.set_response(Some(resp.clone()));
+
         let imp = self.imp();
 
-        let mut headers = resp.headers.clone();
-        headers.sort();
-        let headers: Vec<KeyValueItem> = headers.iter().map(KeyValueItem::from).collect();
+        let headers = resp.headers().clone();
+        imp.response_headers.set_headers(Some(headers));
 
-        let store = ListStore::with_type(KeyValueItem::static_type());
-        store.extend_from_slice(&headers);
-        let model = store.upcast::<ListModel>();
-        imp.response_headers.set_headers(Some(&model));
-
-        let status = format!("• HTTP {}", resp.status_code);
+        let status = format!("• HTTP {}", resp.status_code());
         imp.status_code.set_text(&status);
         imp.status_code.set_visible(true);
-        let status_color = match resp.status_code {
+        let status_color = match resp.status_code() {
             200..=299 => "success",
             400..=499 => "warning",
             500..=599 => "error",
@@ -261,10 +240,10 @@ impl ResponsePanel {
 
         imp.status_code.add_css_class(status_color);
 
-        imp.duration.set_text(&resp.format_duration());
+        imp.duration.set_text(&format_duration(resp.duration()));
         imp.duration.set_visible(true);
 
-        let size = glib::format_size(resp.size as u64);
+        let size = glib::format_size(resp.size() as u64);
         imp.response_size.set_text(&size);
         imp.response_size.set_visible(true);
 
@@ -276,10 +255,12 @@ impl ResponsePanel {
             .downcast::<sourceview5::Buffer>()
             .unwrap();
 
-        buffer.set_text(&resp.body_str());
+        #[allow(deprecated)]
+        buffer.set_text(&resp.safe_string());
 
         if resp.is_json() {
-            let json = serde_json::from_str(&resp.body_str())
+            #[allow(deprecated)]
+            let json = serde_json::from_str(&resp.safe_string())
                 .and_then(|text: Value| serde_json::to_string_pretty(&text));
             if let Ok(json) = json {
                 buffer.set_text(&json);
@@ -291,15 +272,15 @@ impl ResponsePanel {
         } else if resp.is_xml() {
             LanguageManager::default().language("xml")
         } else {
-            resp.headers
-                .header("Content-Type")
-                .map(|ctypes| ctypes[0])
+            resp.headers()
+                .find_by_name_icase("Content-Type")
+                .map(|ctypes| ctypes[0].to_owned())
                 .and_then(|ctype| {
                     let ctype = match ctype.split_once(';') {
-                        Some((c, _)) => c,
+                        Some((c, _)) => c.to_string(),
                         None => ctype,
                     };
-                    LanguageManager::default().guess_language(Option::<PathBuf>::None, Some(ctype))
+                    LanguageManager::default().guess_language(Option::<PathBuf>::None, Some(&ctype))
                 })
         };
 
@@ -309,5 +290,19 @@ impl ResponsePanel {
         };
 
         imp.show_response();
+    }
+}
+
+fn format_duration(duration: u64) -> String {
+    if duration >= 1000 {
+        // Format as seconds
+        let seconds = (duration as f64) / 1000.0;
+        let duration = format!("{:.2}", seconds);
+        // TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
+        formatx!(gettext("{} s"), duration).unwrap()
+    } else {
+        // Format as milliseconds.
+        // TRANSLATORS: duration measured in milliseconds, as in "234 ms"
+        formatx!(gettext("{} ms"), duration).unwrap()
     }
 }

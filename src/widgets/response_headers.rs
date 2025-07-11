@@ -22,10 +22,9 @@ mod imp {
 
     use adw::prelude::*;
     use adw::subclass::prelude::*;
+    use cartero_objects::Field;
     use glib::{subclass::InitializingObject, Properties};
     use gtk::{gio::ListModel, CompositeTemplate, ListBox, TemplateChild};
-
-    use crate::objects::KeyValueItem;
 
     #[derive(Default, CompositeTemplate, Properties)]
     #[properties(wrapper_type = super::ResponseHeaders)]
@@ -65,12 +64,12 @@ mod imp {
             match model {
                 Some(ref model) => {
                     self.list_box.bind_model(Some(model), |item| {
-                        let item = item.downcast_ref::<KeyValueItem>().unwrap();
+                        let item = item.downcast_ref::<Field>().unwrap();
                         let widget = adw::ActionRow::new();
                         widget.set_use_markup(false);
-                        widget.set_title(&item.header_name());
+                        widget.set_title(&item.key());
                         widget.set_title_selectable(true);
-                        widget.set_subtitle(&item.header_value());
+                        widget.set_subtitle(&item.value());
                         widget.set_subtitle_selectable(true);
                         widget.add_css_class("property");
                         widget.upcast::<gtk::Widget>()

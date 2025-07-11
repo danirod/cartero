@@ -41,7 +41,7 @@ mod imp {
     use gtk::{prelude::*, ClosureExpression, CompositeTemplate};
 
     use crate::app::CarteroApplication;
-    use crate::entities::{EndpointData, KeyValue, ResponseData};
+    use crate::entities::{EndpointData, KeyValue};
     use crate::objects::KeyValueItem;
     use crate::widgets::{
         AuthorizationPane, KeyValuePane, MethodDropdown, PayloadTab, ResponsePanel,
@@ -178,7 +178,7 @@ mod imp {
                 ))
                 .bind(&*obj, "cursor", Some(&*obj));
 
-            self.response.connect_has_response_notify(glib::clone!(
+            self.response.connect_response_notify(glib::clone!(
                 #[weak(rename_to = pane)]
                 self,
                 move |_| {
@@ -196,7 +196,7 @@ mod imp {
     #[gtk::template_callbacks]
     impl EndpointPane {
         fn has_response_impl(&self) -> bool {
-            self.response.has_response()
+            self.response.response().is_some()
         }
 
         fn init_actions(&self) {
@@ -504,8 +504,7 @@ mod imp {
 
             match response {
                 Ok(response) => {
-                    let data = ResponseData::from(response);
-                    self.response.assign_from_response(&data);
+                    self.response.assign_from_response(&response);
                 }
                 Err(e) => {
                     println!("{:?}", e);

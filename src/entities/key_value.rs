@@ -71,3 +71,25 @@ impl From<KeyValueItem> for KeyValue {
         }
     }
 }
+
+impl Into<cartero_objects::Field> for KeyValue {
+    fn into(self) -> cartero_objects::Field {
+        cartero_objects::Field::builder()
+            .key(self.name)
+            .value(self.value)
+            .active(self.active)
+            .masked(self.secret)
+            .build()
+    }
+}
+
+impl From<cartero_objects::Field> for KeyValue {
+    fn from(value: cartero_objects::Field) -> Self {
+        Self {
+            name: value.key(),
+            value: value.value(),
+            active: value.active(),
+            secret: value.masked(),
+        }
+    }
+}

@@ -25,3 +25,30 @@ pub enum RequestAuthorization {
     },
     Bearer(String),
 }
+
+impl Into<cartero_objects::RequestAuthentication> for RequestAuthorization {
+    fn into(self) -> cartero_objects::RequestAuthentication {
+        match self {
+            RequestAuthorization::None => cartero_objects::RequestAuthentication::builder()
+                .none()
+                .build(),
+            RequestAuthorization::Basic { username, password } => {
+                let basic = cartero_objects::RequestAuthenticationBasic::builder()
+                    .username(username)
+                    .password(password)
+                    .build();
+                cartero_objects::RequestAuthentication::builder()
+                    .basic_auth(&basic)
+                    .build()
+            }
+            RequestAuthorization::Bearer(token) => {
+                let bearer = cartero_objects::RequestAuthenticationBearer::builder()
+                    .token(token)
+                    .build();
+                cartero_objects::RequestAuthentication::builder()
+                    .bearer_token(&bearer)
+                    .build()
+            }
+        }
+    }
+}

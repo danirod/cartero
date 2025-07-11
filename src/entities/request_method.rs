@@ -80,3 +80,18 @@ mod tests {
         assert!(RequestMethod::try_from("Juan").is_err());
     }
 }
+
+impl Into<cartero_objects::RequestMethod> for RequestMethod {
+    fn into(self) -> cartero_objects::RequestMethod {
+        match self {
+            RequestMethod::Get => cartero_objects::RequestMethod::Get,
+            RequestMethod::Post => cartero_objects::RequestMethod::Post,
+            RequestMethod::Put => cartero_objects::RequestMethod::Put,
+            RequestMethod::Patch => cartero_objects::RequestMethod::Patch,
+            RequestMethod::Delete => cartero_objects::RequestMethod::Delete,
+            RequestMethod::Head => cartero_objects::RequestMethod::Head,
+            RequestMethod::Options => cartero_objects::RequestMethod::Options,
+            RequestMethod::Trace => cartero_objects::RequestMethod::Trace,
+        }
+    }
+}

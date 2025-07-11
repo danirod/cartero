@@ -53,3 +53,15 @@ impl EndpointData {
         headers
     }
 }
+
+impl Into<cartero_objects::Request> for EndpointData {
+    fn into(self) -> cartero_objects::Request {
+        cartero_objects::Request::builder(&self.url, self.method.into())
+            .with_auth(self.authorization.into())
+            .with_body(self.body.into())
+            .headers(&self.headers.into())
+            .params(&self.parameters.into())
+            .variables(&self.variables.into())
+            .build()
+    }
+}

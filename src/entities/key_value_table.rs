@@ -20,6 +20,7 @@ use std::{
     ops::{Deref, DerefMut},
 };
 
+use gtk::gio::prelude::ListModelExtManual;
 use srtemplate::SrTemplate;
 
 use super::KeyValue;
@@ -257,5 +258,23 @@ mod tests {
                 },
             ]
         );
+    }
+}
+
+impl Into<cartero_objects::FieldTable> for KeyValueTable {
+    fn into(self) -> cartero_objects::FieldTable {
+        let fields = self.0.into_iter().map(|field| field.into());
+        cartero_objects::FieldTable::from_iter(fields)
+    }
+}
+
+impl From<cartero_objects::FieldTable> for KeyValueTable {
+    fn from(value: cartero_objects::FieldTable) -> Self {
+        let kvs = value
+            .iter::<cartero_objects::Field>()
+            .filter_map(|field| field.ok())
+            .map(|field| KeyValue::from(field))
+            .collect::<Vec<KeyValue>>();
+        Self(kvs)
     }
 }

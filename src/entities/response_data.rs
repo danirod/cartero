@@ -29,6 +29,18 @@ pub struct ResponseData {
     pub body: Vec<u8>,
 }
 
+impl From<cartero_objects::Response> for ResponseData {
+    fn from(value: cartero_objects::Response) -> Self {
+        Self {
+            status_code: value.status_code(),
+            duration: value.duration() as u128,
+            size: value.size() as usize,
+            headers: value.headers().into(),
+            body: value.body().map(|bytes| bytes.to_vec()).unwrap_or_default(),
+        }
+    }
+}
+
 impl ResponseData {
     pub fn is_json(&self) -> bool {
         match self.headers.header("content-type") {

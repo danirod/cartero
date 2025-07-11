@@ -38,3 +38,41 @@ pub enum RequestPayload {
         content: Vec<u8>,
     },
 }
+
+impl Into<cartero_objects::RequestBody> for RequestPayload {
+    fn into(self) -> cartero_objects::RequestBody {
+        match self {
+            RequestPayload::None => cartero_objects::RequestBody::builder().none().build(),
+            RequestPayload::Urlencoded(table) => {
+                let field_table = table.into();
+                let urlencoded = cartero_objects::RequestBodyUrlencoded::builder()
+                    .params(&field_table)
+                    .build();
+                cartero_objects::RequestBody::builder()
+                    .urlencoded(&urlencoded)
+                    .build()
+            }
+            RequestPayload::Multipart { params } => {
+                let field_table = params.into();
+                let multipart = cartero_objects::RequestBodyMultipart::builder()
+                    .params(&field_table)
+                    .build();
+                cartero_objects::RequestBody::builder()
+                    .multipart(&multipart)
+                    .build()
+            }
+            RequestPayload::Raw { encoding, content } => {
+                let encoding = match encoding {
+                    RawEncoding::Json => cartero_objects::RequestBodyRawType::Json,
+                    RawEncoding::Xml => cartero_objects::RequestBodyRawType::Xml,
+                    RawEncoding::OctetStream => cartero_objects::RequestBodyRawType::OctetStream,
+                };
+                let bytes = glib::Bytes::from(content.as_slice());
+                let body = cartero_objects::RequestBodyRaw::builder(encoding)
+                    .payload(&bytes)
+                    .build();
+                cartero_objects::RequestBody::builder().raw(&body).build()
+            }
+        }
+    }
+}

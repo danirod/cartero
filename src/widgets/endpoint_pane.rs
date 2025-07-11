@@ -32,7 +32,6 @@ use crate::{
 mod imp {
     use std::cell::RefCell;
     use std::sync::{Arc, Mutex};
-    use std::time::Instant;
 
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
     use glib::subclass::InitializingObject;
@@ -40,12 +39,9 @@ mod imp {
     use gtk::gio::{self, SimpleAction, SimpleActionGroup};
     use gtk::subclass::prelude::*;
     use gtk::{prelude::*, ClosureExpression, CompositeTemplate};
-    use isahc::RequestExt;
 
     use crate::app::CarteroApplication;
-    use crate::client::BoundRequest;
     use crate::entities::{EndpointData, KeyValue, ResponseData};
-    use crate::error::{RequestError, RequestPreconditionError};
     use crate::objects::KeyValueItem;
     use crate::widgets::{
         AuthorizationPane, KeyValuePane, MethodDropdown, PayloadTab, ResponsePanel,
@@ -439,39 +435,6 @@ mod imp {
             }
         }
 
-        fn bind_request(&self) -> Result<BoundRequest, RequestPreconditionError> {
-            let request = self.extract_endpoint();
-            let request = BoundRequest::try_from(request);
-
-            // A special case before giving up: if the protocol is not specified, add it.
-            match request {
-                Err(RequestPreconditionError::MissingProtocol) => {
-                    // The URL is not considered an absolute URL, missing protocol.
-                    let url_field = self.request_url.text().to_string();
-                    let url_field = format!("http://{}", url_field);
-                    self.request_url.set_text(&url_field);
-
-                    // Now try again. If it fails again, just bail with the original error.
-                    let request = self.extract_endpoint();
-                    BoundRequest::try_from(request)
-                }
-                any => any,
-            }
-        }
-
-        async fn execute_request(
-            &self,
-            request: isahc::http::Request<Vec<u8>>,
-        ) -> Result<ResponseData, RequestError> {
-            let start = Instant::now();
-            let mut response = request
-                .send_async()
-                .await
-                .map_err(RequestError::NetworkError)?;
-            let response = crate::client::extract_isahc_response(&mut response, &start).await?;
-            Ok(response)
-        }
-
         fn action_cancel_request(&self) {
             let obj = self.obj();
 
@@ -515,27 +478,38 @@ mod imp {
             self.request_thread.replace(Some(thread_ref));
         }
 
+        fn request_environment(&self) -> cartero_http::RequestEnvironment {
+            let app = CarteroApplication::default();
+            let settings = app.settings();
+            let validate_tls = settings.boolean("validate-tls");
+            let timeout = settings.double("request-timeout");
+            let redirects = if settings.boolean("follow-redirects") {
+                settings.uint("maximum-redirects") as u64
+            } else {
+                0
+            };
+            let config = cartero_http::ClientConfig {
+                redirects,
+                timeout,
+                validate_tls,
+            };
+            cartero_http::RequestEnvironment { config }
+        }
+
         /// Executes an HTTP request based on the current contents of the pane.
         pub(super) async fn perform_request(&self) {
-            let bind_request = match self.bind_request() {
-                Ok(bind) => bind,
-                Err(e) => {
-                    self.response.show_precondition_error(e);
-                    return;
-                }
-            };
+            let request: cartero_objects::Request = self.extract_endpoint().into();
+            let env = self.request_environment();
+            let response = cartero_isahc_client::request(&request, &env).await;
 
-            let client_obj = match crate::client::build_request(&bind_request) {
-                Ok(request) => request,
-                Err(e) => {
-                    self.response.show_request_build_error(e);
-                    return;
+            match response {
+                Ok(response) => {
+                    let data = ResponseData::from(response);
+                    self.response.assign_from_response(&data);
                 }
-            };
-
-            match self.execute_request(client_obj).await {
-                Ok(data) => self.response.assign_from_response(&data),
-                Err(e) => self.response.show_request_error(e),
+                Err(e) => {
+                    println!("{:?}", e);
+                }
             };
         }
     }

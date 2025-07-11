@@ -18,7 +18,6 @@
 #![windows_subsystem = "windows"]
 
 mod app;
-mod client;
 mod error;
 mod export;
 mod file;

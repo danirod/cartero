@@ -17,9 +17,7 @@
 
 use serde_json::{Error, Value};
 
-use crate::client::BoundRequest;
 use crate::entities::{EndpointData, RawEncoding, RequestPayload};
-use crate::error::RequestPreconditionError;
 
 pub struct CodeExportService {
     endpoint_data: EndpointData,
@@ -30,12 +28,13 @@ impl CodeExportService {
         Self { endpoint_data }
     }
 
-    pub fn generate(&self) -> Result<String, RequestPreconditionError> {
-        let bound_request = BoundRequest::try_from(self.endpoint_data.clone())?;
+    pub fn generate(&self) -> Result<String, cartero_http::RequestError> {
+        let gobject_request: cartero_objects::Request = self.endpoint_data.clone().into();
+        let bound_request = cartero_http::BoundRequest::try_from(gobject_request)?;
         let mut command = "curl".to_string();
 
         command.push_str(&{
-            let method_str: String = bound_request.method.into();
+            let method_str: String = bound_request.method.to_string();
             format!(" -X {} '{}'", method_str, bound_request.url)
         });
 

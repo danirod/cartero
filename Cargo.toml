@@ -45,6 +45,8 @@ app_updater = []
 [dependencies]
 adw = { version = "0.7.1", package = "libadwaita", features = ["v1_5"] }
 base64 = "0.22.1"
+cartero_http = { path = "cartero-http" }
+cartero_isahc_client = { path = "cartero-isahc-client" }
 cartero_objects = { path = "cartero-objects" }
 formatx = "0.2.3"
 formdata = "0.13.0"

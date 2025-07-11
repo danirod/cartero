@@ -56,9 +56,6 @@ mod imp {
         header_bar: TemplateChild<gtk::HeaderBar>,
 
         #[template_child]
-        toaster: TemplateChild<adw::ToastOverlay>,
-
-        #[template_child]
         tabs: TemplateChild<adw::TabBar>,
 
         #[template_child]
@@ -649,11 +646,6 @@ mod imp {
             about.present(Some(&*obj));
         }
 
-        pub(super) fn toast_message(&self, msg: &str) {
-            let toast = adw::Toast::new(msg);
-            self.toaster.add_toast(toast);
-        }
-
         #[cfg(feature = "app_updater")]
         async fn action_check_updates<T>(&self, root: &T)
         where
@@ -1006,10 +998,5 @@ impl CarteroWindow {
     ) {
         let imp = self.imp();
         imp.report_open_endpoints_errors(opened).await
-    }
-
-    pub fn toast_message(&self, msg: &str) {
-        let imp = self.imp();
-        imp.toast_message(msg);
     }
 }

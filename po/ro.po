@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-07-11 20:53+0200\n"
+"POT-Creation-Date: 2025-07-11 20:54+0200\n"
 "PO-Revision-Date: 2024-07-30 15:00+0200\n"
 "Last-Translator:  <>\n"
 "Language-Team: Romanian\n"
@@ -325,96 +325,96 @@ msgstr "Salvați"
 msgid "Export request"
 msgstr ""
 
-#: data/ui/main_window.blp:107 data/ui/main_window_no_csd.blp:110
+#: data/ui/main_window.blp:106 data/ui/main_window_no_csd.blp:109
 msgid "Welcome to Cartero"
 msgstr "Bun venit în Cartero"
 
-#: data/ui/main_window.blp:108 data/ui/main_window_no_csd.blp:111
+#: data/ui/main_window.blp:107 data/ui/main_window_no_csd.blp:110
 msgid "Create or open a request and start testing APIs now."
 msgstr "Creați sau deschideți o cerere și începeți testarea API-urilor acum."
 
-#: data/ui/main_window.blp:127 data/ui/main_window.blp:169
-#: data/ui/main_window_no_csd.blp:130 data/ui/main_window_no_csd.blp:172
+#: data/ui/main_window.blp:126 data/ui/main_window.blp:167
+#: data/ui/main_window_no_csd.blp:129 data/ui/main_window_no_csd.blp:170
 msgid "New tab"
 msgstr "Tab nou"
 
-#: data/ui/main_window.blp:140 data/ui/main_window.blp:174
-#: data/ui/main_window_no_csd.blp:143 data/ui/main_window_no_csd.blp:177
+#: data/ui/main_window.blp:139 data/ui/main_window.blp:172
+#: data/ui/main_window_no_csd.blp:142 data/ui/main_window_no_csd.blp:175
 msgid "Open request…"
 msgstr "Deschideți cererea…"
 
-#: data/ui/main_window.blp:160 data/ui/main_window_no_csd.blp:163
+#: data/ui/main_window.blp:158 data/ui/main_window_no_csd.blp:161
 #, fuzzy
 msgid "Export request as cURL…"
 msgstr "Salvați cererea ca…"
 
-#: data/ui/main_window.blp:179 data/ui/main_window_no_csd.blp:182
+#: data/ui/main_window.blp:177 data/ui/main_window_no_csd.blp:180
 #: src/widgets/file_dialogs.rs:144
 msgid "Save request"
 msgstr "Salvați cererea"
 
-#: data/ui/main_window.blp:184 data/ui/main_window_no_csd.blp:187
+#: data/ui/main_window.blp:182 data/ui/main_window_no_csd.blp:185
 msgid "Save request as…"
 msgstr "Salvați cererea ca…"
 
-#: data/ui/main_window.blp:189 data/ui/main_window_no_csd.blp:192
+#: data/ui/main_window.blp:187 data/ui/main_window_no_csd.blp:190
 msgid "Close tab"
 msgstr "Închideți tab-ul"
 
-#: data/ui/main_window.blp:196 data/ui/main_window_no_csd.blp:199
+#: data/ui/main_window.blp:194 data/ui/main_window_no_csd.blp:197
 #: data/ui/settings_dialog.blp:21
 msgid "Settings"
 msgstr ""
 
-#: data/ui/main_window.blp:201 data/ui/main_window_no_csd.blp:204
+#: data/ui/main_window.blp:199 data/ui/main_window_no_csd.blp:202
 msgid "Body appearance"
 msgstr "Aspectul corpului"
 
-#: data/ui/main_window.blp:205 data/ui/main_window_no_csd.blp:208
+#: data/ui/main_window.blp:203 data/ui/main_window_no_csd.blp:206
 msgid "Wrap content"
 msgstr "Înveliți conținutul"
 
-#: data/ui/main_window.blp:210 data/ui/main_window_no_csd.blp:213
+#: data/ui/main_window.blp:208 data/ui/main_window_no_csd.blp:211
 msgid "Show line numbers"
 msgstr "Afișați numerele de linie"
 
-#: data/ui/main_window.blp:217 data/ui/main_window_no_csd.blp:220
+#: data/ui/main_window.blp:215 data/ui/main_window_no_csd.blp:218
 msgid "Automatic indentation"
 msgstr "Indentarea automată"
 
-#: data/ui/main_window.blp:222 data/ui/main_window_no_csd.blp:225
+#: data/ui/main_window.blp:220 data/ui/main_window_no_csd.blp:223
 msgid "Indent with spaces"
 msgstr "Indentăm cu spații"
 
-#: data/ui/main_window.blp:228 data/ui/main_window_no_csd.blp:231
+#: data/ui/main_window.blp:226 data/ui/main_window_no_csd.blp:229
 msgid "Indent with tabs"
 msgstr "Indentăm cu taburi"
 
-#: data/ui/main_window.blp:234 data/ui/main_window_no_csd.blp:237
+#: data/ui/main_window.blp:232 data/ui/main_window_no_csd.blp:235
 msgid "Spaces per tab"
 msgstr "Spații pe tab"
 
-#: data/ui/main_window.blp:237 data/ui/main_window_no_csd.blp:240
+#: data/ui/main_window.blp:235 data/ui/main_window_no_csd.blp:238
 msgid "2"
 msgstr "2"
 
-#: data/ui/main_window.blp:243 data/ui/main_window_no_csd.blp:246
+#: data/ui/main_window.blp:241 data/ui/main_window_no_csd.blp:244
 msgid "4"
 msgstr "4"
 
-#: data/ui/main_window.blp:249 data/ui/main_window_no_csd.blp:252
+#: data/ui/main_window.blp:247 data/ui/main_window_no_csd.blp:250
 msgid "8"
 msgstr "8"
 
-#: data/ui/main_window.blp:260 data/ui/main_window_no_csd.blp:263
+#: data/ui/main_window.blp:258 data/ui/main_window_no_csd.blp:261
 msgid "Keyboard shortcuts"
 msgstr "Scurtături de tastatură"
 
-#: data/ui/main_window.blp:265 data/ui/main_window_no_csd.blp:268
+#: data/ui/main_window.blp:263 data/ui/main_window_no_csd.blp:266
 msgid "About Cartero"
 msgstr "Despre Cartero"
 
-#: data/ui/main_window.blp:270 data/ui/main_window_no_csd.blp:273
+#: data/ui/main_window.blp:268 data/ui/main_window_no_csd.blp:271
 msgid "Quit"
 msgstr "Ieșiți"
 
@@ -824,32 +824,32 @@ msgid_plural "{} results"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/win.rs:259
+#: src/win.rs:256
 msgid "(untitled)"
 msgstr "(fără titlu)"
 
-#: src/win.rs:273
+#: src/win.rs:270
 msgid "Draft"
 msgstr "Proiect"
 
-#: src/win.rs:581
+#: src/win.rs:578
 msgid "The Cartero authors"
 msgstr "Autorii Cartero"
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
-#: src/win.rs:604
+#: src/win.rs:601
 msgid "translator-credits"
 msgstr "Richardo G.C."
 
-#: src/win.rs:605
+#: src/win.rs:602
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 autorii Cartero"
 
-#: src/win.rs:637
+#: src/win.rs:634
 msgid "User manual"
 msgstr ""
 
-#: src/win.rs:639
+#: src/win.rs:636
 msgid "Help us translate"
 msgstr ""
 

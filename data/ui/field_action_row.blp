@@ -17,28 +17,11 @@
 using Gtk 4.0;
 using Adw 1;
 
-template $CarteroResponseHeaders: Adw.Bin {
-  margin-start: 10;
-  margin-end: 10;
-  margin-top: 10;
-  margin-bottom: 10;
-  valign: start;
+template $CarteroFieldActionRow: Adw.ActionRow {
+  styles [
+    "property",
+  ]
 
-  Gtk.ListBox list_box {
-    styles [
-      "boxed-list",
-    ]
-
-    selection-mode: none;
-  }
-}
-
-Gtk.Box placeholder {
-  Gtk.Label {
-    margin-top: 12;
-    margin-bottom: 12;
-    hexpand: true;
-    justify: center;
-    label: _("No headers");
-  }
+  title-selectable: true;
+  subtitle-selectable: true;
 }

@@ -22,9 +22,11 @@ mod imp {
 
     use adw::prelude::*;
     use adw::subclass::prelude::*;
-    use cartero_objects::Field;
+    use cartero_objects::{Field, FieldTable};
     use glib::{subclass::InitializingObject, Properties};
-    use gtk::{gio::ListModel, CompositeTemplate, ListBox, TemplateChild};
+    use gtk::{Box, CompositeTemplate, ListBox, TemplateChild};
+
+    use crate::widgets::FieldActionRow;
 
     #[derive(Default, CompositeTemplate, Properties)]
     #[properties(wrapper_type = super::ResponseHeaders)]
@@ -32,9 +34,11 @@ mod imp {
     pub struct ResponseHeaders {
         #[template_child]
         list_box: TemplateChild<ListBox>,
+        #[template_child]
+        placeholder: TemplateChild<Box>,
 
-        #[property(name = "headers", set = Self::set_headers, nullable)]
-        headers: RefCell<Option<ListModel>>,
+        #[property(get, set)]
+        headers: RefCell<FieldTable>,
     }
 
     #[glib::object_subclass]
@@ -53,35 +57,41 @@ mod imp {
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for ResponseHeaders {}
+    impl ObjectImpl for ResponseHeaders {
+        fn constructed(&self) {
+            self.parent_constructed();
+            self.init_placeholders();
+            self.rebind_model();
+
+            // Subscribe for updates
+            let obj = self.obj();
+            obj.connect_headers_notify(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |_| {
+                    imp.rebind_model();
+                }
+            ));
+        }
+    }
 
     impl WidgetImpl for ResponseHeaders {}
 
     impl BinImpl for ResponseHeaders {}
 
     impl ResponseHeaders {
-        fn set_headers(&self, model: Option<ListModel>) {
-            match model {
-                Some(ref model) => {
-                    self.list_box.bind_model(Some(model), |item| {
-                        let item = item.downcast_ref::<Field>().unwrap();
-                        let widget = adw::ActionRow::new();
-                        widget.set_use_markup(false);
-                        widget.set_title(&item.key());
-                        widget.set_title_selectable(true);
-                        widget.set_subtitle(&item.value());
-                        widget.set_subtitle_selectable(true);
-                        widget.add_css_class("property");
-                        widget.upcast::<gtk::Widget>()
-                    });
-                    self.list_box.set_visible(true);
-                }
-                None => {
-                    self.list_box.unbind_model();
-                    self.list_box.set_visible(false);
-                }
-            }
-            *self.headers.borrow_mut() = model;
+        fn init_placeholders(&self) {
+            self.list_box.set_placeholder(Some(&*self.placeholder));
+        }
+
+        fn rebind_model(&self) {
+            let headers = self.headers.borrow();
+            self.list_box.bind_model(Some(&*headers), |item| {
+                let field = item.downcast_ref::<Field>().unwrap();
+                let widget = FieldActionRow::default();
+                widget.set_field(field);
+                widget.upcast::<gtk::Widget>()
+            });
         }
     }
 }

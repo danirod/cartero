@@ -219,7 +219,7 @@ impl ResponsePanel {
         let imp = self.imp();
 
         let headers = resp.headers().clone();
-        imp.response_headers.set_headers(Some(headers));
+        imp.response_headers.set_headers(headers);
 
         let status = format!("• HTTP {}", resp.status_code());
         imp.status_code.set_text(&status);

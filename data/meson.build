@@ -21,6 +21,7 @@ blueprint_files = [
     'ui/endpoint_pane.blp',
     'ui/error_pane.blp',
     'ui/export_dialog.blp',
+    'ui/field_action_row.blp',
     'ui/formdata_payload_pane.blp',
     'ui/key_value_pane.blp',
     'ui/key_value_row.blp',

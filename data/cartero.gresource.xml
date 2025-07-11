@@ -6,6 +6,7 @@
     <file alias="authorization_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/authorization_pane.ui</file>
     <file alias="endpoint_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/endpoint_pane.ui</file>
     <file alias="error_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/error_pane.ui</file>
+    <file alias="field_action_row.ui" compressed="true" preprocess="xml-stripblanks">ui/field_action_row.ui</file>
     <file alias="formdata_payload_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/formdata_payload_pane.ui</file>
     <file alias="key_value_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/key_value_pane.ui</file>
     <file alias="key_value_row.ui" compressed="true" preprocess="xml-stripblanks">ui/key_value_row.ui</file>

@@ -56,9 +56,6 @@ mod imp {
         header_bar: TemplateChild<gtk::HeaderBar>,
 
         #[template_child]
-        toaster: TemplateChild<adw::ToastOverlay>,
-
-        #[template_child]
         tabs: TemplateChild<adw::TabBar>,
 
         #[template_child]
@@ -114,10 +111,23 @@ mod imp {
                 ));
 
             /* Enable these actions only if there is an open page. */
-            let tab_dependent_actions = ["save", "save-as", "close", "request"];
+            let tab_dependent_actions = ["save", "save-as", "close", "request", "export-request"];
             for tab in tab_dependent_actions {
                 if let Some(action) = obj.lookup_action(&tab) {
                     has_page.bind(&action, "enabled", Some(&*self.tabview));
+                }
+            }
+
+            /* Enable these actions only if there is an open page and the page has a valid response. */
+            let has_response = self
+                .tabview
+                .property_expression("selected-page")
+                .chain_property::<adw::TabPage>("child")
+                .chain_property::<EndpointPane>("has-response");
+            let tab_and_response_actions = ["export-response-body", "export-har"];
+            for tab in tab_and_response_actions {
+                if let Some(action) = obj.lookup_action(&tab) {
+                    has_response.bind(&action, "enabled", Some(&*self.tabview));
                 }
             }
 
@@ -521,6 +531,13 @@ mod imp {
             }
         }
 
+        fn action_export_request(&self, format: &str) {
+            if let Some(pane) = self.current_pane() {
+                /* Try to export. */
+                pane.export_request(format);
+            }
+        }
+
         async fn close_tab_requested(&self, tabpage: &TabPage) {
             let obj = self.obj();
             let endpoint_pane = tabpage.child().downcast::<EndpointPane>().unwrap();
@@ -627,11 +644,6 @@ mod imp {
                 }
             ));
             about.present(Some(&*obj));
-        }
-
-        pub(super) fn toast_message(&self, msg: &str) {
-            let toast = adw::Toast::new(msg);
-            self.toaster.add_toast(toast);
         }
 
         #[cfg(feature = "app_updater")]
@@ -852,6 +864,38 @@ mod imp {
                 ))
                 .build();
 
+            let action_export_request = ActionEntry::builder("export-request")
+                .parameter_type(Some(&String::static_variant_type()))
+                .activate(glib::clone!(
+                    #[weak(rename_to = window)]
+                    self,
+                    move |_, _, variant| {
+                        let param = variant.unwrap().get::<String>().unwrap();
+                        window.action_export_request(&param);
+                    }
+                ))
+                .build();
+
+            let action_export_response_body = ActionEntry::builder("export-response-body")
+                .activate(glib::clone!(
+                    #[weak(rename_to = window)]
+                    self,
+                    move |_, _, _| {
+                        println!("Exporting response body");
+                    }
+                ))
+                .build();
+
+            let action_export_har = ActionEntry::builder("export-har")
+                .activate(glib::clone!(
+                    #[weak(rename_to = window)]
+                    self,
+                    move |_, _, _| {
+                        println!("Exporting interaction as HAr");
+                    }
+                ))
+                .build();
+
             let obj = self.obj();
             obj.add_action_entries([
                 action_new,
@@ -861,6 +905,9 @@ mod imp {
                 action_save_as,
                 action_close,
                 action_about,
+                action_export_request,
+                action_export_response_body,
+                action_export_har,
             ]);
 
             #[cfg(feature = "app_updater")]
@@ -951,10 +998,5 @@ impl CarteroWindow {
     ) {
         let imp = self.imp();
         imp.report_open_endpoints_errors(opened).await
-    }
-
-    pub fn toast_message(&self, msg: &str) {
-        let imp = self.imp();
-        imp.toast_message(msg);
     }
 }

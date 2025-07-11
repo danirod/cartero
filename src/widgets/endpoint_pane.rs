@@ -15,6 +15,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use adw::prelude::AdwDialogExt;
+use gettextrs::gettext;
 use glib::{subclass::types::ObjectSubclassIsExt, Object};
 use gtk::glib;
 use url::form_urlencoded;
@@ -22,7 +24,9 @@ use url::form_urlencoded;
 use crate::{
     entities::EndpointData,
     error::FileSaveError,
+    export::curl::CodeExportService,
     file::{EndpointLoadResult, FileLoadResult},
+    widgets::ExportDialog,
 };
 
 mod imp {
@@ -40,12 +44,11 @@ mod imp {
 
     use crate::app::CarteroApplication;
     use crate::client::BoundRequest;
-    use crate::entities::{EndpointData, KeyValue, RequestExportType, ResponseData};
+    use crate::entities::{EndpointData, KeyValue, ResponseData};
     use crate::error::{RequestError, RequestPreconditionError};
     use crate::objects::KeyValueItem;
     use crate::widgets::{
-        AuthorizationPane, ExportTab, ExportType, KeyValuePane, MethodDropdown, PayloadTab,
-        ResponsePanel,
+        AuthorizationPane, KeyValuePane, MethodDropdown, PayloadTab, ResponsePanel,
     };
 
     #[derive(CompositeTemplate, Properties, Default)]
@@ -77,9 +80,6 @@ mod imp {
         pub payload_pane: TemplateChild<PayloadTab>,
 
         #[template_child]
-        pub export_pane: TemplateChild<ExportTab>,
-
-        #[template_child]
         authorization_pane: TemplateChild<AuthorizationPane>,
 
         #[template_child]
@@ -100,6 +100,9 @@ mod imp {
         // Busy requesting
         #[property(get, set)]
         busy: RefCell<bool>,
+
+        #[property(get = Self::has_response_impl)]
+        _has_response: RefCell<bool>,
 
         request_thread: Arc<RefCell<Option<JoinHandle<()>>>>,
 
@@ -165,18 +168,6 @@ mod imp {
                 }
             ));
 
-            // update export pane data when user selects another option in the combo box.
-            self.export_pane.connect_changed(glib::clone!(
-                #[weak(rename_to = window)]
-                self,
-                move |_| {
-                    if window.export_pane.imp().export_type() == ExportType::Curl {
-                        let data = window.extract_endpoint();
-                        window.export_pane_load_endpoint_data(&data);
-                    }
-                }
-            ));
-
             // Mark the window as busy when actually busy.
             let obj = self.obj();
             obj.property_expression("busy")
@@ -191,7 +182,14 @@ mod imp {
                 ))
                 .bind(&*obj, "cursor", Some(&*obj));
 
-            self.configure_export_pane_bindings();
+            self.response.connect_has_response_notify(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |_| {
+                    let obj = pane.obj();
+                    obj.notify("has-response");
+                }
+            ));
         }
     }
 
@@ -201,6 +199,10 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl EndpointPane {
+        fn has_response_impl(&self) -> bool {
+            self.response.has_response()
+        }
+
         fn init_actions(&self) {
             let obj = self.obj();
 
@@ -322,11 +324,6 @@ mod imp {
                 obj,
                 move |_| obj.set_dirty(true)
             ));
-            self.export_pane.connect_changed(glib::clone!(
-                #[weak]
-                obj,
-                move |_| obj.set_dirty(true)
-            ));
             self.authorization_pane.connect_changed(glib::clone!(
                 #[weak]
                 obj,
@@ -362,69 +359,12 @@ mod imp {
 
         #[template_callback]
         fn on_url_changed(&self) {
-            let data = self.extract_endpoint();
-            self.export_pane_load_endpoint_data(&data);
+            self.extract_endpoint();
         }
 
         #[template_callback]
         fn on_url_activated(&self) {
             let _ = self.obj().activate_action("endpoint.request", None);
-        }
-
-        /// Loads data for the export pane module by using an `EndpointData` structure.
-        fn export_pane_load_endpoint_data(&self, endpoint: &EndpointData) {
-            let req_export_type = self.export_pane.request_export_type();
-
-            if let RequestExportType::None = req_export_type {
-                return;
-            }
-
-            if let RequestExportType::Curl(_) = req_export_type {
-                self.export_pane
-                    .set_request_export_type(&RequestExportType::Curl(endpoint.clone()));
-            }
-        }
-
-        /// Retrieves `EndpointData` and builds a new state for the export request module.
-        fn update_export_pane(&self) {
-            let data = self.extract_endpoint();
-            self.export_pane_load_endpoint_data(&data);
-        }
-
-        /// Connect ourself to every widget in order to pass new data and rehydrate the
-        /// export pane module so it gets realtime, maybe we should consider doing some
-        /// kind of reactive bindings?
-        fn configure_export_pane_bindings(&self) {
-            self.request_method.connect_changed(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| pane.update_export_pane()
-            ));
-            self.request_url.connect_changed(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| pane.update_export_pane()
-            ));
-            self.payload_pane.connect_changed(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| pane.update_export_pane()
-            ));
-            self.export_pane.connect_changed(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| pane.update_export_pane()
-            ));
-            self.header_pane.connect_changed(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| pane.update_export_pane()
-            ));
-            self.variable_pane.connect_changed(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| pane.update_export_pane()
-            ));
         }
 
         /// Sets the value of every widget in the pane into whatever is set by the given endpoint.
@@ -441,7 +381,6 @@ mod imp {
             self.payload_pane.set_payload(&endpoint.body);
             self.authorization_pane
                 .set_authorization(&endpoint.authorization);
-            self.export_pane_load_endpoint_data(endpoint);
 
             // Merge parameters
             let active_params: Vec<KeyValueItem> = self.parameter_pane.get_entries();
@@ -804,6 +743,29 @@ impl EndpointPane {
                 result
             }
             None => Err(FileSaveError::AnonymousPane),
+        }
+    }
+
+    pub fn export_request(&self, format: &str) {
+        let request = self.extract_endpoint();
+        let curl = CodeExportService::new(request);
+
+        if let Ok(command) = curl.generate() {
+            let buffer = glib::Bytes::from(command.as_bytes());
+            let file_format = sourceview5::LanguageManager::default().language("sh");
+            let dialog = glib::Object::builder::<ExportDialog>()
+                .property("blob", Some(&buffer))
+                .property("format", file_format)
+                .build();
+
+            let title = match format {
+                "curl" => gettext("Export request as cURL"),
+                _ => {
+                    return;
+                }
+            };
+            dialog.set_title(&title);
+            dialog.present(Some(self));
         }
     }
 }

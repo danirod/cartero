@@ -79,6 +79,9 @@ mod imp {
         #[template_child]
         search_revealer: TemplateChild<Revealer>,
 
+        #[property(get = Self::has_response_impl)]
+        _has_response: RefCell<bool>,
+
         #[property(get = Self::spinning, set = Self::set_spinning)]
         _spinning: RefCell<bool>,
     }
@@ -100,7 +103,20 @@ mod imp {
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for ResponsePanel {}
+    impl ObjectImpl for ResponsePanel {
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            self.stack.connect_visible_child_name_notify(glib::clone!(
+                #[weak(rename_to = panel)]
+                self,
+                move |_| {
+                    let obj = panel.obj();
+                    obj.notify("has-response");
+                }
+            ));
+        }
+    }
 
     impl WidgetImpl for ResponsePanel {}
 
@@ -108,6 +124,10 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl ResponsePanel {
+        fn has_response_impl(&self) -> bool {
+            self.stack.visible_child_name().unwrap_or_default() == "response"
+        }
+
         fn spinning(&self) -> bool {
             self.metadata_stack
                 .visible_child()

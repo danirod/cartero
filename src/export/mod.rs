@@ -15,11 +15,4 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use super::EndpointData;
-
-#[derive(Debug, Default, Clone, Eq, PartialEq)]
-pub enum RequestExportType {
-    #[default]
-    None,
-    Curl(EndpointData),
-}
+pub mod curl;

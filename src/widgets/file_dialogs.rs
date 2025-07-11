@@ -17,7 +17,7 @@
 
 use formatx::formatx;
 use gettextrs::gettext;
-use glib::{prelude::Cast, types::StaticType};
+use glib::{object::IsA, prelude::Cast, types::StaticType};
 use gtk::{
     gio::{self, ListStore},
     prelude::{FileExt, ListModelExtManual, SettingsExtManual},
@@ -167,5 +167,32 @@ pub async fn save_file(win: &CarteroWindow) -> Result<Option<gio::File>, glib::E
     if let Some(file) = &file {
         set_file_setting(LAST_SAVE_DIR, file.parent().as_ref());
     }
+    Ok(file)
+}
+
+/// Opens a generic export dialog that can be used to pick a save location.
+/// This dialog will accept other file types that are not the application
+/// type.
+pub async fn export_file<T>(parent: &T) -> Result<Option<gio::File>, glib::Error>
+where
+    T: IsA<gtk::Window> + Clone + 'static,
+{
+    let dialog = FileDialog::builder().modal(true).build();
+    dialog.set_accept_label(Some(&gettext("Save")));
+    dialog.set_title(&gettext("Export to file"));
+
+    let file = match dialog.save_future(Some(parent)).await {
+        Ok(result) => Ok(Some(result)),
+        Err(e) => match e.kind::<DialogError>() {
+            /* The dialog treats cancellation or dismission as an error. Swallow the error in that case. */
+            Some(DialogError::Cancelled | DialogError::Dismissed) => {
+                glib::g_info!("Cartero", "File save dialog cancelled by user");
+                return Ok(None);
+            }
+            _ => Err(e),
+        },
+    }?;
+
+    // TODO: Save the last export directory
     Ok(file)
 }

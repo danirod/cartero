@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-06-30 00:52+0200\n"
+"POT-Creation-Date: 2025-07-11 20:54+0200\n"
 "PO-Revision-Date: 2025-05-12 14:02+0000\n"
 "Last-Translator: John Peter Sa <johnppetersa@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
@@ -236,8 +236,7 @@ msgstr "Senha"
 msgid "Token"
 msgstr "Token"
 
-#: data/ui/authorization_pane.blp:87 data/ui/export_tab.blp:69
-#: data/ui/payload_tab.blp:87
+#: data/ui/authorization_pane.blp:87 data/ui/payload_tab.blp:87
 msgid "(none)"
 msgstr "(nenhum)"
 
@@ -248,10 +247,6 @@ msgstr "Autenticação básica"
 #: data/ui/authorization_pane.blp:89
 msgid "Bearer token"
 msgstr "Token portador"
-
-#: data/ui/code_export_pane.blp:59
-msgid "Copy"
-msgstr "Cópia"
 
 #: data/ui/endpoint_pane.blp:69
 msgid "Request URL"
@@ -289,12 +284,19 @@ msgstr "Autorização"
 msgid "Body"
 msgstr "Corpo"
 
-#: data/ui/endpoint_pane.blp:227
-msgid "Export request"
-msgstr "Solicitação de exportação"
+#: data/ui/export_dialog.blp:54
+#, fuzzy
+msgid "Generated output"
+msgstr "Atalhos gerais"
 
-#: data/ui/export_tab.blp:34
-msgid "Export to"
+#: data/ui/export_dialog.blp:64
+#, fuzzy
+msgid "Copy to clipboard"
+msgstr "Conteúdo copiado para a área de transferência"
+
+#: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:182
+#, fuzzy
+msgid "Export to file"
 msgstr "Exportar para"
 
 #: data/ui/key_value_row.blp:41
@@ -328,95 +330,105 @@ msgid "Open"
 msgstr "Abrir"
 
 #: data/ui/main_window.blp:70 data/ui/main_window_no_csd.blp:68
-#: src/widgets/file_dialogs.rs:143
+#: src/widgets/file_dialogs.rs:143 src/widgets/file_dialogs.rs:181
 msgid "Save"
 msgstr "Salvar"
 
-#: data/ui/main_window.blp:94 data/ui/main_window_no_csd.blp:101
+#: data/ui/main_window.blp:79 data/ui/main_window.blp:80
+#: data/ui/main_window_no_csd.blp:89 data/ui/main_window_no_csd.blp:90
+msgid "Export request"
+msgstr "Solicitação de exportação"
+
+#: data/ui/main_window.blp:106 data/ui/main_window_no_csd.blp:109
 msgid "Welcome to Cartero"
 msgstr "Bem -vindo a um Mailman"
 
-#: data/ui/main_window.blp:95 data/ui/main_window_no_csd.blp:102
+#: data/ui/main_window.blp:107 data/ui/main_window_no_csd.blp:110
 msgid "Create or open a request and start testing APIs now."
 msgstr "Crie ou abra uma solicitação e comece a testar as APIs agora."
 
-#: data/ui/main_window.blp:114 data/ui/main_window.blp:148
-#: data/ui/main_window_no_csd.blp:121 data/ui/main_window_no_csd.blp:155
+#: data/ui/main_window.blp:126 data/ui/main_window.blp:167
+#: data/ui/main_window_no_csd.blp:129 data/ui/main_window_no_csd.blp:170
 msgid "New tab"
 msgstr "Nova guia"
 
-#: data/ui/main_window.blp:127 data/ui/main_window.blp:153
-#: data/ui/main_window_no_csd.blp:134 data/ui/main_window_no_csd.blp:160
+#: data/ui/main_window.blp:139 data/ui/main_window.blp:172
+#: data/ui/main_window_no_csd.blp:142 data/ui/main_window_no_csd.blp:175
 msgid "Open request…"
 msgstr "Pedido aberto…"
 
-#: data/ui/main_window.blp:158 data/ui/main_window_no_csd.blp:165
+#: data/ui/main_window.blp:158 data/ui/main_window_no_csd.blp:161
+#, fuzzy
+msgid "Export request as cURL…"
+msgstr "Solicitação de exportação"
+
+#: data/ui/main_window.blp:177 data/ui/main_window_no_csd.blp:180
 #: src/widgets/file_dialogs.rs:144
 msgid "Save request"
 msgstr "Salvar solicitação"
 
-#: data/ui/main_window.blp:163 data/ui/main_window_no_csd.blp:170
+#: data/ui/main_window.blp:182 data/ui/main_window_no_csd.blp:185
 msgid "Save request as…"
 msgstr "Salvar solicitação como…"
 
-#: data/ui/main_window.blp:168 data/ui/main_window_no_csd.blp:175
+#: data/ui/main_window.blp:187 data/ui/main_window_no_csd.blp:190
 msgid "Close tab"
 msgstr "Beche a guia"
 
-#: data/ui/main_window.blp:175 data/ui/main_window_no_csd.blp:182
+#: data/ui/main_window.blp:194 data/ui/main_window_no_csd.blp:197
 #: data/ui/settings_dialog.blp:21
 msgid "Settings"
 msgstr "Configurações"
 
-#: data/ui/main_window.blp:180 data/ui/main_window_no_csd.blp:187
+#: data/ui/main_window.blp:199 data/ui/main_window_no_csd.blp:202
 msgid "Body appearance"
 msgstr "Aparência corporal"
 
-#: data/ui/main_window.blp:184 data/ui/main_window_no_csd.blp:191
+#: data/ui/main_window.blp:203 data/ui/main_window_no_csd.blp:206
 msgid "Wrap content"
 msgstr "Enrole o conteúdo"
 
-#: data/ui/main_window.blp:189 data/ui/main_window_no_csd.blp:196
+#: data/ui/main_window.blp:208 data/ui/main_window_no_csd.blp:211
 msgid "Show line numbers"
 msgstr "Mostrar números de linha"
 
-#: data/ui/main_window.blp:196 data/ui/main_window_no_csd.blp:203
+#: data/ui/main_window.blp:215 data/ui/main_window_no_csd.blp:218
 msgid "Automatic indentation"
 msgstr "Recuo automático"
 
-#: data/ui/main_window.blp:201 data/ui/main_window_no_csd.blp:208
+#: data/ui/main_window.blp:220 data/ui/main_window_no_csd.blp:223
 msgid "Indent with spaces"
 msgstr "Recuo com espaços"
 
-#: data/ui/main_window.blp:207 data/ui/main_window_no_csd.blp:214
+#: data/ui/main_window.blp:226 data/ui/main_window_no_csd.blp:229
 msgid "Indent with tabs"
 msgstr "Recuo com guias"
 
-#: data/ui/main_window.blp:213 data/ui/main_window_no_csd.blp:220
+#: data/ui/main_window.blp:232 data/ui/main_window_no_csd.blp:235
 msgid "Spaces per tab"
 msgstr "Espaços por guia"
 
-#: data/ui/main_window.blp:216 data/ui/main_window_no_csd.blp:223
+#: data/ui/main_window.blp:235 data/ui/main_window_no_csd.blp:238
 msgid "2"
 msgstr "2"
 
-#: data/ui/main_window.blp:222 data/ui/main_window_no_csd.blp:229
+#: data/ui/main_window.blp:241 data/ui/main_window_no_csd.blp:244
 msgid "4"
 msgstr "4"
 
-#: data/ui/main_window.blp:228 data/ui/main_window_no_csd.blp:235
+#: data/ui/main_window.blp:247 data/ui/main_window_no_csd.blp:250
 msgid "8"
 msgstr "8"
 
-#: data/ui/main_window.blp:239 data/ui/main_window_no_csd.blp:246
+#: data/ui/main_window.blp:258 data/ui/main_window_no_csd.blp:261
 msgid "Keyboard shortcuts"
 msgstr "Atalhos de teclado"
 
-#: data/ui/main_window.blp:244 data/ui/main_window_no_csd.blp:251
+#: data/ui/main_window.blp:263 data/ui/main_window_no_csd.blp:266
 msgid "About Cartero"
 msgstr "Sobre Cartero"
 
-#: data/ui/main_window.blp:249 data/ui/main_window_no_csd.blp:256
+#: data/ui/main_window.blp:268 data/ui/main_window_no_csd.blp:271
 msgid "Quit"
 msgstr "Desistir"
 
@@ -788,6 +800,11 @@ msgstr "_Descartar"
 msgid "_Save"
 msgstr "_Salvar"
 
+#: src/widgets/endpoint_pane.rs:762
+#, fuzzy
+msgid "Export request as cURL"
+msgstr "Solicitação de exportação"
+
 #: src/widgets/error_pane.rs:91 src/widgets/error_pane.rs:105
 msgid "The request data is not valid"
 msgstr "Os dados da solicitação não são válidos"
@@ -796,7 +813,7 @@ msgstr "Os dados da solicitação não são válidos"
 msgid "The request failed"
 msgstr "A solicitação falhou"
 
-#: src/widgets/export_tab/code.rs:114
+#: src/widgets/export_dialog.rs:112
 msgid "Content copied to the clipboard"
 msgstr "Conteúdo copiado para a área de transferência"
 
@@ -835,34 +852,40 @@ msgid_plural "{} results"
 msgstr[0] "{} resultado"
 msgstr[1] "{} resultados"
 
-#: src/win.rs:246
+#: src/win.rs:256
 msgid "(untitled)"
 msgstr "(sem título)"
 
-#: src/win.rs:260
+#: src/win.rs:270
 msgid "Draft"
 msgstr "Rascunho"
 
-#: src/win.rs:561
+#: src/win.rs:578
 msgid "The Cartero authors"
 msgstr "Os autores de Cartero"
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
-#: src/win.rs:584
+#: src/win.rs:601
 msgid "translator-credits"
 msgstr "john peter"
 
-#: src/win.rs:585
+#: src/win.rs:602
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 Os autores Cartero"
 
-#: src/win.rs:617
+#: src/win.rs:634
 msgid "User manual"
 msgstr "Manual do usuário"
 
-#: src/win.rs:619
+#: src/win.rs:636
 msgid "Help us translate"
 msgstr "Ajude-nos a traduzir"
+
+#~ msgid "Copy"
+#~ msgstr "Cópia"
+
+#~ msgid "Export to"
+#~ msgstr "Exportar para"
 
 #~ msgid "Request (.cartero)"
 #~ msgstr "Solicitação (.Cartero)"

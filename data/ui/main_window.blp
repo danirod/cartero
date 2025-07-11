@@ -72,10 +72,23 @@ template $CarteroWindow: Adw.ApplicationWindow {
       }
 
       [end]
-      MenuButton {
-        icon-name: "open-menu-symbolic";
-        primary: true;
-        menu-model: main_menu;
+      Box {
+        spacing: 5;
+
+        MenuButton {
+          tooltip-text: _("Export request");
+          label: _("Export request");
+          icon-name: "share-symbolic";
+          menu-model: share_menu;
+        }
+
+        Separator {}
+
+        MenuButton {
+          icon-name: "open-menu-symbolic";
+          primary: true;
+          menu-model: main_menu;
+        }
       }
     }
 
@@ -84,61 +97,67 @@ template $CarteroWindow: Adw.ApplicationWindow {
       view: tabview;
     }
 
-    Adw.ToastOverlay toaster {
-      Stack stack {
-        StackPage {
-          name: "welcome";
+    Stack stack {
+      StackPage {
+        name: "welcome";
 
-          child: Adw.StatusPage {
-            vexpand: true;
-            title: _("Welcome to Cartero");
-            description: _("Create or open a request and start testing APIs now.");
-            icon-name: "es.danirod.Cartero-symbolic";
+        child: Adw.StatusPage {
+          vexpand: true;
+          title: _("Welcome to Cartero");
+          description: _("Create or open a request and start testing APIs now.");
+          icon-name: "es.danirod.Cartero-symbolic";
 
-            child: Adw.Clamp {
-              maximum-size: 500;
+          child: Adw.Clamp {
+            maximum-size: 500;
 
-              Gtk.Box {
-                orientation: vertical;
+            Gtk.Box {
+              orientation: vertical;
 
-                Gtk.Button {
-                  styles [
-                    "pill",
-                    "suggested-action",
-                  ]
+              Gtk.Button {
+                styles [
+                  "pill",
+                  "suggested-action",
+                ]
 
-                  action-name: "win.new";
+                action-name: "win.new";
 
-                  child: Adw.ButtonContent {
-                    icon-name: "tab-new-symbolic";
-                    label: _("New tab");
-                  };
-                }
-
-                Gtk.Button {
-                  styles [
-                    "pill",
-                  ]
-
-                  action-name: "win.open";
-
-                  child: Adw.ButtonContent {
-                    icon-name: "document-open-symbolic";
-                    label: _("Open request…");
-                  };
-                }
+                child: Adw.ButtonContent {
+                  icon-name: "tab-new-symbolic";
+                  label: _("New tab");
+                };
               }
-            };
+
+              Gtk.Button {
+                styles [
+                  "pill",
+                ]
+
+                action-name: "win.open";
+
+                child: Adw.ButtonContent {
+                  icon-name: "document-open-symbolic";
+                  label: _("Open request…");
+                };
+              }
+            }
           };
-        }
+        };
+      }
 
-        StackPage {
-          name: "tabview";
+      StackPage {
+        name: "tabview";
 
-          child: Adw.TabView tabview {};
-        }
+        child: Adw.TabView tabview {};
       }
     }
+  }
+}
+
+menu share_menu {
+  item {
+    label: _("Export request as cURL…");
+    action: "win.export-request";
+    target: "curl";
   }
 }
 

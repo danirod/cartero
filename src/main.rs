@@ -20,6 +20,7 @@
 mod app;
 mod client;
 mod error;
+mod export;
 mod file;
 mod widgets;
 #[rustfmt::skip]

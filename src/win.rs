@@ -15,7 +15,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use crate::{app::CarteroApplication, file::FileLoadFailure, widgets::EndpointPane};
+use crate::{app::CarteroApplication, file::FileLoadFailure, widgets::endpoint::EndpointPane};
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
 use gtk::{gio, glib};
@@ -37,6 +37,7 @@ mod imp {
     use crate::app::CarteroApplication;
     use crate::error::FileSaveError;
     use crate::file::{FileLoadFailure, FileLoadResult};
+    use crate::widgets::endpoint::EndpointPane;
     use crate::{config, widgets::*};
     use glib::subclass::InitializingObject;
     use gtk::{CompositeTemplate, TemplateChild};

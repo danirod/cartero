@@ -43,9 +43,8 @@ mod imp {
     use crate::app::CarteroApplication;
     use crate::entities::{EndpointData, KeyValue};
     use crate::objects::KeyValueItem;
-    use crate::widgets::{
-        AuthorizationPane, KeyValuePane, MethodDropdown, PayloadTab, ResponsePanel,
-    };
+    use crate::widgets::endpoint::ResponsePanel;
+    use crate::widgets::{AuthorizationPane, KeyValuePane, MethodDropdown, PayloadTab};
 
     #[derive(CompositeTemplate, Properties, Default)]
     #[template(resource = "/es/danirod/Cartero/endpoint_pane.ui")]

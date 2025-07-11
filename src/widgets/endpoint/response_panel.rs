@@ -35,7 +35,8 @@ mod imp {
     use std::cell::RefCell;
 
     use crate::error::{RequestBuildError, RequestError, RequestPreconditionError};
-    use crate::widgets::{CodeView, ErrorPane, ResponseHeaders, SearchBox};
+    use crate::widgets::endpoint::ResponseHeaders;
+    use crate::widgets::{CodeView, ErrorPane, SearchBox};
     use adw::prelude::*;
     use adw::subclass::bin::BinImpl;
     use cartero_objects::Response;

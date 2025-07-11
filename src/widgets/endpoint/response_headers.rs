@@ -26,7 +26,7 @@ mod imp {
     use glib::{subclass::InitializingObject, Properties};
     use gtk::{Box, CompositeTemplate, ListBox, TemplateChild};
 
-    use crate::widgets::FieldActionRow;
+    use crate::widgets::field::FieldActionRow;
 
     #[derive(Default, CompositeTemplate, Properties)]
     #[properties(wrapper_type = super::ResponseHeaders)]

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-07-11 20:44+0200\n"
+"POT-Creation-Date: 2025-07-11 20:52+0200\n"
 "PO-Revision-Date: 2025-05-01 14:01+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <ibaios@disroot.org>\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -297,6 +297,21 @@ msgstr "Gorputza"
 msgid "Export request"
 msgstr "Esportatu eskaera"
 
+#: data/ui/export_dialog.blp:54
+#, fuzzy
+msgid "Generated output"
+msgstr "Laster-tekla orokorrak"
+
+#: data/ui/export_dialog.blp:64
+#, fuzzy
+msgid "Copy to clipboard"
+msgstr "Edukia arbelera kopiatu da"
+
+#: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:182
+#, fuzzy
+msgid "Export to file"
+msgstr "Esportatu hona"
+
 #: data/ui/export_tab.blp:34
 msgid "Export to"
 msgstr "Esportatu hona"
@@ -332,7 +347,7 @@ msgid "Open"
 msgstr "Ireki"
 
 #: data/ui/main_window.blp:70 data/ui/main_window_no_csd.blp:68
-#: src/widgets/file_dialogs.rs:143
+#: src/widgets/file_dialogs.rs:143 src/widgets/file_dialogs.rs:181
 msgid "Save"
 msgstr "Gorde"
 
@@ -794,6 +809,11 @@ msgstr "_Baztertu"
 msgid "_Save"
 msgstr "_Gorde"
 
+#: src/widgets/endpoint_pane.rs:842
+#, fuzzy
+msgid "Export request as cURL"
+msgstr "Esportatu eskaera"
+
 #: src/widgets/error_pane.rs:91 src/widgets/error_pane.rs:105
 msgid "The request data is not valid"
 msgstr "Eskaeraren datuak ez dira baliozkoak"
@@ -802,7 +822,7 @@ msgstr "Eskaeraren datuak ez dira baliozkoak"
 msgid "The request failed"
 msgstr "Eskaerak huts egin du"
 
-#: src/widgets/export_tab/code.rs:114
+#: src/widgets/export_dialog.rs:112 src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"
 msgstr "Edukia arbelera kopiatu da"
 
@@ -849,23 +869,23 @@ msgstr "(izengabea)"
 msgid "Draft"
 msgstr "Zirriborroa"
 
-#: src/win.rs:574
+#: src/win.rs:581
 msgid "The Cartero authors"
 msgstr "Carteroren egileak"
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
-#: src/win.rs:597
+#: src/win.rs:604
 msgid "translator-credits"
 msgstr "Ibai Oihanguren Sala"
 
-#: src/win.rs:598
+#: src/win.rs:605
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 Carteroren egileak"
 
-#: src/win.rs:630
+#: src/win.rs:637
 msgid "User manual"
 msgstr "Erabiltzailearen eskuliburua"
 
-#: src/win.rs:632
+#: src/win.rs:639
 msgid "Help us translate"
 msgstr "Lagun gaitzazu itzultzen"

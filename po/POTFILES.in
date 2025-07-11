@@ -9,6 +9,7 @@ data/ui/authorization_pane.blp
 data/ui/code_export_pane.blp
 data/ui/endpoint_pane.blp
 data/ui/error_pane.blp
+data/ui/export_dialog.blp
 data/ui/export_tab.blp
 data/ui/formdata_payload_pane.blp
 data/ui/key_value_pane.blp
@@ -52,6 +53,7 @@ src/widgets/code_view.rs
 src/widgets/dialogs.rs
 src/widgets/endpoint_pane.rs
 src/widgets/error_pane.rs
+src/widgets/export_dialog.rs
 src/widgets/export_tab/base.rs
 src/widgets/export_tab/code.rs
 src/widgets/export_tab/mod.rs

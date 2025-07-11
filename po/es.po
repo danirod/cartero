@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-07-11 20:44+0200\n"
+"POT-Creation-Date: 2025-07-11 20:52+0200\n"
 "PO-Revision-Date: 2025-03-21 01:53+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -294,6 +294,21 @@ msgstr "Cuerpo"
 msgid "Export request"
 msgstr "Exportar petición"
 
+#: data/ui/export_dialog.blp:54
+#, fuzzy
+msgid "Generated output"
+msgstr "Atajos generales"
+
+#: data/ui/export_dialog.blp:64
+#, fuzzy
+msgid "Copy to clipboard"
+msgstr "Contenido copiado al portapapeles"
+
+#: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:182
+#, fuzzy
+msgid "Export to file"
+msgstr "Exportar como"
+
 #: data/ui/export_tab.blp:34
 msgid "Export to"
 msgstr "Exportar como"
@@ -329,7 +344,7 @@ msgid "Open"
 msgstr "Abrir"
 
 #: data/ui/main_window.blp:70 data/ui/main_window_no_csd.blp:68
-#: src/widgets/file_dialogs.rs:143
+#: src/widgets/file_dialogs.rs:143 src/widgets/file_dialogs.rs:181
 msgid "Save"
 msgstr "Guardar"
 
@@ -791,6 +806,11 @@ msgstr "_Descartar"
 msgid "_Save"
 msgstr "_Guardar"
 
+#: src/widgets/endpoint_pane.rs:842
+#, fuzzy
+msgid "Export request as cURL"
+msgstr "Exportar petición"
+
 #: src/widgets/error_pane.rs:91 src/widgets/error_pane.rs:105
 msgid "The request data is not valid"
 msgstr "Los datos de la petición no son válidos"
@@ -799,7 +819,7 @@ msgstr "Los datos de la petición no son válidos"
 msgid "The request failed"
 msgstr "La petición ha fallado"
 
-#: src/widgets/export_tab/code.rs:114
+#: src/widgets/export_dialog.rs:112 src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"
 msgstr "Contenido copiado al portapapeles"
 
@@ -846,24 +866,24 @@ msgstr "(sin título)"
 msgid "Draft"
 msgstr "Borrador"
 
-#: src/win.rs:574
+#: src/win.rs:581
 msgid "The Cartero authors"
 msgstr "Los autores de Cartero"
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
-#: src/win.rs:597
+#: src/win.rs:604
 msgid "translator-credits"
 msgstr "Dani Rodríguez"
 
-#: src/win.rs:598
+#: src/win.rs:605
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 los autores de Cartero"
 
-#: src/win.rs:630
+#: src/win.rs:637
 msgid "User manual"
 msgstr "Manual de usuario"
 
-#: src/win.rs:632
+#: src/win.rs:639
 msgid "Help us translate"
 msgstr "Ayúdanos a traducir"
 

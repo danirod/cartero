@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-07-11 20:44+0200\n"
+"POT-Creation-Date: 2025-07-11 20:52+0200\n"
 "PO-Revision-Date: 2025-05-06 12:01+0000\n"
 "Last-Translator: Yurt Page <yurtpage@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -295,6 +295,20 @@ msgstr "Тело"
 msgid "Export request"
 msgstr "Экспортировать запрос"
 
+#: data/ui/export_dialog.blp:54
+#, fuzzy
+msgid "Generated output"
+msgstr "Общие"
+
+#: data/ui/export_dialog.blp:64
+msgid "Copy to clipboard"
+msgstr ""
+
+#: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:182
+#, fuzzy
+msgid "Export to file"
+msgstr "Экспортировать в"
+
 #: data/ui/export_tab.blp:34
 msgid "Export to"
 msgstr "Экспортировать в"
@@ -330,7 +344,7 @@ msgid "Open"
 msgstr "Открыть"
 
 #: data/ui/main_window.blp:70 data/ui/main_window_no_csd.blp:68
-#: src/widgets/file_dialogs.rs:143
+#: src/widgets/file_dialogs.rs:143 src/widgets/file_dialogs.rs:181
 msgid "Save"
 msgstr "Сохранить"
 
@@ -777,6 +791,11 @@ msgstr "_Отменить"
 msgid "_Save"
 msgstr "_Сохранить"
 
+#: src/widgets/endpoint_pane.rs:842
+#, fuzzy
+msgid "Export request as cURL"
+msgstr "Экспортировать запрос"
+
 #: src/widgets/error_pane.rs:91 src/widgets/error_pane.rs:105
 msgid "The request data is not valid"
 msgstr ""
@@ -785,7 +804,7 @@ msgstr ""
 msgid "The request failed"
 msgstr "Запросы не выполнился"
 
-#: src/widgets/export_tab/code.rs:114
+#: src/widgets/export_dialog.rs:112 src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"
 msgstr ""
 
@@ -831,24 +850,24 @@ msgstr "(без названия)"
 msgid "Draft"
 msgstr "Черновик"
 
-#: src/win.rs:574
+#: src/win.rs:581
 msgid "The Cartero authors"
 msgstr "Авторы Cartero"
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
-#: src/win.rs:597
+#: src/win.rs:604
 msgid "translator-credits"
 msgstr "Vladimir Kosolapov"
 
-#: src/win.rs:598
+#: src/win.rs:605
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 Авторы Cartero"
 
-#: src/win.rs:630
+#: src/win.rs:637
 msgid "User manual"
 msgstr ""
 
-#: src/win.rs:632
+#: src/win.rs:639
 msgid "Help us translate"
 msgstr ""
 

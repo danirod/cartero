@@ -534,6 +534,13 @@ mod imp {
             }
         }
 
+        fn action_export_request(&self, format: &str) {
+            if let Some(pane) = self.current_pane() {
+                /* Try to export. */
+                pane.export_request(format);
+            }
+        }
+
         async fn close_tab_requested(&self, tabpage: &TabPage) {
             let obj = self.obj();
             let endpoint_pane = tabpage.child().downcast::<EndpointPane>().unwrap();
@@ -872,7 +879,7 @@ mod imp {
                     self,
                     move |_, _, variant| {
                         let param = variant.unwrap().get::<String>().unwrap();
-                        println!("Exporting as {param}");
+                        window.action_export_request(&param);
                     }
                 ))
                 .build();

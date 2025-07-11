@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-07-11 20:44+0200\n"
+"POT-Creation-Date: 2025-07-11 20:52+0200\n"
 "PO-Revision-Date: 2025-04-16 11:02+0000\n"
 "Last-Translator: vesp <vesp@post.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/cartero/cartero/cs/"
@@ -294,6 +294,21 @@ msgstr "Tělo"
 msgid "Export request"
 msgstr "Exportovat požadavek"
 
+#: data/ui/export_dialog.blp:54
+#, fuzzy
+msgid "Generated output"
+msgstr "Obecné klávesové zkratky"
+
+#: data/ui/export_dialog.blp:64
+#, fuzzy
+msgid "Copy to clipboard"
+msgstr "Obsah zkopírován do schránky"
+
+#: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:182
+#, fuzzy
+msgid "Export to file"
+msgstr "Exportovat do"
+
 #: data/ui/export_tab.blp:34
 msgid "Export to"
 msgstr "Exportovat do"
@@ -329,7 +344,7 @@ msgid "Open"
 msgstr "Otevřít"
 
 #: data/ui/main_window.blp:70 data/ui/main_window_no_csd.blp:68
-#: src/widgets/file_dialogs.rs:143
+#: src/widgets/file_dialogs.rs:143 src/widgets/file_dialogs.rs:181
 msgid "Save"
 msgstr "Uložit"
 
@@ -788,6 +803,11 @@ msgstr "Zahodi_t změny"
 msgid "_Save"
 msgstr "_Uložit"
 
+#: src/widgets/endpoint_pane.rs:842
+#, fuzzy
+msgid "Export request as cURL"
+msgstr "Exportovat požadavek"
+
 #: src/widgets/error_pane.rs:91 src/widgets/error_pane.rs:105
 msgid "The request data is not valid"
 msgstr "Data požadavku nejsou platná"
@@ -796,7 +816,7 @@ msgstr "Data požadavku nejsou platná"
 msgid "The request failed"
 msgstr "Požadavek se nezdařil"
 
-#: src/widgets/export_tab/code.rs:114
+#: src/widgets/export_dialog.rs:112 src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"
 msgstr "Obsah zkopírován do schránky"
 
@@ -844,24 +864,24 @@ msgstr "(bez názvu)"
 msgid "Draft"
 msgstr "Koncept"
 
-#: src/win.rs:574
+#: src/win.rs:581
 msgid "The Cartero authors"
 msgstr "Autoři aplikace Cartero"
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
-#: src/win.rs:597
+#: src/win.rs:604
 msgid "translator-credits"
 msgstr "vesp"
 
-#: src/win.rs:598
+#: src/win.rs:605
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 autoři aplikace Cartero"
 
-#: src/win.rs:630
+#: src/win.rs:637
 msgid "User manual"
 msgstr "Uživatelská příručka"
 
-#: src/win.rs:632
+#: src/win.rs:639
 msgid "Help us translate"
 msgstr "Pomozte nám s překladem"
 

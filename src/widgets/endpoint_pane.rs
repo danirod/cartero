@@ -15,6 +15,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use adw::prelude::AdwDialogExt;
+use gettextrs::gettext;
 use glib::{subclass::types::ObjectSubclassIsExt, Object};
 use gtk::glib;
 use url::form_urlencoded;
@@ -23,6 +25,7 @@ use crate::{
     entities::EndpointData,
     error::FileSaveError,
     file::{EndpointLoadResult, FileLoadResult},
+    widgets::{CodeExportService, ExportDialog},
 };
 
 mod imp {
@@ -820,6 +823,29 @@ impl EndpointPane {
                 result
             }
             None => Err(FileSaveError::AnonymousPane),
+        }
+    }
+
+    pub fn export_request(&self, format: &str) {
+        let request = self.extract_endpoint();
+        let curl = CodeExportService::new(request);
+
+        if let Ok(command) = curl.generate() {
+            let buffer = glib::Bytes::from(command.as_bytes());
+            let file_format = sourceview5::LanguageManager::default().language("sh");
+            let dialog = glib::Object::builder::<ExportDialog>()
+                .property("blob", Some(&buffer))
+                .property("format", file_format)
+                .build();
+
+            let title = match format {
+                "curl" => gettext("Export request as cURL"),
+                _ => {
+                    return;
+                }
+            };
+            dialog.set_title(&title);
+            dialog.present(Some(self));
         }
     }
 }

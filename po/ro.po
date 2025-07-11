@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-07-11 20:44+0200\n"
+"POT-Creation-Date: 2025-07-11 20:52+0200\n"
 "PO-Revision-Date: 2024-07-30 15:00+0200\n"
 "Last-Translator:  <>\n"
 "Language-Team: Romanian\n"
@@ -284,6 +284,18 @@ msgstr "Corpul"
 msgid "Export request"
 msgstr ""
 
+#: data/ui/export_dialog.blp:54
+msgid "Generated output"
+msgstr ""
+
+#: data/ui/export_dialog.blp:64
+msgid "Copy to clipboard"
+msgstr ""
+
+#: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:182
+msgid "Export to file"
+msgstr ""
+
 #: data/ui/export_tab.blp:34
 msgid "Export to"
 msgstr ""
@@ -319,7 +331,7 @@ msgid "Open"
 msgstr "Deschideți"
 
 #: data/ui/main_window.blp:70 data/ui/main_window_no_csd.blp:68
-#: src/widgets/file_dialogs.rs:143
+#: src/widgets/file_dialogs.rs:143 src/widgets/file_dialogs.rs:181
 msgid "Save"
 msgstr "Salvați"
 
@@ -771,6 +783,11 @@ msgstr "_Renunțați"
 msgid "_Save"
 msgstr "_Salvați"
 
+#: src/widgets/endpoint_pane.rs:842
+#, fuzzy
+msgid "Export request as cURL"
+msgstr "Salvați cererea ca…"
+
 #: src/widgets/error_pane.rs:91 src/widgets/error_pane.rs:105
 msgid "The request data is not valid"
 msgstr ""
@@ -780,7 +797,7 @@ msgstr ""
 msgid "The request failed"
 msgstr "Folosește Cartero pentru a face cereri HTTP și a testa API-urile"
 
-#: src/widgets/export_tab/code.rs:114
+#: src/widgets/export_dialog.rs:112 src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"
 msgstr ""
 
@@ -825,24 +842,24 @@ msgstr "(fără titlu)"
 msgid "Draft"
 msgstr "Proiect"
 
-#: src/win.rs:574
+#: src/win.rs:581
 msgid "The Cartero authors"
 msgstr "Autorii Cartero"
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
-#: src/win.rs:597
+#: src/win.rs:604
 msgid "translator-credits"
 msgstr "Richardo G.C."
 
-#: src/win.rs:598
+#: src/win.rs:605
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 autorii Cartero"
 
-#: src/win.rs:630
+#: src/win.rs:637
 msgid "User manual"
 msgstr ""
 
-#: src/win.rs:632
+#: src/win.rs:639
 msgid "Help us translate"
 msgstr ""
 

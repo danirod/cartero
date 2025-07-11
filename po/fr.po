@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-07-11 20:52+0200\n"
+"POT-Creation-Date: 2025-07-11 20:53+0200\n"
 "PO-Revision-Date: 2025-02-11 11:02+0000\n"
 "Last-Translator: Altero <aurelien.reinert4@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -228,8 +228,7 @@ msgstr ""
 msgid "Token"
 msgstr ""
 
-#: data/ui/authorization_pane.blp:87 data/ui/export_tab.blp:69
-#: data/ui/payload_tab.blp:87
+#: data/ui/authorization_pane.blp:87 data/ui/payload_tab.blp:87
 msgid "(none)"
 msgstr "(aucun)"
 
@@ -240,10 +239,6 @@ msgstr ""
 #: data/ui/authorization_pane.blp:89
 msgid "Bearer token"
 msgstr ""
-
-#: data/ui/code_export_pane.blp:59
-msgid "Copy"
-msgstr "Copier"
 
 #: data/ui/endpoint_pane.blp:69
 msgid "Request URL"
@@ -282,12 +277,6 @@ msgstr ""
 msgid "Body"
 msgstr "Corps"
 
-#: data/ui/endpoint_pane.blp:227 data/ui/main_window.blp:79
-#: data/ui/main_window.blp:80 data/ui/main_window_no_csd.blp:89
-#: data/ui/main_window_no_csd.blp:90
-msgid "Export request"
-msgstr "Exporter la requête"
-
 #: data/ui/export_dialog.blp:54
 #, fuzzy
 msgid "Generated output"
@@ -301,10 +290,6 @@ msgstr "Contenu copié dans le presse-papier"
 #: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:182
 #, fuzzy
 msgid "Export to file"
-msgstr "Exporter vers"
-
-#: data/ui/export_tab.blp:34
-msgid "Export to"
 msgstr "Exporter vers"
 
 #: data/ui/key_value_row.blp:41
@@ -341,6 +326,11 @@ msgstr "Ouvrir"
 #: src/widgets/file_dialogs.rs:143 src/widgets/file_dialogs.rs:181
 msgid "Save"
 msgstr "Enregistrer"
+
+#: data/ui/main_window.blp:79 data/ui/main_window.blp:80
+#: data/ui/main_window_no_csd.blp:89 data/ui/main_window_no_csd.blp:90
+msgid "Export request"
+msgstr "Exporter la requête"
 
 #: data/ui/main_window.blp:107 data/ui/main_window_no_csd.blp:110
 msgid "Welcome to Cartero"
@@ -794,7 +784,7 @@ msgstr "_Abandonner"
 msgid "_Save"
 msgstr "_Enregistrer"
 
-#: src/widgets/endpoint_pane.rs:842
+#: src/widgets/endpoint_pane.rs:762
 #, fuzzy
 msgid "Export request as cURL"
 msgstr "Exporter la requête"
@@ -808,7 +798,7 @@ msgstr ""
 msgid "The request failed"
 msgstr "Créer des requêtes HTTP et tester des API"
 
-#: src/widgets/export_dialog.rs:112 src/widgets/export_tab/code.rs:114
+#: src/widgets/export_dialog.rs:112
 msgid "Content copied to the clipboard"
 msgstr "Contenu copié dans le presse-papier"
 
@@ -873,3 +863,9 @@ msgstr ""
 #: src/win.rs:639
 msgid "Help us translate"
 msgstr ""
+
+#~ msgid "Copy"
+#~ msgstr "Copier"
+
+#~ msgid "Export to"
+#~ msgstr "Exporter vers"

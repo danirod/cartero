@@ -221,16 +221,6 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
                 read-only: bind template.read-only;
               };
             }
-
-            NotebookPage {
-              tab: Label {
-                label: _("Export request");
-              };
-
-              child: $CarteroExportTab export_pane {
-                read-only: bind template.read-only;
-              };
-            }
           }
         };
 

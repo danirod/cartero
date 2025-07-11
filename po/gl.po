@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-07-11 20:52+0200\n"
+"POT-Creation-Date: 2025-07-11 20:53+0200\n"
 "PO-Revision-Date: 2025-04-02 22:10+0000\n"
 "Last-Translator: Eric Pernas <ericpg76@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -234,8 +234,7 @@ msgstr "Contrasinal"
 msgid "Token"
 msgstr "Token"
 
-#: data/ui/authorization_pane.blp:87 data/ui/export_tab.blp:69
-#: data/ui/payload_tab.blp:87
+#: data/ui/authorization_pane.blp:87 data/ui/payload_tab.blp:87
 msgid "(none)"
 msgstr "(nada)"
 
@@ -246,10 +245,6 @@ msgstr "Autorización básica"
 #: data/ui/authorization_pane.blp:89
 msgid "Bearer token"
 msgstr "Token bearer"
-
-#: data/ui/code_export_pane.blp:59
-msgid "Copy"
-msgstr "Copiar"
 
 #: data/ui/endpoint_pane.blp:69
 msgid "Request URL"
@@ -287,12 +282,6 @@ msgstr "Autorización"
 msgid "Body"
 msgstr "Corpo"
 
-#: data/ui/endpoint_pane.blp:227 data/ui/main_window.blp:79
-#: data/ui/main_window.blp:80 data/ui/main_window_no_csd.blp:89
-#: data/ui/main_window_no_csd.blp:90
-msgid "Export request"
-msgstr "Exportar petición"
-
 #: data/ui/export_dialog.blp:54
 #, fuzzy
 msgid "Generated output"
@@ -306,10 +295,6 @@ msgstr "Contido copiado ao portapapeis"
 #: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:182
 #, fuzzy
 msgid "Export to file"
-msgstr "Exportar coma"
-
-#: data/ui/export_tab.blp:34
-msgid "Export to"
 msgstr "Exportar coma"
 
 #: data/ui/key_value_row.blp:41
@@ -346,6 +331,11 @@ msgstr "Abrir"
 #: src/widgets/file_dialogs.rs:143 src/widgets/file_dialogs.rs:181
 msgid "Save"
 msgstr "Gardar"
+
+#: data/ui/main_window.blp:79 data/ui/main_window.blp:80
+#: data/ui/main_window_no_csd.blp:89 data/ui/main_window_no_csd.blp:90
+msgid "Export request"
+msgstr "Exportar petición"
 
 #: data/ui/main_window.blp:107 data/ui/main_window_no_csd.blp:110
 msgid "Welcome to Cartero"
@@ -803,7 +793,7 @@ msgstr "_Descartar"
 msgid "_Save"
 msgstr "_Gardar"
 
-#: src/widgets/endpoint_pane.rs:842
+#: src/widgets/endpoint_pane.rs:762
 #, fuzzy
 msgid "Export request as cURL"
 msgstr "Exportar petición"
@@ -816,7 +806,7 @@ msgstr "Os datos de petición non son válidos"
 msgid "The request failed"
 msgstr "A petición fallou"
 
-#: src/widgets/export_dialog.rs:112 src/widgets/export_tab/code.rs:114
+#: src/widgets/export_dialog.rs:112
 msgid "Content copied to the clipboard"
 msgstr "Contido copiado ao portapapeis"
 
@@ -883,6 +873,12 @@ msgstr "Manual de usuario"
 #: src/win.rs:639
 msgid "Help us translate"
 msgstr "Axúdanos a traducir"
+
+#~ msgid "Copy"
+#~ msgstr "Copiar"
+
+#~ msgid "Export to"
+#~ msgstr "Exportar coma"
 
 #, fuzzy
 #~ msgid "Restart the application to use the new language"

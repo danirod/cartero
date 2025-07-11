@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-07-11 20:52+0200\n"
+"POT-Creation-Date: 2025-07-11 20:53+0200\n"
 "PO-Revision-Date: 2025-04-16 11:02+0000\n"
 "Last-Translator: vesp <vesp@post.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/cartero/cartero/cs/"
@@ -235,8 +235,7 @@ msgstr "Heslo"
 msgid "Token"
 msgstr "Token"
 
-#: data/ui/authorization_pane.blp:87 data/ui/export_tab.blp:69
-#: data/ui/payload_tab.blp:87
+#: data/ui/authorization_pane.blp:87 data/ui/payload_tab.blp:87
 msgid "(none)"
 msgstr "(nic)"
 
@@ -247,10 +246,6 @@ msgstr "Basic auth"
 #: data/ui/authorization_pane.blp:89
 msgid "Bearer token"
 msgstr "Bearer token"
-
-#: data/ui/code_export_pane.blp:59
-msgid "Copy"
-msgstr "Kopírovat"
 
 #: data/ui/endpoint_pane.blp:69
 msgid "Request URL"
@@ -288,12 +283,6 @@ msgstr "Autorizace"
 msgid "Body"
 msgstr "Tělo"
 
-#: data/ui/endpoint_pane.blp:227 data/ui/main_window.blp:79
-#: data/ui/main_window.blp:80 data/ui/main_window_no_csd.blp:89
-#: data/ui/main_window_no_csd.blp:90
-msgid "Export request"
-msgstr "Exportovat požadavek"
-
 #: data/ui/export_dialog.blp:54
 #, fuzzy
 msgid "Generated output"
@@ -307,10 +296,6 @@ msgstr "Obsah zkopírován do schránky"
 #: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:182
 #, fuzzy
 msgid "Export to file"
-msgstr "Exportovat do"
-
-#: data/ui/export_tab.blp:34
-msgid "Export to"
 msgstr "Exportovat do"
 
 #: data/ui/key_value_row.blp:41
@@ -347,6 +332,11 @@ msgstr "Otevřít"
 #: src/widgets/file_dialogs.rs:143 src/widgets/file_dialogs.rs:181
 msgid "Save"
 msgstr "Uložit"
+
+#: data/ui/main_window.blp:79 data/ui/main_window.blp:80
+#: data/ui/main_window_no_csd.blp:89 data/ui/main_window_no_csd.blp:90
+msgid "Export request"
+msgstr "Exportovat požadavek"
 
 #: data/ui/main_window.blp:107 data/ui/main_window_no_csd.blp:110
 msgid "Welcome to Cartero"
@@ -803,7 +793,7 @@ msgstr "Zahodi_t změny"
 msgid "_Save"
 msgstr "_Uložit"
 
-#: src/widgets/endpoint_pane.rs:842
+#: src/widgets/endpoint_pane.rs:762
 #, fuzzy
 msgid "Export request as cURL"
 msgstr "Exportovat požadavek"
@@ -816,7 +806,7 @@ msgstr "Data požadavku nejsou platná"
 msgid "The request failed"
 msgstr "Požadavek se nezdařil"
 
-#: src/widgets/export_dialog.rs:112 src/widgets/export_tab/code.rs:114
+#: src/widgets/export_dialog.rs:112
 msgid "Content copied to the clipboard"
 msgstr "Obsah zkopírován do schránky"
 
@@ -884,6 +874,12 @@ msgstr "Uživatelská příručka"
 #: src/win.rs:639
 msgid "Help us translate"
 msgstr "Pomozte nám s překladem"
+
+#~ msgid "Copy"
+#~ msgstr "Kopírovat"
+
+#~ msgid "Export to"
+#~ msgstr "Exportovat do"
 
 #, fuzzy
 #~ msgid "Restart the application to use the new language"

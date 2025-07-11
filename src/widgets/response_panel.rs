@@ -110,7 +110,7 @@ mod imp {
             self.stack.connect_visible_child_name_notify(glib::clone!(
                 #[weak(rename_to = panel)]
                 self,
-                move |pane| {
+                move |_| {
                     let obj = panel.obj();
                     obj.notify("has-response");
                 }

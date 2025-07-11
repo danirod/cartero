@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-07-11 20:52+0200\n"
+"POT-Creation-Date: 2025-07-11 20:53+0200\n"
 "PO-Revision-Date: 2025-04-27 13:08+0000\n"
 "Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/cartero/cartero/ta/"
@@ -234,8 +234,7 @@ msgstr "கடவுச்சொல்"
 msgid "Token"
 msgstr "கிள்ளாக்கு"
 
-#: data/ui/authorization_pane.blp:87 data/ui/export_tab.blp:69
-#: data/ui/payload_tab.blp:87
+#: data/ui/authorization_pane.blp:87 data/ui/payload_tab.blp:87
 msgid "(none)"
 msgstr "(எதுவுமில்லை)"
 
@@ -246,10 +245,6 @@ msgstr "அடிப்படை ஏற்பு"
 #: data/ui/authorization_pane.blp:89
 msgid "Bearer token"
 msgstr "தாங்கி கிள்ளாக்கு"
-
-#: data/ui/code_export_pane.blp:59
-msgid "Copy"
-msgstr "நகலெடு"
 
 #: data/ui/endpoint_pane.blp:69
 msgid "Request URL"
@@ -287,12 +282,6 @@ msgstr "ஏற்பு"
 msgid "Body"
 msgstr "உடல்"
 
-#: data/ui/endpoint_pane.blp:227 data/ui/main_window.blp:79
-#: data/ui/main_window.blp:80 data/ui/main_window_no_csd.blp:89
-#: data/ui/main_window_no_csd.blp:90
-msgid "Export request"
-msgstr "ஏற்றுமதி கோரிக்கை"
-
 #: data/ui/export_dialog.blp:54
 #, fuzzy
 msgid "Generated output"
@@ -306,10 +295,6 @@ msgstr "கிளிப்போர்டுக்கு உள்ளடக்�
 #: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:182
 #, fuzzy
 msgid "Export to file"
-msgstr "ஏற்றுமதி"
-
-#: data/ui/export_tab.blp:34
-msgid "Export to"
 msgstr "ஏற்றுமதி"
 
 #: data/ui/key_value_row.blp:41
@@ -346,6 +331,11 @@ msgstr "திற"
 #: src/widgets/file_dialogs.rs:143 src/widgets/file_dialogs.rs:181
 msgid "Save"
 msgstr "சேமி"
+
+#: data/ui/main_window.blp:79 data/ui/main_window.blp:80
+#: data/ui/main_window_no_csd.blp:89 data/ui/main_window_no_csd.blp:90
+msgid "Export request"
+msgstr "ஏற்றுமதி கோரிக்கை"
 
 #: data/ui/main_window.blp:107 data/ui/main_window_no_csd.blp:110
 msgid "Welcome to Cartero"
@@ -801,7 +791,7 @@ msgstr "_ டிச்கார்ட்"
 msgid "_Save"
 msgstr "_சேவ்"
 
-#: src/widgets/endpoint_pane.rs:842
+#: src/widgets/endpoint_pane.rs:762
 #, fuzzy
 msgid "Export request as cURL"
 msgstr "ஏற்றுமதி கோரிக்கை"
@@ -814,7 +804,7 @@ msgstr "The request தகவல்கள் is not valid"
 msgid "The request failed"
 msgstr "கோரிக்கை தோல்வியடைந்தது"
 
-#: src/widgets/export_dialog.rs:112 src/widgets/export_tab/code.rs:114
+#: src/widgets/export_dialog.rs:112
 msgid "Content copied to the clipboard"
 msgstr "கிளிப்போர்டுக்கு உள்ளடக்கம் நகலெடுக்கப்பட்டது"
 
@@ -881,6 +871,12 @@ msgstr "பயனர் கையேடு"
 #: src/win.rs:639
 msgid "Help us translate"
 msgstr "உதவி us மொழிபெயர்த்திடு"
+
+#~ msgid "Copy"
+#~ msgstr "நகலெடு"
+
+#~ msgid "Export to"
+#~ msgstr "ஏற்றுமதி"
 
 #~ msgid "Request (.cartero)"
 #~ msgstr "கோரிக்கை (.கார்டெரோ)"

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-07-11 20:52+0200\n"
+"POT-Creation-Date: 2025-07-11 20:53+0200\n"
 "PO-Revision-Date: 2024-11-04 17:46+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/cartero/"
@@ -225,8 +225,7 @@ msgstr ""
 msgid "Token"
 msgstr ""
 
-#: data/ui/authorization_pane.blp:87 data/ui/export_tab.blp:69
-#: data/ui/payload_tab.blp:87
+#: data/ui/authorization_pane.blp:87 data/ui/payload_tab.blp:87
 msgid "(none)"
 msgstr "(nenio)"
 
@@ -237,10 +236,6 @@ msgstr ""
 #: data/ui/authorization_pane.blp:89
 msgid "Bearer token"
 msgstr ""
-
-#: data/ui/code_export_pane.blp:59
-msgid "Copy"
-msgstr "Kopii"
 
 #: data/ui/endpoint_pane.blp:69
 msgid "Request URL"
@@ -278,12 +273,6 @@ msgstr ""
 msgid "Body"
 msgstr "Korpo"
 
-#: data/ui/endpoint_pane.blp:227 data/ui/main_window.blp:79
-#: data/ui/main_window.blp:80 data/ui/main_window_no_csd.blp:89
-#: data/ui/main_window_no_csd.blp:90
-msgid "Export request"
-msgstr ""
-
 #: data/ui/export_dialog.blp:54
 msgid "Generated output"
 msgstr ""
@@ -294,10 +283,6 @@ msgstr ""
 
 #: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:182
 msgid "Export to file"
-msgstr ""
-
-#: data/ui/export_tab.blp:34
-msgid "Export to"
 msgstr ""
 
 #: data/ui/key_value_row.blp:41
@@ -334,6 +319,11 @@ msgstr "Malfermi"
 #: src/widgets/file_dialogs.rs:143 src/widgets/file_dialogs.rs:181
 msgid "Save"
 msgstr "Konservi"
+
+#: data/ui/main_window.blp:79 data/ui/main_window.blp:80
+#: data/ui/main_window_no_csd.blp:89 data/ui/main_window_no_csd.blp:90
+msgid "Export request"
+msgstr ""
 
 #: data/ui/main_window.blp:107 data/ui/main_window_no_csd.blp:110
 msgid "Welcome to Cartero"
@@ -775,7 +765,7 @@ msgstr ""
 msgid "_Save"
 msgstr ""
 
-#: src/widgets/endpoint_pane.rs:842
+#: src/widgets/endpoint_pane.rs:762
 #, fuzzy
 msgid "Export request as cURL"
 msgstr "URL"
@@ -789,7 +779,7 @@ msgstr ""
 msgid "The request failed"
 msgstr "Sendu HTTP-petojn kaj testu retaj API-oj"
 
-#: src/widgets/export_dialog.rs:112 src/widgets/export_tab/code.rs:114
+#: src/widgets/export_dialog.rs:112
 msgid "Content copied to the clipboard"
 msgstr ""
 
@@ -854,6 +844,9 @@ msgstr ""
 #: src/win.rs:639
 msgid "Help us translate"
 msgstr ""
+
+#~ msgid "Copy"
+#~ msgstr "Kopii"
 
 #~ msgid "Request (.cartero)"
 #~ msgstr "Petdosiero (.cartero)"

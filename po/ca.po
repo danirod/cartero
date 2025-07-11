@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-07-11 20:52+0200\n"
+"POT-Creation-Date: 2025-07-11 20:53+0200\n"
 "PO-Revision-Date: 2025-05-22 15:06+0000\n"
 "Last-Translator: alesdevux <aleswebgit@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -234,8 +234,7 @@ msgstr "Contrassenya"
 msgid "Token"
 msgstr ""
 
-#: data/ui/authorization_pane.blp:87 data/ui/export_tab.blp:69
-#: data/ui/payload_tab.blp:87
+#: data/ui/authorization_pane.blp:87 data/ui/payload_tab.blp:87
 msgid "(none)"
 msgstr "(res)"
 
@@ -246,10 +245,6 @@ msgstr "Autenticació bàsica"
 #: data/ui/authorization_pane.blp:89
 msgid "Bearer token"
 msgstr ""
-
-#: data/ui/code_export_pane.blp:59
-msgid "Copy"
-msgstr "Copia"
 
 #: data/ui/endpoint_pane.blp:69
 msgid "Request URL"
@@ -287,12 +282,6 @@ msgstr "Autorització"
 msgid "Body"
 msgstr "Cos"
 
-#: data/ui/endpoint_pane.blp:227 data/ui/main_window.blp:79
-#: data/ui/main_window.blp:80 data/ui/main_window_no_csd.blp:89
-#: data/ui/main_window_no_csd.blp:90
-msgid "Export request"
-msgstr "Exportar petició"
-
 #: data/ui/export_dialog.blp:54
 #, fuzzy
 msgid "Generated output"
@@ -306,10 +295,6 @@ msgstr "Contingut copiat al porta-retalls"
 #: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:182
 #, fuzzy
 msgid "Export to file"
-msgstr "Exportar com"
-
-#: data/ui/export_tab.blp:34
-msgid "Export to"
 msgstr "Exportar com"
 
 #: data/ui/key_value_row.blp:41
@@ -346,6 +331,11 @@ msgstr "Obrir"
 #: src/widgets/file_dialogs.rs:143 src/widgets/file_dialogs.rs:181
 msgid "Save"
 msgstr "Guardar"
+
+#: data/ui/main_window.blp:79 data/ui/main_window.blp:80
+#: data/ui/main_window_no_csd.blp:89 data/ui/main_window_no_csd.blp:90
+msgid "Export request"
+msgstr "Exportar petició"
 
 #: data/ui/main_window.blp:107 data/ui/main_window_no_csd.blp:110
 msgid "Welcome to Cartero"
@@ -803,7 +793,7 @@ msgstr "_Descartar"
 msgid "_Save"
 msgstr "_Guardar"
 
-#: src/widgets/endpoint_pane.rs:842
+#: src/widgets/endpoint_pane.rs:762
 #, fuzzy
 msgid "Export request as cURL"
 msgstr "Exportar petició"
@@ -816,7 +806,7 @@ msgstr "Les dades de la petició no són vàlides"
 msgid "The request failed"
 msgstr "La petició a fallat"
 
-#: src/widgets/export_dialog.rs:112 src/widgets/export_tab/code.rs:114
+#: src/widgets/export_dialog.rs:112
 msgid "Content copied to the clipboard"
 msgstr "Contingut copiat al porta-retalls"
 
@@ -883,6 +873,12 @@ msgstr "Manual d’usuari"
 #: src/win.rs:639
 msgid "Help us translate"
 msgstr "Ajuda’ns a traduir"
+
+#~ msgid "Copy"
+#~ msgstr "Copia"
+
+#~ msgid "Export to"
+#~ msgstr "Exportar com"
 
 #~ msgid "Request (.cartero)"
 #~ msgstr "Petició (.cartero)"

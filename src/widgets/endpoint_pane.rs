@@ -24,8 +24,9 @@ use url::form_urlencoded;
 use crate::{
     entities::EndpointData,
     error::FileSaveError,
+    export::curl::CodeExportService,
     file::{EndpointLoadResult, FileLoadResult},
-    widgets::{CodeExportService, ExportDialog},
+    widgets::ExportDialog,
 };
 
 mod imp {
@@ -43,12 +44,11 @@ mod imp {
 
     use crate::app::CarteroApplication;
     use crate::client::BoundRequest;
-    use crate::entities::{EndpointData, KeyValue, RequestExportType, ResponseData};
+    use crate::entities::{EndpointData, KeyValue, ResponseData};
     use crate::error::{RequestError, RequestPreconditionError};
     use crate::objects::KeyValueItem;
     use crate::widgets::{
-        AuthorizationPane, ExportTab, ExportType, KeyValuePane, MethodDropdown, PayloadTab,
-        ResponsePanel,
+        AuthorizationPane, KeyValuePane, MethodDropdown, PayloadTab, ResponsePanel,
     };
 
     #[derive(CompositeTemplate, Properties, Default)]
@@ -78,9 +78,6 @@ mod imp {
 
         #[template_child]
         pub payload_pane: TemplateChild<PayloadTab>,
-
-        #[template_child]
-        pub export_pane: TemplateChild<ExportTab>,
 
         #[template_child]
         authorization_pane: TemplateChild<AuthorizationPane>,
@@ -171,18 +168,6 @@ mod imp {
                 }
             ));
 
-            // update export pane data when user selects another option in the combo box.
-            self.export_pane.connect_changed(glib::clone!(
-                #[weak(rename_to = window)]
-                self,
-                move |_| {
-                    if window.export_pane.imp().export_type() == ExportType::Curl {
-                        let data = window.extract_endpoint();
-                        window.export_pane_load_endpoint_data(&data);
-                    }
-                }
-            ));
-
             // Mark the window as busy when actually busy.
             let obj = self.obj();
             obj.property_expression("busy")
@@ -200,13 +185,11 @@ mod imp {
             self.response.connect_has_response_notify(glib::clone!(
                 #[weak(rename_to = pane)]
                 self,
-                move |response| {
+                move |_| {
                     let obj = pane.obj();
                     obj.notify("has-response");
                 }
             ));
-
-            self.configure_export_pane_bindings();
         }
     }
 
@@ -341,11 +324,6 @@ mod imp {
                 obj,
                 move |_| obj.set_dirty(true)
             ));
-            self.export_pane.connect_changed(glib::clone!(
-                #[weak]
-                obj,
-                move |_| obj.set_dirty(true)
-            ));
             self.authorization_pane.connect_changed(glib::clone!(
                 #[weak]
                 obj,
@@ -381,69 +359,12 @@ mod imp {
 
         #[template_callback]
         fn on_url_changed(&self) {
-            let data = self.extract_endpoint();
-            self.export_pane_load_endpoint_data(&data);
+            self.extract_endpoint();
         }
 
         #[template_callback]
         fn on_url_activated(&self) {
             let _ = self.obj().activate_action("endpoint.request", None);
-        }
-
-        /// Loads data for the export pane module by using an `EndpointData` structure.
-        fn export_pane_load_endpoint_data(&self, endpoint: &EndpointData) {
-            let req_export_type = self.export_pane.request_export_type();
-
-            if let RequestExportType::None = req_export_type {
-                return;
-            }
-
-            if let RequestExportType::Curl(_) = req_export_type {
-                self.export_pane
-                    .set_request_export_type(&RequestExportType::Curl(endpoint.clone()));
-            }
-        }
-
-        /// Retrieves `EndpointData` and builds a new state for the export request module.
-        fn update_export_pane(&self) {
-            let data = self.extract_endpoint();
-            self.export_pane_load_endpoint_data(&data);
-        }
-
-        /// Connect ourself to every widget in order to pass new data and rehydrate the
-        /// export pane module so it gets realtime, maybe we should consider doing some
-        /// kind of reactive bindings?
-        fn configure_export_pane_bindings(&self) {
-            self.request_method.connect_changed(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| pane.update_export_pane()
-            ));
-            self.request_url.connect_changed(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| pane.update_export_pane()
-            ));
-            self.payload_pane.connect_changed(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| pane.update_export_pane()
-            ));
-            self.export_pane.connect_changed(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| pane.update_export_pane()
-            ));
-            self.header_pane.connect_changed(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| pane.update_export_pane()
-            ));
-            self.variable_pane.connect_changed(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| pane.update_export_pane()
-            ));
         }
 
         /// Sets the value of every widget in the pane into whatever is set by the given endpoint.
@@ -460,7 +381,6 @@ mod imp {
             self.payload_pane.set_payload(&endpoint.body);
             self.authorization_pane
                 .set_authorization(&endpoint.authorization);
-            self.export_pane_load_endpoint_data(endpoint);
 
             // Merge parameters
             let active_params: Vec<KeyValueItem> = self.parameter_pane.get_entries();

@@ -72,10 +72,23 @@ template $CarteroWindow: Adw.ApplicationWindow {
       }
 
       [end]
-      MenuButton {
-        icon-name: "open-menu-symbolic";
-        primary: true;
-        menu-model: main_menu;
+      Box {
+        spacing: 5;
+
+        MenuButton {
+          tooltip-text: _("Export request");
+          label: _("Export request");
+          icon-name: "share-symbolic";
+          menu-model: share_menu;
+        }
+
+        Separator {}
+
+        MenuButton {
+          icon-name: "open-menu-symbolic";
+          primary: true;
+          menu-model: main_menu;
+        }
       }
     }
 
@@ -139,6 +152,14 @@ template $CarteroWindow: Adw.ApplicationWindow {
         }
       }
     }
+  }
+}
+
+menu share_menu {
+  item {
+    label: _("Export request as cURL…");
+    action: "win.export-request";
+    target: "curl";
   }
 }
 

@@ -114,10 +114,23 @@ mod imp {
                 ));
 
             /* Enable these actions only if there is an open page. */
-            let tab_dependent_actions = ["save", "save-as", "close", "request"];
+            let tab_dependent_actions = ["save", "save-as", "close", "request", "export-request"];
             for tab in tab_dependent_actions {
                 if let Some(action) = obj.lookup_action(&tab) {
                     has_page.bind(&action, "enabled", Some(&*self.tabview));
+                }
+            }
+
+            /* Enable these actions only if there is an open page and the page has a valid response. */
+            let has_response = self
+                .tabview
+                .property_expression("selected-page")
+                .chain_property::<adw::TabPage>("child")
+                .chain_property::<EndpointPane>("has-response");
+            let tab_and_response_actions = ["export-response-body", "export-har"];
+            for tab in tab_and_response_actions {
+                if let Some(action) = obj.lookup_action(&tab) {
+                    has_response.bind(&action, "enabled", Some(&*self.tabview));
                 }
             }
 
@@ -852,6 +865,38 @@ mod imp {
                 ))
                 .build();
 
+            let action_export_request = ActionEntry::builder("export-request")
+                .parameter_type(Some(&String::static_variant_type()))
+                .activate(glib::clone!(
+                    #[weak(rename_to = window)]
+                    self,
+                    move |_, _, variant| {
+                        let param = variant.unwrap().get::<String>().unwrap();
+                        println!("Exporting as {param}");
+                    }
+                ))
+                .build();
+
+            let action_export_response_body = ActionEntry::builder("export-response-body")
+                .activate(glib::clone!(
+                    #[weak(rename_to = window)]
+                    self,
+                    move |_, _, _| {
+                        println!("Exporting response body");
+                    }
+                ))
+                .build();
+
+            let action_export_har = ActionEntry::builder("export-har")
+                .activate(glib::clone!(
+                    #[weak(rename_to = window)]
+                    self,
+                    move |_, _, _| {
+                        println!("Exporting interaction as HAr");
+                    }
+                ))
+                .build();
+
             let obj = self.obj();
             obj.add_action_entries([
                 action_new,
@@ -861,6 +906,9 @@ mod imp {
                 action_save_as,
                 action_close,
                 action_about,
+                action_export_request,
+                action_export_response_body,
+                action_export_har,
             ]);
 
             #[cfg(feature = "app_updater")]

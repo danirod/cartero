@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-06-30 00:52+0200\n"
+"POT-Creation-Date: 2025-07-11 20:44+0200\n"
 "PO-Revision-Date: 2025-04-27 13:08+0000\n"
 "Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/cartero/cartero/ta/"
@@ -287,7 +287,9 @@ msgstr "ஏற்பு"
 msgid "Body"
 msgstr "உடல்"
 
-#: data/ui/endpoint_pane.blp:227
+#: data/ui/endpoint_pane.blp:227 data/ui/main_window.blp:79
+#: data/ui/main_window.blp:80 data/ui/main_window_no_csd.blp:89
+#: data/ui/main_window_no_csd.blp:90
 msgid "Export request"
 msgstr "ஏற்றுமதி கோரிக்கை"
 
@@ -330,91 +332,96 @@ msgstr "திற"
 msgid "Save"
 msgstr "சேமி"
 
-#: data/ui/main_window.blp:94 data/ui/main_window_no_csd.blp:101
+#: data/ui/main_window.blp:107 data/ui/main_window_no_csd.blp:110
 msgid "Welcome to Cartero"
 msgstr "கார்டெரோவுக்கு வருக"
 
-#: data/ui/main_window.blp:95 data/ui/main_window_no_csd.blp:102
+#: data/ui/main_window.blp:108 data/ui/main_window_no_csd.blp:111
 msgid "Create or open a request and start testing APIs now."
 msgstr "ஒரு கோரிக்கையை உருவாக்கி அல்லது திறந்து இப்போது பநிஇ களை சோதிக்கத் தொடங்குங்கள்."
 
-#: data/ui/main_window.blp:114 data/ui/main_window.blp:148
-#: data/ui/main_window_no_csd.blp:121 data/ui/main_window_no_csd.blp:155
+#: data/ui/main_window.blp:127 data/ui/main_window.blp:169
+#: data/ui/main_window_no_csd.blp:130 data/ui/main_window_no_csd.blp:172
 msgid "New tab"
 msgstr "புதிய தாவல்"
 
-#: data/ui/main_window.blp:127 data/ui/main_window.blp:153
-#: data/ui/main_window_no_csd.blp:134 data/ui/main_window_no_csd.blp:160
+#: data/ui/main_window.blp:140 data/ui/main_window.blp:174
+#: data/ui/main_window_no_csd.blp:143 data/ui/main_window_no_csd.blp:177
 msgid "Open request…"
 msgstr "திறந்த கோரிக்கை …"
 
-#: data/ui/main_window.blp:158 data/ui/main_window_no_csd.blp:165
+#: data/ui/main_window.blp:160 data/ui/main_window_no_csd.blp:163
+#, fuzzy
+msgid "Export request as cURL…"
+msgstr "ஏற்றுமதி கோரிக்கை"
+
+#: data/ui/main_window.blp:179 data/ui/main_window_no_csd.blp:182
 #: src/widgets/file_dialogs.rs:144
 msgid "Save request"
 msgstr "கோரிக்கையைச் சேமிக்கவும்"
 
-#: data/ui/main_window.blp:163 data/ui/main_window_no_csd.blp:170
+#: data/ui/main_window.blp:184 data/ui/main_window_no_csd.blp:187
 msgid "Save request as…"
 msgstr "கோரிக்கையை சேமிக்கவும் …"
 
-#: data/ui/main_window.blp:168 data/ui/main_window_no_csd.blp:175
+#: data/ui/main_window.blp:189 data/ui/main_window_no_csd.blp:192
 msgid "Close tab"
 msgstr "தாவலை மூடு"
 
-#: data/ui/main_window.blp:175 data/ui/main_window_no_csd.blp:182
+#: data/ui/main_window.blp:196 data/ui/main_window_no_csd.blp:199
 #: data/ui/settings_dialog.blp:21
 msgid "Settings"
 msgstr "அமைப்புகள்"
 
-#: data/ui/main_window.blp:180 data/ui/main_window_no_csd.blp:187
+#: data/ui/main_window.blp:201 data/ui/main_window_no_csd.blp:204
 msgid "Body appearance"
 msgstr "உடல் தோற்றம்"
 
-#: data/ui/main_window.blp:184 data/ui/main_window_no_csd.blp:191
+#: data/ui/main_window.blp:205 data/ui/main_window_no_csd.blp:208
 msgid "Wrap content"
 msgstr "உள்ளடக்கத்தை மடக்கு"
 
-#: data/ui/main_window.blp:189 data/ui/main_window_no_csd.blp:196
+#: data/ui/main_window.blp:210 data/ui/main_window_no_csd.blp:213
 msgid "Show line numbers"
 msgstr "வரி எண்களைக் காட்டு"
 
-#: data/ui/main_window.blp:196 data/ui/main_window_no_csd.blp:203
+#: data/ui/main_window.blp:217 data/ui/main_window_no_csd.blp:220
 msgid "Automatic indentation"
 msgstr "தானியங்கி உள்தள்ளல்"
 
-#: data/ui/main_window.blp:201 data/ui/main_window_no_csd.blp:208
+#: data/ui/main_window.blp:222 data/ui/main_window_no_csd.blp:225
 msgid "Indent with spaces"
 msgstr "இடைவெளிகளுடன் உள்தள்ளுங்கள்"
 
-#: data/ui/main_window.blp:207 data/ui/main_window_no_csd.blp:214
+#: data/ui/main_window.blp:228 data/ui/main_window_no_csd.blp:231
 msgid "Indent with tabs"
 msgstr "தாவல்களுடன் உள்தள்ளுங்கள்"
 
-#: data/ui/main_window.blp:213 data/ui/main_window_no_csd.blp:220
+#: data/ui/main_window.blp:234 data/ui/main_window_no_csd.blp:237
 msgid "Spaces per tab"
 msgstr "ஒரு தாவலுக்கு இடங்கள்"
 
-#: data/ui/main_window.blp:216 data/ui/main_window_no_csd.blp:223
+#: data/ui/main_window.blp:237 data/ui/main_window_no_csd.blp:240
 msgid "2"
 msgstr "2"
 
-#: data/ui/main_window.blp:222 data/ui/main_window_no_csd.blp:229
+#: data/ui/main_window.blp:243 data/ui/main_window_no_csd.blp:246
 msgid "4"
 msgstr "4"
 
-#: data/ui/main_window.blp:228 data/ui/main_window_no_csd.blp:235
+#: data/ui/main_window.blp:249 data/ui/main_window_no_csd.blp:252
 msgid "8"
 msgstr "8"
 
-#: data/ui/main_window.blp:239 data/ui/main_window_no_csd.blp:246
+#: data/ui/main_window.blp:260 data/ui/main_window_no_csd.blp:263
 msgid "Keyboard shortcuts"
 msgstr "விசைப்பலகை குறுக்குவழிகள்"
 
-#: data/ui/main_window.blp:244 data/ui/main_window_no_csd.blp:251
+#: data/ui/main_window.blp:265 data/ui/main_window_no_csd.blp:268
 msgid "About Cartero"
 msgstr "கார்டெரோ பற்றி"
 
-#: data/ui/main_window.blp:249 data/ui/main_window_no_csd.blp:256
+#: data/ui/main_window.blp:270 data/ui/main_window_no_csd.blp:273
 msgid "Quit"
 msgstr "வெளியேறு"
 
@@ -826,32 +833,32 @@ msgid_plural "{} results"
 msgstr[0] "{} முடிவு"
 msgstr[1] "{} முடிவுகள்"
 
-#: src/win.rs:246
+#: src/win.rs:259
 msgid "(untitled)"
 msgstr "(பெயரிடப்படாதது)"
 
-#: src/win.rs:260
+#: src/win.rs:273
 msgid "Draft"
 msgstr "வரைவு"
 
-#: src/win.rs:561
+#: src/win.rs:574
 msgid "The Cartero authors"
 msgstr "கார்டெரோ ஆசிரியர்கள்"
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
-#: src/win.rs:584
+#: src/win.rs:597
 msgid "translator-credits"
 msgstr "தமிழ்நேரம்"
 
-#: src/win.rs:585
+#: src/win.rs:598
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 கார்டெரோ ஆசிரியர்கள்"
 
-#: src/win.rs:617
+#: src/win.rs:630
 msgid "User manual"
 msgstr "பயனர் கையேடு"
 
-#: src/win.rs:619
+#: src/win.rs:632
 msgid "Help us translate"
 msgstr "உதவி us மொழிபெயர்த்திடு"
 

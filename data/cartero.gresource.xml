@@ -24,6 +24,7 @@
     <file alias="urlencoded_payload_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/urlencoded_payload_pane.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/horizontal-arrows-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/tab-new-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/share-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/apps/es.danirod.Cartero.Devel.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/apps/es.danirod.Cartero.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/eye-not-looking-symbolic.svg</file>

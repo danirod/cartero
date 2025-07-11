@@ -101,6 +101,9 @@ mod imp {
         #[property(get, set)]
         busy: RefCell<bool>,
 
+        #[property(get = Self::has_response_impl)]
+        _has_response: RefCell<bool>,
+
         request_thread: Arc<RefCell<Option<JoinHandle<()>>>>,
 
         variable_changing: Arc<Mutex<bool>>,
@@ -191,6 +194,15 @@ mod imp {
                 ))
                 .bind(&*obj, "cursor", Some(&*obj));
 
+            self.response.connect_has_response_notify(glib::clone!(
+                #[weak(rename_to = pane)]
+                self,
+                move |response| {
+                    let obj = pane.obj();
+                    obj.notify("has-response");
+                }
+            ));
+
             self.configure_export_pane_bindings();
         }
     }
@@ -201,6 +213,10 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl EndpointPane {
+        fn has_response_impl(&self) -> bool {
+            self.response.has_response()
+        }
+
         fn init_actions(&self) {
             let obj = self.obj();
 

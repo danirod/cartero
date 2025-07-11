@@ -84,6 +84,15 @@ template $CarteroWindow: Gtk.ApplicationWindow {
         Separator {}
 
         MenuButton {
+          icon-name: "share-symbolic";
+          menu-model: share_menu;
+          tooltip-text: _("Export request");
+          label: _("Export request");
+        }
+
+        Separator {}
+
+        MenuButton {
           icon-name: "open-menu-symbolic";
           primary: true;
           menu-model: main_menu;
@@ -146,6 +155,14 @@ template $CarteroWindow: Gtk.ApplicationWindow {
         }
       }
     }
+  }
+}
+
+menu share_menu {
+  item {
+    label: _("Export request as cURL…");
+    action: "win.export-request";
+    target: "curl";
   }
 }
 

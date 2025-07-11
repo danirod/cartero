@@ -19,7 +19,7 @@ use std::io::{BufWriter, Write};
 
 use cartero_objects::{Request, RequestBodyRawType, RequestBodyType};
 
-use crate::{active_pairs, RequestPreconditionError};
+use crate::{active_pairs, RequestError};
 
 #[derive(Default)]
 pub(crate) struct BoundBody {
@@ -38,7 +38,7 @@ impl BoundBody {
 }
 
 impl TryFrom<&Request> for BoundBody {
-    type Error = RequestPreconditionError;
+    type Error = RequestError;
 
     fn try_from(value: &Request) -> Result<Self, Self::Error> {
         let body_type = value.body().body_type();
@@ -53,14 +53,13 @@ impl TryFrom<&Request> for BoundBody {
 }
 
 impl BoundBody {
-    fn try_from_urlencoded(value: &Request) -> Result<Self, RequestPreconditionError> {
+    fn try_from_urlencoded(value: &Request) -> Result<Self, RequestError> {
         let urlencoded = value.body().urlencoded().unwrap();
 
         let context = value.template_processor();
         let values = urlencoded.params().render(&context)?;
         let pairs = active_pairs(&values);
-        let body = serde_urlencoded::to_string(pairs)
-            .map_err(|_| RequestPreconditionError::EncodingError)?;
+        let body = serde_urlencoded::to_string(pairs).map_err(|_| RequestError::EncodingError)?;
         let raw = Vec::from(body.as_str());
 
         let headers = vec![(
@@ -73,7 +72,7 @@ impl BoundBody {
         })
     }
 
-    fn try_from_multipart(value: &Request) -> Result<Self, RequestPreconditionError> {
+    fn try_from_multipart(value: &Request) -> Result<Self, RequestError> {
         let multipart = value.body().multipart().unwrap();
 
         let context = value.template_processor();
@@ -89,11 +88,9 @@ impl BoundBody {
         let mut stream = BufWriter::new(Vec::new());
         formdata::write_formdata(&mut stream, &boundary, &formdata).map_err(|e| {
             glib::g_error!("cartero", "form data error: {}", e);
-            RequestPreconditionError::EncodingError
+            RequestError::EncodingError
         })?;
-        stream
-            .flush()
-            .map_err(|_| RequestPreconditionError::EncodingError)?;
+        stream.flush().map_err(|_| RequestError::EncodingError)?;
 
         let body = stream.get_ref().clone();
         let content_type = format!(
@@ -107,7 +104,7 @@ impl BoundBody {
         })
     }
 
-    fn try_from_raw(value: &Request) -> Result<Self, RequestPreconditionError> {
+    fn try_from_raw(value: &Request) -> Result<Self, RequestError> {
         let raw = value.body().raw().unwrap();
         let content = raw.payload();
         let encoding = raw.payload_type();

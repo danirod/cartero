@@ -1,0 +1,12 @@
+[package]
+name = "cartero_isahc_client"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+cartero_objects = { path = "../cartero-objects" }
+cartero_http = { path = "../cartero-http" }
+isahc = "1.7.2"
+curl = "0.4.48"
+futures-lite = "2.6.0"

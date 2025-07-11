@@ -17,23 +17,27 @@
 
 use std::collections::HashMap;
 
-use cartero_objects::{FieldTable, Request};
+use cartero_objects::{FieldTable, Request, RequestMethod};
 
-use crate::{
-    active_pairs, auth::BoundHeaders, body::BoundBody, url::normalize_url, BoundRequest,
-    RequestPreconditionError,
-};
+use crate::{active_pairs, auth::BoundHeaders, body::BoundBody, url::normalize_url, RequestError};
+
+pub struct BoundRequest {
+    pub url: String,
+    pub method: RequestMethod,
+    pub headers: HashMap<String, String>,
+    pub body: Option<Vec<u8>>,
+}
 
 impl TryFrom<Request> for BoundRequest {
-    type Error = RequestPreconditionError;
+    type Error = RequestError;
 
     fn try_from(value: Request) -> Result<Self, Self::Error> {
         let processor = value.template_processor();
 
-        let url = processor.render(&value.url())?;
+        let url = processor.render(value.url())?;
         let url = normalize_url(&url)?;
 
-        let method = value.method().clone();
+        let method = value.method();
 
         let user_headers = value.headers().render(&processor)?;
         let auth = BoundHeaders::try_from(&value)?;
@@ -62,7 +66,7 @@ fn combine_headers(
     combined.extend(auth.headers());
     combined.extend(body.headers());
 
-    let pairs = active_pairs(&headers);
+    let pairs = active_pairs(headers);
     combined.extend(pairs);
     combined
 }

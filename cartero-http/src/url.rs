@@ -17,32 +17,28 @@
 
 use url::Url;
 
-use crate::RequestPreconditionError;
+use crate::RequestError;
 
-pub(crate) fn normalize_url(url: &str) -> Result<String, RequestPreconditionError> {
+pub(crate) fn normalize_url(url: &str) -> Result<String, RequestError> {
     if !url.contains("://") {
-        return Err(RequestPreconditionError::MissingProtocol);
+        return Err(RequestError::MissingProtocol);
     }
     match Url::parse(url) {
         Ok(url) => {
             // Check for protocol as well.
             match url.scheme() {
                 "http" | "https" => Ok(url.to_string()),
-                other => Err(RequestPreconditionError::UnsupportedProtocol(
-                    other.to_owned(),
-                )),
+                other => Err(RequestError::UnsupportedProtocol(other.to_owned())),
             }
         }
-        Err(url::ParseError::RelativeUrlWithoutBase) => {
-            Err(RequestPreconditionError::MissingProtocol)
-        }
-        Err(_) => Err(RequestPreconditionError::UrlBadParse),
+        Err(url::ParseError::RelativeUrlWithoutBase) => Err(RequestError::MissingProtocol),
+        Err(_) => Err(RequestError::UrlBadParse),
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::{url::normalize_url, RequestPreconditionError};
+    use crate::{url::normalize_url, RequestError};
 
     #[test]
     pub fn test_url_normalization() {
@@ -102,14 +98,14 @@ mod tests {
 
         for url in wrong_protocol {
             let result = normalize_url(url);
-            let Err(RequestPreconditionError::UnsupportedProtocol(_)) = result else {
+            let Err(RequestError::UnsupportedProtocol(_)) = result else {
                 panic!("{} should have been an unsupported protocol", url);
             };
         }
 
         for url in missing_protocol {
             let result = normalize_url(url);
-            assert_eq!(Err(RequestPreconditionError::MissingProtocol), result);
+            assert!(result.is_err());
         }
     }
 

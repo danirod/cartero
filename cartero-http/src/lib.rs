@@ -15,33 +15,38 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use std::collections::HashMap;
-
-use cartero_objects::{Field, FieldTable, RequestMethod};
+use cartero_objects::{Field, FieldTable};
+use std::error::Error as StdError;
 
 mod auth;
 mod body;
-mod from;
+mod environment;
+mod request;
 mod url;
 
-pub struct BoundRequest {
-    pub url: String,
-    pub method: RequestMethod,
-    pub headers: HashMap<String, String>,
-    pub body: Option<Vec<u8>>,
-}
+pub use environment::*;
+pub use request::BoundRequest;
 
-#[derive(Debug, Eq, PartialEq)]
-pub enum RequestPreconditionError {
+#[derive(Debug)]
+pub enum RequestError {
     UrlBadParse,
     MissingProtocol,
-    UnsupportedProtocol(String),
-    EncodingError,
-    VariableNotFound(String),
-    BadInterpolation,
+    UnsupportedProtocol(String), // Protocol {} not supported
+
+    VariableNotFound(String), // Variable {} not found
+    BadInterpolation,         // (variable interpolation)
+
+    InvalidHeaderName(String),  // Header {} is invalid
+    InvalidHeaderValue(String), // Header {} has an invalid value
+
+    EncodingError, // (body encoding)
+
+    // network error during the request (the type is up to the implementor)
+    NetworkError(Box<dyn StdError>),
+    IOError(Box<dyn StdError>),
 }
 
-impl From<srtemplate::Error> for RequestPreconditionError {
+impl From<srtemplate::Error> for RequestError {
     fn from(value: srtemplate::Error) -> Self {
         match value {
             srtemplate::Error::VariableNotFound(var) => Self::VariableNotFound(var),

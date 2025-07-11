@@ -18,7 +18,7 @@
 use base64::prelude::*;
 use cartero_objects::{Request, RequestAuthenticationType};
 
-use crate::RequestPreconditionError;
+use crate::RequestError;
 
 pub(crate) struct BoundHeaders(Vec<(String, String)>);
 
@@ -29,7 +29,7 @@ impl BoundHeaders {
 }
 
 impl TryFrom<&Request> for BoundHeaders {
-    type Error = RequestPreconditionError;
+    type Error = RequestError;
 
     fn try_from(value: &Request) -> Result<Self, Self::Error> {
         let processor = value.template_processor();

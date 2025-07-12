@@ -12,9 +12,13 @@
 }
 
 /* So that the request method can keep the linked appearance even when inside another widget. */
-.inline-linked button {
+.inline-linked button:dir(ltr) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+}
+.inline-linked button:dir(rtl) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 /* Style for search bar elements. */

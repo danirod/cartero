@@ -95,3 +95,18 @@ impl Into<cartero_objects::RequestMethod> for RequestMethod {
         }
     }
 }
+
+impl From<cartero_objects::RequestMethod> for RequestMethod {
+    fn from(value: cartero_objects::RequestMethod) -> Self {
+        match value {
+            cartero_objects::RequestMethod::Get => Self::Get,
+            cartero_objects::RequestMethod::Post => Self::Post,
+            cartero_objects::RequestMethod::Put => Self::Put,
+            cartero_objects::RequestMethod::Patch => Self::Patch,
+            cartero_objects::RequestMethod::Delete => Self::Delete,
+            cartero_objects::RequestMethod::Head => Self::Head,
+            cartero_objects::RequestMethod::Options => Self::Options,
+            cartero_objects::RequestMethod::Trace => Self::Trace,
+        }
+    }
+}

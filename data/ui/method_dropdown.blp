@@ -25,21 +25,10 @@ template $CarteroMethodDropdown: Adw.Bin {
   ]
 
   Gtk.DropDown dropdown {
-    notify::selected-item => $on_selection_changed() swapped;
     tooltip-text: _("Request method");
-    model: verbs_string_list;
-  }
-}
 
-StringList verbs_string_list {
-  strings [
-    "GET",
-    "POST",
-    "PUT",
-    "PATCH",
-    "DELETE",
-    "OPTIONS",
-    "HEAD",
-    "TRACE",
-  ]
+    model: Adw.EnumListModel model {
+      enum-type: typeof<$CarteroRequestMethod>;
+    };
+  }
 }

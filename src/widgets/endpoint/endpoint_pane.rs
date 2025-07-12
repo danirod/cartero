@@ -304,11 +304,12 @@ mod imp {
 
         fn init_dirty_events(&self) {
             let obj = self.obj();
-            self.request_method.connect_changed(glib::clone!(
-                #[weak]
-                obj,
-                move |_| obj.set_dirty(true)
-            ));
+            self.request_method
+                .connect_request_method_notify(glib::clone!(
+                    #[weak]
+                    obj,
+                    move |_| obj.set_dirty(true)
+                ));
             self.request_url.connect_changed(glib::clone!(
                 #[weak]
                 obj,
@@ -364,9 +365,10 @@ mod imp {
 
         /// Sets the value of every widget in the pane into whatever is set by the given endpoint.
         pub fn assign_request(&self, endpoint: &EndpointData) {
+            let modern: cartero_objects::Request = endpoint.clone().into();
+
             self.request_url.buffer().set_text(endpoint.url.clone());
-            self.request_method
-                .set_request_method(endpoint.method.clone());
+            self.request_method.set_request_method(modern.method());
             let headers: Vec<KeyValueItem> =
                 endpoint.headers.iter().map(KeyValueItem::from).collect();
             let variables: Vec<KeyValueItem> =
@@ -392,7 +394,7 @@ mod imp {
             let parameter_list = self.parameter_pane.get_entries();
 
             let url = String::from(self.request_url.buffer().text());
-            let method = self.request_method.request_method();
+            let method = self.request_method.request_method().clone().into();
 
             let headers = header_list
                 .iter()

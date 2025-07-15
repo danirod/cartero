@@ -17,14 +17,18 @@
 using Gtk 4.0;
 using Adw 1;
 
-template $CarteroAuthorizationPane: Gtk.Box {
+template $CarteroAuthenticationPane: Gtk.Box {
   orientation: vertical;
 
-  Adw.Clamp {
-    margin-top: 10;
-    vexpand: false;
+  Gtk.Box {
+    margin-bottom: 12;
+    margin-start: 12;
+    margin-top: 12;
+    margin-end: 12;
 
     Adw.PreferencesGroup {
+      hexpand: true;
+
       Adw.ComboRow combo {
         title: _("Authorization method");
         model: entries;
@@ -34,50 +38,17 @@ template $CarteroAuthorizationPane: Gtk.Box {
     }
   }
 
-  Gtk.Stack stack {
-    margin-top: 15;
+  Gtk.Separator {}
 
-    Gtk.StackPage {
-      name: "none";
+  Gtk.ScrolledWindow {
+    hexpand: true;
+    vexpand: true;
 
-      child: Adw.Bin {};
-    }
-
-    Gtk.StackPage {
-      name: "basic";
-
-      child: Adw.Clamp {
-        margin-top: 10;
-        vexpand: false;
-
-        Adw.PreferencesGroup {
-          Adw.EntryRow basic_username {
-            title: _("Username");
-            sensitive: true;
-          }
-
-          Adw.PasswordEntryRow basic_password {
-            title: _("Password");
-            sensitive: true;
-          }
-        }
-      };
-    }
-
-    Gtk.StackPage {
-      name: "bearer";
-
-      child: Adw.Clamp {
-        margin-top: 10;
-        vexpand: false;
-
-        Adw.PreferencesGroup {
-          Adw.PasswordEntryRow bearer_token {
-            title: _("Token");
-            sensitive: true;
-          }
-        }
-      };
+    Adw.Bin container {
+      margin-bottom: 12;
+      margin-start: 12;
+      margin-top: 12;
+      margin-end: 12;
     }
   }
 }

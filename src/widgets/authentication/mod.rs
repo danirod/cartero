@@ -15,26 +15,10 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-pub mod authentication;
-mod code_view;
-pub mod dialogs;
-pub mod endpoint;
-mod error_pane;
-mod export_dialog;
-pub mod field;
-mod file_dialogs;
-mod key_value_pane;
-mod key_value_row;
-mod method_dropdown;
-mod request_body;
-mod search_box;
+mod authentication_pane;
+mod basic_auth;
+mod bearer_token;
 
-pub use code_view::CodeView;
-pub use error_pane::ErrorPane;
-pub use export_dialog::*;
-pub use file_dialogs::*;
-pub use key_value_pane::KeyValuePane;
-pub use key_value_row::KeyValueRow;
-pub use method_dropdown::MethodDropdown;
-pub use request_body::*;
-pub use search_box::SearchBox;
+pub use authentication_pane::*;
+pub use basic_auth::*;
+pub use bearer_token::*;

@@ -3,7 +3,9 @@
   <gresource prefix="/es/danirod/Cartero/">
     <file alias="style.css" compressed="true">style.css</file>
     <file alias="gtk/help-overlay.ui" compressed="true" preprocess="xml-stripblanks">gtk/help_overlay.ui</file>
-    <file alias="authorization_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/authorization_pane.ui</file>
+    <file alias="basic_auth_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/basic_auth_pane.ui</file>
+    <file alias="bearer_token_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/bearer_token_pane.ui</file>
+    <file alias="authentication_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/authentication_pane.ui</file>
     <file alias="endpoint_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/endpoint_pane.ui</file>
     <file alias="error_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/error_pane.ui</file>
     <file alias="field_action_row.ui" compressed="true" preprocess="xml-stripblanks">ui/field_action_row.ui</file>

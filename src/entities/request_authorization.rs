@@ -52,3 +52,23 @@ impl Into<cartero_objects::RequestAuthentication> for RequestAuthorization {
         }
     }
 }
+
+impl From<cartero_objects::RequestAuthentication> for RequestAuthorization {
+    fn from(value: cartero_objects::RequestAuthentication) -> Self {
+        match value.auth_type() {
+            cartero_objects::RequestAuthenticationType::None => Self::None,
+            cartero_objects::RequestAuthenticationType::Inherit => Self::None,
+            cartero_objects::RequestAuthenticationType::BasicAuth => {
+                let basic_auth = value.basic_auth().unwrap();
+                Self::Basic {
+                    username: basic_auth.username(),
+                    password: basic_auth.password(),
+                }
+            }
+            cartero_objects::RequestAuthenticationType::BearerToken => {
+                let bearer_token = value.bearer_token().unwrap();
+                Self::Bearer(bearer_token.token())
+            }
+        }
+    }
+}

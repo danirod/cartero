@@ -19,6 +19,8 @@ using GtkSource 5;
 using Adw 1;
 
 template $CarteroResponsePanel: Adw.Bin {
+  width-request: 450;
+
   Stack stack {
     StackPage {
       name: "placeholder";
@@ -46,6 +48,7 @@ template $CarteroResponsePanel: Adw.Bin {
         [overlay]
         Notebook {
           show-border: false;
+          scrollable: true;
 
           NotebookPage {
             tab: Label {

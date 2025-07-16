@@ -19,6 +19,16 @@ using Adw 1;
 
 template $CarteroWindow: Adw.ApplicationWindow {
   title: "Cartero";
+  width-request: 400;
+  height-request: 500;
+
+  Adw.Breakpoint {
+    condition ("max-width: 500sp")
+
+    setters {
+      file_menu.visible: false;
+    }
+  }
 
   [content]
   Adw.ToolbarView {
@@ -31,7 +41,7 @@ template $CarteroWindow: Adw.ApplicationWindow {
       };
 
       [start]
-      Box {
+      Box file_menu {
         spacing: 5;
 
         Button {
@@ -77,7 +87,6 @@ template $CarteroWindow: Adw.ApplicationWindow {
 
         MenuButton {
           tooltip-text: _("Export request");
-          label: _("Export request");
           icon-name: "share-symbolic";
           menu-model: share_menu;
         }
@@ -86,6 +95,7 @@ template $CarteroWindow: Adw.ApplicationWindow {
 
         MenuButton {
           icon-name: "open-menu-symbolic";
+          tooltip-text: _("Menu");
           primary: true;
           menu-model: main_menu;
         }

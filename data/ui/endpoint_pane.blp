@@ -142,20 +142,20 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
             hexpand: true;
             vexpand: true;
 
-            Adw.Clamp {
-              styles [
-                "background",
-              ]
+                Gtk.Frame {
+                  vexpand: false;
+                  valign: start;
+                  margin-top: 12;
+                  margin-bottom: 12;
+                  margin-start: 12;
+                  margin-end: 12;
 
-              maximum-size: 720;
-
-              $CarteroKeyValuePane header_pane {
-                avoid-duplicates: true;
-                read-only: bind template.read-only;
-              }
+                  $CarteroFieldTableListView header_pane {
+                    show-placeholder: true;
+                  }
+                }
+              };
             }
-          };
-        }
 
         NotebookPage {
           tab: Label {
@@ -166,20 +166,20 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
             hexpand: true;
             vexpand: true;
 
-            Adw.Clamp {
-              styles [
-                "background",
-              ]
+                Gtk.Frame {
+                  vexpand: false;
+                  valign: start;
+                  margin-top: 12;
+                  margin-bottom: 12;
+                  margin-start: 12;
+                  margin-end: 12;
 
-              maximum-size: 720;
-
-              $CarteroKeyValuePane variable_pane {
-                avoid-duplicates: true;
-                read-only: bind template.read-only;
-              }
+                  $CarteroFieldTableListView variable_pane {
+                    show-placeholder: true;
+                  }
+                }
+              };
             }
-          };
-        }
 
         NotebookPage {
           tab: Label {

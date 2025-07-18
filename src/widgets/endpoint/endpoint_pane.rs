@@ -45,6 +45,7 @@ mod imp {
     use crate::objects::KeyValueItem;
     use crate::widgets::authentication::AuthenticationPane;
     use crate::widgets::endpoint::ResponsePanel;
+    use crate::widgets::field::FieldTableListView;
     use crate::widgets::{KeyValuePane, MethodDropdown, PayloadTab};
 
     #[derive(CompositeTemplate, Properties, Default)]
@@ -61,10 +62,10 @@ mod imp {
         pub parameter_pane: TemplateChild<KeyValuePane>,
 
         #[template_child]
-        pub header_pane: TemplateChild<KeyValuePane>,
+        pub header_pane: TemplateChild<FieldTableListView>,
 
         #[template_child]
-        pub variable_pane: TemplateChild<KeyValuePane>,
+        pub variable_pane: TemplateChild<FieldTableListView>,
 
         #[template_child(id = "method")]
         pub request_method: TemplateChild<MethodDropdown>,
@@ -130,8 +131,6 @@ mod imp {
             self.init_settings();
             self.init_actions();
 
-            self.variable_pane.assert_always_placeholder();
-            self.header_pane.assert_always_placeholder();
             self.parameter_pane.assert_always_placeholder();
 
             let url_arc = self.variable_changing.clone();
@@ -259,47 +258,11 @@ mod imp {
         }
 
         fn update_url_from_query_params(&self) {
-            let active_params = self
-                .parameter_pane
-                .get_entries()
-                .into_iter()
-                .filter_map(|item| {
-                    if item.is_usable() {
-                        Some((item.header_name(), item.header_value()))
-                    } else {
-                        None
-                    }
-                })
-                .collect::<Vec<(String, String)>>();
-
-            let current_url = self.request_url.text().to_string();
-            let next_url = super::update_queryparams(&current_url, &active_params);
-            self.request_url.set_text(&next_url);
+            println!("TODO: conceal");
         }
 
         fn update_query_params(&self) -> Result<(), url::ParseError> {
-            let parsed_url = self.request_url.text().to_string();
-            let decoded_params = super::extract_queryparams(&parsed_url);
-            let mut new_query_entries: Vec<KeyValueItem> = decoded_params
-                .into_iter()
-                .map(|(key, value)| {
-                    let entry = KeyValue::from((key, value));
-                    let value = KeyValueItem::from(entry);
-                    value.set_active(true);
-                    value.set_secret(false);
-                    value
-                })
-                .collect();
-
-            let old_entries = self.parameter_pane.get_entries();
-            let old_entries: Vec<KeyValueItem> = old_entries
-                .into_iter()
-                .filter(|entry| !entry.active())
-                .map(|entry| entry.cloned())
-                .collect();
-            new_query_entries.extend(old_entries);
-
-            self.parameter_pane.set_entries(&new_query_entries);
+            println!("TODO: conceal");
             Ok(())
         }
 
@@ -326,6 +289,7 @@ mod imp {
                 obj,
                 move |_| obj.set_dirty(true)
             ));*/
+            /*
             self.header_pane.connect_changed(glib::clone!(
                 #[weak]
                 obj,
@@ -336,6 +300,7 @@ mod imp {
                 obj,
                 move |_| obj.set_dirty(true)
             ));
+            */
         }
 
         fn init_settings(&self) {
@@ -370,12 +335,8 @@ mod imp {
 
             self.request_url.buffer().set_text(endpoint.url.clone());
             self.request_method.set_request_method(modern.method());
-            let headers: Vec<KeyValueItem> =
-                endpoint.headers.iter().map(KeyValueItem::from).collect();
-            let variables: Vec<KeyValueItem> =
-                endpoint.variables.iter().map(KeyValueItem::from).collect();
-            self.header_pane.set_entries(&headers);
-            self.variable_pane.set_entries(&variables);
+            self.header_pane.set_table(&modern.headers());
+            self.variable_pane.set_table(&modern.variables());
             self.payload_pane.set_payload(&endpoint.body);
             self.authentication
                 .set_authentication(&modern.authentication());
@@ -390,31 +351,13 @@ mod imp {
 
         /// Takes the current state of the pane and extracts it into an Endpoint value.
         pub(super) fn extract_endpoint(&self) -> EndpointData {
-            let header_list = self.header_pane.get_entries();
-            let variable_list = self.variable_pane.get_entries();
+            let header_list = self.header_pane.table();
+            let variable_list = self.variable_pane.table();
             let parameter_list = self.parameter_pane.get_entries();
 
             let url = String::from(self.request_url.buffer().text());
             let method = self.request_method.request_method().clone().into();
 
-            let headers = header_list
-                .iter()
-                .map(|pair| KeyValue {
-                    name: pair.header_name(),
-                    value: pair.header_value(),
-                    active: pair.active(),
-                    secret: pair.secret(),
-                })
-                .collect();
-            let variables = variable_list
-                .iter()
-                .map(|pair| KeyValue {
-                    name: pair.header_name(),
-                    value: pair.header_value(),
-                    active: pair.active(),
-                    secret: pair.secret(),
-                })
-                .collect();
             let parameters = parameter_list
                 .iter()
                 .map(|pair| KeyValue {
@@ -430,8 +373,8 @@ mod imp {
                 url,
                 method,
                 parameters,
-                headers,
-                variables,
+                headers: header_list.into(),
+                variables: variable_list.into(),
                 body,
                 authorization: authorization.into(),
             }

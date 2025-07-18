@@ -123,7 +123,7 @@ impl FieldTable {
         }
         let len = { self.imp().fields.borrow().len() };
         self.connect_signal(field, len - 1);
-        self.items_changed(len as u32, 0, 1);
+        self.items_changed((len - 1) as u32, 0, 1);
         self.emit_by_name::<()>("changed", &[&""]);
     }
 

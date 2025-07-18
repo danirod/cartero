@@ -190,11 +190,11 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
             hexpand: true;
             vexpand: true;
 
-                $CarteroAuthenticationPane authentication {
-                  read-only: bind template.read-only;
-                }
-              };
+            $CarteroAuthenticationPane authentication {
+              read-only: bind template.read-only;
             }
+          };
+        }
 
         NotebookPage {
           tab: Label {

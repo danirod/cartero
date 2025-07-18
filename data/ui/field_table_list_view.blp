@@ -14,13 +14,18 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
+using Gtk 4.0;
 
-mod field_action_row;
-mod field_list_box_row;
-mod field_placeholder_row;
-mod field_table_list_view;
+template $CarteroFieldTableListView: Gtk.Box {
+  orientation: vertical;
 
-pub use field_action_row::*;
-pub use field_list_box_row::*;
-pub use field_placeholder_row::*;
-pub use field_table_list_view::*;
+  Gtk.ListBox list_box {
+    show-separators: true;
+  }
+
+  $CarteroFieldPlaceholderRow placeholder {
+    visible: bind template.show-placeholder;
+    table: bind template.table;
+    insert-field => $on_insert_field() swapped;
+  }
+}

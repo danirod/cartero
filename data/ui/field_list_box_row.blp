@@ -1,0 +1,83 @@
+// Copyright 2024-2025 the Cartero authors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+using Gtk 4.0;
+
+template $CarteroFieldListBoxRow: Gtk.Box {
+  spacing: 5;
+
+  Gtk.CheckButton active {
+    tooltip-text: _("Enabled");
+    sensitive: bind template.read-only inverted;
+  }
+
+  Gtk.Box {
+    hexpand: true;
+
+    Gtk.Entry key {
+      styles [
+        "flat",
+      ]
+
+      editable: bind template.read-only inverted;
+      hexpand: true;
+      placeholder-text: _("Name");
+      tooltip-text: _("Name");
+    }
+
+    Gtk.Entry value {
+      styles [
+        "flat",
+      ]
+
+      editable: bind template.read-only inverted;
+      hexpand: true;
+      secondary-icon-activatable: false;
+      secondary-icon-sensitive: false;
+      placeholder-text: _("Value");
+      tooltip-text: _("Value");
+    }
+
+    Gtk.MenuButton {
+      styles [
+        "flat",
+        "circular",
+      ]
+
+      icon-name: "view-more-symbolic";
+      tooltip-text: _("Actions");
+      sensitive: bind template.read-only inverted;
+
+      popover: Gtk.PopoverMenu {
+        menu-model: row_actions;
+      };
+    }
+  }
+}
+
+menu row_actions {
+  section {
+    item {
+      label: _("Toggle secret");
+      action: "row.toggle-secret";
+      hidden-when: "action-disabled";
+    }
+  }
+
+  section {
+    item (_("Delete"), "row.delete")
+  }
+}

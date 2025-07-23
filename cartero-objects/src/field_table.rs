@@ -20,6 +20,7 @@ use std::collections::HashMap;
 use gio::prelude::{ListModelExt, ListModelExtManual};
 use glib::subclass::prelude::*;
 use glib::{prelude::*, Object};
+use itertools::{EitherOrBoth, Itertools};
 use srtemplate::SrTemplate;
 
 use crate::field::Field;
@@ -165,6 +166,59 @@ impl FieldTable {
                 acc.add_variable(field.key(), field.value());
                 acc
             })
+    }
+
+    /// Apply a mass update to the keys and values of this FieldTable using the source keys and
+    /// values given in the slice. This is done as effectively as possible, instantating the less
+    /// amount of new Field objects as it can, so it is appropiate for real time updates, such as
+    /// the ones required to sync the URL entry of Cartero with the query parameter table.
+    ///
+    /// The conditions to use this function are:
+    ///
+    /// - Only Fields in the FieldTable that are active will be updated. Inactive fields will be
+    ///   ignored and let at their original position. Updates will just happen with the next
+    ///   element of the FieldTable that is active.
+    /// - If the given slice has more elements than the FieldTable, new Fields are added to the
+    ///   table, to accomodate them.
+    /// - If the given slice has less elements than the FieldTable, any Field that cannot be mapped
+    ///   to an input slice will be set as inactive.
+    ///
+    /// Make sure that you know what you're doing when calling this method.
+    pub fn reconcile<K, V>(&self, entries: &[(K, V)])
+    where
+        K: AsRef<str>,
+        V: AsRef<str>,
+    {
+        let active_field_iter = self
+            .iter::<Field>()
+            .filter_map(|f| f.ok())
+            .filter(|f| f.active());
+        let source_iter = entries.iter();
+        let mut new_items = Vec::new();
+
+        for group in active_field_iter.zip_longest(source_iter) {
+            match group {
+                EitherOrBoth::Both(field, (key, value)) => {
+                    // Update the data.
+                    field.set_key(key.as_ref());
+                    field.set_value(value.as_ref());
+                }
+                EitherOrBoth::Left(field) => {
+                    // This field doesn't match to anything, so it will be disabled.
+                    field.set_active(false);
+                }
+                EitherOrBoth::Right((key, value)) => {
+                    let field = Field::builder()
+                        .key(key.as_ref())
+                        .value(value.as_ref())
+                        .build();
+                    new_items.push(field);
+                }
+            }
+        }
+        for new_item in new_items {
+            self.insert(&new_item);
+        }
     }
 }
 
@@ -571,6 +625,61 @@ mod tests {
             panic!("expected err");
         };
         assert_eq!(var, "API_ROOT");
+    }
+
+    #[test]
+    fn test_reconcile_simple_update() {
+        let table = FieldTable::from_iter(vec![
+            Field::builder().key("cat_id").value("10").build(),
+            Field::builder().key("limit").value("20").build(),
+        ]);
+        let update = [("cat_id", "15"), ("offset", "50")];
+        table.reconcile(&update);
+        assert_field(&table.field(0).unwrap(), "cat_id", "15", true, false);
+        assert_field(&table.field(1).unwrap(), "offset", "50", true, false);
+    }
+
+    #[test]
+    fn test_reconcile_ignores_inactive() {
+        let table = FieldTable::from_iter(vec![
+            Field::builder().key("cat_id").value("10").build(),
+            Field::builder()
+                .key("offset")
+                .value("5")
+                .active(false)
+                .build(),
+            Field::builder().key("limit").value("20").build(),
+        ]);
+        let update = [("cat_id", "15"), ("sort", "-updated")];
+        table.reconcile(&update);
+        assert_field(&table.field(0).unwrap(), "cat_id", "15", true, false);
+        assert_field(&table.field(1).unwrap(), "offset", "5", false, false);
+        assert_field(&table.field(2).unwrap(), "sort", "-updated", true, false);
+    }
+
+    #[test]
+    fn test_reconcile_adds_new_fields() {
+        let table = FieldTable::from_iter(vec![
+            Field::builder().key("cat_id").value("10").build(),
+            Field::builder().key("limit").value("20").build(),
+        ]);
+        let update = [("cat_id", "15"), ("limit", "25"), ("sort", "created")];
+        table.reconcile(&update);
+        assert_field(&table.field(0).unwrap(), "cat_id", "15", true, false);
+        assert_field(&table.field(1).unwrap(), "limit", "25", true, false);
+        assert_field(&table.field(2).unwrap(), "sort", "created", true, false);
+    }
+
+    #[test]
+    fn test_reconcile_marks_fields_as_disabled() {
+        let table = FieldTable::from_iter(vec![
+            Field::builder().key("cat_id").value("10").build(),
+            Field::builder().key("limit").value("20").build(),
+        ]);
+        let update = [("cat_id", "15")];
+        table.reconcile(&update);
+        assert_field(&table.field(0).unwrap(), "cat_id", "15", true, false);
+        assert_field(&table.field(1).unwrap(), "limit", "20", false, false);
     }
 
     fn assert_field(f: &Field, key: &str, value: &str, active: bool, masked: bool) {

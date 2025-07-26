@@ -43,6 +43,8 @@
     <string>Copyright © 2024-2025 The Cartero authors</string>
     <key>CFBundleSignature</key>
     <string>Cartero</string>
+	<key>NSSupportsAutomaticGraphicsSwitching</key>
+	<true/>
     <key>LSMinimumSystemVersion</key>
     <string>11.0</string>
     <key>LSArchitecturePriority</key>

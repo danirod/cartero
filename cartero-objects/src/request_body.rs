@@ -93,7 +93,7 @@ glib::wrapper! {
     /// assert!(urlencoded.body_data().is_some_and(|d| d.body_type() == RequestBodyType::UrlEncoded));
     ///
     /// let data = r#"{"error": true, "detail": "User not found"}"#;
-    /// let raw = RequestBodyRaw::new(RequestBodyRawType::Json, data.as_bytes());
+    /// let raw = RequestBodyRaw::new(RequestBodyRawType::Json, data);
     /// let body = RequestBody::new(RequestBodyType::Raw, Some(raw));
     /// assert_eq!(body.body_type(), RequestBodyType::Raw);
     /// assert!(body.body_data().is_some_and(|d| d.body_type() == RequestBodyType::Raw));
@@ -452,7 +452,7 @@ mod tests {
 
     #[test]
     pub fn new_for_raw_with_initial() {
-        let payload = RequestBodyRaw::new(RequestBodyRawType::Json, "[1, 2, 4]".as_bytes());
+        let payload = RequestBodyRaw::new(RequestBodyRawType::Json, "[1, 2, 4]");
         let body = RequestBody::new(RequestBodyType::Raw, Some(payload));
         assert_eq!(RequestBodyType::Raw, body.body_type());
         let body_data = body.body_data().and_downcast::<RequestBodyRaw>().unwrap();
@@ -524,13 +524,12 @@ mod tests {
     #[test]
     pub fn test_raw() {
         let raw = RequestBodyRaw::builder(RequestBodyRawType::OctetStream)
-            .payload(&glib::Bytes::from(b"hello world"))
+            .payload("hello world")
             .build();
         let body = RequestBody::builder().raw(&raw).build();
         assert_eq!(body.body_type(), RequestBodyType::Raw);
         let data = body.raw().unwrap();
         assert_eq!(data.payload_type(), RequestBodyRawType::OctetStream);
-        let bytes = data.payload().into_data();
-        assert_eq!(bytes.as_ref(), b"hello world");
+        assert_eq!(data.payload(), "hello world");
     }
 }

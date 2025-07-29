@@ -93,10 +93,9 @@ impl From<RequestBody> for PayloadValue {
             }
             RequestBodyType::Raw => {
                 let raw = value.raw().unwrap();
-                let payload = String::from_utf8_lossy(&raw.bytes()).to_string();
                 Self::Raw {
                     format: Some(raw.payload_type().into()),
-                    body: payload,
+                    body: raw.payload(),
                 }
             }
         }
@@ -109,8 +108,7 @@ impl From<PayloadValue> for RequestBody {
             PayloadValue::Raw { format, body } => {
                 let parsed_format: RequestBodyRawType =
                     format.unwrap_or(PayloadRawFormat::OctetStream).into();
-                let parsed_content = glib::Bytes::from(body.as_bytes());
-                let parsed_body = RequestBodyRaw::new(parsed_format, &parsed_content);
+                let parsed_body = RequestBodyRaw::new(parsed_format, &body);
                 RequestBody::new(RequestBodyType::Raw, Some(parsed_body))
             }
             PayloadValue::Multipart { variables } => {
@@ -374,7 +372,7 @@ mod tests {
         assert_eq!(parsed.body_type(), RequestBodyType::Raw);
         let body = parsed.raw().unwrap();
         assert_eq!(body.payload_type(), RequestBodyRawType::OctetStream);
-        assert_eq!(body.bytes(), b"this is the content");
+        assert_eq!(body.payload(), "this is the content");
     }
 
     #[test]
@@ -387,7 +385,7 @@ mod tests {
         assert_eq!(parsed.body_type(), RequestBodyType::Raw);
         let body = parsed.raw().unwrap();
         assert_eq!(body.payload_type(), RequestBodyRawType::OctetStream);
-        assert_eq!(body.bytes(), b"this is the content");
+        assert_eq!(body.payload(), "this is the content");
     }
 
     #[test]
@@ -396,7 +394,7 @@ mod tests {
             RequestBodyType::Raw,
             Some(RequestBodyRaw::new(
                 RequestBodyRawType::OctetStream,
-                b"this is the content",
+                "this is the content",
             )),
         );
 
@@ -418,7 +416,7 @@ mod tests {
         assert_eq!(parsed.body_type(), RequestBodyType::Raw);
         let body = parsed.raw().unwrap();
         assert_eq!(body.payload_type(), RequestBodyRawType::Json);
-        assert_eq!(body.bytes(), b"{\"result\": \"hello world\"}");
+        assert_eq!(body.payload(), "{\"result\": \"hello world\"}");
     }
 
     #[test]
@@ -427,7 +425,7 @@ mod tests {
             RequestBodyType::Raw,
             Some(RequestBodyRaw::new(
                 RequestBodyRawType::Json,
-                br#"{"user_id": "200"}"#,
+                r#"{"user_id": "200"}"#,
             )),
         );
 
@@ -449,7 +447,7 @@ mod tests {
         assert_eq!(parsed.body_type(), RequestBodyType::Raw);
         let body = parsed.raw().unwrap();
         assert_eq!(body.payload_type(), RequestBodyRawType::Xml);
-        assert_eq!(body.bytes(), b"<result>hello world</result>");
+        assert_eq!(body.payload(), "<result>hello world</result>");
     }
 
     #[test]
@@ -458,7 +456,7 @@ mod tests {
             RequestBodyType::Raw,
             Some(RequestBodyRaw::new(
                 RequestBodyRawType::Xml,
-                b"<message>hello world</message>",
+                "<message>hello world</message>",
             )),
         );
 

@@ -49,7 +49,7 @@ pub fn legacy_format() {
     assert_eq!(request.body().body_type(), RequestBodyType::Raw);
     let raw = request.body().raw().unwrap();
     assert_eq!(raw.payload_type(), RequestBodyRawType::OctetStream);
-    assert_eq!(raw.bytes(), b"request contents");
+    assert_eq!(raw.payload(), "request contents");
 }
 
 #[test]
@@ -221,7 +221,7 @@ pub fn raw() {
     assert_eq!(request.body().body_type(), RequestBodyType::Raw);
     let raw = request.body().raw().unwrap();
     assert_eq!(raw.payload_type(), RequestBodyRawType::OctetStream);
-    assert_eq!(raw.bytes(), b"this is raw content");
+    assert_eq!(raw.payload(), "this is raw content");
 }
 
 #[test]
@@ -235,7 +235,7 @@ pub fn octet_stream() {
     assert_eq!(request.body().body_type(), RequestBodyType::Raw);
     let raw = request.body().raw().unwrap();
     assert_eq!(raw.payload_type(), RequestBodyRawType::OctetStream);
-    assert_eq!(raw.bytes(), b"this is raw content");
+    assert_eq!(raw.payload(), "this is raw content");
 }
 
 #[test]
@@ -250,8 +250,8 @@ pub fn xml() {
     let raw = request.body().raw().unwrap();
     assert_eq!(raw.payload_type(), RequestBodyRawType::Xml);
     assert_eq!(
-        raw.bytes(),
-        b"<?xml version=\"1.0\" ?><payload value=\"Hello world\" />"
+        raw.payload(),
+        "<?xml version=\"1.0\" ?><payload value=\"Hello world\" />"
     );
 }
 
@@ -266,7 +266,7 @@ pub fn json() {
     assert_eq!(request.body().body_type(), RequestBodyType::Raw);
     let raw = request.body().raw().unwrap();
     assert_eq!(raw.payload_type(), RequestBodyRawType::Json);
-    assert_eq!(raw.bytes(), b"{\"message\": \"hello world\"}");
+    assert_eq!(raw.payload(), "{\"message\": \"hello world\"}");
 }
 
 #[test]
@@ -281,8 +281,8 @@ pub fn multiline_json() {
     let raw = request.body().raw().unwrap();
     assert_eq!(raw.payload_type(), RequestBodyRawType::Json);
     assert_eq!(
-        raw.bytes(),
-        br#"{
+        raw.payload(),
+        r#"{
   "message": {
     "code": "HELLO_WORLD",
     "text": "Hello world!"

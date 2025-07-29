@@ -286,7 +286,7 @@ mod tests {
         request.body().set_body_type(RequestBodyType::Raw);
         request.body().set_body_data(Some(RequestBodyRaw::new(
             cartero_objects::RequestBodyRawType::OctetStream,
-            "hello world".as_bytes(),
+            "hello world",
         )));
         let value = RequestValue::from(request);
         assert_eq!(value.version, 1);

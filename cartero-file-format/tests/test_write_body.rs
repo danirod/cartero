@@ -29,8 +29,7 @@ pub fn json() {
         .build();
 
     let text = "{\"message\": \"hello world\"}";
-    let payload = text.as_bytes();
-    let json_body = RequestBodyRaw::new(cartero_objects::RequestBodyRawType::Json, payload);
+    let json_body = RequestBodyRaw::new(cartero_objects::RequestBodyRawType::Json, text);
     req.body().set_body_type(RequestBodyType::Raw);
     req.body().set_body_data(Some(json_body.as_ref()));
 
@@ -52,8 +51,7 @@ pub fn multiline_json() {
     "text": "Hello world!"
   }
 }"#;
-    let payload = text.as_bytes();
-    let json_body = RequestBodyRaw::new(cartero_objects::RequestBodyRawType::Json, payload);
+    let json_body = RequestBodyRaw::new(cartero_objects::RequestBodyRawType::Json, text);
     req.body().set_body_type(RequestBodyType::Raw);
     req.body().set_body_data(Some(json_body.as_ref()));
 
@@ -176,7 +174,7 @@ fn octet_stream() {
             RequestBody::builder()
                 .raw(
                     &RequestBodyRaw::builder(RequestBodyRawType::OctetStream)
-                        .payload(&glib::Bytes::from_static("this is raw content".as_bytes()))
+                        .payload("this is raw content")
                         .build(),
                 )
                 .build(),
@@ -301,9 +299,7 @@ fn xml() {
             RequestBody::builder()
                 .raw(
                     &RequestBodyRaw::builder(RequestBodyRawType::Xml)
-                        .payload(&glib::Bytes::from_static(
-                            "<?xml version=\"1.0\" ?><payload value=\"Hello world\" />".as_bytes(),
-                        ))
+                        .payload("<?xml version=\"1.0\" ?><payload value=\"Hello world\" />")
                         .build(),
                 )
                 .build(),

@@ -61,17 +61,11 @@ impl RequestBodyRaw {
     ///
     /// The payload will be initialised to the type `raw_type`, and the given
     /// byte slice will be the initial contents of the payload data.
-    pub fn new(raw_type: RequestBodyRawType, initial: &[u8]) -> Self {
-        let bytes = glib::Bytes::from(initial);
+    pub fn new(raw_type: RequestBodyRawType, initial: impl AsRef<str>) -> Self {
         Object::builder()
             .property("payload-type", raw_type)
-            .property("payload", bytes)
+            .property("payload", initial.as_ref().to_owned())
             .build()
-    }
-
-    /// Returns an owned vector of the bytes contained in the payload.
-    pub fn bytes(&self) -> Vec<u8> {
-        self.payload().into_data().into()
     }
 
     pub fn builder(payload_type: RequestBodyRawType) -> builder::RequestBodyRawBuilder {
@@ -115,7 +109,7 @@ mod imp {
 
     use super::RequestBodyRawType;
 
-    #[derive(Properties)]
+    #[derive(Default, Properties)]
     #[properties(wrapper_type = super::RequestBodyRaw)]
     pub struct RequestBodyRaw {
         #[property(
@@ -127,16 +121,7 @@ mod imp {
         payload_type: RefCell<RequestBodyRawType>,
 
         #[property(get, set)]
-        payload: RefCell<glib::Bytes>,
-    }
-
-    impl Default for RequestBodyRaw {
-        fn default() -> Self {
-            Self {
-                payload_type: Default::default(),
-                payload: glib::Bytes::from_static(&[]).into(),
-            }
-        }
+        payload: RefCell<String>,
     }
 
     #[glib::object_subclass]
@@ -176,8 +161,8 @@ mod builder {
             self.builder.build()
         }
 
-        pub fn payload(mut self, payload: &glib::Bytes) -> Self {
-            self.builder = self.builder.property("payload", payload);
+        pub fn payload(mut self, payload: impl AsRef<str>) -> Self {
+            self.builder = self.builder.property("payload", payload.as_ref());
             self
         }
     }
@@ -194,13 +179,10 @@ mod tests {
     #[test]
     fn test_builder() {
         let raw = RequestBodyRaw::builder(RequestBodyRawType::Xml)
-            .payload(&glib::Bytes::from(br#"<?xml version="1.0" ?><document />"#))
+            .payload(r#"<?xml version="1.0" ?><document />"#)
             .build();
         assert_eq!(raw.payload_type(), RequestBodyRawType::Xml);
-        assert_eq!(
-            String::from_utf8_lossy(&raw.payload().into_data()),
-            r#"<?xml version="1.0" ?><document />"#
-        );
+        assert_eq!(raw.payload(), r#"<?xml version="1.0" ?><document />"#);
     }
 
     #[test]
@@ -212,22 +194,9 @@ mod tests {
 
     #[test]
     fn test_new() {
-        let raw = RequestBodyRaw::new(RequestBodyRawType::Xml, "<?xml?>".as_bytes());
+        let raw = RequestBodyRaw::new(RequestBodyRawType::Xml, "<?xml?>");
         assert_eq!(raw.payload_type(), RequestBodyRawType::Xml);
-        assert_eq!(raw.payload().len(), 7);
-        let payload = raw.payload();
-        let contents = String::from_utf8_lossy(payload.as_ref());
-        assert_eq!(contents, "<?xml?>");
-    }
-
-    #[test]
-    pub fn test_bytes() {
-        let raw = RequestBodyRaw::new(RequestBodyRawType::Xml, "<?xml?>".as_bytes());
-        assert_eq!(raw.payload_type(), RequestBodyRawType::Xml);
-        assert_eq!(raw.payload().len(), 7);
-        let value = raw.bytes();
-        assert_eq!(value.len(), 7);
-        assert_eq!(value, b"<?xml?>");
+        assert_eq!(raw.payload(), "<?xml?>");
     }
 
     #[test]
@@ -243,8 +212,7 @@ mod tests {
     pub fn test_change_payload() {
         let raw = RequestBodyRaw::default();
         assert_emits_signal(&raw, "notify::payload", || {
-            let new_body = "hello world".as_bytes();
-            raw.set_payload(glib::Bytes::from(new_body));
+            raw.set_payload("hello world");
         });
         assert_eq!(11, raw.payload().len());
     }

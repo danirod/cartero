@@ -110,8 +110,7 @@ impl BoundBody {
         let encoding = raw.payload_type();
 
         let processor = value.template_processor();
-        let body = String::from_utf8_lossy(&content);
-        let interpolated = processor.render(&body)?;
+        let interpolated = processor.render(&content)?;
 
         let content_type = match encoding {
             RequestBodyRawType::OctetStream => "application/octet-stream",
@@ -310,7 +309,7 @@ mod tests {
     #[test]
     fn test_octet_stream() {
         let raw = RequestBodyRaw::builder(RequestBodyRawType::OctetStream)
-            .payload(&glib::Bytes::from(b"the payload"))
+            .payload("the payload")
             .build();
         let req = Request::builder("https://www.example.com", RequestMethod::Get)
             .with_body(RequestBody::builder().raw(&raw).build())
@@ -329,7 +328,7 @@ mod tests {
     #[test]
     fn test_octet_stream_with_variables() {
         let raw = RequestBodyRaw::builder(RequestBodyRawType::OctetStream)
-            .payload(&glib::Bytes::from(b"Hello {{NAME}}!"))
+            .payload("Hello {{NAME}}!")
             .build();
         let req = Request::builder("https://www.example.com", RequestMethod::Get)
             .with_body(RequestBody::builder().raw(&raw).build())
@@ -349,9 +348,7 @@ mod tests {
     #[test]
     fn test_xml() {
         let raw = RequestBodyRaw::builder(RequestBodyRawType::Xml)
-            .payload(&glib::Bytes::from(
-                b"<?xml version=\"1.0\" ?><hello who=\"world\" />",
-            ))
+            .payload("<?xml version=\"1.0\" ?><hello who=\"world\" />")
             .build();
         let req = Request::builder("https://www.example.com", RequestMethod::Get)
             .with_body(RequestBody::builder().raw(&raw).build())
@@ -373,9 +370,7 @@ mod tests {
     #[test]
     fn test_xml_with_variables() {
         let raw = RequestBodyRaw::builder(RequestBodyRawType::Xml)
-            .payload(&glib::Bytes::from(
-                b"<?xml version=\"1.0\" ?><hello who=\"{{USER}}\" />",
-            ))
+            .payload("<?xml version=\"1.0\" ?><hello who=\"{{USER}}\" />")
             .build();
         let req = Request::builder("https://www.example.com", RequestMethod::Get)
             .with_body(RequestBody::builder().raw(&raw).build())
@@ -398,7 +393,7 @@ mod tests {
     #[test]
     fn test_json() {
         let raw = RequestBodyRaw::builder(RequestBodyRawType::Json)
-            .payload(&glib::Bytes::from(b"{\"hello\": \"world\"}"))
+            .payload("{\"hello\": \"world\"}")
             .build();
         let req = Request::builder("https://www.example.com", RequestMethod::Get)
             .with_body(RequestBody::builder().raw(&raw).build())
@@ -420,7 +415,7 @@ mod tests {
     #[test]
     fn test_json_with_variables() {
         let raw = RequestBodyRaw::builder(RequestBodyRawType::Json)
-            .payload(&glib::Bytes::from(b"{\"hello\": \"{{USER}}\"}"))
+            .payload("{\"hello\": \"{{USER}}\"}")
             .build();
         let req = Request::builder("https://www.example.com", RequestMethod::Get)
             .with_body(RequestBody::builder().raw(&raw).build())

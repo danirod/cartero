@@ -261,7 +261,7 @@ mod tests {
     #[test]
     pub fn test_builder_can_change_body() {
         let body = RequestBodyRaw::builder(RequestBodyRawType::OctetStream)
-            .payload(&glib::Bytes::from(b"hello world"))
+            .payload("hello world")
             .build();
         let request = Request::builder("https://www.example.com/api/users", RequestMethod::Get)
             .with_body(RequestBody::builder().raw(&body).build())
@@ -269,9 +269,9 @@ mod tests {
         assert_eq!(request.url(), "https://www.example.com/api/users");
         assert_eq!(request.method(), RequestMethod::Get);
         assert_eq!(request.body().body_type(), RequestBodyType::Raw);
-        let bearer = request.body().raw().unwrap();
-        assert_eq!(bearer.payload_type(), RequestBodyRawType::OctetStream);
-        assert_eq!(bearer.payload().into_data().as_ref(), b"hello world");
+        let raw = request.body().raw().unwrap();
+        assert_eq!(raw.payload_type(), RequestBodyRawType::OctetStream);
+        assert_eq!(raw.payload(), "hello world");
     }
 
     #[test]

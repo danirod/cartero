@@ -495,7 +495,7 @@ msgstr ""
 
 #: data/ui/mac_menu.blp:217 src/win.rs:639
 msgid "Help us translate"
-msgstr ""
+msgstr "Помогите нам перевести"
 
 #: data/ui/mac_menu.blp:224 data/ui/settings_dialog.blp:100
 msgid "Check for updates"

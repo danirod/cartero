@@ -64,8 +64,6 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            println!("asdfasdf");
-
             let key_delegate = self.key.delegate().unwrap();
             key_delegate.connect_insert_text(glib::clone!(
                 #[weak(rename_to = imp)]

@@ -34,6 +34,7 @@ mod imp {
     use std::sync::{Arc, Mutex};
 
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
+    use cartero_objects::RequestBodyType;
     use glib::subclass::InitializingObject;
     use glib::{JoinHandle, Properties};
     use gtk::gio::{self, SimpleAction, SimpleActionGroup};
@@ -46,6 +47,7 @@ mod imp {
     use crate::widgets::authentication::AuthenticationPane;
     use crate::widgets::endpoint::ResponsePanel;
     use crate::widgets::field::FieldTableListView;
+    use crate::widgets::req_body::RequestBodyPane;
     use crate::widgets::{KeyValuePane, MethodDropdown, PayloadTab};
 
     #[derive(CompositeTemplate, Properties, Default)]
@@ -74,7 +76,7 @@ mod imp {
         pub request_url: TemplateChild<gtk::Entry>,
 
         #[template_child]
-        pub payload_pane: TemplateChild<PayloadTab>,
+        body: TemplateChild<RequestBodyPane>,
 
         #[template_child]
         authentication: TemplateChild<AuthenticationPane>,
@@ -279,12 +281,12 @@ mod imp {
                 obj,
                 move |_| obj.set_dirty(true)
             ));
-            self.payload_pane.connect_changed(glib::clone!(
+            /*self.payload_pane.connect_changed(glib::clone!(
                 #[weak]
                 obj,
                 move |_| obj.set_dirty(true)
             ));
-            /*self.authentication.connect_changed(glib::clone!(
+            self.authentication.connect_changed(glib::clone!(
                 #[weak]
                 obj,
                 move |_| obj.set_dirty(true)
@@ -337,7 +339,7 @@ mod imp {
             self.request_method.set_request_method(modern.method());
             self.header_pane.set_table(&modern.headers());
             self.variable_pane.set_table(&modern.variables());
-            self.payload_pane.set_payload(&endpoint.body);
+            self.body.set_body(&modern.body());
             self.authentication
                 .set_authentication(&modern.authentication());
 
@@ -367,7 +369,7 @@ mod imp {
                     secret: pair.secret(),
                 })
                 .collect();
-            let body = self.payload_pane.payload();
+            let body = self.body.body();
             let authorization = self.authentication.authentication();
             EndpointData {
                 url,
@@ -375,7 +377,7 @@ mod imp {
                 parameters,
                 headers: header_list.into(),
                 variables: variable_list.into(),
-                body,
+                body: body.into(),
                 authorization: authorization.into(),
             }
         }

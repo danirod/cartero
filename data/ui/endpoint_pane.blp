@@ -142,20 +142,20 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
             hexpand: true;
             vexpand: true;
 
-                Gtk.Frame {
-                  vexpand: false;
-                  valign: start;
-                  margin-top: 12;
-                  margin-bottom: 12;
-                  margin-start: 12;
-                  margin-end: 12;
+            Gtk.Frame {
+              vexpand: false;
+              valign: start;
+              margin-top: 12;
+              margin-bottom: 12;
+              margin-start: 12;
+              margin-end: 12;
 
-                  $CarteroFieldTableListView header_pane {
-                    show-placeholder: true;
-                  }
-                }
-              };
+              $CarteroFieldTableListView header_pane {
+                show-placeholder: true;
+              }
             }
+          };
+        }
 
         NotebookPage {
           tab: Label {
@@ -166,20 +166,20 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
             hexpand: true;
             vexpand: true;
 
-                Gtk.Frame {
-                  vexpand: false;
-                  valign: start;
-                  margin-top: 12;
-                  margin-bottom: 12;
-                  margin-start: 12;
-                  margin-end: 12;
+            Gtk.Frame {
+              vexpand: false;
+              valign: start;
+              margin-top: 12;
+              margin-bottom: 12;
+              margin-start: 12;
+              margin-end: 12;
 
-                  $CarteroFieldTableListView variable_pane {
-                    show-placeholder: true;
-                  }
-                }
-              };
+              $CarteroFieldTableListView variable_pane {
+                show-placeholder: true;
+              }
             }
+          };
+        }
 
         NotebookPage {
           tab: Label {
@@ -201,8 +201,13 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
             label: _("Body");
           };
 
-          child: $CarteroPayloadTab payload_pane {
-            read-only: bind template.read-only;
+          child: ScrolledWindow {
+            hexpand: true;
+            vexpand: true;
+
+            $CarteroRequestBodyPane body {
+              read-only: bind template.read-only;
+            }
           };
         }
       };

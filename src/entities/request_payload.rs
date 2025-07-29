@@ -67,11 +67,40 @@ impl Into<cartero_objects::RequestBody> for RequestPayload {
                     RawEncoding::Xml => cartero_objects::RequestBodyRawType::Xml,
                     RawEncoding::OctetStream => cartero_objects::RequestBodyRawType::OctetStream,
                 };
-                let bytes = glib::Bytes::from(content.as_slice());
                 let body = cartero_objects::RequestBodyRaw::builder(encoding)
-                    .payload(&bytes)
+                    .payload(String::from_utf8_lossy(&content))
                     .build();
                 cartero_objects::RequestBody::builder().raw(&body).build()
+            }
+        }
+    }
+}
+
+impl From<cartero_objects::RequestBody> for RequestPayload {
+    fn from(value: cartero_objects::RequestBody) -> Self {
+        match value.body_type() {
+            cartero_objects::RequestBodyType::None => Self::None,
+            cartero_objects::RequestBodyType::UrlEncoded => {
+                let urlencoded = value.urlencoded().unwrap();
+                Self::Urlencoded(urlencoded.params().into())
+            }
+            cartero_objects::RequestBodyType::Multipart => {
+                let multipart = value.multipart().unwrap();
+                Self::Multipart {
+                    params: multipart.params().into(),
+                }
+            }
+            cartero_objects::RequestBodyType::Raw => {
+                let raw = value.raw().unwrap();
+                let encoding = match raw.payload_type() {
+                    cartero_objects::RequestBodyRawType::Json => RawEncoding::Json,
+                    cartero_objects::RequestBodyRawType::Xml => RawEncoding::Xml,
+                    cartero_objects::RequestBodyRawType::OctetStream => RawEncoding::OctetStream,
+                };
+                Self::Raw {
+                    encoding,
+                    content: raw.payload().into(),
+                }
             }
         }
     }

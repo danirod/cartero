@@ -36,10 +36,14 @@ blueprint_files = [
     'ui/method_dropdown.blp',
     'ui/payload_tab.blp',
     'ui/raw_payload_pane.blp',
+    'ui/request_body_pane.blp',
     'ui/response_headers.blp',
     'ui/response_panel.blp',
     'ui/search_box.blp',
     'ui/settings_dialog.blp',
+    'ui/raw_body_pane.blp',
+    'ui/multipart_body_pane.blp',
+    'ui/urlencoded_body_pane.blp',
     'ui/urlencoded_payload_pane.blp',
 ]
 

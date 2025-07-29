@@ -14,28 +14,17 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
+using Gtk 4.0;
+using Adw 1;
 
-pub mod authentication;
-mod code_view;
-pub mod dialogs;
-pub mod endpoint;
-mod error_pane;
-mod export_dialog;
-pub mod field;
-mod file_dialogs;
-mod key_value_pane;
-mod key_value_row;
-mod method_dropdown;
-pub mod req_body;
-mod request_body;
-mod search_box;
+template $CarteroUrlencodedBodyPane: Adw.Bin {
+  vexpand: false;
+  valign: start;
 
-pub use code_view::CodeView;
-pub use error_pane::ErrorPane;
-pub use export_dialog::*;
-pub use file_dialogs::*;
-pub use key_value_pane::KeyValuePane;
-pub use key_value_row::KeyValueRow;
-pub use method_dropdown::MethodDropdown;
-pub use request_body::*;
-pub use search_box::SearchBox;
+  Gtk.Frame {
+    $CarteroFieldTableListView {
+      table: bind template.table;
+      show-placeholder: true;
+    }
+  }
+}

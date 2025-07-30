@@ -15,15 +15,15 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use cartero_interop::{FileLoadError, FileWarningTag};
+use cartero_interop::{FileLoadError, FileSaveError, FileWarningTag};
 use gettextrs::gettext;
 
-pub enum InnerError {
-    InteropError(FileLoadError),
+pub enum InnerError<T> {
+    InteropError(T),
     GlibError(glib::Error),
 }
 
-impl std::fmt::Display for InnerError {
+impl std::fmt::Display for InnerError<FileLoadError> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let message = match self {
             Self::InteropError(fe) => match fe {
@@ -36,17 +36,29 @@ impl std::fmt::Display for InnerError {
     }
 }
 
+impl std::fmt::Display for InnerError<FileSaveError> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let message = match self {
+            Self::InteropError(fe) => match fe {
+                FileSaveError::SerializationError(e) => e.to_string(),
+            },
+            Self::GlibError(e) => e.message().to_string(),
+        };
+        write!(f, "{}", message)
+    }
+}
+
 pub enum LoadResult {
     Successful,
     Anonymous,
     Warning(Vec<FileWarningTag>),
-    Error(InnerError),
+    Error(InnerError<FileLoadError>),
 }
 
 pub enum SaveResult {
     Successful,
     Anonymous,
-    Error(InnerError),
+    Error(InnerError<FileSaveError>),
 }
 
 pub trait ObjectPane<T>
@@ -54,5 +66,5 @@ where
     T: Clone,
 {
     async fn load(&self) -> LoadResult;
-    // async fn save(&self) -> SaveResult;
+    async fn save(&self) -> SaveResult;
 }

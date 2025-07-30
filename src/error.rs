@@ -116,22 +116,3 @@ impl std::error::Error for RequestError {
         }
     }
 }
-
-#[derive(Clone, Debug, Eq, PartialEq)]
-pub enum FileSaveError {
-    #[allow(dead_code)]
-    AnonymousPane,
-    FileWriteError(glib::Error),
-    SerializationError(toml::ser::Error),
-}
-
-impl std::fmt::Display for FileSaveError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let message = match self {
-            Self::AnonymousPane => gettext("The current tab is not associated with a file"),
-            Self::FileWriteError(e) => e.message().to_string(),
-            Self::SerializationError(e) => e.to_string(),
-        };
-        write!(f, "{}", message)
-    }
-}

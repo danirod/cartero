@@ -15,13 +15,13 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use crate::{error::FileSaveError, file::pretty_warning, interop::InnerError};
+use crate::{file::pretty_warning, interop::InnerError};
 
 use adw::{
     prelude::{AlertDialogExt, AlertDialogExtManual},
     AlertDialog,
 };
-use cartero_interop::FileWarningTag;
+use cartero_interop::{FileLoadError, FileSaveError, FileWarningTag};
 use formatx::formatx;
 use gettextrs::gettext;
 use gio::prelude::FileExt;
@@ -39,7 +39,7 @@ fn get_file_display_name(file: &gio::File) -> Option<String> {
 pub async fn file_load_error_dialog(
     root: &impl IsA<gtk::Widget>,
     file: Option<&gio::File>,
-    error: &InnerError,
+    error: &InnerError<FileLoadError>,
 ) {
     let file_name = file.and_then(get_file_display_name);
     let error_title = match file_name {
@@ -94,7 +94,7 @@ pub async fn file_load_warning_dialog(
 pub async fn file_save_error(
     root: &impl IsA<gtk::Widget>,
     file: Option<&gio::File>,
-    error: FileSaveError,
+    error: &InnerError<FileSaveError>,
 ) {
     let file_name = file.and_then(get_file_display_name);
     let error_title = match file_name {

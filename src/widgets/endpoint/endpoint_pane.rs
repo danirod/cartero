@@ -19,15 +19,16 @@ use adw::prelude::AdwDialogExt;
 use cartero_objects::Request;
 use gettextrs::gettext;
 use glib::{subclass::types::ObjectSubclassIsExt, Object};
+use gtk::gio::prelude::SettingsExtManual;
 use gtk::glib;
 use sourceview5::prelude::FileExtManual;
 use url::form_urlencoded;
 
 use crate::{
+    app::CarteroApplication,
     entities::EndpointData,
-    error::FileSaveError,
     export::curl::CodeExportService,
-    interop::{InnerError, LoadResult, ObjectPane},
+    interop::{InnerError, LoadResult, ObjectPane, SaveResult},
     widgets::ExportDialog,
 };
 
@@ -662,20 +663,6 @@ impl EndpointPane {
         imp.extract_endpoint()
     }
 
-    pub async fn save(&self) -> Result<(), FileSaveError> {
-        match self.file() {
-            Some(file) => {
-                let endpoint = self.extract_endpoint();
-                let result = crate::file::write_endpoint(&file, &endpoint).await;
-                if let Ok(()) = result {
-                    self.set_dirty(false);
-                }
-                result
-            }
-            None => Err(FileSaveError::AnonymousPane),
-        }
-    }
-
     pub fn export_request(&self, format: &str) {
         let request = self.extract_endpoint();
         let curl = CodeExportService::new(request);
@@ -701,7 +688,7 @@ impl EndpointPane {
 }
 
 impl ObjectPane<Request> for EndpointPane {
-    async fn load(&self) -> crate::interop::LoadResult {
+    async fn load(&self) -> LoadResult {
         let Some(file) = self.file() else {
             return LoadResult::Anonymous;
         };
@@ -727,6 +714,42 @@ impl ObjectPane<Request> for EndpointPane {
             Err(e) => LoadResult::Error(InnerError::GlibError(e)),
         }
     }
+
+    async fn save(&self) -> SaveResult {
+        let Some(file) = self.file() else {
+            return SaveResult::Anonymous;
+        };
+
+        let request = self.request();
+        match cartero_file_format::serialize_request(&request) {
+            Ok(contents) => {
+                let use_backups = create_file_backup();
+                let saved = file
+                    .replace_contents_future(
+                        contents,
+                        None,
+                        use_backups,
+                        gtk::gio::FileCreateFlags::NONE,
+                    )
+                    .await;
+
+                match saved {
+                    Ok(_) => {
+                        self.set_dirty(false);
+                        SaveResult::Successful
+                    }
+                    Err((_, e)) => SaveResult::Error(InnerError::GlibError(e)),
+                }
+            }
+            Err(e) => SaveResult::Error(InnerError::InteropError(e)),
+        }
+    }
+}
+
+fn create_file_backup() -> bool {
+    let app = CarteroApplication::default();
+    let settings = app.settings();
+    settings.get::<bool>("create-backup-files")
 }
 
 fn extract_queryparams(url: &str) -> Vec<(String, String)> {

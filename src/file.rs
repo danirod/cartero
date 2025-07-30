@@ -26,10 +26,8 @@ use serde::{Deserialize, Serialize};
 
 use crate::app::CarteroApplication;
 use crate::entities::{
-    EndpointData, KeyValue, KeyValueTable, RawEncoding, RequestAuthorization, RequestMethod,
-    RequestPayload,
+    EndpointData, KeyValue, KeyValueTable, RawEncoding, RequestAuthorization, RequestPayload,
 };
-use crate::error::FileSaveError;
 
 trait ToKeyValue {
     fn to_key_value(&self, key: &str) -> KeyValue;
@@ -401,44 +399,4 @@ pub fn pretty_warning(warning: FileWarningTag) -> String {
                 gettext("The HTTP verb found in the file was '{}'. It is not valid, it will fallback to '{}'."),
                 v, "GET").unwrap()
         }
-}
-
-/// Write the contents of the given endpoint into the given file. The result
-/// only notifies about errors during save, such as invalid permissions or
-/// stuff like that. Note that unlike the read_endpoint() function, this is a
-/// Result, because there are no partial saves.
-pub async fn write_endpoint(
-    file: &gio::File,
-    endpoint: &EndpointData,
-) -> Result<(), FileSaveError> {
-    /* Serialize into a TOML document. */
-    let encoded_file = RequestFile::from(endpoint.clone());
-    let encoded_string = toml::to_string(&encoded_file)
-        .map_err(|ser_err| FileSaveError::SerializationError(ser_err))?;
-
-    /* Delegate saving into GIO. */
-    let use_backups = create_file_backup();
-    file.replace_contents_future(
-        encoded_string,
-        None,
-        use_backups,
-        gio::FileCreateFlags::NONE,
-    )
-    .await
-    .map_err(|(_, glib_error)| FileSaveError::FileWriteError(glib_error))?;
-
-    Ok(())
-}
-
-#[cfg(test)]
-fn write_endpoint_string(endpoint: &EndpointData) -> Result<String, FileSaveError> {
-    let encoded_file = RequestFile::from(endpoint.clone());
-    toml::to_string(&encoded_file).map_err(|ser_err| FileSaveError::SerializationError(ser_err))
-}
-
-/// Checks the settings to guess whether backups have to be created on save.
-fn create_file_backup() -> bool {
-    let app = CarteroApplication::default();
-    let settings = app.settings();
-    settings.get::<bool>("create-backup-files")
 }

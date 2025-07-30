@@ -25,6 +25,7 @@ mod imp {
     use std::collections::HashSet;
 
     use adw::prelude::WidgetExt;
+    use cartero_interop::FileSaveError;
     use std::cell::OnceCell;
 
     use adw::AboutDialog;
@@ -35,8 +36,7 @@ mod imp {
     use indexmap::IndexMap;
 
     use crate::app::CarteroApplication;
-    use crate::error::FileSaveError;
-    use crate::interop::{LoadResult, ObjectPane};
+    use crate::interop::{InnerError, LoadResult, ObjectPane, SaveResult};
     use crate::widgets::endpoint::EndpointPane;
     use crate::{config, widgets::*};
     use glib::subclass::InitializingObject;
@@ -486,7 +486,7 @@ mod imp {
             }
         }
 
-        async fn save_pane(&self, pane: &EndpointPane) -> Option<Result<(), FileSaveError>> {
+        async fn save_pane(&self, pane: &EndpointPane) -> glib::Propagation {
             /* If the pane is anonymous, give it a chance to have a file. */
             let target_file = match pane.file() {
                 Some(file) => Some(file),
@@ -498,13 +498,17 @@ mod imp {
                 let previous = pane.file();
                 pane.set_file(target_file.clone());
                 let result = pane.save().await;
-                if let Err(e) = &result {
-                    dialogs::file_save_error(&*self.obj(), target_file.as_ref(), e.clone()).await;
-                    pane.set_file(previous);
+                match result {
+                    SaveResult::Anonymous => glib::Propagation::Stop,
+                    SaveResult::Successful => glib::Propagation::Proceed,
+                    SaveResult::Error(e) => {
+                        dialogs::file_save_error(&*self.obj(), target_file.as_ref(), &e).await;
+                        pane.set_file(previous);
+                        glib::Propagation::Stop
+                    }
                 }
-                Some(result)
             } else {
-                None
+                glib::Propagation::Stop
             }
         }
 
@@ -523,7 +527,7 @@ mod imp {
                     let previous = pane.file();
                     pane.set_file(Some(path));
                     let saved = self.save_pane(&pane).await;
-                    if saved.is_none() || saved.is_some_and(|r| r.is_err()) {
+                    if saved == glib::Propagation::Stop {
                         pane.set_file(previous);
                     }
                     self.save_visible_tabs();
@@ -547,8 +551,8 @@ mod imp {
                     dialogs::SaveAlertDialogResponse::Save => {
                         /* Try to save, close if successful */
                         match self.save_pane(&endpoint_pane).await {
-                            Some(Ok(())) => true,
-                            _ => false,
+                            glib::Propagation::Stop => false,
+                            glib::Propagation::Proceed => true,
                         }
                     }
                     dialogs::SaveAlertDialogResponse::Discard => true, /* Discards the modifications */

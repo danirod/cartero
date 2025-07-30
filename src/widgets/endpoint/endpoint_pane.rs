@@ -16,16 +16,18 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use adw::prelude::AdwDialogExt;
+use cartero_objects::Request;
 use gettextrs::gettext;
 use glib::{subclass::types::ObjectSubclassIsExt, Object};
 use gtk::glib;
+use sourceview5::prelude::FileExtManual;
 use url::form_urlencoded;
 
 use crate::{
     entities::EndpointData,
     error::FileSaveError,
     export::curl::CodeExportService,
-    file::{EndpointLoadResult, FileLoadResult},
+    interop::{InnerError, LoadResult, ObjectPane},
     widgets::ExportDialog,
 };
 
@@ -34,7 +36,7 @@ mod imp {
     use std::sync::{Arc, Mutex};
 
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
-    use cartero_objects::RequestBodyType;
+    use cartero_objects::Request;
     use glib::subclass::InitializingObject;
     use glib::{JoinHandle, Properties};
     use gtk::gio::{self, SimpleAction, SimpleActionGroup};
@@ -43,12 +45,11 @@ mod imp {
 
     use crate::app::CarteroApplication;
     use crate::entities::{EndpointData, KeyValue};
-    use crate::objects::KeyValueItem;
     use crate::widgets::authentication::AuthenticationPane;
     use crate::widgets::endpoint::ResponsePanel;
     use crate::widgets::field::FieldTableListView;
     use crate::widgets::req_body::RequestBodyPane;
-    use crate::widgets::{KeyValuePane, MethodDropdown, PayloadTab};
+    use crate::widgets::{KeyValuePane, MethodDropdown};
 
     #[derive(CompositeTemplate, Properties, Default)]
     #[template(resource = "/es/danirod/Cartero/endpoint_pane.ui")]
@@ -90,6 +91,12 @@ mod imp {
         #[property(get, set, name = "read-only")]
         read_only: RefCell<bool>,
 
+        #[property(get, set)]
+        request: RefCell<Request>,
+
+        #[property(get)]
+        request_binding_group: RefCell<glib::BindingGroup>,
+
         #[property(get, set, nullable)]
         file: RefCell<Option<gio::File>>,
 
@@ -128,6 +135,8 @@ mod imp {
     impl ObjectImpl for EndpointPane {
         fn constructed(&self) {
             self.parent_constructed();
+
+            self.init_request_binding_group();
 
             self.init_dirty_events();
             self.init_settings();
@@ -196,6 +205,49 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl EndpointPane {
+        fn init_request_binding_group(&self) {
+            let binding_group = self.request_binding_group.borrow();
+
+            binding_group
+                .bind("url", &*self.request_url, "text")
+                .bidirectional()
+                .sync_create()
+                .build();
+            binding_group
+                .bind("method", &*self.request_method, "request-method")
+                .bidirectional()
+                .sync_create()
+                .build();
+            // TODO: bind parameters.
+            binding_group
+                .bind("headers", &*self.header_pane, "table")
+                .sync_create()
+                .build();
+            binding_group
+                .bind("variables", &*self.variable_pane, "table")
+                .sync_create()
+                .build();
+            binding_group
+                .bind("authentication", &*self.authentication, "authentication")
+                .sync_create()
+                .build();
+            binding_group
+                .bind("body", &*self.body, "body")
+                .sync_create()
+                .build();
+
+            binding_group.set_source(Some(&self.obj().request()));
+
+            let binding_group_2 = binding_group.clone();
+            self.obj().connect_request_notify(glib::clone!(
+                #[weak]
+                binding_group_2,
+                move |ep: &super::EndpointPane| {
+                    binding_group_2.set_source(Some(&ep.request()));
+                }
+            ));
+        }
+
         fn has_response_impl(&self) -> bool {
             self.response.response().is_some()
         }
@@ -329,26 +381,6 @@ mod imp {
         #[template_callback]
         fn on_url_activated(&self) {
             let _ = self.obj().activate_action("endpoint.request", None);
-        }
-
-        /// Sets the value of every widget in the pane into whatever is set by the given endpoint.
-        pub fn assign_request(&self, endpoint: &EndpointData) {
-            let modern: cartero_objects::Request = endpoint.clone().into();
-
-            self.request_url.buffer().set_text(endpoint.url.clone());
-            self.request_method.set_request_method(modern.method());
-            self.header_pane.set_table(&modern.headers());
-            self.variable_pane.set_table(&modern.variables());
-            self.body.set_body(&modern.body());
-            self.authentication
-                .set_authentication(&modern.authentication());
-
-            // Merge parameters
-            let active_params: Vec<KeyValueItem> = self.parameter_pane.get_entries();
-            let params = endpoint.parameters.iter().map(KeyValueItem::from);
-            let parameters: Vec<KeyValueItem> = active_params.into_iter().chain(params).collect();
-
-            self.parameter_pane.set_entries(&parameters);
         }
 
         /// Takes the current state of the pane and extracts it into an Endpoint value.
@@ -625,31 +657,9 @@ impl EndpointPane {
         Object::builder().build()
     }
 
-    /// Updates the contents of the widget so that they reflect the endpoint data.
-    ///
-    /// TODO: Should enable a binding system?
-    pub fn assign_endpoint(&self, endpoint: &EndpointData) {
-        let imp = self.imp();
-        imp.assign_request(endpoint)
-    }
-
     pub fn extract_endpoint(&self) -> EndpointData {
         let imp = self.imp();
         imp.extract_endpoint()
-    }
-
-    pub async fn load(&self) -> impl FileLoadResult {
-        match self.file() {
-            Some(file) => {
-                let result = crate::file::read_endpoint(&file).await;
-                if let Some(endpoint) = result.endpoint() {
-                    self.assign_endpoint(&endpoint);
-                    self.set_dirty(false);
-                }
-                result
-            }
-            None => EndpointLoadResult::anonymous(),
-        }
     }
 
     pub async fn save(&self) -> Result<(), FileSaveError> {
@@ -686,6 +696,35 @@ impl EndpointPane {
             };
             dialog.set_title(&title);
             dialog.present(Some(self));
+        }
+    }
+}
+
+impl ObjectPane<Request> for EndpointPane {
+    async fn load(&self) -> crate::interop::LoadResult {
+        let Some(file) = self.file() else {
+            return LoadResult::Anonymous;
+        };
+
+        match file.load_contents_future().await {
+            Ok((contents, _)) => {
+                let input = String::from_utf8_lossy(&contents).to_string();
+                match cartero_file_format::deserialize_request(&input) {
+                    Ok(result) => {
+                        let request = result.object();
+                        self.set_request(request);
+
+                        let warnings = result.warnings();
+                        if warnings.is_empty() {
+                            LoadResult::Successful
+                        } else {
+                            LoadResult::Warning(warnings)
+                        }
+                    }
+                    Err(e) => LoadResult::Error(InnerError::InteropError(e)),
+                }
+            }
+            Err(e) => LoadResult::Error(InnerError::GlibError(e)),
         }
     }
 }

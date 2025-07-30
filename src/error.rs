@@ -118,30 +118,6 @@ impl std::error::Error for RequestError {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
-pub enum FileLoadError {
-    AnonymousPane,
-    FileReadError(glib::Error),
-    DeserializationError(toml::de::Error),
-    OutdatedSchema,
-}
-
-impl std::fmt::Display for FileLoadError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let message = match self {
-            Self::AnonymousPane => gettext("The current tab is not associated with a file"),
-            Self::OutdatedSchema => gettext(
-                "This file was created with a newer version of this application; please update!",
-            ),
-            Self::FileReadError(e) => e.message().to_string(),
-            Self::DeserializationError(_) => {
-                gettext("The file is corrupt or does not contain valid data for this application")
-            }
-        };
-        write!(f, "{}", message)
-    }
-}
-
-#[derive(Clone, Debug, Eq, PartialEq)]
 pub enum FileSaveError {
     #[allow(dead_code)]
     AnonymousPane,

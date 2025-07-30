@@ -25,6 +25,7 @@ mod widgets;
 #[rustfmt::skip]
 mod config;
 mod entities;
+mod interop;
 mod objects;
 mod platform;
 #[cfg(feature = "app_updater")]

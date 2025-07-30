@@ -15,15 +15,13 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use crate::{
-    error::{FileLoadError, FileSaveError},
-    file::FileWarningTag,
-};
+use crate::{error::FileSaveError, file::pretty_warning, interop::InnerError};
 
 use adw::{
     prelude::{AlertDialogExt, AlertDialogExtManual},
     AlertDialog,
 };
+use cartero_interop::FileWarningTag;
 use formatx::formatx;
 use gettextrs::gettext;
 use gio::prelude::FileExt;
@@ -41,7 +39,7 @@ fn get_file_display_name(file: &gio::File) -> Option<String> {
 pub async fn file_load_error_dialog(
     root: &impl IsA<gtk::Widget>,
     file: Option<&gio::File>,
-    error: &FileLoadError,
+    error: &InnerError,
 ) {
     let file_name = file.and_then(get_file_display_name);
     let error_title = match file_name {
@@ -75,11 +73,11 @@ pub async fn file_load_warning_dialog(
     let error_msg = if failures.len() > 1 {
         failures
             .iter()
-            .map(|w| format!("• {w}"))
+            .map(|w| format!("• {}", pretty_warning(w.clone())))
             .collect::<Vec<String>>()
             .join("\n")
     } else {
-        failures[0].to_string()
+        pretty_warning(failures[0].clone())
     };
     let alert = AlertDialog::builder()
         .heading(&error_title)

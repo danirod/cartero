@@ -88,6 +88,14 @@ pub async fn file_load_warning_dialog(
     alert.choose_future(root).await;
 }
 
+fn pretty_warning(warning: FileWarningTag) -> String {
+    match warning {
+            FileWarningTag::InvalidHttpVerb(v) => formatx!(
+                gettext("The HTTP verb found in the file was '{}'. It is not valid, it will fallback to '{}'."),
+                v, "GET").unwrap()
+        }
+}
+
 /// Renders an error message that shows the error that prevents the file from
 /// being saved. The path to the file to save should be given as an argument so
 /// that it can be presented in the title.

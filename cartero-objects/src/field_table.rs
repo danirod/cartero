@@ -350,6 +350,7 @@ impl FieldTable {
             .filter(|f| f.active());
         let source_iter = entries.iter();
         let mut new_items = Vec::new();
+        let mut items_to_delete = Vec::new();
 
         for group in active_field_iter.zip_longest(source_iter) {
             match group {
@@ -360,7 +361,7 @@ impl FieldTable {
                 }
                 EitherOrBoth::Left(field) => {
                     // This field doesn't match to anything, so it will be disabled.
-                    field.set_active(false);
+                    items_to_delete.push(field.clone());
                 }
                 EitherOrBoth::Right((key, value)) => {
                     let field = Field::builder()
@@ -369,6 +370,14 @@ impl FieldTable {
                         .build();
                     new_items.push(field);
                 }
+            }
+        }
+        for old_item in items_to_delete {
+            let item_pos = self
+                .iter::<Field>()
+                .position(|f| f.is_ok_and(|f| f.eq(&old_item)));
+            if let Some(pos) = item_pos {
+                self.remove(pos as u32);
             }
         }
         for new_item in new_items {
@@ -856,8 +865,8 @@ mod tests {
         ]);
         let update = [("cat_id", "15")];
         table.reconcile(&update);
+        assert_eq!(table.n_items(), 1);
         assert_field(&table.field(0).unwrap(), "cat_id", "15", true, false);
-        assert_field(&table.field(1).unwrap(), "limit", "20", false, false);
     }
 
     #[test]

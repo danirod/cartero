@@ -28,7 +28,6 @@ mod imp {
     use glib::subclass::Signal;
     use glib::value::ToValue;
     use glib::Properties;
-    use gtk::gdk::ModifierType;
     use gtk::gio::SettingsBindFlags;
     #[allow(deprecated)]
     use gtk::prelude::StyleContextExt;
@@ -58,26 +57,15 @@ mod imp {
         type ParentType = sourceview5::View;
 
         fn class_init(klass: &mut Self::Class) {
-            klass.add_binding_action(
-                gdk::Key::F,
-                gdk::ModifierType::CONTROL_MASK,
-                "codeview.search",
-            );
-            klass.add_binding_action(
-                gdk::Key::plus,
-                gdk::ModifierType::CONTROL_MASK,
-                "widget.zoom-in",
-            );
-            klass.add_binding_action(
-                gdk::Key::minus,
-                gdk::ModifierType::CONTROL_MASK,
-                "widget.zoom-out",
-            );
-            klass.add_binding_action(
-                gdk::Key::_0,
-                gdk::ModifierType::CONTROL_MASK,
-                "widget.zoom-reset",
-            );
+            let modifier = if cfg!(target_os = "macos") {
+                gdk::ModifierType::META_MASK
+            } else {
+                gdk::ModifierType::CONTROL_MASK
+            };
+            klass.add_binding_action(gdk::Key::F, modifier, "codeview.search");
+            klass.add_binding_action(gdk::Key::plus, modifier, "widget.zoom-in");
+            klass.add_binding_action(gdk::Key::minus, modifier, "widget.zoom-out");
+            klass.add_binding_action(gdk::Key::_0, modifier, "widget.zoom-reset");
 
             klass.install_action("codeview.search", None, |widget, _, _| {
                 widget.start_search();
@@ -133,8 +121,14 @@ mod imp {
                 #[upgrade_or_panic]
                 move |controller: &EventControllerScroll, _dx: f64, dy: f64| {
                     /* Only interested in CTRL + scroll events. */
+                    let modifier = if cfg!(target_os = "macos") {
+                        /* On macOS, use Command, tho */
+                        gdk::ModifierType::META_MASK
+                    } else {
+                        gdk::ModifierType::CONTROL_MASK
+                    };
                     let state = controller.current_event_state();
-                    if state == ModifierType::CONTROL_MASK {
+                    if state == modifier {
                         if dy > 0.0 {
                             obj.activate_action("widget.zoom-out", None).unwrap();
                         } else {

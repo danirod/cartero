@@ -37,7 +37,7 @@ mod imp {
     use std::sync::{Arc, Mutex};
 
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
-    use cartero_objects::Request;
+    use cartero_objects::{Field, Request};
     use glib::subclass::InitializingObject;
     use glib::{JoinHandle, Properties};
     use gtk::gio::{self, SimpleAction, SimpleActionGroup};
@@ -45,12 +45,12 @@ mod imp {
     use gtk::{prelude::*, ClosureExpression, CompositeTemplate};
 
     use crate::app::CarteroApplication;
-    use crate::entities::{EndpointData, KeyValue};
+    use crate::entities::EndpointData;
     use crate::widgets::authentication::AuthenticationPane;
     use crate::widgets::endpoint::ResponsePanel;
     use crate::widgets::field::FieldTableListView;
     use crate::widgets::req_body::RequestBodyPane;
-    use crate::widgets::{KeyValuePane, MethodDropdown};
+    use crate::widgets::MethodDropdown;
 
     #[derive(CompositeTemplate, Properties, Default)]
     #[template(resource = "/es/danirod/Cartero/endpoint_pane.ui")]
@@ -63,7 +63,7 @@ mod imp {
         cancel_button: TemplateChild<gtk::Button>,
 
         #[template_child]
-        pub parameter_pane: TemplateChild<KeyValuePane>,
+        pub parameter_pane: TemplateChild<FieldTableListView>,
 
         #[template_child]
         pub header_pane: TemplateChild<FieldTableListView>,
@@ -143,8 +143,6 @@ mod imp {
             self.init_settings();
             self.init_actions();
 
-            self.parameter_pane.assert_always_placeholder();
-
             let url_arc = self.variable_changing.clone();
             self.request_url.connect_changed(glib::clone!(
                 #[weak(rename_to = window)]
@@ -154,26 +152,28 @@ mod imp {
                     // is_ok() does not capture the mutex and will cause sync issues.
                     #[allow(clippy::redundant_pattern_matching)]
                     if let Ok(_) = url_arc.try_lock() {
-                        if let Err(err) = window.update_query_params() {
-                            println!("{err}");
-                        }
+                        window.update_query_params();
                     }
                 }
             ));
 
             let parameter_arc = self.variable_changing.clone();
-            self.parameter_pane.connect_changed(glib::clone!(
-                #[weak(rename_to = window)]
-                self,
-                move |_| {
-                    // It is important to allow the redundant pattern matching because
-                    // is_ok() does not capture the mutex and will cause sync issues.
-                    #[allow(clippy::redundant_pattern_matching)]
-                    if let Ok(_) = parameter_arc.try_lock() {
-                        window.update_url_from_query_params();
+            self.parameter_pane.connect_closure(
+                "changed",
+                false,
+                glib::closure_local!(
+                    #[weak(rename_to = window)]
+                    self,
+                    move |_: &FieldTableListView, _: &str| {
+                        // It is important to allow the redundant pattern matching because
+                        // is_ok() does not capture the mutex and will cause sync issues.
+                        #[allow(clippy::redundant_pattern_matching)]
+                        if let Ok(_) = parameter_arc.try_lock() {
+                            window.update_url_from_query_params();
+                        }
                     }
-                }
-            ));
+                ),
+            );
 
             // Mark the window as busy when actually busy.
             let obj = self.obj();
@@ -219,7 +219,10 @@ mod imp {
                 .bidirectional()
                 .sync_create()
                 .build();
-            // TODO: bind parameters.
+            binding_group
+                .bind("params", &*self.parameter_pane, "table")
+                .sync_create()
+                .build();
             binding_group
                 .bind("headers", &*self.header_pane, "table")
                 .sync_create()
@@ -313,12 +316,22 @@ mod imp {
         }
 
         fn update_url_from_query_params(&self) {
-            println!("TODO: conceal");
+            let params_table = self.obj().request().params();
+            let params = params_table
+                .iter::<Field>()
+                .filter_map(|p| p.ok())
+                .filter(|field| field.active())
+                .map(|field| (field.key(), field.value()))
+                .collect::<Vec<(String, String)>>();
+            let current_url = self.request_url.text().to_string();
+            let next_url = super::update_queryparams(&current_url, &params);
+            self.request_url.set_text(&next_url);
         }
 
-        fn update_query_params(&self) -> Result<(), url::ParseError> {
-            println!("TODO: conceal");
-            Ok(())
+        fn update_query_params(&self) {
+            let url = self.request_url.text().to_string();
+            let params = super::extract_queryparams(&url);
+            self.obj().request().params().reconcile(&params);
         }
 
         fn init_dirty_events(&self) {
@@ -388,26 +401,17 @@ mod imp {
         pub(super) fn extract_endpoint(&self) -> EndpointData {
             let header_list = self.header_pane.table();
             let variable_list = self.variable_pane.table();
-            let parameter_list = self.parameter_pane.get_entries();
+            let parameter_list = self.parameter_pane.table();
 
             let url = String::from(self.request_url.buffer().text());
             let method = self.request_method.request_method().clone().into();
-
-            let parameters = parameter_list
-                .iter()
-                .map(|pair| KeyValue {
-                    name: pair.header_name(),
-                    value: pair.header_value(),
-                    active: pair.active(),
-                    secret: pair.secret(),
-                })
-                .collect();
             let body = self.body.body();
             let authorization = self.authentication.authentication();
+
             EndpointData {
                 url,
                 method,
-                parameters,
+                parameters: parameter_list.into(),
                 headers: header_list.into(),
                 variables: variable_list.into(),
                 body: body.into(),
@@ -495,19 +499,20 @@ mod imp {
 
     #[cfg(test)]
     mod tests {
+        use cartero_objects::Field;
         use glib::subclass::types::ObjectSubclassIsExt;
         use gtk::prelude::EditableExt;
         use sourceview5::prelude::ListModelExt;
 
-        use crate::{app::CarteroApplication, objects::KeyValueItem};
+        use crate::app::CarteroApplication;
 
         use super::super::EndpointPane;
 
-        fn assert_row(row: &KeyValueItem, name: &str, value: &str, active: bool, secret: bool) {
-            assert_eq!(row.header_name(), name);
-            assert_eq!(row.header_value(), value);
+        fn assert_row(row: &Field, name: &str, value: &str, active: bool, secret: bool) {
+            assert_eq!(row.key(), name);
+            assert_eq!(row.value(), value);
             assert_eq!(row.active(), active);
-            assert_eq!(row.secret(), secret);
+            assert_eq!(row.masked(), secret);
         }
 
         #[gtk::test]
@@ -519,34 +524,34 @@ mod imp {
             let imp = pane.imp();
 
             /* So far, only the placeholder row in the param pane. */
-            assert_eq!(1, imp.parameter_pane.model().n_items());
+            assert_eq!(0, imp.parameter_pane.table().n_items());
 
             imp.request_url
                 .set_text("https://www.example.com/foobar.html?a=1&b=2&c=3&d=4");
-            assert_eq!(5, imp.parameter_pane.model().n_items());
+            assert_eq!(4, imp.parameter_pane.table().n_items());
             assert_row(
-                &imp.parameter_pane.item_at(0).unwrap(),
+                &imp.parameter_pane.table().field(0).unwrap(),
                 "a",
                 "1",
                 true,
                 false,
             );
             assert_row(
-                &imp.parameter_pane.item_at(1).unwrap(),
+                &imp.parameter_pane.table().field(1).unwrap(),
                 "b",
                 "2",
                 true,
                 false,
             );
             assert_row(
-                &imp.parameter_pane.item_at(2).unwrap(),
+                &imp.parameter_pane.table().field(2).unwrap(),
                 "c",
                 "3",
                 true,
                 false,
             );
             assert_row(
-                &imp.parameter_pane.item_at(3).unwrap(),
+                &imp.parameter_pane.table().field(3).unwrap(),
                 "d",
                 "4",
                 true,
@@ -564,7 +569,7 @@ mod imp {
             imp.request_url
                 .set_text("https://www.example.com/foobar.html?a=1&b=2&c=3&d=4");
 
-            imp.parameter_pane.item_at(2).unwrap().set_header_value("9");
+            imp.parameter_pane.table().field(2).unwrap().set_value("9");
             assert_eq!(
                 imp.request_url.text(),
                 "https://www.example.com/foobar.html?a=1&b=2&c=9&d=4"
@@ -581,61 +586,14 @@ mod imp {
             imp.request_url
                 .set_text("https://www.example.com/foobar.html?a=1&b=2&c=3&d=4");
 
-            imp.parameter_pane.item_at(2).unwrap().set_active(false);
+            imp.parameter_pane
+                .table()
+                .field(2)
+                .unwrap()
+                .set_active(false);
             assert_eq!(
                 imp.request_url.text(),
                 "https://www.example.com/foobar.html?a=1&b=2&d=4"
-            );
-        }
-
-        #[gtk::test]
-        fn test_updating_url_moves_disabled_params_to_bottom() {
-            crate::init_test_resources();
-            let _app = CarteroApplication::new();
-
-            let pane = EndpointPane::default();
-            let imp = pane.imp();
-            imp.request_url
-                .set_text("https://www.example.com/foobar.html?a=1&b=2&c=3&d=4");
-            imp.parameter_pane.item_at(2).unwrap().set_active(false);
-            imp.request_url
-                .set_text("https://www.example.com/foobar.html?a=1&b=2&d=4&e=5");
-
-            assert_eq!(6, imp.parameter_pane.model().n_items());
-            assert_row(
-                &imp.parameter_pane.item_at(0).unwrap(),
-                "a",
-                "1",
-                true,
-                false,
-            );
-            assert_row(
-                &imp.parameter_pane.item_at(1).unwrap(),
-                "b",
-                "2",
-                true,
-                false,
-            );
-            assert_row(
-                &imp.parameter_pane.item_at(2).unwrap(),
-                "d",
-                "4",
-                true,
-                false,
-            );
-            assert_row(
-                &imp.parameter_pane.item_at(3).unwrap(),
-                "e",
-                "5",
-                true,
-                false,
-            );
-            assert_row(
-                &imp.parameter_pane.item_at(4).unwrap(),
-                "c",
-                "3",
-                false,
-                false,
             );
         }
     }

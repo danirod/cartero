@@ -19,13 +19,16 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 
 mod imp {
-    use std::cell::RefCell;
+    use std::{cell::RefCell, sync::OnceLock};
 
     use crate::widgets::field::{FieldListBoxRow, FieldPlaceholderRow};
 
     use super::*;
     use cartero_objects::{Field, FieldTable};
-    use glib::{subclass::InitializingObject, Properties};
+    use glib::{
+        subclass::{InitializingObject, Signal},
+        Properties,
+    };
     use gtk::CompositeTemplate;
 
     #[derive(Default, CompositeTemplate, Properties)]
@@ -72,6 +75,15 @@ mod imp {
                     imp.rebind_table();
                 }
             ));
+        }
+
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| {
+                vec![Signal::builder("changed")
+                    .param_types([String::static_type()])
+                    .build()]
+            })
         }
     }
 
@@ -142,6 +154,19 @@ mod imp {
                     }
                 ),
             );
+
+            table.connect_closure(
+                "changed",
+                false,
+                glib::closure_local!(
+                    #[weak(rename_to = widget)]
+                    self,
+                    move |_: &FieldTable, param: &str| {
+                        widget.obj().emit_by_name::<()>("changed", &[&param]);
+                    }
+                ),
+            );
+            // TODO: If there was an old signal, it should be removed.
         }
     }
 }

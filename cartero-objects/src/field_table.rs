@@ -518,7 +518,7 @@ mod tests {
             table.insert(&field);
             assert_eq!(table.n_items(), 1);
             let (pos, removed, added) = inserts.lock().unwrap().last().unwrap().to_owned();
-            assert_eq!(pos, 1);
+            assert_eq!(pos, 0);
             assert_eq!(removed, 0);
             assert_eq!(added, 1);
         }
@@ -527,7 +527,7 @@ mod tests {
             table.insert(&field2);
             assert_eq!(table.n_items(), 2);
             let (pos, removed, added) = inserts.lock().unwrap().last().unwrap().to_owned();
-            assert_eq!(pos, 2);
+            assert_eq!(pos, 1);
             assert_eq!(removed, 0);
             assert_eq!(added, 1);
         }

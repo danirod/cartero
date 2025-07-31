@@ -15,7 +15,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use crate::{file::pretty_warning, interop::InnerError};
+use crate::interop::InnerError;
 
 use adw::{
     prelude::{AlertDialogExt, AlertDialogExtManual},

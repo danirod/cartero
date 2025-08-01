@@ -32,7 +32,7 @@ use crate::{
 };
 
 mod imp {
-    use std::cell::RefCell;
+    use std::cell::{OnceCell, RefCell};
     use std::sync::{Arc, Mutex};
 
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
@@ -92,6 +92,7 @@ mod imp {
 
         #[property(get, set)]
         request: RefCell<Request>,
+        request_signal_group: OnceCell<glib::SignalGroup>,
 
         #[property(get)]
         request_binding_group: RefCell<glib::BindingGroup>,
@@ -302,39 +303,30 @@ mod imp {
 
         fn init_dirty_events(&self) {
             let obj = self.obj();
-            self.request_method
-                .connect_request_method_notify(glib::clone!(
+
+            let request_signal_group = glib::SignalGroup::new::<Request>();
+            request_signal_group.connect_closure(
+                "changed",
+                false,
+                glib::closure_local!(
                     #[weak]
                     obj,
-                    move |_| obj.set_dirty(true)
-                ));
-            self.request_url.connect_changed(glib::clone!(
+                    move |_: &Request, param: &str| {
+                        obj.set_dirty(true);
+                    }
+                ),
+            );
+
+            request_signal_group.set_target(Some(&obj.request()));
+            obj.connect_request_notify(glib::clone!(
                 #[weak]
-                obj,
-                move |_| obj.set_dirty(true)
+                request_signal_group,
+                move |pane| {
+                    request_signal_group.set_target(Some(&pane.request()));
+                }
             ));
-            /*self.payload_pane.connect_changed(glib::clone!(
-                #[weak]
-                obj,
-                move |_| obj.set_dirty(true)
-            ));
-            self.authentication.connect_changed(glib::clone!(
-                #[weak]
-                obj,
-                move |_| obj.set_dirty(true)
-            ));*/
-            /*
-            self.header_pane.connect_changed(glib::clone!(
-                #[weak]
-                obj,
-                move |_| obj.set_dirty(true)
-            ));
-            self.variable_pane.connect_changed(glib::clone!(
-                #[weak]
-                obj,
-                move |_| obj.set_dirty(true)
-            ));
-            */
+
+            self.request_signal_group.set(request_signal_group).unwrap();
         }
 
         fn init_settings(&self) {

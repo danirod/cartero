@@ -87,13 +87,13 @@ mod imp {
             let container_child = match authentication.auth_type() {
                 RequestAuthenticationType::BasicAuth => {
                     let basic: BasicAuth = Object::builder()
-                        .property("basic-auth", authentication.auth_data().unwrap())
+                        .property("basic-auth", authentication.basic_auth().unwrap())
                         .build();
                     Some(basic.upcast::<gtk::Widget>())
                 }
                 RequestAuthenticationType::BearerToken => {
                     let bearer: BearerToken = Object::builder()
-                        .property("bearer-token", authentication.auth_data().unwrap())
+                        .property("bearer-token", authentication.bearer_token().unwrap())
                         .build();
                     Some(bearer.upcast::<gtk::Widget>())
                 }

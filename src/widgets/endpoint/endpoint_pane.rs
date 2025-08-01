@@ -311,7 +311,7 @@ mod imp {
                 glib::closure_local!(
                     #[weak]
                     obj,
-                    move |_: &Request, param: &str| {
+                    move |_: &Request, _: &str| {
                         obj.set_dirty(true);
                     }
                 ),

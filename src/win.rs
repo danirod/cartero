@@ -414,10 +414,7 @@ mod imp {
             let obj = self.obj();
             for (pane, failures) in opened {
                 match failures {
-                    LoadResult::Successful | LoadResult::Anonymous => {
-                        println!("nothing to report because pane opened ok");
-                        println!("{:?}", pane.file());
-                    }
+                    LoadResult::Successful | LoadResult::Anonymous => {}
                     LoadResult::Warning(warnings) => {
                         if let Some(file) = pane.file() {
                             if let Some(page) = self.find_pane_by_path(&file) {

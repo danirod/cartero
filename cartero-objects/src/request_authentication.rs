@@ -386,9 +386,13 @@ mod imp {
         // in the process.
         fn set_auth_type(&self, auth_type: RequestAuthenticationType) {
             let next = default_authentication_data(auth_type);
-            self.auth_type.replace(auth_type);
-            self.obj().set_auth_data(next);
-            self.obj().notify_auth_data();
+
+            let current_type = { self.auth_type.borrow().clone() };
+            if current_type != auth_type {
+                self.auth_type.replace(auth_type);
+                self.obj().set_auth_data(next);
+                self.obj().notify_auth_data();
+            }
         }
 
         // This is the inner setter for the auth-data property, which also verifies that the
@@ -563,11 +567,24 @@ mod tests {
             RequestAuthenticationType::BasicAuth,
             authentication.auth_type()
         );
-        let auth_data = authentication.auth_data().unwrap();
-        assert_eq!(RequestAuthenticationType::BasicAuth, auth_data.auth_type());
-        let basic_auth_data = auth_data.downcast::<RequestAuthenticationBasic>().unwrap();
-        assert_eq!(basic_auth_data.username(), "admin");
-        assert_eq!(basic_auth_data.password(), "1234");
+
+        {
+            let auth_data = authentication.auth_data().unwrap();
+            assert_eq!(RequestAuthenticationType::BasicAuth, auth_data.auth_type());
+            let basic_auth_data = auth_data.downcast::<RequestAuthenticationBasic>().unwrap();
+            assert_eq!(basic_auth_data.username(), "admin");
+            assert_eq!(basic_auth_data.password(), "1234");
+        }
+
+        authentication.set_auth_type(RequestAuthenticationType::BasicAuth);
+
+        {
+            let auth_data = authentication.auth_data().unwrap();
+            assert_eq!(RequestAuthenticationType::BasicAuth, auth_data.auth_type());
+            let basic_auth_data = auth_data.downcast::<RequestAuthenticationBasic>().unwrap();
+            assert_eq!(basic_auth_data.username(), "admin");
+            assert_eq!(basic_auth_data.password(), "1234");
+        }
     }
 
     #[test]

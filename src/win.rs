@@ -694,8 +694,6 @@ mod imp {
         type ParentType = gtk::ApplicationWindow;
 
         fn class_init(klass: &mut Self::Class) {
-            KeyValueRow::static_type();
-            KeyValuePane::static_type();
             EndpointPane::static_type();
             klass.bind_template();
             klass.bind_template_callbacks();

@@ -207,26 +207,7 @@ mod tests {
     fn test_new() {
         let raw = RequestBodyRaw::new(RequestBodyRawType::Xml, "<?xml?>");
         assert_eq!(raw.payload_type(), RequestBodyRawType::Xml);
-        assert_eq!(raw.payload().len(), 7);
-        let payload = raw.payload();
-        let contents = String::from_utf8_lossy(payload.as_ref());
-        assert_eq!(contents, "<?xml?>");
-    }
-
-    #[test]
-    fn test_set_payload() {
-        let raw = RequestBodyRaw::new(RequestBodyRawType::Xml, "<?xml?>");
-        assert_eq!(raw.payload_type(), RequestBodyRawType::Xml);
-        assert_eq!(raw.payload().len(), 7);
-        let payload = raw.payload();
-        let contents = String::from_utf8_lossy(payload.as_ref());
-        assert_eq!(contents, "<?xml?>");
-
-        raw.set_payload("<?xml version=\"1.0\"=?>");
-        assert_eq!(raw.payload().len(), 22);
-        let payload = raw.payload();
-        let contents = String::from_utf8_lossy(payload.as_ref());
-        assert_eq!(contents, "<?xml version=\"1.0\"=?>");
+        assert_eq!(raw.payload(), "<?xml?>");
     }
 
     #[test]

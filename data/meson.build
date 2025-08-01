@@ -27,15 +27,10 @@ blueprint_files = [
     'ui/field_list_box_row.blp',
     'ui/field_table_list_view.blp',
     'ui/field_placeholder_row.blp',
-    'ui/formdata_payload_pane.blp',
-    'ui/key_value_pane.blp',
-    'ui/key_value_row.blp',
     'ui/mac_menu.blp',
     'ui/main_window.blp',
     'ui/main_window_no_csd.blp',
     'ui/method_dropdown.blp',
-    'ui/payload_tab.blp',
-    'ui/raw_payload_pane.blp',
     'ui/request_body_pane.blp',
     'ui/response_headers.blp',
     'ui/response_panel.blp',
@@ -44,7 +39,6 @@ blueprint_files = [
     'ui/raw_body_pane.blp',
     'ui/multipart_body_pane.blp',
     'ui/urlencoded_body_pane.blp',
-    'ui/urlencoded_payload_pane.blp',
 ]
 
 blueprint_targets = []

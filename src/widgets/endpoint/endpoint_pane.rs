@@ -622,8 +622,7 @@ impl EndpointPane {
     }
 
     pub fn export_request(&self, format: &str) {
-        let request = self.extract_endpoint();
-        let curl = CodeExportService::new(request);
+        let curl = CodeExportService::new(self.request());
 
         if let Ok(command) = curl.generate() {
             let buffer = glib::Bytes::from(command.as_bytes());

@@ -18,7 +18,7 @@
 use adw::prelude::AdwDialogExt;
 use cartero_objects::Request;
 use gettextrs::gettext;
-use glib::{subclass::types::ObjectSubclassIsExt, Object};
+use glib::Object;
 use gtk::gio::prelude::SettingsExtManual;
 use gtk::glib;
 use sourceview5::prelude::FileExtManual;
@@ -26,7 +26,6 @@ use url::form_urlencoded;
 
 use crate::{
     app::CarteroApplication,
-    entities::EndpointData,
     export::curl::CodeExportService,
     interop::{InnerError, LoadResult, ObjectPane, SaveResult},
     widgets::ExportDialog,
@@ -45,7 +44,6 @@ mod imp {
     use gtk::{prelude::*, ClosureExpression, CompositeTemplate};
 
     use crate::app::CarteroApplication;
-    use crate::entities::EndpointData;
     use crate::widgets::authentication::AuthenticationPane;
     use crate::widgets::endpoint::ResponsePanel;
     use crate::widgets::field::FieldTableListView;
@@ -142,38 +140,6 @@ mod imp {
             self.init_dirty_events();
             self.init_settings();
             self.init_actions();
-
-            let url_arc = self.variable_changing.clone();
-            self.request_url.connect_changed(glib::clone!(
-                #[weak(rename_to = window)]
-                self,
-                move |_| {
-                    // It is important to allow the redundant pattern matching because
-                    // is_ok() does not capture the mutex and will cause sync issues.
-                    #[allow(clippy::redundant_pattern_matching)]
-                    if let Ok(_) = url_arc.try_lock() {
-                        window.update_query_params();
-                    }
-                }
-            ));
-
-            let parameter_arc = self.variable_changing.clone();
-            self.parameter_pane.connect_closure(
-                "changed",
-                false,
-                glib::closure_local!(
-                    #[weak(rename_to = window)]
-                    self,
-                    move |_: &FieldTableListView, _: &str| {
-                        // It is important to allow the redundant pattern matching because
-                        // is_ok() does not capture the mutex and will cause sync issues.
-                        #[allow(clippy::redundant_pattern_matching)]
-                        if let Ok(_) = parameter_arc.try_lock() {
-                            window.update_url_from_query_params();
-                        }
-                    }
-                ),
-            );
 
             // Mark the window as busy when actually busy.
             let obj = self.obj();
@@ -389,7 +355,12 @@ mod imp {
 
         #[template_callback]
         fn on_url_changed(&self) {
-            self.extract_endpoint();
+            // It is important to allow the redundant pattern matching because
+            // is_ok() does not capture the mutex and will cause sync issues.
+            #[allow(clippy::redundant_pattern_matching)]
+            if let Ok(_) = self.variable_changing.try_lock() {
+                self.update_query_params();
+            }
         }
 
         #[template_callback]
@@ -397,25 +368,13 @@ mod imp {
             let _ = self.obj().activate_action("endpoint.request", None);
         }
 
-        /// Takes the current state of the pane and extracts it into an Endpoint value.
-        pub(super) fn extract_endpoint(&self) -> EndpointData {
-            let header_list = self.header_pane.table();
-            let variable_list = self.variable_pane.table();
-            let parameter_list = self.parameter_pane.table();
-
-            let url = String::from(self.request_url.buffer().text());
-            let method = self.request_method.request_method().clone().into();
-            let body = self.body.body();
-            let authorization = self.authentication.authentication();
-
-            EndpointData {
-                url,
-                method,
-                parameters: parameter_list.into(),
-                headers: header_list.into(),
-                variables: variable_list.into(),
-                body: body.into(),
-                authorization: authorization.into(),
+        #[template_callback]
+        fn on_parameters_change(&self) {
+            // It is important to allow the redundant pattern matching because
+            // is_ok() does not capture the mutex and will cause sync issues.
+            #[allow(clippy::redundant_pattern_matching)]
+            if let Ok(_) = self.variable_changing.try_lock() {
+                self.update_url_from_query_params();
             }
         }
 
@@ -482,7 +441,7 @@ mod imp {
 
         /// Executes an HTTP request based on the current contents of the pane.
         pub(super) async fn perform_request(&self) {
-            let request: cartero_objects::Request = self.extract_endpoint().into();
+            let request = self.obj().request();
             let env = self.request_environment();
             let response = cartero_isahc_client::request(&request, &env).await;
 
@@ -614,11 +573,6 @@ impl EndpointPane {
     pub fn new() -> Self {
         // TODO: Accept additional initial state maybe?
         Object::builder().build()
-    }
-
-    pub fn extract_endpoint(&self) -> EndpointData {
-        let imp = self.imp();
-        imp.extract_endpoint()
     }
 
     pub fn export_request(&self, format: &str) {

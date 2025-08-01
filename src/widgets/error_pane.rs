@@ -17,14 +17,13 @@
 
 use adw::prelude::*;
 use adw::subclass::prelude::*;
+use cartero_http::RequestError;
+use formatx::formatx;
 use gettextrs::gettext;
 use glib::subclass::InitializingObject;
 use glib::Properties;
 use gtk::CompositeTemplate;
 use std::cell::RefCell;
-use std::error::Error;
-
-use crate::error::{RequestBuildError, RequestError, RequestPreconditionError};
 
 mod imp {
     use super::*;
@@ -85,26 +84,58 @@ glib::wrapper! {
         @implements gtk::Buildable;
 }
 
+fn get_error_message(error: &RequestError) -> String {
+    match error {
+        RequestError::UrlBadParse => gettext("Cannot recognise the URL"),
+        RequestError::MissingProtocol => gettext("The given URL is missing a protocol"),
+        RequestError::UnsupportedProtocol(proto) => {
+            formatx!(gettext("The protocol {}:// is not supported"), proto).unwrap()
+        }
+        RequestError::VariableNotFound(var) => {
+            formatx!(gettext("The variable '{}' is not defined"), var).unwrap()
+        }
+        RequestError::BadInterpolation => {
+            gettext("There was a problem with a variable interpolation, review your inputs")
+        }
+        RequestError::InvalidHeaderName(name) => {
+            formatx!(gettext("The header '{}' is not valid"), name).unwrap()
+        }
+        RequestError::InvalidHeaderValue(name) => {
+            formatx!(gettext("The value for header '{}' is not valid"), name).unwrap()
+        }
+        RequestError::EncodingError => {
+            gettext("The given request body could not be encoded correctly")
+        }
+        RequestError::IOError(_) => gettext("There is an input/output error"),
+        RequestError::NetworkError(_) => gettext("There is a network error"),
+    }
+}
+
 impl ErrorPane {
-    pub fn set_precondition_error(&self, error: RequestPreconditionError) {
+    pub fn set_error(&self, error: RequestError) {
+        let subtitle = get_error_message(&error);
+        match error {
+            RequestError::NetworkError(e) | RequestError::IOError(e) => {
+                self.set_network_error(&subtitle, &e.to_string());
+            }
+            _ => {
+                self.set_request_error(&subtitle);
+            }
+        }
+    }
+
+    fn set_request_error(&self, subtitle: &str) {
         self.set_icon("dialog-warning-symbolic");
         self.set_title(gettext("The request data is not valid"));
-        self.set_subtitle(error.to_string());
+        self.set_subtitle(subtitle);
         self.set_extra("");
     }
 
-    pub fn set_request_error(&self, error: RequestError) {
+    fn set_network_error(&self, subtitle: &str, extra: &str) {
         self.set_icon("network-error-symbolic");
         self.set_title(gettext("The request failed"));
-        self.set_subtitle(error.to_string());
-        self.set_extra(error.source().map(|e| e.to_string()).unwrap_or_default());
-    }
-
-    pub fn set_request_build_error(&self, error: RequestBuildError) {
-        self.set_icon("dialog-warning-symbolic");
-        self.set_title(gettext("The request data is not valid"));
-        self.set_subtitle(error.to_string());
-        self.set_extra(error.source().map(|e| e.to_string()).unwrap_or_default());
+        self.set_subtitle(subtitle);
+        self.set_extra(extra);
     }
 }
 

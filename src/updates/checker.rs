@@ -15,15 +15,9 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use std::time::Instant;
-
-use isahc::RequestExt;
+use cartero_http::RequestEnvironment;
+use cartero_objects::{Field, Request};
 use serde::Deserialize;
-
-use crate::{
-    client::BoundRequest,
-    entities::{EndpointData, KeyValueTable, RequestAuthorization, RequestMethod, RequestPayload},
-};
 
 /// A little shim so that I can extract the information needed from the endpoint.
 #[derive(Deserialize)]
@@ -108,41 +102,37 @@ mod tests {
 
 const API_LATEST_URL: &'static str = "https://api.github.com/repos/danirod/cartero/releases/latest";
 
-fn create_api_check_endpoint() -> EndpointData {
-    let headers = vec![("Accept", "application/json").into()];
-    EndpointData {
-        url: API_LATEST_URL.into(),
-        method: RequestMethod::Get,
-        parameters: KeyValueTable::default(),
-        headers: KeyValueTable::new(&headers),
-        body: RequestPayload::None,
-        variables: KeyValueTable::default(),
-        authorization: RequestAuthorization::default(),
-    }
+fn create_api_check_endpoint() -> Request {
+    Request::builder(API_LATEST_URL, cartero_objects::RequestMethod::Get)
+        .header(
+            &Field::builder()
+                .key("Accept")
+                .value("application/json")
+                .build(),
+        )
+        .build()
 }
 
 // Silently discards any error.
 // TODO: at least could log it...
-async fn fetch_response(payload: EndpointData) -> Option<String> {
-    let endpoint = BoundRequest::try_from(payload).ok()?;
-    let request = crate::client::build_request(&endpoint).ok()?;
-    let mut response = request
-        .send_async()
+async fn fetch_response(payload: &Request) -> Option<String> {
+    let environment = RequestEnvironment {
+        config: cartero_http::ClientConfig {
+            validate_tls: true,
+            redirects: 0,
+            timeout: 10.0,
+        },
+    };
+    let response = cartero_isahc_client::request(&payload, &environment)
         .await
         .map_err(|e| {
-            glib::g_debug!("Cartero", "fetch_response failed with error: {e}");
+            glib::g_debug!("Cartero", "fetch_response failed with error: {e:?}");
             e
         })
         .ok()?;
-    let response = crate::client::extract_isahc_response(&mut response, &Instant::now())
-        .await
-        .map_err(|e| {
-            glib::g_debug!("Cartero", "fetch_response failed with error: {e}");
-            e
-        })
-        .ok()?;
-    let response = String::from_utf8_lossy(&response.body);
-    Some(response.to_string())
+    response
+        .body()
+        .map(|body| String::from_utf8_lossy(&body).to_string())
 }
 
 pub async fn get_latest_version() -> Option<GitHubApiResponse> {
@@ -150,9 +140,9 @@ pub async fn get_latest_version() -> Option<GitHubApiResponse> {
     glib::g_debug!(
         "Cartero",
         "Checking updates by poking the endpoint {}",
-        &request.url
+        &request.url(),
     );
-    let response = fetch_response(request).await?;
+    let response = fetch_response(&request).await?;
     let api_response = GitHubApiResponse::from_api_response(&response);
     glib::g_debug!(
         "Cartero",

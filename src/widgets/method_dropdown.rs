@@ -15,30 +15,30 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use glib::{object::ObjectExt, subclass::types::ObjectSubclassIsExt};
+use adw::prelude::*;
+use adw::subclass::prelude::*;
 
-use crate::entities::RequestMethod;
+use cartero_objects::RequestMethod;
 
 mod imp {
-    use std::sync::OnceLock;
+    use super::*;
+    use adw::EnumListItem;
+    use glib::{subclass::InitializingObject, Properties};
+    use gtk::{ClosureExpression, CompositeTemplate};
+    use std::cell::RefCell;
 
-    use adw::subclass::prelude::*;
-    use glib::{
-        object::{Cast, ObjectExt},
-        subclass::{InitializingObject, Signal},
-    };
-    use gtk::{prelude::ListModelExt, CompositeTemplate, StringObject, TemplateChild};
-
-    use crate::entities::RequestMethod;
-
-    #[derive(Default, CompositeTemplate)]
+    #[derive(Default, CompositeTemplate, Properties)]
     #[template(resource = "/es/danirod/Cartero/method_dropdown.ui")]
+    #[properties(wrapper_type = super::MethodDropdown)]
     pub struct MethodDropdown {
         #[template_child]
         dropdown: TemplateChild<gtk::DropDown>,
 
         #[template_child]
-        verbs_string_list: TemplateChild<gtk::StringList>,
+        model: TemplateChild<adw::EnumListModel>,
+
+        #[property(get, set, builder(RequestMethod::default()))]
+        request_method: RefCell<RequestMethod>,
     }
 
     #[glib::object_subclass]
@@ -48,6 +48,8 @@ mod imp {
         type ParentType = adw::Bin;
 
         fn class_init(klass: &mut Self::Class) {
+            RequestMethod::static_type();
+
             klass.bind_template();
             klass.bind_template_callbacks();
         }
@@ -57,10 +59,24 @@ mod imp {
         }
     }
 
+    #[glib::derived_properties]
     impl ObjectImpl for MethodDropdown {
-        fn signals() -> &'static [Signal] {
-            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
-            SIGNALS.get_or_init(|| vec![Signal::builder("changed").build()])
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            let expr = ClosureExpression::with_callback(gtk::Expression::NONE, |args| {
+                let repr = args[0].get::<EnumListItem>().unwrap();
+                repr.name()
+            });
+            self.dropdown.set_expression(Some(&expr));
+
+            let obj = self.obj();
+            obj.bind_property("request-method", &*self.dropdown, "selected")
+                .transform_from(|_, value: u32| RequestMethod::try_from(value).ok())
+                .transform_to(|_, value: RequestMethod| Some((value as i32) as u32))
+                .bidirectional()
+                .sync_create()
+                .build();
         }
     }
 
@@ -69,42 +85,7 @@ mod imp {
     impl BinImpl for MethodDropdown {}
 
     #[gtk::template_callbacks]
-    impl MethodDropdown {
-        #[template_callback]
-        fn on_selection_changed(&self) {
-            self.obj().emit_by_name::<()>("changed", &[]);
-        }
-
-        pub(super) fn request_method(&self) -> RequestMethod {
-            let method = self
-                .dropdown
-                .selected_item()
-                .unwrap()
-                .downcast::<StringObject>()
-                .unwrap()
-                .string();
-            // Note: we should probably be safe from unwrapping here, since it would
-            // be impossible to have a method that is not an acceptable value without
-            // completely hacking and wrecking the user interface.
-            RequestMethod::try_from(method.as_str()).unwrap()
-        }
-
-        pub(super) fn set_request_method(&self, rm: RequestMethod) {
-            let verb_to_find = String::from(rm);
-            let element_count = self.dropdown.model().unwrap().n_items();
-            let target_position = (0..element_count).find(|i| {
-                if let Some(verb) = self.verbs_string_list.string(*i) {
-                    if verb == verb_to_find {
-                        return true;
-                    }
-                }
-                false
-            });
-            if let Some(pos) = target_position {
-                self.dropdown.set_selected(pos);
-            }
-        }
-    }
+    impl MethodDropdown {}
 }
 
 glib::wrapper! {
@@ -113,22 +94,4 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable;
 }
 
-impl MethodDropdown {
-    pub fn connect_changed<F: Fn(&Self) + 'static>(&self, f: F) -> glib::SignalHandlerId {
-        self.connect_closure(
-            "changed",
-            true,
-            glib::closure_local!(|ref pane| {
-                f(pane);
-            }),
-        )
-    }
-
-    pub fn set_request_method(&self, rm: RequestMethod) {
-        self.imp().set_request_method(rm)
-    }
-
-    pub fn request_method(&self) -> RequestMethod {
-        self.imp().request_method()
-    }
-}
+impl MethodDropdown {}

@@ -144,6 +144,11 @@ name = "cartero"
 version = "0.3.0"
 dependencies = [
  "base64 0.22.1",
+ "cartero_file_format",
+ "cartero_http",
+ "cartero_interop",
+ "cartero_isahc_client",
+ "cartero_objects",
  "formatx",
  "formdata",
  "futures-lite 2.6.0",

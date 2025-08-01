@@ -123,7 +123,7 @@ impl FieldTable {
         }
         let len = { self.imp().fields.borrow().len() };
         self.connect_signal(field, len - 1);
-        self.items_changed(len as u32, 0, 1);
+        self.items_changed((len - 1) as u32, 0, 1);
         self.emit_by_name::<()>("changed", &[&""]);
     }
 
@@ -191,6 +191,112 @@ impl FieldTable {
         })
     }
 
+    fn find_by_name_(&self, name: &str, ignore_case: bool) -> Option<Vec<String>> {
+        let compare_key = if ignore_case {
+            name.to_lowercase()
+        } else {
+            name.to_owned()
+        };
+
+        let matches = self
+            .iter::<Field>()
+            .filter_map(|r| r.ok())
+            .filter(|field| field.active())
+            .filter_map(|field| {
+                let qualifying_name = if ignore_case {
+                    field.key().to_lowercase()
+                } else {
+                    field.key().to_owned()
+                };
+                if qualifying_name == compare_key {
+                    Some(field.value())
+                } else {
+                    None
+                }
+            })
+            .collect::<Vec<String>>();
+        if matches.is_empty() {
+            None
+        } else {
+            Some(matches)
+        }
+    }
+
+    /// Finds active values by their name. Returns the values of active fields
+    /// within the table with the given specific name. Note that if the field
+    /// is not active, it is not considered. Capitalization matters. For
+    /// HTTP headers, you should use the [find_by_name_icase] function.
+    ///
+    /// ```
+    /// use cartero_objects::{Field, FieldTable};
+    ///
+    /// let field1 = Field::from(("Client-Id", "12341234"));
+    /// let field2 = Field::from(("Api-Key", "101010"));
+    /// let field3 = Field::from(("sort", "price"));
+    /// let field4 = Field::from(("sort", "creation_date"));
+    /// field2.set_active(false);
+    ///
+    /// let table = FieldTable::from_iter(vec![field1, field2, field3, field4]);
+    ///
+    /// // The value is returned.
+    /// let client_id = table.find_by_name("Client-Id");
+    /// assert_eq!(client_id.unwrap(), vec!["12341234"]);
+    ///
+    /// // The vector may have multiple elements.
+    /// let sort = table.find_by_name("sort");
+    /// assert_eq!(sort.unwrap(), vec!["price", "creation_date"]);
+    ///
+    /// // If the field is disabled, it is not included.
+    /// let api_key = table.find_by_name("Api-Key");
+    /// assert!(api_key.is_none());
+    ///
+    /// // The capitalization must match.
+    /// let invalid_case = table.find_by_name("client-id");
+    /// assert!(invalid_case.is_none());
+    /// ```
+    pub fn find_by_name(&self, name: &str) -> Option<Vec<String>> {
+        self.find_by_name_(name, false)
+    }
+
+    /// Finds active values by their name, but ignoring case. Usually HTTP
+    /// headers ignore capitalization and in HTTP/2.0 and above, they are
+    /// always lowercase, but if you are working with HTTP headers, this is
+    /// the method you are usually looking for.
+    ///
+    /// As is the case with [find_by_name], fields that are not active are not
+    /// taken into account.
+    ///
+    /// ```
+    /// use cartero_objects::{Field, FieldTable};
+    ///
+    /// let field1 = Field::from(("Client-Id", "12341234"));
+    /// let field2 = Field::from(("Api-Key", "101010"));
+    /// let field3 = Field::from(("sort", "price"));
+    /// let field4 = Field::from(("sort", "creation_date"));
+    /// field2.set_active(false);
+    ///
+    /// let table = FieldTable::from_iter(vec![field1, field2, field3, field4]);
+    ///
+    /// // The value is returned.
+    /// let client_id = table.find_by_name_icase("Client-Id");
+    /// assert_eq!(client_id.unwrap(), vec!["12341234"]);
+    ///
+    /// // The vector may have multiple elements.
+    /// let sort = table.find_by_name_icase("sort");
+    /// assert_eq!(sort.unwrap(), vec!["price", "creation_date"]);
+    ///
+    /// // If the field is disabled, it is not included.
+    /// let api_key = table.find_by_name_icase("Api-Key");
+    /// assert!(api_key.is_none());
+    ///
+    /// // This one won't care about capitalization
+    /// let invalid_case = table.find_by_name_icase("client-id");
+    /// assert!(invalid_case.is_some());
+    /// ```
+    pub fn find_by_name_icase(&self, name: &str) -> Option<Vec<String>> {
+        self.find_by_name_(name, true)
+    }
+
     pub fn render(&self, template: &SrTemplate) -> Result<Self, srtemplate::Error> {
         self.iter::<Field>()
             .filter_map(|r| r.ok())
@@ -244,6 +350,7 @@ impl FieldTable {
             .filter(|f| f.active());
         let source_iter = entries.iter();
         let mut new_items = Vec::new();
+        let mut items_to_delete = Vec::new();
 
         for group in active_field_iter.zip_longest(source_iter) {
             match group {
@@ -254,7 +361,7 @@ impl FieldTable {
                 }
                 EitherOrBoth::Left(field) => {
                     // This field doesn't match to anything, so it will be disabled.
-                    field.set_active(false);
+                    items_to_delete.push(field.clone());
                 }
                 EitherOrBoth::Right((key, value)) => {
                     let field = Field::builder()
@@ -263,6 +370,14 @@ impl FieldTable {
                         .build();
                     new_items.push(field);
                 }
+            }
+        }
+        for old_item in items_to_delete {
+            let item_pos = self
+                .iter::<Field>()
+                .position(|f| f.is_ok_and(|f| f.eq(&old_item)));
+            if let Some(pos) = item_pos {
+                self.remove(pos as u32);
             }
         }
         for new_item in new_items {
@@ -412,7 +527,7 @@ mod tests {
             table.insert(&field);
             assert_eq!(table.n_items(), 1);
             let (pos, removed, added) = inserts.lock().unwrap().last().unwrap().to_owned();
-            assert_eq!(pos, 1);
+            assert_eq!(pos, 0);
             assert_eq!(removed, 0);
             assert_eq!(added, 1);
         }
@@ -421,7 +536,7 @@ mod tests {
             table.insert(&field2);
             assert_eq!(table.n_items(), 2);
             let (pos, removed, added) = inserts.lock().unwrap().last().unwrap().to_owned();
-            assert_eq!(pos, 2);
+            assert_eq!(pos, 1);
             assert_eq!(removed, 0);
             assert_eq!(added, 1);
         }
@@ -750,8 +865,8 @@ mod tests {
         ]);
         let update = [("cat_id", "15")];
         table.reconcile(&update);
+        assert_eq!(table.n_items(), 1);
         assert_field(&table.field(0).unwrap(), "cat_id", "15", true, false);
-        assert_field(&table.field(1).unwrap(), "limit", "20", false, false);
     }
 
     #[test]

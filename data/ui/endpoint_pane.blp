@@ -61,7 +61,7 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
       }
 
       Entry url {
-        editable: bind template.read-only inverted;
+        sensitive: bind template.read-only inverted;
         hexpand: true;
         placeholder-text: _("Request URL");
         changed => $on_url_changed() swapped;
@@ -119,15 +119,18 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
             hexpand: true;
             vexpand: true;
 
-            Adw.Clamp {
-              styles [
-                "background",
-              ]
+            Gtk.Frame {
+              vexpand: false;
+              valign: start;
+              margin-top: 12;
+              margin-bottom: 12;
+              margin-start: 12;
+              margin-end: 12;
 
-              maximum-size: 720;
-
-              $CarteroKeyValuePane parameter_pane {
+              $CarteroFieldTableListView parameter_pane {
+                show-placeholder: true;
                 read-only: bind template.read-only;
+                changed => $on_parameters_change() swapped;
               }
             }
           };
@@ -142,16 +145,17 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
             hexpand: true;
             vexpand: true;
 
-            Adw.Clamp {
-              styles [
-                "background",
-              ]
+            Gtk.Frame {
+              vexpand: false;
+              valign: start;
+              margin-top: 12;
+              margin-bottom: 12;
+              margin-start: 12;
+              margin-end: 12;
 
-              maximum-size: 720;
-
-              $CarteroKeyValuePane header_pane {
-                avoid-duplicates: true;
+              $CarteroFieldTableListView header_pane {
                 read-only: bind template.read-only;
+                show-placeholder: true;
               }
             }
           };
@@ -166,16 +170,17 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
             hexpand: true;
             vexpand: true;
 
-            Adw.Clamp {
-              styles [
-                "background",
-              ]
+            Gtk.Frame {
+              vexpand: false;
+              valign: start;
+              margin-top: 12;
+              margin-bottom: 12;
+              margin-start: 12;
+              margin-end: 12;
 
-              maximum-size: 720;
-
-              $CarteroKeyValuePane variable_pane {
-                avoid-duplicates: true;
+              $CarteroFieldTableListView variable_pane {
                 read-only: bind template.read-only;
+                show-placeholder: true;
               }
             }
           };
@@ -190,16 +195,8 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
             hexpand: true;
             vexpand: true;
 
-            Adw.Clamp {
-              styles [
-                "background",
-              ]
-
-              maximum-size: 720;
-
-              $CarteroAuthorizationPane authorization_pane {
-                read-only: bind template.read-only;
-              }
+            $CarteroAuthenticationPane authentication {
+              read-only: bind template.read-only;
             }
           };
         }
@@ -209,8 +206,13 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
             label: _("Body");
           };
 
-          child: $CarteroPayloadTab payload_pane {
-            read-only: bind template.read-only;
+          child: ScrolledWindow {
+            hexpand: true;
+            vexpand: true;
+
+            $CarteroRequestBodyPane body {
+              read-only: bind template.read-only;
+            }
           };
         }
       };

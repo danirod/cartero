@@ -15,27 +15,24 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use cartero_objects::{Request, RequestBodyRawType};
 use serde_json::{Error, Value};
 
-use crate::client::BoundRequest;
-use crate::entities::{EndpointData, RawEncoding, RequestPayload};
-use crate::error::RequestPreconditionError;
-
 pub struct CodeExportService {
-    endpoint_data: EndpointData,
+    request: Request,
 }
 
 impl CodeExportService {
-    pub fn new(endpoint_data: EndpointData) -> Self {
-        Self { endpoint_data }
+    pub fn new(request: Request) -> Self {
+        Self { request }
     }
 
-    pub fn generate(&self) -> Result<String, RequestPreconditionError> {
-        let bound_request = BoundRequest::try_from(self.endpoint_data.clone())?;
+    pub fn generate(&self) -> Result<String, cartero_http::RequestError> {
+        let bound_request = cartero_http::BoundRequest::try_from(self.request.clone())?;
         let mut command = "curl".to_string();
 
         command.push_str(&{
-            let method_str: String = bound_request.method.into();
+            let method_str: String = bound_request.method.to_string();
             format!(" -X {} '{}'", method_str, bound_request.url)
         });
 
@@ -61,18 +58,20 @@ impl CodeExportService {
             }
         }
 
-        if let RequestPayload::Urlencoded(_) = &self.endpoint_data.body {
-            if let Some(bd) = bound_request.body {
+        if let Some(_) = self.request.body().urlencoded() {
+            if let Some(bd) = bound_request.body.clone() {
                 let str = String::from_utf8_lossy(&bd).to_string();
                 command.push_str(&format!(" \\\n  -d '{str}'"));
             }
         }
 
-        if let RequestPayload::Raw { encoding, content } = &self.endpoint_data.body {
+        if let Some(raw) = self.request.body().raw() {
+            let content = bound_request.body.clone().unwrap_or_default();
+            let encoding = raw.payload_type();
             match encoding {
-                RawEncoding::Json => {
+                RequestBodyRawType::Json => {
                     command.push_str(&'fmt: {
-                        let body = String::from_utf8_lossy(content).to_string();
+                        let body = String::from_utf8_lossy(&content).to_string();
                         let value: Result<Value, Error> = serde_json::from_str(body.as_ref());
 
                         if value.is_err() {
@@ -92,13 +91,12 @@ impl CodeExportService {
                         format!(" \\\n  -d '{}'", trimmed_json_str)
                     });
                 }
-                RawEncoding::Xml => {
+                _ => {
                     command.push_str(&{
-                        let xml_str = String::from_utf8_lossy(content).to_string();
-                        format!(" \\\n  -d '{}'", xml_str)
+                        let string = String::from_utf8_lossy(&content).to_string();
+                        format!(" \\\n  -d '{}'", string)
                     });
                 }
-                _ => command.push_str(&String::new()),
             }
         }
 

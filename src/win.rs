@@ -15,7 +15,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use crate::{app::CarteroApplication, file::FileLoadFailure, widgets::EndpointPane};
+use crate::{app::CarteroApplication, interop::LoadResult, widgets::endpoint::EndpointPane};
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
 use gtk::{gio, glib};
@@ -35,8 +35,8 @@ mod imp {
     use indexmap::IndexMap;
 
     use crate::app::CarteroApplication;
-    use crate::error::FileSaveError;
-    use crate::file::{FileLoadFailure, FileLoadResult};
+    use crate::interop::{LoadResult, ObjectPane, SaveResult};
+    use crate::widgets::endpoint::EndpointPane;
     use crate::{config, widgets::*};
     use glib::subclass::InitializingObject;
     use gtk::{CompositeTemplate, TemplateChild};
@@ -323,10 +323,7 @@ mod imp {
         /// Given a list of endpoint files to open, this function will return the collection of
         /// EndpointPanes that were opened last time the program was run. They will be loaded and
         /// the UI state will be populated, but they won't be added to the user interface yet.
-        async fn preload_endpoints<I>(
-            &self,
-            files: I,
-        ) -> IndexMap<EndpointPane, Option<FileLoadFailure>>
+        async fn preload_endpoints<I>(&self, files: I) -> IndexMap<EndpointPane, LoadResult>
         where
             I: IntoIterator<Item = gio::File> + Clone,
         {
@@ -335,19 +332,16 @@ mod imp {
                 let pane = EndpointPane::new();
                 pane.set_file(Some(file.clone()));
                 let result = pane.load().await;
-                loaded.insert(pane, result.failure());
+                loaded.insert(pane, result);
             }
             loaded
         }
 
-        async fn display_opened_panes(
-            &self,
-            panes: &IndexMap<EndpointPane, Option<FileLoadFailure>>,
-        ) {
+        async fn display_opened_panes(&self, panes: &IndexMap<EndpointPane, LoadResult>) {
             for (pane, failures) in panes {
                 let can_open = match failures {
-                    None => true,
-                    Some(f) => f.error.is_none(),
+                    LoadResult::Successful | LoadResult::Anonymous | LoadResult::Warning(_) => true,
+                    LoadResult::Error(_) => false,
                 };
                 if can_open {
                     self.insert_pane_into_tabs(&pane);
@@ -391,7 +385,7 @@ mod imp {
         pub(super) async fn open_endpoints(
             &self,
             files: &[gio::File],
-        ) -> IndexMap<EndpointPane, Option<FileLoadFailure>> {
+        ) -> IndexMap<EndpointPane, LoadResult> {
             let not_opened_paths = self.filter_endpoints_to_open(files);
             if not_opened_paths.is_empty() {
                 /* Every requested file is opened. Just switch to one of the requested panes. */
@@ -415,14 +409,13 @@ mod imp {
         /// until the window is actually visible.
         pub(super) async fn report_open_endpoints_errors(
             &self,
-            opened: &IndexMap<EndpointPane, Option<FileLoadFailure>>,
+            opened: &IndexMap<EndpointPane, LoadResult>,
         ) {
             let obj = self.obj();
             for (pane, failures) in opened {
-                if let Some(failures) = failures {
-                    if let Some(error) = &failures.error {
-                        dialogs::file_load_error_dialog(&*obj, pane.file().as_ref(), &error).await;
-                    } else if !failures.warnings.is_empty() {
+                match failures {
+                    LoadResult::Successful | LoadResult::Anonymous => {}
+                    LoadResult::Warning(warnings) => {
                         if let Some(file) = pane.file() {
                             if let Some(page) = self.find_pane_by_path(&file) {
                                 self.tabview.set_selected_page(&page);
@@ -431,11 +424,14 @@ mod imp {
                         dialogs::file_load_warning_dialog(
                             &*obj,
                             pane.file().as_ref(),
-                            &failures.warnings,
+                            warnings.as_slice(),
                         )
                         .await;
                     }
-                }
+                    LoadResult::Error(inner) => {
+                        dialogs::file_load_error_dialog(&*obj, pane.file().as_ref(), inner).await;
+                    }
+                };
             }
         }
 
@@ -486,7 +482,7 @@ mod imp {
             }
         }
 
-        async fn save_pane(&self, pane: &EndpointPane) -> Option<Result<(), FileSaveError>> {
+        async fn save_pane(&self, pane: &EndpointPane) -> glib::Propagation {
             /* If the pane is anonymous, give it a chance to have a file. */
             let target_file = match pane.file() {
                 Some(file) => Some(file),
@@ -498,13 +494,17 @@ mod imp {
                 let previous = pane.file();
                 pane.set_file(target_file.clone());
                 let result = pane.save().await;
-                if let Err(e) = &result {
-                    dialogs::file_save_error(&*self.obj(), target_file.as_ref(), e.clone()).await;
-                    pane.set_file(previous);
+                match result {
+                    SaveResult::Anonymous => glib::Propagation::Stop,
+                    SaveResult::Successful => glib::Propagation::Proceed,
+                    SaveResult::Error(e) => {
+                        dialogs::file_save_error(&*self.obj(), target_file.as_ref(), &e).await;
+                        pane.set_file(previous);
+                        glib::Propagation::Stop
+                    }
                 }
-                Some(result)
             } else {
-                None
+                glib::Propagation::Stop
             }
         }
 
@@ -523,7 +523,7 @@ mod imp {
                     let previous = pane.file();
                     pane.set_file(Some(path));
                     let saved = self.save_pane(&pane).await;
-                    if saved.is_none() || saved.is_some_and(|r| r.is_err()) {
+                    if saved == glib::Propagation::Stop {
                         pane.set_file(previous);
                     }
                     self.save_visible_tabs();
@@ -547,8 +547,8 @@ mod imp {
                     dialogs::SaveAlertDialogResponse::Save => {
                         /* Try to save, close if successful */
                         match self.save_pane(&endpoint_pane).await {
-                            Some(Ok(())) => true,
-                            _ => false,
+                            glib::Propagation::Stop => false,
+                            glib::Propagation::Proceed => true,
                         }
                     }
                     dialogs::SaveAlertDialogResponse::Discard => true, /* Discards the modifications */
@@ -690,8 +690,6 @@ mod imp {
         type ParentType = gtk::ApplicationWindow;
 
         fn class_init(klass: &mut Self::Class) {
-            KeyValueRow::static_type();
-            KeyValuePane::static_type();
             EndpointPane::static_type();
             klass.bind_template();
             klass.bind_template_callbacks();
@@ -984,18 +982,12 @@ impl CarteroWindow {
         Object::builder().property("application", Some(app)).build()
     }
 
-    pub async fn open_endpoints(
-        &self,
-        files: &[gio::File],
-    ) -> IndexMap<EndpointPane, Option<FileLoadFailure>> {
+    pub async fn open_endpoints(&self, files: &[gio::File]) -> IndexMap<EndpointPane, LoadResult> {
         let imp = self.imp();
         imp.open_endpoints(files).await
     }
 
-    pub async fn report_open_endpoints_errors(
-        &self,
-        opened: &IndexMap<EndpointPane, Option<FileLoadFailure>>,
-    ) {
+    pub async fn report_open_endpoints_errors(&self, opened: &IndexMap<EndpointPane, LoadResult>) {
         let imp = self.imp();
         imp.report_open_endpoints_errors(opened).await
     }

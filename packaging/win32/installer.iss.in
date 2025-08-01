@@ -34,7 +34,7 @@ ArchitecturesInstallIn64BitMode=x64compatible
 ChangesAssociations=yes
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
-LicenseFile={#MesonSourceRoot}\packaging\GPL-3.0.rtf
+LicenseFile={#MesonSourceRoot}\packaging\COPYING.rtf
 ; Remove the following line to run in administrative install mode (install for all users.)
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog

@@ -4,19 +4,141 @@ SPDX-PackageSupplier = "the Cartero authors"
 SPDX-PackageDownloadLocation = "https://github.com/danirod/cartero"
 
 [[annotations]]
-# Pre-generated files don't let me place the SPDX identifier on them.
-path = ["po/**.po", "po/**.pot"]
+# Reuses from https://gitlab.gnome.org/World/Rust/gtk-rust-template
+# Declared here for easy pulling from upstream
+path = [
+        "build-aux/dist-vendor.sh",
+        "hooks/pre-commit.hook",
+]
+SPDX-FileCopyrightText = "Copyright © 2019, Bilal Elmoussaoui"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+# Reuses files vendored by InnoSetup
+path = "packaging/win32/*.isl"
+SPDX-FileCopyrightText = "UNKNOWN"
+SPDX-License-Identifier = "LicenseRef-InnoSetup"
+
+[[annotations]]
+# Reuses and modifies some files from the Adwaita Icon Theme
+path = ["packaging/macos/DmgIcon.icns", "packaging/macos/DmgIcon.png", "packaging/macos/DmgIcon.svg"]
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+SPDX-FileCopyrightText = "GNOME Design Team"
+SPDX-FileComment = "Derived from https://gitlab.gnome.org/GNOME/adwaita-icon-theme/-/blob/master/Adwaita/scalable/devices/drive-removable-media.svg"
+
+[[annotations]]
+# Reuses (but not modifies) some icons from the Adwaita Icon Theme
+path = [
+    "website/assets/adwaita-icons/application-x-executable.svg",
+    "website/assets/adwaita-icons/application-x-sharedlib.svg",
+    "website/assets/adwaita-icons/package-x-generic.svg",
+]
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+SPDX-FileCopyrightText = "GNOME Design Team"
+SPDX-FileComment = "Taken from the Adwaita Icon Theme: https://gitlab.gnome.org/GNOME/adwaita-icon-theme"
+
+[[annotations]]
+path = "website/assets/vendor-icons/apple.svg"
+SPDX-License-Identifier = "CC0-1.0"
+SPDX-FileCopyrightText = "NONE"
+SPDX-FileComment = "Taken from https://commons.wikimedia.org/wiki/File:Apple_logo_black.svg"
+
+[[annotations]]
+path = "website/assets/vendor-icons/flathub.svg"
+SPDX-License-Identifier = "CC0-1.0"
+SPDX-FileCopyrightText = "NONE"
+SPDX-FileComment = "Derived from https://commons.wikimedia.org/wiki/File:Flathub-badge-en-2023.svg"
+
+[[annotations]]
+path = "website/assets/vendor-icons/git.svg"
+SPDX-License-Identifier = "CC-BY-3.0"
+SPDX-FileCopyrightText = "Git Logo by Jason Long"
+SPDX-FileComment = "Taken from https://commons.wikimedia.org/wiki/File:Git-logo-black.svg"
+
+[[annotations]]
+path = "website/assets/vendor-icons/nix.svg"
+SPDX-License-Identifier = "CC-BY-4.0"
+SPDX-FileCopyrightText = "Official logo of Nix and NixOS by Tim Cuthbertson"
+SPDX-FileComment = "Taken from https://commons.wikimedia.org/wiki/File:Nix_Snowflake_Logo.svg"
+
+[[annotations]]
+path = "website/assets/vendor-icons/snapcraft.svg"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+SPDX-FileCopyrightText = "Copyright Canonical"
+SPDX-FileComment = "Taken from https://commons.wikimedia.org/wiki/File:Snapcraft-logo-bird.svg"
+
+[[annotations]]
+path = "website/assets/vendor-icons/windows.svg"
+SPDX-License-Identifier = "CC0-1.0"
+SPDX-FileCopyrightText = "NONE"
+SPDX-FileComment = "Taken from https://commons.wikimedia.org/wiki/File:Windows_logo_-_2021.svg"
+
+[[annotations]]
+# Icons exported by Icon Library
+path = [
+    "data/icons/scalable/actions/horizontal-arrows-symbolic.svg",
+    "data/icons/scalable/actions/share-symbolic.svg",
+    "data/icons/scalable/actions/tab-new-symbolic.svg",
+    "data/icons/scalable/emblems/eye-not-looking-symbolic.svg",
+    "website/assets/adwaita-icons/branch-symbolic.svg",
+    "website/assets/adwaita-icons/bug-symbolic.svg",
+    "website/assets/adwaita-icons/bug-symbolic.svg",
+    "website/assets/adwaita-icons/build-alt-symbolic.svg",
+    "website/assets/adwaita-icons/cafe-symbolic.svg",
+    "website/assets/adwaita-icons/icecream-cone-symbolic.svg",
+    "website/assets/adwaita-icons/people-symbolic.svg",
+    "website/assets/adwaita-icons/pub-symbolic.svg",
+    "website/assets/adwaita-icons/shield-safe-symbolic.svg",
+    "website/assets/adwaita-icons/speedometer-symbolic.svg",
+    "website/assets/adwaita-icons/translate-symbolic.svg",
+]
+SPDX-FileCopyrightText = "No copyright"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = [
+    ".editorconfig",
+    ".github/FUNDING.yml",
+    ".gitignore",
+    "Cartero.doap",
+    "book.toml",
+    "build-aux/es.danirod.Cartero.Devel.json",
+    "deny.toml",
+    "packaging/macos/Info.plist.in",
+    "packaging/win32/installer.iss.in",
+    "po/LINGUAS",
+    "po/POTFILES.in",
+    "snapcraft.yaml",
+    "subprojects/blueprint-compiler.wrap",
+]
+SPDX-FileCopyrightText = "No copyright"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = [
+    "**/Cargo.lock",
+    "data/cartero.desktop.in.in",
+    "data/cartero.gresource.xml",
+    "data/es.danirod.Cartero.gschema.xml",
+    "data/es.danirod.Cartero.mimetype.xml.in",
+    "default.nix",
+    "flake.lock",
+    "flake.nix",
+    "po/**.po",
+    "po/**.pot",
+]
 SPDX-FileCopyrightText = "the Cartero authors"
 SPDX-License-Identifier = "GPL-3.0-or-later"
 
 [[annotations]]
-path = ["**/Cargo.lock"]
-SPDX-FileCopyrightText = "the Cartero authors"
-SPDX-License-Identifier = "GPL-3.0-or-later"
-
-[[annotations]]
-# User manual
-path = ["doc/**/*.md", "doc/**/*.png"]
+path = [
+    "**/README.md",
+    "NEWS.md",
+    "doc/**/*.md",
+    "doc/**/*.png",
+    "packaging/macos/DmgBackground.png",
+    "packaging/macos/DmgBackground.svg",
+]
 SPDX-FileCopyrightText = "the Cartero authors"
 SPDX-License-Identifier = "CC-BY-SA-4.0"
 
@@ -39,6 +161,11 @@ path = [
         "data/icons/scalable/mimetypes/es.danirod.Cartero.Devel-request.svg",
         "data/icons/symbolic/apps/es.danirod.Cartero-symbolic.svg",
         "data/icons/symbolic/apps/es.danirod.Cartero.Devel-symbolic.svg",
+        "packaging/macos/Cartero-request.icns",
+        "packaging/macos/Cartero.icns",
+        "packaging/win32/cartero-request.ico",
+        "packaging/win32/cartero.ico",
+        "website/assets/cartero.svg",
 ]
 SPDX-FileCopyrightText = "Dani Rodríguez <dani@danirod.es>"
 SPDX-License-Identifier = "CC-BY-SA-4.0"

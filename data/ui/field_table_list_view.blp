@@ -18,6 +18,7 @@ using Gtk 4.0;
 
 template $CarteroFieldTableListView: Gtk.Box {
   orientation: vertical;
+  sensitive: bind template.read-only bidirectional inverted;
 
   Gtk.ListBox list_box {
     show-separators: true;

@@ -61,7 +61,7 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
       }
 
       Entry url {
-        editable: bind template.read-only inverted;
+        sensitive: bind template.read-only inverted;
         hexpand: true;
         placeholder-text: _("Request URL");
         changed => $on_url_changed() swapped;
@@ -129,6 +129,7 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
 
               $CarteroFieldTableListView parameter_pane {
                 show-placeholder: true;
+                read-only: bind template.read-only;
                 changed => $on_parameters_change() swapped;
               }
             }
@@ -153,6 +154,7 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
               margin-end: 12;
 
               $CarteroFieldTableListView header_pane {
+                read-only: bind template.read-only;
                 show-placeholder: true;
               }
             }
@@ -177,6 +179,7 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
               margin-end: 12;
 
               $CarteroFieldTableListView variable_pane {
+                read-only: bind template.read-only;
                 show-placeholder: true;
               }
             }

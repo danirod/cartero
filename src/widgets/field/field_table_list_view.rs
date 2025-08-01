@@ -39,6 +39,8 @@ mod imp {
         table: RefCell<FieldTable>,
         #[property(get, set)]
         show_placeholder: RefCell<bool>,
+        #[property(get, set)]
+        read_only: RefCell<bool>,
 
         #[template_child]
         list_box: TemplateChild<gtk::ListBox>,

@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-01 23:25+0200\n"
-"PO-Revision-Date: 2025-03-21 01:53+0000\n"
+"PO-Revision-Date: 2025-08-01 22:56+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/cartero/cartero/"
 "es/>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.11-dev\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -81,6 +81,8 @@ msgstr "Gnome;GTK;HTTP;REST;"
 msgid ""
 "A specific locale to use within the application instead of the system default"
 msgstr ""
+"Un idioma específico para usar en la aplicación en lugar del predeterminado "
+"del sistema"
 
 #: data/es.danirod.Cartero.gschema.xml:16
 msgid "Automatically indent new lines for the request body"
@@ -284,23 +286,20 @@ msgid "Body"
 msgstr "Cuerpo"
 
 #: data/ui/export_dialog.blp:54
-#, fuzzy
 msgid "Generated output"
-msgstr "Atajos generales"
+msgstr "Salida generada"
 
 #: data/ui/export_dialog.blp:64
-#, fuzzy
 msgid "Copy to clipboard"
-msgstr "Contenido copiado al portapapeles"
+msgstr "Copiar al portapapeles"
 
 #: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:182
-#, fuzzy
 msgid "Export to file"
-msgstr "Exportar como"
+msgstr "Exportar a un archivo"
 
 #: data/ui/field_list_box_row.blp:23 data/ui/field_placeholder_row.blp:27
 msgid "Enabled"
-msgstr ""
+msgstr "Habilitado"
 
 #: data/ui/field_list_box_row.blp:37 data/ui/field_list_box_row.blp:38
 #: data/ui/field_placeholder_row.blp:41 data/ui/field_placeholder_row.blp:42
@@ -327,7 +326,7 @@ msgstr "Borrar"
 #: data/ui/mac_menu.blp:21
 msgctxt "menubar"
 msgid "File"
-msgstr ""
+msgstr "Archivo"
 
 #: data/ui/mac_menu.blp:25 data/ui/main_window.blp:136
 #: data/ui/main_window.blp:177 data/ui/main_window_no_csd.blp:137
@@ -359,25 +358,24 @@ msgstr "Cerrar pestaña"
 #: data/ui/mac_menu.blp:54
 msgctxt "menubar"
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: data/ui/mac_menu.blp:58
 msgctxt "menubar"
 msgid "Undo"
-msgstr ""
+msgstr "Deshacer"
 
 #: data/ui/mac_menu.blp:63
 msgctxt "menubar"
 msgid "Redo"
-msgstr ""
+msgstr "Rehacer"
 
 #: data/ui/mac_menu.blp:70
 msgctxt "menubar"
 msgid "Cut"
-msgstr ""
+msgstr "Cortar"
 
 #: data/ui/mac_menu.blp:75
-#, fuzzy
 msgctxt "menubar"
 msgid "Copy"
 msgstr "Copiar"
@@ -385,10 +383,9 @@ msgstr "Copiar"
 #: data/ui/mac_menu.blp:80
 msgctxt "menubar"
 msgid "Paste"
-msgstr ""
+msgstr "Pegar"
 
 #: data/ui/mac_menu.blp:85
-#, fuzzy
 msgctxt "menubar"
 msgid "Delete"
 msgstr "Borrar"
@@ -396,17 +393,17 @@ msgstr "Borrar"
 #: data/ui/mac_menu.blp:92
 msgctxt "menubar"
 msgid "Select All"
-msgstr ""
+msgstr "Seleccionar todo"
 
 #: data/ui/mac_menu.blp:99
 msgctxt "menubar"
 msgid "Endpoint"
-msgstr ""
+msgstr "Petición"
 
 #: data/ui/mac_menu.blp:103
 msgctxt "menubar"
 msgid "Edit URL"
-msgstr ""
+msgstr "Editar URL"
 
 #: data/ui/mac_menu.blp:120 data/ui/main_window.blp:209
 #: data/ui/main_window_no_csd.blp:211
@@ -461,23 +458,23 @@ msgstr "8"
 #: data/ui/mac_menu.blp:179
 msgctxt "menubar"
 msgid "Window"
-msgstr ""
+msgstr "Ventana"
 
 #: data/ui/mac_menu.blp:183
 msgctxt "menubar"
 msgid "Minimize"
-msgstr ""
+msgstr "Minimizar"
 
 #. TRANSLATORS: This item will only be visible in macOS, where the convention is to call it "zoom" instead of "maximize"
 #: data/ui/mac_menu.blp:189
 msgctxt "menubar"
 msgid "Zoom"
-msgstr ""
+msgstr "Zoom"
 
 #: data/ui/mac_menu.blp:196
 msgctxt "menubar"
 msgid "Help"
-msgstr ""
+msgstr "Ayuda"
 
 #: data/ui/mac_menu.blp:200 src/win.rs:637
 msgid "User manual"
@@ -486,12 +483,12 @@ msgstr "Manual de usuario"
 #: data/ui/mac_menu.blp:205
 msgctxt "menubar"
 msgid "Report a bug"
-msgstr ""
+msgstr "Reportar un error"
 
 #: data/ui/mac_menu.blp:210
 msgctxt "menubar"
 msgid "View discussions"
-msgstr ""
+msgstr "Ver discusiones"
 
 #: data/ui/mac_menu.blp:217 src/win.rs:639
 msgid "Help us translate"
@@ -522,7 +519,7 @@ msgstr "Exportar petición"
 
 #: data/ui/main_window.blp:98
 msgid "Menu"
-msgstr ""
+msgstr "Menu"
 
 #: data/ui/main_window.blp:116 data/ui/main_window_no_csd.blp:117
 msgid "Welcome to Cartero"
@@ -533,9 +530,8 @@ msgid "Create or open a request and start testing APIs now."
 msgstr "Crea o abre una petición y empieza a probar APIs ahora."
 
 #: data/ui/main_window.blp:168 data/ui/main_window_no_csd.blp:170
-#, fuzzy
 msgid "Export request as cURL…"
-msgstr "Exportar petición"
+msgstr "Exportar petición como cURL…"
 
 #: data/ui/main_window.blp:204 data/ui/main_window_no_csd.blp:206
 #: data/ui/settings_dialog.blp:21
@@ -575,9 +571,8 @@ msgid "Raw"
 msgstr "En bruto"
 
 #: data/ui/response_headers.blp:42
-#, fuzzy
 msgid "No headers"
-msgstr "Cabeceras"
+msgstr "Sin cabeceras"
 
 #: data/ui/response_panel.blp:30
 msgid "Ready to request"
@@ -610,11 +605,11 @@ msgstr "Aplicación"
 
 #: data/ui/settings_dialog.blp:30
 msgid "You need to restart the program for the new locale to be used."
-msgstr ""
+msgstr "Necesitas reiniciar el programa para que se use el nuevo idioma."
 
 #: data/ui/settings_dialog.blp:39
 msgid "Language"
-msgstr ""
+msgstr "Idioma"
 
 #: data/ui/settings_dialog.blp:45
 msgid "Appearance"
@@ -857,9 +852,8 @@ msgid "_Save"
 msgstr "_Guardar"
 
 #: src/widgets/endpoint/endpoint_pane.rs:582
-#, fuzzy
 msgid "Export request as cURL"
-msgstr "Exportar petición"
+msgstr "Exportar petición como cURL"
 
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
 #: src/widgets/endpoint/response_panel.rs:282

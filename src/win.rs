@@ -25,7 +25,6 @@ mod imp {
     use std::collections::HashSet;
 
     use adw::prelude::WidgetExt;
-    use cartero_interop::FileSaveError;
     use std::cell::OnceCell;
 
     use adw::AboutDialog;
@@ -36,7 +35,7 @@ mod imp {
     use indexmap::IndexMap;
 
     use crate::app::CarteroApplication;
-    use crate::interop::{InnerError, LoadResult, ObjectPane, SaveResult};
+    use crate::interop::{LoadResult, ObjectPane, SaveResult};
     use crate::widgets::endpoint::EndpointPane;
     use crate::{config, widgets::*};
     use glib::subclass::InitializingObject;

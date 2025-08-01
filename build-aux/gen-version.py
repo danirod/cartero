@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: the Cartero authors
 #
 # Generates the version number for meson.build based on what the Cargo.toml
 # says. If the --nightly otpion is given or the CARTERO_NIGHTLY_VERSION env

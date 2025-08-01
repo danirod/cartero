@@ -73,3 +73,10 @@ jobs:
         with:
           command: check licenses
           arguments: --workspace
+  reuse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Check REUSE compliance
+        uses: fsfe/reuse-action@v5

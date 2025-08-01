@@ -1,4 +1,6 @@
 #!/bin/sh
+# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: "the Cartero authors
 #
 # This script can be used to automatically pack the resources
 # and locales and place them in the default cargo-build
@@ -34,4 +36,3 @@ cp /usr/share/icons/hicolor/index.theme target/share/icons/hicolor
 gtk4-update-icon-cache target/share/icons/hicolor
 
 cargo build
-

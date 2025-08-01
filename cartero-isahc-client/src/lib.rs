@@ -30,11 +30,16 @@ use isahc::{
 
 fn default_user_agent() -> String {
     let cartero_version = env!("CARGO_PKG_VERSION");
+    let isahc_version = isahc::version().split_once(" ").map(|v| v.0);
     let curl_version = {
         let version = curl::Version::get();
         version.version().to_string()
     };
-    format!("Cartero/{cartero_version} (curl/{curl_version})")
+    let side_version = match isahc_version {
+        Some(isahc) => format!("{isahc} curl/{curl_version}"),
+        None => format!("curl/{curl_version}"),
+    };
+    format!("Cartero/{cartero_version} ({side_version})")
 }
 
 pub async fn request(

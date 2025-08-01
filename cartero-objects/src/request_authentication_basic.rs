@@ -89,7 +89,18 @@ mod imp {
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for RequestAuthenticationBasic {}
+    impl ObjectImpl for RequestAuthenticationBasic {
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            self.obj().connect_username_notify(|auth| {
+                auth.emit_by_name::<()>("changed", &[&"username"]);
+            });
+            self.obj().connect_password_notify(|auth| {
+                auth.emit_by_name::<()>("changed", &[&"password"]);
+            });
+        }
+    }
 
     impl RequestAuthenticationDataImpl for RequestAuthenticationBasic {
         fn auth_type(&self) -> crate::RequestAuthenticationType {
@@ -139,7 +150,9 @@ mod builder {
 
 #[cfg(test)]
 mod tests {
-    use crate::{RequestAuthenticationDataExt, RequestAuthenticationType};
+    use crate::{
+        utils::test::assert_emits_signal, RequestAuthenticationDataExt, RequestAuthenticationType,
+    };
 
     use super::*;
 
@@ -180,5 +193,12 @@ mod tests {
         assert_eq!(basic.username(), "admin");
         assert_eq!(basic.password(), "1234");
         assert_eq!(basic.auth_type(), RequestAuthenticationType::BasicAuth);
+    }
+
+    #[test]
+    pub fn test_emits_signals() {
+        let basic = RequestAuthenticationBasic::default();
+        assert_emits_signal(&basic, "changed", || basic.set_username("foo"));
+        assert_emits_signal(&basic, "changed", || basic.set_password("bar"));
     }
 }

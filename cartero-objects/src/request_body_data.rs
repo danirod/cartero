@@ -65,6 +65,10 @@ mod ffi {
 }
 
 mod imp {
+    use std::sync::OnceLock;
+
+    use glib::{subclass::Signal, types::StaticType};
+
     use crate::RequestBodyType;
 
     use super::*;
@@ -84,7 +88,16 @@ mod imp {
         }
     }
 
-    impl ObjectImpl for RequestBodyData {}
+    impl ObjectImpl for RequestBodyData {
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| {
+                vec![Signal::builder("changed")
+                    .param_types([String::static_type()])
+                    .build()]
+            })
+        }
+    }
 
     impl RequestBodyData {
         fn body_type_default(&self) -> RequestBodyType {

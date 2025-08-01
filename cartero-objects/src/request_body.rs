@@ -314,9 +314,12 @@ mod builder {
 }
 
 mod imp {
-    use std::cell::RefCell;
+    use std::{
+        cell::{OnceCell, RefCell},
+        sync::OnceLock,
+    };
 
-    use glib::Properties;
+    use glib::{subclass::Signal, Properties, SignalGroup};
 
     use crate::{RequestBodyData, RequestBodyDataExt};
 
@@ -330,6 +333,7 @@ mod imp {
 
         #[property(get, set = Self::set_body_data, explicit_notify, name = "body-data", nullable)]
         body_data: RefCell<Option<RequestBodyData>>,
+        body_data_group: OnceCell<SignalGroup>,
     }
 
     #[glib::object_subclass]
@@ -339,9 +343,57 @@ mod imp {
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for RequestBody {}
+    impl ObjectImpl for RequestBody {
+        fn constructed(&self) {
+            self.parent_constructed();
+            self.init_signal_group();
+
+            self.obj().connect_body_type_notify(|auth| {
+                auth.emit_by_name::<()>("changed", &[&"type"]);
+            });
+            self.obj().connect_body_data_notify(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |body| {
+                    imp.body_data_group
+                        .get()
+                        .unwrap()
+                        .set_target(body.body_data().as_ref());
+                    body.emit_by_name::<()>("changed", &[&"data"]);
+                }
+            ));
+        }
+
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| {
+                vec![Signal::builder("changed")
+                    .param_types([String::static_type()])
+                    .build()]
+            })
+        }
+    }
 
     impl RequestBody {
+        fn init_signal_group(&self) {
+            let obj = self.obj();
+
+            let body_data_group = SignalGroup::new::<RequestBodyData>();
+            body_data_group.connect_closure(
+                "changed",
+                false,
+                glib::closure_local!(
+                    #[weak]
+                    obj,
+                    move |_: &RequestBodyData, param: &str| {
+                        let param = format!("data.{param}");
+                        obj.emit_by_name::<()>("changed", &[&param]);
+                    }
+                ),
+            );
+            self.body_data_group.set(body_data_group).unwrap();
+        }
+
         fn set_body_type(&self, body_type: RequestBodyType) {
             if *self.body_type.borrow() == body_type {
                 return;
@@ -531,5 +583,79 @@ mod tests {
         let data = body.raw().unwrap();
         assert_eq!(data.payload_type(), RequestBodyRawType::OctetStream);
         assert_eq!(data.payload(), "hello world");
+    }
+
+    #[test]
+    pub fn test_emits_signal_on_change_none() {
+        let body = RequestBody::new(RequestBodyType::None, RequestBodyData::NONE);
+        assert_emits_signal(&body, "changed", || {
+            body.set_body_type(RequestBodyType::Multipart);
+        });
+    }
+
+    #[test]
+    pub fn test_emits_signal_on_multipart_change() {
+        let multipart = RequestBodyMultipart::builder()
+            .field(&Field::builder().key("user_id").value("1").build())
+            .build();
+        let body = RequestBody::builder().multipart(&multipart).build();
+
+        assert_emits_signal(&body, "changed", || {
+            body.multipart()
+                .expect("This is not a multipart")
+                .params()
+                .insert(&Field::builder().build());
+        });
+        assert_emits_signal(&body, "changed", || {
+            body.multipart()
+                .expect("This is not a multipart")
+                .set_params(FieldTable::default());
+        });
+        assert_emits_signal(&body, "changed", || {
+            body.multipart()
+                .expect("This is not a multipart")
+                .params()
+                .insert(&Field::builder().build());
+        });
+    }
+
+    #[test]
+    pub fn test_emits_signal_on_urlencoded_change() {
+        let urlencoded = RequestBodyUrlencoded::builder()
+            .field(&Field::builder().key("user_id").value("1").build())
+            .build();
+        let body = RequestBody::builder().urlencoded(&urlencoded).build();
+
+        assert_emits_signal(&body, "changed", || {
+            body.urlencoded()
+                .expect("This is not a urlencoded")
+                .params()
+                .insert(&Field::builder().build());
+        });
+        assert_emits_signal(&body, "changed", || {
+            body.urlencoded()
+                .expect("This is not a urlencoded")
+                .set_params(FieldTable::default());
+        });
+        assert_emits_signal(&body, "changed", || {
+            body.urlencoded()
+                .expect("This is not a urlencoded")
+                .params()
+                .insert(&Field::builder().build());
+        });
+    }
+
+    #[test]
+    pub fn test_emits_signal_on_raw_change() {
+        let body = RequestBody::new(RequestBodyType::Raw, RequestBodyData::NONE);
+
+        assert_emits_signal(&body, "changed", || {
+            body.raw().expect("This is not raw").set_payload("hello");
+        });
+        assert_emits_signal(&body, "changed", || {
+            body.raw()
+                .expect("This is not raw")
+                .set_payload_type(RequestBodyRawType::Xml);
+        });
     }
 }

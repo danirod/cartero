@@ -81,7 +81,8 @@ msgstr "Gnome;GTK;HTTP;REST;"
 #: data/es.danirod.Cartero.gschema.xml:12
 msgid ""
 "A specific locale to use within the application instead of the system default"
-msgstr ""
+msgstr "Un idioma específico para utilizar a aplicación en lugar do predefinido polo "
+"sistema"
 
 #: data/es.danirod.Cartero.gschema.xml:16
 msgid "Automatically indent new lines for the request body"
@@ -609,11 +610,11 @@ msgstr "Aplicación"
 
 #: data/ui/settings_dialog.blp:30
 msgid "You need to restart the program for the new locale to be used."
-msgstr ""
+msgstr "Precisas reiniciar o programa para utilizar o novo idioma."
 
 #: data/ui/settings_dialog.blp:39
 msgid "Language"
-msgstr ""
+msgstr "Idioma"
 
 #: data/ui/settings_dialog.blp:45
 msgid "Appearance"

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-  <!-- Copyright 2024-2025 the Cartero authors -->
+  <!--
+  SPDX-License-Identifier: CC0-1.0
+  SPDX-FileCopyrightText: No copyright
+  -->
   <id>@app_id@</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>

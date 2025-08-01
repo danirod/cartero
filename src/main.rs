@@ -18,7 +18,6 @@
 #![windows_subsystem = "windows"]
 
 mod app;
-mod error;
 mod export;
 mod widgets;
 #[rustfmt::skip]

@@ -450,7 +450,7 @@ mod imp {
                     self.response.assign_from_response(&response);
                 }
                 Err(e) => {
-                    println!("{:?}", e);
+                    self.response.present_error(e);
                 }
             };
         }

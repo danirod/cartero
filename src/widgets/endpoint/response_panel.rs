@@ -17,6 +17,7 @@
 
 use std::path::PathBuf;
 
+use cartero_http::RequestError;
 use cartero_objects::Response;
 use formatx::formatx;
 use gettextrs::gettext;
@@ -28,17 +29,16 @@ use serde_json::Value;
 use sourceview5::prelude::BufferExt;
 use sourceview5::LanguageManager;
 
-use crate::error::{RequestBuildError, RequestError, RequestPreconditionError};
 use glib::subclass::types::ObjectSubclassIsExt;
 
 mod imp {
     use std::cell::RefCell;
 
-    use crate::error::{RequestBuildError, RequestError, RequestPreconditionError};
     use crate::widgets::endpoint::ResponseHeaders;
     use crate::widgets::{CodeView, ErrorPane, SearchBox};
     use adw::prelude::*;
     use adw::subclass::bin::BinImpl;
+    use cartero_http::RequestError;
     use cartero_objects::Response;
     use glib::object::Cast;
     use glib::subclass::InitializingObject;
@@ -155,18 +155,8 @@ mod imp {
             self.response_body.grab_focus();
         }
 
-        pub(super) fn show_precondition_error(&self, error: RequestPreconditionError) {
-            self.error_page.set_precondition_error(error);
-            self.stack.set_visible_child_name("error");
-        }
-
-        pub(super) fn show_request_error(&self, error: RequestError) {
-            self.error_page.set_request_error(error);
-            self.stack.set_visible_child_name("error");
-        }
-
-        pub(super) fn show_request_build_error(&self, error: RequestBuildError) {
-            self.error_page.set_request_build_error(error);
+        pub(super) fn present_error(&self, error: RequestError) {
+            self.error_page.set_error(error);
             self.stack.set_visible_child_name("error");
         }
 
@@ -193,19 +183,8 @@ impl ResponsePanel {
         Object::builder().build()
     }
 
-    pub fn show_precondition_error(&self, error: RequestPreconditionError) {
-        let imp = self.imp();
-        imp.show_precondition_error(error);
-    }
-
-    pub fn show_request_build_error(&self, error: RequestBuildError) {
-        let imp = self.imp();
-        imp.show_request_build_error(error);
-    }
-
-    pub fn show_request_error(&self, error: RequestError) {
-        let imp = self.imp();
-        imp.show_request_error(error);
+    pub fn present_error(&self, error: RequestError) {
+        self.imp().present_error(error);
     }
 
     pub fn start_request(&self) {

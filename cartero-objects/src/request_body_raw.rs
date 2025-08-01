@@ -132,7 +132,18 @@ mod imp {
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for RequestBodyRaw {}
+    impl ObjectImpl for RequestBodyRaw {
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            self.obj().connect_payload_notify(|raw| {
+                raw.emit_by_name::<()>("changed", &[&"payload"]);
+            });
+            self.obj().connect_payload_type_notify(|raw| {
+                raw.emit_by_name::<()>("changed", &[&"payload-type"]);
+            });
+        }
+    }
 
     impl RequestBodyDataImpl for RequestBodyRaw {
         fn body_type(&self) -> crate::RequestBodyType {
@@ -221,5 +232,14 @@ mod tests {
     pub fn test_body_type() {
         let body: RequestBodyRaw = RequestBodyRaw::default();
         assert_eq!(body.body_type(), RequestBodyType::Raw);
+    }
+
+    #[test]
+    pub fn test_emits_signals() {
+        let body = RequestBodyRaw::builder(RequestBodyRawType::Json).build();
+        assert_emits_signal(&body, "changed", || body.set_payload("hello"));
+        assert_emits_signal(&body, "changed", || {
+            body.set_payload_type(RequestBodyRawType::Xml)
+        });
     }
 }

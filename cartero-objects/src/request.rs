@@ -81,9 +81,12 @@ impl Request {
 }
 
 mod imp {
-    use std::cell::RefCell;
+    use std::{
+        cell::{OnceCell, RefCell},
+        sync::OnceLock,
+    };
 
-    use glib::Properties;
+    use glib::{subclass::Signal, Properties, SignalGroup};
 
     use crate::{field_table::FieldTable, RequestAuthentication, RequestBody, RequestMethod};
 
@@ -100,18 +103,23 @@ mod imp {
 
         #[property(get, set)]
         params: RefCell<FieldTable>,
+        params_group: OnceCell<SignalGroup>,
 
         #[property(get, set)]
         headers: RefCell<FieldTable>,
+        headers_group: OnceCell<SignalGroup>,
 
         #[property(get, set)]
         variables: RefCell<FieldTable>,
+        variables_group: OnceCell<SignalGroup>,
 
         #[property(get)]
         authentication: RefCell<RequestAuthentication>,
+        authentication_group: OnceCell<SignalGroup>,
 
         #[property(get)]
         body: RefCell<RequestBody>,
+        body_group: OnceCell<SignalGroup>,
     }
 
     #[glib::object_subclass]
@@ -121,7 +129,191 @@ mod imp {
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for Request {}
+    impl ObjectImpl for Request {
+        fn constructed(&self) {
+            self.parent_constructed();
+            self.init_signal_group();
+
+            let obj = self.obj();
+
+            self.obj().connect_url_notify(|request| {
+                request.emit_by_name::<()>("changed", &[&"url"]);
+            });
+            self.obj().connect_method_notify(|request| {
+                request.emit_by_name::<()>("changed", &[&"method"]);
+            });
+
+            self.params_group
+                .get()
+                .unwrap()
+                .set_target(Some(&obj.params()));
+            self.obj().connect_params_notify(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |request| {
+                    imp.params_group
+                        .get()
+                        .unwrap()
+                        .set_target(Some(&request.params()));
+                    request.emit_by_name::<()>("changed", &[&"params"]);
+                }
+            ));
+
+            self.headers_group
+                .get()
+                .unwrap()
+                .set_target(Some(&obj.headers()));
+            self.obj().connect_headers_notify(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |request| {
+                    imp.headers_group
+                        .get()
+                        .unwrap()
+                        .set_target(Some(&request.headers()));
+                    request.emit_by_name::<()>("changed", &[&"headers"]);
+                }
+            ));
+
+            self.variables_group
+                .get()
+                .unwrap()
+                .set_target(Some(&obj.variables()));
+            self.obj().connect_variables_notify(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |request| {
+                    imp.variables_group
+                        .get()
+                        .unwrap()
+                        .set_target(Some(&request.variables()));
+                    request.emit_by_name::<()>("changed", &[&"variables"]);
+                }
+            ));
+
+            self.authentication_group
+                .get()
+                .expect("No authentication_group?")
+                .set_target(Some(&obj.authentication()));
+            obj.connect_authentication_notify(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |request| {
+                    imp.authentication_group
+                        .get()
+                        .unwrap()
+                        .set_target(Some(&request.authentication()));
+                    request.emit_by_name::<()>("changed", &[&"authentication"]);
+                }
+            ));
+
+            self.body_group
+                .get()
+                .expect("No body_group?")
+                .set_target(Some(&obj.body()));
+            self.obj().connect_body_notify(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |request| {
+                    imp.body_group
+                        .get()
+                        .unwrap()
+                        .set_target(Some(&request.body()));
+                    request.emit_by_name::<()>("changed", &[&"body"]);
+                }
+            ));
+        }
+
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| {
+                vec![Signal::builder("changed")
+                    .param_types([String::static_type()])
+                    .build()]
+            })
+        }
+    }
+
+    impl Request {
+        fn init_signal_group(&self) {
+            let obj = self.obj();
+
+            let params_group = SignalGroup::new::<FieldTable>();
+            params_group.connect_closure(
+                "changed",
+                false,
+                glib::closure_local!(
+                    #[weak]
+                    obj,
+                    move |_: &FieldTable, param: &str| {
+                        let param = format!("params.{param}");
+                        obj.emit_by_name::<()>("changed", &[&param]);
+                    }
+                ),
+            );
+            self.params_group.set(params_group).unwrap();
+
+            let headers_group = SignalGroup::new::<FieldTable>();
+            headers_group.connect_closure(
+                "changed",
+                false,
+                glib::closure_local!(
+                    #[weak]
+                    obj,
+                    move |_: &FieldTable, param: &str| {
+                        let param = format!("headers.{param}");
+                        obj.emit_by_name::<()>("changed", &[&param]);
+                    }
+                ),
+            );
+            self.headers_group.set(headers_group).unwrap();
+
+            let variables_group = SignalGroup::new::<FieldTable>();
+            variables_group.connect_closure(
+                "changed",
+                false,
+                glib::closure_local!(
+                    #[weak]
+                    obj,
+                    move |_: &FieldTable, param: &str| {
+                        let param = format!("variables.{param}");
+                        obj.emit_by_name::<()>("changed", &[&param]);
+                    }
+                ),
+            );
+            self.variables_group.set(variables_group).unwrap();
+
+            let authentication_group = SignalGroup::new::<RequestAuthentication>();
+            authentication_group.connect_closure(
+                "changed",
+                false,
+                glib::closure_local!(
+                    #[weak]
+                    obj,
+                    move |_: &RequestAuthentication, param: &str| {
+                        let param = format!("authentication.{param}");
+                        obj.emit_by_name::<()>("changed", &[&param]);
+                    }
+                ),
+            );
+            self.authentication_group.set(authentication_group).unwrap();
+
+            let body_group: SignalGroup = SignalGroup::new::<RequestBody>();
+            body_group.connect_closure(
+                "changed",
+                false,
+                glib::closure_local!(
+                    #[weak]
+                    obj,
+                    move |_: &RequestBody, param: &str| {
+                        let param = format!("body.{param}");
+                        obj.emit_by_name::<()>("changed", &[&param]);
+                    }
+                ),
+            );
+            self.body_group.set(body_group).unwrap();
+        }
+    }
 }
 
 mod builder {
@@ -218,9 +410,9 @@ mod builder {
 #[cfg(test)]
 mod tests {
     use crate::{
-        Field, FieldTable, RequestAuthentication, RequestAuthenticationBearer,
-        RequestAuthenticationType, RequestBody, RequestBodyRaw, RequestBodyRawType,
-        RequestBodyType,
+        utils::test::assert_emits_signal, Field, FieldTable, RequestAuthentication,
+        RequestAuthenticationBearer, RequestAuthenticationType, RequestBody, RequestBodyRaw,
+        RequestBodyRawType, RequestBodyType,
     };
 
     use super::*;
@@ -236,6 +428,14 @@ mod tests {
             RequestAuthenticationType::None
         );
         assert!(request.authentication().auth_data().is_none());
+
+        request
+            .authentication()
+            .set_auth_type(RequestAuthenticationType::BearerToken);
+        assert_eq!(
+            request.authentication().auth_type(),
+            RequestAuthenticationType::BearerToken
+        );
     }
 
     #[test]
@@ -395,5 +595,91 @@ mod tests {
             processor.render("{{ API_ROOT }}/v1/users").unwrap(),
             "http://localhost:3000/v1/users"
         );
+    }
+
+    #[test]
+    fn test_emits_signals() {
+        let request = Request::builder("", RequestMethod::Get).build();
+
+        assert_emits_signal(&request, "changed", || {
+            request.set_url("https://www.example.com")
+        });
+        assert_emits_signal(&request, "changed", || {
+            request.set_method(RequestMethod::Put)
+        });
+
+        assert_emits_signal(&request, "changed", || {
+            let param = Field::builder().key("a").value("1").build();
+            request.params().insert(&param);
+        });
+        assert_emits_signal(&request, "changed", || {
+            request.set_params(FieldTable::default());
+        });
+        assert_emits_signal(&request, "changed", || {
+            let param = Field::builder().key("a").value("1").build();
+            request.params().insert(&param);
+        });
+
+        assert_emits_signal(&request, "changed", || {
+            let header = Field::builder()
+                .key("User-Agent")
+                .value("Mozilla/5.0")
+                .build();
+            request.headers().insert(&header);
+        });
+        assert_emits_signal(&request, "changed", || {
+            request.set_headers(FieldTable::default());
+        });
+        assert_emits_signal(&request, "changed", || {
+            let header = Field::builder()
+                .key("User-Agent")
+                .value("Mozilla/5.0")
+                .build();
+            request.headers().insert(&header);
+        });
+
+        assert_emits_signal(&request, "changed", || {
+            let variable = Field::builder()
+                .key("API_ROOT")
+                .value("http://localhost:3000")
+                .build();
+            request.variables().insert(&variable);
+        });
+        assert_emits_signal(&request, "changed", || {
+            request.set_variables(FieldTable::default());
+        });
+        assert_emits_signal(&request, "changed", || {
+            let variable = Field::builder()
+                .key("API_ROOT")
+                .value("http://localhost:3000")
+                .build();
+            request.variables().insert(&variable);
+        });
+
+        assert_emits_signal(&request, "changed", || {
+            request
+                .authentication()
+                .set_auth_type(RequestAuthenticationType::BearerToken);
+        });
+        assert_emits_signal(&request, "changed", || {
+            request
+                .authentication()
+                .bearer_token()
+                .expect("This is not my bearer token!")
+                .set_token("12341234");
+        });
+
+        assert_emits_signal(&request, "changed", || {
+            request.body().set_body_type(RequestBodyType::Multipart);
+        });
+        assert_emits_signal(&request, "changed", || {
+            let field = Field::builder().key("user_id").value("10").build();
+            request
+                .body()
+                .multipart()
+                .expect("This is not my multipart!")
+                .params()
+                .insert(&field);
+        });
     }
 }

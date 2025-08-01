@@ -90,10 +90,10 @@ impl Default for Field {
 }
 
 mod imp {
-    use std::cell::RefCell;
+    use std::{cell::RefCell, sync::OnceLock};
 
     use super::*;
-    use glib::Properties;
+    use glib::{subclass::Signal, Properties};
 
     #[derive(Properties)]
     #[properties(wrapper_type = super::Field)]
@@ -129,7 +129,33 @@ mod imp {
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for Field {}
+    impl ObjectImpl for Field {
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            self.obj().connect_key_notify(|field| {
+                field.emit_by_name::<()>("changed", &[&"key"]);
+            });
+            self.obj().connect_value_notify(|field| {
+                field.emit_by_name::<()>("changed", &[&"value"]);
+            });
+            self.obj().connect_active_notify(|field| {
+                field.emit_by_name::<()>("changed", &[&"active"]);
+            });
+            self.obj().connect_masked_notify(|field| {
+                field.emit_by_name::<()>("changed", &[&"masked"]);
+            });
+        }
+
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| {
+                vec![Signal::builder("changed")
+                    .param_types([String::static_type()])
+                    .build()]
+            })
+        }
+    }
 }
 
 mod builder {
@@ -223,5 +249,14 @@ mod tests {
         assert_emits_signal(&field, "notify", || field.set_value("text/html"));
         assert_emits_signal(&field, "notify", || field.set_active(false));
         assert_emits_signal(&field, "notify", || field.set_masked(true));
+    }
+
+    #[test]
+    pub fn test_emits_changes_on_change() {
+        let field = Field::builder().build();
+        assert_emits_signal(&field, "changed", || field.set_key("Accept"));
+        assert_emits_signal(&field, "changed", || field.set_value("text/html"));
+        assert_emits_signal(&field, "changed", || field.set_active(false));
+        assert_emits_signal(&field, "changed", || field.set_masked(true));
     }
 }

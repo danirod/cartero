@@ -79,6 +79,38 @@ impl Default for FieldTable {
 }
 
 impl FieldTable {
+    /// Register the change signal for this field, so that whenever the inner
+    /// Field changes because it emits a "change" signal, this table broadcasts
+    /// the same event upwards.
+    fn connect_signal(&self, field: &Field, n_item: usize) {
+        let mut signals = self.imp().signals.borrow_mut();
+        let signal = field.connect_closure(
+            "changed",
+            false,
+            glib::closure_local!(
+                #[weak(rename_to = field_table)]
+                self,
+                move |_field: Field, param: &str| {
+                    let parameter = format!("[{}].{}", n_item, param);
+                    field_table.emit_by_name::<()>("changed", &[&parameter]);
+                }
+            ),
+        );
+        signals.insert(field.clone(), Some(signal));
+    }
+
+    /// Disconnects the previously added signal handler for this field, so
+    /// that future "change" events triggered in the field are not broadcasted
+    /// upwards from this table.
+    fn disconnect_signal(&self, field: &Field) {
+        let mut signals = self.imp().signals.borrow_mut();
+        if let Some(handler) = signals.remove(field) {
+            if let Some(signal) = handler {
+                field.disconnect(signal);
+            }
+        }
+    }
+
     /// Add a new field to the table.
     ///
     /// The given `field` is inserted at the bottom of the table, and
@@ -90,7 +122,9 @@ impl FieldTable {
             fields.push(field.clone());
         }
         let len = { self.imp().fields.borrow().len() };
+        self.connect_signal(field, len - 1);
         self.items_changed(len as u32, 0, 1);
+        self.emit_by_name::<()>("changed", &[&""]);
     }
 
     pub fn field(&self, pos: u32) -> Option<Field> {
@@ -104,11 +138,21 @@ impl FieldTable {
         {
             let mut fields = self.imp().fields.borrow_mut();
             let mut new_fields = { table.imp().fields.borrow().clone() };
+
+            fields
+                .iter()
+                .for_each(|field| self.disconnect_signal(field));
+
             fields.clear();
             fields.append(&mut new_fields);
+
+            new_fields.iter().enumerate().for_each(|(pos, field)| {
+                self.connect_signal(field, pos);
+            });
         }
 
         self.items_changed(0, old_len, new_len);
+        self.emit_by_name::<()>("changed", &[&""]);
     }
 
     /// Remove a field from the table.
@@ -118,6 +162,10 @@ impl FieldTable {
     /// given index is out of bounds**. Emits an `items-changed` signal when
     /// done.
     pub fn remove(&self, pos: u32) {
+        if let Some(field) = self.field(pos) {
+            self.disconnect_signal(&field);
+        }
+
         {
             let mut fields = self.imp().fields.borrow_mut();
             // Panics in case of out of bounds.
@@ -125,6 +173,7 @@ impl FieldTable {
         }
         // If we reach here, we survived delete.
         self.items_changed(pos, 1, 0);
+        self.emit_by_name::<()>("changed", &[&""]);
     }
 
     /// Groups by key every field contained in this table, accepting duplicates.
@@ -229,19 +278,31 @@ impl FromIterator<Field> for FieldTable {
             .imp()
             .fields
             .replace(iter.into_iter().collect::<Vec<Field>>());
+
+        // Manually initialize the events.
+        {
+            let fields = table.imp().fields.borrow();
+            fields.iter().enumerate().for_each(|(pos, field)| {
+                table.connect_signal(field, pos);
+            });
+        }
+
         table
     }
 }
 
 mod imp {
     use gio::subclass::prelude::ListModelImpl;
+    use glib::{subclass::Signal, SignalHandlerId};
 
     use super::*;
-    use std::cell::RefCell;
+    use std::{cell::RefCell, sync::OnceLock};
 
     #[derive(Default)]
     pub struct FieldTable {
         pub(super) fields: RefCell<Vec<Field>>,
+
+        pub(super) signals: RefCell<HashMap<Field, Option<SignalHandlerId>>>,
     }
 
     #[glib::object_subclass]
@@ -251,7 +312,16 @@ mod imp {
         type Interfaces = (gio::ListModel,);
     }
 
-    impl ObjectImpl for FieldTable {}
+    impl ObjectImpl for FieldTable {
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| {
+                vec![Signal::builder("changed")
+                    .param_types([String::static_type()])
+                    .build()]
+            })
+        }
+    }
 
     impl ListModelImpl for FieldTable {
         fn item_type(&self) -> glib::Type {
@@ -275,6 +345,8 @@ mod tests {
         collections::HashSet,
         sync::{Arc, Mutex},
     };
+
+    use crate::utils::test::{assert_emits_signal, assert_not_emits_signal};
 
     use super::*;
 
@@ -680,6 +752,44 @@ mod tests {
         table.reconcile(&update);
         assert_field(&table.field(0).unwrap(), "cat_id", "15", true, false);
         assert_field(&table.field(1).unwrap(), "limit", "20", false, false);
+    }
+
+    #[test]
+    fn test_emits_items_changed_when_item_is_added() {
+        let table = FieldTable::default();
+        assert_emits_signal(&table, "items-changed", || {
+            table.insert(
+                &Field::builder()
+                    .key("user-agent")
+                    .value("mozilla/5.0")
+                    .build(),
+            );
+        });
+        assert_not_emits_signal(&table, "items-changed", || {
+            if let Some(field) = table.field(0) {
+                field.set_value("internet explorer");
+            }
+        });
+        assert_emits_signal(&table, "items-changed", || table.remove(0));
+    }
+
+    #[test]
+    fn test_emits_changed_when_a_field_changes() {
+        let table = FieldTable::default();
+        assert_emits_signal(&table, "changed", || {
+            table.insert(
+                &Field::builder()
+                    .key("user-agent")
+                    .value("mozilla/5.0")
+                    .build(),
+            );
+        });
+        assert_emits_signal(&table, "changed", || {
+            if let Some(field) = table.field(0) {
+                field.set_value("internet explorer");
+            }
+        });
+        assert_emits_signal(&table, "changed", || table.remove(0));
     }
 
     fn assert_field(f: &Field, key: &str, value: &str, active: bool, masked: bool) {

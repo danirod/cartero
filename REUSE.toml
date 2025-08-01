@@ -1,0 +1,60 @@
+version = 1
+SPDX-PackageName = "cartero"
+SPDX-PackageSupplier = "the Cartero authors"
+SPDX-PackageDownloadLocation = "https://github.com/danirod/cartero"
+
+[[annotations]]
+# Pre-generated files don't let me place the SPDX identifier on them.
+path = ["po/**.po", "po/**.pot"]
+SPDX-FileCopyrightText = "the Cartero authors"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+[[annotations]]
+path = ["**/Cargo.lock"]
+SPDX-FileCopyrightText = "the Cartero authors"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+[[annotations]]
+# User manual
+path = ["doc/**/*.md", "doc/**/*.png"]
+SPDX-FileCopyrightText = "the Cartero authors"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+[[annotations]]
+# The .cartero files in the test suite are CC0 because they are sample files
+# not worth copyrighting properly.
+path = ["cartero-file-format/tests/**/*.cartero"]
+SPDX-FileCopyrightText = "No copyright"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+# The app icon is released as CC-BY-SA-4.0
+path = [
+        "data/icons/es.danirod.Cartero-mac.png",
+        "data/icons/es.danirod.Cartero-mac.svg",
+        "data/icons/es.danirod.Cartero.Source.svg",
+        "data/icons/scalable/apps/es.danirod.Cartero.Devel.svg",
+        "data/icons/scalable/apps/es.danirod.Cartero.svg",
+        "data/icons/scalable/mimetypes/es.danirod.Cartero-request.svg",
+        "data/icons/scalable/mimetypes/es.danirod.Cartero.Devel-request.svg",
+        "data/icons/symbolic/apps/es.danirod.Cartero-symbolic.svg",
+        "data/icons/symbolic/apps/es.danirod.Cartero.Devel-symbolic.svg",
+]
+SPDX-FileCopyrightText = "Dani Rodríguez <dani@danirod.es>"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+[[annotations]]
+# Social media icons and screenshots are CC0 because they are made to be
+# copied and copyrighting them is a burden for me and for users. For social
+# media assets that are just the app icon, even if the icon is CC-BY-SA-4.0,
+# I waive the rights for that specific file as the author of the original
+# icon.
+path = [
+        "data/screenshots/*.png",
+        "website/assets/main-screenshot/*.png",
+        "website/assets/social/*.jpg",
+        "website/assets/social/*.png",
+        "website/assets/social/*.svg",
+]
+SPDX-FileCopyrightText = "No copyright"
+SPDX-License-Identifier = "CC0-1.0"

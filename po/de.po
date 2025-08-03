@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-03 11:43+0200\n"
+"POT-Creation-Date: 2025-08-03 13:36+0200\n"
 "PO-Revision-Date: 2025-05-17 00:02+0000\n"
 "Last-Translator: Juan Manuel Nani <jn4625070@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -214,11 +214,44 @@ msgid "Close request tab"
 msgstr "Anfrage-Tab schließen"
 
 #: data/gtk/help_overlay.blp:68
+#, fuzzy
+msgctxt "shortcuts window"
+msgid "Code view operations"
+msgstr "Anfrage-Aktionen"
+
+#: data/gtk/help_overlay.blp:71
+msgctxt "shortcuts window"
+msgid "Zoom in"
+msgstr ""
+
+#: data/gtk/help_overlay.blp:76
+msgctxt "shortcuts window"
+msgid "Zoom out"
+msgstr ""
+
+#: data/gtk/help_overlay.blp:81
+msgctxt "shortcuts window"
+msgid "Reset zoom"
+msgstr ""
+
+#: data/gtk/help_overlay.blp:86
+#, fuzzy
+msgctxt "shortcuts window"
+msgid "Start search"
+msgstr "Suche"
+
+#: data/gtk/help_overlay.blp:92
 msgctxt "shortcuts window"
 msgid "Request operations"
 msgstr "Anfrage-Aktionen"
 
-#: data/gtk/help_overlay.blp:71
+#: data/gtk/help_overlay.blp:95
+#, fuzzy
+msgctxt "shortcuts window"
+msgid "Focus URL"
+msgstr "Anfrage-URL"
+
+#: data/gtk/help_overlay.blp:100
 msgctxt "shortcuts window"
 msgid "Send request"
 msgstr "Anfrage senden"

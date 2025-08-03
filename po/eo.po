@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-03 11:43+0200\n"
+"POT-Creation-Date: 2025-08-03 13:36+0200\n"
 "PO-Revision-Date: 2024-11-04 17:46+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/cartero/"
@@ -201,10 +201,41 @@ msgstr ""
 
 #: data/gtk/help_overlay.blp:68
 msgctxt "shortcuts window"
-msgid "Request operations"
+msgid "Code view operations"
 msgstr ""
 
 #: data/gtk/help_overlay.blp:71
+msgctxt "shortcuts window"
+msgid "Zoom in"
+msgstr ""
+
+#: data/gtk/help_overlay.blp:76
+msgctxt "shortcuts window"
+msgid "Zoom out"
+msgstr ""
+
+#: data/gtk/help_overlay.blp:81
+msgctxt "shortcuts window"
+msgid "Reset zoom"
+msgstr ""
+
+#: data/gtk/help_overlay.blp:86
+msgctxt "shortcuts window"
+msgid "Start search"
+msgstr ""
+
+#: data/gtk/help_overlay.blp:92
+msgctxt "shortcuts window"
+msgid "Request operations"
+msgstr ""
+
+#: data/gtk/help_overlay.blp:95
+#, fuzzy
+msgctxt "shortcuts window"
+msgid "Focus URL"
+msgstr "URL"
+
+#: data/gtk/help_overlay.blp:100
 msgctxt "shortcuts window"
 msgid "Send request"
 msgstr ""

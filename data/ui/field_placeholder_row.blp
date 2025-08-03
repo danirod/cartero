@@ -49,8 +49,6 @@ template $CarteroFieldPlaceholderRow: Gtk.Box {
 
       editable: bind template.read-only inverted;
       hexpand: true;
-      secondary-icon-activatable: false;
-      secondary-icon-sensitive: false;
       placeholder-text: _("Value");
       tooltip-text: _("Value");
     }
@@ -61,8 +59,8 @@ template $CarteroFieldPlaceholderRow: Gtk.Box {
         "circular",
       ]
 
-      icon-name: "view-more-symbolic";
       tooltip-text: _("Actions");
+      icon-name: "view-more-symbolic";
       sensitive: false;
     }
   }

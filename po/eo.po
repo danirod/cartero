@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-01 23:25+0200\n"
+"POT-Creation-Date: 2025-08-03 11:43+0200\n"
 "PO-Revision-Date: 2024-11-04 17:46+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/cartero/"
@@ -237,39 +237,39 @@ msgstr ""
 msgid "Token"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:66
+#: data/ui/endpoint_pane.blp:66 data/ui/endpoint_pane.blp:67
 msgid "Request URL"
 msgstr "URL"
 
-#: data/ui/endpoint_pane.blp:78 data/ui/mac_menu.blp:113
+#: data/ui/endpoint_pane.blp:79 data/ui/mac_menu.blp:113
 msgid "Cancel request"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:87 data/ui/mac_menu.blp:108
+#: data/ui/endpoint_pane.blp:88 data/ui/mac_menu.blp:108
 msgid "Send"
 msgstr "Petu"
 
-#: data/ui/endpoint_pane.blp:88
+#: data/ui/endpoint_pane.blp:89
 msgid "Execute this HTTP request"
 msgstr "Sendu ĉi tiun http-peton"
 
-#: data/ui/endpoint_pane.blp:115
+#: data/ui/endpoint_pane.blp:116
 msgid "Parameters"
 msgstr "Parametroj"
 
-#: data/ui/endpoint_pane.blp:141 data/ui/response_panel.blp:95
+#: data/ui/endpoint_pane.blp:142 data/ui/response_panel.blp:96
 msgid "Headers"
 msgstr "Kapoj"
 
-#: data/ui/endpoint_pane.blp:166
+#: data/ui/endpoint_pane.blp:167
 msgid "Variables"
 msgstr "Variabloj"
 
-#: data/ui/endpoint_pane.blp:191
+#: data/ui/endpoint_pane.blp:192
 msgid "Authorization"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:206 data/ui/response_panel.blp:55
+#: data/ui/endpoint_pane.blp:207 data/ui/response_panel.blp:55
 msgid "Body"
 msgstr "Korpo"
 
@@ -294,20 +294,20 @@ msgstr ""
 msgid "Name"
 msgstr "Nomo"
 
-#: data/ui/field_list_box_row.blp:50 data/ui/field_list_box_row.blp:51
-#: data/ui/field_placeholder_row.blp:54 data/ui/field_placeholder_row.blp:55
+#: data/ui/field_list_box_row.blp:48 data/ui/field_list_box_row.blp:49
+#: data/ui/field_placeholder_row.blp:52 data/ui/field_placeholder_row.blp:53
 msgid "Value"
 msgstr "Enhavo"
 
-#: data/ui/field_list_box_row.blp:61 data/ui/field_placeholder_row.blp:65
+#: data/ui/field_list_box_row.blp:58 data/ui/field_placeholder_row.blp:62
 msgid "Actions"
 msgstr "Agoj"
 
-#: data/ui/field_list_box_row.blp:74
+#: data/ui/field_list_box_row.blp:69
 msgid "Toggle secret"
 msgstr "Baskuli sekreton"
 
-#: data/ui/field_list_box_row.blp:81
+#: data/ui/field_list_box_row.blp:76
 msgid "Delete"
 msgstr "Forigi kapo"
 
@@ -316,30 +316,30 @@ msgctxt "menubar"
 msgid "File"
 msgstr ""
 
-#: data/ui/mac_menu.blp:25 data/ui/main_window.blp:136
-#: data/ui/main_window.blp:177 data/ui/main_window_no_csd.blp:137
-#: data/ui/main_window_no_csd.blp:179
+#: data/ui/mac_menu.blp:25 data/ui/main_window.blp:137
+#: data/ui/main_window.blp:178 data/ui/main_window_no_csd.blp:138
+#: data/ui/main_window_no_csd.blp:180
 msgid "New tab"
 msgstr ""
 
-#: data/ui/mac_menu.blp:30 data/ui/main_window.blp:149
-#: data/ui/main_window.blp:182 data/ui/main_window_no_csd.blp:150
-#: data/ui/main_window_no_csd.blp:184
+#: data/ui/mac_menu.blp:30 data/ui/main_window.blp:150
+#: data/ui/main_window.blp:183 data/ui/main_window_no_csd.blp:151
+#: data/ui/main_window_no_csd.blp:185
 msgid "Open request…"
 msgstr ""
 
-#: data/ui/mac_menu.blp:35 data/ui/main_window.blp:187
-#: data/ui/main_window_no_csd.blp:189 src/widgets/file_dialogs.rs:144
+#: data/ui/mac_menu.blp:35 data/ui/main_window.blp:188
+#: data/ui/main_window_no_csd.blp:190 src/widgets/file_dialogs.rs:144
 msgid "Save request"
 msgstr ""
 
-#: data/ui/mac_menu.blp:40 data/ui/main_window.blp:192
-#: data/ui/main_window_no_csd.blp:194
+#: data/ui/mac_menu.blp:40 data/ui/main_window.blp:193
+#: data/ui/main_window_no_csd.blp:195
 msgid "Save request as…"
 msgstr ""
 
-#: data/ui/mac_menu.blp:47 data/ui/main_window.blp:197
-#: data/ui/main_window_no_csd.blp:199
+#: data/ui/mac_menu.blp:47 data/ui/main_window.blp:198
+#: data/ui/main_window_no_csd.blp:200
 msgid "Close tab"
 msgstr ""
 
@@ -395,53 +395,53 @@ msgctxt "menubar"
 msgid "Edit URL"
 msgstr ""
 
-#: data/ui/mac_menu.blp:120 data/ui/main_window.blp:209
-#: data/ui/main_window_no_csd.blp:211
+#: data/ui/mac_menu.blp:120 data/ui/main_window.blp:210
+#: data/ui/main_window_no_csd.blp:212
 msgid "Body appearance"
 msgstr ""
 
-#: data/ui/mac_menu.blp:124 data/ui/main_window.blp:213
-#: data/ui/main_window_no_csd.blp:215
+#: data/ui/mac_menu.blp:124 data/ui/main_window.blp:214
+#: data/ui/main_window_no_csd.blp:216
 msgid "Wrap content"
 msgstr ""
 
-#: data/ui/mac_menu.blp:129 data/ui/main_window.blp:218
-#: data/ui/main_window_no_csd.blp:220
+#: data/ui/mac_menu.blp:129 data/ui/main_window.blp:219
+#: data/ui/main_window_no_csd.blp:221
 msgid "Show line numbers"
 msgstr ""
 
-#: data/ui/mac_menu.blp:136 data/ui/main_window.blp:225
-#: data/ui/main_window_no_csd.blp:227
+#: data/ui/mac_menu.blp:136 data/ui/main_window.blp:226
+#: data/ui/main_window_no_csd.blp:228
 msgid "Automatic indentation"
 msgstr ""
 
-#: data/ui/mac_menu.blp:141 data/ui/main_window.blp:230
-#: data/ui/main_window_no_csd.blp:232
+#: data/ui/mac_menu.blp:141 data/ui/main_window.blp:231
+#: data/ui/main_window_no_csd.blp:233
 msgid "Indent with spaces"
 msgstr ""
 
-#: data/ui/mac_menu.blp:147 data/ui/main_window.blp:236
-#: data/ui/main_window_no_csd.blp:238
+#: data/ui/mac_menu.blp:147 data/ui/main_window.blp:237
+#: data/ui/main_window_no_csd.blp:239
 msgid "Indent with tabs"
 msgstr ""
 
-#: data/ui/mac_menu.blp:153 data/ui/main_window.blp:242
-#: data/ui/main_window_no_csd.blp:244
+#: data/ui/mac_menu.blp:153 data/ui/main_window.blp:243
+#: data/ui/main_window_no_csd.blp:245
 msgid "Spaces per tab"
 msgstr ""
 
-#: data/ui/mac_menu.blp:156 data/ui/main_window.blp:245
-#: data/ui/main_window_no_csd.blp:247
+#: data/ui/mac_menu.blp:156 data/ui/main_window.blp:246
+#: data/ui/main_window_no_csd.blp:248
 msgid "2"
 msgstr "2"
 
-#: data/ui/mac_menu.blp:162 data/ui/main_window.blp:251
-#: data/ui/main_window_no_csd.blp:253
+#: data/ui/mac_menu.blp:162 data/ui/main_window.blp:252
+#: data/ui/main_window_no_csd.blp:254
 msgid "4"
 msgstr "4"
 
-#: data/ui/mac_menu.blp:168 data/ui/main_window.blp:257
-#: data/ui/main_window_no_csd.blp:259
+#: data/ui/mac_menu.blp:168 data/ui/main_window.blp:258
+#: data/ui/main_window_no_csd.blp:260
 msgid "8"
 msgstr "8"
 
@@ -466,7 +466,7 @@ msgctxt "menubar"
 msgid "Help"
 msgstr ""
 
-#: data/ui/mac_menu.blp:200 src/win.rs:637
+#: data/ui/mac_menu.blp:200 src/win.rs:634
 msgid "User manual"
 msgstr ""
 
@@ -480,11 +480,11 @@ msgctxt "menubar"
 msgid "View discussions"
 msgstr ""
 
-#: data/ui/mac_menu.blp:217 src/win.rs:639
+#: data/ui/mac_menu.blp:217 src/win.rs:636
 msgid "Help us translate"
 msgstr ""
 
-#: data/ui/mac_menu.blp:224 data/ui/settings_dialog.blp:100
+#: data/ui/mac_menu.blp:224 data/ui/settings_dialog.blp:101
 msgid "Check for updates"
 msgstr ""
 
@@ -492,56 +492,61 @@ msgstr ""
 msgid "New"
 msgstr "Nova peto"
 
-#: data/ui/main_window.blp:61 data/ui/main_window.blp:72
-#: data/ui/main_window_no_csd.blp:58 data/ui/main_window_no_csd.blp:69
+#: data/ui/main_window.blp:61 data/ui/main_window.blp:73
+#: data/ui/main_window_no_csd.blp:58 data/ui/main_window_no_csd.blp:70
 #: src/widgets/file_dialogs.rs:107
 msgid "Open"
 msgstr "Malfermi"
 
-#: data/ui/main_window.blp:80 data/ui/main_window_no_csd.blp:77
+#: data/ui/main_window.blp:81 data/ui/main_window_no_csd.blp:78
 #: src/widgets/file_dialogs.rs:143 src/widgets/file_dialogs.rs:181
 msgid "Save"
 msgstr "Konservi"
 
-#: data/ui/main_window.blp:89 data/ui/main_window_no_csd.blp:98
+#: data/ui/main_window.blp:90 data/ui/main_window_no_csd.blp:99
 msgid "Export request"
 msgstr ""
 
-#: data/ui/main_window.blp:98
+#: data/ui/main_window.blp:99
 msgid "Menu"
 msgstr ""
 
-#: data/ui/main_window.blp:116 data/ui/main_window_no_csd.blp:117
+#: data/ui/main_window.blp:117 data/ui/main_window_no_csd.blp:118
 msgid "Welcome to Cartero"
 msgstr ""
 
-#: data/ui/main_window.blp:117 data/ui/main_window_no_csd.blp:118
+#: data/ui/main_window.blp:118 data/ui/main_window_no_csd.blp:119
 msgid "Create or open a request and start testing APIs now."
 msgstr ""
 
-#: data/ui/main_window.blp:168 data/ui/main_window_no_csd.blp:170
+#: data/ui/main_window.blp:169 data/ui/main_window_no_csd.blp:171
 msgid "Export request as cURL…"
 msgstr ""
 
-#: data/ui/main_window.blp:204 data/ui/main_window_no_csd.blp:206
+#: data/ui/main_window.blp:205 data/ui/main_window_no_csd.blp:207
 #: data/ui/settings_dialog.blp:21
 msgid "Settings"
 msgstr ""
 
-#: data/ui/main_window.blp:268 data/ui/main_window_no_csd.blp:270
+#: data/ui/main_window.blp:269 data/ui/main_window_no_csd.blp:271
 msgid "Keyboard shortcuts"
 msgstr ""
 
-#: data/ui/main_window.blp:273 data/ui/main_window_no_csd.blp:275
+#: data/ui/main_window.blp:274 data/ui/main_window_no_csd.blp:276
 msgid "About Cartero"
 msgstr "Pri Cartero"
 
-#: data/ui/main_window.blp:278 data/ui/main_window_no_csd.blp:280
+#: data/ui/main_window.blp:279 data/ui/main_window_no_csd.blp:281
 msgid "Quit"
 msgstr ""
 
 #: data/ui/method_dropdown.blp:28
 msgid "Request method"
+msgstr "HTTP-metodo"
+
+#: data/ui/raw_body_pane.blp:28
+#, fuzzy
+msgid "Request body"
 msgstr "HTTP-metodo"
 
 #: data/ui/request_body_pane.blp:34
@@ -571,6 +576,10 @@ msgstr ""
 
 #: data/ui/response_panel.blp:31
 msgid "Use the Send button to send a network request and it will show here."
+msgstr ""
+
+#: data/ui/response_panel.blp:64
+msgid "Response body"
 msgstr ""
 
 #: data/ui/search_box.blp:42 data/ui/search_box.blp:43
@@ -630,57 +639,61 @@ msgstr ""
 msgid "Custom font"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:79
+#: data/ui/settings_dialog.blp:71
+msgid "Click to select a font"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:80
 msgid "File settings"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:82
+#: data/ui/settings_dialog.blp:83
 msgid "Create backup files"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:83
+#: data/ui/settings_dialog.blp:84
 msgid ""
 "You might not want to enable this if you are already using a version control "
 "such as Git"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:89
+#: data/ui/settings_dialog.blp:90
 msgid "Software updates"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:96
+#: data/ui/settings_dialog.blp:97
 msgid "Current version"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:108 data/ui/settings_dialog.blp:112
+#: data/ui/settings_dialog.blp:109 data/ui/settings_dialog.blp:113
 msgid "HTTP Client"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:115
+#: data/ui/settings_dialog.blp:116
 msgid "Enforce TLS validation"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:116
+#: data/ui/settings_dialog.blp:117
 msgid "Cancel a request if the TLS handshake fails"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:120
+#: data/ui/settings_dialog.blp:121
 msgid "Follow redirects"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:121
+#: data/ui/settings_dialog.blp:122
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:126
+#: data/ui/settings_dialog.blp:127
 msgid "Maximum redirects"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:138
+#: data/ui/settings_dialog.blp:139
 msgid "Request timeout"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:139
+#: data/ui/settings_dialog.blp:140
 msgid "Seconds to wait before cancelling the request"
 msgstr ""
 
@@ -935,16 +948,16 @@ msgstr ""
 msgid "Draft"
 msgstr ""
 
-#: src/win.rs:581
+#: src/win.rs:578
 msgid "The Cartero authors"
 msgstr ""
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
-#: src/win.rs:604
+#: src/win.rs:601
 msgid "translator-credits"
 msgstr "Dani Rodríguez"
 
-#: src/win.rs:605
+#: src/win.rs:602
 msgid "© 2024-2025 the Cartero authors"
 msgstr ""
 

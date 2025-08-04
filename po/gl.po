@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-01 23:25+0200\n"
-"PO-Revision-Date: 2025-04-02 22:10+0000\n"
+"PO-Revision-Date: 2025-08-05 14:02+0000\n"
 "Last-Translator: Eric Pernas <ericpg76@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/cartero/cartero/"
 "gl/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.11-dev\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -533,9 +533,8 @@ msgid "Create or open a request and start testing APIs now."
 msgstr "Crea ou abre unha petición e comeza a probar APIs agora."
 
 #: data/ui/main_window.blp:168 data/ui/main_window_no_csd.blp:170
-#, fuzzy
 msgid "Export request as cURL…"
-msgstr "Exportar petición"
+msgstr "Exportar petición como cURL…"
 
 #: data/ui/main_window.blp:204 data/ui/main_window_no_csd.blp:206
 #: data/ui/settings_dialog.blp:21

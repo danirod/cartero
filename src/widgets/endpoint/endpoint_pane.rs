@@ -26,7 +26,7 @@ use url::form_urlencoded;
 
 use crate::{
     app::CarteroApplication,
-    export::curl::CodeExportService,
+    export::curl::export_as_curl,
     interop::{InnerError, LoadResult, ObjectPane, SaveResult},
     widgets::ExportDialog,
 };
@@ -568,9 +568,7 @@ impl EndpointPane {
     }
 
     pub fn export_request(&self, format: &str) {
-        let curl = CodeExportService::new(self.request());
-
-        if let Ok(command) = curl.generate() {
+        if let Ok(command) = export_as_curl(&self.request()) {
             let buffer = glib::Bytes::from(command.as_bytes());
             let file_format = sourceview5::LanguageManager::default().language("sh");
             let dialog = glib::Object::builder::<ExportDialog>()

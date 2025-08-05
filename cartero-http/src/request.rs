@@ -32,6 +32,10 @@ impl TryFrom<Request> for BoundRequest {
     type Error = RequestError;
 
     fn try_from(value: Request) -> Result<Self, Self::Error> {
+        if value.url().trim().is_empty() {
+            return Err(RequestError::EmptyUrl);
+        }
+
         let processor = value.template_processor();
 
         let url = processor.render(value.url())?;
@@ -78,7 +82,7 @@ mod tests {
         RequestBodyUrlencoded, RequestMethod,
     };
 
-    use crate::BoundRequest;
+    use crate::{BoundRequest, RequestError};
 
     #[test]
     fn test_convert() {
@@ -93,6 +97,40 @@ mod tests {
         assert_eq!(bound.method, RequestMethod::Get);
         assert_eq!(0, bound.headers.len());
         assert!(bound.body.is_none());
+    }
+
+    #[test]
+    fn test_convert_empty_url() {
+        let req = Request::builder("    ", cartero_objects::RequestMethod::Get).build();
+        match BoundRequest::try_from(req) {
+            Err(RequestError::EmptyUrl) => {}
+            Err(other) => panic!("Failed with an unknown condition: {:?}", other),
+            _ => panic!("Expected a failure"),
+        };
+    }
+
+    #[test]
+    fn test_convert_missing_protocol() {
+        let req = Request::builder("localhost:3000", cartero_objects::RequestMethod::Get).build();
+        match BoundRequest::try_from(req) {
+            Err(RequestError::MissingProtocol) => {}
+            Err(other) => panic!("Failed with an unknown condition: {:?}", other),
+            _ => panic!("Expected a failure"),
+        };
+    }
+
+    #[test]
+    fn test_convert_unsupported_protocol() {
+        let req = Request::builder(
+            "ftp://ftp.gnu.org/gnu/hello/hello-2.12.tar.gz",
+            cartero_objects::RequestMethod::Get,
+        )
+        .build();
+        match BoundRequest::try_from(req) {
+            Err(RequestError::UnsupportedProtocol(proto)) => assert_eq!(proto, "ftp"),
+            Err(other) => panic!("Failed with an unknown condition: {:?}", other),
+            _ => panic!("Expected a failure"),
+        };
     }
 
     #[test]
@@ -117,7 +155,6 @@ mod tests {
     }
 
     #[test]
-    #[should_panic]
     fn test_convert_variable_in_url_without_variable() {
         let req = Request::builder(
             "{{ API_ROOT }}/api/v1/users",
@@ -125,7 +162,11 @@ mod tests {
         )
         .build();
 
-        BoundRequest::try_from(req).unwrap();
+        match BoundRequest::try_from(req) {
+            Err(RequestError::VariableNotFound(var)) => assert_eq!(var, "API_ROOT"),
+            Err(other) => panic!("Failed with an unknown condition: {:?}", other),
+            _ => panic!("Expected a failure"),
+        };
     }
 
     #[test]

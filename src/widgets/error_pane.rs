@@ -86,6 +86,7 @@ glib::wrapper! {
 
 fn get_error_message(error: &RequestError) -> String {
     match error {
+        RequestError::EmptyUrl => gettext("The specified URL is not valid"),
         RequestError::UrlBadParse => gettext("Cannot recognise the URL"),
         RequestError::MissingProtocol => gettext("The given URL is missing a protocol"),
         RequestError::UnsupportedProtocol(proto) => {

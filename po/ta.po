@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-03 13:36+0200\n"
+"POT-Creation-Date: 2025-08-05 18:06+0200\n"
 "PO-Revision-Date: 2025-04-27 13:08+0000\n"
 "Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/cartero/cartero/ta/"
@@ -916,54 +916,58 @@ msgid "{} ms"
 msgstr "{} எம்.எச்"
 
 #: src/widgets/error_pane.rs:89
+msgid "The specified URL is not valid"
+msgstr "குறிப்பிட்ட முகவரி செல்லுபடியாகாது"
+
+#: src/widgets/error_pane.rs:90
 msgid "Cannot recognise the URL"
 msgstr "முகவரி ஐ அங்கீகரிக்க முடியாது"
 
-#: src/widgets/error_pane.rs:90
+#: src/widgets/error_pane.rs:91
 msgid "The given URL is missing a protocol"
 msgstr "கொடுக்கப்பட்ட முகவரி ஒரு நெறிமுறையைக் காணவில்லை"
 
-#: src/widgets/error_pane.rs:92
+#: src/widgets/error_pane.rs:93
 #, rust-format
 msgid "The protocol {}:// is not supported"
 msgstr "நெறிமுறை {}: // ஆதரிக்கப்படவில்லை"
 
-#: src/widgets/error_pane.rs:95
+#: src/widgets/error_pane.rs:96
 #, rust-format
 msgid "The variable '{}' is not defined"
 msgstr "'{}' மாறி வரையறுக்கப்படவில்லை"
 
-#: src/widgets/error_pane.rs:98
+#: src/widgets/error_pane.rs:99
 msgid "There was a problem with a variable interpolation, review your inputs"
 msgstr "மாறி இடைக்கணிப்பில் சிக்கல் இருந்தது, உங்கள் உள்ளீடுகளை மதிப்பாய்வு செய்யவும்"
 
-#: src/widgets/error_pane.rs:101
+#: src/widgets/error_pane.rs:102
 #, rust-format
 msgid "The header '{}' is not valid"
 msgstr "'{}' தலைப்பு செல்லுபடியாகாது"
 
-#: src/widgets/error_pane.rs:104
+#: src/widgets/error_pane.rs:105
 #, rust-format
 msgid "The value for header '{}' is not valid"
 msgstr "'{}' என்ற தலைப்புக்கான மதிப்பு செல்லுபடியாகாது"
 
-#: src/widgets/error_pane.rs:107
+#: src/widgets/error_pane.rs:108
 msgid "The given request body could not be encoded correctly"
 msgstr "கொடுக்கப்பட்ட கோரிக்கை உடலை சரியாக குறியாக்கம் செய்ய முடியவில்லை"
 
-#: src/widgets/error_pane.rs:109
+#: src/widgets/error_pane.rs:110
 msgid "There is an input/output error"
 msgstr "உள்ளீடு/வெளியீட்டு பிழை உள்ளது"
 
-#: src/widgets/error_pane.rs:110
+#: src/widgets/error_pane.rs:111
 msgid "There is a network error"
 msgstr "பிணைய பிழை உள்ளது"
 
-#: src/widgets/error_pane.rs:129
+#: src/widgets/error_pane.rs:130
 msgid "The request data is not valid"
 msgstr "The request தகவல்கள் is not valid"
 
-#: src/widgets/error_pane.rs:136
+#: src/widgets/error_pane.rs:137
 msgid "The request failed"
 msgstr "கோரிக்கை தோல்வியடைந்தது"
 
@@ -1018,9 +1022,6 @@ msgstr "தமிழ்நேரம்"
 #: src/win.rs:602
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 கார்டெரோ ஆசிரியர்கள்"
-
-#~ msgid "The specified URL is not valid"
-#~ msgstr "குறிப்பிட்ட முகவரி செல்லுபடியாகாது"
 
 #~ msgid "The current tab is not associated with a file"
 #~ msgstr "தற்போதைய தாவல் ஒரு கோப்போடு தொடர்புடையது அல்ல"

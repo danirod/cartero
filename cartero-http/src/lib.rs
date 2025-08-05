@@ -29,6 +29,7 @@ pub use request::BoundRequest;
 
 #[derive(Debug)]
 pub enum RequestError {
+    EmptyUrl,
     UrlBadParse,
     MissingProtocol,
     UnsupportedProtocol(String), // Protocol {} not supported

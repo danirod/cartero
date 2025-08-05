@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-01 23:25+0200\n"
+"POT-Creation-Date: 2025-08-05 18:06+0200\n"
 "PO-Revision-Date: 2025-08-05 14:02+0000\n"
 "Last-Translator: Eric Pernas <ericpg76@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -566,7 +566,7 @@ msgstr "Benvido a Cartero"
 msgid "Create or open a request and start testing APIs now."
 msgstr "Crea ou abre unha petición e comeza a probar APIs agora."
 
-#: data/ui/main_window.blp:168 data/ui/main_window_no_csd.blp:170
+#: data/ui/main_window.blp:169 data/ui/main_window_no_csd.blp:171
 msgid "Export request as cURL…"
 msgstr "Exportar petición como cURL…"
 
@@ -919,54 +919,58 @@ msgid "{} ms"
 msgstr "{} ms"
 
 #: src/widgets/error_pane.rs:89
+msgid "The specified URL is not valid"
+msgstr "A URL especificada non é válida"
+
+#: src/widgets/error_pane.rs:90
 msgid "Cannot recognise the URL"
 msgstr "Non se pode recoñecer a URL"
 
-#: src/widgets/error_pane.rs:90
+#: src/widgets/error_pane.rs:91
 msgid "The given URL is missing a protocol"
 msgstr "A URL indicada non ten un protocolo"
 
-#: src/widgets/error_pane.rs:92
+#: src/widgets/error_pane.rs:93
 #, rust-format
 msgid "The protocol {}:// is not supported"
 msgstr "O protocolo {}:// non está soportado"
 
-#: src/widgets/error_pane.rs:95
+#: src/widgets/error_pane.rs:96
 #, rust-format
 msgid "The variable '{}' is not defined"
 msgstr "A variable '{}' non está definida"
 
-#: src/widgets/error_pane.rs:98
+#: src/widgets/error_pane.rs:99
 msgid "There was a problem with a variable interpolation, review your inputs"
 msgstr "Houbo un problema interpolando a variable, revisa as entradas"
 
-#: src/widgets/error_pane.rs:101
+#: src/widgets/error_pane.rs:102
 #, rust-format
 msgid "The header '{}' is not valid"
 msgstr "A cabeceira '{}' non é válida"
 
-#: src/widgets/error_pane.rs:104
+#: src/widgets/error_pane.rs:105
 #, rust-format
 msgid "The value for header '{}' is not valid"
 msgstr "O valor da cabeceira '{}' non é válido"
 
-#: src/widgets/error_pane.rs:107
+#: src/widgets/error_pane.rs:108
 msgid "The given request body could not be encoded correctly"
 msgstr "O corpo da petición dado non se puido codificar correctamente"
 
-#: src/widgets/error_pane.rs:109
+#: src/widgets/error_pane.rs:110
 msgid "There is an input/output error"
 msgstr "Hai un erro de entrada/saída"
 
-#: src/widgets/error_pane.rs:110
+#: src/widgets/error_pane.rs:111
 msgid "There is a network error"
 msgstr "Hai un erro de rede"
 
-#: src/widgets/error_pane.rs:129
+#: src/widgets/error_pane.rs:130
 msgid "The request data is not valid"
 msgstr "Os datos de petición non son válidos"
 
-#: src/widgets/error_pane.rs:136
+#: src/widgets/error_pane.rs:137
 msgid "The request failed"
 msgstr "A petición fallou"
 
@@ -1021,9 +1025,6 @@ msgstr "Eric Pernas"
 #: src/win.rs:602
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 os autores de Cartero"
-
-#~ msgid "The specified URL is not valid"
-#~ msgstr "A URL especificada non é válida"
 
 #~ msgid "The current tab is not associated with a file"
 #~ msgstr "A lapela actual non está asociada cun arquivo"

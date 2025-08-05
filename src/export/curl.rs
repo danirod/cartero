@@ -15,12 +15,34 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use cartero_objects::{Request, RequestBodyRawType};
+use cartero_objects::{Field, FieldTable, Request, RequestBodyRawType, RequestBodyType};
+use gtk::gio::prelude::ListModelExtManual;
 use serde_json::{Error, Value};
+
+fn escape_single_string(str: impl AsRef<str>) -> String {
+    str.as_ref().replace("'", "'\\''")
+}
+
+fn encode_multipart(params: &FieldTable) -> String {
+    params
+        .iter::<Field>()
+        .filter_map(|f| f.ok())
+        .filter(|f| f.active())
+        .map(|f| {
+            format!(
+                "-F '{}={}'",
+                escape_single_string(f.key()),
+                escape_single_string(f.value())
+            )
+        })
+        .collect::<Vec<_>>()
+        .join(" \\\n  ")
+}
 
 pub fn export_as_curl(request: &Request) -> Result<String, cartero_http::RequestError> {
     let bound_request = cartero_http::BoundRequest::try_from(request.clone())?;
     let mut command = "curl".to_string();
+    let template = request.variables().template_processor();
 
     command.push_str(&{
         let method_str: String = bound_request.method.to_string();
@@ -29,13 +51,19 @@ pub fn export_as_curl(request: &Request) -> Result<String, cartero_http::Request
 
     if !bound_request.headers.is_empty() {
         let size = bound_request.headers.len();
-        let mut keys: Vec<&String> = bound_request.headers.keys().collect();
+        let mut keys: Vec<String> = bound_request.headers.keys().cloned().collect();
         keys.sort();
+
+        // Skip the Content-Type in multipart requests because it is ugly anyway
+        // and cURL will add its own boundary anyway.
+        if request.body().body_type() == RequestBodyType::Multipart {
+            keys.retain(|k| !k.eq("Content-Type"));
+        }
 
         command.push_str(" \\\n");
 
         for (i, key) in keys.iter().enumerate() {
-            let val = bound_request.headers.get(*key).unwrap();
+            let val = bound_request.headers.get(key).unwrap();
 
             command.push_str(&{
                 let mut initial = format!("  -H '{key}: {val}'");
@@ -54,6 +82,12 @@ pub fn export_as_curl(request: &Request) -> Result<String, cartero_http::Request
             let str = String::from_utf8_lossy(&bd).to_string();
             command.push_str(&format!(" \\\n  -d '{str}'"));
         }
+    }
+
+    if let Some(multipart) = request.body().multipart() {
+        let table = multipart.params().render(&template)?;
+        let params = encode_multipart(&table);
+        command.push_str(&format!(" \\\n  {params}"));
     }
 
     if let Some(raw) = request.body().raw() {
@@ -98,7 +132,7 @@ pub fn export_as_curl(request: &Request) -> Result<String, cartero_http::Request
 mod tests {
     use cartero_objects::{
         Field, RequestAuthentication, RequestAuthenticationBasic, RequestAuthenticationBearer,
-        RequestBody, RequestBodyRaw, RequestBodyUrlencoded, RequestMethod,
+        RequestBody, RequestBodyMultipart, RequestBodyRaw, RequestBodyUrlencoded, RequestMethod,
     };
 
     use super::*;
@@ -274,6 +308,53 @@ mod tests {
         assert!(
             output.contains("-d 'user_id=100&category=home+office&is_admin=true'"),
             "Expected {} to contain the encoded body",
+            output
+        );
+    }
+
+    #[test]
+    fn test_renders_multipart() {
+        let multipart = RequestBodyMultipart::builder()
+            .field(&Field::builder().key("user_id").value("100").build())
+            .field(
+                &Field::builder()
+                    .key("category")
+                    .value("home office")
+                    .build(),
+            )
+            .field(
+                &Field::builder()
+                    .key("ignore_me")
+                    .value("please")
+                    .active(false)
+                    .build(),
+            )
+            .field(&Field::builder().key("is_admin").value("{{ADMIN}}").build())
+            .build();
+        let body = RequestBody::builder().multipart(&multipart).build();
+        let request = Request::builder("https://localhost:3000/foobar", RequestMethod::Post)
+            .variable(&Field::builder().key("ADMIN").value("true").build())
+            .with_body(body)
+            .build();
+        let output = super::export_as_curl(&request).expect("Should have been OK");
+        assert!(
+            output.contains("-F 'user_id=100'"),
+            "Expected {} to contain the encoded body for user_id",
+            output
+        );
+        assert!(
+            output.contains("-F 'category=home office'"),
+            "Expected {} to contain the encoded body for category",
+            output
+        );
+        assert!(
+            output.contains("-F 'is_admin=true'"),
+            "Expected {} to contain the encoded body for is_admin",
+            output
+        );
+        assert!(
+            !output.contains("-H 'Content-Type: multipart/form-data; boundary="),
+            "Expected {} not to contain a multipart header",
             output
         );
     }

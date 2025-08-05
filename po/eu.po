@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-03 13:36+0200\n"
+"POT-Creation-Date: 2025-08-05 18:06+0200\n"
 "PO-Revision-Date: 2025-05-01 14:01+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <ibaios@disroot.org>\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -924,54 +924,58 @@ msgid "{} ms"
 msgstr "{} ms"
 
 #: src/widgets/error_pane.rs:89
+msgid "The specified URL is not valid"
+msgstr "Zehaztutako URLa ez da baliozkoa"
+
+#: src/widgets/error_pane.rs:90
 msgid "Cannot recognise the URL"
 msgstr "Ez da URLa ezagutzen"
 
-#: src/widgets/error_pane.rs:90
+#: src/widgets/error_pane.rs:91
 msgid "The given URL is missing a protocol"
 msgstr "Emandako URLak ez dauka protokolorik"
 
-#: src/widgets/error_pane.rs:92
+#: src/widgets/error_pane.rs:93
 #, rust-format
 msgid "The protocol {}:// is not supported"
 msgstr "{}:// protokoloa ez dago onartua"
 
-#: src/widgets/error_pane.rs:95
+#: src/widgets/error_pane.rs:96
 #, rust-format
 msgid "The variable '{}' is not defined"
 msgstr "'{}' aldagaia ez dago definitua"
 
-#: src/widgets/error_pane.rs:98
+#: src/widgets/error_pane.rs:99
 msgid "There was a problem with a variable interpolation, review your inputs"
 msgstr "Arazo bat egon da aldagaiak tartekatzean, berrikusi sarrerak"
 
-#: src/widgets/error_pane.rs:101
+#: src/widgets/error_pane.rs:102
 #, rust-format
 msgid "The header '{}' is not valid"
 msgstr "'{}' goiburua ez da baliozkoa"
 
-#: src/widgets/error_pane.rs:104
+#: src/widgets/error_pane.rs:105
 #, rust-format
 msgid "The value for header '{}' is not valid"
 msgstr "'{}' goiburuaren balioa ez da baliozkoa"
 
-#: src/widgets/error_pane.rs:107
+#: src/widgets/error_pane.rs:108
 msgid "The given request body could not be encoded correctly"
 msgstr "Emandako eskaeraren gorputza ezin izan da behar bezala kodetu"
 
-#: src/widgets/error_pane.rs:109
+#: src/widgets/error_pane.rs:110
 msgid "There is an input/output error"
 msgstr "Sarrera/irteerako errore bat egon da"
 
-#: src/widgets/error_pane.rs:110
+#: src/widgets/error_pane.rs:111
 msgid "There is a network error"
 msgstr "Sareko errore bat egon da"
 
-#: src/widgets/error_pane.rs:129
+#: src/widgets/error_pane.rs:130
 msgid "The request data is not valid"
 msgstr "Eskaeraren datuak ez dira baliozkoak"
 
-#: src/widgets/error_pane.rs:136
+#: src/widgets/error_pane.rs:137
 msgid "The request failed"
 msgstr "Eskaerak huts egin du"
 
@@ -1026,9 +1030,6 @@ msgstr "Ibai Oihanguren Sala"
 #: src/win.rs:602
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 Carteroren egileak"
-
-#~ msgid "The specified URL is not valid"
-#~ msgstr "Zehaztutako URLa ez da baliozkoa"
 
 #~ msgid "The current tab is not associated with a file"
 #~ msgstr "Uneko fitxa ez dago fitxategi bati lotua"

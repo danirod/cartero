@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-03 13:36+0200\n"
+"POT-Creation-Date: 2025-08-05 18:06+0200\n"
 "PO-Revision-Date: 2025-05-17 00:02+0000\n"
 "Last-Translator: Juan Manuel Nani <jn4625070@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -932,56 +932,60 @@ msgid "{} ms"
 msgstr "{} ms"
 
 #: src/widgets/error_pane.rs:89
+msgid "The specified URL is not valid"
+msgstr "Die angegebene URL ist nicht gültig"
+
+#: src/widgets/error_pane.rs:90
 msgid "Cannot recognise the URL"
 msgstr "Die URL kann nicht erkannt werden"
 
-#: src/widgets/error_pane.rs:90
+#: src/widgets/error_pane.rs:91
 msgid "The given URL is missing a protocol"
 msgstr "Der angegebenen URL fehlt ein Protokoll"
 
-#: src/widgets/error_pane.rs:92
+#: src/widgets/error_pane.rs:93
 #, rust-format
 msgid "The protocol {}:// is not supported"
 msgstr "Das Protokoll {}:// wird nicht unterstützt"
 
-#: src/widgets/error_pane.rs:95
+#: src/widgets/error_pane.rs:96
 #, rust-format
 msgid "The variable '{}' is not defined"
 msgstr "Die Variable '{}' ist nicht definiert"
 
-#: src/widgets/error_pane.rs:98
+#: src/widgets/error_pane.rs:99
 msgid "There was a problem with a variable interpolation, review your inputs"
 msgstr ""
 "Es gab ein Problem mit einer variablen Interpolation, überprüfen Sie Ihre "
 "Eingaben"
 
-#: src/widgets/error_pane.rs:101
+#: src/widgets/error_pane.rs:102
 #, rust-format
 msgid "The header '{}' is not valid"
 msgstr "Die Kopfzeile '{}' ist nicht gültig"
 
-#: src/widgets/error_pane.rs:104
+#: src/widgets/error_pane.rs:105
 #, rust-format
 msgid "The value for header '{}' is not valid"
 msgstr "Der Wert für die Kopfzeile '{}' ist nicht gültig"
 
-#: src/widgets/error_pane.rs:107
+#: src/widgets/error_pane.rs:108
 msgid "The given request body could not be encoded correctly"
 msgstr "Der angegebene Request Body konnte nicht korrekt kodiert werden"
 
-#: src/widgets/error_pane.rs:109
+#: src/widgets/error_pane.rs:110
 msgid "There is an input/output error"
 msgstr "Es liegt ein Eingabe-/Ausgabefehler vor"
 
-#: src/widgets/error_pane.rs:110
+#: src/widgets/error_pane.rs:111
 msgid "There is a network error"
 msgstr "Ein Netzwerkfehler liegt vor"
 
-#: src/widgets/error_pane.rs:129
+#: src/widgets/error_pane.rs:130
 msgid "The request data is not valid"
 msgstr "Die Anfragedaten sind ungültig"
 
-#: src/widgets/error_pane.rs:136
+#: src/widgets/error_pane.rs:137
 msgid "The request failed"
 msgstr "Anfrage fehlgeschlagen"
 
@@ -1036,9 +1040,6 @@ msgstr "mstffn"
 #: src/win.rs:602
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 die Cartero Autoren"
-
-#~ msgid "The specified URL is not valid"
-#~ msgstr "Die angegebene URL ist nicht gültig"
 
 #~ msgid "The current tab is not associated with a file"
 #~ msgstr "Der aktuelle Tab ist nicht mit einer Datei verknüpft"

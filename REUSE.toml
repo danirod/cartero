@@ -133,6 +133,7 @@ SPDX-License-Identifier = "GPL-3.0-or-later"
 [[annotations]]
 path = [
     "**/README.md",
+    "ChangeLog",
     "NEWS.md",
     "doc/**/*.md",
     "doc/**/*.png",

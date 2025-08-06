@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-05 18:06+0200\n"
+"POT-Creation-Date: 2025-08-07 17:19+0200\n"
 "PO-Revision-Date: 2025-05-22 15:06+0000\n"
 "Last-Translator: alesdevux <aleswebgit@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -325,7 +325,7 @@ msgstr "Dreceres generals"
 msgid "Copy to clipboard"
 msgstr "Contingut copiat al porta-retalls"
 
-#: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:182
+#: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:226
 #, fuzzy
 msgid "Export to file"
 msgstr "Exportar com"
@@ -374,7 +374,7 @@ msgid "Open request…"
 msgstr "Obrir petició…"
 
 #: data/ui/mac_menu.blp:35 data/ui/main_window.blp:188
-#: data/ui/main_window_no_csd.blp:190 src/widgets/file_dialogs.rs:144
+#: data/ui/main_window_no_csd.blp:190 src/widgets/file_dialogs.rs:146
 msgid "Save request"
 msgstr "Guardar petició"
 
@@ -539,12 +539,12 @@ msgstr "Nou"
 
 #: data/ui/main_window.blp:61 data/ui/main_window.blp:73
 #: data/ui/main_window_no_csd.blp:58 data/ui/main_window_no_csd.blp:70
-#: src/widgets/file_dialogs.rs:107
+#: src/widgets/file_dialogs.rs:109 src/widgets/file_dialogs.rs:186
 msgid "Open"
 msgstr "Obrir"
 
 #: data/ui/main_window.blp:81 data/ui/main_window_no_csd.blp:78
-#: src/widgets/file_dialogs.rs:143 src/widgets/file_dialogs.rs:181
+#: src/widgets/file_dialogs.rs:145 src/widgets/file_dialogs.rs:225
 msgid "Save"
 msgstr "Guardar"
 
@@ -804,30 +804,31 @@ msgstr "_Obir web"
 msgid "_Not now"
 msgstr "_No ara"
 
-#: src/widgets/dialogs.rs:46
+#: src/widgets/dialogs.rs:50
 #, rust-format
 msgid "Cannot open '{}'"
 msgstr "No es pot obrir '{}'"
 
-#: src/widgets/dialogs.rs:47
+#: src/widgets/dialogs.rs:51
 msgid "Cannot open the requested file"
 msgstr "No s'ha pogut obrir el fitxer demanat"
 
-#: src/widgets/dialogs.rs:56 src/widgets/dialogs.rs:87
-#: src/widgets/dialogs.rs:118 src/widgets/dialogs.rs:131
+#: src/widgets/dialogs.rs:60 src/widgets/dialogs.rs:91
+#: src/widgets/dialogs.rs:121 src/widgets/dialogs.rs:144
+#: src/widgets/dialogs.rs:157
 msgid "Close"
 msgstr "Tancar"
 
-#: src/widgets/dialogs.rs:70
+#: src/widgets/dialogs.rs:74
 #, rust-format
 msgid "The file '{}' was loaded but had issues"
 msgstr "S'ha carregat el fitxer '{}' pero ha tingut problemes"
 
-#: src/widgets/dialogs.rs:71
+#: src/widgets/dialogs.rs:75
 msgid "The requested file was loaded but had issues"
 msgstr "S'ha carregat el fitxer sol·licitat però ha tingut problemes"
 
-#: src/widgets/dialogs.rs:94
+#: src/widgets/dialogs.rs:98
 #, rust-format
 msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
@@ -835,30 +836,44 @@ msgid ""
 msgstr ""
 "El verb HTTP trobat al fitxer era '{}'. No és vàlid, es tornarà a '{}'."
 
-#: src/widgets/dialogs.rs:109
+#: src/widgets/dialogs.rs:114
+#, fuzzy
+msgid "The requested file cannot be picked"
+msgstr "S'ha carregat el fitxer sol·licitat però ha tingut problemes"
+
+#: src/widgets/dialogs.rs:115
+#, rust-format
+msgid ""
+"The file must be within the same directory as the request or project file or "
+"any of its subdirectories.\n"
+"\n"
+"The file '{}' is not part of the '{}' directory"
+msgstr ""
+
+#: src/widgets/dialogs.rs:135
 #, rust-format
 msgid "Cannot save '{}'"
 msgstr "No es pot desar '{}'"
 
-#: src/widgets/dialogs.rs:110
+#: src/widgets/dialogs.rs:136
 msgid "Cannot save the requested file"
 msgstr "No es pot desar el fitxer sol·licitat"
 
-#: src/widgets/dialogs.rs:112
+#: src/widgets/dialogs.rs:138
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
 msgstr ""
 
-#: src/widgets/dialogs.rs:126
+#: src/widgets/dialogs.rs:152
 msgid "Could not select a valid file from the file chooser"
 msgstr "No s'ha pogut seleccionar un fitxer vàlid des del selector de fitxers"
 
-#: src/widgets/dialogs.rs:140
+#: src/widgets/dialogs.rs:166
 msgid "There are unsaved changes"
 msgstr "Hi ha canvis no guardats"
 
-#: src/widgets/dialogs.rs:142
+#: src/widgets/dialogs.rs:168
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
@@ -866,36 +881,36 @@ msgstr ""
 "Al tancar aquesta finestra perdrà totes les dades sense desar. Estàs segur "
 "que vols continuar?"
 
-#: src/widgets/dialogs.rs:146
+#: src/widgets/dialogs.rs:172
 msgid "Cancel"
 msgstr "Cancel·lar"
 
-#: src/widgets/dialogs.rs:147
+#: src/widgets/dialogs.rs:173
 msgid "Close anyway"
 msgstr "Tancar igualment"
 
-#: src/widgets/dialogs.rs:170
+#: src/widgets/dialogs.rs:196
 #, rust-format
 msgid "Save changes in '{}'?"
 msgstr "Guardar canvis a '{}'?"
 
-#: src/widgets/dialogs.rs:171
+#: src/widgets/dialogs.rs:197
 msgid "Save changes?"
 msgstr "Guardar canvis?"
 
-#: src/widgets/dialogs.rs:176
+#: src/widgets/dialogs.rs:202
 msgid "There are changes that have not been saved yet. What do you want to do?"
 msgstr "Hi ha canvis que encara no han sigut guardats. ¿Què vols fer?"
 
-#: src/widgets/dialogs.rs:180
+#: src/widgets/dialogs.rs:206
 msgid "_Cancel"
 msgstr "_Cancel·lar"
 
-#: src/widgets/dialogs.rs:181
+#: src/widgets/dialogs.rs:207
 msgid "_Discard"
 msgstr "_Descartar"
 
-#: src/widgets/dialogs.rs:182
+#: src/widgets/dialogs.rs:208
 msgid "_Save"
 msgstr "_Guardar"
 
@@ -979,14 +994,18 @@ msgstr "Contingut copiat al porta-retalls"
 
 #. TRANSLATORS: presented in file dialogs as the file type for a request
 #. The macOS native file dialog will already add the extension for us.
-#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:148
-#: src/widgets/file_dialogs.rs:150
+#: src/widgets/file_dialogs.rs:42 src/widgets/file_dialogs.rs:150
+#: src/widgets/file_dialogs.rs:152
 msgid "Request"
 msgstr "Petició"
 
-#: src/widgets/file_dialogs.rs:108
+#: src/widgets/file_dialogs.rs:110
 msgid "Open request"
 msgstr "Obir petició"
+
+#: src/widgets/file_dialogs.rs:187
+msgid "Select file"
+msgstr ""
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.

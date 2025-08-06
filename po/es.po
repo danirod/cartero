@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-05 18:06+0200\n"
+"POT-Creation-Date: 2025-08-07 17:19+0200\n"
 "PO-Revision-Date: 2025-08-01 22:56+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -328,7 +328,7 @@ msgstr "Salida generada"
 msgid "Copy to clipboard"
 msgstr "Copiar al portapapeles"
 
-#: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:182
+#: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:226
 msgid "Export to file"
 msgstr "Exportar a un archivo"
 
@@ -376,7 +376,7 @@ msgid "Open request…"
 msgstr "Abrir petición…"
 
 #: data/ui/mac_menu.blp:35 data/ui/main_window.blp:188
-#: data/ui/main_window_no_csd.blp:190 src/widgets/file_dialogs.rs:144
+#: data/ui/main_window_no_csd.blp:190 src/widgets/file_dialogs.rs:146
 msgid "Save request"
 msgstr "Guardar petición"
 
@@ -539,12 +539,12 @@ msgstr "Nuevo"
 
 #: data/ui/main_window.blp:61 data/ui/main_window.blp:73
 #: data/ui/main_window_no_csd.blp:58 data/ui/main_window_no_csd.blp:70
-#: src/widgets/file_dialogs.rs:107
+#: src/widgets/file_dialogs.rs:109 src/widgets/file_dialogs.rs:186
 msgid "Open"
 msgstr "Abrir"
 
 #: data/ui/main_window.blp:81 data/ui/main_window_no_csd.blp:78
-#: src/widgets/file_dialogs.rs:143 src/widgets/file_dialogs.rs:181
+#: src/widgets/file_dialogs.rs:145 src/widgets/file_dialogs.rs:225
 msgid "Save"
 msgstr "Guardar"
 
@@ -801,30 +801,31 @@ msgstr "_Abrir sitio web"
 msgid "_Not now"
 msgstr "Ahora _no"
 
-#: src/widgets/dialogs.rs:46
+#: src/widgets/dialogs.rs:50
 #, rust-format
 msgid "Cannot open '{}'"
 msgstr "No se puede abrir '{}'"
 
-#: src/widgets/dialogs.rs:47
+#: src/widgets/dialogs.rs:51
 msgid "Cannot open the requested file"
 msgstr "No se puede abrir el archivo solicitado"
 
-#: src/widgets/dialogs.rs:56 src/widgets/dialogs.rs:87
-#: src/widgets/dialogs.rs:118 src/widgets/dialogs.rs:131
+#: src/widgets/dialogs.rs:60 src/widgets/dialogs.rs:91
+#: src/widgets/dialogs.rs:121 src/widgets/dialogs.rs:144
+#: src/widgets/dialogs.rs:157
 msgid "Close"
 msgstr "Cerrar"
 
-#: src/widgets/dialogs.rs:70
+#: src/widgets/dialogs.rs:74
 #, rust-format
 msgid "The file '{}' was loaded but had issues"
 msgstr "El archivo '{}' fue cargado pero tenía problemas"
 
-#: src/widgets/dialogs.rs:71
+#: src/widgets/dialogs.rs:75
 msgid "The requested file was loaded but had issues"
 msgstr "El archivo solicitado fue cargado pero tenía problemas"
 
-#: src/widgets/dialogs.rs:94
+#: src/widgets/dialogs.rs:98
 #, rust-format
 msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
@@ -833,16 +834,30 @@ msgstr ""
 "El verbo HTTP que se encontró en el archivo era '{}'. No es válido, así que "
 "se reestablecerá a '{}'."
 
-#: src/widgets/dialogs.rs:109
+#: src/widgets/dialogs.rs:114
+#, fuzzy
+msgid "The requested file cannot be picked"
+msgstr "El archivo solicitado fue cargado pero tenía problemas"
+
+#: src/widgets/dialogs.rs:115
+#, rust-format
+msgid ""
+"The file must be within the same directory as the request or project file or "
+"any of its subdirectories.\n"
+"\n"
+"The file '{}' is not part of the '{}' directory"
+msgstr ""
+
+#: src/widgets/dialogs.rs:135
 #, rust-format
 msgid "Cannot save '{}'"
 msgstr "No se puede guardar '{}'"
 
-#: src/widgets/dialogs.rs:110
+#: src/widgets/dialogs.rs:136
 msgid "Cannot save the requested file"
 msgstr "No se puede guardar el archivo solicitado"
 
-#: src/widgets/dialogs.rs:112
+#: src/widgets/dialogs.rs:138
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
@@ -850,15 +865,15 @@ msgstr ""
 "Hubo un error durante el proceso de guardado. Asume que tus cambios todavía "
 "no han sido guardados."
 
-#: src/widgets/dialogs.rs:126
+#: src/widgets/dialogs.rs:152
 msgid "Could not select a valid file from the file chooser"
 msgstr "No se pudo seleccionar un archivo válido desde el selector de archivos"
 
-#: src/widgets/dialogs.rs:140
+#: src/widgets/dialogs.rs:166
 msgid "There are unsaved changes"
 msgstr "Hay cambios sin guardar"
 
-#: src/widgets/dialogs.rs:142
+#: src/widgets/dialogs.rs:168
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
@@ -866,36 +881,36 @@ msgstr ""
 "Cerrar esta ventana perderá cualquier dato no guardado. ¿De verdad quieres "
 "continuar?"
 
-#: src/widgets/dialogs.rs:146
+#: src/widgets/dialogs.rs:172
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: src/widgets/dialogs.rs:147
+#: src/widgets/dialogs.rs:173
 msgid "Close anyway"
 msgstr "Cerrar de todos modos"
 
-#: src/widgets/dialogs.rs:170
+#: src/widgets/dialogs.rs:196
 #, rust-format
 msgid "Save changes in '{}'?"
 msgstr "¿Guardar cambios en '{}'?"
 
-#: src/widgets/dialogs.rs:171
+#: src/widgets/dialogs.rs:197
 msgid "Save changes?"
 msgstr "¿Guardar cambios?"
 
-#: src/widgets/dialogs.rs:176
+#: src/widgets/dialogs.rs:202
 msgid "There are changes that have not been saved yet. What do you want to do?"
 msgstr "Hay cambios que todavía no han sido guardados. ¿Qué quieres hacer?"
 
-#: src/widgets/dialogs.rs:180
+#: src/widgets/dialogs.rs:206
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: src/widgets/dialogs.rs:181
+#: src/widgets/dialogs.rs:207
 msgid "_Discard"
 msgstr "_Descartar"
 
-#: src/widgets/dialogs.rs:182
+#: src/widgets/dialogs.rs:208
 msgid "_Save"
 msgstr "_Guardar"
 
@@ -978,14 +993,19 @@ msgstr "Contenido copiado al portapapeles"
 
 #. TRANSLATORS: presented in file dialogs as the file type for a request
 #. The macOS native file dialog will already add the extension for us.
-#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:148
-#: src/widgets/file_dialogs.rs:150
+#: src/widgets/file_dialogs.rs:42 src/widgets/file_dialogs.rs:150
+#: src/widgets/file_dialogs.rs:152
 msgid "Request"
 msgstr "Petición"
 
-#: src/widgets/file_dialogs.rs:108
+#: src/widgets/file_dialogs.rs:110
 msgid "Open request"
 msgstr "Abrir petición"
+
+#: src/widgets/file_dialogs.rs:187
+#, fuzzy
+msgid "Select file"
+msgstr "Seleccionar todo"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-05 18:06+0200\n"
+"POT-Creation-Date: 2025-08-07 17:19+0200\n"
 "PO-Revision-Date: 2025-05-06 12:01+0000\n"
 "Last-Translator: Yurt Page <yurtpage@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -326,7 +326,7 @@ msgstr "Общие"
 msgid "Copy to clipboard"
 msgstr ""
 
-#: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:182
+#: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:226
 #, fuzzy
 msgid "Export to file"
 msgstr "Экспортировать в"
@@ -375,7 +375,7 @@ msgid "Open request…"
 msgstr "Открыть запрос…"
 
 #: data/ui/mac_menu.blp:35 data/ui/main_window.blp:188
-#: data/ui/main_window_no_csd.blp:190 src/widgets/file_dialogs.rs:144
+#: data/ui/main_window_no_csd.blp:190 src/widgets/file_dialogs.rs:146
 msgid "Save request"
 msgstr "Сохранить запрос"
 
@@ -540,12 +540,12 @@ msgstr "Новая"
 
 #: data/ui/main_window.blp:61 data/ui/main_window.blp:73
 #: data/ui/main_window_no_csd.blp:58 data/ui/main_window_no_csd.blp:70
-#: src/widgets/file_dialogs.rs:107
+#: src/widgets/file_dialogs.rs:109 src/widgets/file_dialogs.rs:186
 msgid "Open"
 msgstr "Открыть"
 
 #: data/ui/main_window.blp:81 data/ui/main_window_no_csd.blp:78
-#: src/widgets/file_dialogs.rs:143 src/widgets/file_dialogs.rs:181
+#: src/widgets/file_dialogs.rs:145 src/widgets/file_dialogs.rs:225
 msgid "Save"
 msgstr "Сохранить"
 
@@ -795,95 +795,110 @@ msgstr "Открыть веб-сайт"
 msgid "_Not now"
 msgstr "Не сейчас"
 
-#: src/widgets/dialogs.rs:46
+#: src/widgets/dialogs.rs:50
 #, rust-format
 msgid "Cannot open '{}'"
 msgstr ""
 
-#: src/widgets/dialogs.rs:47
+#: src/widgets/dialogs.rs:51
 msgid "Cannot open the requested file"
 msgstr "Невозможно открыть запрашиваемый файл"
 
-#: src/widgets/dialogs.rs:56 src/widgets/dialogs.rs:87
-#: src/widgets/dialogs.rs:118 src/widgets/dialogs.rs:131
+#: src/widgets/dialogs.rs:60 src/widgets/dialogs.rs:91
+#: src/widgets/dialogs.rs:121 src/widgets/dialogs.rs:144
+#: src/widgets/dialogs.rs:157
 msgid "Close"
 msgstr "Закрыть"
 
-#: src/widgets/dialogs.rs:70
+#: src/widgets/dialogs.rs:74
 #, rust-format
 msgid "The file '{}' was loaded but had issues"
 msgstr ""
 
-#: src/widgets/dialogs.rs:71
+#: src/widgets/dialogs.rs:75
 msgid "The requested file was loaded but had issues"
 msgstr ""
 
-#: src/widgets/dialogs.rs:94
+#: src/widgets/dialogs.rs:98
 #, rust-format
 msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
 msgstr ""
 
-#: src/widgets/dialogs.rs:109
+#: src/widgets/dialogs.rs:114
+#, fuzzy
+msgid "The requested file cannot be picked"
+msgstr "Запросы не выполнился"
+
+#: src/widgets/dialogs.rs:115
+#, rust-format
+msgid ""
+"The file must be within the same directory as the request or project file or "
+"any of its subdirectories.\n"
+"\n"
+"The file '{}' is not part of the '{}' directory"
+msgstr ""
+
+#: src/widgets/dialogs.rs:135
 #, rust-format
 msgid "Cannot save '{}'"
 msgstr ""
 
-#: src/widgets/dialogs.rs:110
+#: src/widgets/dialogs.rs:136
 msgid "Cannot save the requested file"
 msgstr ""
 
-#: src/widgets/dialogs.rs:112
+#: src/widgets/dialogs.rs:138
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
 msgstr ""
 
-#: src/widgets/dialogs.rs:126
+#: src/widgets/dialogs.rs:152
 msgid "Could not select a valid file from the file chooser"
 msgstr ""
 
-#: src/widgets/dialogs.rs:140
+#: src/widgets/dialogs.rs:166
 msgid "There are unsaved changes"
 msgstr ""
 
-#: src/widgets/dialogs.rs:142
+#: src/widgets/dialogs.rs:168
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
 msgstr ""
 
-#: src/widgets/dialogs.rs:146
+#: src/widgets/dialogs.rs:172
 msgid "Cancel"
 msgstr "Отмена"
 
-#: src/widgets/dialogs.rs:147
+#: src/widgets/dialogs.rs:173
 msgid "Close anyway"
 msgstr "Закрыть всё равно"
 
-#: src/widgets/dialogs.rs:170
+#: src/widgets/dialogs.rs:196
 #, rust-format
 msgid "Save changes in '{}'?"
 msgstr "Сохранить изменения в «{}»?"
 
-#: src/widgets/dialogs.rs:171
+#: src/widgets/dialogs.rs:197
 msgid "Save changes?"
 msgstr "Сохранить изменения?"
 
-#: src/widgets/dialogs.rs:176
+#: src/widgets/dialogs.rs:202
 msgid "There are changes that have not been saved yet. What do you want to do?"
 msgstr "Есть несохраненные изменения. Что вы хотите сделать?"
 
-#: src/widgets/dialogs.rs:180
+#: src/widgets/dialogs.rs:206
 msgid "_Cancel"
 msgstr "_Отмена"
 
-#: src/widgets/dialogs.rs:181
+#: src/widgets/dialogs.rs:207
 msgid "_Discard"
 msgstr "_Отменить"
 
-#: src/widgets/dialogs.rs:182
+#: src/widgets/dialogs.rs:208
 msgid "_Save"
 msgstr "_Сохранить"
 
@@ -967,14 +982,18 @@ msgstr ""
 
 #. TRANSLATORS: presented in file dialogs as the file type for a request
 #. The macOS native file dialog will already add the extension for us.
-#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:148
-#: src/widgets/file_dialogs.rs:150
+#: src/widgets/file_dialogs.rs:42 src/widgets/file_dialogs.rs:150
+#: src/widgets/file_dialogs.rs:152
 msgid "Request"
 msgstr "Запрос"
 
-#: src/widgets/file_dialogs.rs:108
+#: src/widgets/file_dialogs.rs:110
 msgid "Open request"
 msgstr "Открыть запрос"
+
+#: src/widgets/file_dialogs.rs:187
+msgid "Select file"
+msgstr ""
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.

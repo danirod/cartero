@@ -33,6 +33,10 @@ fn get_file_display_name(file: &gio::File) -> Option<String> {
         .map(|bn| bn.file_stem().unwrap().to_str().unwrap().to_string())
 }
 
+fn get_file_path_name(file: &gio::File) -> Option<String> {
+    file.path().map(|path| path.to_str().unwrap().to_string())
+}
+
 /// Renders an error message that shows the reason on why the given file could
 /// not be opened. The path to the file to load should be given as an argument
 /// so that it can be presented in the title.
@@ -94,6 +98,28 @@ fn pretty_warning(warning: FileWarningTag) -> String {
                 gettext("The HTTP verb found in the file was '{}'. It is not valid, it will fallback to '{}'."),
                 v, "GET").unwrap()
         }
+}
+
+/// Renders an error message when a file cannot be picked because it's not part of the given prefix
+/// directory and the security policy currently disallows attaching any kind of file to an HTTP
+/// request.
+pub async fn file_pick_out_of_prefix_error(
+    root: &impl IsA<gtk::Widget>,
+    file: &gio::File,
+    prefix: &gio::File,
+) {
+    let file_name = get_file_path_name(file).expect("Impossible to calculate path to file");
+    let prefix_name = get_file_path_name(prefix).expect("Impossible to calculate path to prefix");
+
+    let error_title = gettext("The requested file cannot be picked");
+    let error_description = formatx!(gettext("The file must be within the same directory as the request or project file or any of its subdirectories.\n\nThe file '{}' is not part of the '{}' directory"), file_name, prefix_name).unwrap();
+    let alert = AlertDialog::builder()
+        .heading(&error_title)
+        .body(&error_description)
+        .default_response("close")
+        .build();
+    alert.add_response("close", &gettext("Close"));
+    alert.choose_future(root).await;
 }
 
 /// Renders an error message that shows the error that prevents the file from

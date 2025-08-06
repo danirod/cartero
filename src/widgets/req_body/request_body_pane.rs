@@ -21,7 +21,10 @@ use adw::subclass::prelude::*;
 mod imp {
     use std::cell::RefCell;
 
-    use crate::widgets::req_body::{Multipart, Raw, Urlencoded};
+    use crate::widgets::{
+        endpoint::EndpointPane,
+        req_body::{File, Multipart, Raw, Urlencoded},
+    };
 
     use super::*;
     use cartero_objects::{RequestBody, RequestBodyRawType, RequestBodyType};
@@ -86,30 +89,51 @@ mod imp {
     impl RequestBodyPane {
         fn sync_container(&self) {
             let body = self.obj().body();
-            let container_child = match body.body_type() {
-                RequestBodyType::UrlEncoded => {
-                    let urlencoded = body.urlencoded().unwrap();
-                    let widget = glib::Object::builder::<Urlencoded>()
-                        .property("table", urlencoded.params())
-                        .build();
-                    Some(widget.upcast::<gtk::Widget>())
-                }
-                RequestBodyType::Multipart => {
-                    let urlencoded = body.multipart().unwrap();
-                    let widget = glib::Object::builder::<Multipart>()
-                        .property("table", urlencoded.params())
-                        .build();
-                    Some(widget.upcast::<gtk::Widget>())
-                }
-                RequestBodyType::Raw => {
-                    let raw = body.raw().unwrap();
-                    let widget = glib::Object::builder::<Raw>()
-                        .property("payload", &raw)
-                        .build();
-                    Some(widget.upcast::<gtk::Widget>())
-                }
-                _ => None,
-            };
+            let container_child =
+                match body.body_type() {
+                    RequestBodyType::UrlEncoded => {
+                        let urlencoded = body.urlencoded().unwrap();
+                        let widget = glib::Object::builder::<Urlencoded>()
+                            .property("table", urlencoded.params())
+                            .build();
+                        Some(widget.upcast::<gtk::Widget>())
+                    }
+                    RequestBodyType::Multipart => {
+                        let urlencoded = body.multipart().unwrap();
+                        let widget = glib::Object::builder::<Multipart>()
+                            .property("table", urlencoded.params())
+                            .build();
+                        Some(widget.upcast::<gtk::Widget>())
+                    }
+                    RequestBodyType::Raw => {
+                        let raw = body.raw().unwrap();
+                        let widget = glib::Object::builder::<Raw>()
+                            .property("payload", &raw)
+                            .build();
+                        Some(widget.upcast::<gtk::Widget>())
+                    }
+                    RequestBodyType::File => {
+                        let file = body.file().unwrap();
+                        let widget = glib::Object::builder::<File>()
+                            .property("file", file)
+                            .build();
+
+                        // Before the widget can be returned, we need to bind the 'saved' property
+                        // first. It is reactive, so that saving a new file for the first time triggers
+                        // an update of the property here to enable the buttons.
+                        if let Some(pane) = self.grab_endpoint_pane() {
+                            // Safety check in case you are trying to use the widget standalone.
+                            pane.property_expression("file")
+                                .chain_closure::<bool>(glib::closure!(
+                                    move |_: glib::Object, file: Option<gtk::gio::File>| file
+                                        .is_some()
+                                ))
+                                .bind(&widget, "saved", Some(&widget));
+                        }
+                        Some(widget.upcast::<gtk::Widget>())
+                    }
+                    _ => None,
+                };
             self.container.set_child(container_child.as_ref());
         }
 
@@ -125,6 +149,12 @@ mod imp {
             }
             self.sync_container();
         }
+
+        fn grab_endpoint_pane(&self) -> Option<EndpointPane> {
+            self.obj()
+                .ancestor(EndpointPane::static_type())
+                .and_downcast()
+        }
     }
 
     fn cast_selected_entry(value: u32) -> (RequestBodyType, Option<RequestBodyRawType>) {
@@ -134,6 +164,7 @@ mod imp {
             3 => (RequestBodyType::Raw, Some(RequestBodyRawType::Json)),
             4 => (RequestBodyType::Raw, Some(RequestBodyRawType::Xml)),
             5 => (RequestBodyType::Raw, Some(RequestBodyRawType::OctetStream)),
+            6 => (RequestBodyType::File, None),
             _ => (RequestBodyType::None, None),
         }
     }
@@ -150,6 +181,7 @@ mod imp {
                 RequestBodyRawType::Xml => 4,
                 RequestBodyRawType::OctetStream => 5,
             },
+            RequestBodyType::File => 6,
             _ => 0,
         }
     }

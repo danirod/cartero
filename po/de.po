@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-07 17:19+0200\n"
+"POT-Creation-Date: 2025-08-07 18:10+0200\n"
 "PO-Revision-Date: 2025-05-17 00:02+0000\n"
 "Last-Translator: Juan Manuel Nani <jn4625070@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -617,6 +617,11 @@ msgstr "Mehrteilige Formulardaten"
 #: data/ui/request_body_pane.blp:64
 msgid "Raw"
 msgstr "Rohdaten"
+
+#: data/ui/request_body_pane.blp:65
+#, fuzzy
+msgid "From file"
+msgstr "Exportieren zu"
 
 #: data/ui/response_headers.blp:42
 #, fuzzy

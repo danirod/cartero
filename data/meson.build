@@ -27,6 +27,7 @@ blueprint_files = [
     'ui/field_list_box_row.blp',
     'ui/field_table_list_view.blp',
     'ui/field_placeholder_row.blp',
+    'ui/file_body_pane.blp',
     'ui/mac_menu.blp',
     'ui/main_window.blp',
     'ui/main_window_no_csd.blp',

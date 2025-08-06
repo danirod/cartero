@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-07 17:19+0200\n"
+"POT-Creation-Date: 2025-08-07 18:10+0200\n"
 "PO-Revision-Date: 2025-04-16 11:02+0000\n"
 "Last-Translator: vesp <vesp@post.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/cartero/cartero/cs/"
@@ -611,6 +611,11 @@ msgstr "Multipart Form Data"
 #: data/ui/request_body_pane.blp:64
 msgid "Raw"
 msgstr "Raw"
+
+#: data/ui/request_body_pane.blp:65
+#, fuzzy
+msgid "From file"
+msgstr "Exportovat do"
 
 #: data/ui/response_headers.blp:42
 #, fuzzy

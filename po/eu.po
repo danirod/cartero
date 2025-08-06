@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-07 17:19+0200\n"
+"POT-Creation-Date: 2025-08-07 18:10+0200\n"
 "PO-Revision-Date: 2025-05-01 14:01+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <ibaios@disroot.org>\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -614,6 +614,11 @@ msgstr "Multipart inprimakia"
 #: data/ui/request_body_pane.blp:64
 msgid "Raw"
 msgstr "Gordina"
+
+#: data/ui/request_body_pane.blp:65
+#, fuzzy
+msgid "From file"
+msgstr "Esportatu hona"
 
 #: data/ui/response_headers.blp:42
 #, fuzzy

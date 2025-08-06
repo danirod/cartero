@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-07 17:19+0200\n"
+"POT-Creation-Date: 2025-08-07 18:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -590,6 +590,10 @@ msgstr ""
 
 #: data/ui/request_body_pane.blp:64
 msgid "Raw"
+msgstr ""
+
+#: data/ui/request_body_pane.blp:65
+msgid "From file"
 msgstr ""
 
 #: data/ui/response_headers.blp:42

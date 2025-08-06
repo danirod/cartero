@@ -15,11 +15,13 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+mod file;
 mod multipart;
 mod raw;
 mod request_body_pane;
 mod urlencoded;
 
+pub use file::*;
 pub use multipart::*;
 pub use raw::*;
 pub use request_body_pane::*;

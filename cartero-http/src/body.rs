@@ -48,6 +48,7 @@ impl TryFrom<&Request> for BoundBody {
             RequestBodyType::UrlEncoded => Self::try_from_urlencoded(value),
             RequestBodyType::Multipart => Self::try_from_multipart(value),
             RequestBodyType::Raw => Self::try_from_raw(value),
+            RequestBodyType::File => Ok(BoundBody::default()),
         }
     }
 }

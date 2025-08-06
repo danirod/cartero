@@ -18,7 +18,9 @@
 use glib::subclass::prelude::*;
 use glib::{prelude::*, Object};
 
-use crate::{RequestBodyData, RequestBodyMultipart, RequestBodyRaw, RequestBodyUrlencoded};
+use crate::{
+    RequestBodyData, RequestBodyFile, RequestBodyMultipart, RequestBodyRaw, RequestBodyUrlencoded,
+};
 
 glib::wrapper! {
     /// A special object to assign payload data to a request.
@@ -50,6 +52,7 @@ glib::wrapper! {
     /// | [`UrlEncoded`][RequestBodyType::UrlEncoded] | [RequestBodyUrlencoded][super::RequestBodyUrlencoded] |
     /// | [`Multipart`][RequestBodyType::Multipart] | [RequestBodyMultipart][super::RequestBodyMultipart] |
     /// | [`Raw`][RequestBodyType::Raw] | [RequestBodyRaw][super::RequestBodyRaw] |
+    /// | [`File`][RequestBodyType::File] | [RequestBodyFile][super::RequestBodyFile] |
     ///
     /// Note that the `body-data` property is of type `RequestBodyData`. You will
     /// have to downcast using the `.downcast()` and `.and_downcast()` methods
@@ -176,6 +179,7 @@ fn default_body_data(body_type: RequestBodyType) -> Option<RequestBodyData> {
         RequestBodyType::UrlEncoded => Some(RequestBodyUrlencoded::default().upcast()),
         RequestBodyType::Multipart => Some(RequestBodyMultipart::default().upcast()),
         RequestBodyType::Raw => Some(RequestBodyRaw::default().upcast()),
+        RequestBodyType::File => Some(RequestBodyFile::default().upcast()),
         _ => None,
     }
 }
@@ -225,6 +229,15 @@ impl RequestBody {
             None
         }
     }
+
+    /// Returns the file payload, if the body is of such type.
+    pub fn file(&self) -> Option<RequestBodyFile> {
+        if self.body_type() == RequestBodyType::File {
+            self.body_data().and_downcast::<RequestBodyFile>()
+        } else {
+            None
+        }
+    }
 }
 
 /// The kind of body being used in a [RequestBody] form.
@@ -260,10 +273,17 @@ pub enum RequestBodyType {
     /// header.
     #[enum_value(name = "RAW", nick = "Raw")]
     Raw,
+
+    // The body is stored in a file, and during request time it is loaded
+    // by the HTTP client or whatever application is using the structure.
+    #[enum_value(name = "FILE", nick = "File")]
+    File,
 }
 
 mod builder {
     use glib::object::ObjectBuilder;
+
+    use crate::RequestBodyFile;
 
     use super::*;
 
@@ -308,6 +328,14 @@ mod builder {
                 .builder
                 .property("body-type", RequestBodyType::Raw)
                 .property("body-data", raw);
+            self
+        }
+
+        pub fn file(mut self, file: &RequestBodyFile) -> Self {
+            self.builder = self
+                .builder
+                .property("body-type", RequestBodyType::File)
+                .property("body-data", file);
             self
         }
     }
@@ -430,8 +458,9 @@ mod tests {
 
     use crate::{
         utils::test::{assert_emits_signal, assert_emits_signals, assert_not_emits_signal},
-        Field, FieldTable, RequestBodyData, RequestBodyDataExt, RequestBodyMultipart,
-        RequestBodyRaw, RequestBodyRawType, RequestBodyType, RequestBodyUrlencoded,
+        Field, FieldTable, RequestBodyData, RequestBodyDataExt, RequestBodyFile,
+        RequestBodyMultipart, RequestBodyRaw, RequestBodyRawType, RequestBodyType,
+        RequestBodyUrlencoded,
     };
 
     use super::RequestBody;
@@ -513,6 +542,32 @@ mod tests {
     }
 
     #[test]
+    pub fn new_for_file_with_default() {
+        let payload = RequestBodyFile::default();
+        let body = RequestBody::new(RequestBodyType::File, Some(payload));
+        assert_eq!(body.body_type(), RequestBodyType::File);
+        let data = body
+            .body_data()
+            .and_downcast::<RequestBodyFile>()
+            .expect("No body of type file?");
+        assert_eq!(data.path(), "");
+        assert!(data.content_type().is_none());
+    }
+
+    #[test]
+    pub fn new_for_file_with_initial() {
+        let payload = RequestBodyFile::new("assets/report.xml", Some("application/xml"));
+        let body = RequestBody::new(RequestBodyType::File, Some(payload));
+        assert_eq!(body.body_type(), RequestBodyType::File);
+        let data = body
+            .body_data()
+            .and_downcast::<RequestBodyFile>()
+            .expect("No body of type file?");
+        assert_eq!(data.path(), "assets/report.xml");
+        assert!(data.content_type().is_some_and(|f| f == "application/xml"));
+    }
+
+    #[test]
     pub fn set_body_type_changes_data_type() {
         let body = RequestBody::new(RequestBodyType::UrlEncoded, RequestBodyData::NONE);
         assert!(body
@@ -586,6 +641,16 @@ mod tests {
     }
 
     #[test]
+    pub fn test_file() {
+        let file = RequestBodyFile::builder().path("assets/report.xml").build();
+        let body = RequestBody::builder().file(&file).build();
+        assert_eq!(body.body_type(), RequestBodyType::File);
+        let data = body.file().unwrap();
+        assert_eq!(data.path(), "assets/report.xml");
+        assert!(data.content_type().is_none());
+    }
+
+    #[test]
     pub fn test_emits_signal_on_change_none() {
         let body = RequestBody::new(RequestBodyType::None, RequestBodyData::NONE);
         assert_emits_signal(&body, "changed", || {
@@ -656,6 +721,22 @@ mod tests {
             body.raw()
                 .expect("This is not raw")
                 .set_payload_type(RequestBodyRawType::Xml);
+        });
+    }
+
+    #[test]
+    pub fn test_emits_signal_on_file_change() {
+        let body = RequestBody::new(RequestBodyType::File, RequestBodyData::NONE);
+
+        assert_emits_signal(&body, "changed", || {
+            body.file()
+                .expect("This is not file")
+                .set_path("assets/report.xml");
+        });
+        assert_emits_signal(&body, "changed", || {
+            body.file()
+                .expect("This is not file")
+                .set_content_type(Some("application/xml"));
         });
     }
 }

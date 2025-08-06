@@ -17,7 +17,7 @@
 
 use cartero_file_format::serialize_request;
 use cartero_objects::{
-    Field, FieldTable, Request, RequestBody, RequestBodyMultipart, RequestBodyRaw,
+    Field, FieldTable, Request, RequestBody, RequestBodyFile, RequestBodyMultipart, RequestBodyRaw,
     RequestBodyRawType, RequestBodyType, RequestBodyUrlencoded, RequestMethod,
 };
 
@@ -307,5 +307,57 @@ fn xml() {
         .build();
     let encoded = serialize_request(&req).unwrap();
     let actual = include_str!("body/xml.cartero");
+    assert_eq!(encoded, actual);
+}
+
+#[test]
+fn file() {
+    let req = Request::builder("https://www.example.com/login", RequestMethod::Post)
+        .with_body(
+            RequestBody::builder()
+                .file(&RequestBodyFile::builder().path("payload.xml").build())
+                .build(),
+        )
+        .build();
+    let encoded = serialize_request(&req).unwrap();
+    let actual = include_str!("body/file.cartero");
+    assert_eq!(encoded, actual);
+}
+
+#[test]
+fn file_with_content_type() {
+    let req = Request::builder("https://www.example.com/login", RequestMethod::Post)
+        .with_body(
+            RequestBody::builder()
+                .file(
+                    &RequestBodyFile::builder()
+                        .path("payload.xml")
+                        .content_type("application/xml")
+                        .build(),
+                )
+                .build(),
+        )
+        .build();
+    let encoded = serialize_request(&req).unwrap();
+    let actual = include_str!("body/file_with_content_type.cartero");
+    assert_eq!(encoded, actual);
+}
+
+#[test]
+fn file_with_empty_content_type() {
+    let req = Request::builder("https://www.example.com/login", RequestMethod::Post)
+        .with_body(
+            RequestBody::builder()
+                .file(
+                    &RequestBodyFile::builder()
+                        .path("payload.xml")
+                        .content_type("")
+                        .build(),
+                )
+                .build(),
+        )
+        .build();
+    let encoded = serialize_request(&req).unwrap();
+    let actual = include_str!("body/file.cartero");
     assert_eq!(encoded, actual);
 }

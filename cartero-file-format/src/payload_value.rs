@@ -16,8 +16,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use cartero_objects::{
-    FieldTable, RequestBody, RequestBodyMultipart, RequestBodyRaw, RequestBodyRawType,
-    RequestBodyType, RequestBodyUrlencoded,
+    FieldTable, RequestBody, RequestBodyFile, RequestBodyMultipart, RequestBodyRaw,
+    RequestBodyRawType, RequestBodyType, RequestBodyUrlencoded,
 };
 use serde::{Deserialize, Serialize};
 
@@ -71,6 +71,11 @@ pub(crate) enum PayloadValue {
         format: Option<PayloadRawFormat>,
         body: String,
     },
+    #[serde(rename = "file")]
+    File {
+        path: String,
+        content_type: Option<String>,
+    },
 }
 
 impl From<RequestBody> for PayloadValue {
@@ -98,6 +103,20 @@ impl From<RequestBody> for PayloadValue {
                     body: raw.payload(),
                 }
             }
+            RequestBodyType::File => {
+                let file = value.file().unwrap();
+                let content_type = file.content_type().and_then(|ct| {
+                    if ct.trim().is_empty() {
+                        None
+                    } else {
+                        Some(ct)
+                    }
+                });
+                Self::File {
+                    path: file.path(),
+                    content_type,
+                }
+            }
         }
     }
 }
@@ -120,6 +139,10 @@ impl From<PayloadValue> for RequestBody {
                 let parsed_variables = variables.map(FieldTable::from).unwrap_or_default();
                 let parsed_body = RequestBodyUrlencoded::from_table(&parsed_variables);
                 RequestBody::new(RequestBodyType::UrlEncoded, Some(parsed_body))
+            }
+            PayloadValue::File { path, content_type } => {
+                let file = RequestBodyFile::new(path, content_type);
+                RequestBody::new(RequestBodyType::File, Some(file))
             }
         }
     }

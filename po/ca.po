@@ -919,7 +919,7 @@ msgstr "_Descartar"
 msgid "_Save"
 msgstr "_Guardar"
 
-#: src/widgets/endpoint/endpoint_pane.rs:582
+#: src/widgets/endpoint/endpoint_pane.rs:585
 #, fuzzy
 msgid "Export request as cURL"
 msgstr "Exportar petició"
@@ -978,18 +978,28 @@ msgid "The given request body could not be encoded correctly"
 msgstr "No s'ha pogut codificar correctament el cos de la petició"
 
 #: src/widgets/error_pane.rs:110
+#, fuzzy
+msgid "You have to save the request first"
+msgstr "No es pot desar el fitxer sol·licitat"
+
+#: src/widgets/error_pane.rs:112
+#, rust-format
+msgid "The file '{}' cannot be accessed due to the security policy"
+msgstr ""
+
+#: src/widgets/error_pane.rs:116
 msgid "There is an input/output error"
 msgstr ""
 
-#: src/widgets/error_pane.rs:111
+#: src/widgets/error_pane.rs:117
 msgid "There is a network error"
 msgstr "Hi ha un error de xarxa"
 
-#: src/widgets/error_pane.rs:130
+#: src/widgets/error_pane.rs:136
 msgid "The request data is not valid"
 msgstr "Les dades de la petició no són vàlides"
 
-#: src/widgets/error_pane.rs:137
+#: src/widgets/error_pane.rs:143
 msgid "The request failed"
 msgstr "La petició a fallat"
 

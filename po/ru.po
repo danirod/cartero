@@ -907,7 +907,7 @@ msgstr "_Отменить"
 msgid "_Save"
 msgstr "_Сохранить"
 
-#: src/widgets/endpoint/endpoint_pane.rs:582
+#: src/widgets/endpoint/endpoint_pane.rs:585
 #, fuzzy
 msgid "Export request as cURL"
 msgstr "Экспортировать запрос"
@@ -966,18 +966,27 @@ msgid "The given request body could not be encoded correctly"
 msgstr ""
 
 #: src/widgets/error_pane.rs:110
+msgid "You have to save the request first"
+msgstr ""
+
+#: src/widgets/error_pane.rs:112
+#, rust-format
+msgid "The file '{}' cannot be accessed due to the security policy"
+msgstr ""
+
+#: src/widgets/error_pane.rs:116
 msgid "There is an input/output error"
 msgstr ""
 
-#: src/widgets/error_pane.rs:111
+#: src/widgets/error_pane.rs:117
 msgid "There is a network error"
 msgstr "Возникла ошибка сети"
 
-#: src/widgets/error_pane.rs:130
+#: src/widgets/error_pane.rs:136
 msgid "The request data is not valid"
 msgstr ""
 
-#: src/widgets/error_pane.rs:137
+#: src/widgets/error_pane.rs:143
 msgid "The request failed"
 msgstr "Запросы не выполнился"
 

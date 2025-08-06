@@ -23,4 +23,5 @@ pub struct ClientConfig {
 
 pub struct RequestEnvironment {
     pub config: ClientConfig,
+    pub prefix: Option<gio::File>,
 }

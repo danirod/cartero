@@ -32,7 +32,7 @@ pub struct BoundRequest {
 }
 
 impl BoundRequest {
-    pub async fn new(value: &Request, _env: &RequestEnvironment) -> Result<Self, RequestError> {
+    pub async fn new(value: &Request, env: &RequestEnvironment) -> Result<Self, RequestError> {
         if value.url().trim().is_empty() {
             return Err(RequestError::EmptyUrl);
         }
@@ -46,7 +46,7 @@ impl BoundRequest {
 
         let user_headers = value.headers().render(&processor)?;
         let auth = BoundHeaders::try_from(value)?;
-        let body = BoundBody::try_from(value)?;
+        let body = BoundBody::new(value, env).await?;
         let headers = combine_headers(&user_headers, &auth, &body);
 
         Ok(Self {
@@ -87,6 +87,7 @@ mod tests {
 
     fn dummy_env() -> RequestEnvironment {
         RequestEnvironment {
+            prefix: None,
             config: crate::ClientConfig {
                 validate_tls: false,
                 redirects: 0,

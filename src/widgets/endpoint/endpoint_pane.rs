@@ -428,7 +428,10 @@ mod imp {
                 timeout,
                 validate_tls,
             };
-            cartero_http::RequestEnvironment { config }
+            cartero_http::RequestEnvironment {
+                config,
+                prefix: self.obj().file().and_then(|f| f.parent()),
+            }
         }
 
         /// Executes an HTTP request based on the current contents of the pane.

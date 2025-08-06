@@ -919,7 +919,7 @@ msgstr "Zahodi_t změny"
 msgid "_Save"
 msgstr "_Uložit"
 
-#: src/widgets/endpoint/endpoint_pane.rs:582
+#: src/widgets/endpoint/endpoint_pane.rs:585
 #, fuzzy
 msgid "Export request as cURL"
 msgstr "Exportovat požadavek"
@@ -978,18 +978,28 @@ msgid "The given request body could not be encoded correctly"
 msgstr "Zadané tělo požadavku nebylo možné správně zakódovat"
 
 #: src/widgets/error_pane.rs:110
+#, fuzzy
+msgid "You have to save the request first"
+msgstr "Nelze uložit požadovaný soubor"
+
+#: src/widgets/error_pane.rs:112
+#, rust-format
+msgid "The file '{}' cannot be accessed due to the security policy"
+msgstr ""
+
+#: src/widgets/error_pane.rs:116
 msgid "There is an input/output error"
 msgstr "Došlo k chybě vstupu/výstupu"
 
-#: src/widgets/error_pane.rs:111
+#: src/widgets/error_pane.rs:117
 msgid "There is a network error"
 msgstr "Nastal problém se sítí"
 
-#: src/widgets/error_pane.rs:130
+#: src/widgets/error_pane.rs:136
 msgid "The request data is not valid"
 msgstr "Data požadavku nejsou platná"
 
-#: src/widgets/error_pane.rs:137
+#: src/widgets/error_pane.rs:143
 msgid "The request failed"
 msgstr "Požadavek se nezdařil"
 

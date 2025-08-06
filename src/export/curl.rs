@@ -25,6 +25,7 @@ pub struct CodeExportService {
 
 fn request_environment() -> RequestEnvironment {
     RequestEnvironment {
+        prefix: None,
         config: ClientConfig {
             validate_tls: false,
             redirects: 0,

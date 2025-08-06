@@ -933,7 +933,7 @@ msgstr "_Verwerfen"
 msgid "_Save"
 msgstr "_Speichern"
 
-#: src/widgets/endpoint/endpoint_pane.rs:582
+#: src/widgets/endpoint/endpoint_pane.rs:585
 #, fuzzy
 msgid "Export request as cURL"
 msgstr "Anfrage exportieren"
@@ -994,18 +994,28 @@ msgid "The given request body could not be encoded correctly"
 msgstr "Der angegebene Request Body konnte nicht korrekt kodiert werden"
 
 #: src/widgets/error_pane.rs:110
+#, fuzzy
+msgid "You have to save the request first"
+msgstr "Kann die angeforderte Datei nicht speichern"
+
+#: src/widgets/error_pane.rs:112
+#, rust-format
+msgid "The file '{}' cannot be accessed due to the security policy"
+msgstr ""
+
+#: src/widgets/error_pane.rs:116
 msgid "There is an input/output error"
 msgstr "Es liegt ein Eingabe-/Ausgabefehler vor"
 
-#: src/widgets/error_pane.rs:111
+#: src/widgets/error_pane.rs:117
 msgid "There is a network error"
 msgstr "Ein Netzwerkfehler liegt vor"
 
-#: src/widgets/error_pane.rs:130
+#: src/widgets/error_pane.rs:136
 msgid "The request data is not valid"
 msgstr "Die Anfragedaten sind ungültig"
 
-#: src/widgets/error_pane.rs:137
+#: src/widgets/error_pane.rs:143
 msgid "The request failed"
 msgstr "Anfrage fehlgeschlagen"
 

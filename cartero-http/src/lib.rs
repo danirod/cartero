@@ -42,6 +42,9 @@ pub enum RequestError {
 
     EncodingError, // (body encoding)
 
+    FilePrefixUnset,      // there is no prefix, so I cannot derive paths for files.
+    UnsecureFile(String), // access a file that is outside the prefix.
+
     // network error during the request (the type is up to the implementor)
     NetworkError(Box<dyn StdError>),
     IOError(Box<dyn StdError>),

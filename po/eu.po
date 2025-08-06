@@ -925,7 +925,7 @@ msgstr "_Baztertu"
 msgid "_Save"
 msgstr "_Gorde"
 
-#: src/widgets/endpoint/endpoint_pane.rs:582
+#: src/widgets/endpoint/endpoint_pane.rs:585
 #, fuzzy
 msgid "Export request as cURL"
 msgstr "Esportatu eskaera"
@@ -984,18 +984,28 @@ msgid "The given request body could not be encoded correctly"
 msgstr "Emandako eskaeraren gorputza ezin izan da behar bezala kodetu"
 
 #: src/widgets/error_pane.rs:110
+#, fuzzy
+msgid "You have to save the request first"
+msgstr "Ezin izan da eskatutako fitxategia gorde"
+
+#: src/widgets/error_pane.rs:112
+#, rust-format
+msgid "The file '{}' cannot be accessed due to the security policy"
+msgstr ""
+
+#: src/widgets/error_pane.rs:116
 msgid "There is an input/output error"
 msgstr "Sarrera/irteerako errore bat egon da"
 
-#: src/widgets/error_pane.rs:111
+#: src/widgets/error_pane.rs:117
 msgid "There is a network error"
 msgstr "Sareko errore bat egon da"
 
-#: src/widgets/error_pane.rs:130
+#: src/widgets/error_pane.rs:136
 msgid "The request data is not valid"
 msgstr "Eskaeraren datuak ez dira baliozkoak"
 
-#: src/widgets/error_pane.rs:137
+#: src/widgets/error_pane.rs:143
 msgid "The request failed"
 msgstr "Eskaerak huts egin du"
 

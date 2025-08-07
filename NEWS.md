@@ -6,6 +6,8 @@ These are the user-visible changes that you will notice when you use Cartero.
 
 ### Added
 
+* Added a new request body type: "From file", sets the request body
+  from the contents of a file.
 * Added a new Export toolbar item with options to export a request or a response.
 * It is now possible to export a request or a response directly into a file.
 

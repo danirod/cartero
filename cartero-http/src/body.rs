@@ -15,11 +15,15 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use std::io::{BufWriter, Write};
+use std::{
+    io::{BufWriter, Write},
+    path::PathBuf,
+};
 
 use cartero_objects::{Request, RequestBodyRawType, RequestBodyType};
+use gio::prelude::FileExt;
 
-use crate::{active_pairs, RequestError};
+use crate::{active_pairs, RequestEnvironment, RequestError};
 
 #[derive(Default)]
 pub(crate) struct BoundBody {
@@ -35,12 +39,7 @@ impl BoundBody {
     pub fn body(&self) -> Option<Vec<u8>> {
         self.content.clone()
     }
-}
-
-impl TryFrom<&Request> for BoundBody {
-    type Error = RequestError;
-
-    fn try_from(value: &Request) -> Result<Self, Self::Error> {
+    pub async fn new(value: &Request, env: &RequestEnvironment) -> Result<Self, RequestError> {
         let body_type = value.body().body_type();
 
         match body_type {
@@ -48,11 +47,49 @@ impl TryFrom<&Request> for BoundBody {
             RequestBodyType::UrlEncoded => Self::try_from_urlencoded(value),
             RequestBodyType::Multipart => Self::try_from_multipart(value),
             RequestBodyType::Raw => Self::try_from_raw(value),
+            RequestBodyType::File => Self::try_from_file(value, env).await,
         }
     }
-}
 
-impl BoundBody {
+    async fn try_from_file(
+        value: &Request,
+        env: &RequestEnvironment,
+    ) -> Result<Self, RequestError> {
+        let desired_path = value.body().file().unwrap().path();
+        if desired_path.trim().is_empty() {
+            return Ok(Self::default());
+        }
+        let Some(prefix) = env.prefix.clone() else {
+            return Err(RequestError::FilePrefixUnset);
+        };
+
+        // Must be a relative path according to the security rules.
+        // (So, no absolute paths and no files that are outside of prefix dir).
+        let desired_pathbuf: PathBuf = desired_path.as_str().into();
+        let absolute_file = prefix.resolve_relative_path(&desired_pathbuf);
+        if !absolute_file.has_prefix(&prefix) {
+            return Err(RequestError::UnsecureFile(desired_path));
+        }
+
+        // Generate the output
+        match absolute_file.load_bytes_future().await {
+            Ok((content, _)) => {
+                let content_type = value
+                    .body()
+                    .file()
+                    .unwrap()
+                    .content_type()
+                    .take_if(|f| !f.trim().is_empty())
+                    .unwrap_or("application/octet-stream".to_string());
+                Ok(Self {
+                    content: Some(content.to_vec()),
+                    headers: vec![("Content-Type".to_string(), content_type)],
+                })
+            }
+            Err(e) => Err(RequestError::IOError(Box::new(e))),
+        }
+    }
+
     fn try_from_urlencoded(value: &Request) -> Result<Self, RequestError> {
         let urlencoded = value.body().urlencoded().unwrap();
 
@@ -130,8 +167,19 @@ mod tests {
 
     use super::*;
 
-    #[test]
-    fn test_urlencoded() {
+    fn dummy_env() -> RequestEnvironment {
+        RequestEnvironment {
+            prefix: None,
+            config: crate::ClientConfig {
+                validate_tls: false,
+                redirects: 0,
+                timeout: 30.0,
+            },
+        }
+    }
+
+    #[tokio::test]
+    async fn test_urlencoded() {
         let field_table = FieldTable::from_iter(vec![
             Field::builder().key("category").value("10").build(),
             Field::builder()
@@ -149,7 +197,8 @@ mod tests {
             .with_body(RequestBody::builder().urlencoded(&urlenc).build())
             .build();
 
-        let result = BoundBody::try_from(&req).unwrap();
+        let env = dummy_env();
+        let result = BoundBody::new(&req, &env).await.unwrap();
 
         assert_eq!(1, result.headers.len());
         assert_eq!("Content-Type", result.headers[0].0);
@@ -162,8 +211,8 @@ mod tests {
         );
     }
 
-    #[test]
-    fn test_urlencoded_with_variables() {
+    #[tokio::test]
+    async fn test_urlencoded_with_variables() {
         let field_table = FieldTable::from_iter(vec![
             Field::builder()
                 .key("category")
@@ -185,7 +234,8 @@ mod tests {
             .variable(&Field::builder().key("CATEGORY").value("30").build())
             .build();
 
-        let result = BoundBody::try_from(&req).unwrap();
+        let env = dummy_env();
+        let result = BoundBody::new(&req, &env).await.unwrap();
 
         assert_eq!(1, result.headers.len());
         assert_eq!("Content-Type", result.headers[0].0);
@@ -198,8 +248,8 @@ mod tests {
         );
     }
 
-    #[test]
-    fn test_multipart() {
+    #[tokio::test]
+    async fn test_multipart() {
         let field_table = FieldTable::from_iter(vec![
             Field::builder().key("category").value("10").build(),
             Field::builder()
@@ -215,7 +265,8 @@ mod tests {
             .with_body(RequestBody::builder().multipart(&mpart).build())
             .build();
 
-        let result = BoundBody::try_from(&req).unwrap();
+        let env = dummy_env();
+        let result = BoundBody::new(&req, &env).await.unwrap();
 
         assert_eq!(1, result.headers.len());
         assert_eq!("Content-Type", result.headers[0].0);
@@ -250,8 +301,8 @@ mod tests {
         assert_eq!(expected, body);
     }
 
-    #[test]
-    fn test_multipart_with_variables() {
+    #[tokio::test]
+    async fn test_multipart_with_variables() {
         let field_table = FieldTable::from_iter(vec![
             Field::builder()
                 .key("category")
@@ -271,7 +322,8 @@ mod tests {
             .variable(&Field::builder().key("CATEGORY").value("30").build())
             .build();
 
-        let result = BoundBody::try_from(&req).unwrap();
+        let env = dummy_env();
+        let result = BoundBody::new(&req, &env).await.unwrap();
 
         assert_eq!(1, result.headers.len());
         assert_eq!("Content-Type", result.headers[0].0);
@@ -306,8 +358,8 @@ mod tests {
         assert_eq!(expected, body);
     }
 
-    #[test]
-    fn test_octet_stream() {
+    #[tokio::test]
+    async fn test_octet_stream() {
         let raw = RequestBodyRaw::builder(RequestBodyRawType::OctetStream)
             .payload("the payload")
             .build();
@@ -315,7 +367,8 @@ mod tests {
             .with_body(RequestBody::builder().raw(&raw).build())
             .build();
 
-        let result = BoundBody::try_from(&req).unwrap();
+        let env = dummy_env();
+        let result = BoundBody::new(&req, &env).await.unwrap();
 
         assert_eq!(1, result.headers.len());
         assert_eq!("Content-Type", result.headers[0].0);
@@ -325,8 +378,8 @@ mod tests {
         assert_eq!(b"the payload", result.content.unwrap().as_slice());
     }
 
-    #[test]
-    fn test_octet_stream_with_variables() {
+    #[tokio::test]
+    async fn test_octet_stream_with_variables() {
         let raw = RequestBodyRaw::builder(RequestBodyRawType::OctetStream)
             .payload("Hello {{NAME}}!")
             .build();
@@ -335,7 +388,8 @@ mod tests {
             .variable(&Field::builder().key("NAME").value("world").build())
             .build();
 
-        let result = BoundBody::try_from(&req).unwrap();
+        let env = dummy_env();
+        let result = BoundBody::new(&req, &env).await.unwrap();
 
         assert_eq!(1, result.headers.len());
         assert_eq!("Content-Type", result.headers[0].0);
@@ -345,8 +399,8 @@ mod tests {
         assert_eq!(b"Hello world!", result.content.unwrap().as_slice());
     }
 
-    #[test]
-    fn test_xml() {
+    #[tokio::test]
+    async fn test_xml() {
         let raw = RequestBodyRaw::builder(RequestBodyRawType::Xml)
             .payload("<?xml version=\"1.0\" ?><hello who=\"world\" />")
             .build();
@@ -354,7 +408,8 @@ mod tests {
             .with_body(RequestBody::builder().raw(&raw).build())
             .build();
 
-        let result = BoundBody::try_from(&req).unwrap();
+        let env = dummy_env();
+        let result = BoundBody::new(&req, &env).await.unwrap();
 
         assert_eq!(1, result.headers.len());
         assert_eq!("Content-Type", result.headers[0].0);
@@ -367,8 +422,8 @@ mod tests {
         );
     }
 
-    #[test]
-    fn test_xml_with_variables() {
+    #[tokio::test]
+    async fn test_xml_with_variables() {
         let raw = RequestBodyRaw::builder(RequestBodyRawType::Xml)
             .payload("<?xml version=\"1.0\" ?><hello who=\"{{USER}}\" />")
             .build();
@@ -377,7 +432,8 @@ mod tests {
             .variable(&Field::builder().key("USER").value("world").build())
             .build();
 
-        let result = BoundBody::try_from(&req).unwrap();
+        let env = dummy_env();
+        let result = BoundBody::new(&req, &env).await.unwrap();
 
         assert_eq!(1, result.headers.len());
         assert_eq!("Content-Type", result.headers[0].0);
@@ -390,8 +446,8 @@ mod tests {
         );
     }
 
-    #[test]
-    fn test_json() {
+    #[tokio::test]
+    async fn test_json() {
         let raw = RequestBodyRaw::builder(RequestBodyRawType::Json)
             .payload("{\"hello\": \"world\"}")
             .build();
@@ -399,7 +455,8 @@ mod tests {
             .with_body(RequestBody::builder().raw(&raw).build())
             .build();
 
-        let result = BoundBody::try_from(&req).unwrap();
+        let env = dummy_env();
+        let result = BoundBody::new(&req, &env).await.unwrap();
 
         assert_eq!(1, result.headers.len());
         assert_eq!("Content-Type", result.headers[0].0);
@@ -412,8 +469,8 @@ mod tests {
         );
     }
 
-    #[test]
-    fn test_json_with_variables() {
+    #[tokio::test]
+    async fn test_json_with_variables() {
         let raw = RequestBodyRaw::builder(RequestBodyRawType::Json)
             .payload("{\"hello\": \"{{USER}}\"}")
             .build();
@@ -422,7 +479,8 @@ mod tests {
             .variable(&Field::builder().key("USER").value("world").build())
             .build();
 
-        let result = BoundBody::try_from(&req).unwrap();
+        let env = dummy_env();
+        let result = BoundBody::new(&req, &env).await.unwrap();
 
         assert_eq!(1, result.headers.len());
         assert_eq!("Content-Type", result.headers[0].0);
@@ -431,6 +489,202 @@ mod tests {
         assert!(result.content.is_some());
         assert_eq!(
             b"{\"hello\": \"world\"}",
+            result.content.unwrap().as_slice()
+        );
+    }
+
+    fn gio_file_for_current_file() -> gio::File {
+        let current_file = file!();
+        // TODO: WHY DO I EVEN HAVE TO DO THIS, I DON'T HAVE AN EXPLANATION FOR THIS
+        // AND I'M GOING SKIZO. Investigate why the path is being prefixed twice.
+        let (_, current_file) = current_file.split_once("/").unwrap();
+        gio::File::for_path(current_file)
+    }
+
+    #[tokio::test]
+    async fn test_file() {
+        let file = RequestBodyFile::builder()
+            .path("fixtures/hello.txt")
+            .content_type("text/plain")
+            .build();
+        let body = RequestBody::builder().file(&file).build();
+        let req = Request::builder("https://www.example.com", RequestMethod::Get)
+            .with_body(body)
+            .build();
+
+        let env = dummy_env();
+        let env = RequestEnvironment {
+            config: env.config,
+            prefix: gio_file_for_current_file().parent(),
+        };
+
+        let result = glib::MainContext::new()
+            .block_on(async { BoundBody::new(&req, &env).await })
+            .unwrap();
+
+        assert_eq!(1, result.headers.len());
+        assert_eq!("Content-Type", result.headers[0].0);
+        assert_eq!("text/plain", result.headers[0].1);
+
+        assert!(result.content.is_some());
+        assert_eq!(
+            b"this is the file contents\n",
+            result.content.unwrap().as_slice()
+        );
+    }
+
+    #[tokio::test]
+    async fn test_file_for_file_that_does_not_exist() {
+        let file = RequestBodyFile::builder()
+            .path("fixtures/not_found.txt")
+            .content_type("text/plain")
+            .build();
+        let body = RequestBody::builder().file(&file).build();
+        let req = Request::builder("https://www.example.com", RequestMethod::Get)
+            .with_body(body)
+            .build();
+
+        let env = dummy_env();
+        let env = RequestEnvironment {
+            config: env.config,
+            prefix: gio_file_for_current_file().parent(),
+        };
+
+        let result = glib::MainContext::new().block_on(async { BoundBody::new(&req, &env).await });
+
+        match result {
+            Err(RequestError::IOError(_)) => {}
+            _ => panic!("Expected an IOError for this one"),
+        }
+    }
+
+    #[tokio::test]
+    async fn test_file_for_file_that_is_not_a_file() {
+        let file = RequestBodyFile::builder()
+            .path("fixtures")
+            .content_type("text/plain")
+            .build();
+        let body = RequestBody::builder().file(&file).build();
+        let req = Request::builder("https://www.example.com", RequestMethod::Get)
+            .with_body(body)
+            .build();
+
+        let env = dummy_env();
+        let env = RequestEnvironment {
+            config: env.config,
+            prefix: gio_file_for_current_file().parent(),
+        };
+
+        let result = glib::MainContext::new().block_on(async { BoundBody::new(&req, &env).await });
+
+        match result {
+            Err(RequestError::IOError(_)) => {}
+            _ => panic!("Expected an IOError for this one"),
+        }
+    }
+
+    #[tokio::test]
+    async fn test_file_outside_current_dir() {
+        let file = RequestBodyFile::builder()
+            .path("../testing.txt")
+            .content_type("text/plain")
+            .build();
+        let body = RequestBody::builder().file(&file).build();
+        let req = Request::builder("https://www.example.com", RequestMethod::Get)
+            .with_body(body)
+            .build();
+
+        let env = dummy_env();
+        let env = RequestEnvironment {
+            config: env.config,
+            prefix: gio_file_for_current_file().parent(),
+        };
+
+        let result = glib::MainContext::new().block_on(async { BoundBody::new(&req, &env).await });
+
+        match result {
+            Err(RequestError::UnsecureFile(_)) => {}
+            _ => panic!("Expected an UnsecureFile for this one"),
+        }
+    }
+
+    #[tokio::test]
+    async fn test_file_absolute_dir() {
+        let file = RequestBodyFile::builder()
+            .path("/etc/passwd")
+            .content_type("text/plain")
+            .build();
+        let body = RequestBody::builder().file(&file).build();
+        let req = Request::builder("https://www.example.com", RequestMethod::Get)
+            .with_body(body)
+            .build();
+
+        let env = dummy_env();
+        let env = RequestEnvironment {
+            config: env.config,
+            prefix: gio_file_for_current_file().parent(),
+        };
+
+        let result = glib::MainContext::new().block_on(async { BoundBody::new(&req, &env).await });
+
+        match result {
+            Err(RequestError::UnsecureFile(_)) => {}
+            _ => panic!("Expected an UnsecureFile for this one"),
+        }
+    }
+
+    #[tokio::test]
+    async fn test_file_without_a_prefix() {
+        let file = RequestBodyFile::builder()
+            .path("fixtures/hello.txt")
+            .content_type("text/plain")
+            .build();
+        let body = RequestBody::builder().file(&file).build();
+        let req = Request::builder("https://www.example.com", RequestMethod::Get)
+            .with_body(body)
+            .build();
+
+        let env = dummy_env();
+        let env = RequestEnvironment {
+            config: env.config,
+            prefix: None,
+        };
+
+        let result = glib::MainContext::new().block_on(async { BoundBody::new(&req, &env).await });
+
+        match result {
+            Err(RequestError::FilePrefixUnset) => {}
+            _ => panic!("Expected an UnsecureFile for this one"),
+        }
+    }
+
+    #[tokio::test]
+    async fn test_file_with_default_content_type() {
+        let file = RequestBodyFile::builder()
+            .path("fixtures/hello.txt")
+            .build();
+        let body = RequestBody::builder().file(&file).build();
+        let req = Request::builder("https://www.example.com", RequestMethod::Get)
+            .with_body(body)
+            .build();
+
+        let env = dummy_env();
+        let env = RequestEnvironment {
+            config: env.config,
+            prefix: gio_file_for_current_file().parent(),
+        };
+
+        let result = glib::MainContext::new()
+            .block_on(async { BoundBody::new(&req, &env).await })
+            .unwrap();
+
+        assert_eq!(1, result.headers.len());
+        assert_eq!("Content-Type", result.headers[0].0);
+        assert_eq!("application/octet-stream", result.headers[0].1);
+
+        assert!(result.content.is_some());
+        assert_eq!(
+            b"this is the file contents\n",
             result.content.unwrap().as_slice()
         );
     }

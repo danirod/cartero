@@ -146,7 +146,10 @@ SPDX-License-Identifier = "CC-BY-SA-4.0"
 [[annotations]]
 # The .cartero files in the test suite are CC0 because they are sample files
 # not worth copyrighting properly.
-path = ["cartero-file-format/tests/**/*.cartero"]
+path = [
+        "cartero-file-format/tests/**/*.cartero",
+        "cartero-http/src/fixtures/hello.txt"
+]
 SPDX-FileCopyrightText = "No copyright"
 SPDX-License-Identifier = "CC0-1.0"
 

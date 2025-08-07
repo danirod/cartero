@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-05 18:06+0200\n"
+"POT-Creation-Date: 2025-08-07 18:10+0200\n"
 "PO-Revision-Date: 2025-04-27 13:08+0000\n"
 "Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/cartero/cartero/ta/"
@@ -325,7 +325,7 @@ msgstr "பொது குறுக்குவழிகள்"
 msgid "Copy to clipboard"
 msgstr "கிளிப்போர்டுக்கு உள்ளடக்கம் நகலெடுக்கப்பட்டது"
 
-#: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:182
+#: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:226
 #, fuzzy
 msgid "Export to file"
 msgstr "ஏற்றுமதி"
@@ -374,7 +374,7 @@ msgid "Open request…"
 msgstr "திறந்த கோரிக்கை …"
 
 #: data/ui/mac_menu.blp:35 data/ui/main_window.blp:188
-#: data/ui/main_window_no_csd.blp:190 src/widgets/file_dialogs.rs:144
+#: data/ui/main_window_no_csd.blp:190 src/widgets/file_dialogs.rs:146
 msgid "Save request"
 msgstr "கோரிக்கையைச் சேமிக்கவும்"
 
@@ -539,12 +539,12 @@ msgstr "புதிய"
 
 #: data/ui/main_window.blp:61 data/ui/main_window.blp:73
 #: data/ui/main_window_no_csd.blp:58 data/ui/main_window_no_csd.blp:70
-#: src/widgets/file_dialogs.rs:107
+#: src/widgets/file_dialogs.rs:109 src/widgets/file_dialogs.rs:186
 msgid "Open"
 msgstr "திற"
 
 #: data/ui/main_window.blp:81 data/ui/main_window_no_csd.blp:78
-#: src/widgets/file_dialogs.rs:143 src/widgets/file_dialogs.rs:181
+#: src/widgets/file_dialogs.rs:145 src/widgets/file_dialogs.rs:225
 msgid "Save"
 msgstr "சேமி"
 
@@ -610,6 +610,11 @@ msgstr "மல்டிபார்ட் படிவ தரவு"
 #: data/ui/request_body_pane.blp:64
 msgid "Raw"
 msgstr "மூல"
+
+#: data/ui/request_body_pane.blp:65
+#, fuzzy
+msgid "From file"
+msgstr "ஏற்றுமதி"
 
 #: data/ui/response_headers.blp:42
 #, fuzzy
@@ -799,30 +804,31 @@ msgstr "_ திறந்த வலைத்தளம்"
 msgid "_Not now"
 msgstr "_ இப்போது இல்லை"
 
-#: src/widgets/dialogs.rs:46
+#: src/widgets/dialogs.rs:50
 #, rust-format
 msgid "Cannot open '{}'"
 msgstr "'{}' திறக்க முடியாது"
 
-#: src/widgets/dialogs.rs:47
+#: src/widgets/dialogs.rs:51
 msgid "Cannot open the requested file"
 msgstr "கோரப்பட்ட கோப்பைத் திறக்க முடியாது"
 
-#: src/widgets/dialogs.rs:56 src/widgets/dialogs.rs:87
-#: src/widgets/dialogs.rs:118 src/widgets/dialogs.rs:131
+#: src/widgets/dialogs.rs:60 src/widgets/dialogs.rs:91
+#: src/widgets/dialogs.rs:121 src/widgets/dialogs.rs:144
+#: src/widgets/dialogs.rs:157
 msgid "Close"
 msgstr "மூடு"
 
-#: src/widgets/dialogs.rs:70
+#: src/widgets/dialogs.rs:74
 #, rust-format
 msgid "The file '{}' was loaded but had issues"
 msgstr "'{}' கோப்பு ஏற்றப்பட்டது, ஆனால் சிக்கல்கள் இருந்தன"
 
-#: src/widgets/dialogs.rs:71
+#: src/widgets/dialogs.rs:75
 msgid "The requested file was loaded but had issues"
 msgstr "கோரப்பட்ட கோப்பு ஏற்றப்பட்டது, ஆனால் சிக்கல்கள் இருந்தன"
 
-#: src/widgets/dialogs.rs:94
+#: src/widgets/dialogs.rs:98
 #, rust-format
 msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
@@ -831,16 +837,30 @@ msgstr ""
 "கோப்பில் காணப்படும் HTTP வினைச்சொல் '{}' ஆகும். இது செல்லுபடியாகாது, அது '{}' க்கு "
 "குறையும்."
 
-#: src/widgets/dialogs.rs:109
+#: src/widgets/dialogs.rs:114
+#, fuzzy
+msgid "The requested file cannot be picked"
+msgstr "கோரப்பட்ட கோப்பு ஏற்றப்பட்டது, ஆனால் சிக்கல்கள் இருந்தன"
+
+#: src/widgets/dialogs.rs:115
+#, rust-format
+msgid ""
+"The file must be within the same directory as the request or project file or "
+"any of its subdirectories.\n"
+"\n"
+"The file '{}' is not part of the '{}' directory"
+msgstr ""
+
+#: src/widgets/dialogs.rs:135
 #, rust-format
 msgid "Cannot save '{}'"
 msgstr "'{}' சேமிக்க முடியாது"
 
-#: src/widgets/dialogs.rs:110
+#: src/widgets/dialogs.rs:136
 msgid "Cannot save the requested file"
 msgstr "கோரப்பட்ட கோப்பை சேமிக்க முடியாது"
 
-#: src/widgets/dialogs.rs:112
+#: src/widgets/dialogs.rs:138
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
@@ -848,15 +868,15 @@ msgstr ""
 "சேமிப்பு செயல்பாட்டின் போது பிழை ஏற்பட்டது. உங்கள் மாற்றங்கள் இன்னும் சேமிக்கப்படவில்லை என்று "
 "வைத்துக் கொள்ளுங்கள்."
 
-#: src/widgets/dialogs.rs:126
+#: src/widgets/dialogs.rs:152
 msgid "Could not select a valid file from the file chooser"
 msgstr "கோப்பு தேர்வாளரிடமிருந்து செல்லுபடியாகும் கோப்பைத் தேர்ந்தெடுக்க முடியவில்லை"
 
-#: src/widgets/dialogs.rs:140
+#: src/widgets/dialogs.rs:166
 msgid "There are unsaved changes"
 msgstr "There அரே unsaved changes"
 
-#: src/widgets/dialogs.rs:142
+#: src/widgets/dialogs.rs:168
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
@@ -864,40 +884,40 @@ msgstr ""
 "Closing this சாளரம் will lose அனைத்தும் unsaved data. Do you really want பெறுநர் "
 "proceed?"
 
-#: src/widgets/dialogs.rs:146
+#: src/widgets/dialogs.rs:172
 msgid "Cancel"
 msgstr "ரத்துசெய்"
 
-#: src/widgets/dialogs.rs:147
+#: src/widgets/dialogs.rs:173
 msgid "Close anyway"
 msgstr "எப்படியும் மூடு"
 
-#: src/widgets/dialogs.rs:170
+#: src/widgets/dialogs.rs:196
 #, rust-format
 msgid "Save changes in '{}'?"
 msgstr "சேமி changes in '{}'?"
 
-#: src/widgets/dialogs.rs:171
+#: src/widgets/dialogs.rs:197
 msgid "Save changes?"
 msgstr "மாற்றங்களைச் சேமிக்கவா?"
 
-#: src/widgets/dialogs.rs:176
+#: src/widgets/dialogs.rs:202
 msgid "There are changes that have not been saved yet. What do you want to do?"
 msgstr "இன்னும் சேமிக்கப்படாத மாற்றங்கள் உள்ளன. நீங்கள் என்ன செய்ய விரும்புகிறீர்கள்?"
 
-#: src/widgets/dialogs.rs:180
+#: src/widgets/dialogs.rs:206
 msgid "_Cancel"
 msgstr "_CANCEL"
 
-#: src/widgets/dialogs.rs:181
+#: src/widgets/dialogs.rs:207
 msgid "_Discard"
 msgstr "_ டிச்கார்ட்"
 
-#: src/widgets/dialogs.rs:182
+#: src/widgets/dialogs.rs:208
 msgid "_Save"
 msgstr "_சேவ்"
 
-#: src/widgets/endpoint/endpoint_pane.rs:582
+#: src/widgets/endpoint/endpoint_pane.rs:585
 #, fuzzy
 msgid "Export request as cURL"
 msgstr "ஏற்றுமதி கோரிக்கை"
@@ -956,18 +976,28 @@ msgid "The given request body could not be encoded correctly"
 msgstr "கொடுக்கப்பட்ட கோரிக்கை உடலை சரியாக குறியாக்கம் செய்ய முடியவில்லை"
 
 #: src/widgets/error_pane.rs:110
+#, fuzzy
+msgid "You have to save the request first"
+msgstr "கோரப்பட்ட கோப்பை சேமிக்க முடியாது"
+
+#: src/widgets/error_pane.rs:112
+#, rust-format
+msgid "The file '{}' cannot be accessed due to the security policy"
+msgstr ""
+
+#: src/widgets/error_pane.rs:116
 msgid "There is an input/output error"
 msgstr "உள்ளீடு/வெளியீட்டு பிழை உள்ளது"
 
-#: src/widgets/error_pane.rs:111
+#: src/widgets/error_pane.rs:117
 msgid "There is a network error"
 msgstr "பிணைய பிழை உள்ளது"
 
-#: src/widgets/error_pane.rs:130
+#: src/widgets/error_pane.rs:136
 msgid "The request data is not valid"
 msgstr "The request தகவல்கள் is not valid"
 
-#: src/widgets/error_pane.rs:137
+#: src/widgets/error_pane.rs:143
 msgid "The request failed"
 msgstr "கோரிக்கை தோல்வியடைந்தது"
 
@@ -977,14 +1007,18 @@ msgstr "கிளிப்போர்டுக்கு உள்ளடக்�
 
 #. TRANSLATORS: presented in file dialogs as the file type for a request
 #. The macOS native file dialog will already add the extension for us.
-#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:148
-#: src/widgets/file_dialogs.rs:150
+#: src/widgets/file_dialogs.rs:42 src/widgets/file_dialogs.rs:150
+#: src/widgets/file_dialogs.rs:152
 msgid "Request"
 msgstr "கோரிக்கை"
 
-#: src/widgets/file_dialogs.rs:108
+#: src/widgets/file_dialogs.rs:110
 msgid "Open request"
 msgstr "திறந்த கோரிக்கை"
+
+#: src/widgets/file_dialogs.rs:187
+msgid "Select file"
+msgstr ""
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.

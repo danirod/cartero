@@ -290,3 +290,31 @@ pub fn multiline_json() {
 }"#
     );
 }
+
+#[test]
+pub fn file() {
+    let contents = include_str!("body/file.cartero");
+    let result = deserialize_request(contents).unwrap();
+
+    assert!(result.warnings().is_empty());
+    let request = result.object();
+
+    assert_eq!(request.body().body_type(), RequestBodyType::File);
+    let file = request.body().file().unwrap();
+    assert_eq!(file.path(), "payload.xml");
+    assert!(file.content_type().is_none());
+}
+
+#[test]
+pub fn file_with_content_type() {
+    let contents = include_str!("body/file_with_content_type.cartero");
+    let result = deserialize_request(contents).unwrap();
+
+    assert!(result.warnings().is_empty());
+    let request = result.object();
+
+    assert_eq!(request.body().body_type(), RequestBodyType::File);
+    let file = request.body().file().unwrap();
+    assert_eq!(file.path(), "payload.xml");
+    assert!(file.content_type().is_some_and(|f| f == "application/xml"));
+}

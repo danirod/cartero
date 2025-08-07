@@ -107,6 +107,12 @@ fn get_error_message(error: &RequestError) -> String {
         RequestError::EncodingError => {
             gettext("The given request body could not be encoded correctly")
         }
+        RequestError::FilePrefixUnset => gettext("You have to save the request first"),
+        RequestError::UnsecureFile(str) => formatx!(
+            gettext("The file '{}' cannot be accessed due to the security policy"),
+            str
+        )
+        .unwrap(),
         RequestError::IOError(_) => gettext("There is an input/output error"),
         RequestError::NetworkError(_) => gettext("There is a network error"),
     }

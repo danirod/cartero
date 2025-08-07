@@ -1,0 +1,102 @@
+// Copyright 2024-2025 the Cartero authors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+using Gtk 4.0;
+using Adw 1;
+
+template $CarteroFileBodyPane: Gtk.Box {
+  orientation: vertical;
+  spacing: 12;
+
+  Adw.PreferencesGroup {
+    Adw.EntryRow path {
+      title: _("File");
+    }
+
+    Adw.EntryRow content_type {
+      title: _("Content Type");
+    }
+  }
+
+  Gtk.Box {
+    orientation: horizontal;
+    spacing: 12;
+
+    Gtk.Label {
+      halign: end;
+      hexpand: true;
+      label: _("or select a file from the file system:");
+      wrap: true;
+    }
+
+    Gtk.Button {
+      sensitive: bind template.saved;
+      halign: end;
+      vexpand: false;
+      valign: center;
+      label: _("Select file…");
+      clicked => $on_select_file() swapped;
+    }
+  }
+
+  Gtk.Box {
+    styles [
+      "warning",
+    ]
+
+    visible: bind template.saved inverted;
+    halign: end;
+    orientation: horizontal;
+    spacing: 6;
+
+    Gtk.Image {
+      icon-name: "dialog-warning-symbolic";
+    }
+
+    Gtk.Label {
+      wrap: true;
+      label: _("You cannot pick a file from the file system until you save this request to disk.");
+    }
+  }
+
+  Adw.Clamp {
+    Gtk.Box {
+      orientation: vertical;
+      spacing: 12;
+
+      Gtk.Separator {}
+
+      Gtk.Box {
+        orientation: horizontal;
+        spacing: 6;
+
+        Gtk.Image {
+          icon-name: "dialog-information-symbolic";
+          valign: start;
+          margin-top: 2;
+        }
+
+        Gtk.Label {
+          wrap: true;
+          halign: fill;
+          hexpand: true;
+          xalign: 0;
+          label: _("You can only attach files to a request if they are in the same directory as the request file, or in a subdirectory. You cannot attach files to a request if they are in a parent directory or outside the project folder, or use absolute paths.");
+        }
+      }
+    }
+  }
+}

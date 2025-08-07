@@ -3,6 +3,22 @@ code that could introduce bugs, cause Git conflicts on a merge or break
 existing patches in general. If you are looking for a list of
 user-facing changes, check the NEWS.md file.
 
+2025-08-07  @danirod
+
+        * cartero-objects/src/request_body.rs: A new value has been
+        added to RequestBodyFile: 'RequestBodyFile::File'.
+
+        * cartero-http/src/request.rs: BoundRequest now requires the
+        RequestEnvironment in order to be instantiated. Therefore,
+        BoundRequest::try_from() has been replaced by
+        BoundRequest::new(), so that the function can accept two
+        arguments.
+        * cartero-http/src/request.rs: BoundRequest is now async.
+
+        * cartero-http/src/body.rs: BoundBody::try_from() has been
+        replaced by BoundBody::new(), because the function is async
+        now.
+
 2025-08-05  @danirod
 
         * ChangeLog: starting a ChangeLog. I've reviewed the Git

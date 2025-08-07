@@ -567,10 +567,10 @@ impl EndpointPane {
         Object::builder().build()
     }
 
-    pub fn export_request(&self, format: &str) {
+    pub async fn export_request(&self, format: &str) {
         let curl = CodeExportService::new(self.request());
 
-        if let Ok(command) = curl.generate() {
+        if let Ok(command) = curl.generate().await {
             let buffer = glib::Bytes::from(command.as_bytes());
             let file_format = sourceview5::LanguageManager::default().language("sh");
             let dialog = glib::Object::builder::<ExportDialog>()

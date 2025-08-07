@@ -15,6 +15,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use cartero_http::{ClientConfig, RequestEnvironment};
 use cartero_objects::{Request, RequestBodyRawType};
 use serde_json::{Error, Value};
 
@@ -22,13 +23,24 @@ pub struct CodeExportService {
     request: Request,
 }
 
+fn request_environment() -> RequestEnvironment {
+    RequestEnvironment {
+        config: ClientConfig {
+            validate_tls: false,
+            redirects: 0,
+            timeout: 30.0,
+        },
+    }
+}
+
 impl CodeExportService {
     pub fn new(request: Request) -> Self {
         Self { request }
     }
 
-    pub fn generate(&self) -> Result<String, cartero_http::RequestError> {
-        let bound_request = cartero_http::BoundRequest::try_from(self.request.clone())?;
+    pub async fn generate(&self) -> Result<String, cartero_http::RequestError> {
+        let env = request_environment();
+        let bound_request = cartero_http::BoundRequest::new(&self.request, &env).await?;
         let mut command = "curl".to_string();
 
         command.push_str(&{

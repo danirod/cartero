@@ -47,7 +47,7 @@ pub async fn request(
     env: &RequestEnvironment,
 ) -> Result<Response, RequestError> {
     // Craft an isahc request.
-    let isahc_request = build_request(request, env)?;
+    let isahc_request = build_request(request, env).await?;
 
     // Execute the request to get the response.
     let start = Instant::now();
@@ -91,7 +91,7 @@ async fn build_response(
     Ok(response)
 }
 
-fn build_request(
+async fn build_request(
     request: &Request,
     env: &RequestEnvironment,
 ) -> Result<isahc::Request<Vec<u8>>, RequestError> {
@@ -109,7 +109,7 @@ fn build_request(
     let request_timeout = Duration::from_secs_f64(env.config.timeout);
 
     // Build the request entity.
-    let bound_request = BoundRequest::try_from(request.clone())?;
+    let bound_request = BoundRequest::new(&request, &env).await?;
 
     let mut builder = isahc::Request::builder()
         .uri(bound_request.url)

@@ -19,7 +19,10 @@ use std::collections::HashMap;
 
 use cartero_objects::{FieldTable, Request, RequestMethod};
 
-use crate::{active_pairs, auth::BoundHeaders, body::BoundBody, url::normalize_url, RequestError};
+use crate::{
+    active_pairs, auth::BoundHeaders, body::BoundBody, url::normalize_url, RequestEnvironment,
+    RequestError,
+};
 
 pub struct BoundRequest {
     pub url: String,
@@ -28,10 +31,8 @@ pub struct BoundRequest {
     pub body: Option<Vec<u8>>,
 }
 
-impl TryFrom<Request> for BoundRequest {
-    type Error = RequestError;
-
-    fn try_from(value: Request) -> Result<Self, Self::Error> {
+impl BoundRequest {
+    pub async fn new(value: &Request, _env: &RequestEnvironment) -> Result<Self, RequestError> {
         if value.url().trim().is_empty() {
             return Err(RequestError::EmptyUrl);
         }
@@ -44,8 +45,8 @@ impl TryFrom<Request> for BoundRequest {
         let method = value.method();
 
         let user_headers = value.headers().render(&processor)?;
-        let auth = BoundHeaders::try_from(&value)?;
-        let body = BoundBody::try_from(&value)?;
+        let auth = BoundHeaders::try_from(value)?;
+        let body = BoundBody::try_from(value)?;
         let headers = combine_headers(&user_headers, &auth, &body);
 
         Ok(Self {
@@ -82,59 +83,73 @@ mod tests {
         RequestBodyUrlencoded, RequestMethod,
     };
 
-    use crate::{BoundRequest, RequestError};
+    use crate::{BoundRequest, RequestEnvironment, RequestError};
 
-    #[test]
-    fn test_convert() {
+    fn dummy_env() -> RequestEnvironment {
+        RequestEnvironment {
+            config: crate::ClientConfig {
+                validate_tls: false,
+                redirects: 0,
+                timeout: 30.0,
+            },
+        }
+    }
+
+    #[tokio::test]
+    async fn test_convert() {
         let req = Request::builder(
             "https://www.example.com/api/v1/users",
             cartero_objects::RequestMethod::Get,
         )
         .build();
 
-        let bound = BoundRequest::try_from(req).unwrap();
+        let env = dummy_env();
+        let bound = BoundRequest::new(&req, &env).await.unwrap();
         assert_eq!(bound.url, "https://www.example.com/api/v1/users");
         assert_eq!(bound.method, RequestMethod::Get);
         assert_eq!(0, bound.headers.len());
         assert!(bound.body.is_none());
     }
 
-    #[test]
-    fn test_convert_empty_url() {
+    #[tokio::test]
+    async fn test_convert_empty_url() {
+        let env = dummy_env();
         let req = Request::builder("    ", cartero_objects::RequestMethod::Get).build();
-        match BoundRequest::try_from(req) {
+        match BoundRequest::new(&req, &env).await {
             Err(RequestError::EmptyUrl) => {}
             Err(other) => panic!("Failed with an unknown condition: {:?}", other),
             _ => panic!("Expected a failure"),
         };
     }
 
-    #[test]
-    fn test_convert_missing_protocol() {
+    #[tokio::test]
+    async fn test_convert_missing_protocol() {
+        let env = dummy_env();
         let req = Request::builder("localhost:3000", cartero_objects::RequestMethod::Get).build();
-        match BoundRequest::try_from(req) {
+        match BoundRequest::new(&req, &env).await {
             Err(RequestError::MissingProtocol) => {}
             Err(other) => panic!("Failed with an unknown condition: {:?}", other),
             _ => panic!("Expected a failure"),
         };
     }
 
-    #[test]
-    fn test_convert_unsupported_protocol() {
+    #[tokio::test]
+    async fn test_convert_unsupported_protocol() {
         let req = Request::builder(
             "ftp://ftp.gnu.org/gnu/hello/hello-2.12.tar.gz",
             cartero_objects::RequestMethod::Get,
         )
         .build();
-        match BoundRequest::try_from(req) {
+        let env = dummy_env();
+        match BoundRequest::new(&req, &env).await {
             Err(RequestError::UnsupportedProtocol(proto)) => assert_eq!(proto, "ftp"),
             Err(other) => panic!("Failed with an unknown condition: {:?}", other),
             _ => panic!("Expected a failure"),
         };
     }
 
-    #[test]
-    fn test_convert_variable_in_url() {
+    #[tokio::test]
+    async fn test_convert_variable_in_url() {
         let req = Request::builder(
             "{{ API_ROOT }}/api/v1/users",
             cartero_objects::RequestMethod::Get,
@@ -147,30 +162,32 @@ mod tests {
         )
         .build();
 
-        let bound = BoundRequest::try_from(req).unwrap();
+        let env = dummy_env();
+        let bound = BoundRequest::new(&req, &env).await.unwrap();
         assert_eq!(bound.url, "https://www.example.com/api/v1/users");
         assert_eq!(bound.method, RequestMethod::Get);
         assert_eq!(0, bound.headers.len());
         assert!(bound.body.is_none());
     }
 
-    #[test]
-    fn test_convert_variable_in_url_without_variable() {
+    #[tokio::test]
+    async fn test_convert_variable_in_url_without_variable() {
         let req = Request::builder(
             "{{ API_ROOT }}/api/v1/users",
             cartero_objects::RequestMethod::Get,
         )
         .build();
 
-        match BoundRequest::try_from(req) {
+        let env = dummy_env();
+        match BoundRequest::new(&req, &env).await {
             Err(RequestError::VariableNotFound(var)) => assert_eq!(var, "API_ROOT"),
             Err(other) => panic!("Failed with an unknown condition: {:?}", other),
             _ => panic!("Expected a failure"),
         };
     }
 
-    #[test]
-    fn test_auth_is_added_to_headers() {
+    #[tokio::test]
+    async fn test_auth_is_added_to_headers() {
         let auth = RequestAuthenticationBasic::builder()
             .username("admin")
             .password("admin")
@@ -182,15 +199,16 @@ mod tests {
         )
         .with_auth(auth)
         .build();
-        let bound = BoundRequest::try_from(req).unwrap();
+        let env = dummy_env();
+        let bound = BoundRequest::new(&req, &env).await.unwrap();
         assert_eq!(bound.url, "https://www.example.com/api/v1/users");
         assert_eq!(RequestMethod::Get, bound.method);
         assert!(bound.body.is_none());
         assert_eq!(bound.headers["Authorization"], "Basic YWRtaW46YWRtaW4=");
     }
 
-    #[test]
-    fn test_headers_can_override_auth() {
+    #[tokio::test]
+    async fn test_headers_can_override_auth() {
         // It's dumb, but yeah, you totally can.
         let auth = RequestAuthenticationBasic::builder()
             .username("admin")
@@ -209,15 +227,16 @@ mod tests {
                 .build(),
         )
         .build();
-        let bound = BoundRequest::try_from(req).unwrap();
+        let env = dummy_env();
+        let bound = BoundRequest::new(&req, &env).await.unwrap();
         assert_eq!(bound.url, "https://www.example.com/api/v1/users");
         assert_eq!(RequestMethod::Get, bound.method);
         assert!(bound.body.is_none());
         assert_eq!(bound.headers["Authorization"], "Bearer 1234");
     }
 
-    #[test]
-    fn test_headers_cannot_override_auth_if_disabled() {
+    #[tokio::test]
+    async fn test_headers_cannot_override_auth_if_disabled() {
         let auth = RequestAuthenticationBasic::builder()
             .username("admin")
             .password("admin")
@@ -236,15 +255,16 @@ mod tests {
                 .build(),
         )
         .build();
-        let bound = BoundRequest::try_from(req).unwrap();
+        let env = dummy_env();
+        let bound = BoundRequest::new(&req, &env).await.unwrap();
         assert_eq!(bound.url, "https://www.example.com/api/v1/users");
         assert_eq!(RequestMethod::Get, bound.method);
         assert!(bound.body.is_none());
         assert_eq!(bound.headers["Authorization"], "Basic YWRtaW46YWRtaW4=");
     }
 
-    #[test]
-    fn test_body_is_added_to_headers() {
+    #[tokio::test]
+    async fn test_body_is_added_to_headers() {
         let body = RequestBodyUrlencoded::builder()
             .field(&Field::builder().key("user_id").value("10").build())
             .field(&Field::builder().key("category_id").value("2").build())
@@ -253,7 +273,8 @@ mod tests {
         let req = Request::builder("https://www.example.com/api/v1/users", RequestMethod::Post)
             .with_body(body)
             .build();
-        let bound = BoundRequest::try_from(req).unwrap();
+        let env = dummy_env();
+        let bound = BoundRequest::new(&req, &env).await.unwrap();
         assert_eq!(bound.url, "https://www.example.com/api/v1/users");
         assert_eq!(RequestMethod::Post, bound.method);
         assert_eq!(
@@ -264,8 +285,8 @@ mod tests {
         assert_eq!(b"user_id=10&category_id=2", body.as_slice());
     }
 
-    #[test]
-    fn test_headers_can_override_body() {
+    #[tokio::test]
+    async fn test_headers_can_override_body() {
         let body = RequestBodyUrlencoded::builder()
             .field(&Field::builder().key("user_id").value("10").build())
             .field(&Field::builder().key("category_id").value("2").build())
@@ -280,7 +301,8 @@ mod tests {
                     .build(),
             )
             .build();
-        let bound = BoundRequest::try_from(req).unwrap();
+        let env = dummy_env();
+        let bound = BoundRequest::new(&req, &env).await.unwrap();
         assert_eq!(bound.url, "https://www.example.com/api/v1/users");
         assert_eq!(RequestMethod::Post, bound.method);
         assert_eq!(bound.headers["Content-Type"], "application/octet-stream");
@@ -288,8 +310,8 @@ mod tests {
         assert_eq!(b"user_id=10&category_id=2", body.as_slice());
     }
 
-    #[test]
-    fn test_headers_cannot_override_body_if_disabled() {
+    #[tokio::test]
+    async fn test_headers_cannot_override_body_if_disabled() {
         let body = RequestBodyUrlencoded::builder()
             .field(&Field::builder().key("user_id").value("10").build())
             .field(&Field::builder().key("category_id").value("2").build())
@@ -305,7 +327,8 @@ mod tests {
                     .build(),
             )
             .build();
-        let bound = BoundRequest::try_from(req).unwrap();
+        let env = dummy_env();
+        let bound = BoundRequest::new(&req, &env).await.unwrap();
         assert_eq!(bound.url, "https://www.example.com/api/v1/users");
         assert_eq!(RequestMethod::Post, bound.method);
         assert_eq!(

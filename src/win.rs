@@ -531,10 +531,10 @@ mod imp {
             }
         }
 
-        fn action_export_request(&self, format: &str) {
+        async fn action_export_request(&self, format: &str) {
             if let Some(pane) = self.current_pane() {
                 /* Try to export. */
-                pane.export_request(format);
+                pane.export_request(format).await;
             }
         }
 
@@ -864,14 +864,16 @@ mod imp {
 
             let action_export_request = ActionEntry::builder("export-request")
                 .parameter_type(Some(&String::static_variant_type()))
-                .activate(glib::clone!(
-                    #[weak(rename_to = window)]
-                    self,
-                    move |_, _, variant| {
-                        let param = variant.unwrap().get::<String>().unwrap();
-                        window.action_export_request(&param);
-                    }
-                ))
+                .activate(move |window: &super::CarteroWindow, _, variant| {
+                    let param = variant.unwrap().get::<String>().unwrap();
+                    glib::spawn_future_local(glib::clone!(
+                        #[weak]
+                        window,
+                        async move {
+                            window.imp().action_export_request(&param).await;
+                        }
+                    ));
+                })
                 .build();
 
             let action_export_response_body = ActionEntry::builder("export-response-body")

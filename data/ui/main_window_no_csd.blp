@@ -167,10 +167,19 @@ template $CarteroWindow: Gtk.ApplicationWindow {
 }
 
 menu share_menu {
-  item {
-    label: _("Export request as cURL…");
-    action: "win.export-request";
-    target: "curl";
+  section {
+    item {
+      label: _("Export request as cURL…");
+      action: "win.export-request";
+      target: "curl";
+    }
+  }
+
+  section {
+    item {
+      label: _("Export response body…");
+      action: "win.export-response-body";
+    }
   }
 }
 

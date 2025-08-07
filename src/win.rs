@@ -25,7 +25,7 @@ mod imp {
     use std::collections::HashSet;
 
     use adw::prelude::WidgetExt;
-    use std::cell::OnceCell;
+    use std::cell::{OnceCell, RefCell};
 
     use adw::AboutDialog;
     use adw::{prelude::*, subclass::prelude::*, TabPage};
@@ -69,10 +69,47 @@ mod imp {
         stack: TemplateChild<gtk::Stack>,
 
         current_tab_binding_group: OnceCell<glib::BindingGroup>,
+        export_menu_tab_responses: RefCell<Vec<gtk::ExpressionWatch>>,
     }
 
     #[gtk::template_callbacks]
     impl CarteroWindow {
+        /// Updates the binds for the "Export response" actions, so that
+        /// they use the has-response property of the current pane, or
+        /// false if there is no current pane at all. This function should
+        /// be called whenever the current page changes.
+        fn evaluate_export_menu_tab_responses(&self) {
+            {
+                let watches = self.export_menu_tab_responses.borrow_mut();
+                for watch in &*watches {
+                    watch.unwatch();
+                }
+            }
+
+            let action_binding = if let Some(page) = self.tabview.selected_page() {
+                page.property_expression("child")
+                    .chain_property::<EndpointPane>("has-response")
+                    .upcast()
+            } else {
+                gtk::ConstantExpression::new(false).upcast()
+            };
+            let obj = self.obj();
+
+            /* Enable these actions only if there is an open page and the page has a valid response. */
+            let tab_and_response_actions = ["export-response-body", "export-har"];
+            let new_tab_bindings = tab_and_response_actions
+                .iter()
+                .filter_map(|tab| {
+                    if let Some(action) = obj.lookup_action(&tab) {
+                        Some(action_binding.bind(&action, "enabled", Some(&*self.tabview)))
+                    } else {
+                        None
+                    }
+                })
+                .collect::<Vec<_>>();
+            self.export_menu_tab_responses.replace(new_tab_bindings);
+        }
+
         fn init_tab_bindings(&self) {
             let obj = &*self.obj();
 
@@ -118,18 +155,7 @@ mod imp {
                 }
             }
 
-            /* Enable these actions only if there is an open page and the page has a valid response. */
-            let has_response = self
-                .tabview
-                .property_expression("selected-page")
-                .chain_property::<adw::TabPage>("child")
-                .chain_property::<EndpointPane>("has-response");
-            let tab_and_response_actions = ["export-response-body", "export-har"];
-            for tab in tab_and_response_actions {
-                if let Some(action) = obj.lookup_action(&tab) {
-                    has_response.bind(&action, "enabled", Some(&*self.tabview));
-                }
-            }
+            self.evaluate_export_menu_tab_responses();
 
             self.tabview.connect_notify_local(
                 Some("selected-page"),
@@ -137,6 +163,9 @@ mod imp {
                     #[weak(rename_to = imp)]
                     self,
                     move |tv: &adw::TabView, _| {
+                        // Re-evalute the export bindings.
+                        imp.evaluate_export_menu_tab_responses();
+
                         let page = tv.selected_page();
                         let binding_group = imp.current_tab_binding_group.get().unwrap();
                         binding_group.set_source(page.as_ref());

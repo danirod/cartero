@@ -567,6 +567,12 @@ mod imp {
             }
         }
 
+        async fn action_export_response(&self) {
+            if let Some(pane) = self.current_pane() {
+                pane.export_response().await;
+            }
+        }
+
         async fn close_tab_requested(&self, tabpage: &TabPage) {
             let obj = self.obj();
             let endpoint_pane = tabpage.child().downcast::<EndpointPane>().unwrap();
@@ -906,13 +912,15 @@ mod imp {
                 .build();
 
             let action_export_response_body = ActionEntry::builder("export-response-body")
-                .activate(glib::clone!(
-                    #[weak(rename_to = window)]
-                    self,
-                    move |_, _, _| {
-                        println!("Exporting response body");
-                    }
-                ))
+                .activate(move |window: &super::CarteroWindow, _, _| {
+                    glib::spawn_future_local(glib::clone!(
+                        #[weak]
+                        window,
+                        async move {
+                            window.imp().action_export_response().await;
+                        }
+                    ));
+                })
                 .build();
 
             let action_export_har = ActionEntry::builder("export-har")

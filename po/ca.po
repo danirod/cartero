@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-08 18:50+0200\n"
+"POT-Creation-Date: 2025-08-08 22:12+0200\n"
 "PO-Revision-Date: 2025-05-22 15:06+0000\n"
 "Last-Translator: alesdevux <aleswebgit@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -299,7 +299,7 @@ msgstr "Executar aquesta petició HTTP"
 msgid "Parameters"
 msgstr "Paràmetres"
 
-#: data/ui/endpoint_pane.blp:142 data/ui/response_panel.blp:96
+#: data/ui/endpoint_pane.blp:142 data/ui/response_panel.blp:137
 msgid "Headers"
 msgstr "Capçaleres"
 
@@ -325,7 +325,8 @@ msgstr "Dreceres generals"
 msgid "Copy to clipboard"
 msgstr "Contingut copiat al porta-retalls"
 
-#: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:226
+#: data/ui/export_dialog.blp:69 data/ui/response_panel.blp:103
+#: src/widgets/file_dialogs.rs:226
 #, fuzzy
 msgid "Export to file"
 msgstr "Exportar com"
@@ -362,29 +363,29 @@ msgid "File"
 msgstr ""
 
 #: data/ui/mac_menu.blp:25 data/ui/main_window.blp:137
-#: data/ui/main_window.blp:187 data/ui/main_window_no_csd.blp:138
-#: data/ui/main_window_no_csd.blp:189
+#: data/ui/main_window.blp:193 data/ui/main_window_no_csd.blp:138
+#: data/ui/main_window_no_csd.blp:195
 msgid "New tab"
 msgstr "Nova pestanya"
 
 #: data/ui/mac_menu.blp:30 data/ui/main_window.blp:150
-#: data/ui/main_window.blp:192 data/ui/main_window_no_csd.blp:151
-#: data/ui/main_window_no_csd.blp:194
+#: data/ui/main_window.blp:198 data/ui/main_window_no_csd.blp:151
+#: data/ui/main_window_no_csd.blp:200
 msgid "Open request…"
 msgstr "Obrir petició…"
 
-#: data/ui/mac_menu.blp:35 data/ui/main_window.blp:197
-#: data/ui/main_window_no_csd.blp:199 src/widgets/file_dialogs.rs:146
+#: data/ui/mac_menu.blp:35 data/ui/main_window.blp:203
+#: data/ui/main_window_no_csd.blp:205 src/widgets/file_dialogs.rs:146
 msgid "Save request"
 msgstr "Guardar petició"
 
-#: data/ui/mac_menu.blp:40 data/ui/main_window.blp:202
-#: data/ui/main_window_no_csd.blp:204
+#: data/ui/mac_menu.blp:40 data/ui/main_window.blp:208
+#: data/ui/main_window_no_csd.blp:210
 msgid "Save request as…"
 msgstr "Guardar petició com…"
 
-#: data/ui/mac_menu.blp:47 data/ui/main_window.blp:207
-#: data/ui/main_window_no_csd.blp:209
+#: data/ui/mac_menu.blp:47 data/ui/main_window.blp:213
+#: data/ui/main_window_no_csd.blp:215
 msgid "Close tab"
 msgstr "Tancar pestanya"
 
@@ -440,53 +441,53 @@ msgctxt "menubar"
 msgid "Edit URL"
 msgstr ""
 
-#: data/ui/mac_menu.blp:120 data/ui/main_window.blp:219
-#: data/ui/main_window_no_csd.blp:221
+#: data/ui/mac_menu.blp:120 data/ui/main_window.blp:225
+#: data/ui/main_window_no_csd.blp:227
 msgid "Body appearance"
 msgstr "Aparença del cos"
 
-#: data/ui/mac_menu.blp:124 data/ui/main_window.blp:223
-#: data/ui/main_window_no_csd.blp:225
+#: data/ui/mac_menu.blp:124 data/ui/main_window.blp:229
+#: data/ui/main_window_no_csd.blp:231
 msgid "Wrap content"
 msgstr "Adaptar contingut"
 
-#: data/ui/mac_menu.blp:129 data/ui/main_window.blp:228
-#: data/ui/main_window_no_csd.blp:230
+#: data/ui/mac_menu.blp:129 data/ui/main_window.blp:234
+#: data/ui/main_window_no_csd.blp:236
 msgid "Show line numbers"
 msgstr "Mostrar números de línia"
 
-#: data/ui/mac_menu.blp:136 data/ui/main_window.blp:235
-#: data/ui/main_window_no_csd.blp:237
+#: data/ui/mac_menu.blp:136 data/ui/main_window.blp:241
+#: data/ui/main_window_no_csd.blp:243
 msgid "Automatic indentation"
 msgstr "Indentar automàticament"
 
-#: data/ui/mac_menu.blp:141 data/ui/main_window.blp:240
-#: data/ui/main_window_no_csd.blp:242
+#: data/ui/mac_menu.blp:141 data/ui/main_window.blp:246
+#: data/ui/main_window_no_csd.blp:248
 msgid "Indent with spaces"
 msgstr "Indentar amb espais"
 
-#: data/ui/mac_menu.blp:147 data/ui/main_window.blp:246
-#: data/ui/main_window_no_csd.blp:248
+#: data/ui/mac_menu.blp:147 data/ui/main_window.blp:252
+#: data/ui/main_window_no_csd.blp:254
 msgid "Indent with tabs"
 msgstr "Indentar amb tabuladors"
 
-#: data/ui/mac_menu.blp:153 data/ui/main_window.blp:252
-#: data/ui/main_window_no_csd.blp:254
+#: data/ui/mac_menu.blp:153 data/ui/main_window.blp:258
+#: data/ui/main_window_no_csd.blp:260
 msgid "Spaces per tab"
 msgstr "Espais per tabulador"
 
-#: data/ui/mac_menu.blp:156 data/ui/main_window.blp:255
-#: data/ui/main_window_no_csd.blp:257
+#: data/ui/mac_menu.blp:156 data/ui/main_window.blp:261
+#: data/ui/main_window_no_csd.blp:263
 msgid "2"
 msgstr "2"
 
-#: data/ui/mac_menu.blp:162 data/ui/main_window.blp:261
-#: data/ui/main_window_no_csd.blp:263
+#: data/ui/mac_menu.blp:162 data/ui/main_window.blp:267
+#: data/ui/main_window_no_csd.blp:269
 msgid "4"
 msgstr "4"
 
-#: data/ui/mac_menu.blp:168 data/ui/main_window.blp:267
-#: data/ui/main_window_no_csd.blp:269
+#: data/ui/mac_menu.blp:168 data/ui/main_window.blp:273
+#: data/ui/main_window_no_csd.blp:275
 msgid "8"
 msgstr "8"
 
@@ -569,25 +570,30 @@ msgstr "Crea o obre una petició i comença a provar APIs ara."
 msgid "Export request as cURL…"
 msgstr "Exportar petició"
 
-#: data/ui/main_window.blp:178 data/ui/main_window_no_csd.blp:180
+#: data/ui/main_window.blp:176 data/ui/main_window_no_csd.blp:178
+#, fuzzy
+msgid "Export request as Jetbrains HTTP…"
+msgstr "Exportar petició"
+
+#: data/ui/main_window.blp:184 data/ui/main_window_no_csd.blp:186
 #, fuzzy
 msgid "Export response body…"
 msgstr "Exportar petició"
 
-#: data/ui/main_window.blp:214 data/ui/main_window_no_csd.blp:216
+#: data/ui/main_window.blp:220 data/ui/main_window_no_csd.blp:222
 #: data/ui/settings_dialog.blp:21
 msgid "Settings"
 msgstr "Configuració"
 
-#: data/ui/main_window.blp:278 data/ui/main_window_no_csd.blp:280
+#: data/ui/main_window.blp:284 data/ui/main_window_no_csd.blp:286
 msgid "Keyboard shortcuts"
 msgstr "Dreceres de teclat"
 
-#: data/ui/main_window.blp:283 data/ui/main_window_no_csd.blp:285
+#: data/ui/main_window.blp:289 data/ui/main_window_no_csd.blp:291
 msgid "About Cartero"
 msgstr "Quant a Cartero"
 
-#: data/ui/main_window.blp:288 data/ui/main_window_no_csd.blp:290
+#: data/ui/main_window.blp:294 data/ui/main_window_no_csd.blp:296
 msgid "Quit"
 msgstr "Sortir"
 
@@ -636,9 +642,22 @@ msgstr ""
 "Utilitza el botó Enviar per enviar una petició de xarxa i veure el resultat "
 "aquí."
 
-#: data/ui/response_panel.blp:64
+#: data/ui/response_panel.blp:68
 msgid "Response body"
 msgstr ""
+
+#: data/ui/response_panel.blp:87
+msgid "Binary response received"
+msgstr ""
+
+#: data/ui/response_panel.blp:88
+msgid "The response of this request should not be rendered in a text view."
+msgstr ""
+
+#: data/ui/response_panel.blp:110
+#, fuzzy
+msgid "Render anyway"
+msgstr "Tancar igualment"
 
 #: data/ui/search_box.blp:42 data/ui/search_box.blp:43
 msgid "Search"
@@ -924,20 +943,25 @@ msgstr "_Descartar"
 msgid "_Save"
 msgstr "_Guardar"
 
-#: src/widgets/endpoint/endpoint_pane.rs:618
+#: src/widgets/endpoint/endpoint_pane.rs:642
 #, fuzzy
 msgid "Export request as cURL"
 msgstr "Exportar petició"
 
+#: src/widgets/endpoint/endpoint_pane.rs:643
+#, fuzzy
+msgid "Export request as Jetbrains HTTP"
+msgstr "Exportar petició"
+
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
-#: src/widgets/endpoint/response_panel.rs:282
+#: src/widgets/endpoint/response_panel.rs:340
 #, rust-format
 msgid "{} s"
 msgstr "{} s"
 
 #. Format as milliseconds.
 #. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
-#: src/widgets/endpoint/response_panel.rs:286
+#: src/widgets/endpoint/response_panel.rs:344
 #, rust-format
 msgid "{} ms"
 msgstr "{} ms"

@@ -39,6 +39,7 @@ mod imp {
     use std::sync::{Arc, Mutex};
 
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
+    use cartero_http::RequestError;
     use cartero_objects::{Field, Request, Response};
     use glib::subclass::InitializingObject;
     use glib::{JoinHandle, Properties};
@@ -445,7 +446,16 @@ mod imp {
         pub(super) async fn perform_request(&self) {
             let request = self.obj().request();
             let env = self.request_environment();
-            let response = cartero_isahc_client::request(&request, &env).await;
+
+            let response = match cartero_isahc_client::request(&request, &env).await {
+                Err(RequestError::MissingProtocol) => {
+                    let url_with_protocol = format!("http://{}", request.url());
+                    self.obj().request().set_url(url_with_protocol);
+                    let request = self.obj().request();
+                    cartero_isahc_client::request(&request, &env).await
+                }
+                any => any,
+            };
 
             match response {
                 Ok(response) => {

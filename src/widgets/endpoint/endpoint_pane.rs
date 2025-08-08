@@ -18,9 +18,12 @@
 use adw::prelude::AdwDialogExt;
 use cartero_objects::Request;
 use gettextrs::gettext;
+use glib::object::CastNone;
+use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
-use gtk::gio::prelude::SettingsExtManual;
+use gtk::gio::FileCreateFlags;
 use gtk::glib;
+use gtk::{gio::prelude::SettingsExtManual, prelude::WidgetExt};
 use sourceview5::prelude::FileExtManual;
 use url::form_urlencoded;
 
@@ -28,7 +31,7 @@ use crate::{
     app::CarteroApplication,
     export::curl::CodeExportService,
     interop::{InnerError, LoadResult, ObjectPane, SaveResult},
-    widgets::ExportDialog,
+    widgets::{file_dialogs, ExportDialog},
 };
 
 mod imp {
@@ -36,7 +39,7 @@ mod imp {
     use std::sync::{Arc, Mutex};
 
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
-    use cartero_objects::{Field, Request};
+    use cartero_objects::{Field, Request, Response};
     use glib::subclass::InitializingObject;
     use glib::{JoinHandle, Properties};
     use gtk::gio::{self, SimpleAction, SimpleActionGroup};
@@ -217,6 +220,10 @@ mod imp {
                     binding_group_2.set_source(Some(&ep.request()));
                 }
             ));
+        }
+
+        pub(super) fn get_response_object(&self) -> Option<Response> {
+            self.response.response()
         }
 
         fn has_response_impl(&self) -> bool {
@@ -568,6 +575,32 @@ impl EndpointPane {
     pub fn new() -> Self {
         // TODO: Accept additional initial state maybe?
         Object::builder().build()
+    }
+
+    pub async fn export_response(&self) {
+        let root = self.root().and_downcast::<gtk::Window>().unwrap();
+        let export_file = file_dialogs::export_file(&root).await;
+        match export_file {
+            Err(e) => crate::widgets::dialogs::glib_file_dialog_error(&root, &e).await,
+            Ok(file) => {
+                if let Some(file) = file {
+                    // get the current response payload
+                    let resp = self.imp().get_response_object().unwrap();
+                    let payload = resp.body().unwrap_or(glib::Bytes::from_static(&[]));
+                    if let Err((_, e)) = file
+                        .replace_contents_future(
+                            payload.to_vec(),
+                            None,
+                            false,
+                            FileCreateFlags::NONE,
+                        )
+                        .await
+                    {
+                        crate::widgets::dialogs::glib_file_dialog_error(&root, &e).await;
+                    }
+                }
+            }
+        }
     }
 
     pub async fn export_request(&self, format: &str) {

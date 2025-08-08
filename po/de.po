@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-07 18:10+0200\n"
+"POT-Creation-Date: 2025-08-08 18:50+0200\n"
 "PO-Revision-Date: 2025-05-17 00:02+0000\n"
 "Last-Translator: Juan Manuel Nani <jn4625070@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -367,29 +367,29 @@ msgid "File"
 msgstr ""
 
 #: data/ui/mac_menu.blp:25 data/ui/main_window.blp:137
-#: data/ui/main_window.blp:178 data/ui/main_window_no_csd.blp:138
-#: data/ui/main_window_no_csd.blp:180
+#: data/ui/main_window.blp:187 data/ui/main_window_no_csd.blp:138
+#: data/ui/main_window_no_csd.blp:189
 msgid "New tab"
 msgstr "Neuer Tab"
 
 #: data/ui/mac_menu.blp:30 data/ui/main_window.blp:150
-#: data/ui/main_window.blp:183 data/ui/main_window_no_csd.blp:151
-#: data/ui/main_window_no_csd.blp:185
+#: data/ui/main_window.blp:192 data/ui/main_window_no_csd.blp:151
+#: data/ui/main_window_no_csd.blp:194
 msgid "Open request…"
 msgstr "Anfrage öffnen…"
 
-#: data/ui/mac_menu.blp:35 data/ui/main_window.blp:188
-#: data/ui/main_window_no_csd.blp:190 src/widgets/file_dialogs.rs:146
+#: data/ui/mac_menu.blp:35 data/ui/main_window.blp:197
+#: data/ui/main_window_no_csd.blp:199 src/widgets/file_dialogs.rs:146
 msgid "Save request"
 msgstr "Anfrage speichern"
 
-#: data/ui/mac_menu.blp:40 data/ui/main_window.blp:193
-#: data/ui/main_window_no_csd.blp:195
+#: data/ui/mac_menu.blp:40 data/ui/main_window.blp:202
+#: data/ui/main_window_no_csd.blp:204
 msgid "Save request as…"
 msgstr "Anfrage speichern unter…"
 
-#: data/ui/mac_menu.blp:47 data/ui/main_window.blp:198
-#: data/ui/main_window_no_csd.blp:200
+#: data/ui/mac_menu.blp:47 data/ui/main_window.blp:207
+#: data/ui/main_window_no_csd.blp:209
 msgid "Close tab"
 msgstr "Tab schließen"
 
@@ -445,53 +445,53 @@ msgctxt "menubar"
 msgid "Edit URL"
 msgstr ""
 
-#: data/ui/mac_menu.blp:120 data/ui/main_window.blp:210
-#: data/ui/main_window_no_csd.blp:212
+#: data/ui/mac_menu.blp:120 data/ui/main_window.blp:219
+#: data/ui/main_window_no_csd.blp:221
 msgid "Body appearance"
 msgstr "Aussehen des Körpers"
 
-#: data/ui/mac_menu.blp:124 data/ui/main_window.blp:214
-#: data/ui/main_window_no_csd.blp:216
+#: data/ui/mac_menu.blp:124 data/ui/main_window.blp:223
+#: data/ui/main_window_no_csd.blp:225
 msgid "Wrap content"
 msgstr "Inhalte umbrechen"
 
-#: data/ui/mac_menu.blp:129 data/ui/main_window.blp:219
-#: data/ui/main_window_no_csd.blp:221
+#: data/ui/mac_menu.blp:129 data/ui/main_window.blp:228
+#: data/ui/main_window_no_csd.blp:230
 msgid "Show line numbers"
 msgstr "Zeilennummern anzeigen"
 
-#: data/ui/mac_menu.blp:136 data/ui/main_window.blp:226
-#: data/ui/main_window_no_csd.blp:228
+#: data/ui/mac_menu.blp:136 data/ui/main_window.blp:235
+#: data/ui/main_window_no_csd.blp:237
 msgid "Automatic indentation"
 msgstr "Automatische Einrückung"
 
-#: data/ui/mac_menu.blp:141 data/ui/main_window.blp:231
-#: data/ui/main_window_no_csd.blp:233
+#: data/ui/mac_menu.blp:141 data/ui/main_window.blp:240
+#: data/ui/main_window_no_csd.blp:242
 msgid "Indent with spaces"
 msgstr "Einrücken mit Leerzeichen"
 
-#: data/ui/mac_menu.blp:147 data/ui/main_window.blp:237
-#: data/ui/main_window_no_csd.blp:239
+#: data/ui/mac_menu.blp:147 data/ui/main_window.blp:246
+#: data/ui/main_window_no_csd.blp:248
 msgid "Indent with tabs"
 msgstr "Einrücken mit Tabs"
 
-#: data/ui/mac_menu.blp:153 data/ui/main_window.blp:243
-#: data/ui/main_window_no_csd.blp:245
+#: data/ui/mac_menu.blp:153 data/ui/main_window.blp:252
+#: data/ui/main_window_no_csd.blp:254
 msgid "Spaces per tab"
 msgstr "Leerzeichen pro Tab"
 
-#: data/ui/mac_menu.blp:156 data/ui/main_window.blp:246
-#: data/ui/main_window_no_csd.blp:248
+#: data/ui/mac_menu.blp:156 data/ui/main_window.blp:255
+#: data/ui/main_window_no_csd.blp:257
 msgid "2"
 msgstr "2"
 
-#: data/ui/mac_menu.blp:162 data/ui/main_window.blp:252
-#: data/ui/main_window_no_csd.blp:254
+#: data/ui/mac_menu.blp:162 data/ui/main_window.blp:261
+#: data/ui/main_window_no_csd.blp:263
 msgid "4"
 msgstr "4"
 
-#: data/ui/mac_menu.blp:168 data/ui/main_window.blp:258
-#: data/ui/main_window_no_csd.blp:260
+#: data/ui/mac_menu.blp:168 data/ui/main_window.blp:267
+#: data/ui/main_window_no_csd.blp:269
 msgid "8"
 msgstr "8"
 
@@ -516,7 +516,7 @@ msgctxt "menubar"
 msgid "Help"
 msgstr ""
 
-#: data/ui/mac_menu.blp:200 src/win.rs:634
+#: data/ui/mac_menu.blp:200 src/win.rs:669
 msgid "User manual"
 msgstr "Benutzerhandbuch"
 
@@ -530,7 +530,7 @@ msgctxt "menubar"
 msgid "View discussions"
 msgstr ""
 
-#: data/ui/mac_menu.blp:217 src/win.rs:636
+#: data/ui/mac_menu.blp:217 src/win.rs:671
 msgid "Help us translate"
 msgstr "Bei der Übersetzung helfen"
 
@@ -571,25 +571,30 @@ msgstr ""
 "Erstellen oder öffnen Sie eine Anfrage und beginnen Sie jetzt mit dem Testen "
 "von APIs."
 
-#: data/ui/main_window.blp:169 data/ui/main_window_no_csd.blp:171
+#: data/ui/main_window.blp:170 data/ui/main_window_no_csd.blp:172
 #, fuzzy
 msgid "Export request as cURL…"
 msgstr "Anfrage exportieren"
 
-#: data/ui/main_window.blp:205 data/ui/main_window_no_csd.blp:207
+#: data/ui/main_window.blp:178 data/ui/main_window_no_csd.blp:180
+#, fuzzy
+msgid "Export response body…"
+msgstr "Anfrage exportieren"
+
+#: data/ui/main_window.blp:214 data/ui/main_window_no_csd.blp:216
 #: data/ui/settings_dialog.blp:21
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: data/ui/main_window.blp:269 data/ui/main_window_no_csd.blp:271
+#: data/ui/main_window.blp:278 data/ui/main_window_no_csd.blp:280
 msgid "Keyboard shortcuts"
 msgstr "Tastenkürzel"
 
-#: data/ui/main_window.blp:274 data/ui/main_window_no_csd.blp:276
+#: data/ui/main_window.blp:283 data/ui/main_window_no_csd.blp:285
 msgid "About Cartero"
 msgstr "Über Cartero"
 
-#: data/ui/main_window.blp:279 data/ui/main_window_no_csd.blp:281
+#: data/ui/main_window.blp:288 data/ui/main_window_no_csd.blp:290
 msgid "Quit"
 msgstr "Beenden"
 
@@ -933,7 +938,7 @@ msgstr "_Verwerfen"
 msgid "_Save"
 msgstr "_Speichern"
 
-#: src/widgets/endpoint/endpoint_pane.rs:585
+#: src/widgets/endpoint/endpoint_pane.rs:618
 #, fuzzy
 msgid "Export request as cURL"
 msgstr "Anfrage exportieren"
@@ -1054,24 +1059,24 @@ msgid_plural "{} results"
 msgstr[0] "{} Ergebnis"
 msgstr[1] "{} Ergebnisse"
 
-#: src/win.rs:256
+#: src/win.rs:285
 msgid "(untitled)"
 msgstr "(unbenannt)"
 
-#: src/win.rs:270
+#: src/win.rs:299
 msgid "Draft"
 msgstr "Entwurf"
 
-#: src/win.rs:578
+#: src/win.rs:613
 msgid "The Cartero authors"
 msgstr "Die Autoren von Cartero"
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
-#: src/win.rs:601
+#: src/win.rs:636
 msgid "translator-credits"
 msgstr "mstffn"
 
-#: src/win.rs:602
+#: src/win.rs:637
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 die Cartero Autoren"
 

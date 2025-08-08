@@ -221,6 +221,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "cartero_jetbrains_http_format"
+version = "0.3.0"
+dependencies = [
+ "cartero_http",
+ "cartero_objects",
+ "tokio",
+]
+
+[[package]]
 name = "cartero_objects"
 version = "0.3.0"
 dependencies = [

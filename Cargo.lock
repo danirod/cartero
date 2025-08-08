@@ -148,6 +148,7 @@ dependencies = [
  "cartero_http",
  "cartero_interop",
  "cartero_isahc_client",
+ "cartero_jetbrains_http_format",
  "cartero_objects",
  "formatx",
  "formdata",

@@ -49,6 +49,7 @@ base64 = "0.22.1"
 cartero_http = { path = "cartero-http" }
 cartero_interop = { path = "cartero-interop" }
 cartero_isahc_client = { path = "cartero-isahc-client" }
+cartero_jetbrains_http_format = { path = "cartero-jetbrains-http-format" }
 cartero_objects = { path = "cartero-objects" }
 cartero_file_format = { path = "cartero-file-format" }
 formatx = "0.2.3"

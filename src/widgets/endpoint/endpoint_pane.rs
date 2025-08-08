@@ -614,25 +614,44 @@ impl EndpointPane {
     }
 
     pub async fn export_request(&self, format: &str) {
-        let curl = CodeExportService::new(self.request());
+        let command = match format {
+            "curl" => {
+                let curl = CodeExportService::new(self.request());
+                curl.generate().await
+            }
+            "jetbrains-http" => cartero_jetbrains_http_format::export(&self.request()).await,
+            _ => {
+                return;
+            }
+        };
 
-        if let Ok(command) = curl.generate().await {
-            let buffer = glib::Bytes::from(command.as_bytes());
-            let file_format = sourceview5::LanguageManager::default().language("sh");
-            let dialog = glib::Object::builder::<ExportDialog>()
-                .property("blob", Some(&buffer))
-                .property("format", file_format)
-                .build();
+        let file_format = match format {
+            "curl" => sourceview5::LanguageManager::default().language("sh"),
+            _ => None,
+        };
 
-            let title = match format {
-                "curl" => gettext("Export request as cURL"),
-                _ => {
-                    return;
-                }
-            };
-            dialog.set_title(&title);
-            dialog.present(Some(self));
-        }
+        match command {
+            Ok(command) => {
+                let buffer = glib::Bytes::from(command.as_bytes());
+                let dialog = glib::Object::builder::<ExportDialog>()
+                    .property("blob", Some(&buffer))
+                    .property("format", file_format)
+                    .build();
+
+                let title = match format {
+                    "curl" => gettext("Export request as cURL"),
+                    "jetbrains-http" => gettext("Export request as Jetbrains HTTP"),
+                    _ => {
+                        return;
+                    }
+                };
+                dialog.set_title(&title);
+                dialog.present(Some(self));
+            }
+            Err(e) => {
+                println!("{:?}", e);
+            }
+        };
     }
 }
 

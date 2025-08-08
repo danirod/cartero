@@ -13,6 +13,7 @@ These are the user-visible changes that you will notice when you use Cartero.
 
 ### Changed
 
+* Responses with a binary body (like images or videos or octet-streams) will suggest saving the response into a file rather than rendering it in the code view.
 * The default user agent used in HTTP request has changed to "Cartero/0.3.0 (isahc/1.7.2 curl/8.12.1-DEV)" (version numbers will bump as future releases flow).
 * The responsiveness of the application will behave better on small windows and mobile devices.
 * Dependency bumped: minimum version of GLib required to compile the application is now GLib 2.74.

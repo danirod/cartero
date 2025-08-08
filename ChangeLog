@@ -3,6 +3,14 @@ code that could introduce bugs, cause Git conflicts on a merge or break
 existing patches in general. If you are looking for a list of
 user-facing changes, check the NEWS.md file.
 
+2025-08-08  @danirod
+
+        * cartero-objects/src/response.rs: Response has a new function
+        called is_binary().
+        * src/widgets/endpoint/response_panel.rs: the
+        CarteroResponsePanel widget has a new action called
+        response.force-binary-render.
+
 2025-08-07  @danirod
 
         * cartero-objects/src/request_body.rs: A new value has been

@@ -44,24 +44,42 @@ impl Response {
         builder::ResponseBuilder::new(request)
     }
 
-    pub fn is_json(&self) -> bool {
+    fn test_content_type(&self, query: &str) -> bool {
         match self.headers().find_by_name_icase("content-type") {
             Some(headers) => match &headers[..] {
-                [field] => field.contains("/json") || field.contains("+json"),
+                [field] => field.contains(query),
                 _ => false,
             },
             None => false,
         }
     }
 
+    pub fn is_json(&self) -> bool {
+        self.test_content_type("/json") || self.test_content_type("+json")
+    }
+
     pub fn is_xml(&self) -> bool {
-        match self.headers().find_by_name_icase("content-type") {
-            Some(headers) => match &headers[..] {
-                [field] => field.contains("/xml") || field.contains("+xml"),
-                _ => false,
-            },
-            None => false,
-        }
+        self.test_content_type("/xml") || self.test_content_type("+xml")
+    }
+
+    pub fn is_binary(&self) -> bool {
+        // TODO: Test
+        self.test_content_type("application/octet-stream")
+            || self.test_content_type("image/")
+            || self.test_content_type("audio/")
+            || self.test_content_type("video/")
+            || self.test_content_type("haptics/")
+            || self.test_content_type("font/")
+            || self.body().is_some_and(|body| {
+                // Check for non-printable characters, but respect characters in range
+                // 0x08 to 0x0D: these are \n, \r, \t, and technically these are
+                // printable.
+                body.clone()
+                    .to_vec()
+                    .into_iter()
+                    .find(|ch| *ch < 0x08 || (*ch >= 0x0D && *ch < 0x20))
+                    .is_some()
+            })
     }
 
     /// Returns a safe representation of the body, in a way that can be presented

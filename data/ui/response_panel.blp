@@ -56,21 +56,62 @@ template $CarteroResponsePanel: Adw.Bin {
             };
 
             child: Gtk.Overlay {
-              ScrolledWindow {
-                hexpand: true;
-                vexpand: true;
+              Gtk.Stack response_body_stack {
+                Gtk.StackPage {
+                  name: 'text';
 
-                $CarteroCodeView response_body {
-                  tooltip-text: _("Response body");
-                  top-margin: 10;
-                  bottom-margin: 10;
-                  left-margin: 10;
-                  right-margin: 10;
-                  smart-backspace: true;
-                  monospace: true;
-                  editable: false;
-                  buffer: buffer;
-                  search-requested => $on_search_requested() swapped;
+                  child: ScrolledWindow {
+                    hexpand: true;
+                    vexpand: true;
+
+                    $CarteroCodeView response_body {
+                      tooltip-text: _("Response body");
+                      top-margin: 10;
+                      bottom-margin: 10;
+                      left-margin: 10;
+                      right-margin: 10;
+                      smart-backspace: true;
+                      monospace: true;
+                      editable: false;
+                      buffer: buffer;
+                      search-requested => $on_search_requested() swapped;
+                    }
+                  };
+                }
+
+                Gtk.StackPage {
+                  name: 'binary';
+
+                  child: Adw.StatusPage {
+                    icon-name: "encode-symbolic";
+                    title: _("Binary response received");
+                    description: _("The response of this request should not be rendered in a text view.");
+
+                    Gtk.Box {
+                      orientation: vertical;
+                      spacing: 12;
+                      hexpand: false;
+                      halign: center;
+
+                      Gtk.Button {
+                        styles [
+                          "suggested-action",
+                        ]
+
+                        hexpand: false;
+                        halign: center;
+                        label: _("Export to file");
+                        action-name: "win.export-response-body";
+                      }
+
+                      Gtk.Button {
+                        hexpand: false;
+                        halign: center;
+                        label: _("Render anyway");
+                        action-name: "response.force-binary-render";
+                      }
+                    }
+                  };
                 }
               }
 

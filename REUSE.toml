@@ -76,6 +76,7 @@ SPDX-FileComment = "Taken from https://commons.wikimedia.org/wiki/File:Windows_l
 [[annotations]]
 # Icons exported by Icon Library
 path = [
+    "data/icons/scalable/actions/encode-symbolic.svg",
     "data/icons/scalable/actions/horizontal-arrows-symbolic.svg",
     "data/icons/scalable/actions/share-symbolic.svg",
     "data/icons/scalable/actions/tab-new-symbolic.svg",

@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-07 18:10+0200\n"
-"PO-Revision-Date: 2025-08-01 22:56+0000\n"
+"PO-Revision-Date: 2025-08-08 11:01+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/cartero/cartero/"
 "es/>\n"
@@ -212,33 +212,29 @@ msgid "Close request tab"
 msgstr "Cerrar pestaña de petición"
 
 #: data/gtk/help_overlay.blp:68
-#, fuzzy
 msgctxt "shortcuts window"
 msgid "Code view operations"
-msgstr "Operaciones de petición"
+msgstr "Operaciones de la vista de código"
 
 #: data/gtk/help_overlay.blp:71
-#, fuzzy
 msgctxt "shortcuts window"
 msgid "Zoom in"
-msgstr "Zoom"
+msgstr "Ampliar zoom"
 
 #: data/gtk/help_overlay.blp:76
-#, fuzzy
 msgctxt "shortcuts window"
 msgid "Zoom out"
-msgstr "Zoom"
+msgstr "Reducir zoom"
 
 #: data/gtk/help_overlay.blp:81
 msgctxt "shortcuts window"
 msgid "Reset zoom"
-msgstr ""
+msgstr "Reestablecer zoom"
 
 #: data/gtk/help_overlay.blp:86
-#, fuzzy
 msgctxt "shortcuts window"
 msgid "Start search"
-msgstr "Buscar"
+msgstr "Iniciar búsqueda"
 
 #: data/gtk/help_overlay.blp:92
 msgctxt "shortcuts window"
@@ -246,10 +242,9 @@ msgid "Request operations"
 msgstr "Operaciones de petición"
 
 #: data/gtk/help_overlay.blp:95
-#, fuzzy
 msgctxt "shortcuts window"
 msgid "Focus URL"
-msgstr "URL de petición"
+msgstr "Dar foco a la URL"
 
 #: data/gtk/help_overlay.blp:100
 msgctxt "shortcuts window"
@@ -330,7 +325,7 @@ msgstr "Copiar al portapapeles"
 
 #: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:226
 msgid "Export to file"
-msgstr "Exportar a un archivo"
+msgstr "Exportar a archivo"
 
 #: data/ui/field_list_box_row.blp:23 data/ui/field_placeholder_row.blp:27
 msgid "Enabled"
@@ -590,9 +585,8 @@ msgid "Request method"
 msgstr "Método de petición"
 
 #: data/ui/raw_body_pane.blp:28
-#, fuzzy
 msgid "Request body"
-msgstr "Método de petición"
+msgstr "Cuerpo de la petición"
 
 #: data/ui/request_body_pane.blp:34
 msgid "Body type"
@@ -611,9 +605,8 @@ msgid "Raw"
 msgstr "En bruto"
 
 #: data/ui/request_body_pane.blp:65
-#, fuzzy
 msgid "From file"
-msgstr "Exportar a un archivo"
+msgstr "Desde archivo"
 
 #: data/ui/response_headers.blp:42
 msgid "No headers"
@@ -630,7 +623,7 @@ msgstr ""
 
 #: data/ui/response_panel.blp:64
 msgid "Response body"
-msgstr ""
+msgstr "Cuerpo de la respuesta"
 
 #: data/ui/search_box.blp:42 data/ui/search_box.blp:43
 msgid "Search"
@@ -691,7 +684,7 @@ msgstr "Fuente personalizada"
 
 #: data/ui/settings_dialog.blp:71
 msgid "Click to select a font"
-msgstr ""
+msgstr "Haz clic para seleccionar una fuente"
 
 #: data/ui/settings_dialog.blp:80
 msgid "File settings"
@@ -840,9 +833,8 @@ msgstr ""
 "se reestablecerá a '{}'."
 
 #: src/widgets/dialogs.rs:114
-#, fuzzy
 msgid "The requested file cannot be picked"
-msgstr "El archivo solicitado fue cargado pero tenía problemas"
+msgstr "El archivo solicitado no pudo ser elegido"
 
 #: src/widgets/dialogs.rs:115
 #, rust-format
@@ -852,6 +844,10 @@ msgid ""
 "\n"
 "The file '{}' is not part of the '{}' directory"
 msgstr ""
+"El archivo debe estar en el mismo directorio que la petición o el archivo de "
+"proyecto o cualquiera de sus subdirectorios.\n"
+"\n"
+"El archivo '{}' no es parte del directorio '{}'"
 
 #: src/widgets/dialogs.rs:135
 #, rust-format
@@ -977,14 +973,13 @@ msgid "The given request body could not be encoded correctly"
 msgstr "El cuerpo de petición dado no se pudo codificar correctamente"
 
 #: src/widgets/error_pane.rs:110
-#, fuzzy
 msgid "You have to save the request first"
-msgstr "No se puede guardar el archivo solicitado"
+msgstr "Tienes que guardar la petición primero"
 
 #: src/widgets/error_pane.rs:112
 #, rust-format
 msgid "The file '{}' cannot be accessed due to the security policy"
-msgstr ""
+msgstr "El archivo '{}' no puede ser accedido debido a la política de seguridad"
 
 #: src/widgets/error_pane.rs:116
 msgid "There is an input/output error"
@@ -1018,9 +1013,8 @@ msgid "Open request"
 msgstr "Abrir petición"
 
 #: src/widgets/file_dialogs.rs:187
-#, fuzzy
 msgid "Select file"
-msgstr "Seleccionar todo"
+msgstr "Seleccionar archivo"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.

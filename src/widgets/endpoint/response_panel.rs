@@ -128,6 +128,7 @@ mod imp {
                 #[weak(rename_to = imp)]
                 self,
                 move |_, _| {
+                    imp.obj().render_response_body_as_text();
                     imp.response_body_stack.set_visible_child_name("text");
                 }
             ));
@@ -229,6 +230,32 @@ impl ResponsePanel {
         imp.metadata_stack.set_visible_child(&*imp.spinner);
     }
 
+    fn render_response_body_as_text(&self) {
+        let buffer = self
+            .imp()
+            .response_body
+            .buffer()
+            .downcast::<sourceview5::Buffer>()
+            .unwrap();
+
+        let Some(resp) = self.response() else {
+            buffer.set_text("");
+            return;
+        };
+
+        if resp.is_json() {
+            #[allow(deprecated)]
+            let json = serde_json::from_str(&resp.safe_string())
+                .and_then(|text: Value| serde_json::to_string_pretty(&text));
+            if let Ok(json) = json {
+                buffer.set_text(&json);
+            }
+        } else {
+            #[allow(deprecated)]
+            buffer.set_text(&resp.safe_string());
+        }
+    }
+
     pub fn assign_from_response(&self, resp: &Response) {
         self.set_response(Some(resp.clone()));
 
@@ -265,22 +292,17 @@ impl ResponsePanel {
 
         imp.metadata_stack.set_visible_child(&*imp.response_meta);
 
-        let buffer = imp
+        let buffer = self
+            .imp()
             .response_body
             .buffer()
             .downcast::<sourceview5::Buffer>()
             .unwrap();
 
-        #[allow(deprecated)]
-        buffer.set_text(&resp.safe_string());
-
-        if resp.is_json() {
-            #[allow(deprecated)]
-            let json = serde_json::from_str(&resp.safe_string())
-                .and_then(|text: Value| serde_json::to_string_pretty(&text));
-            if let Ok(json) = json {
-                buffer.set_text(&json);
-            }
+        if resp.is_binary() {
+            buffer.set_text("");
+        } else {
+            self.render_response_body_as_text();
         }
 
         let language = if resp.is_json() {

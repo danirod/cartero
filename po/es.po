@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-07 18:10+0200\n"
-"PO-Revision-Date: 2025-08-08 11:01+0000\n"
+"PO-Revision-Date: 2025-08-08 20:29+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/cartero/cartero/"
 "es/>\n"
@@ -1064,32 +1064,29 @@ msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 los autores de Cartero"
 
 #: data/ui/main_window.blp:176 data/ui/main_window_no_csd.blp:178
-#, fuzzy
 msgid "Export request as Jetbrains HTTP…"
-msgstr "Exportar petición como cURL…"
+msgstr "Exportar petición como Jetbrains HTTP…"
 
 #: data/ui/main_window.blp:184 data/ui/main_window_no_csd.blp:186
-#, fuzzy
 msgid "Export response body…"
-msgstr "Exportar petición como cURL…"
+msgstr "Exportar cuerpo de la respuesta…"
 
 #: data/ui/response_panel.blp:87
 msgid "Binary response received"
-msgstr ""
+msgstr "Recibida una respuesta binaria"
 
 #: data/ui/response_panel.blp:88
 msgid "The response of this request should not be rendered in a text view."
 msgstr ""
+"La respuesta de esta petición no debería mostrarse en un campo de texto."
 
 #: data/ui/response_panel.blp:110
-#, fuzzy
 msgid "Render anyway"
-msgstr "Cerrar de todos modos"
+msgstr "Mostrar igualmente"
 
 #: src/widgets/endpoint/endpoint_pane.rs:643
-#, fuzzy
 msgid "Export request as Jetbrains HTTP"
-msgstr "Exportar petición como cURL"
+msgstr "Exportar petición como Jetbrains HTTP"
 
 #~ msgid "The current tab is not associated with a file"
 #~ msgstr "La pestaña actual no está asociada con un archivo"

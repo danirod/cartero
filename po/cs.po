@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-07 18:10+0200\n"
+"POT-Creation-Date: 2025-08-08 18:50+0200\n"
 "PO-Revision-Date: 2025-04-16 11:02+0000\n"
 "Last-Translator: vesp <vesp@post.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/cartero/cartero/cs/"
@@ -363,29 +363,29 @@ msgid "File"
 msgstr ""
 
 #: data/ui/mac_menu.blp:25 data/ui/main_window.blp:137
-#: data/ui/main_window.blp:178 data/ui/main_window_no_csd.blp:138
-#: data/ui/main_window_no_csd.blp:180
+#: data/ui/main_window.blp:187 data/ui/main_window_no_csd.blp:138
+#: data/ui/main_window_no_csd.blp:189
 msgid "New tab"
 msgstr "Nový panel"
 
 #: data/ui/mac_menu.blp:30 data/ui/main_window.blp:150
-#: data/ui/main_window.blp:183 data/ui/main_window_no_csd.blp:151
-#: data/ui/main_window_no_csd.blp:185
+#: data/ui/main_window.blp:192 data/ui/main_window_no_csd.blp:151
+#: data/ui/main_window_no_csd.blp:194
 msgid "Open request…"
 msgstr "Otevřít požadavek…"
 
-#: data/ui/mac_menu.blp:35 data/ui/main_window.blp:188
-#: data/ui/main_window_no_csd.blp:190 src/widgets/file_dialogs.rs:146
+#: data/ui/mac_menu.blp:35 data/ui/main_window.blp:197
+#: data/ui/main_window_no_csd.blp:199 src/widgets/file_dialogs.rs:146
 msgid "Save request"
 msgstr "Uložit požadavek"
 
-#: data/ui/mac_menu.blp:40 data/ui/main_window.blp:193
-#: data/ui/main_window_no_csd.blp:195
+#: data/ui/mac_menu.blp:40 data/ui/main_window.blp:202
+#: data/ui/main_window_no_csd.blp:204
 msgid "Save request as…"
 msgstr "Uložit požadavek jako…"
 
-#: data/ui/mac_menu.blp:47 data/ui/main_window.blp:198
-#: data/ui/main_window_no_csd.blp:200
+#: data/ui/mac_menu.blp:47 data/ui/main_window.blp:207
+#: data/ui/main_window_no_csd.blp:209
 msgid "Close tab"
 msgstr "Zavřít panel"
 
@@ -441,53 +441,53 @@ msgctxt "menubar"
 msgid "Edit URL"
 msgstr ""
 
-#: data/ui/mac_menu.blp:120 data/ui/main_window.blp:210
-#: data/ui/main_window_no_csd.blp:212
+#: data/ui/mac_menu.blp:120 data/ui/main_window.blp:219
+#: data/ui/main_window_no_csd.blp:221
 msgid "Body appearance"
 msgstr "Vzhled těla"
 
-#: data/ui/mac_menu.blp:124 data/ui/main_window.blp:214
-#: data/ui/main_window_no_csd.blp:216
+#: data/ui/mac_menu.blp:124 data/ui/main_window.blp:223
+#: data/ui/main_window_no_csd.blp:225
 msgid "Wrap content"
 msgstr "Zalomit obsah"
 
-#: data/ui/mac_menu.blp:129 data/ui/main_window.blp:219
-#: data/ui/main_window_no_csd.blp:221
+#: data/ui/mac_menu.blp:129 data/ui/main_window.blp:228
+#: data/ui/main_window_no_csd.blp:230
 msgid "Show line numbers"
 msgstr "Zobrazit čísla řádků"
 
-#: data/ui/mac_menu.blp:136 data/ui/main_window.blp:226
-#: data/ui/main_window_no_csd.blp:228
+#: data/ui/mac_menu.blp:136 data/ui/main_window.blp:235
+#: data/ui/main_window_no_csd.blp:237
 msgid "Automatic indentation"
 msgstr "Automatické odsazení"
 
-#: data/ui/mac_menu.blp:141 data/ui/main_window.blp:231
-#: data/ui/main_window_no_csd.blp:233
+#: data/ui/mac_menu.blp:141 data/ui/main_window.blp:240
+#: data/ui/main_window_no_csd.blp:242
 msgid "Indent with spaces"
 msgstr "Odsadit mezerami"
 
-#: data/ui/mac_menu.blp:147 data/ui/main_window.blp:237
-#: data/ui/main_window_no_csd.blp:239
+#: data/ui/mac_menu.blp:147 data/ui/main_window.blp:246
+#: data/ui/main_window_no_csd.blp:248
 msgid "Indent with tabs"
 msgstr "Odsadit tabulátory"
 
-#: data/ui/mac_menu.blp:153 data/ui/main_window.blp:243
-#: data/ui/main_window_no_csd.blp:245
+#: data/ui/mac_menu.blp:153 data/ui/main_window.blp:252
+#: data/ui/main_window_no_csd.blp:254
 msgid "Spaces per tab"
 msgstr "Délka tabulátoru v mezerách"
 
-#: data/ui/mac_menu.blp:156 data/ui/main_window.blp:246
-#: data/ui/main_window_no_csd.blp:248
+#: data/ui/mac_menu.blp:156 data/ui/main_window.blp:255
+#: data/ui/main_window_no_csd.blp:257
 msgid "2"
 msgstr "2"
 
-#: data/ui/mac_menu.blp:162 data/ui/main_window.blp:252
-#: data/ui/main_window_no_csd.blp:254
+#: data/ui/mac_menu.blp:162 data/ui/main_window.blp:261
+#: data/ui/main_window_no_csd.blp:263
 msgid "4"
 msgstr "4"
 
-#: data/ui/mac_menu.blp:168 data/ui/main_window.blp:258
-#: data/ui/main_window_no_csd.blp:260
+#: data/ui/mac_menu.blp:168 data/ui/main_window.blp:267
+#: data/ui/main_window_no_csd.blp:269
 msgid "8"
 msgstr "8"
 
@@ -512,7 +512,7 @@ msgctxt "menubar"
 msgid "Help"
 msgstr ""
 
-#: data/ui/mac_menu.blp:200 src/win.rs:634
+#: data/ui/mac_menu.blp:200 src/win.rs:669
 msgid "User manual"
 msgstr "Uživatelská příručka"
 
@@ -526,7 +526,7 @@ msgctxt "menubar"
 msgid "View discussions"
 msgstr ""
 
-#: data/ui/mac_menu.blp:217 src/win.rs:636
+#: data/ui/mac_menu.blp:217 src/win.rs:671
 msgid "Help us translate"
 msgstr "Pomozte nám s překladem"
 
@@ -565,25 +565,30 @@ msgstr "Vítá vás aplikace Cartero"
 msgid "Create or open a request and start testing APIs now."
 msgstr "Vytvořte nebo otevřete požadavek a začněte testovat API."
 
-#: data/ui/main_window.blp:169 data/ui/main_window_no_csd.blp:171
+#: data/ui/main_window.blp:170 data/ui/main_window_no_csd.blp:172
 #, fuzzy
 msgid "Export request as cURL…"
 msgstr "Exportovat požadavek"
 
-#: data/ui/main_window.blp:205 data/ui/main_window_no_csd.blp:207
+#: data/ui/main_window.blp:178 data/ui/main_window_no_csd.blp:180
+#, fuzzy
+msgid "Export response body…"
+msgstr "Exportovat požadavek"
+
+#: data/ui/main_window.blp:214 data/ui/main_window_no_csd.blp:216
 #: data/ui/settings_dialog.blp:21
 msgid "Settings"
 msgstr "Nastavení"
 
-#: data/ui/main_window.blp:269 data/ui/main_window_no_csd.blp:271
+#: data/ui/main_window.blp:278 data/ui/main_window_no_csd.blp:280
 msgid "Keyboard shortcuts"
 msgstr "Klávesové zkratky"
 
-#: data/ui/main_window.blp:274 data/ui/main_window_no_csd.blp:276
+#: data/ui/main_window.blp:283 data/ui/main_window_no_csd.blp:285
 msgid "About Cartero"
 msgstr "O aplikaci Cartero"
 
-#: data/ui/main_window.blp:279 data/ui/main_window_no_csd.blp:281
+#: data/ui/main_window.blp:288 data/ui/main_window_no_csd.blp:290
 msgid "Quit"
 msgstr "Ukončit"
 
@@ -919,7 +924,7 @@ msgstr "Zahodi_t změny"
 msgid "_Save"
 msgstr "_Uložit"
 
-#: src/widgets/endpoint/endpoint_pane.rs:585
+#: src/widgets/endpoint/endpoint_pane.rs:618
 #, fuzzy
 msgid "Export request as cURL"
 msgstr "Exportovat požadavek"
@@ -1039,24 +1044,24 @@ msgstr[0] "{} požadavek"
 msgstr[1] "{} požadavky"
 msgstr[2] "{} požadavků"
 
-#: src/win.rs:256
+#: src/win.rs:285
 msgid "(untitled)"
 msgstr "(bez názvu)"
 
-#: src/win.rs:270
+#: src/win.rs:299
 msgid "Draft"
 msgstr "Koncept"
 
-#: src/win.rs:578
+#: src/win.rs:613
 msgid "The Cartero authors"
 msgstr "Autoři aplikace Cartero"
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
-#: src/win.rs:601
+#: src/win.rs:636
 msgid "translator-credits"
 msgstr "vesp"
 
-#: src/win.rs:602
+#: src/win.rs:637
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 autoři aplikace Cartero"
 

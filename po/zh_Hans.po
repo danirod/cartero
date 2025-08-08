@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-07 18:10+0200\n"
+"POT-Creation-Date: 2025-08-08 22:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -287,7 +287,7 @@ msgstr ""
 msgid "Parameters"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:142 data/ui/response_panel.blp:96
+#: data/ui/endpoint_pane.blp:142 data/ui/response_panel.blp:137
 msgid "Headers"
 msgstr ""
 
@@ -311,7 +311,8 @@ msgstr ""
 msgid "Copy to clipboard"
 msgstr ""
 
-#: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:226
+#: data/ui/export_dialog.blp:69 data/ui/response_panel.blp:103
+#: src/widgets/file_dialogs.rs:226
 msgid "Export to file"
 msgstr ""
 
@@ -347,29 +348,29 @@ msgid "File"
 msgstr ""
 
 #: data/ui/mac_menu.blp:25 data/ui/main_window.blp:137
-#: data/ui/main_window.blp:178 data/ui/main_window_no_csd.blp:138
-#: data/ui/main_window_no_csd.blp:180
+#: data/ui/main_window.blp:193 data/ui/main_window_no_csd.blp:138
+#: data/ui/main_window_no_csd.blp:195
 msgid "New tab"
 msgstr ""
 
 #: data/ui/mac_menu.blp:30 data/ui/main_window.blp:150
-#: data/ui/main_window.blp:183 data/ui/main_window_no_csd.blp:151
-#: data/ui/main_window_no_csd.blp:185
+#: data/ui/main_window.blp:198 data/ui/main_window_no_csd.blp:151
+#: data/ui/main_window_no_csd.blp:200
 msgid "Open request…"
 msgstr ""
 
-#: data/ui/mac_menu.blp:35 data/ui/main_window.blp:188
-#: data/ui/main_window_no_csd.blp:190 src/widgets/file_dialogs.rs:146
+#: data/ui/mac_menu.blp:35 data/ui/main_window.blp:203
+#: data/ui/main_window_no_csd.blp:205 src/widgets/file_dialogs.rs:146
 msgid "Save request"
 msgstr ""
 
-#: data/ui/mac_menu.blp:40 data/ui/main_window.blp:193
-#: data/ui/main_window_no_csd.blp:195
+#: data/ui/mac_menu.blp:40 data/ui/main_window.blp:208
+#: data/ui/main_window_no_csd.blp:210
 msgid "Save request as…"
 msgstr ""
 
-#: data/ui/mac_menu.blp:47 data/ui/main_window.blp:198
-#: data/ui/main_window_no_csd.blp:200
+#: data/ui/mac_menu.blp:47 data/ui/main_window.blp:213
+#: data/ui/main_window_no_csd.blp:215
 msgid "Close tab"
 msgstr ""
 
@@ -423,53 +424,53 @@ msgctxt "menubar"
 msgid "Edit URL"
 msgstr ""
 
-#: data/ui/mac_menu.blp:120 data/ui/main_window.blp:210
-#: data/ui/main_window_no_csd.blp:212
+#: data/ui/mac_menu.blp:120 data/ui/main_window.blp:225
+#: data/ui/main_window_no_csd.blp:227
 msgid "Body appearance"
 msgstr ""
 
-#: data/ui/mac_menu.blp:124 data/ui/main_window.blp:214
-#: data/ui/main_window_no_csd.blp:216
+#: data/ui/mac_menu.blp:124 data/ui/main_window.blp:229
+#: data/ui/main_window_no_csd.blp:231
 msgid "Wrap content"
 msgstr ""
 
-#: data/ui/mac_menu.blp:129 data/ui/main_window.blp:219
-#: data/ui/main_window_no_csd.blp:221
+#: data/ui/mac_menu.blp:129 data/ui/main_window.blp:234
+#: data/ui/main_window_no_csd.blp:236
 msgid "Show line numbers"
 msgstr ""
 
-#: data/ui/mac_menu.blp:136 data/ui/main_window.blp:226
-#: data/ui/main_window_no_csd.blp:228
+#: data/ui/mac_menu.blp:136 data/ui/main_window.blp:241
+#: data/ui/main_window_no_csd.blp:243
 msgid "Automatic indentation"
 msgstr ""
 
-#: data/ui/mac_menu.blp:141 data/ui/main_window.blp:231
-#: data/ui/main_window_no_csd.blp:233
+#: data/ui/mac_menu.blp:141 data/ui/main_window.blp:246
+#: data/ui/main_window_no_csd.blp:248
 msgid "Indent with spaces"
 msgstr ""
 
-#: data/ui/mac_menu.blp:147 data/ui/main_window.blp:237
-#: data/ui/main_window_no_csd.blp:239
+#: data/ui/mac_menu.blp:147 data/ui/main_window.blp:252
+#: data/ui/main_window_no_csd.blp:254
 msgid "Indent with tabs"
 msgstr ""
 
-#: data/ui/mac_menu.blp:153 data/ui/main_window.blp:243
-#: data/ui/main_window_no_csd.blp:245
+#: data/ui/mac_menu.blp:153 data/ui/main_window.blp:258
+#: data/ui/main_window_no_csd.blp:260
 msgid "Spaces per tab"
 msgstr ""
 
-#: data/ui/mac_menu.blp:156 data/ui/main_window.blp:246
-#: data/ui/main_window_no_csd.blp:248
+#: data/ui/mac_menu.blp:156 data/ui/main_window.blp:261
+#: data/ui/main_window_no_csd.blp:263
 msgid "2"
 msgstr ""
 
-#: data/ui/mac_menu.blp:162 data/ui/main_window.blp:252
-#: data/ui/main_window_no_csd.blp:254
+#: data/ui/mac_menu.blp:162 data/ui/main_window.blp:267
+#: data/ui/main_window_no_csd.blp:269
 msgid "4"
 msgstr ""
 
-#: data/ui/mac_menu.blp:168 data/ui/main_window.blp:258
-#: data/ui/main_window_no_csd.blp:260
+#: data/ui/mac_menu.blp:168 data/ui/main_window.blp:273
+#: data/ui/main_window_no_csd.blp:275
 msgid "8"
 msgstr ""
 
@@ -494,7 +495,7 @@ msgctxt "menubar"
 msgid "Help"
 msgstr ""
 
-#: data/ui/mac_menu.blp:200 src/win.rs:634
+#: data/ui/mac_menu.blp:200 src/win.rs:669
 msgid "User manual"
 msgstr ""
 
@@ -508,7 +509,7 @@ msgctxt "menubar"
 msgid "View discussions"
 msgstr ""
 
-#: data/ui/mac_menu.blp:217 src/win.rs:636
+#: data/ui/mac_menu.blp:217 src/win.rs:671
 msgid "Help us translate"
 msgstr ""
 
@@ -547,24 +548,32 @@ msgstr ""
 msgid "Create or open a request and start testing APIs now."
 msgstr ""
 
-#: data/ui/main_window.blp:169 data/ui/main_window_no_csd.blp:171
+#: data/ui/main_window.blp:170 data/ui/main_window_no_csd.blp:172
 msgid "Export request as cURL…"
 msgstr ""
 
-#: data/ui/main_window.blp:205 data/ui/main_window_no_csd.blp:207
+#: data/ui/main_window.blp:176 data/ui/main_window_no_csd.blp:178
+msgid "Export request as Jetbrains HTTP…"
+msgstr ""
+
+#: data/ui/main_window.blp:184 data/ui/main_window_no_csd.blp:186
+msgid "Export response body…"
+msgstr ""
+
+#: data/ui/main_window.blp:220 data/ui/main_window_no_csd.blp:222
 #: data/ui/settings_dialog.blp:21
 msgid "Settings"
 msgstr ""
 
-#: data/ui/main_window.blp:269 data/ui/main_window_no_csd.blp:271
+#: data/ui/main_window.blp:284 data/ui/main_window_no_csd.blp:286
 msgid "Keyboard shortcuts"
 msgstr ""
 
-#: data/ui/main_window.blp:274 data/ui/main_window_no_csd.blp:276
+#: data/ui/main_window.blp:289 data/ui/main_window_no_csd.blp:291
 msgid "About Cartero"
 msgstr ""
 
-#: data/ui/main_window.blp:279 data/ui/main_window_no_csd.blp:281
+#: data/ui/main_window.blp:294 data/ui/main_window_no_csd.blp:296
 msgid "Quit"
 msgstr ""
 
@@ -608,8 +617,20 @@ msgstr ""
 msgid "Use the Send button to send a network request and it will show here."
 msgstr ""
 
-#: data/ui/response_panel.blp:64
+#: data/ui/response_panel.blp:68
 msgid "Response body"
+msgstr ""
+
+#: data/ui/response_panel.blp:87
+msgid "Binary response received"
+msgstr ""
+
+#: data/ui/response_panel.blp:88
+msgid "The response of this request should not be rendered in a text view."
+msgstr ""
+
+#: data/ui/response_panel.blp:110
+msgid "Render anyway"
 msgstr ""
 
 #: data/ui/search_box.blp:42 data/ui/search_box.blp:43
@@ -882,19 +903,23 @@ msgstr ""
 msgid "_Save"
 msgstr ""
 
-#: src/widgets/endpoint/endpoint_pane.rs:585
+#: src/widgets/endpoint/endpoint_pane.rs:642
 msgid "Export request as cURL"
 msgstr ""
 
+#: src/widgets/endpoint/endpoint_pane.rs:643
+msgid "Export request as Jetbrains HTTP"
+msgstr ""
+
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
-#: src/widgets/endpoint/response_panel.rs:282
+#: src/widgets/endpoint/response_panel.rs:340
 #, rust-format
 msgid "{} s"
 msgstr ""
 
 #. Format as milliseconds.
 #. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
-#: src/widgets/endpoint/response_panel.rs:286
+#: src/widgets/endpoint/response_panel.rs:344
 #, rust-format
 msgid "{} ms"
 msgstr ""
@@ -999,23 +1024,23 @@ msgid_plural "{} results"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/win.rs:256
+#: src/win.rs:285
 msgid "(untitled)"
 msgstr ""
 
-#: src/win.rs:270
+#: src/win.rs:299
 msgid "Draft"
 msgstr ""
 
-#: src/win.rs:578
+#: src/win.rs:613
 msgid "The Cartero authors"
 msgstr ""
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
-#: src/win.rs:601
+#: src/win.rs:636
 msgid "translator-credits"
 msgstr ""
 
-#: src/win.rs:602
+#: src/win.rs:637
 msgid "© 2024-2025 the Cartero authors"
 msgstr ""

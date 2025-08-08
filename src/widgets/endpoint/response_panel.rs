@@ -43,6 +43,7 @@ mod imp {
     use glib::object::Cast;
     use glib::subclass::InitializingObject;
     use glib::Properties;
+    use gtk::gio::{SimpleAction, SimpleActionGroup};
     use gtk::subclass::prelude::*;
     use gtk::{
         subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetImpl},
@@ -60,6 +61,8 @@ mod imp {
         error_page: TemplateChild<ErrorPane>,
         #[template_child]
         pub response_headers: TemplateChild<ResponseHeaders>,
+        #[template_child]
+        response_body_stack: TemplateChild<gtk::Stack>,
         #[template_child]
         pub response_body: TemplateChild<CodeView>,
         #[template_child]
@@ -81,7 +84,7 @@ mod imp {
         #[template_child]
         search_revealer: TemplateChild<Revealer>,
 
-        #[property(get, set, nullable)]
+        #[property(get, set = Self::set_response, nullable)]
         response: RefCell<Option<Response>>,
         #[property(get = Self::spinning, set = Self::set_spinning)]
         _spinning: RefCell<bool>,
@@ -104,7 +107,12 @@ mod imp {
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for ResponsePanel {}
+    impl ObjectImpl for ResponsePanel {
+        fn constructed(&self) {
+            self.parent_constructed();
+            self.init_actions();
+        }
+    }
 
     impl WidgetImpl for ResponsePanel {}
 
@@ -112,6 +120,35 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl ResponsePanel {
+        fn init_actions(&self) {
+            let obj = self.obj();
+
+            let action_force_binary_render = SimpleAction::new("force-binary-render", None);
+            action_force_binary_render.connect_activate(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |_, _| {
+                    imp.obj().render_response_body_as_text();
+                    imp.response_body_stack.set_visible_child_name("text");
+                }
+            ));
+
+            let action_group = SimpleActionGroup::new();
+            action_group.add_action(&action_force_binary_render);
+            obj.insert_action_group("response", Some(&action_group));
+        }
+
+        fn set_response(&self, response: Option<Response>) {
+            let initial_stack_page = if response.as_ref().is_some_and(|r| r.is_binary()) {
+                "binary"
+            } else {
+                "text"
+            };
+            self.response_body_stack
+                .set_visible_child_name(initial_stack_page);
+            self.response.replace(response);
+        }
+
         fn spinning(&self) -> bool {
             self.metadata_stack
                 .visible_child()
@@ -193,6 +230,32 @@ impl ResponsePanel {
         imp.metadata_stack.set_visible_child(&*imp.spinner);
     }
 
+    fn render_response_body_as_text(&self) {
+        let buffer = self
+            .imp()
+            .response_body
+            .buffer()
+            .downcast::<sourceview5::Buffer>()
+            .unwrap();
+
+        let Some(resp) = self.response() else {
+            buffer.set_text("");
+            return;
+        };
+
+        if resp.is_json() {
+            #[allow(deprecated)]
+            let json = serde_json::from_str(&resp.safe_string())
+                .and_then(|text: Value| serde_json::to_string_pretty(&text));
+            if let Ok(json) = json {
+                buffer.set_text(&json);
+            }
+        } else {
+            #[allow(deprecated)]
+            buffer.set_text(&resp.safe_string());
+        }
+    }
+
     pub fn assign_from_response(&self, resp: &Response) {
         self.set_response(Some(resp.clone()));
 
@@ -229,22 +292,17 @@ impl ResponsePanel {
 
         imp.metadata_stack.set_visible_child(&*imp.response_meta);
 
-        let buffer = imp
+        let buffer = self
+            .imp()
             .response_body
             .buffer()
             .downcast::<sourceview5::Buffer>()
             .unwrap();
 
-        #[allow(deprecated)]
-        buffer.set_text(&resp.safe_string());
-
-        if resp.is_json() {
-            #[allow(deprecated)]
-            let json = serde_json::from_str(&resp.safe_string())
-                .and_then(|text: Value| serde_json::to_string_pretty(&text));
-            if let Ok(json) = json {
-                buffer.set_text(&json);
-            }
+        if resp.is_binary() {
+            buffer.set_text("");
+        } else {
+            self.render_response_body_as_text();
         }
 
         let language = if resp.is_json() {

@@ -58,38 +58,26 @@ mod imp {
     #[template(resource = "/es/danirod/Cartero/endpoint_pane.ui")]
     #[properties(wrapper_type = super::EndpointPane)]
     pub struct EndpointPane {
-        #[template_child(id = "send")]
-        pub send_button: TemplateChild<gtk::Button>,
-
         #[template_child(id = "cancel")]
         cancel_button: TemplateChild<gtk::Button>,
-
         #[template_child]
-        pub parameter_pane: TemplateChild<FieldTableListView>,
-
+        parameter_pane: TemplateChild<FieldTableListView>,
         #[template_child]
-        pub header_pane: TemplateChild<FieldTableListView>,
-
+        header_pane: TemplateChild<FieldTableListView>,
         #[template_child]
-        pub variable_pane: TemplateChild<FieldTableListView>,
-
-        #[template_child(id = "method")]
-        pub request_method: TemplateChild<MethodDropdown>,
-
-        #[template_child(id = "url")]
-        pub request_url: TemplateChild<gtk::Entry>,
-
+        variable_pane: TemplateChild<FieldTableListView>,
         #[template_child]
-        body: TemplateChild<RequestBodyPane>,
-
+        request_method: TemplateChild<MethodDropdown>,
         #[template_child]
-        authentication: TemplateChild<AuthenticationPane>,
-
+        request_url: TemplateChild<gtk::Entry>,
         #[template_child]
-        pub response: TemplateChild<ResponsePanel>,
-
+        body_pane: TemplateChild<RequestBodyPane>,
         #[template_child]
-        pub paned: TemplateChild<gtk::Paned>,
+        authentication_pane: TemplateChild<AuthenticationPane>,
+        #[template_child]
+        response_pane: TemplateChild<ResponsePanel>,
+        #[template_child]
+        paned: TemplateChild<gtk::Paned>,
 
         #[property(get, set, name = "read-only")]
         read_only: RefCell<bool>,
@@ -160,7 +148,7 @@ mod imp {
                 ))
                 .bind(&*obj, "cursor", Some(&*obj));
 
-            self.response.connect_response_notify(glib::clone!(
+            self.response_pane.connect_response_notify(glib::clone!(
                 #[weak(rename_to = pane)]
                 self,
                 move |_| {
@@ -203,11 +191,15 @@ mod imp {
                 .sync_create()
                 .build();
             binding_group
-                .bind("authentication", &*self.authentication, "authentication")
+                .bind(
+                    "authentication",
+                    &*self.authentication_pane,
+                    "authentication",
+                )
                 .sync_create()
                 .build();
             binding_group
-                .bind("body", &*self.body, "body")
+                .bind("body", &*self.body_pane, "body")
                 .sync_create()
                 .build();
 
@@ -224,11 +216,11 @@ mod imp {
         }
 
         pub(super) fn get_response_object(&self) -> Option<Response> {
-            self.response.response()
+            self.response_pane.response()
         }
 
         fn has_response_impl(&self) -> bool {
-            self.response.response().is_some()
+            self.response_pane.response().is_some()
         }
 
         fn init_actions(&self) {
@@ -387,7 +379,7 @@ mod imp {
                     thread_ref.abort();
 
                     /* reset the user interface state. */
-                    self.response.set_spinning(false);
+                    self.response_pane.set_spinning(false);
                     obj.set_read_only(false);
                     obj.set_busy(false);
                 }
@@ -405,12 +397,12 @@ mod imp {
                     /* prelude */
                     obj.set_busy(true);
                     obj.set_read_only(true);
-                    imp.response.set_spinning(true);
+                    imp.response_pane.set_spinning(true);
 
                     imp.perform_request().await;
 
                     /* restore */
-                    imp.response.set_spinning(false);
+                    imp.response_pane.set_spinning(false);
                     obj.set_read_only(false);
                     obj.set_busy(false);
 
@@ -459,10 +451,10 @@ mod imp {
 
             match response {
                 Ok(response) => {
-                    self.response.assign_from_response(&response);
+                    self.response_pane.assign_from_response(&response);
                 }
                 Err(e) => {
-                    self.response.present_error(e);
+                    self.response_pane.present_error(e);
                 }
             };
         }

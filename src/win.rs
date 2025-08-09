@@ -68,12 +68,31 @@ mod imp {
         #[template_child]
         stack: TemplateChild<gtk::Stack>,
 
+        #[template_child]
+        export_request: TemplateChild<gtk::MenuButton>,
+
         current_tab_binding_group: OnceCell<glib::BindingGroup>,
         export_menu_tab_responses: RefCell<Vec<gtk::ExpressionWatch>>,
     }
 
     #[gtk::template_callbacks]
     impl CarteroWindow {
+        /// Some buttons of the toolbar must only be available depending on the type of pane.
+        fn init_dynamic_toolbar_menu_buttons(&self) {
+            let is_endpoint = self
+                .tabview
+                .property_expression("selected-page")
+                .chain_closure::<bool>(glib::closure!(
+                    move |_: glib::Object, page: Option<adw::TabPage>| {
+                        page.is_some_and(|page| {
+                            page.child().downcast_ref::<EndpointPane>().is_some()
+                        })
+                    }
+                ));
+
+            is_endpoint.bind(&*self.export_request, "visible", Some(&*self.tabview));
+        }
+
         /// Updates the binds for the "Export response" actions, so that
         /// they use the has-response property of the current pane, or
         /// false if there is no current pane at all. This function should
@@ -968,6 +987,8 @@ mod imp {
             }
 
             self.init_tab_bindings();
+
+            self.init_dynamic_toolbar_menu_buttons();
         }
     }
 

@@ -93,13 +93,11 @@ template $CarteroWindow: Gtk.ApplicationWindow {
 
           Separator {}
 
-          MenuButton {
+          MenuButton export_request {
             icon-name: "share-symbolic";
             menu-model: share_menu;
             tooltip-text: _("Export request");
           }
-
-          Separator {}
 
           MenuButton {
             icon-name: "open-menu-symbolic";

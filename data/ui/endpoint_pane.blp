@@ -18,18 +18,18 @@ using Gtk 4.0;
 using Adw 1;
 
 template $CarteroEndpointPane: Adw.BreakpointBin {
-  width-request: 400;
-  height-request: 450;
+  width-request: 320;
+  height-request: 480;
 
   Adw.Breakpoint {
     condition ("max-width: 820sp")
 
     setters {
       paned.orientation: vertical;
-      request_pane.width-request: -1;
-      request_pane.height-request: 170;
-      response_pane.width-request: -1;
-      response_pane.height-request: 170;
+      request.width-request: -1;
+      request.height-request: 170;
+      response.width-request: -1;
+      response.height-request: 170;
     }
   }
 
@@ -46,204 +46,179 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
     orientation: vertical;
 
     Box {
-      orientation: vertical;
+      styles [
+        "linked",
+      ]
 
-      Box {
+      margin-top: 6;
+      margin-bottom: 6;
+      margin-start: 6;
+      margin-end: 6;
+      orientation: horizontal;
+
+      $CarteroMethodDropdown method {
+        sensitive: bind template.read-only inverted;
+      }
+
+      Entry url {
+        sensitive: bind template.read-only inverted;
+        hexpand: true;
+        placeholder-text: _("Request URL");
+        tooltip-text: _("Request URL");
+        changed => $on_url_changed() swapped;
+        activate => $on_url_activated() swapped;
+      }
+
+      Button cancel {
         styles [
-          "linked",
+          "destructive-action",
         ]
 
-        margin-top: 6;
-        margin-bottom: 6;
-        margin-start: 6;
-        margin-end: 6;
-        orientation: horizontal;
-
-        $CarteroMethodDropdown method {
-          sensitive: bind template.read-only inverted;
-        }
-
-        Entry url {
-          editable: bind template.read-only inverted;
-          hexpand: true;
-          placeholder-text: _("Request URL");
-          changed => $on_url_changed() swapped;
-          activate => $on_url_activated() swapped;
-        }
-
-        Button cancel {
-          styles [
-            "destructive-action",
-          ]
-
-          action-name: "endpoint.cancel";
-          icon-name: "process-stop-symbolic";
-          tooltip-text: _("Cancel request");
-        }
-
-        Button send {
-          styles [
-            "suggested-action",
-          ]
-
-          action-name: "endpoint.request";
-          label: _("Send");
-          tooltip-text: _("Execute this HTTP request");
-        }
+        action-name: "endpoint.cancel";
+        icon-name: "process-stop-symbolic";
+        tooltip-text: _("Cancel request");
       }
 
-      Separator {
-        orientation: horizontal;
-      }
-
-      Paned paned {
+      Button send {
         styles [
-          "endpoint-pane",
+          "suggested-action",
         ]
 
-        orientation: horizontal;
-        shrink-start-child: false;
-        shrink-end-child: false;
-        resize-start-child: true;
-        resize-end-child: true;
-        position: 500;
-
-        start-child: Box request_pane {
-          styles [
-            "request-pane",
-          ]
-
-          width-request: 500;
-
-          Notebook {
-            show-border: false;
-
-            NotebookPage {
-              tab: Label {
-                label: _("Parameters");
-              };
-
-              child: ScrolledWindow {
-                hexpand: true;
-                vexpand: true;
-
-                Adw.Clamp {
-                  styles [
-                    "background",
-                  ]
-
-                  maximum-size: 720;
-
-                  $CarteroKeyValuePane parameter_pane {
-                    read-only: bind template.read-only;
-                  }
-                }
-              };
-            }
-
-            NotebookPage {
-              tab: Label {
-                label: _("Headers");
-              };
-
-              child: ScrolledWindow {
-                hexpand: true;
-                vexpand: true;
-
-                Adw.Clamp {
-                  styles [
-                    "background",
-                  ]
-
-                  maximum-size: 720;
-
-                  $CarteroKeyValuePane header_pane {
-                    avoid-duplicates: true;
-                    read-only: bind template.read-only;
-                  }
-                }
-              };
-            }
-
-            NotebookPage {
-              tab: Label {
-                label: _("Variables");
-              };
-
-              child: ScrolledWindow {
-                hexpand: true;
-                vexpand: true;
-
-                Adw.Clamp {
-                  styles [
-                    "background",
-                  ]
-
-                  maximum-size: 720;
-
-                  $CarteroKeyValuePane variable_pane {
-                    avoid-duplicates: true;
-                    read-only: bind template.read-only;
-                  }
-                }
-              };
-            }
-
-            NotebookPage {
-              tab: Label {
-                label: _("Authorization");
-              };
-
-              child: ScrolledWindow {
-                hexpand: true;
-                vexpand: true;
-
-                Adw.Clamp {
-                  styles [
-                    "background",
-                  ]
-
-                  maximum-size: 720;
-
-                  $CarteroAuthorizationPane authorization_pane {
-                    read-only: bind template.read-only;
-                  }
-                }
-              };
-            }
-
-            NotebookPage {
-              tab: Label {
-                label: _("Body");
-              };
-
-              child: $CarteroPayloadTab payload_pane {
-                read-only: bind template.read-only;
-              };
-            }
-
-            NotebookPage {
-              tab: Label {
-                label: _("Export request");
-              };
-
-              child: $CarteroExportTab export_pane {
-                read-only: bind template.read-only;
-              };
-            }
-          }
-        };
-
-        end-child: Box response_pane {
-          styles [
-            "response-pane",
-          ]
-
-          width-request: 300;
-
-          $CarteroResponsePanel response {}
-        };
+        action-name: "endpoint.request";
+        label: _("Send");
+        tooltip-text: _("Execute this HTTP request");
       }
+    }
+
+    Separator {
+      orientation: horizontal;
+    }
+
+    Paned paned {
+      styles [
+        "endpoint-pane",
+      ]
+
+      orientation: horizontal;
+      shrink-start-child: false;
+      shrink-end-child: false;
+      resize-start-child: true;
+      resize-end-child: true;
+      position: 500;
+
+      start-child: Notebook request {
+        show-border: false;
+        scrollable: true;
+        width-request: 320;
+
+        NotebookPage {
+          tab: Label {
+            label: _("Parameters");
+          };
+
+          child: ScrolledWindow {
+            hexpand: true;
+            vexpand: true;
+
+            Gtk.Frame {
+              vexpand: false;
+              valign: start;
+              margin-top: 12;
+              margin-bottom: 12;
+              margin-start: 12;
+              margin-end: 12;
+
+              $CarteroFieldTableListView parameter_pane {
+                show-placeholder: true;
+                read-only: bind template.read-only;
+                changed => $on_parameters_change() swapped;
+              }
+            }
+          };
+        }
+
+        NotebookPage {
+          tab: Label {
+            label: _("Headers");
+          };
+
+          child: ScrolledWindow {
+            hexpand: true;
+            vexpand: true;
+
+            Gtk.Frame {
+              vexpand: false;
+              valign: start;
+              margin-top: 12;
+              margin-bottom: 12;
+              margin-start: 12;
+              margin-end: 12;
+
+              $CarteroFieldTableListView header_pane {
+                read-only: bind template.read-only;
+                show-placeholder: true;
+              }
+            }
+          };
+        }
+
+        NotebookPage {
+          tab: Label {
+            label: _("Variables");
+          };
+
+          child: ScrolledWindow {
+            hexpand: true;
+            vexpand: true;
+
+            Gtk.Frame {
+              vexpand: false;
+              valign: start;
+              margin-top: 12;
+              margin-bottom: 12;
+              margin-start: 12;
+              margin-end: 12;
+
+              $CarteroFieldTableListView variable_pane {
+                read-only: bind template.read-only;
+                show-placeholder: true;
+              }
+            }
+          };
+        }
+
+        NotebookPage {
+          tab: Label {
+            label: _("Authorization");
+          };
+
+          child: ScrolledWindow {
+            hexpand: true;
+            vexpand: true;
+
+            $CarteroAuthenticationPane authentication {
+              read-only: bind template.read-only;
+            }
+          };
+        }
+
+        NotebookPage {
+          tab: Label {
+            label: _("Body");
+          };
+
+          child: ScrolledWindow {
+            hexpand: true;
+            vexpand: true;
+
+            $CarteroRequestBodyPane body {
+              read-only: bind template.read-only;
+            }
+          };
+        }
+      };
+
+      end-child: $CarteroResponsePanel response {};
     }
   }
 }

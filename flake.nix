@@ -54,6 +54,7 @@
             nativeBuildInputs = [
               meson
               ninja
+              python313
               cargo
               rustc
               rustfmt
@@ -71,7 +72,7 @@
               gtksourceview5
               pango
               gdk-pixbuf
-              openssl_3_3
+              openssl_3
               graphene
               libadwaita
             ];

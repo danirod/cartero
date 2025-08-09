@@ -1,5 +1,46 @@
 # News file for Cartero
 
+These are the user-visible changes that you will notice when you use Cartero.
+
+## [0.3.0] (unreleased)
+
+### Added
+
+* Added a new request body type: "From file", sets the request body
+  from the contents of a file.
+* Added a new Export toolbar item with options to export a request or a response.
+* It is now possible to export a request or a response directly into a file.
+
+### Changed
+
+* Responses with a binary body (like images or videos or octet-streams) will suggest saving the response into a file rather than rendering it in the code view.
+* The default user agent used in HTTP request has changed to "Cartero/0.3.0 (isahc/1.7.2 curl/8.12.1-DEV)" (version numbers will bump as future releases flow).
+* The responsiveness of the application will behave better on small windows and mobile devices.
+* Dependency bumped: minimum version of GLib required to compile the application is now GLib 2.74.
+
+## [0.2.4] (unreleased)
+
+### Changed
+
+* Pressing the Tab or the Shift-Tab keys in a request table (parameters, variables...) will now skip the row itself and focus instead an actual component like the checkbox or the dropdown menu.
+* Translation updates: Spanish, French, Galician, Russian
+
+### Fixed
+
+* Some keyboard shortcuts were not being described by thee Keyboard Shortcuts help dialog.
+* MacOS: Zoom in, zoom out, zoom reset and search keyboard shortcuts for code views were using the wrong keyboard modifiers.
+* The dropdown menu for the request method had the wrong appearance when the computer uses a right-to-left layout (such as Arabic or Hebrew).
+
+## [0.2.3] - 2025-07-05
+
+### Changed
+
+* Translation updates: Catalan, German, Basque, Portuguese (Brazil), Russian
+
+### Fixed
+
+* Exporting a request as cURL did not include the request payload when the type is XML.
+
 ## [0.2.2] - 2025-04-30
 
 ### Changed

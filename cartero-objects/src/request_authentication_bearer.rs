@@ -83,7 +83,15 @@ mod imp {
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for RequestAuthenticationBearer {}
+    impl ObjectImpl for RequestAuthenticationBearer {
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            self.obj().connect_token_notify(|auth| {
+                auth.emit_by_name::<()>("changed", &[&"token"]);
+            });
+        }
+    }
 
     impl RequestAuthenticationDataImpl for RequestAuthenticationBearer {
         fn auth_type(&self) -> crate::RequestAuthenticationType {
@@ -125,7 +133,9 @@ mod builder {
 
 #[cfg(test)]
 mod tests {
-    use crate::{RequestAuthenticationDataExt, RequestAuthenticationType};
+    use crate::{
+        utils::test::assert_emits_signal, RequestAuthenticationDataExt, RequestAuthenticationType,
+    };
 
     use super::*;
 
@@ -161,5 +171,11 @@ mod tests {
             .build();
         assert_eq!(bearer.token(), "aabbccdd");
         assert_eq!(bearer.auth_type(), RequestAuthenticationType::BearerToken);
+    }
+
+    #[test]
+    pub fn test_emits_signals() {
+        let bearer = RequestAuthenticationBearer::default();
+        assert_emits_signal(&bearer, "changed", || bearer.set_token("1234"));
     }
 }

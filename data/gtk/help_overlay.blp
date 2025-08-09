@@ -65,7 +65,36 @@ Gtk.ShortcutsWindow help_overlay {
         }
 
         Gtk.ShortcutsGroup {
+          title: C_("shortcuts window", "Code view operations");
+
+          Gtk.ShortcutsShortcut {
+            title: C_("shortcuts window", "Zoom in");
+            accelerator: "<Primary>plus";
+          }
+
+          Gtk.ShortcutsShortcut {
+            title: C_("shortcuts window", "Zoom out");
+            accelerator: "<Primary>minus";
+          }
+
+          Gtk.ShortcutsShortcut {
+            title: C_("shortcuts window", "Reset zoom");
+            accelerator: "<Primary>0";
+          }
+
+          Gtk.ShortcutsShortcut {
+            title: C_("shortcuts window", "Start search");
+            accelerator: "<Primary>f";
+          }
+        }
+
+        Gtk.ShortcutsGroup {
             title: C_("shortcuts window", "Request operations");
+
+            Gtk.ShortcutsShortcut {
+              title: C_("shortcuts window", "Focus URL");
+              accelerator: "<Primary>l";
+            }
 
             Gtk.ShortcutsShortcut {
                 title: C_("shortcuts window", "Send request");

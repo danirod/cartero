@@ -1,0 +1,10 @@
+version = 1
+url = "https://www.example.com/api/users"
+method = "PUT"
+
+[headers]
+Accept = "text/html"
+Accept-Language = "en-US"
+Authorization = { value = "Bearer token1234", active = true, secret = true }
+Content-Type = { value = "text/html", active = false, secret = false }
+X-Api-Key = { value = "apikey-1234", active = false, secret = true }

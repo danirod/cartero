@@ -17,7 +17,7 @@
 
 use formatx::formatx;
 use gettextrs::gettext;
-use glib::{prelude::Cast, types::StaticType};
+use glib::{object::IsA, prelude::Cast, types::StaticType};
 use gtk::{
     gio::{self, ListStore},
     prelude::{FileExt, ListModelExtManual, SettingsExtManual},
@@ -26,6 +26,8 @@ use gtk::{
 use std::path::PathBuf;
 
 use crate::{app::CarteroApplication, win::CarteroWindow};
+
+use super::dialogs::file_pick_out_of_prefix_error;
 
 /// Creates a brand new file dialog with the filters already set. Note that
 /// there is still no title or button text. Make sure to set the values before
@@ -167,5 +169,74 @@ pub async fn save_file(win: &CarteroWindow) -> Result<Option<gio::File>, glib::E
     if let Some(file) = &file {
         set_file_setting(LAST_SAVE_DIR, file.parent().as_ref());
     }
+    Ok(file)
+}
+
+/// Displays a file picker that lets the user pick a file for opening purposes. A prefix may be
+/// given as an extra path. If set, the picked file must have the same prefix; in other words, it
+/// has to be part of the directory prefix_path, or it has to be in a subdirectory of prefix_path.
+pub async fn pick_file<T>(
+    parent: &T,
+    prefix_path: Option<&gio::File>,
+) -> Result<Option<gio::File>, glib::Error>
+where
+    T: IsA<gtk::Window> + Clone + 'static,
+{
+    let dialog = FileDialog::builder().modal(true).build();
+    dialog.set_accept_label(Some(&gettext("Open")));
+    dialog.set_title(&gettext("Select file"));
+    dialog.set_initial_folder(prefix_path);
+
+    let file = match dialog.open_future(Some(parent)).await {
+        Ok(result) => {
+            let in_prefix = match prefix_path {
+                None => true,
+                Some(prefix) => result.has_prefix(prefix),
+            };
+            if in_prefix {
+                Ok(Some(result))
+            } else {
+                file_pick_out_of_prefix_error(parent.upcast_ref(), &result, &prefix_path.unwrap())
+                    .await;
+                Ok(None)
+            }
+        }
+        Err(e) => match e.kind::<DialogError>() {
+            /* The dialog treats cancellation or dismission as an error. Swallow the error in that case. */
+            Some(DialogError::Cancelled | DialogError::Dismissed) => {
+                glib::g_info!("Cartero", "File save dialog cancelled by user");
+                return Ok(None);
+            }
+            _ => Err(e),
+        },
+    }?;
+
+    Ok(file)
+}
+
+/// Opens a generic export dialog that can be used to pick a save location.
+/// This dialog will accept other file types that are not the application
+/// type.
+pub async fn export_file<T>(parent: &T) -> Result<Option<gio::File>, glib::Error>
+where
+    T: IsA<gtk::Window> + Clone + 'static,
+{
+    let dialog = FileDialog::builder().modal(true).build();
+    dialog.set_accept_label(Some(&gettext("Save")));
+    dialog.set_title(&gettext("Export to file"));
+
+    let file = match dialog.save_future(Some(parent)).await {
+        Ok(result) => Ok(Some(result)),
+        Err(e) => match e.kind::<DialogError>() {
+            /* The dialog treats cancellation or dismission as an error. Swallow the error in that case. */
+            Some(DialogError::Cancelled | DialogError::Dismissed) => {
+                glib::g_info!("Cartero", "File save dialog cancelled by user");
+                return Ok(None);
+            }
+            _ => Err(e),
+        },
+    }?;
+
+    // TODO: Save the last export directory
     Ok(file)
 }

@@ -15,15 +15,13 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use crate::{
-    error::{FileLoadError, FileSaveError},
-    file::FileWarningTag,
-};
+use crate::interop::InnerError;
 
 use adw::{
     prelude::{AlertDialogExt, AlertDialogExtManual},
     AlertDialog,
 };
+use cartero_interop::{FileLoadError, FileSaveError, FileWarningTag};
 use formatx::formatx;
 use gettextrs::gettext;
 use gio::prelude::FileExt;
@@ -35,13 +33,17 @@ fn get_file_display_name(file: &gio::File) -> Option<String> {
         .map(|bn| bn.file_stem().unwrap().to_str().unwrap().to_string())
 }
 
+fn get_file_path_name(file: &gio::File) -> Option<String> {
+    file.path().map(|path| path.to_str().unwrap().to_string())
+}
+
 /// Renders an error message that shows the reason on why the given file could
 /// not be opened. The path to the file to load should be given as an argument
 /// so that it can be presented in the title.
 pub async fn file_load_error_dialog(
     root: &impl IsA<gtk::Widget>,
     file: Option<&gio::File>,
-    error: &FileLoadError,
+    error: &InnerError<FileLoadError>,
 ) {
     let file_name = file.and_then(get_file_display_name);
     let error_title = match file_name {
@@ -75,15 +77,45 @@ pub async fn file_load_warning_dialog(
     let error_msg = if failures.len() > 1 {
         failures
             .iter()
-            .map(|w| format!("• {w}"))
+            .map(|w| format!("• {}", pretty_warning(w.clone())))
             .collect::<Vec<String>>()
             .join("\n")
     } else {
-        failures[0].to_string()
+        pretty_warning(failures[0].clone())
     };
     let alert = AlertDialog::builder()
         .heading(&error_title)
         .body(&error_msg)
+        .default_response("close")
+        .build();
+    alert.add_response("close", &gettext("Close"));
+    alert.choose_future(root).await;
+}
+
+fn pretty_warning(warning: FileWarningTag) -> String {
+    match warning {
+            FileWarningTag::InvalidHttpVerb(v) => formatx!(
+                gettext("The HTTP verb found in the file was '{}'. It is not valid, it will fallback to '{}'."),
+                v, "GET").unwrap()
+        }
+}
+
+/// Renders an error message when a file cannot be picked because it's not part of the given prefix
+/// directory and the security policy currently disallows attaching any kind of file to an HTTP
+/// request.
+pub async fn file_pick_out_of_prefix_error(
+    root: &impl IsA<gtk::Widget>,
+    file: &gio::File,
+    prefix: &gio::File,
+) {
+    let file_name = get_file_path_name(file).expect("Impossible to calculate path to file");
+    let prefix_name = get_file_path_name(prefix).expect("Impossible to calculate path to prefix");
+
+    let error_title = gettext("The requested file cannot be picked");
+    let error_description = formatx!(gettext("The file must be within the same directory as the request or project file or any of its subdirectories.\n\nThe file '{}' is not part of the '{}' directory"), file_name, prefix_name).unwrap();
+    let alert = AlertDialog::builder()
+        .heading(&error_title)
+        .body(&error_description)
         .default_response("close")
         .build();
     alert.add_response("close", &gettext("Close"));
@@ -96,7 +128,7 @@ pub async fn file_load_warning_dialog(
 pub async fn file_save_error(
     root: &impl IsA<gtk::Widget>,
     file: Option<&gio::File>,
-    error: FileSaveError,
+    error: &InnerError<FileSaveError>,
 ) {
     let file_name = file.and_then(get_file_display_name);
     let error_title = match file_name {

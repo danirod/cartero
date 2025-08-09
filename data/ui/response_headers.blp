@@ -30,6 +30,15 @@ template $CarteroResponseHeaders: Adw.Bin {
     ]
 
     selection-mode: none;
-    visible: false;
+  }
+}
+
+Gtk.Box placeholder {
+  Gtk.Label {
+    margin-top: 12;
+    margin-bottom: 12;
+    hexpand: true;
+    justify: center;
+    label: _("No headers");
   }
 }

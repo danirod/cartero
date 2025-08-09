@@ -1,0 +1,3 @@
+version = 1
+url = "https://www.example.com/users?page=1&per_page=15&sort=-created&group=category"
+method = "GET"

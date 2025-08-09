@@ -1,0 +1,78 @@
+// Copyright 2024-2025 the Cartero authors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+using Gtk 4.0;
+using Adw 1;
+using GtkSource 5;
+
+template $CarteroExportDialog: Adw.Dialog {
+  content-width: 480;
+  content-height: 400;
+
+  Gtk.Box {
+    orientation: vertical;
+
+    Adw.HeaderBar {
+      styles [
+        "flat",
+      ]
+    }
+
+    Adw.ToastOverlay toaster {
+      Gtk.Box {
+        orientation: vertical;
+        spacing: 12;
+        margin-start: 12;
+        margin-end: 12;
+        margin-top: 12;
+        margin-bottom: 12;
+
+        Gtk.ScrolledWindow {
+          vexpand: true;
+
+          $CarteroCodeView {
+            editable: false;
+            top-margin: 10;
+            bottom-margin: 10;
+            left-margin: 10;
+            right-margin: 10;
+            monospace: true;
+            buffer: buffer;
+            tooltip-text: _("Generated output");
+          }
+        }
+
+        Gtk.Box {
+          orientation: horizontal;
+          spacing: 12;
+          halign: end;
+
+          Gtk.Button {
+            label: _("Copy to clipboard");
+            clicked => $on_copy_button_clicked() swapped;
+          }
+
+          Gtk.Button {
+            label: _("Export to file");
+            clicked => $on_save_button_clicked() swapped;
+          }
+        }
+      }
+    }
+  }
+}
+
+GtkSource.Buffer buffer {}

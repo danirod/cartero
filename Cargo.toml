@@ -1,3 +1,20 @@
+# Copyright 2024-2025 the Cartero authors
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 [workspace]
 members = ["cartero-*"]
 
@@ -7,8 +24,11 @@ version = "0.3.0"
 license = "GPL-3.0-or-later"
 
 [workspace.dependencies]
-glib = { version = "0.20.10", features = ["v2_72"] }
-gio = { version = "0.20.11", features = ["v2_72"] }
+glib = { version = "0.20.10", features = ["v2_74"] }
+gio = { version = "0.20.11", features = ["v2_74"] }
+serde = { version = "1.0.219", features = ["derive"] }
+toml = "0.8.23"
+tokio = { version = "1.44.1", features = ["rt", "macros", "sync"] }
 
 [package]
 name = "cartero"
@@ -26,6 +46,12 @@ app_updater = []
 [dependencies]
 adw = { version = "0.7.1", package = "libadwaita", features = ["v1_5"] }
 base64 = "0.22.1"
+cartero_http = { path = "cartero-http" }
+cartero_interop = { path = "cartero-interop" }
+cartero_isahc_client = { path = "cartero-isahc-client" }
+cartero_jetbrains_http_format = { path = "cartero-jetbrains-http-format" }
+cartero_objects = { path = "cartero-objects" }
+cartero_file_format = { path = "cartero-file-format" }
 formatx = "0.2.3"
 formdata = "0.13.0"
 futures-lite = "2.6.0"
@@ -35,13 +61,13 @@ gtk = { package = "gtk4", version = "0.9.6", features = ["v4_12"] }
 indexmap = "2.8.0"
 isahc = "1.7.2"
 regex = "1.11.1"
-serde = { version = "1.0.219", features = ["derive"] }
+serde.workspace = true
 serde_json = { version = "1.0.140", features = ["preserve_order"] }
 serde_urlencoded = "0.7.1"
 sourceview5 = "0.9.1"
 srtemplate = { version = "0.3.2", features = [] }
-tokio = { version = "1.44.1", features = ["sync"] }
-toml = "0.8.20"
+tokio.workspace = true
+toml.workspace = true
 url = "2.5.4"
 
 [target.'cfg(windows)'.dependencies]

@@ -301,9 +301,12 @@ pub enum RequestAuthenticationType {
 }
 
 mod imp {
-    use std::cell::RefCell;
+    use std::{
+        cell::{OnceCell, RefCell},
+        sync::OnceLock,
+    };
 
-    use glib::Properties;
+    use glib::{subclass::Signal, Properties, SignalGroup};
 
     use crate::RequestAuthenticationData;
 
@@ -317,26 +320,79 @@ mod imp {
 
         #[property(get, set = Self::set_auth_data, explicit_notify, name = "auth-data", nullable)]
         auth_data: RefCell<Option<RequestAuthenticationData>>,
+        auth_data_group: OnceCell<SignalGroup>,
     }
 
     #[glib::object_subclass]
     impl ObjectSubclass for RequestAuthentication {
-        const NAME: &'static str = "CarteroRequestAuthorization";
+        const NAME: &'static str = "CarteroRequestAuthentication";
         type Type = super::RequestAuthentication;
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for RequestAuthentication {}
+    impl ObjectImpl for RequestAuthentication {
+        fn constructed(&self) {
+            self.parent_constructed();
+            self.init_signal_group();
+
+            self.obj().connect_auth_type_notify(|auth| {
+                auth.emit_by_name::<()>("changed", &[&"type"]);
+            });
+            self.obj().connect_auth_data_notify(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |auth| {
+                    imp.auth_data_group
+                        .get()
+                        .unwrap()
+                        .set_target(auth.auth_data().as_ref());
+                    auth.emit_by_name::<()>("changed", &[&"data"]);
+                }
+            ));
+        }
+
+        fn signals() -> &'static [Signal] {
+            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+            SIGNALS.get_or_init(|| {
+                vec![Signal::builder("changed")
+                    .param_types([String::static_type()])
+                    .build()]
+            })
+        }
+    }
 
     impl RequestAuthentication {
+        fn init_signal_group(&self) {
+            let obj = self.obj();
+
+            let auth_data_group = SignalGroup::new::<RequestAuthenticationData>();
+            auth_data_group.connect_closure(
+                "changed",
+                false,
+                glib::closure_local!(
+                    #[weak]
+                    obj,
+                    move |_: &RequestAuthenticationData, param: &str| {
+                        let param = format!("data.{param}");
+                        obj.emit_by_name::<()>("changed", &[&param]);
+                    }
+                ),
+            );
+            self.auth_data_group.set(auth_data_group).unwrap();
+        }
+
         // This is the inner setter for the auth-type property. It also changes the auth-data
         // to a new object of the appropiate type. The old contents of the auth-data are erased
         // in the process.
         fn set_auth_type(&self, auth_type: RequestAuthenticationType) {
             let next = default_authentication_data(auth_type);
-            self.auth_type.replace(auth_type);
-            self.obj().set_auth_data(next);
-            self.obj().notify_auth_data();
+
+            let current_type = { self.auth_type.borrow().clone() };
+            if current_type != auth_type {
+                self.auth_type.replace(auth_type);
+                self.obj().set_auth_data(next);
+                self.obj().notify_auth_data();
+            }
         }
 
         // This is the inner setter for the auth-data property, which also verifies that the
@@ -511,11 +567,24 @@ mod tests {
             RequestAuthenticationType::BasicAuth,
             authentication.auth_type()
         );
-        let auth_data = authentication.auth_data().unwrap();
-        assert_eq!(RequestAuthenticationType::BasicAuth, auth_data.auth_type());
-        let basic_auth_data = auth_data.downcast::<RequestAuthenticationBasic>().unwrap();
-        assert_eq!(basic_auth_data.username(), "admin");
-        assert_eq!(basic_auth_data.password(), "1234");
+
+        {
+            let auth_data = authentication.auth_data().unwrap();
+            assert_eq!(RequestAuthenticationType::BasicAuth, auth_data.auth_type());
+            let basic_auth_data = auth_data.downcast::<RequestAuthenticationBasic>().unwrap();
+            assert_eq!(basic_auth_data.username(), "admin");
+            assert_eq!(basic_auth_data.password(), "1234");
+        }
+
+        authentication.set_auth_type(RequestAuthenticationType::BasicAuth);
+
+        {
+            let auth_data = authentication.auth_data().unwrap();
+            assert_eq!(RequestAuthenticationType::BasicAuth, auth_data.auth_type());
+            let basic_auth_data = auth_data.downcast::<RequestAuthenticationBasic>().unwrap();
+            assert_eq!(basic_auth_data.username(), "admin");
+            assert_eq!(basic_auth_data.password(), "1234");
+        }
     }
 
     #[test]
@@ -640,5 +709,46 @@ mod tests {
             RequestAuthenticationData::NONE,
         );
         assert!(auth.bearer_token().is_none());
+    }
+
+    #[test]
+    pub fn test_emits_signal_on_change() {
+        let auth = RequestAuthentication::new(
+            RequestAuthenticationType::None,
+            RequestAuthenticationData::NONE,
+        );
+        assert_emits_signal(&auth, "changed", || {
+            auth.set_auth_type(RequestAuthenticationType::Inherit);
+        });
+        assert_eq!(auth.auth_type(), RequestAuthenticationType::Inherit);
+        assert_emits_signal(&auth, "changed", || {
+            auth.set_auth_type(RequestAuthenticationType::BearerToken);
+        });
+        assert_eq!(auth.auth_type(), RequestAuthenticationType::BearerToken);
+    }
+
+    #[test]
+    pub fn test_emits_signal_on_basic_change() {
+        let auth = RequestAuthentication::new(
+            RequestAuthenticationType::BasicAuth,
+            RequestAuthenticationData::NONE,
+        );
+        assert_emits_signal(&auth, "changed", || {
+            auth.basic_auth().unwrap().set_username("foo");
+        });
+        assert_emits_signal(&auth, "changed", || {
+            auth.basic_auth().unwrap().set_password("bar");
+        });
+    }
+
+    #[test]
+    pub fn test_emits_signal_on_bearer_change() {
+        let auth = RequestAuthentication::new(
+            RequestAuthenticationType::BearerToken,
+            RequestAuthenticationData::NONE,
+        );
+        assert_emits_signal(&auth, "changed", || {
+            auth.bearer_token().unwrap().set_token("12341234");
+        });
     }
 }

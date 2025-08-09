@@ -1,0 +1,35 @@
+# Copyright 2024-2025 the Cartero authors
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[package]
+name = "cartero_http"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+base64 = "0.22.1"
+cartero_objects = { path = "../cartero-objects" }
+url = "2.5.4"
+srtemplate = "0.3.3"
+glib.workspace = true
+gio.workspace = true
+serde_urlencoded = "0.7.1"
+formdata = "0.13.0"
+
+[dev-dependencies]
+tokio.workspace = true

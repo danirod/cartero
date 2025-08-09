@@ -32,9 +32,9 @@ template $CarteroSettingsDialog: Adw.PreferencesDialog {
 
     Adw.PreferencesGroup {
       Adw.ComboRow option_locale {
-        css-classes: [
+        styles [
           "property",
-        ];
+        ]
 
         title: _("Language");
         use-subtitle: true;
@@ -68,6 +68,7 @@ template $CarteroSettingsDialog: Adw.PreferencesDialog {
             "flat",
           ]
 
+          tooltip-text: _("Click to select a font");
           dialog: font_dialog;
           vexpand: false;
           valign: center;

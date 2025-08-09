@@ -83,6 +83,24 @@ pub enum RequestMethod {
     Trace,
 }
 
+impl TryFrom<u32> for RequestMethod {
+    type Error = ();
+
+    fn try_from(value: u32) -> Result<Self, Self::Error> {
+        let values = vec![
+            Self::Get,
+            Self::Post,
+            Self::Put,
+            Self::Patch,
+            Self::Delete,
+            Self::Options,
+            Self::Head,
+            Self::Trace,
+        ];
+        values.get(value as usize).map(|s| s.clone()).ok_or(())
+    }
+}
+
 impl AsRef<str> for RequestMethod {
     fn as_ref(&self) -> &str {
         match self {

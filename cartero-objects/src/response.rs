@@ -43,6 +43,68 @@ impl Response {
     pub fn builder(request: &Request) -> builder::ResponseBuilder {
         builder::ResponseBuilder::new(request)
     }
+
+    fn test_content_type(&self, query: &str) -> bool {
+        match self.headers().find_by_name_icase("content-type") {
+            Some(headers) => match &headers[..] {
+                [field] => field.contains(query),
+                _ => false,
+            },
+            None => false,
+        }
+    }
+
+    pub fn is_json(&self) -> bool {
+        self.test_content_type("/json") || self.test_content_type("+json")
+    }
+
+    pub fn is_xml(&self) -> bool {
+        self.test_content_type("/xml") || self.test_content_type("+xml")
+    }
+
+    pub fn is_binary(&self) -> bool {
+        // TODO: Test
+        self.test_content_type("application/octet-stream")
+            || self.test_content_type("image/")
+            || self.test_content_type("audio/")
+            || self.test_content_type("video/")
+            || self.test_content_type("haptics/")
+            || self.test_content_type("font/")
+            || self.body().is_some_and(|body| {
+                // Check for non-printable characters, but respect characters in range
+                // 0x08 to 0x0D: these are \n, \r, \t, and technically these are
+                // printable.
+                body.clone()
+                    .to_vec()
+                    .into_iter()
+                    .find(|ch| *ch < 0x08 || (*ch >= 0x0D && *ch < 0x20))
+                    .is_some()
+            })
+    }
+
+    /// Returns a safe representation of the body, in a way that can be presented
+    /// by the GtkSourceView that renders bodies. Converts the \0 character with
+    /// an <?> because otherwise you would get a GStrInteriorNulError.
+    ///
+    /// This method is born deprecated. It will not be present in 0.3.0 because
+    /// the response panel will simply refuse to render binary responses that
+    /// contain the \0 character and instead will just offer to export the
+    /// response.
+    ///
+    /// It is present because such functionality has not been added yet and we
+    /// still need to let things work as they are until a sane exporter is
+    /// added.
+    #[deprecated = "Don't use it for new code, will be removed in 0.3.0"]
+    pub fn safe_string(&self) -> String {
+        let body = self
+            .body()
+            .map(|body| {
+                let vector = body.to_vec();
+                String::from_utf8_lossy(&vector).into_owned()
+            })
+            .unwrap_or_default();
+        body.replace("\x00", "�")
+    }
 }
 
 mod imp {
@@ -172,5 +234,51 @@ mod tests {
         assert_eq!(response.headers().n_items(), 2);
         let data = response.body().unwrap().into_data();
         assert_eq!(data.as_ref(), b"Not found!");
+    }
+
+    #[test]
+    fn test_response_is_json() {
+        let cases = vec![
+            ("application/json", true),
+            ("application/ld+json; charset=utf-8", true),
+            ("text/json", true),
+            ("application/vnd.github.raw+json", true),
+            ("application/xml", false),
+            ("application/atom+xml", false),
+            ("image/jpeg", false),
+        ];
+
+        for (header, expected) in cases {
+            // TODO: don't mind capitalization!
+            let field = Field::builder().key("Content-Type").value(header).build();
+            let table = FieldTable::from_iter(vec![field]);
+            let response = Response::builder(&Request::default())
+                .headers(&table)
+                .build();
+            assert_eq!(response.is_json(), expected);
+        }
+    }
+
+    #[test]
+    fn test_response_is_xml() {
+        let cases = vec![
+            ("application/json", false),
+            ("application/ld+json; charset=utf-8", false),
+            ("text/json", false),
+            ("application/vnd.github.raw+json", false),
+            ("application/xml", true),
+            ("application/atom+xml", true),
+            ("image/jpeg", false),
+        ];
+
+        for (header, expected) in cases {
+            // TODO: don't mind capitalization!
+            let field = Field::builder().key("Content-Type").value(header).build();
+            let table = FieldTable::from_iter(vec![field]);
+            let response = Response::builder(&Request::default())
+                .headers(&table)
+                .build();
+            assert_eq!(response.is_xml(), expected);
+        }
     }
 }

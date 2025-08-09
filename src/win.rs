@@ -15,7 +15,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use crate::{app::CarteroApplication, file::FileLoadFailure, widgets::EndpointPane};
+use crate::{app::CarteroApplication, interop::LoadResult, widgets::endpoint::EndpointPane};
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
 use gtk::{gio, glib};
@@ -25,7 +25,7 @@ mod imp {
     use std::collections::HashSet;
 
     use adw::prelude::WidgetExt;
-    use std::cell::OnceCell;
+    use std::cell::{OnceCell, RefCell};
 
     use adw::AboutDialog;
     use adw::{prelude::*, subclass::prelude::*, TabPage};
@@ -35,8 +35,8 @@ mod imp {
     use indexmap::IndexMap;
 
     use crate::app::CarteroApplication;
-    use crate::error::FileSaveError;
-    use crate::file::{FileLoadFailure, FileLoadResult};
+    use crate::interop::{LoadResult, ObjectPane, SaveResult};
+    use crate::widgets::endpoint::EndpointPane;
     use crate::{config, widgets::*};
     use glib::subclass::InitializingObject;
     use gtk::{CompositeTemplate, TemplateChild};
@@ -56,9 +56,6 @@ mod imp {
         header_bar: TemplateChild<gtk::HeaderBar>,
 
         #[template_child]
-        toaster: TemplateChild<adw::ToastOverlay>,
-
-        #[template_child]
         tabs: TemplateChild<adw::TabBar>,
 
         #[template_child]
@@ -72,10 +69,47 @@ mod imp {
         stack: TemplateChild<gtk::Stack>,
 
         current_tab_binding_group: OnceCell<glib::BindingGroup>,
+        export_menu_tab_responses: RefCell<Vec<gtk::ExpressionWatch>>,
     }
 
     #[gtk::template_callbacks]
     impl CarteroWindow {
+        /// Updates the binds for the "Export response" actions, so that
+        /// they use the has-response property of the current pane, or
+        /// false if there is no current pane at all. This function should
+        /// be called whenever the current page changes.
+        fn evaluate_export_menu_tab_responses(&self) {
+            {
+                let watches = self.export_menu_tab_responses.borrow_mut();
+                for watch in &*watches {
+                    watch.unwatch();
+                }
+            }
+
+            let action_binding = if let Some(page) = self.tabview.selected_page() {
+                page.property_expression("child")
+                    .chain_property::<EndpointPane>("has-response")
+                    .upcast()
+            } else {
+                gtk::ConstantExpression::new(false).upcast()
+            };
+            let obj = self.obj();
+
+            /* Enable these actions only if there is an open page and the page has a valid response. */
+            let tab_and_response_actions = ["export-response-body", "export-har"];
+            let new_tab_bindings = tab_and_response_actions
+                .iter()
+                .filter_map(|tab| {
+                    if let Some(action) = obj.lookup_action(&tab) {
+                        Some(action_binding.bind(&action, "enabled", Some(&*self.tabview)))
+                    } else {
+                        None
+                    }
+                })
+                .collect::<Vec<_>>();
+            self.export_menu_tab_responses.replace(new_tab_bindings);
+        }
+
         fn init_tab_bindings(&self) {
             let obj = &*self.obj();
 
@@ -114,12 +148,14 @@ mod imp {
                 ));
 
             /* Enable these actions only if there is an open page. */
-            let tab_dependent_actions = ["save", "save-as", "close", "request"];
+            let tab_dependent_actions = ["save", "save-as", "close", "request", "export-request"];
             for tab in tab_dependent_actions {
                 if let Some(action) = obj.lookup_action(&tab) {
                     has_page.bind(&action, "enabled", Some(&*self.tabview));
                 }
             }
+
+            self.evaluate_export_menu_tab_responses();
 
             self.tabview.connect_notify_local(
                 Some("selected-page"),
@@ -127,6 +163,9 @@ mod imp {
                     #[weak(rename_to = imp)]
                     self,
                     move |tv: &adw::TabView, _| {
+                        // Re-evalute the export bindings.
+                        imp.evaluate_export_menu_tab_responses();
+
                         let page = tv.selected_page();
                         let binding_group = imp.current_tab_binding_group.get().unwrap();
                         binding_group.set_source(page.as_ref());
@@ -313,10 +352,7 @@ mod imp {
         /// Given a list of endpoint files to open, this function will return the collection of
         /// EndpointPanes that were opened last time the program was run. They will be loaded and
         /// the UI state will be populated, but they won't be added to the user interface yet.
-        async fn preload_endpoints<I>(
-            &self,
-            files: I,
-        ) -> IndexMap<EndpointPane, Option<FileLoadFailure>>
+        async fn preload_endpoints<I>(&self, files: I) -> IndexMap<EndpointPane, LoadResult>
         where
             I: IntoIterator<Item = gio::File> + Clone,
         {
@@ -325,19 +361,16 @@ mod imp {
                 let pane = EndpointPane::new();
                 pane.set_file(Some(file.clone()));
                 let result = pane.load().await;
-                loaded.insert(pane, result.failure());
+                loaded.insert(pane, result);
             }
             loaded
         }
 
-        async fn display_opened_panes(
-            &self,
-            panes: &IndexMap<EndpointPane, Option<FileLoadFailure>>,
-        ) {
+        async fn display_opened_panes(&self, panes: &IndexMap<EndpointPane, LoadResult>) {
             for (pane, failures) in panes {
                 let can_open = match failures {
-                    None => true,
-                    Some(f) => f.error.is_none(),
+                    LoadResult::Successful | LoadResult::Anonymous | LoadResult::Warning(_) => true,
+                    LoadResult::Error(_) => false,
                 };
                 if can_open {
                     self.insert_pane_into_tabs(&pane);
@@ -381,7 +414,7 @@ mod imp {
         pub(super) async fn open_endpoints(
             &self,
             files: &[gio::File],
-        ) -> IndexMap<EndpointPane, Option<FileLoadFailure>> {
+        ) -> IndexMap<EndpointPane, LoadResult> {
             let not_opened_paths = self.filter_endpoints_to_open(files);
             if not_opened_paths.is_empty() {
                 /* Every requested file is opened. Just switch to one of the requested panes. */
@@ -405,14 +438,13 @@ mod imp {
         /// until the window is actually visible.
         pub(super) async fn report_open_endpoints_errors(
             &self,
-            opened: &IndexMap<EndpointPane, Option<FileLoadFailure>>,
+            opened: &IndexMap<EndpointPane, LoadResult>,
         ) {
             let obj = self.obj();
             for (pane, failures) in opened {
-                if let Some(failures) = failures {
-                    if let Some(error) = &failures.error {
-                        dialogs::file_load_error_dialog(&*obj, pane.file().as_ref(), &error).await;
-                    } else if !failures.warnings.is_empty() {
+                match failures {
+                    LoadResult::Successful | LoadResult::Anonymous => {}
+                    LoadResult::Warning(warnings) => {
                         if let Some(file) = pane.file() {
                             if let Some(page) = self.find_pane_by_path(&file) {
                                 self.tabview.set_selected_page(&page);
@@ -421,11 +453,14 @@ mod imp {
                         dialogs::file_load_warning_dialog(
                             &*obj,
                             pane.file().as_ref(),
-                            &failures.warnings,
+                            warnings.as_slice(),
                         )
                         .await;
                     }
-                }
+                    LoadResult::Error(inner) => {
+                        dialogs::file_load_error_dialog(&*obj, pane.file().as_ref(), inner).await;
+                    }
+                };
             }
         }
 
@@ -476,7 +511,7 @@ mod imp {
             }
         }
 
-        async fn save_pane(&self, pane: &EndpointPane) -> Option<Result<(), FileSaveError>> {
+        async fn save_pane(&self, pane: &EndpointPane) -> glib::Propagation {
             /* If the pane is anonymous, give it a chance to have a file. */
             let target_file = match pane.file() {
                 Some(file) => Some(file),
@@ -488,13 +523,17 @@ mod imp {
                 let previous = pane.file();
                 pane.set_file(target_file.clone());
                 let result = pane.save().await;
-                if let Err(e) = &result {
-                    dialogs::file_save_error(&*self.obj(), target_file.as_ref(), e.clone()).await;
-                    pane.set_file(previous);
+                match result {
+                    SaveResult::Anonymous => glib::Propagation::Stop,
+                    SaveResult::Successful => glib::Propagation::Proceed,
+                    SaveResult::Error(e) => {
+                        dialogs::file_save_error(&*self.obj(), target_file.as_ref(), &e).await;
+                        pane.set_file(previous);
+                        glib::Propagation::Stop
+                    }
                 }
-                Some(result)
             } else {
-                None
+                glib::Propagation::Stop
             }
         }
 
@@ -513,11 +552,24 @@ mod imp {
                     let previous = pane.file();
                     pane.set_file(Some(path));
                     let saved = self.save_pane(&pane).await;
-                    if saved.is_none() || saved.is_some_and(|r| r.is_err()) {
+                    if saved == glib::Propagation::Stop {
                         pane.set_file(previous);
                     }
                     self.save_visible_tabs();
                 }
+            }
+        }
+
+        async fn action_export_request(&self, format: &str) {
+            if let Some(pane) = self.current_pane() {
+                /* Try to export. */
+                pane.export_request(format).await;
+            }
+        }
+
+        async fn action_export_response(&self) {
+            if let Some(pane) = self.current_pane() {
+                pane.export_response().await;
             }
         }
 
@@ -530,8 +582,8 @@ mod imp {
                     dialogs::SaveAlertDialogResponse::Save => {
                         /* Try to save, close if successful */
                         match self.save_pane(&endpoint_pane).await {
-                            Some(Ok(())) => true,
-                            _ => false,
+                            glib::Propagation::Stop => false,
+                            glib::Propagation::Proceed => true,
                         }
                     }
                     dialogs::SaveAlertDialogResponse::Discard => true, /* Discards the modifications */
@@ -629,11 +681,6 @@ mod imp {
             about.present(Some(&*obj));
         }
 
-        pub(super) fn toast_message(&self, msg: &str) {
-            let toast = adw::Toast::new(msg);
-            self.toaster.add_toast(toast);
-        }
-
         #[cfg(feature = "app_updater")]
         async fn action_check_updates<T>(&self, root: &T)
         where
@@ -678,8 +725,6 @@ mod imp {
         type ParentType = gtk::ApplicationWindow;
 
         fn class_init(klass: &mut Self::Class) {
-            KeyValueRow::static_type();
-            KeyValuePane::static_type();
             EndpointPane::static_type();
             klass.bind_template();
             klass.bind_template_callbacks();
@@ -852,6 +897,42 @@ mod imp {
                 ))
                 .build();
 
+            let action_export_request = ActionEntry::builder("export-request")
+                .parameter_type(Some(&String::static_variant_type()))
+                .activate(move |window: &super::CarteroWindow, _, variant| {
+                    let param = variant.unwrap().get::<String>().unwrap();
+                    glib::spawn_future_local(glib::clone!(
+                        #[weak]
+                        window,
+                        async move {
+                            window.imp().action_export_request(&param).await;
+                        }
+                    ));
+                })
+                .build();
+
+            let action_export_response_body = ActionEntry::builder("export-response-body")
+                .activate(move |window: &super::CarteroWindow, _, _| {
+                    glib::spawn_future_local(glib::clone!(
+                        #[weak]
+                        window,
+                        async move {
+                            window.imp().action_export_response().await;
+                        }
+                    ));
+                })
+                .build();
+
+            let action_export_har = ActionEntry::builder("export-har")
+                .activate(glib::clone!(
+                    #[weak(rename_to = window)]
+                    self,
+                    move |_, _, _| {
+                        println!("Exporting interaction as HAr");
+                    }
+                ))
+                .build();
+
             let obj = self.obj();
             obj.add_action_entries([
                 action_new,
@@ -861,6 +942,9 @@ mod imp {
                 action_save_as,
                 action_close,
                 action_about,
+                action_export_request,
+                action_export_response_body,
+                action_export_har,
             ]);
 
             #[cfg(feature = "app_updater")]
@@ -937,24 +1021,13 @@ impl CarteroWindow {
         Object::builder().property("application", Some(app)).build()
     }
 
-    pub async fn open_endpoints(
-        &self,
-        files: &[gio::File],
-    ) -> IndexMap<EndpointPane, Option<FileLoadFailure>> {
+    pub async fn open_endpoints(&self, files: &[gio::File]) -> IndexMap<EndpointPane, LoadResult> {
         let imp = self.imp();
         imp.open_endpoints(files).await
     }
 
-    pub async fn report_open_endpoints_errors(
-        &self,
-        opened: &IndexMap<EndpointPane, Option<FileLoadFailure>>,
-    ) {
+    pub async fn report_open_endpoints_errors(&self, opened: &IndexMap<EndpointPane, LoadResult>) {
         let imp = self.imp();
         imp.report_open_endpoints_errors(opened).await
-    }
-
-    pub fn toast_message(&self, msg: &str) {
-        let imp = self.imp();
-        imp.toast_message(msg);
     }
 }

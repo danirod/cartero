@@ -1,0 +1,67 @@
+// Copyright 2024-2025 the Cartero authors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+using Gtk 4.0;
+using Adw 1;
+
+template $CarteroRequestBodyPane: Gtk.Box {
+  orientation: vertical;
+  sensitive: bind template.read-only bidirectional inverted;
+
+  Gtk.Box {
+    margin-bottom: 12;
+    margin-start: 12;
+    margin-top: 12;
+    margin-end: 12;
+
+    Adw.PreferencesGroup {
+      hexpand: true;
+
+      Adw.ComboRow combo {
+        title: _("Body type");
+        model: entries;
+        notify::selected => $on_selection_changed() swapped;
+        sensitive: true;
+      }
+    }
+  }
+
+  Gtk.Separator {}
+
+  Gtk.ScrolledWindow {
+    hexpand: true;
+    vexpand: true;
+
+    Adw.Bin container {
+      margin-bottom: 12;
+      margin-start: 12;
+      margin-top: 12;
+      margin-end: 12;
+    }
+  }
+}
+
+Gtk.StringList entries {
+  strings [
+    _("(none)"),
+    _("URL Encoded"),
+    _("Multipart Form Data"),
+    "JSON",
+    "XML",
+    _("Raw"),
+    _("From file"),
+  ]
+}

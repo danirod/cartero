@@ -66,11 +66,11 @@ impl RequestBodyUrlencoded {
 }
 
 mod imp {
-    use glib::Properties;
+    use glib::{Properties, SignalGroup};
 
     use super::*;
 
-    use std::cell::RefCell;
+    use std::cell::{OnceCell, RefCell};
 
     use crate::{FieldTable, RequestBodyDataImpl};
 
@@ -79,6 +79,8 @@ mod imp {
     pub struct RequestBodyUrlencoded {
         #[property(get, set)]
         params: RefCell<FieldTable>,
+
+        params_changed: OnceCell<SignalGroup>,
     }
 
     #[glib::object_subclass]
@@ -89,11 +91,54 @@ mod imp {
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for RequestBodyUrlencoded {}
+    impl ObjectImpl for RequestBodyUrlencoded {
+        fn constructed(&self) {
+            self.parent_constructed();
+            self.init_signal_group();
+
+            let obj = self.obj();
+            self.params_changed
+                .get()
+                .unwrap()
+                .set_target(Some(&obj.params()));
+            obj.connect_params_notify(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |body| {
+                    imp.params_changed
+                        .get()
+                        .unwrap()
+                        .set_target(Some(&body.params()));
+                    body.emit_by_name::<()>("changed", &[&"params"]);
+                }
+            ));
+        }
+    }
 
     impl RequestBodyDataImpl for RequestBodyUrlencoded {
         fn body_type(&self) -> crate::RequestBodyType {
             crate::RequestBodyType::UrlEncoded
+        }
+    }
+
+    impl RequestBodyUrlencoded {
+        fn init_signal_group(&self) {
+            let obj = self.obj();
+
+            let params_group = SignalGroup::new::<FieldTable>();
+            params_group.connect_closure(
+                "changed",
+                false,
+                glib::closure_local!(
+                    #[weak]
+                    obj,
+                    move |_: &FieldTable, param: &str| {
+                        let param = format!("params.{param}");
+                        obj.emit_by_name::<()>("changed", &[&param]);
+                    }
+                ),
+            );
+            self.params_changed.set(params_group).unwrap();
         }
     }
 }
@@ -144,7 +189,9 @@ mod tests {
     use gio::prelude::ListModelExt;
     use glib::object::CastNone;
 
-    use crate::{Field, FieldTable, RequestBodyDataExt, RequestBodyType};
+    use crate::{
+        utils::test::assert_emits_signal, Field, FieldTable, RequestBodyDataExt, RequestBodyType,
+    };
 
     use super::RequestBodyUrlencoded;
 
@@ -200,5 +247,27 @@ mod tests {
     pub fn test_body_type() {
         let body: RequestBodyUrlencoded = RequestBodyUrlencoded::default();
         assert_eq!(body.body_type(), RequestBodyType::UrlEncoded);
+    }
+
+    #[test]
+    pub fn test_emits_change() {
+        let body = RequestBodyUrlencoded::default();
+        assert_emits_signal(&body, "changed", || {
+            let field = Field::builder().key("user-agent").value("mozilla").build();
+            body.params().insert(&field);
+        });
+        assert_emits_signal(&body, "changed", || {
+            body.params()
+                .field(0)
+                .unwrap()
+                .set_value("internet explorer");
+        });
+        assert_emits_signal(&body, "changed", || {
+            body.set_params(FieldTable::default());
+        });
+        assert_emits_signal(&body, "changed", || {
+            let field = Field::builder().key("user-agent").value("mozilla").build();
+            body.params().insert(&field);
+        });
     }
 }

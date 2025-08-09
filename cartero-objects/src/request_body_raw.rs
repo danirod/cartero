@@ -61,11 +61,10 @@ impl RequestBodyRaw {
     ///
     /// The payload will be initialised to the type `raw_type`, and the given
     /// byte slice will be the initial contents of the payload data.
-    pub fn new(raw_type: RequestBodyRawType, initial: &[u8]) -> Self {
-        let bytes = glib::Bytes::from(initial);
+    pub fn new(raw_type: RequestBodyRawType, initial: impl AsRef<str>) -> Self {
         Object::builder()
             .property("payload-type", raw_type)
-            .property("payload", bytes)
+            .property("payload", initial.as_ref().to_owned())
             .build()
     }
 
@@ -110,7 +109,7 @@ mod imp {
 
     use super::RequestBodyRawType;
 
-    #[derive(Properties)]
+    #[derive(Default, Properties)]
     #[properties(wrapper_type = super::RequestBodyRaw)]
     pub struct RequestBodyRaw {
         #[property(
@@ -122,16 +121,7 @@ mod imp {
         payload_type: RefCell<RequestBodyRawType>,
 
         #[property(get, set)]
-        payload: RefCell<glib::Bytes>,
-    }
-
-    impl Default for RequestBodyRaw {
-        fn default() -> Self {
-            Self {
-                payload_type: Default::default(),
-                payload: glib::Bytes::from_static(&[]).into(),
-            }
-        }
+        payload: RefCell<String>,
     }
 
     #[glib::object_subclass]
@@ -142,7 +132,18 @@ mod imp {
     }
 
     #[glib::derived_properties]
-    impl ObjectImpl for RequestBodyRaw {}
+    impl ObjectImpl for RequestBodyRaw {
+        fn constructed(&self) {
+            self.parent_constructed();
+
+            self.obj().connect_payload_notify(|raw| {
+                raw.emit_by_name::<()>("changed", &[&"payload"]);
+            });
+            self.obj().connect_payload_type_notify(|raw| {
+                raw.emit_by_name::<()>("changed", &[&"payload-type"]);
+            });
+        }
+    }
 
     impl RequestBodyDataImpl for RequestBodyRaw {
         fn body_type(&self) -> crate::RequestBodyType {
@@ -171,8 +172,8 @@ mod builder {
             self.builder.build()
         }
 
-        pub fn payload(mut self, payload: &glib::Bytes) -> Self {
-            self.builder = self.builder.property("payload", payload);
+        pub fn payload(mut self, payload: impl AsRef<str>) -> Self {
+            self.builder = self.builder.property("payload", payload.as_ref());
             self
         }
     }
@@ -189,13 +190,10 @@ mod tests {
     #[test]
     fn test_builder() {
         let raw = RequestBodyRaw::builder(RequestBodyRawType::Xml)
-            .payload(&glib::Bytes::from(br#"<?xml version="1.0" ?><document />"#))
+            .payload(r#"<?xml version="1.0" ?><document />"#)
             .build();
         assert_eq!(raw.payload_type(), RequestBodyRawType::Xml);
-        assert_eq!(
-            String::from_utf8_lossy(&raw.payload().into_data()),
-            r#"<?xml version="1.0" ?><document />"#
-        );
+        assert_eq!(raw.payload(), r#"<?xml version="1.0" ?><document />"#);
     }
 
     #[test]
@@ -207,12 +205,9 @@ mod tests {
 
     #[test]
     fn test_new() {
-        let raw = RequestBodyRaw::new(RequestBodyRawType::Xml, "<?xml?>".as_bytes());
+        let raw = RequestBodyRaw::new(RequestBodyRawType::Xml, "<?xml?>");
         assert_eq!(raw.payload_type(), RequestBodyRawType::Xml);
-        assert_eq!(raw.payload().len(), 7);
-        let payload = raw.payload();
-        let contents = String::from_utf8_lossy(payload.as_ref());
-        assert_eq!(contents, "<?xml?>");
+        assert_eq!(raw.payload(), "<?xml?>");
     }
 
     #[test]
@@ -228,8 +223,7 @@ mod tests {
     pub fn test_change_payload() {
         let raw = RequestBodyRaw::default();
         assert_emits_signal(&raw, "notify::payload", || {
-            let new_body = "hello world".as_bytes();
-            raw.set_payload(glib::Bytes::from(new_body));
+            raw.set_payload("hello world");
         });
         assert_eq!(11, raw.payload().len());
     }
@@ -238,5 +232,14 @@ mod tests {
     pub fn test_body_type() {
         let body: RequestBodyRaw = RequestBodyRaw::default();
         assert_eq!(body.body_type(), RequestBodyType::Raw);
+    }
+
+    #[test]
+    pub fn test_emits_signals() {
+        let body = RequestBodyRaw::builder(RequestBodyRawType::Json).build();
+        assert_emits_signal(&body, "changed", || body.set_payload("hello"));
+        assert_emits_signal(&body, "changed", || {
+            body.set_payload_type(RequestBodyRawType::Xml)
+        });
     }
 }

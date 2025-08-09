@@ -1,149 +1,141 @@
-# 🚀 Cartero
-### The free HTTP client to test your APIs
+# Cartero: the free HTTP client to test your APIs
 
-![Cartero Banner](website/assets/social/banner-3-1.jpg)
+![Cartero: the free HTTP client to test your APIs](website/assets/social/banner-3-1.jpg)
 
----
+Cartero is a graphical HTTP client that can be used as a developer tool to
+test web APIs and perform all kind of HTTP requests to web servers. It is
+compatible with any REST, SOAP or XML-RPC API and it supports multiple request
+methods as well as attaching body payloads to compatible requests.
 
-## 📋 Overview
+## Features
 
-**Cartero** is a powerful graphical HTTP client designed as a developer tool to test web APIs and perform all kinds of HTTP requests to web servers. It's your perfect companion for REST, SOAP, or XML-RPC API testing, supporting multiple request methods and body payloads.
+- Loads and saves to plain Git-friendly TOML files, so that you can own your data.
+- Customization and modification of the request headers and body payloads.
+- Variable binding for API keys and other secret information.
 
----
+## Motivation
 
-## ✨ Features
+This project exists because there aren't many native graphical HTTP testing
+applications / graphical alternatives to cURL that are fully free software, and
+I think the world has had enough of Electron / non-native applications that are
+anonymously accesible until one day you are forced to create an account and
+log in to use just to make some investor happy with their numbers or to chug
+some unwanted artificial intelligence at users.
 
-- 📁 **Git-friendly storage** - Loads and saves to plain TOML files, so you own your data
-- 🔧 **Full customization** - Modify request headers and body payloads with ease  
-- 🔐 **Variable binding** - Secure handling of API keys and sensitive information
-- 🌐 **Universal compatibility** - Works with any REST, SOAP or XML-RPC API
-- 🚀 **Native performance** - Built with Rust and GTK for optimal speed
+## Download
 
----
+All the downloads for GNU/Linux, Windows and macOS are collected in the
+**[Download page][downloads]**. You can also
+find the download links for the latest version in the **[GitHub page][ghrel]**.
 
-## 💡 Why Cartero?
+### Get it from Flathub
 
-This project exists because the world needs more **native**, **fully free** HTTP testing applications. We've had enough of:
-- ❌ Electron apps that consume excessive resources
-- ❌ Tools that suddenly require account creation  
-- ❌ Services that force unwanted AI features
-- ❌ Applications that prioritize investor metrics over user experience
+<a href="https://flathub.org/apps/es.danirod.Cartero">
+<img width="240" alt="Get it on Flathub" src="https://flathub.org/api/badge?svg&locale=en">
+</a>
 
-**Cartero is different** - it's truly free, native, and puts users first.
+### Get it from Snap Store
 
----
+<a href="https://snapcraft.io/cartero">
+<img width="240" alt="Get it from the Snap Store" src=https://snapcraft.io/en/dark/install.svg />
+</a>
 
-## 📦 Installation
+### Get it from your package manager
 
-### 🐧 Linux & 🪟 Windows & 🍎 macOS
-> **[📥 Download Page](https://cartero.danirod.es/download.html)** | **[🔗 Latest Release](https://github.com/danirod/cartero/releases/latest)**
+> **Note**: distributions in package managers are maintained by the community.
+Cartero as a project is open to help and communicate with the maintainers of
+those ports, but outdated versions and other packaging issues should be
+reported first to the package manager or to the port maintainer, not here.
 
-### 📱 App Stores
+[![Packaging status](https://repology.org/badge/vertical-allrepos/cartero.svg)](https://repology.org/project/cartero/versions)
 
-<div align="center">
+#### macOS
 
-[![Get it on Flathub](https://flathub.org/api/badge?svg&locale=en)](https://flathub.org/apps/es.danirod.Cartero)
-[![Get it from the Snap Store](https://snapcraft.io/en/dark/install.svg)](https://snapcraft.io/cartero)
-
-</div>
-
-### 📦 Package Managers
-
-<details>
-<summary><strong>🍺 macOS (Homebrew)</strong></summary>
+You can also get it from Homebrew [using the tap][homebrew]:
 
 ```bash
 brew tap SoloAntonio/cartero
 brew install --cask cartero
 ```
-</details>
 
-<details>
-<summary><strong>🪣 Windows (Scoop)</strong></summary>
+#### Windows
+
+Also is available using [Scoop][scoop] (command-line installer for Windows):
 
 ```bash
 scoop bucket add extras
 scoop install extras/cartero
 ```
-</details>
 
-<details>
-<summary><strong>❄️ NixOS (Flake)</strong></summary>
+#### NixOS
 
-Add Cartero to your system [as a flake](https://cartero.danirod.es/docs/installing/nixos-flake.html).
-</details>
+You can also add Cartero to your system [as a flake][flake].
 
-### 🗂️ Distribution Packages
+## Building
 
-> **Note:** Community-maintained packages may not always be up-to-date. Please report packaging issues to the respective maintainers first.
+Currently, to build the application you'll have to make sure that the required
+libraries are installed on your system.
 
-[![Packaging status](https://repology.org/badge/vertical-allrepos/cartero.svg)](https://repology.org/project/cartero/versions)
+**Required libraries:**
+- glib >= 2.72
+- gtk >= 4.14
+- gtksourceview >= 5.4
+- libadwaita >= 1.5
+- openssl >= 1.0
 
----
+For a successful build, will also need the following packages installed in your system: **meson**, **ninja**, **rust** and **gettext**.
 
-## 🛠️ Building from Source
+Then use the following commands to build and install the application:
 
-### Prerequisites
-- **System Libraries:**
-  - `glib >= 2.72`
-  - `gtk >= 4.14` 
-  - `gtksourceview >= 5.4`
-  - `libadwaita >= 1.5`
-  - `openssl >= 1.0`
-
-- **Build Tools:** `meson`, `ninja`, `rust`, `gettext`
-
-### Build Commands
-
-```bash
-# Standard build
+```sh
 meson setup build
 ninja -C build
 ninja -C build install
 ```
 
-```bash
-# Custom prefix (recommended)
+To avoid installing system-wide the application, you can use a prefix:
+
+```sh
 meson setup build --prefix=/usr
 ninja -C build
 ninja -C build install
 ```
 
----
+## Hacking and contributing
 
-## 👨‍💻 Development & Contributing
+**If you plan on contributing to the project**, use the development profile.
+It will also configure a Git hook so that the source code is checked prior to
+authoring a Git commit. The hook runs `cargo fmt` to assert that the code is
+formatted. Read `hooks/pre-commit.hook` to inspect what the script does.
 
-### 🔧 Development Setup
-
-For contributors, use the development profile to enable Git hooks and code formatting:
-
-```bash
+```sh
 meson setup build -Dprofile=development
 ```
 
-### 📚 Resources
+If you want to hack the source code and make your own changes to Cartero, you
+can do it as long as you know enough Rust and enough about GTK and the rest of the
+libraries it uses. Check out the [hacking instructions][hacking].
+It provides instructions useful for those who want to compile, test and run the
+application, specifically how to compile the resource bundles and run the application.
 
-- 📖 **[Hacking Guide](https://cartero.danirod.es/docs/hacking.html)** - Technical documentation
-- 🤝 **[Contributing Guide](https://cartero.danirod.es/docs/contributing.html)** - How to contribute
-- 🌐 **[Translations](https://hosted.weblate.org/projects/cartero/)** - Help translate via Weblate
+If you want to share your changes with the world, you could send a pull request to
+add the code to Cartero so that anyone can benefit from it. Information on how to
+contribute has moved to [the website][contributing].
 
-### 🚫 AI Policy
+**Usage of generative AI is prohibited**. Therefore, please avoid submitting a pull
+request if your contribution has been generated by an LLM tool and you're just copying
+verbatim the output it generated. Check [the appropiate section][genai] for more
+information on that.
 
-**Generative AI usage is prohibited.** We don't accept contributions generated by LLM tools. [Learn more about our policy](https://cartero.danirod.es/docs/contributing.html#use-of-generative-ai).
+Other ways to contribute to Cartero also include reporting bugs, sending feedback,
+talking about Cartero to other people to make the project more popular, and sending
+translations. We are using [Weblate][weblate] to coordinate and translate comfortably
+this project using a web interface. Make an account and start proposing strings and they
+will be added to the application. That will also entitle you as a contributor!
 
-### 🎯 Ways to Contribute
+## Licenses
 
-- 🐛 **Report bugs** and send feedback
-- 💬 **Spread the word** about Cartero
-- 🌍 **Translate** the application via [Weblate](https://hosted.weblate.org/projects/cartero/)
-- 💻 **Submit code** improvements (following our guidelines)
-
----
-
-## 📜 License
-
-### Code License
-**GNU General Public License v3.0 or later**
+Cartero is published under the terms of the GNU General Public License v3.0 or later.
 
 ```
 Copyright 2024-2025 the Cartero authors
@@ -155,30 +147,33 @@ the Free Software Foundation, either version 3 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ```
 
-### Icon License
-The Cartero icon is licensed under [Creative Commons Attribution-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/).
+The Cartero icon is published under the a [Creative Commons
+Attribution-ShareAlike 4.0 International license][ccbysa].
 
----
+## Credits and acknowledgments
 
-## 🙏 Credits
+Cartero is maintained by Dani Rodríguez.
 
-**Maintainer:** Dani Rodríguez
+Big shoutout to the [contributors][contrib] who have sent patches or
+translations! Also, Christian suggested Cartero as the name for the
+application and I liked it enough to call it like so, therefore shoutout
+to Christian as well!
 
-**Special Thanks:**
-- 🌟 All our amazing [contributors](https://github.com/danirod/cartero/graphs/contributors)
-- 💡 Christian for suggesting the "Cartero" name
-- 🌍 Translation contributors on Weblate
-
----
-
-<div align="center">
-
-**Made with ❤️ for developers, by developers**
-
-[🌐 Website](https://cartero.danirod.es) • [📚 Documentation](https://cartero.danirod.es/docs/) • [🐛 Issues](https://github.com/danirod/cartero/issues) • [💬 Discussions](https://github.com/danirod/cartero/discussions)
-
-</div>
+[ccbysa]: https://creativecommons.org/licenses/by-sa/4.0/
+[contrib]: https://github.com/danirod/cartero/graphs/contributors
+[weblate]: https://hosted.weblate.org/projects/cartero/
+[homebrew]: https://cartero.danirod.es/docs/installing/macos-brew.html
+[flake]: https://cartero.danirod.es/docs/installing/nixos-flake.html
+[hacking]: https://cartero.danirod.es/docs/hacking.html
+[contributing]: https://cartero.danirod.es/docs/contributing.html
+[scoop]: https://scoop.sh/
+[genai]: https://cartero.danirod.es/docs/contributing.html#use-of-generative-ai
+[downloads]: https://cartero.danirod.es/download.html
+[ghrel]: https://github.com/danirod/cartero/releases/latest

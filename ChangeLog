@@ -3,6 +3,14 @@ code that could introduce bugs, cause Git conflicts on a merge or break
 existing patches in general. If you are looking for a list of
 user-facing changes, check the NEWS.md file.
 
+2025-08-10  @danirod
+
+        * src/widgets/shell/base_pane.rs: created base class for widgets.
+        * src/widgets/endpoint/endpoint_pane.rs: is now a subclass of
+        CarteroBasePane.
+        * src/win.rs: most usages of EndpointPane have been replaced with
+        BasePane to future proof them once more types are in.
+
 2025-08-09  @danirod
 
         * data/ui/endpoint_pane.blp: widgets previosuly known as url,

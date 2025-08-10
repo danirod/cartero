@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-08 22:12+0200\n"
+"POT-Creation-Date: 2025-08-10 17:31+0200\n"
 "PO-Revision-Date: 2025-05-06 12:01+0000\n"
 "Last-Translator: Yurt Page <yurtpage@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -81,87 +81,82 @@ msgid "Gnome;GTK;HTTP;REST;"
 msgstr "GNOME;GTK;HTTP;REST;"
 
 #: data/es.danirod.Cartero.gschema.xml:12
-msgid ""
-"A specific locale to use within the application instead of the system default"
-msgstr ""
-
-#: data/es.danirod.Cartero.gschema.xml:16
 msgid "Automatically indent new lines for the request body"
 msgstr "Автоматически добавлять отступы для новых строк тела запроса"
 
-#: data/es.danirod.Cartero.gschema.xml:20
+#: data/es.danirod.Cartero.gschema.xml:16
 msgid "Wrap the body content"
 msgstr "Переносить содержимое тела запроса"
 
-#: data/es.danirod.Cartero.gschema.xml:24
+#: data/es.danirod.Cartero.gschema.xml:20
 msgid "Whether to indent the request body with spaces or tabs"
 msgstr "Использовать отступы в теле запроса: пробелы или табуляции"
 
-#: data/es.danirod.Cartero.gschema.xml:28
+#: data/es.danirod.Cartero.gschema.xml:24
 msgid "Show line numbers in the request and response bodies"
 msgstr "Показывать номера строк в теле запроса и ответа"
 
-#: data/es.danirod.Cartero.gschema.xml:32
+#: data/es.danirod.Cartero.gschema.xml:28
 msgid "How many characters to pad when indenting the request body"
 msgstr "Количество символов для отступов в теле запроса"
 
-#: data/es.danirod.Cartero.gschema.xml:36
+#: data/es.danirod.Cartero.gschema.xml:32
 msgid "How large should new windows be"
 msgstr "Размер новых окон"
 
-#: data/es.danirod.Cartero.gschema.xml:40
+#: data/es.danirod.Cartero.gschema.xml:36
 msgid "How tall should new windows be"
 msgstr "Высота новых окон"
 
-#: data/es.danirod.Cartero.gschema.xml:44
+#: data/es.danirod.Cartero.gschema.xml:40
 msgid "Whether the application should open maximized"
 msgstr "Открывать приложение в полноэкранном режиме"
 
-#: data/es.danirod.Cartero.gschema.xml:48
+#: data/es.danirod.Cartero.gschema.xml:44
 msgid "The position of the split between two windows"
 msgstr "Расположение разделения между двумя окнами"
 
-#: data/es.danirod.Cartero.gschema.xml:52
+#: data/es.danirod.Cartero.gschema.xml:48
 msgid "The current list of opened files"
 msgstr "Текущий список открытых файлов"
 
-#: data/es.danirod.Cartero.gschema.xml:56
+#: data/es.danirod.Cartero.gschema.xml:52
 msgid "The last location where a file was opened"
 msgstr "Последнее место, где был открыт файл"
 
-#: data/es.danirod.Cartero.gschema.xml:60
+#: data/es.danirod.Cartero.gschema.xml:56
 msgid "The last location where a file was saved"
 msgstr "Последнее место, где был сохранён файл"
 
-#: data/es.danirod.Cartero.gschema.xml:64
+#: data/es.danirod.Cartero.gschema.xml:60
 msgid "Whether to validate the TLS certificates during a request"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:68
+#: data/es.danirod.Cartero.gschema.xml:64
 msgid "Whether to follow redirections if that is the server response"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:72
+#: data/es.danirod.Cartero.gschema.xml:68
 msgid "Maximum number of redirections to follow before giving up"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:76
+#: data/es.danirod.Cartero.gschema.xml:72
 msgid "Maximum timeout when awaiting for an HTTP response."
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:80
+#: data/es.danirod.Cartero.gschema.xml:76
 msgid "Whether to use light or dark mode."
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:84
+#: data/es.danirod.Cartero.gschema.xml:80
 msgid "The custom font in use"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:88
+#: data/es.danirod.Cartero.gschema.xml:84
 msgid "Whether to use the system font or a custom one"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:92
+#: data/es.danirod.Cartero.gschema.xml:88
 msgid "Whether to create backup files on save"
 msgstr ""
 
@@ -211,150 +206,119 @@ msgid "Close request tab"
 msgstr "Закрыть вкладку запроса"
 
 #: data/gtk/help_overlay.blp:68
-#, fuzzy
-msgctxt "shortcuts window"
-msgid "Code view operations"
-msgstr "Операции с запросом"
-
-#: data/gtk/help_overlay.blp:71
-msgctxt "shortcuts window"
-msgid "Zoom in"
-msgstr ""
-
-#: data/gtk/help_overlay.blp:76
-msgctxt "shortcuts window"
-msgid "Zoom out"
-msgstr ""
-
-#: data/gtk/help_overlay.blp:81
-msgctxt "shortcuts window"
-msgid "Reset zoom"
-msgstr ""
-
-#: data/gtk/help_overlay.blp:86
-#, fuzzy
-msgctxt "shortcuts window"
-msgid "Start search"
-msgstr "Поиск"
-
-#: data/gtk/help_overlay.blp:92
 msgctxt "shortcuts window"
 msgid "Request operations"
 msgstr "Операции с запросом"
 
-#: data/gtk/help_overlay.blp:95
-#, fuzzy
-msgctxt "shortcuts window"
-msgid "Focus URL"
-msgstr "URL-адрес запроса"
-
-#: data/gtk/help_overlay.blp:100
+#: data/gtk/help_overlay.blp:71
 msgctxt "shortcuts window"
 msgid "Send request"
 msgstr "Отправить запрос"
 
-#: data/ui/authentication_pane.blp:34
+#: data/ui/authorization_pane.blp:29
 msgid "Authorization method"
 msgstr ""
 
-#: data/ui/authentication_pane.blp:59 data/ui/request_body_pane.blp:59
-msgid "(none)"
-msgstr "(нет)"
-
-#: data/ui/authentication_pane.blp:60
-msgid "Basic auth"
-msgstr ""
-
-#: data/ui/authentication_pane.blp:61
-msgid "Bearer token"
-msgstr "Bearer токен"
-
-#: data/ui/basic_auth_pane.blp:23
+#: data/ui/authorization_pane.blp:55
 msgid "Username"
 msgstr ""
 
-#: data/ui/basic_auth_pane.blp:28
+#: data/ui/authorization_pane.blp:60
 msgid "Password"
 msgstr ""
 
-#: data/ui/bearer_token_pane.blp:23
+#: data/ui/authorization_pane.blp:76
 msgid "Token"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:66 data/ui/endpoint_pane.blp:67
-msgid "Request URL"
-msgstr "URL-адрес запроса"
+#: data/ui/authorization_pane.blp:87 data/ui/export_tab.blp:69
+#: data/ui/payload_tab.blp:87
+msgid "(none)"
+msgstr "(нет)"
 
-#: data/ui/endpoint_pane.blp:79 data/ui/mac_menu.blp:113
-msgid "Cancel request"
-msgstr "Отменить запрос"
+#: data/ui/authorization_pane.blp:88
+msgid "Basic auth"
+msgstr ""
 
-#: data/ui/endpoint_pane.blp:88 data/ui/mac_menu.blp:108
-msgid "Send"
-msgstr "Отправить"
+#: data/ui/authorization_pane.blp:89
+msgid "Bearer token"
+msgstr "Bearer токен"
 
-#: data/ui/endpoint_pane.blp:89
-msgid "Execute this HTTP request"
-msgstr "Выполнить этот HTTP-запрос"
-
-#: data/ui/endpoint_pane.blp:116
-msgid "Parameters"
-msgstr "Параметры"
-
-#: data/ui/endpoint_pane.blp:142 data/ui/response_panel.blp:137
-msgid "Headers"
-msgstr "Заголовки"
-
-#: data/ui/endpoint_pane.blp:167
-msgid "Variables"
-msgstr "Переменные"
-
-#: data/ui/endpoint_pane.blp:192
-msgid "Authorization"
-msgstr "Авторизация"
-
-#: data/ui/endpoint_pane.blp:207 data/ui/response_panel.blp:55
-msgid "Body"
-msgstr "Тело"
-
-#: data/ui/export_dialog.blp:54
+#: data/ui/code_export_pane.blp:31
 #, fuzzy
 msgid "Generated output"
 msgstr "Общие"
 
-#: data/ui/export_dialog.blp:64
-msgid "Copy to clipboard"
-msgstr ""
-
-#: data/ui/export_dialog.blp:69 data/ui/response_panel.blp:103
-#: src/widgets/file_dialogs.rs:226
+#: data/ui/code_export_pane.blp:61
 #, fuzzy
-msgid "Export to file"
+msgid "Copy"
+msgstr "Копировать"
+
+#: data/ui/endpoint_pane.blp:69 data/ui/endpoint_pane.blp:70
+msgid "Request URL"
+msgstr "URL-адрес запроса"
+
+#: data/ui/endpoint_pane.blp:82 data/ui/mac_menu.blp:113
+msgid "Cancel request"
+msgstr "Отменить запрос"
+
+#: data/ui/endpoint_pane.blp:91 data/ui/mac_menu.blp:108
+msgid "Send"
+msgstr "Отправить"
+
+#: data/ui/endpoint_pane.blp:92
+msgid "Execute this HTTP request"
+msgstr "Выполнить этот HTTP-запрос"
+
+#: data/ui/endpoint_pane.blp:124
+msgid "Parameters"
+msgstr "Параметры"
+
+#: data/ui/endpoint_pane.blp:147 data/ui/response_panel.blp:93
+msgid "Headers"
+msgstr "Заголовки"
+
+#: data/ui/endpoint_pane.blp:171
+msgid "Variables"
+msgstr "Переменные"
+
+#: data/ui/endpoint_pane.blp:195
+msgid "Authorization"
+msgstr "Авторизация"
+
+#: data/ui/endpoint_pane.blp:218 data/ui/response_panel.blp:52
+msgid "Body"
+msgstr "Тело"
+
+#: data/ui/endpoint_pane.blp:228
+msgid "Export request"
+msgstr "Экспортировать запрос"
+
+#: data/ui/export_tab.blp:34
+msgid "Export to"
 msgstr "Экспортировать в"
 
-#: data/ui/field_list_box_row.blp:23 data/ui/field_placeholder_row.blp:27
+#: data/ui/key_value_row.blp:29
 msgid "Enabled"
 msgstr ""
 
-#: data/ui/field_list_box_row.blp:37 data/ui/field_list_box_row.blp:38
-#: data/ui/field_placeholder_row.blp:41 data/ui/field_placeholder_row.blp:42
+#: data/ui/key_value_row.blp:43 data/ui/key_value_row.blp:44
 msgid "Name"
 msgstr "Имя"
 
-#: data/ui/field_list_box_row.blp:48 data/ui/field_list_box_row.blp:49
-#: data/ui/field_placeholder_row.blp:52 data/ui/field_placeholder_row.blp:53
+#: data/ui/key_value_row.blp:57 data/ui/key_value_row.blp:58
 msgid "Value"
 msgstr "Значение"
 
-#: data/ui/field_list_box_row.blp:58 data/ui/field_placeholder_row.blp:62
+#: data/ui/key_value_row.blp:69
 msgid "Actions"
 msgstr "Действия"
 
-#: data/ui/field_list_box_row.blp:69
+#: data/ui/key_value_row.blp:83
 msgid "Toggle secret"
 msgstr "Скрыть значение"
 
-#: data/ui/field_list_box_row.blp:76
+#: data/ui/key_value_row.blp:90
 msgid "Delete"
 msgstr "Удалить"
 
@@ -363,30 +327,30 @@ msgctxt "menubar"
 msgid "File"
 msgstr ""
 
-#: data/ui/mac_menu.blp:25 data/ui/main_window.blp:137
-#: data/ui/main_window.blp:193 data/ui/main_window_no_csd.blp:138
-#: data/ui/main_window_no_csd.blp:195
+#: data/ui/mac_menu.blp:25 data/ui/main_window.blp:116
+#: data/ui/main_window.blp:150 data/ui/main_window_no_csd.blp:123
+#: data/ui/main_window_no_csd.blp:157
 msgid "New tab"
 msgstr "Новая вкладка"
 
-#: data/ui/mac_menu.blp:30 data/ui/main_window.blp:150
-#: data/ui/main_window.blp:198 data/ui/main_window_no_csd.blp:151
-#: data/ui/main_window_no_csd.blp:200
+#: data/ui/mac_menu.blp:30 data/ui/main_window.blp:129
+#: data/ui/main_window.blp:155 data/ui/main_window_no_csd.blp:136
+#: data/ui/main_window_no_csd.blp:162
 msgid "Open request…"
 msgstr "Открыть запрос…"
 
-#: data/ui/mac_menu.blp:35 data/ui/main_window.blp:203
-#: data/ui/main_window_no_csd.blp:205 src/widgets/file_dialogs.rs:146
+#: data/ui/mac_menu.blp:35 data/ui/main_window.blp:160
+#: data/ui/main_window_no_csd.blp:167 src/widgets/file_dialogs.rs:144
 msgid "Save request"
 msgstr "Сохранить запрос"
 
-#: data/ui/mac_menu.blp:40 data/ui/main_window.blp:208
-#: data/ui/main_window_no_csd.blp:210
+#: data/ui/mac_menu.blp:40 data/ui/main_window.blp:165
+#: data/ui/main_window_no_csd.blp:172
 msgid "Save request as…"
 msgstr "Сохранить запрос как…"
 
-#: data/ui/mac_menu.blp:47 data/ui/main_window.blp:213
-#: data/ui/main_window_no_csd.blp:215
+#: data/ui/mac_menu.blp:47 data/ui/main_window.blp:170
+#: data/ui/main_window_no_csd.blp:177
 msgid "Close tab"
 msgstr "Закрыть вкладку"
 
@@ -442,53 +406,53 @@ msgctxt "menubar"
 msgid "Edit URL"
 msgstr ""
 
-#: data/ui/mac_menu.blp:120 data/ui/main_window.blp:225
-#: data/ui/main_window_no_csd.blp:227
+#: data/ui/mac_menu.blp:120 data/ui/main_window.blp:182
+#: data/ui/main_window_no_csd.blp:189
 msgid "Body appearance"
 msgstr "Внешний вид тела запроса"
 
-#: data/ui/mac_menu.blp:124 data/ui/main_window.blp:229
-#: data/ui/main_window_no_csd.blp:231
+#: data/ui/mac_menu.blp:124 data/ui/main_window.blp:186
+#: data/ui/main_window_no_csd.blp:193
 msgid "Wrap content"
 msgstr "Переносить содержимое"
 
-#: data/ui/mac_menu.blp:129 data/ui/main_window.blp:234
-#: data/ui/main_window_no_csd.blp:236
+#: data/ui/mac_menu.blp:129 data/ui/main_window.blp:191
+#: data/ui/main_window_no_csd.blp:198
 msgid "Show line numbers"
 msgstr "Показывать номера строк"
 
-#: data/ui/mac_menu.blp:136 data/ui/main_window.blp:241
-#: data/ui/main_window_no_csd.blp:243
+#: data/ui/mac_menu.blp:136 data/ui/main_window.blp:198
+#: data/ui/main_window_no_csd.blp:205
 msgid "Automatic indentation"
 msgstr "Автоматический отступ"
 
-#: data/ui/mac_menu.blp:141 data/ui/main_window.blp:246
-#: data/ui/main_window_no_csd.blp:248
+#: data/ui/mac_menu.blp:141 data/ui/main_window.blp:203
+#: data/ui/main_window_no_csd.blp:210
 msgid "Indent with spaces"
 msgstr "Пробелы"
 
-#: data/ui/mac_menu.blp:147 data/ui/main_window.blp:252
-#: data/ui/main_window_no_csd.blp:254
+#: data/ui/mac_menu.blp:147 data/ui/main_window.blp:209
+#: data/ui/main_window_no_csd.blp:216
 msgid "Indent with tabs"
 msgstr "Табуляция"
 
-#: data/ui/mac_menu.blp:153 data/ui/main_window.blp:258
-#: data/ui/main_window_no_csd.blp:260
+#: data/ui/mac_menu.blp:153 data/ui/main_window.blp:215
+#: data/ui/main_window_no_csd.blp:222
 msgid "Spaces per tab"
 msgstr "Пробелов на табуляцию"
 
-#: data/ui/mac_menu.blp:156 data/ui/main_window.blp:261
-#: data/ui/main_window_no_csd.blp:263
+#: data/ui/mac_menu.blp:156 data/ui/main_window.blp:218
+#: data/ui/main_window_no_csd.blp:225
 msgid "2"
 msgstr "2"
 
-#: data/ui/mac_menu.blp:162 data/ui/main_window.blp:267
-#: data/ui/main_window_no_csd.blp:269
+#: data/ui/mac_menu.blp:162 data/ui/main_window.blp:224
+#: data/ui/main_window_no_csd.blp:231
 msgid "4"
 msgstr "4"
 
-#: data/ui/mac_menu.blp:168 data/ui/main_window.blp:273
-#: data/ui/main_window_no_csd.blp:275
+#: data/ui/mac_menu.blp:168 data/ui/main_window.blp:230
+#: data/ui/main_window_no_csd.blp:237
 msgid "8"
 msgstr "8"
 
@@ -513,7 +477,7 @@ msgctxt "menubar"
 msgid "Help"
 msgstr ""
 
-#: data/ui/mac_menu.blp:200 src/win.rs:669
+#: data/ui/mac_menu.blp:200 src/win.rs:589
 msgid "User manual"
 msgstr ""
 
@@ -527,138 +491,96 @@ msgctxt "menubar"
 msgid "View discussions"
 msgstr ""
 
-#: data/ui/mac_menu.blp:217 src/win.rs:671
+#: data/ui/mac_menu.blp:217 src/win.rs:591
 msgid "Help us translate"
 msgstr "Помогите нам перевести"
 
-#: data/ui/mac_menu.blp:224 data/ui/settings_dialog.blp:101
+#: data/ui/mac_menu.blp:224 data/ui/settings_dialog.blp:86
 msgid "Check for updates"
 msgstr "Проверить обновления"
 
-#: data/ui/main_window.blp:50 data/ui/main_window_no_csd.blp:47
+#: data/ui/main_window.blp:40 data/ui/main_window_no_csd.blp:38
 msgid "New"
 msgstr "Новая"
 
-#: data/ui/main_window.blp:61 data/ui/main_window.blp:73
-#: data/ui/main_window_no_csd.blp:58 data/ui/main_window_no_csd.blp:70
-#: src/widgets/file_dialogs.rs:109 src/widgets/file_dialogs.rs:186
+#: data/ui/main_window.blp:51 data/ui/main_window.blp:63
+#: data/ui/main_window_no_csd.blp:49 data/ui/main_window_no_csd.blp:61
+#: src/widgets/file_dialogs.rs:107
 msgid "Open"
 msgstr "Открыть"
 
-#: data/ui/main_window.blp:81 data/ui/main_window_no_csd.blp:78
-#: src/widgets/file_dialogs.rs:145 src/widgets/file_dialogs.rs:225
+#: data/ui/main_window.blp:71 data/ui/main_window_no_csd.blp:69
+#: src/widgets/file_dialogs.rs:143
 msgid "Save"
 msgstr "Сохранить"
 
-#: data/ui/main_window.blp:90 data/ui/main_window_no_csd.blp:99
-msgid "Export request"
-msgstr "Экспортировать запрос"
-
-#: data/ui/main_window.blp:99
+#: data/ui/main_window.blp:78 data/ui/main_window_no_csd.blp:89
 msgid "Menu"
 msgstr ""
 
-#: data/ui/main_window.blp:117 data/ui/main_window_no_csd.blp:118
+#: data/ui/main_window.blp:96 data/ui/main_window_no_csd.blp:103
 msgid "Welcome to Cartero"
 msgstr "Добро пожаловать в Cartero"
 
-#: data/ui/main_window.blp:118 data/ui/main_window_no_csd.blp:119
+#: data/ui/main_window.blp:97 data/ui/main_window_no_csd.blp:104
 msgid "Create or open a request and start testing APIs now."
 msgstr "Создайте или откройте запрос и начните тестировать API прямо сейчас."
 
-#: data/ui/main_window.blp:170 data/ui/main_window_no_csd.blp:172
-#, fuzzy
-msgid "Export request as cURL…"
-msgstr "Экспортировать запрос"
-
-#: data/ui/main_window.blp:176 data/ui/main_window_no_csd.blp:178
-#, fuzzy
-msgid "Export request as Jetbrains HTTP…"
-msgstr "Экспортировать запрос"
-
-#: data/ui/main_window.blp:184 data/ui/main_window_no_csd.blp:186
-#, fuzzy
-msgid "Export response body…"
-msgstr "Экспортировать запрос"
-
-#: data/ui/main_window.blp:220 data/ui/main_window_no_csd.blp:222
+#: data/ui/main_window.blp:177 data/ui/main_window_no_csd.blp:184
 #: data/ui/settings_dialog.blp:21
 msgid "Settings"
 msgstr "Настройки"
 
-#: data/ui/main_window.blp:284 data/ui/main_window_no_csd.blp:286
+#: data/ui/main_window.blp:241 data/ui/main_window_no_csd.blp:248
 msgid "Keyboard shortcuts"
 msgstr "Комбинации клавиш"
 
-#: data/ui/main_window.blp:289 data/ui/main_window_no_csd.blp:291
+#: data/ui/main_window.blp:246 data/ui/main_window_no_csd.blp:253
 msgid "About Cartero"
 msgstr "О приложении"
 
-#: data/ui/main_window.blp:294 data/ui/main_window_no_csd.blp:296
+#: data/ui/main_window.blp:251 data/ui/main_window_no_csd.blp:258
 msgid "Quit"
 msgstr "Выход"
 
-#: data/ui/method_dropdown.blp:28
+#: data/ui/method_dropdown.blp:29
 msgid "Request method"
 msgstr "Метод запроса"
 
-#: data/ui/raw_body_pane.blp:28
+#: data/ui/payload_tab.blp:34
+msgid "Body type"
+msgstr "Тип тела"
+
+#: data/ui/payload_tab.blp:88
+msgid "URL Encoded"
+msgstr "Кодированный URL"
+
+#: data/ui/payload_tab.blp:89
+msgid "Multipart Form Data"
+msgstr "Многочастичные данные"
+
+#: data/ui/payload_tab.blp:92
+msgid "Raw"
+msgstr "Простой"
+
+#: data/ui/raw_payload_pane.blp:27
 #, fuzzy
 msgid "Request body"
 msgstr "Метод запроса"
 
-#: data/ui/request_body_pane.blp:34
-msgid "Body type"
-msgstr "Тип тела"
-
-#: data/ui/request_body_pane.blp:60
-msgid "URL Encoded"
-msgstr "Кодированный URL"
-
-#: data/ui/request_body_pane.blp:61
-msgid "Multipart Form Data"
-msgstr "Многочастичные данные"
-
-#: data/ui/request_body_pane.blp:64
-msgid "Raw"
-msgstr "Простой"
-
-#: data/ui/request_body_pane.blp:65
-#, fuzzy
-msgid "From file"
-msgstr "Экспортировать в"
-
-#: data/ui/response_headers.blp:42
-#, fuzzy
-msgid "No headers"
-msgstr "Заголовки"
-
-#: data/ui/response_panel.blp:30
+#: data/ui/response_panel.blp:28
 msgid "Ready to request"
 msgstr "Готов к запросу"
 
-#: data/ui/response_panel.blp:31
+#: data/ui/response_panel.blp:29
 msgid "Use the Send button to send a network request and it will show here."
 msgstr ""
 "Нажмите кнопку «Отправить», чтобы выполнить сетевой запрос. Результат "
 "появится здесь."
 
-#: data/ui/response_panel.blp:68
+#: data/ui/response_panel.blp:61
 msgid "Response body"
 msgstr ""
-
-#: data/ui/response_panel.blp:87
-msgid "Binary response received"
-msgstr ""
-
-#: data/ui/response_panel.blp:88
-msgid "The response of this request should not be rendered in a text view."
-msgstr ""
-
-#: data/ui/response_panel.blp:110
-#, fuzzy
-msgid "Render anyway"
-msgstr "Закрыть всё равно"
 
 #: data/ui/search_box.blp:42 data/ui/search_box.blp:43
 msgid "Search"
@@ -681,109 +603,111 @@ msgid "Application"
 msgstr "Приложение"
 
 #: data/ui/settings_dialog.blp:30
-msgid "You need to restart the program for the new locale to be used."
-msgstr ""
-
-#: data/ui/settings_dialog.blp:39
-msgid "Language"
-msgstr ""
-
-#: data/ui/settings_dialog.blp:45
 msgid "Appearance"
 msgstr "Внешний вид"
 
-#: data/ui/settings_dialog.blp:48
+#: data/ui/settings_dialog.blp:33
 msgid "Application style"
 msgstr "Стиль приложения"
 
-#. Has to be a separate variable due to variable lifetimes.
-#: data/ui/settings_dialog.blp:52 src/windows/settings/locale.rs:81
+#: data/ui/settings_dialog.blp:37
 msgid "Follow system settings"
 msgstr "Как в системе"
 
-#: data/ui/settings_dialog.blp:53
+#: data/ui/settings_dialog.blp:38
 msgid "Light mode"
 msgstr "Светлая тема"
 
-#: data/ui/settings_dialog.blp:54
+#: data/ui/settings_dialog.blp:39
 msgid "Dark mode"
 msgstr "Тёмная тема"
 
-#: data/ui/settings_dialog.blp:60
+#: data/ui/settings_dialog.blp:45
 msgid "Use system font"
 msgstr "Использовать системный шрифт"
 
-#: data/ui/settings_dialog.blp:64
+#: data/ui/settings_dialog.blp:49
 msgid "Custom font"
 msgstr "Свой размер шрифта"
 
-#: data/ui/settings_dialog.blp:71
+#: data/ui/settings_dialog.blp:56
 msgid "Click to select a font"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:80
+#: data/ui/settings_dialog.blp:65
 msgid "File settings"
 msgstr "Настройки файла"
 
-#: data/ui/settings_dialog.blp:83
+#: data/ui/settings_dialog.blp:68
 msgid "Create backup files"
 msgstr "Создать резервные файлы"
 
-#: data/ui/settings_dialog.blp:84
+#: data/ui/settings_dialog.blp:69
 msgid ""
 "You might not want to enable this if you are already using a version control "
 "such as Git"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:90
+#: data/ui/settings_dialog.blp:75
 msgid "Software updates"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:97
+#: data/ui/settings_dialog.blp:82
 msgid "Current version"
 msgstr "Текущая версия"
 
-#: data/ui/settings_dialog.blp:109 data/ui/settings_dialog.blp:113
+#: data/ui/settings_dialog.blp:94 data/ui/settings_dialog.blp:98
 msgid "HTTP Client"
 msgstr "HTTP-клиент"
 
-#: data/ui/settings_dialog.blp:116
+#: data/ui/settings_dialog.blp:101
 msgid "Enforce TLS validation"
 msgstr "Строгая проверка TLS"
 
-#: data/ui/settings_dialog.blp:117
+#: data/ui/settings_dialog.blp:102
 msgid "Cancel a request if the TLS handshake fails"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:121
+#: data/ui/settings_dialog.blp:106
 msgid "Follow redirects"
 msgstr "Переходить по перенаправлениям"
 
-#: data/ui/settings_dialog.blp:122
+#: data/ui/settings_dialog.blp:107
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
 msgstr ""
 
-#: data/ui/settings_dialog.blp:127
+#: data/ui/settings_dialog.blp:112
 msgid "Maximum redirects"
 msgstr "Максимум перенаправлений"
 
-#: data/ui/settings_dialog.blp:139
+#: data/ui/settings_dialog.blp:124
 msgid "Request timeout"
 msgstr "Тайм-аут запроса"
 
-#: data/ui/settings_dialog.blp:140
+#: data/ui/settings_dialog.blp:125
 msgid "Seconds to wait before cancelling the request"
 msgstr ""
 
-#: src/interop.rs:30
-msgid ""
-"This file was created with a newer version of this application; please "
-"update!"
-msgstr ""
+#: src/win.rs:246
+msgid "(untitled)"
+msgstr "(без названия)"
 
-#: src/interop.rs:31
-msgid "The file is corrupt or does not contain valid data for this application"
-msgstr ""
+#: src/win.rs:260
+msgid "Draft"
+msgstr "Черновик"
+
+#: src/win.rs:561
+msgid "The Cartero authors"
+msgstr "Авторы Cartero"
+
+#. Translators: Replace "translator-credits" with your names. Put a comma between.
+#: src/win.rs:584
+msgid "translator-credits"
+msgstr "Vladimir Kosolapov"
+
+#: src/win.rs:585
+msgid "© 2024-2025 the Cartero authors"
+msgstr "© 2024-2025 Авторы Cartero"
 
 #: src/updates/ui.rs:33
 msgid "Error checking updates"
@@ -824,219 +748,184 @@ msgstr "Открыть веб-сайт"
 msgid "_Not now"
 msgstr "Не сейчас"
 
-#: src/widgets/dialogs.rs:50
-#, rust-format
-msgid "Cannot open '{}'"
-msgstr ""
-
-#: src/widgets/dialogs.rs:51
-msgid "Cannot open the requested file"
-msgstr "Невозможно открыть запрашиваемый файл"
-
-#: src/widgets/dialogs.rs:60 src/widgets/dialogs.rs:91
-#: src/widgets/dialogs.rs:121 src/widgets/dialogs.rs:144
-#: src/widgets/dialogs.rs:157
-msgid "Close"
-msgstr "Закрыть"
-
-#: src/widgets/dialogs.rs:74
-#, rust-format
-msgid "The file '{}' was loaded but had issues"
-msgstr ""
-
-#: src/widgets/dialogs.rs:75
-msgid "The requested file was loaded but had issues"
-msgstr ""
-
-#: src/widgets/dialogs.rs:98
+#: src/file.rs:411
 #, rust-format
 msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
 msgstr ""
 
-#: src/widgets/dialogs.rs:114
-#, fuzzy
-msgid "The requested file cannot be picked"
-msgstr "Запросы не выполнился"
+#: src/error.rs:32
+msgid "The specified URL is not valid"
+msgstr ""
 
-#: src/widgets/dialogs.rs:115
+#: src/error.rs:34
 #, rust-format
-msgid ""
-"The file must be within the same directory as the request or project file or "
-"any of its subdirectories.\n"
-"\n"
-"The file '{}' is not part of the '{}' directory"
+msgid "The header '{}' is not valid"
 msgstr ""
 
-#: src/widgets/dialogs.rs:135
+#: src/error.rs:37
 #, rust-format
-msgid "Cannot save '{}'"
+msgid "The value for header '{}' is not valid"
 msgstr ""
 
-#: src/widgets/dialogs.rs:136
-msgid "Cannot save the requested file"
+#: src/error.rs:40 src/error.rs:74
+msgid "The given request body could not be encoded correctly"
 msgstr ""
 
-#: src/widgets/dialogs.rs:138
-msgid ""
-"There was an error during the saving process. Assume that your changes are "
-"still not saved."
+#: src/error.rs:69
+msgid "Cannot recognise the URL"
 msgstr ""
 
-#: src/widgets/dialogs.rs:152
-msgid "Could not select a valid file from the file chooser"
+#: src/error.rs:70
+msgid "The given URL is missing a protocol"
 msgstr ""
 
-#: src/widgets/dialogs.rs:166
-msgid "There are unsaved changes"
-msgstr ""
-
-#: src/widgets/dialogs.rs:168
-msgid ""
-"Closing this window will lose all unsaved data. Do you really want to "
-"proceed?"
-msgstr ""
-
-#: src/widgets/dialogs.rs:172
-msgid "Cancel"
-msgstr "Отмена"
-
-#: src/widgets/dialogs.rs:173
-msgid "Close anyway"
-msgstr "Закрыть всё равно"
-
-#: src/widgets/dialogs.rs:196
+#: src/error.rs:72
 #, rust-format
-msgid "Save changes in '{}'?"
-msgstr "Сохранить изменения в «{}»?"
+msgid "The protocol {}:// is not supported"
+msgstr ""
 
-#: src/widgets/dialogs.rs:197
-msgid "Save changes?"
-msgstr "Сохранить изменения?"
+#: src/error.rs:76
+#, rust-format
+msgid "The variable '{}' is not defined"
+msgstr "Переменная «{}» не определена"
 
-#: src/widgets/dialogs.rs:202
-msgid "There are changes that have not been saved yet. What do you want to do?"
-msgstr "Есть несохраненные изменения. Что вы хотите сделать?"
+#: src/error.rs:79
+msgid "There was a problem with a variable interpolation, review your inputs"
+msgstr "Была проблема с интерполяцией переменной, перепроверьте ваш ввод"
 
-#: src/widgets/dialogs.rs:206
-msgid "_Cancel"
-msgstr "_Отмена"
+#: src/error.rs:104
+msgid "There is a network error"
+msgstr "Возникла ошибка сети"
 
-#: src/widgets/dialogs.rs:207
-msgid "_Discard"
-msgstr "_Отменить"
+#: src/error.rs:105
+msgid "There is an input/output error"
+msgstr ""
 
-#: src/widgets/dialogs.rs:208
-msgid "_Save"
-msgstr "_Сохранить"
+#: src/error.rs:131 src/error.rs:155
+msgid "The current tab is not associated with a file"
+msgstr "Текущая вкладка не ассоциирована с файлом"
 
-#: src/widgets/endpoint/endpoint_pane.rs:642
-#, fuzzy
-msgid "Export request as cURL"
-msgstr "Экспортировать запрос"
+#: src/error.rs:133
+msgid ""
+"This file was created with a newer version of this application; please "
+"update!"
+msgstr ""
 
-#: src/widgets/endpoint/endpoint_pane.rs:643
-#, fuzzy
-msgid "Export request as Jetbrains HTTP"
-msgstr "Экспортировать запрос"
+#: src/error.rs:137
+msgid "The file is corrupt or does not contain valid data for this application"
+msgstr ""
 
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
-#: src/widgets/endpoint/response_panel.rs:340
+#: src/entities/response_data.rs:68
 #, rust-format
 msgid "{} s"
 msgstr ""
 
 #. Format as milliseconds.
 #. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
-#: src/widgets/endpoint/response_panel.rs:344
+#: src/entities/response_data.rs:72
 #, rust-format
 msgid "{} ms"
 msgstr ""
 
-#: src/widgets/error_pane.rs:89
-msgid "The specified URL is not valid"
-msgstr ""
-
-#: src/widgets/error_pane.rs:90
-msgid "Cannot recognise the URL"
-msgstr ""
-
-#: src/widgets/error_pane.rs:91
-msgid "The given URL is missing a protocol"
-msgstr ""
-
-#: src/widgets/error_pane.rs:93
-#, rust-format
-msgid "The protocol {}:// is not supported"
-msgstr ""
-
-#: src/widgets/error_pane.rs:96
-#, rust-format
-msgid "The variable '{}' is not defined"
-msgstr "Переменная «{}» не определена"
-
-#: src/widgets/error_pane.rs:99
-msgid "There was a problem with a variable interpolation, review your inputs"
-msgstr "Была проблема с интерполяцией переменной, перепроверьте ваш ввод"
-
-#: src/widgets/error_pane.rs:102
-#, rust-format
-msgid "The header '{}' is not valid"
-msgstr ""
-
-#: src/widgets/error_pane.rs:105
-#, rust-format
-msgid "The value for header '{}' is not valid"
-msgstr ""
-
-#: src/widgets/error_pane.rs:108
-msgid "The given request body could not be encoded correctly"
-msgstr ""
-
-#: src/widgets/error_pane.rs:110
-msgid "You have to save the request first"
-msgstr ""
-
-#: src/widgets/error_pane.rs:112
-#, rust-format
-msgid "The file '{}' cannot be accessed due to the security policy"
-msgstr ""
-
-#: src/widgets/error_pane.rs:116
-msgid "There is an input/output error"
-msgstr ""
-
-#: src/widgets/error_pane.rs:117
-msgid "There is a network error"
-msgstr "Возникла ошибка сети"
-
-#: src/widgets/error_pane.rs:136
+#: src/widgets/error_pane.rs:91 src/widgets/error_pane.rs:105
 msgid "The request data is not valid"
 msgstr ""
 
-#: src/widgets/error_pane.rs:143
+#: src/widgets/error_pane.rs:98
 msgid "The request failed"
 msgstr "Запросы не выполнился"
 
-#: src/widgets/export_dialog.rs:112
+#: src/widgets/export_tab/code.rs:114
 msgid "Content copied to the clipboard"
 msgstr ""
 
-#. TRANSLATORS: presented in file dialogs as the file type for a request
-#. The macOS native file dialog will already add the extension for us.
-#: src/widgets/file_dialogs.rs:42 src/widgets/file_dialogs.rs:150
-#: src/widgets/file_dialogs.rs:152
-msgid "Request"
-msgstr "Запрос"
-
-#: src/widgets/file_dialogs.rs:110
-msgid "Open request"
-msgstr "Открыть запрос"
-
-#: src/widgets/file_dialogs.rs:187
-msgid "Select file"
+#: src/widgets/dialogs.rs:48
+#, rust-format
+msgid "Cannot open '{}'"
 msgstr ""
+
+#: src/widgets/dialogs.rs:49
+msgid "Cannot open the requested file"
+msgstr "Невозможно открыть запрашиваемый файл"
+
+#: src/widgets/dialogs.rs:58 src/widgets/dialogs.rs:89
+#: src/widgets/dialogs.rs:112 src/widgets/dialogs.rs:125
+msgid "Close"
+msgstr "Закрыть"
+
+#: src/widgets/dialogs.rs:72
+#, rust-format
+msgid "The file '{}' was loaded but had issues"
+msgstr ""
+
+#: src/widgets/dialogs.rs:73
+msgid "The requested file was loaded but had issues"
+msgstr ""
+
+#: src/widgets/dialogs.rs:103
+#, rust-format
+msgid "Cannot save '{}'"
+msgstr ""
+
+#: src/widgets/dialogs.rs:104
+msgid "Cannot save the requested file"
+msgstr ""
+
+#: src/widgets/dialogs.rs:106
+msgid ""
+"There was an error during the saving process. Assume that your changes are "
+"still not saved."
+msgstr ""
+
+#: src/widgets/dialogs.rs:120
+msgid "Could not select a valid file from the file chooser"
+msgstr ""
+
+#: src/widgets/dialogs.rs:134
+msgid "There are unsaved changes"
+msgstr ""
+
+#: src/widgets/dialogs.rs:136
+msgid ""
+"Closing this window will lose all unsaved data. Do you really want to "
+"proceed?"
+msgstr ""
+
+#: src/widgets/dialogs.rs:140
+msgid "Cancel"
+msgstr "Отмена"
+
+#: src/widgets/dialogs.rs:141
+msgid "Close anyway"
+msgstr "Закрыть всё равно"
+
+#: src/widgets/dialogs.rs:164
+#, rust-format
+msgid "Save changes in '{}'?"
+msgstr "Сохранить изменения в «{}»?"
+
+#: src/widgets/dialogs.rs:165
+msgid "Save changes?"
+msgstr "Сохранить изменения?"
+
+#: src/widgets/dialogs.rs:170
+msgid "There are changes that have not been saved yet. What do you want to do?"
+msgstr "Есть несохраненные изменения. Что вы хотите сделать?"
+
+#: src/widgets/dialogs.rs:174
+msgid "_Cancel"
+msgstr "_Отмена"
+
+#: src/widgets/dialogs.rs:175
+msgid "_Discard"
+msgstr "_Отменить"
+
+#: src/widgets/dialogs.rs:176
+msgid "_Save"
+msgstr "_Сохранить"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
@@ -1055,32 +944,77 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/win.rs:285
-msgid "(untitled)"
-msgstr "(без названия)"
+#: src/widgets/key_value_row.rs:110
+msgid ""
+"The value for this field will not be used because another field with the "
+"same name is overriding it."
+msgstr ""
 
-#: src/win.rs:299
-msgid "Draft"
-msgstr "Черновик"
+#. TRANSLATORS: presented in file dialogs as the file type for a request
+#. The macOS native file dialog will already add the extension for us.
+#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:148
+#: src/widgets/file_dialogs.rs:150
+msgid "Request"
+msgstr "Запрос"
 
-#: src/win.rs:613
-msgid "The Cartero authors"
-msgstr "Авторы Cartero"
+#: src/widgets/file_dialogs.rs:108
+msgid "Open request"
+msgstr "Открыть запрос"
 
-#. Translators: Replace "translator-credits" with your names. Put a comma between.
-#: src/win.rs:636
-msgid "translator-credits"
-msgstr "Vladimir Kosolapov"
+#, fuzzy
+#~ msgctxt "shortcuts window"
+#~ msgid "Code view operations"
+#~ msgstr "Операции с запросом"
 
-#: src/win.rs:637
-msgid "© 2024-2025 the Cartero authors"
-msgstr "© 2024-2025 Авторы Cartero"
+#, fuzzy
+#~ msgctxt "shortcuts window"
+#~ msgid "Start search"
+#~ msgstr "Поиск"
 
-#~ msgid "The current tab is not associated with a file"
-#~ msgstr "Текущая вкладка не ассоциирована с файлом"
+#, fuzzy
+#~ msgctxt "shortcuts window"
+#~ msgid "Focus URL"
+#~ msgstr "URL-адрес запроса"
 
-#~ msgid "Export to"
+#, fuzzy
+#~ msgid "Export to file"
 #~ msgstr "Экспортировать в"
+
+#, fuzzy
+#~ msgid "Export request as cURL…"
+#~ msgstr "Экспортировать запрос"
+
+#, fuzzy
+#~ msgid "Export request as Jetbrains HTTP…"
+#~ msgstr "Экспортировать запрос"
+
+#, fuzzy
+#~ msgid "Export response body…"
+#~ msgstr "Экспортировать запрос"
+
+#, fuzzy
+#~ msgid "From file"
+#~ msgstr "Экспортировать в"
+
+#, fuzzy
+#~ msgid "No headers"
+#~ msgstr "Заголовки"
+
+#, fuzzy
+#~ msgid "Render anyway"
+#~ msgstr "Закрыть всё равно"
+
+#, fuzzy
+#~ msgid "The requested file cannot be picked"
+#~ msgstr "Запросы не выполнился"
+
+#, fuzzy
+#~ msgid "Export request as cURL"
+#~ msgstr "Экспортировать запрос"
+
+#, fuzzy
+#~ msgid "Export request as Jetbrains HTTP"
+#~ msgstr "Экспортировать запрос"
 
 #~ msgid "Request (.cartero)"
 #~ msgstr "Запрос (.cartero)"

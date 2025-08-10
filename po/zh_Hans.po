@@ -1,25 +1,25 @@
-#
-#  <>, 2024.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the cartero package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-07 18:10+0200\n"
-"PO-Revision-Date: 2025-08-08 20:29+0000\n"
-"Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
-"Language-Team: Spanish <https://hosted.weblate.org/projects/cartero/cartero/"
-"es/>\n"
-"Language: es\n"
+"POT-Creation-Date: 2025-08-08 22:12+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: zh_Hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13-dev\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
-msgstr "Haz peticiones HTTP y prueba APIs"
+msgstr ""
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:14
 msgid ""
@@ -28,1127 +28,1019 @@ msgid ""
 "compatible with any REST, SOAP or XML-RPC API and it supports multiple "
 "request methods as well as attaching body payloads to compatible requests."
 msgstr ""
-"Cartero es un cliente HTTP gráfico que puede usarse como herramienta de "
-"desarrollo para probar APIs web y hacer todo tipo de peticiones HTTP a "
-"servicios web. Es compatible con cualquier API REST, SOAP o XML-RPC y "
-"soporta múltiples métodos de petición así como adjuntar cuerpos a las "
-"peticiones compatibles."
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:15
 msgid "Features:"
-msgstr "Características:"
+msgstr ""
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:17
 msgid ""
 "Loads and saves to plain Git-friendly TOML files, so that you can own your "
 "data."
 msgstr ""
-"Carga y guarda a archivos TOML amigables con Git, para que puedas poseer tus "
-"datos."
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:18
 msgid ""
 "Customization and modification of the request headers and body payloads."
 msgstr ""
-"Personalización y modificación de las cabeceras y cuerpos de una petición."
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:19
 msgid "Variable binding for API keys and other secret information."
-msgstr "Enlazado de variables para claves API y otra información secreta."
+msgstr ""
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:25
 msgid "Main window of Cartero"
-msgstr "Ventana principal de Cartero"
+msgstr ""
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:29
 msgid "Modifying HTTP headers"
-msgstr "Modificando las cabeceras HTTP"
+msgstr ""
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:33
 msgid "Setting the request payload"
-msgstr "Estableciendo el cuerpo de la petición"
+msgstr ""
 
 #: data/cartero.desktop.in.in:2
 msgid "Cartero"
-msgstr "Cartero"
+msgstr ""
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/cartero.desktop.in.in:10
 msgid "Gnome;GTK;HTTP;REST;"
-msgstr "Gnome;GTK;HTTP;REST;"
+msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:12
 msgid ""
 "A specific locale to use within the application instead of the system default"
 msgstr ""
-"Un idioma específico para usar en la aplicación en lugar del predeterminado "
-"del sistema"
 
 #: data/es.danirod.Cartero.gschema.xml:16
 msgid "Automatically indent new lines for the request body"
-msgstr "Indentar automáticamente nuevas líneas el cuerpo de la petición"
+msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:20
 msgid "Wrap the body content"
-msgstr "Saltos de línea en el cuerpo"
+msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:24
 msgid "Whether to indent the request body with spaces or tabs"
-msgstr "Indentar el cuerpo de la petición con espacios o con tabuladores"
+msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:28
 msgid "Show line numbers in the request and response bodies"
-msgstr "Mostrar los números de línea en los cuerpos de petición y respuesta"
+msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:32
 msgid "How many characters to pad when indenting the request body"
-msgstr "Cuántos caracteres usar al indentar el cuerpo de la petición"
+msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:36
 msgid "How large should new windows be"
-msgstr "Cómo de largas deben ser las ventanas nuevas"
+msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:40
 msgid "How tall should new windows be"
-msgstr "Cómo de altas deben ser las ventanas nuevas"
+msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:44
 msgid "Whether the application should open maximized"
-msgstr "Si la aplicación se debe abrir maximizada"
+msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:48
 msgid "The position of the split between two windows"
-msgstr "La posición del separador entre ambas ventanas"
+msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:52
 msgid "The current list of opened files"
-msgstr "La lista actual de archivos abiertos"
+msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:56
 msgid "The last location where a file was opened"
-msgstr "La última ubicación donde se abrió un archivo"
+msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:60
 msgid "The last location where a file was saved"
-msgstr "La última ubicación donde se guardó un archivo"
+msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:64
 msgid "Whether to validate the TLS certificates during a request"
-msgstr "Si validar o no los certificados TLS durante una petición"
+msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:68
 msgid "Whether to follow redirections if that is the server response"
 msgstr ""
-"Si permitir redirecciones o no cuando esa sea la respuesta del servidor"
 
 #: data/es.danirod.Cartero.gschema.xml:72
 msgid "Maximum number of redirections to follow before giving up"
-msgstr "El número máximo de redirecciones a seguir antes de rendirse"
+msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:76
 msgid "Maximum timeout when awaiting for an HTTP response."
 msgstr ""
-"El tiempo límite de respuesta máximo cuando se espere una respuesta HTTP."
 
 #: data/es.danirod.Cartero.gschema.xml:80
 msgid "Whether to use light or dark mode."
-msgstr "Si usar modo claro u oscuro."
+msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:84
 msgid "The custom font in use"
-msgstr "La fuente personalizada en uso"
+msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:88
 msgid "Whether to use the system font or a custom one"
-msgstr "Si usar la fuente del sistema o una fuente personalizada"
+msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:92
 msgid "Whether to create backup files on save"
-msgstr "Si crear o no copias de seguridad al guardar"
+msgstr ""
 
 #: data/gtk/help_overlay.blp:25
 msgctxt "shortcuts window"
 msgid "General shortcuts"
-msgstr "Atajos generales"
+msgstr ""
 
 #: data/gtk/help_overlay.blp:28
 msgctxt "shortcuts window"
 msgid "Show Keyboard Shortcuts"
-msgstr "Mostrar atajos de teclado"
+msgstr ""
 
 #: data/gtk/help_overlay.blp:33
 msgctxt "shortcuts window"
 msgid "Quit"
-msgstr "Salir"
+msgstr ""
 
 #: data/gtk/help_overlay.blp:39
 msgctxt "shortcuts window"
 msgid "Tab operations"
-msgstr "Operaciones de pestaña"
+msgstr ""
 
 #: data/gtk/help_overlay.blp:42
 msgctxt "shortcuts window"
 msgid "New request tab"
-msgstr "Nueva pestaña de petición"
+msgstr ""
 
 #: data/gtk/help_overlay.blp:47
 msgctxt "shortcuts window"
 msgid "Open request"
-msgstr "Abrir petición"
+msgstr ""
 
 #: data/gtk/help_overlay.blp:52
 msgctxt "shortcuts window"
 msgid "Save request"
-msgstr "Guardar petición"
+msgstr ""
 
 #: data/gtk/help_overlay.blp:57
 msgctxt "shortcuts window"
 msgid "Save request as"
-msgstr "Guardar petición como"
+msgstr ""
 
 #: data/gtk/help_overlay.blp:62
 msgctxt "shortcuts window"
 msgid "Close request tab"
-msgstr "Cerrar pestaña de petición"
+msgstr ""
 
 #: data/gtk/help_overlay.blp:68
 msgctxt "shortcuts window"
 msgid "Code view operations"
-msgstr "Operaciones de la vista de código"
+msgstr ""
 
 #: data/gtk/help_overlay.blp:71
 msgctxt "shortcuts window"
 msgid "Zoom in"
-msgstr "Ampliar zoom"
+msgstr ""
 
 #: data/gtk/help_overlay.blp:76
 msgctxt "shortcuts window"
 msgid "Zoom out"
-msgstr "Reducir zoom"
+msgstr ""
 
 #: data/gtk/help_overlay.blp:81
 msgctxt "shortcuts window"
 msgid "Reset zoom"
-msgstr "Reestablecer zoom"
+msgstr ""
 
 #: data/gtk/help_overlay.blp:86
 msgctxt "shortcuts window"
 msgid "Start search"
-msgstr "Iniciar búsqueda"
+msgstr ""
 
 #: data/gtk/help_overlay.blp:92
 msgctxt "shortcuts window"
 msgid "Request operations"
-msgstr "Operaciones de petición"
+msgstr ""
 
 #: data/gtk/help_overlay.blp:95
 msgctxt "shortcuts window"
 msgid "Focus URL"
-msgstr "Dar foco a la URL"
+msgstr ""
 
 #: data/gtk/help_overlay.blp:100
 msgctxt "shortcuts window"
 msgid "Send request"
-msgstr "Enviar petición"
+msgstr ""
 
 #: data/ui/authentication_pane.blp:34
 msgid "Authorization method"
-msgstr "Método de autorización"
+msgstr ""
 
 #: data/ui/authentication_pane.blp:59 data/ui/request_body_pane.blp:59
 msgid "(none)"
-msgstr "(nada)"
+msgstr ""
 
 #: data/ui/authentication_pane.blp:60
 msgid "Basic auth"
-msgstr "Autorización básica"
+msgstr ""
 
 #: data/ui/authentication_pane.blp:61
 msgid "Bearer token"
-msgstr "Token bearer"
+msgstr ""
 
 #: data/ui/basic_auth_pane.blp:23
 msgid "Username"
-msgstr "Usuario"
+msgstr ""
 
 #: data/ui/basic_auth_pane.blp:28
 msgid "Password"
-msgstr "Contraseña"
+msgstr ""
 
 #: data/ui/bearer_token_pane.blp:23
 msgid "Token"
-msgstr "Token"
+msgstr ""
 
 #: data/ui/endpoint_pane.blp:66 data/ui/endpoint_pane.blp:67
 msgid "Request URL"
-msgstr "URL de petición"
+msgstr ""
 
 #: data/ui/endpoint_pane.blp:79 data/ui/mac_menu.blp:113
 msgid "Cancel request"
-msgstr "Cancelar petición"
+msgstr ""
 
 #: data/ui/endpoint_pane.blp:88 data/ui/mac_menu.blp:108
 msgid "Send"
-msgstr "Enviar"
+msgstr ""
 
 #: data/ui/endpoint_pane.blp:89
 msgid "Execute this HTTP request"
-msgstr "Ejecutar esta petición HTTP"
+msgstr ""
 
 #: data/ui/endpoint_pane.blp:116
 msgid "Parameters"
-msgstr "Parámetros"
+msgstr ""
 
-#: data/ui/endpoint_pane.blp:142 data/ui/response_panel.blp:96
-#: data/ui/response_panel.blp:137
+#: data/ui/endpoint_pane.blp:142 data/ui/response_panel.blp:137
 msgid "Headers"
-msgstr "Cabeceras"
+msgstr ""
 
 #: data/ui/endpoint_pane.blp:167
 msgid "Variables"
-msgstr "Variables"
+msgstr ""
 
 #: data/ui/endpoint_pane.blp:192
 msgid "Authorization"
-msgstr "Autorización"
+msgstr ""
 
 #: data/ui/endpoint_pane.blp:207 data/ui/response_panel.blp:55
 msgid "Body"
-msgstr "Cuerpo"
+msgstr ""
 
 #: data/ui/export_dialog.blp:54
 msgid "Generated output"
-msgstr "Salida generada"
+msgstr ""
 
 #: data/ui/export_dialog.blp:64
 msgid "Copy to clipboard"
-msgstr "Copiar al portapapeles"
+msgstr ""
 
-#: data/ui/export_dialog.blp:69 src/widgets/file_dialogs.rs:226
-#: data/ui/response_panel.blp:103
+#: data/ui/export_dialog.blp:69 data/ui/response_panel.blp:103
+#: src/widgets/file_dialogs.rs:226
 msgid "Export to file"
-msgstr "Exportar a archivo"
+msgstr ""
 
 #: data/ui/field_list_box_row.blp:23 data/ui/field_placeholder_row.blp:27
 msgid "Enabled"
-msgstr "Habilitado"
+msgstr ""
 
 #: data/ui/field_list_box_row.blp:37 data/ui/field_list_box_row.blp:38
 #: data/ui/field_placeholder_row.blp:41 data/ui/field_placeholder_row.blp:42
 msgid "Name"
-msgstr "Nombre"
+msgstr ""
 
 #: data/ui/field_list_box_row.blp:48 data/ui/field_list_box_row.blp:49
 #: data/ui/field_placeholder_row.blp:52 data/ui/field_placeholder_row.blp:53
 msgid "Value"
-msgstr "Valor"
+msgstr ""
 
 #: data/ui/field_list_box_row.blp:58 data/ui/field_placeholder_row.blp:62
 msgid "Actions"
-msgstr "Acciones"
+msgstr ""
 
 #: data/ui/field_list_box_row.blp:69
 msgid "Toggle secret"
-msgstr "Alternar secreto"
+msgstr ""
 
 #: data/ui/field_list_box_row.blp:76
 msgid "Delete"
-msgstr "Borrar"
+msgstr ""
 
 #: data/ui/mac_menu.blp:21
 msgctxt "menubar"
 msgid "File"
-msgstr "Archivo"
+msgstr ""
 
 #: data/ui/mac_menu.blp:25 data/ui/main_window.blp:137
-#: data/ui/main_window.blp:178 data/ui/main_window_no_csd.blp:138
-#: data/ui/main_window_no_csd.blp:180 data/ui/main_window.blp:193
+#: data/ui/main_window.blp:193 data/ui/main_window_no_csd.blp:138
 #: data/ui/main_window_no_csd.blp:195
 msgid "New tab"
-msgstr "Nueva pestaña"
+msgstr ""
 
 #: data/ui/mac_menu.blp:30 data/ui/main_window.blp:150
-#: data/ui/main_window.blp:183 data/ui/main_window_no_csd.blp:151
-#: data/ui/main_window_no_csd.blp:185 data/ui/main_window.blp:198
+#: data/ui/main_window.blp:198 data/ui/main_window_no_csd.blp:151
 #: data/ui/main_window_no_csd.blp:200
 msgid "Open request…"
-msgstr "Abrir petición…"
+msgstr ""
 
-#: data/ui/mac_menu.blp:35 data/ui/main_window.blp:188
-#: data/ui/main_window_no_csd.blp:190 src/widgets/file_dialogs.rs:146
-#: data/ui/main_window.blp:203 data/ui/main_window_no_csd.blp:205
+#: data/ui/mac_menu.blp:35 data/ui/main_window.blp:203
+#: data/ui/main_window_no_csd.blp:205 src/widgets/file_dialogs.rs:146
 msgid "Save request"
-msgstr "Guardar petición"
+msgstr ""
 
-#: data/ui/mac_menu.blp:40 data/ui/main_window.blp:193
-#: data/ui/main_window_no_csd.blp:195 data/ui/main_window.blp:208
+#: data/ui/mac_menu.blp:40 data/ui/main_window.blp:208
 #: data/ui/main_window_no_csd.blp:210
 msgid "Save request as…"
-msgstr "Guardar petición como…"
+msgstr ""
 
-#: data/ui/mac_menu.blp:47 data/ui/main_window.blp:198
-#: data/ui/main_window_no_csd.blp:200 data/ui/main_window.blp:213
+#: data/ui/mac_menu.blp:47 data/ui/main_window.blp:213
 #: data/ui/main_window_no_csd.blp:215
 msgid "Close tab"
-msgstr "Cerrar pestaña"
+msgstr ""
 
 #: data/ui/mac_menu.blp:54
 msgctxt "menubar"
 msgid "Edit"
-msgstr "Editar"
+msgstr ""
 
 #: data/ui/mac_menu.blp:58
 msgctxt "menubar"
 msgid "Undo"
-msgstr "Deshacer"
+msgstr ""
 
 #: data/ui/mac_menu.blp:63
 msgctxt "menubar"
 msgid "Redo"
-msgstr "Rehacer"
+msgstr ""
 
 #: data/ui/mac_menu.blp:70
 msgctxt "menubar"
 msgid "Cut"
-msgstr "Cortar"
+msgstr ""
 
 #: data/ui/mac_menu.blp:75
 msgctxt "menubar"
 msgid "Copy"
-msgstr "Copiar"
+msgstr ""
 
 #: data/ui/mac_menu.blp:80
 msgctxt "menubar"
 msgid "Paste"
-msgstr "Pegar"
+msgstr ""
 
 #: data/ui/mac_menu.blp:85
 msgctxt "menubar"
 msgid "Delete"
-msgstr "Borrar"
+msgstr ""
 
 #: data/ui/mac_menu.blp:92
 msgctxt "menubar"
 msgid "Select All"
-msgstr "Seleccionar todo"
+msgstr ""
 
 #: data/ui/mac_menu.blp:99
 msgctxt "menubar"
 msgid "Endpoint"
-msgstr "Petición"
+msgstr ""
 
 #: data/ui/mac_menu.blp:103
 msgctxt "menubar"
 msgid "Edit URL"
-msgstr "Editar URL"
+msgstr ""
 
-#: data/ui/mac_menu.blp:120 data/ui/main_window.blp:210
-#: data/ui/main_window_no_csd.blp:212 data/ui/main_window.blp:225
+#: data/ui/mac_menu.blp:120 data/ui/main_window.blp:225
 #: data/ui/main_window_no_csd.blp:227
 msgid "Body appearance"
-msgstr "Apariencia del cuerpo"
+msgstr ""
 
-#: data/ui/mac_menu.blp:124 data/ui/main_window.blp:214
-#: data/ui/main_window_no_csd.blp:216 data/ui/main_window.blp:229
+#: data/ui/mac_menu.blp:124 data/ui/main_window.blp:229
 #: data/ui/main_window_no_csd.blp:231
 msgid "Wrap content"
-msgstr "Adaptar contenido"
+msgstr ""
 
-#: data/ui/mac_menu.blp:129 data/ui/main_window.blp:219
-#: data/ui/main_window_no_csd.blp:221 data/ui/main_window.blp:234
+#: data/ui/mac_menu.blp:129 data/ui/main_window.blp:234
 #: data/ui/main_window_no_csd.blp:236
 msgid "Show line numbers"
-msgstr "Mostrar números de línea"
+msgstr ""
 
-#: data/ui/mac_menu.blp:136 data/ui/main_window.blp:226
-#: data/ui/main_window_no_csd.blp:228 data/ui/main_window.blp:241
+#: data/ui/mac_menu.blp:136 data/ui/main_window.blp:241
 #: data/ui/main_window_no_csd.blp:243
 msgid "Automatic indentation"
-msgstr "Indentar automáticamente"
+msgstr ""
 
-#: data/ui/mac_menu.blp:141 data/ui/main_window.blp:231
-#: data/ui/main_window_no_csd.blp:233 data/ui/main_window.blp:246
+#: data/ui/mac_menu.blp:141 data/ui/main_window.blp:246
 #: data/ui/main_window_no_csd.blp:248
 msgid "Indent with spaces"
-msgstr "Indentar con espacios"
+msgstr ""
 
-#: data/ui/mac_menu.blp:147 data/ui/main_window.blp:237
-#: data/ui/main_window_no_csd.blp:239 data/ui/main_window.blp:252
+#: data/ui/mac_menu.blp:147 data/ui/main_window.blp:252
 #: data/ui/main_window_no_csd.blp:254
 msgid "Indent with tabs"
-msgstr "Indentar con tabuladores"
+msgstr ""
 
-#: data/ui/mac_menu.blp:153 data/ui/main_window.blp:243
-#: data/ui/main_window_no_csd.blp:245 data/ui/main_window.blp:258
+#: data/ui/mac_menu.blp:153 data/ui/main_window.blp:258
 #: data/ui/main_window_no_csd.blp:260
 msgid "Spaces per tab"
-msgstr "Espacios por tabulador"
+msgstr ""
 
-#: data/ui/mac_menu.blp:156 data/ui/main_window.blp:246
-#: data/ui/main_window_no_csd.blp:248 data/ui/main_window.blp:261
+#: data/ui/mac_menu.blp:156 data/ui/main_window.blp:261
 #: data/ui/main_window_no_csd.blp:263
 msgid "2"
-msgstr "2"
+msgstr ""
 
-#: data/ui/mac_menu.blp:162 data/ui/main_window.blp:252
-#: data/ui/main_window_no_csd.blp:254 data/ui/main_window.blp:267
+#: data/ui/mac_menu.blp:162 data/ui/main_window.blp:267
 #: data/ui/main_window_no_csd.blp:269
 msgid "4"
-msgstr "4"
+msgstr ""
 
-#: data/ui/mac_menu.blp:168 data/ui/main_window.blp:258
-#: data/ui/main_window_no_csd.blp:260 data/ui/main_window.blp:273
+#: data/ui/mac_menu.blp:168 data/ui/main_window.blp:273
 #: data/ui/main_window_no_csd.blp:275
 msgid "8"
-msgstr "8"
+msgstr ""
 
 #: data/ui/mac_menu.blp:179
 msgctxt "menubar"
 msgid "Window"
-msgstr "Ventana"
+msgstr ""
 
 #: data/ui/mac_menu.blp:183
 msgctxt "menubar"
 msgid "Minimize"
-msgstr "Minimizar"
+msgstr ""
 
 #. TRANSLATORS: This item will only be visible in macOS, where the convention is to call it "zoom" instead of "maximize"
 #: data/ui/mac_menu.blp:189
 msgctxt "menubar"
 msgid "Zoom"
-msgstr "Zoom"
+msgstr ""
 
 #: data/ui/mac_menu.blp:196
 msgctxt "menubar"
 msgid "Help"
-msgstr "Ayuda"
+msgstr ""
 
-#: data/ui/mac_menu.blp:200 src/win.rs:634 src/win.rs:669
+#: data/ui/mac_menu.blp:200 src/win.rs:669
 msgid "User manual"
-msgstr "Manual de usuario"
+msgstr ""
 
 #: data/ui/mac_menu.blp:205
 msgctxt "menubar"
 msgid "Report a bug"
-msgstr "Reportar un error"
+msgstr ""
 
 #: data/ui/mac_menu.blp:210
 msgctxt "menubar"
 msgid "View discussions"
-msgstr "Ver discusiones"
+msgstr ""
 
-#: data/ui/mac_menu.blp:217 src/win.rs:636 src/win.rs:671
+#: data/ui/mac_menu.blp:217 src/win.rs:671
 msgid "Help us translate"
-msgstr "Ayúdanos a traducir"
+msgstr ""
 
 #: data/ui/mac_menu.blp:224 data/ui/settings_dialog.blp:101
 msgid "Check for updates"
-msgstr "Comprobar actualizaciones"
+msgstr ""
 
 #: data/ui/main_window.blp:50 data/ui/main_window_no_csd.blp:47
 msgid "New"
-msgstr "Nuevo"
+msgstr ""
 
 #: data/ui/main_window.blp:61 data/ui/main_window.blp:73
 #: data/ui/main_window_no_csd.blp:58 data/ui/main_window_no_csd.blp:70
 #: src/widgets/file_dialogs.rs:109 src/widgets/file_dialogs.rs:186
 msgid "Open"
-msgstr "Abrir"
+msgstr ""
 
 #: data/ui/main_window.blp:81 data/ui/main_window_no_csd.blp:78
 #: src/widgets/file_dialogs.rs:145 src/widgets/file_dialogs.rs:225
 msgid "Save"
-msgstr "Guardar"
+msgstr ""
 
 #: data/ui/main_window.blp:90 data/ui/main_window_no_csd.blp:99
 msgid "Export request"
-msgstr "Exportar petición"
+msgstr ""
 
 #: data/ui/main_window.blp:99
 msgid "Menu"
-msgstr "Menu"
+msgstr ""
 
 #: data/ui/main_window.blp:117 data/ui/main_window_no_csd.blp:118
 msgid "Welcome to Cartero"
-msgstr "Bienvenido a Cartero"
+msgstr ""
 
 #: data/ui/main_window.blp:118 data/ui/main_window_no_csd.blp:119
 msgid "Create or open a request and start testing APIs now."
-msgstr "Crea o abre una petición y empieza a probar APIs ahora."
+msgstr ""
 
-#: data/ui/main_window.blp:169 data/ui/main_window_no_csd.blp:171
 #: data/ui/main_window.blp:170 data/ui/main_window_no_csd.blp:172
 msgid "Export request as cURL…"
-msgstr "Exportar petición como cURL…"
+msgstr ""
 
-#: data/ui/main_window.blp:205 data/ui/main_window_no_csd.blp:207
-#: data/ui/settings_dialog.blp:21 data/ui/main_window.blp:220
-#: data/ui/main_window_no_csd.blp:222
+#: data/ui/main_window.blp:176 data/ui/main_window_no_csd.blp:178
+msgid "Export request as Jetbrains HTTP…"
+msgstr ""
+
+#: data/ui/main_window.blp:184 data/ui/main_window_no_csd.blp:186
+msgid "Export response body…"
+msgstr ""
+
+#: data/ui/main_window.blp:220 data/ui/main_window_no_csd.blp:222
+#: data/ui/settings_dialog.blp:21
 msgid "Settings"
-msgstr "Preferencias"
+msgstr ""
 
-#: data/ui/main_window.blp:269 data/ui/main_window_no_csd.blp:271
 #: data/ui/main_window.blp:284 data/ui/main_window_no_csd.blp:286
 msgid "Keyboard shortcuts"
-msgstr "Atajos de teclado"
+msgstr ""
 
-#: data/ui/main_window.blp:274 data/ui/main_window_no_csd.blp:276
 #: data/ui/main_window.blp:289 data/ui/main_window_no_csd.blp:291
 msgid "About Cartero"
-msgstr "Acerca de Cartero"
+msgstr ""
 
-#: data/ui/main_window.blp:279 data/ui/main_window_no_csd.blp:281
 #: data/ui/main_window.blp:294 data/ui/main_window_no_csd.blp:296
 msgid "Quit"
-msgstr "Salir"
+msgstr ""
 
 #: data/ui/method_dropdown.blp:28
 msgid "Request method"
-msgstr "Método de petición"
+msgstr ""
 
 #: data/ui/raw_body_pane.blp:28
 msgid "Request body"
-msgstr "Cuerpo de la petición"
+msgstr ""
 
 #: data/ui/request_body_pane.blp:34
 msgid "Body type"
-msgstr "Tipo de cuerpo"
+msgstr ""
 
 #: data/ui/request_body_pane.blp:60
 msgid "URL Encoded"
-msgstr "Codificado como URL"
+msgstr ""
 
 #: data/ui/request_body_pane.blp:61
 msgid "Multipart Form Data"
-msgstr "Formulario Multipart"
+msgstr ""
 
 #: data/ui/request_body_pane.blp:64
 msgid "Raw"
-msgstr "En bruto"
+msgstr ""
 
 #: data/ui/request_body_pane.blp:65
 msgid "From file"
-msgstr "Desde archivo"
+msgstr ""
 
 #: data/ui/response_headers.blp:42
 msgid "No headers"
-msgstr "Sin cabeceras"
+msgstr ""
 
 #: data/ui/response_panel.blp:30
 msgid "Ready to request"
-msgstr "Listo para enviar"
+msgstr ""
 
 #: data/ui/response_panel.blp:31
 msgid "Use the Send button to send a network request and it will show here."
 msgstr ""
-"Usa el botón Enviar para enviar una petición de red y ver el resultado aquí."
 
-#: data/ui/response_panel.blp:64
+#: data/ui/response_panel.blp:68
 msgid "Response body"
-msgstr "Cuerpo de la respuesta"
+msgstr ""
+
+#: data/ui/response_panel.blp:87
+msgid "Binary response received"
+msgstr ""
+
+#: data/ui/response_panel.blp:88
+msgid "The response of this request should not be rendered in a text view."
+msgstr ""
+
+#: data/ui/response_panel.blp:110
+msgid "Render anyway"
+msgstr ""
 
 #: data/ui/search_box.blp:42 data/ui/search_box.blp:43
 msgid "Search"
-msgstr "Buscar"
+msgstr ""
 
 #: data/ui/search_box.blp:63
 msgid "Previous result"
-msgstr "Resultado anterior"
+msgstr ""
 
 #: data/ui/search_box.blp:69
 msgid "Next result"
-msgstr "Resultado siguiente"
+msgstr ""
 
 #: data/ui/search_box.blp:81
 msgid "Close search"
-msgstr "Cerrar búsqueda"
+msgstr ""
 
 #: data/ui/settings_dialog.blp:26
 msgid "Application"
-msgstr "Aplicación"
+msgstr ""
 
 #: data/ui/settings_dialog.blp:30
 msgid "You need to restart the program for the new locale to be used."
-msgstr "Necesitas reiniciar el programa para que se use el nuevo idioma."
+msgstr ""
 
 #: data/ui/settings_dialog.blp:39
 msgid "Language"
-msgstr "Idioma"
+msgstr ""
 
 #: data/ui/settings_dialog.blp:45
 msgid "Appearance"
-msgstr "Apariencia"
+msgstr ""
 
 #: data/ui/settings_dialog.blp:48
 msgid "Application style"
-msgstr "Estilo de la aplicación"
+msgstr ""
 
 #. Has to be a separate variable due to variable lifetimes.
 #: data/ui/settings_dialog.blp:52 src/windows/settings/locale.rs:81
 msgid "Follow system settings"
-msgstr "Seguir opciones del sistema"
+msgstr ""
 
 #: data/ui/settings_dialog.blp:53
 msgid "Light mode"
-msgstr "Modo claro"
+msgstr ""
 
 #: data/ui/settings_dialog.blp:54
 msgid "Dark mode"
-msgstr "Modo oscuro"
+msgstr ""
 
 #: data/ui/settings_dialog.blp:60
 msgid "Use system font"
-msgstr "Usar la fuente del sistema"
+msgstr ""
 
 #: data/ui/settings_dialog.blp:64
 msgid "Custom font"
-msgstr "Fuente personalizada"
+msgstr ""
 
 #: data/ui/settings_dialog.blp:71
 msgid "Click to select a font"
-msgstr "Haz clic para seleccionar una fuente"
+msgstr ""
 
 #: data/ui/settings_dialog.blp:80
 msgid "File settings"
-msgstr "Preferencias de archivos"
+msgstr ""
 
 #: data/ui/settings_dialog.blp:83
 msgid "Create backup files"
-msgstr "Crear copias de seguridad"
+msgstr ""
 
 #: data/ui/settings_dialog.blp:84
 msgid ""
 "You might not want to enable this if you are already using a version control "
 "such as Git"
 msgstr ""
-"Tal vez no quieras activar esta opción si ya estás usando un control de "
-"versiones como Git"
 
 #: data/ui/settings_dialog.blp:90
 msgid "Software updates"
-msgstr "Actualizaciones de software"
+msgstr ""
 
 #: data/ui/settings_dialog.blp:97
 msgid "Current version"
-msgstr "Versión actual"
+msgstr ""
 
 #: data/ui/settings_dialog.blp:109 data/ui/settings_dialog.blp:113
 msgid "HTTP Client"
-msgstr "Cliente HTTP"
+msgstr ""
 
 #: data/ui/settings_dialog.blp:116
 msgid "Enforce TLS validation"
-msgstr "Exigir validación TLS"
+msgstr ""
 
 #: data/ui/settings_dialog.blp:117
 msgid "Cancel a request if the TLS handshake fails"
-msgstr "Cancelar una petición si el intercambio TLS falla"
+msgstr ""
 
 #: data/ui/settings_dialog.blp:121
 msgid "Follow redirects"
-msgstr "Seguir redirecciones"
+msgstr ""
 
 #: data/ui/settings_dialog.blp:122
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
 msgstr ""
-"Seguir haciendo peticiones si el servidor devuelve una respuesta HTTP 3xx"
 
 #: data/ui/settings_dialog.blp:127
 msgid "Maximum redirects"
-msgstr "Redirecciones máximas"
+msgstr ""
 
 #: data/ui/settings_dialog.blp:139
 msgid "Request timeout"
-msgstr "Tiempo límite de petición"
+msgstr ""
 
 #: data/ui/settings_dialog.blp:140
 msgid "Seconds to wait before cancelling the request"
-msgstr "Segundos para esperar antes de cancelar una petición"
+msgstr ""
 
 #: src/interop.rs:30
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
-"El archivo ha sido creado con una versión más reciente de este programa; "
-"¡por favor actualiza!"
 
 #: src/interop.rs:31
 msgid "The file is corrupt or does not contain valid data for this application"
 msgstr ""
-"El archivo está corrupto o no contiene datos válidos para esta aplicación"
 
 #: src/updates/ui.rs:33
 msgid "Error checking updates"
-msgstr "Error comprobando actualizaciones"
+msgstr ""
 
 #: src/updates/ui.rs:35
 msgid "Couldn't receive a valid response from the server. Please, check later."
 msgstr ""
-"No se recibió una respuesta válida del servidor. Por favor, compruébalo "
-"luego."
 
 #: src/updates/ui.rs:38 src/updates/ui.rs:48
 msgid "Accept"
-msgstr "Aceptar"
+msgstr ""
 
 #: src/updates/ui.rs:45
 msgid "No updates at the moment"
-msgstr "No hay actualizaciones en este momento"
+msgstr ""
 
 #: src/updates/ui.rs:46
 msgid "You are running the latest version of Cartero."
-msgstr "Estás ejecutando la versión más reciente de Cartero."
+msgstr ""
 
 #: src/updates/ui.rs:57
+#, rust-format
 msgid ""
 "Version {} has been released. Do you want to visit the website to download "
 "the update now?"
 msgstr ""
-"La versión {} se ha publicado. ¿Quieres visitar el sitio web para descargar "
-"la actualización ahora?"
 
 #: src/updates/ui.rs:59
 msgid "There is a new version of Cartero!"
-msgstr "¡Hay una nueva versión de Cartero!"
+msgstr ""
 
 #: src/updates/ui.rs:63
 msgid "_Open website"
-msgstr "_Abrir sitio web"
+msgstr ""
 
 #: src/updates/ui.rs:64
 msgid "_Not now"
-msgstr "Ahora _no"
+msgstr ""
 
 #: src/widgets/dialogs.rs:50
+#, rust-format
 msgid "Cannot open '{}'"
-msgstr "No se puede abrir '{}'"
+msgstr ""
 
 #: src/widgets/dialogs.rs:51
 msgid "Cannot open the requested file"
-msgstr "No se puede abrir el archivo solicitado"
+msgstr ""
 
 #: src/widgets/dialogs.rs:60 src/widgets/dialogs.rs:91
 #: src/widgets/dialogs.rs:121 src/widgets/dialogs.rs:144
 #: src/widgets/dialogs.rs:157
 msgid "Close"
-msgstr "Cerrar"
+msgstr ""
 
 #: src/widgets/dialogs.rs:74
+#, rust-format
 msgid "The file '{}' was loaded but had issues"
-msgstr "El archivo '{}' fue cargado pero tenía problemas"
+msgstr ""
 
 #: src/widgets/dialogs.rs:75
 msgid "The requested file was loaded but had issues"
-msgstr "El archivo solicitado fue cargado pero tenía problemas"
+msgstr ""
 
 #: src/widgets/dialogs.rs:98
+#, rust-format
 msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
 msgstr ""
-"El verbo HTTP que se encontró en el archivo era '{}'. No es válido, así que "
-"se reestablecerá a '{}'."
 
 #: src/widgets/dialogs.rs:114
 msgid "The requested file cannot be picked"
-msgstr "El archivo solicitado no pudo ser elegido"
+msgstr ""
 
 #: src/widgets/dialogs.rs:115
+#, rust-format
 msgid ""
 "The file must be within the same directory as the request or project file or "
 "any of its subdirectories.\n"
 "\n"
 "The file '{}' is not part of the '{}' directory"
 msgstr ""
-"El archivo debe estar en el mismo directorio que la petición o el archivo de "
-"proyecto o cualquiera de sus subdirectorios.\n"
-"\n"
-"El archivo '{}' no es parte del directorio '{}'"
 
 #: src/widgets/dialogs.rs:135
+#, rust-format
 msgid "Cannot save '{}'"
-msgstr "No se puede guardar '{}'"
+msgstr ""
 
 #: src/widgets/dialogs.rs:136
 msgid "Cannot save the requested file"
-msgstr "No se puede guardar el archivo solicitado"
+msgstr ""
 
 #: src/widgets/dialogs.rs:138
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
 msgstr ""
-"Hubo un error durante el proceso de guardado. Asume que tus cambios todavía "
-"no han sido guardados."
 
 #: src/widgets/dialogs.rs:152
 msgid "Could not select a valid file from the file chooser"
-msgstr "No se pudo seleccionar un archivo válido desde el selector de archivos"
+msgstr ""
 
 #: src/widgets/dialogs.rs:166
 msgid "There are unsaved changes"
-msgstr "Hay cambios sin guardar"
+msgstr ""
 
 #: src/widgets/dialogs.rs:168
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
 msgstr ""
-"Cerrar esta ventana perderá cualquier dato no guardado. ¿De verdad quieres "
-"continuar?"
 
 #: src/widgets/dialogs.rs:172
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr ""
 
 #: src/widgets/dialogs.rs:173
 msgid "Close anyway"
-msgstr "Cerrar de todos modos"
+msgstr ""
 
 #: src/widgets/dialogs.rs:196
+#, rust-format
 msgid "Save changes in '{}'?"
-msgstr "¿Guardar cambios en '{}'?"
+msgstr ""
 
 #: src/widgets/dialogs.rs:197
 msgid "Save changes?"
-msgstr "¿Guardar cambios?"
+msgstr ""
 
 #: src/widgets/dialogs.rs:202
 msgid "There are changes that have not been saved yet. What do you want to do?"
-msgstr "Hay cambios que todavía no han sido guardados. ¿Qué quieres hacer?"
+msgstr ""
 
 #: src/widgets/dialogs.rs:206
 msgid "_Cancel"
-msgstr "_Cancelar"
+msgstr ""
 
 #: src/widgets/dialogs.rs:207
 msgid "_Discard"
-msgstr "_Descartar"
+msgstr ""
 
 #: src/widgets/dialogs.rs:208
 msgid "_Save"
-msgstr "_Guardar"
+msgstr ""
 
-#: src/widgets/endpoint/endpoint_pane.rs:585
 #: src/widgets/endpoint/endpoint_pane.rs:642
 msgid "Export request as cURL"
-msgstr "Exportar petición como cURL"
+msgstr ""
+
+#: src/widgets/endpoint/endpoint_pane.rs:643
+msgid "Export request as Jetbrains HTTP"
+msgstr ""
 
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
-#: src/widgets/endpoint/response_panel.rs:282
 #: src/widgets/endpoint/response_panel.rs:340
+#, rust-format
 msgid "{} s"
-msgstr "{} s"
+msgstr ""
 
 #. Format as milliseconds.
 #. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
-#: src/widgets/endpoint/response_panel.rs:286
 #: src/widgets/endpoint/response_panel.rs:344
+#, rust-format
 msgid "{} ms"
-msgstr "{} ms"
+msgstr ""
 
 #: src/widgets/error_pane.rs:89
 msgid "The specified URL is not valid"
-msgstr "La URL especificada no es válida"
+msgstr ""
 
 #: src/widgets/error_pane.rs:90
 msgid "Cannot recognise the URL"
-msgstr "No se puede reconocer la URL"
+msgstr ""
 
 #: src/widgets/error_pane.rs:91
 msgid "The given URL is missing a protocol"
-msgstr "La URL indicada no tiene un protocolo"
+msgstr ""
 
 #: src/widgets/error_pane.rs:93
+#, rust-format
 msgid "The protocol {}:// is not supported"
-msgstr "El protocolo {}:// no está soportado"
+msgstr ""
 
 #: src/widgets/error_pane.rs:96
+#, rust-format
 msgid "The variable '{}' is not defined"
-msgstr "La variable '{}' no está definida"
+msgstr ""
 
 #: src/widgets/error_pane.rs:99
 msgid "There was a problem with a variable interpolation, review your inputs"
-msgstr "Hubo un problema interpolando las variables, revisa las entradas"
+msgstr ""
 
 #: src/widgets/error_pane.rs:102
+#, rust-format
 msgid "The header '{}' is not valid"
-msgstr "La cabecera '{}' no es válida"
+msgstr ""
 
 #: src/widgets/error_pane.rs:105
+#, rust-format
 msgid "The value for header '{}' is not valid"
-msgstr "El valor de la cabecera '{}' no es válido"
+msgstr ""
 
 #: src/widgets/error_pane.rs:108
 msgid "The given request body could not be encoded correctly"
-msgstr "El cuerpo de petición dado no se pudo codificar correctamente"
+msgstr ""
 
 #: src/widgets/error_pane.rs:110
 msgid "You have to save the request first"
-msgstr "Tienes que guardar la petición primero"
+msgstr ""
 
 #: src/widgets/error_pane.rs:112
+#, rust-format
 msgid "The file '{}' cannot be accessed due to the security policy"
 msgstr ""
-"El archivo '{}' no puede ser accedido debido a la política de seguridad"
 
 #: src/widgets/error_pane.rs:116
 msgid "There is an input/output error"
-msgstr "Hay un error de entrada/salida"
+msgstr ""
 
 #: src/widgets/error_pane.rs:117
 msgid "There is a network error"
-msgstr "Hay un error de red"
+msgstr ""
 
 #: src/widgets/error_pane.rs:136
 msgid "The request data is not valid"
-msgstr "Los datos de la petición no son válidos"
+msgstr ""
 
 #: src/widgets/error_pane.rs:143
 msgid "The request failed"
-msgstr "La petición ha fallado"
+msgstr ""
 
 #: src/widgets/export_dialog.rs:112
 msgid "Content copied to the clipboard"
-msgstr "Contenido copiado al portapapeles"
+msgstr ""
 
 #. TRANSLATORS: presented in file dialogs as the file type for a request
 #. The macOS native file dialog will already add the extension for us.
 #: src/widgets/file_dialogs.rs:42 src/widgets/file_dialogs.rs:150
 #: src/widgets/file_dialogs.rs:152
 msgid "Request"
-msgstr "Petición"
+msgstr ""
 
 #: src/widgets/file_dialogs.rs:110
 msgid "Open request"
-msgstr "Abrir petición"
+msgstr ""
 
 #: src/widgets/file_dialogs.rs:187
 msgid "Select file"
-msgstr "Seleccionar archivo"
+msgstr ""
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
 #: src/widgets/search_box.rs:254
+#, rust-format
 msgid "{} of {}"
-msgstr "{} de {}"
+msgstr ""
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count when only
 #. the number of total ocurrences is known.
 #: src/widgets/search_box.rs:262
+#, rust-format
 msgid "{} result"
 msgid_plural "{} results"
-msgstr[0] "{} resultado"
-msgstr[1] "{} resultados"
+msgstr[0] ""
+msgstr[1] ""
 
-#: src/win.rs:256 src/win.rs:285
+#: src/win.rs:285
 msgid "(untitled)"
-msgstr "(sin título)"
+msgstr ""
 
-#: src/win.rs:270 src/win.rs:299
+#: src/win.rs:299
 msgid "Draft"
-msgstr "Borrador"
+msgstr ""
 
-#: src/win.rs:578 src/win.rs:613
+#: src/win.rs:613
 msgid "The Cartero authors"
-msgstr "Los autores de Cartero"
+msgstr ""
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
-#: src/win.rs:601 src/win.rs:636
+#: src/win.rs:636
 msgid "translator-credits"
-msgstr "Dani Rodríguez"
-
-#: src/win.rs:602 src/win.rs:637
-msgid "© 2024-2025 the Cartero authors"
-msgstr "© 2024-2025 los autores de Cartero"
-
-#: data/ui/main_window.blp:176 data/ui/main_window_no_csd.blp:178
-msgid "Export request as Jetbrains HTTP…"
-msgstr "Exportar petición como Jetbrains HTTP…"
-
-#: data/ui/main_window.blp:184 data/ui/main_window_no_csd.blp:186
-msgid "Export response body…"
-msgstr "Exportar cuerpo de la respuesta…"
-
-#: data/ui/response_panel.blp:87
-msgid "Binary response received"
-msgstr "Recibida una respuesta binaria"
-
-#: data/ui/response_panel.blp:88
-msgid "The response of this request should not be rendered in a text view."
 msgstr ""
-"La respuesta de esta petición no debería mostrarse en un campo de texto."
 
-#: data/ui/response_panel.blp:110
-msgid "Render anyway"
-msgstr "Mostrar igualmente"
-
-#: src/widgets/endpoint/endpoint_pane.rs:643
-msgid "Export request as Jetbrains HTTP"
-msgstr "Exportar petición como Jetbrains HTTP"
-
-#~ msgid "The current tab is not associated with a file"
-#~ msgstr "La pestaña actual no está asociada con un archivo"
-
-#~ msgid ""
-#~ "The value for this field will not be used because another field with the "
-#~ "same name is overriding it."
-#~ msgstr ""
-#~ "El valor de este campo no se usará proque hay otro campo con el mismo "
-#~ "nombre sobreescribiéndolo."
-
-#~ msgid "Export to"
-#~ msgstr "Exportar como"
-
-#, fuzzy
-#~ msgid "Restart the application to use the new language"
-#~ msgstr "Si la aplicación se debe abrir maximizada"
-
-#~ msgid "Request (.cartero)"
-#~ msgstr "Petición (.cartero)"
-
-#~ msgid "General"
-#~ msgstr "General"
-
-#~ msgid "HTTP client settings"
-#~ msgstr "Preferencias del cliente HTTP"
-
-#~ msgid "Settings used when performing HTTP requests."
-#~ msgstr "Preferencias usadas cuando se están haciendo peticiones HTTP."
-
-#~ msgid "If disabled, invalid TLS certificates will not fail a request."
-#~ msgstr ""
-#~ "Si se desactiva, los certificados TLS inválidos no harán fallar una "
-#~ "petición."
-
-#~ msgid "If enabled, a responses that return HTTP 3xx will be chained."
-#~ msgstr "Si se activa, las respuestas que devuelvan HTTP 3xx se encadenarán."
-
-#~ msgid "Settings related to storage."
-#~ msgstr "Opciones relacionadas con el almacenamiento."
-
-#~ msgid "Display settings."
-#~ msgstr "Opciones de visualización."
-
-#~ msgid "Application theme"
-#~ msgstr "Tema de la aplicación"
-
-#~ msgid "The style to use in the application"
-#~ msgstr "El estilo que quieres usar en la aplicación"
-
-#~ msgid "Cartero request"
-#~ msgstr "Guardar petición"
-
-#~ msgid "Try making a new request"
-#~ msgstr "Prueba a hacer una nueva petición"
-
-#~ msgid "Use the button in the toolbar to create or open a request."
-#~ msgstr ""
-#~ "Usa el botón de la barra de herramientas para crear o abrir una petición."
-
-#~ msgid "Add new header"
-#~ msgstr "Agregar cabecera"
-
-#~ msgid "Wrap bodies"
-#~ msgstr "Ajustar línea del cuerpo"
+#: src/win.rs:637
+msgid "© 2024-2025 the Cartero authors"
+msgstr ""

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-07-05 20:41+0200\n"
+"POT-Creation-Date: 2025-08-08 22:12+0200\n"
 "PO-Revision-Date: 2025-04-16 11:02+0000\n"
 "Last-Translator: vesp <vesp@post.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/cartero/cartero/cs/"
@@ -19,11 +19,11 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
 "X-Generator: Weblate 5.11.1-dev\n"
 
-#: data/es.danirod.Cartero.metainfo.xml.in.in:8 data/cartero.desktop.in.in:3
+#: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
 msgstr "Spouštějte HTTP volání a testujte API"
 
-#: data/es.danirod.Cartero.metainfo.xml.in.in:11
+#: data/es.danirod.Cartero.metainfo.xml.in.in:14
 msgid ""
 "Cartero is a graphical HTTP client that can be used as a developer tool to "
 "test web APIs and perform all kind of HTTP requests to web servers. It is "
@@ -36,11 +36,11 @@ msgstr ""
 "a podporuje množství metod volání, stejně tak i připojení těla požadavku k "
 "podporovanému volání."
 
-#: data/es.danirod.Cartero.metainfo.xml.in.in:12
+#: data/es.danirod.Cartero.metainfo.xml.in.in:15
 msgid "Features:"
 msgstr "Funkce:"
 
-#: data/es.danirod.Cartero.metainfo.xml.in.in:14
+#: data/es.danirod.Cartero.metainfo.xml.in.in:17
 msgid ""
 "Loads and saves to plain Git-friendly TOML files, so that you can own your "
 "data."
@@ -48,24 +48,24 @@ msgstr ""
 "Načítá a ukládá do čistých TOML souborů kompatibilních se systémem Git, "
 "takže sami vlastníte svá data."
 
-#: data/es.danirod.Cartero.metainfo.xml.in.in:15
+#: data/es.danirod.Cartero.metainfo.xml.in.in:18
 msgid ""
 "Customization and modification of the request headers and body payloads."
 msgstr "Přizpůsobení a úprava hlaviček požadavku a těla volání."
 
-#: data/es.danirod.Cartero.metainfo.xml.in.in:16
+#: data/es.danirod.Cartero.metainfo.xml.in.in:19
 msgid "Variable binding for API keys and other secret information."
 msgstr "Vazba proměnných na API klíče a ostatní důvěrné informace."
 
-#: data/es.danirod.Cartero.metainfo.xml.in.in:22
+#: data/es.danirod.Cartero.metainfo.xml.in.in:25
 msgid "Main window of Cartero"
 msgstr "Hlavní okno aplikace Cartero"
 
-#: data/es.danirod.Cartero.metainfo.xml.in.in:26
+#: data/es.danirod.Cartero.metainfo.xml.in.in:29
 msgid "Modifying HTTP headers"
 msgstr "Úprava HTTP hlaviček"
 
-#: data/es.danirod.Cartero.metainfo.xml.in.in:30
+#: data/es.danirod.Cartero.metainfo.xml.in.in:33
 msgid "Setting the request payload"
 msgstr "Nastavení volání požadavku"
 
@@ -79,83 +79,88 @@ msgid "Gnome;GTK;HTTP;REST;"
 msgstr "Gnome;GTK;HTTP;REST;"
 
 #: data/es.danirod.Cartero.gschema.xml:12
+msgid ""
+"A specific locale to use within the application instead of the system default"
+msgstr ""
+
+#: data/es.danirod.Cartero.gschema.xml:16
 msgid "Automatically indent new lines for the request body"
 msgstr "Automaticky odsazovat nové řádky v těle požadavku"
 
-#: data/es.danirod.Cartero.gschema.xml:16
+#: data/es.danirod.Cartero.gschema.xml:20
 msgid "Wrap the body content"
 msgstr "Zalamovat obsah těla"
 
-#: data/es.danirod.Cartero.gschema.xml:20
+#: data/es.danirod.Cartero.gschema.xml:24
 msgid "Whether to indent the request body with spaces or tabs"
 msgstr "Zda se má tělo požadavku odsadit mezerami nebo tabulátory"
 
-#: data/es.danirod.Cartero.gschema.xml:24
+#: data/es.danirod.Cartero.gschema.xml:28
 msgid "Show line numbers in the request and response bodies"
 msgstr "Zobrazit čísla řádků v požadavku a těle odpovědi"
 
-#: data/es.danirod.Cartero.gschema.xml:28
+#: data/es.danirod.Cartero.gschema.xml:32
 msgid "How many characters to pad when indenting the request body"
 msgstr "Kolik použít znaků při odsazení těla požadavku"
 
-#: data/es.danirod.Cartero.gschema.xml:32
+#: data/es.danirod.Cartero.gschema.xml:36
 msgid "How large should new windows be"
 msgstr "Jak má být široké nové okno"
 
-#: data/es.danirod.Cartero.gschema.xml:36
+#: data/es.danirod.Cartero.gschema.xml:40
 msgid "How tall should new windows be"
 msgstr "Jak má být vysoké nové okno"
 
-#: data/es.danirod.Cartero.gschema.xml:40
+#: data/es.danirod.Cartero.gschema.xml:44
 msgid "Whether the application should open maximized"
 msgstr "Zda má být aplikace otevřena maximalizovaně"
 
-#: data/es.danirod.Cartero.gschema.xml:44
+#: data/es.danirod.Cartero.gschema.xml:48
 msgid "The position of the split between two windows"
 msgstr "Pozice rozdělení dvou oken"
 
-#: data/es.danirod.Cartero.gschema.xml:48
+#: data/es.danirod.Cartero.gschema.xml:52
 msgid "The current list of opened files"
 msgstr "Aktuální seznam otevřených souborů"
 
-#: data/es.danirod.Cartero.gschema.xml:52
+#: data/es.danirod.Cartero.gschema.xml:56
 msgid "The last location where a file was opened"
 msgstr "Umístění posledně otevřeného souboru"
 
-#: data/es.danirod.Cartero.gschema.xml:56
+#: data/es.danirod.Cartero.gschema.xml:60
 msgid "The last location where a file was saved"
 msgstr "Umístění posledně uloženého souboru"
 
-#: data/es.danirod.Cartero.gschema.xml:60
+#: data/es.danirod.Cartero.gschema.xml:64
 msgid "Whether to validate the TLS certificates during a request"
 msgstr "Zda mají být během požadavku ověřovány TLS certifikáty"
 
-#: data/es.danirod.Cartero.gschema.xml:64
+#: data/es.danirod.Cartero.gschema.xml:68
 msgid "Whether to follow redirections if that is the server response"
 msgstr ""
 "Zda mají být následována přesměrování, pokud jsou obsažena v odpovědi serveru"
 
-#: data/es.danirod.Cartero.gschema.xml:68
+#: data/es.danirod.Cartero.gschema.xml:72
 msgid "Maximum number of redirections to follow before giving up"
 msgstr "Maximální počet následovaných přesměrování"
 
-#: data/es.danirod.Cartero.gschema.xml:72
+#: data/es.danirod.Cartero.gschema.xml:76
 msgid "Maximum timeout when awaiting for an HTTP response."
 msgstr "Časový limit čekání na HTTP odpověď."
 
-#: data/es.danirod.Cartero.gschema.xml:76
+#: data/es.danirod.Cartero.gschema.xml:80
 msgid "Whether to use light or dark mode."
 msgstr "Zda použít světlý nebo tmavý režim."
 
-#: data/es.danirod.Cartero.gschema.xml:80
+#: data/es.danirod.Cartero.gschema.xml:84
 msgid "The custom font in use"
 msgstr "Používané vlastní písmo"
 
-#: data/es.danirod.Cartero.gschema.xml:84
+#: data/es.danirod.Cartero.gschema.xml:88
 msgid "Whether to use the system font or a custom one"
 msgstr "Zda použít systémové nebo vlastní písmo"
 
-#: data/es.danirod.Cartero.gschema.xml:88
+#: data/es.danirod.Cartero.gschema.xml:92
 msgid "Whether to create backup files on save"
 msgstr "Zda při ukládání vytvářet zálohy souborů"
 
@@ -205,244 +210,455 @@ msgid "Close request tab"
 msgstr "Zavřít panel požadavku"
 
 #: data/gtk/help_overlay.blp:68
+#, fuzzy
 msgctxt "shortcuts window"
-msgid "Request operations"
+msgid "Code view operations"
 msgstr "Operace s požadavky"
 
 #: data/gtk/help_overlay.blp:71
 msgctxt "shortcuts window"
+msgid "Zoom in"
+msgstr ""
+
+#: data/gtk/help_overlay.blp:76
+msgctxt "shortcuts window"
+msgid "Zoom out"
+msgstr ""
+
+#: data/gtk/help_overlay.blp:81
+msgctxt "shortcuts window"
+msgid "Reset zoom"
+msgstr ""
+
+#: data/gtk/help_overlay.blp:86
+#, fuzzy
+msgctxt "shortcuts window"
+msgid "Start search"
+msgstr "Hledat"
+
+#: data/gtk/help_overlay.blp:92
+msgctxt "shortcuts window"
+msgid "Request operations"
+msgstr "Operace s požadavky"
+
+#: data/gtk/help_overlay.blp:95
+#, fuzzy
+msgctxt "shortcuts window"
+msgid "Focus URL"
+msgstr "URL požadavku"
+
+#: data/gtk/help_overlay.blp:100
+msgctxt "shortcuts window"
 msgid "Send request"
 msgstr "Odeslat požadavek"
 
-#: data/ui/authorization_pane.blp:29
+#: data/ui/authentication_pane.blp:34
 msgid "Authorization method"
 msgstr "Způsob autorizace"
 
-#: data/ui/authorization_pane.blp:55
-msgid "Username"
-msgstr "Uživatelské jméno"
-
-#: data/ui/authorization_pane.blp:60
-msgid "Password"
-msgstr "Heslo"
-
-#: data/ui/authorization_pane.blp:76
-msgid "Token"
-msgstr "Token"
-
-#: data/ui/authorization_pane.blp:87 data/ui/export_tab.blp:69
-#: data/ui/payload_tab.blp:87
+#: data/ui/authentication_pane.blp:59 data/ui/request_body_pane.blp:59
 msgid "(none)"
 msgstr "(nic)"
 
-#: data/ui/authorization_pane.blp:88
+#: data/ui/authentication_pane.blp:60
 msgid "Basic auth"
 msgstr "Basic auth"
 
-#: data/ui/authorization_pane.blp:89
+#: data/ui/authentication_pane.blp:61
 msgid "Bearer token"
 msgstr "Bearer token"
 
-#: data/ui/code_export_pane.blp:59
-msgid "Copy"
-msgstr "Kopírovat"
+#: data/ui/basic_auth_pane.blp:23
+msgid "Username"
+msgstr "Uživatelské jméno"
 
-#: data/ui/endpoint_pane.blp:69
+#: data/ui/basic_auth_pane.blp:28
+msgid "Password"
+msgstr "Heslo"
+
+#: data/ui/bearer_token_pane.blp:23
+msgid "Token"
+msgstr "Token"
+
+#: data/ui/endpoint_pane.blp:66 data/ui/endpoint_pane.blp:67
 msgid "Request URL"
 msgstr "URL požadavku"
 
-#: data/ui/endpoint_pane.blp:81
+#: data/ui/endpoint_pane.blp:79 data/ui/mac_menu.blp:113
 msgid "Cancel request"
 msgstr "Zrušit požadavek"
 
-#: data/ui/endpoint_pane.blp:90
+#: data/ui/endpoint_pane.blp:88 data/ui/mac_menu.blp:108
 msgid "Send"
 msgstr "Odeslat"
 
-#: data/ui/endpoint_pane.blp:91
+#: data/ui/endpoint_pane.blp:89
 msgid "Execute this HTTP request"
 msgstr "Provést tento HTTP požadavek"
 
-#: data/ui/endpoint_pane.blp:123
+#: data/ui/endpoint_pane.blp:116
 msgid "Parameters"
 msgstr "Parametry"
 
-#: data/ui/endpoint_pane.blp:146 data/ui/response_panel.blp:92
+#: data/ui/endpoint_pane.blp:142 data/ui/response_panel.blp:137
 msgid "Headers"
 msgstr "Hlavičky"
 
-#: data/ui/endpoint_pane.blp:170
+#: data/ui/endpoint_pane.blp:167
 msgid "Variables"
 msgstr "Proměnné"
 
-#: data/ui/endpoint_pane.blp:194
+#: data/ui/endpoint_pane.blp:192
 msgid "Authorization"
 msgstr "Autorizace"
 
-#: data/ui/endpoint_pane.blp:217 data/ui/response_panel.blp:52
+#: data/ui/endpoint_pane.blp:207 data/ui/response_panel.blp:55
 msgid "Body"
 msgstr "Tělo"
 
-#: data/ui/endpoint_pane.blp:227
-msgid "Export request"
-msgstr "Exportovat požadavek"
+#: data/ui/export_dialog.blp:54
+#, fuzzy
+msgid "Generated output"
+msgstr "Obecné klávesové zkratky"
 
-#: data/ui/export_tab.blp:34
-msgid "Export to"
+#: data/ui/export_dialog.blp:64
+#, fuzzy
+msgid "Copy to clipboard"
+msgstr "Obsah zkopírován do schránky"
+
+#: data/ui/export_dialog.blp:69 data/ui/response_panel.blp:103
+#: src/widgets/file_dialogs.rs:226
+#, fuzzy
+msgid "Export to file"
 msgstr "Exportovat do"
 
-#: data/ui/key_value_row.blp:41
+#: data/ui/field_list_box_row.blp:23 data/ui/field_placeholder_row.blp:27
+msgid "Enabled"
+msgstr ""
+
+#: data/ui/field_list_box_row.blp:37 data/ui/field_list_box_row.blp:38
+#: data/ui/field_placeholder_row.blp:41 data/ui/field_placeholder_row.blp:42
 msgid "Name"
 msgstr "Jméno"
 
-#: data/ui/key_value_row.blp:54
+#: data/ui/field_list_box_row.blp:48 data/ui/field_list_box_row.blp:49
+#: data/ui/field_placeholder_row.blp:52 data/ui/field_placeholder_row.blp:53
 msgid "Value"
 msgstr "Hodnota"
 
-#: data/ui/key_value_row.blp:65
+#: data/ui/field_list_box_row.blp:58 data/ui/field_placeholder_row.blp:62
 msgid "Actions"
 msgstr "Akce"
 
-#: data/ui/key_value_row.blp:79
+#: data/ui/field_list_box_row.blp:69
 msgid "Toggle secret"
 msgstr "Skrýt"
 
-#: data/ui/key_value_row.blp:86
+#: data/ui/field_list_box_row.blp:76
 msgid "Delete"
 msgstr "Smazat"
 
-#: data/ui/main_window.blp:40 data/ui/main_window_no_csd.blp:38
-msgid "New"
-msgstr "Nový"
+#: data/ui/mac_menu.blp:21
+msgctxt "menubar"
+msgid "File"
+msgstr ""
 
-#: data/ui/main_window.blp:51 data/ui/main_window.blp:62
-#: data/ui/main_window_no_csd.blp:49 data/ui/main_window_no_csd.blp:60
-#: src/widgets/file_dialogs.rs:107
-msgid "Open"
-msgstr "Otevřít"
-
-#: data/ui/main_window.blp:70 data/ui/main_window_no_csd.blp:68
-#: src/widgets/file_dialogs.rs:143
-msgid "Save"
-msgstr "Uložit"
-
-#: data/ui/main_window.blp:94 data/ui/main_window_no_csd.blp:101
-msgid "Welcome to Cartero"
-msgstr "Vítá vás aplikace Cartero"
-
-#: data/ui/main_window.blp:95 data/ui/main_window_no_csd.blp:102
-msgid "Create or open a request and start testing APIs now."
-msgstr "Vytvořte nebo otevřete požadavek a začněte testovat API."
-
-#: data/ui/main_window.blp:114 data/ui/main_window.blp:148
-#: data/ui/main_window_no_csd.blp:121 data/ui/main_window_no_csd.blp:155
+#: data/ui/mac_menu.blp:25 data/ui/main_window.blp:137
+#: data/ui/main_window.blp:193 data/ui/main_window_no_csd.blp:138
+#: data/ui/main_window_no_csd.blp:195
 msgid "New tab"
 msgstr "Nový panel"
 
-#: data/ui/main_window.blp:127 data/ui/main_window.blp:153
-#: data/ui/main_window_no_csd.blp:134 data/ui/main_window_no_csd.blp:160
+#: data/ui/mac_menu.blp:30 data/ui/main_window.blp:150
+#: data/ui/main_window.blp:198 data/ui/main_window_no_csd.blp:151
+#: data/ui/main_window_no_csd.blp:200
 msgid "Open request…"
 msgstr "Otevřít požadavek…"
 
-#: data/ui/main_window.blp:158 data/ui/main_window_no_csd.blp:165
-#: src/widgets/file_dialogs.rs:144
+#: data/ui/mac_menu.blp:35 data/ui/main_window.blp:203
+#: data/ui/main_window_no_csd.blp:205 src/widgets/file_dialogs.rs:146
 msgid "Save request"
 msgstr "Uložit požadavek"
 
-#: data/ui/main_window.blp:163 data/ui/main_window_no_csd.blp:170
+#: data/ui/mac_menu.blp:40 data/ui/main_window.blp:208
+#: data/ui/main_window_no_csd.blp:210
 msgid "Save request as…"
 msgstr "Uložit požadavek jako…"
 
-#: data/ui/main_window.blp:168 data/ui/main_window_no_csd.blp:175
+#: data/ui/mac_menu.blp:47 data/ui/main_window.blp:213
+#: data/ui/main_window_no_csd.blp:215
 msgid "Close tab"
 msgstr "Zavřít panel"
 
-#: data/ui/main_window.blp:175 data/ui/main_window_no_csd.blp:182
+#: data/ui/mac_menu.blp:54
+msgctxt "menubar"
+msgid "Edit"
+msgstr ""
+
+#: data/ui/mac_menu.blp:58
+msgctxt "menubar"
+msgid "Undo"
+msgstr ""
+
+#: data/ui/mac_menu.blp:63
+msgctxt "menubar"
+msgid "Redo"
+msgstr ""
+
+#: data/ui/mac_menu.blp:70
+msgctxt "menubar"
+msgid "Cut"
+msgstr ""
+
+#: data/ui/mac_menu.blp:75
+#, fuzzy
+msgctxt "menubar"
+msgid "Copy"
+msgstr "Kopírovat"
+
+#: data/ui/mac_menu.blp:80
+msgctxt "menubar"
+msgid "Paste"
+msgstr ""
+
+#: data/ui/mac_menu.blp:85
+#, fuzzy
+msgctxt "menubar"
+msgid "Delete"
+msgstr "Smazat"
+
+#: data/ui/mac_menu.blp:92
+msgctxt "menubar"
+msgid "Select All"
+msgstr ""
+
+#: data/ui/mac_menu.blp:99
+msgctxt "menubar"
+msgid "Endpoint"
+msgstr ""
+
+#: data/ui/mac_menu.blp:103
+msgctxt "menubar"
+msgid "Edit URL"
+msgstr ""
+
+#: data/ui/mac_menu.blp:120 data/ui/main_window.blp:225
+#: data/ui/main_window_no_csd.blp:227
+msgid "Body appearance"
+msgstr "Vzhled těla"
+
+#: data/ui/mac_menu.blp:124 data/ui/main_window.blp:229
+#: data/ui/main_window_no_csd.blp:231
+msgid "Wrap content"
+msgstr "Zalomit obsah"
+
+#: data/ui/mac_menu.blp:129 data/ui/main_window.blp:234
+#: data/ui/main_window_no_csd.blp:236
+msgid "Show line numbers"
+msgstr "Zobrazit čísla řádků"
+
+#: data/ui/mac_menu.blp:136 data/ui/main_window.blp:241
+#: data/ui/main_window_no_csd.blp:243
+msgid "Automatic indentation"
+msgstr "Automatické odsazení"
+
+#: data/ui/mac_menu.blp:141 data/ui/main_window.blp:246
+#: data/ui/main_window_no_csd.blp:248
+msgid "Indent with spaces"
+msgstr "Odsadit mezerami"
+
+#: data/ui/mac_menu.blp:147 data/ui/main_window.blp:252
+#: data/ui/main_window_no_csd.blp:254
+msgid "Indent with tabs"
+msgstr "Odsadit tabulátory"
+
+#: data/ui/mac_menu.blp:153 data/ui/main_window.blp:258
+#: data/ui/main_window_no_csd.blp:260
+msgid "Spaces per tab"
+msgstr "Délka tabulátoru v mezerách"
+
+#: data/ui/mac_menu.blp:156 data/ui/main_window.blp:261
+#: data/ui/main_window_no_csd.blp:263
+msgid "2"
+msgstr "2"
+
+#: data/ui/mac_menu.blp:162 data/ui/main_window.blp:267
+#: data/ui/main_window_no_csd.blp:269
+msgid "4"
+msgstr "4"
+
+#: data/ui/mac_menu.blp:168 data/ui/main_window.blp:273
+#: data/ui/main_window_no_csd.blp:275
+msgid "8"
+msgstr "8"
+
+#: data/ui/mac_menu.blp:179
+msgctxt "menubar"
+msgid "Window"
+msgstr ""
+
+#: data/ui/mac_menu.blp:183
+msgctxt "menubar"
+msgid "Minimize"
+msgstr ""
+
+#. TRANSLATORS: This item will only be visible in macOS, where the convention is to call it "zoom" instead of "maximize"
+#: data/ui/mac_menu.blp:189
+msgctxt "menubar"
+msgid "Zoom"
+msgstr ""
+
+#: data/ui/mac_menu.blp:196
+msgctxt "menubar"
+msgid "Help"
+msgstr ""
+
+#: data/ui/mac_menu.blp:200 src/win.rs:669
+msgid "User manual"
+msgstr "Uživatelská příručka"
+
+#: data/ui/mac_menu.blp:205
+msgctxt "menubar"
+msgid "Report a bug"
+msgstr ""
+
+#: data/ui/mac_menu.blp:210
+msgctxt "menubar"
+msgid "View discussions"
+msgstr ""
+
+#: data/ui/mac_menu.blp:217 src/win.rs:671
+msgid "Help us translate"
+msgstr "Pomozte nám s překladem"
+
+#: data/ui/mac_menu.blp:224 data/ui/settings_dialog.blp:101
+msgid "Check for updates"
+msgstr "Vyhledat aktualizace"
+
+#: data/ui/main_window.blp:50 data/ui/main_window_no_csd.blp:47
+msgid "New"
+msgstr "Nový"
+
+#: data/ui/main_window.blp:61 data/ui/main_window.blp:73
+#: data/ui/main_window_no_csd.blp:58 data/ui/main_window_no_csd.blp:70
+#: src/widgets/file_dialogs.rs:109 src/widgets/file_dialogs.rs:186
+msgid "Open"
+msgstr "Otevřít"
+
+#: data/ui/main_window.blp:81 data/ui/main_window_no_csd.blp:78
+#: src/widgets/file_dialogs.rs:145 src/widgets/file_dialogs.rs:225
+msgid "Save"
+msgstr "Uložit"
+
+#: data/ui/main_window.blp:90 data/ui/main_window_no_csd.blp:99
+msgid "Export request"
+msgstr "Exportovat požadavek"
+
+#: data/ui/main_window.blp:99
+msgid "Menu"
+msgstr ""
+
+#: data/ui/main_window.blp:117 data/ui/main_window_no_csd.blp:118
+msgid "Welcome to Cartero"
+msgstr "Vítá vás aplikace Cartero"
+
+#: data/ui/main_window.blp:118 data/ui/main_window_no_csd.blp:119
+msgid "Create or open a request and start testing APIs now."
+msgstr "Vytvořte nebo otevřete požadavek a začněte testovat API."
+
+#: data/ui/main_window.blp:170 data/ui/main_window_no_csd.blp:172
+#, fuzzy
+msgid "Export request as cURL…"
+msgstr "Exportovat požadavek"
+
+#: data/ui/main_window.blp:176 data/ui/main_window_no_csd.blp:178
+#, fuzzy
+msgid "Export request as Jetbrains HTTP…"
+msgstr "Exportovat požadavek"
+
+#: data/ui/main_window.blp:184 data/ui/main_window_no_csd.blp:186
+#, fuzzy
+msgid "Export response body…"
+msgstr "Exportovat požadavek"
+
+#: data/ui/main_window.blp:220 data/ui/main_window_no_csd.blp:222
 #: data/ui/settings_dialog.blp:21
 msgid "Settings"
 msgstr "Nastavení"
 
-#: data/ui/main_window.blp:180 data/ui/main_window_no_csd.blp:187
-msgid "Body appearance"
-msgstr "Vzhled těla"
-
-#: data/ui/main_window.blp:184 data/ui/main_window_no_csd.blp:191
-msgid "Wrap content"
-msgstr "Zalomit obsah"
-
-#: data/ui/main_window.blp:189 data/ui/main_window_no_csd.blp:196
-msgid "Show line numbers"
-msgstr "Zobrazit čísla řádků"
-
-#: data/ui/main_window.blp:196 data/ui/main_window_no_csd.blp:203
-msgid "Automatic indentation"
-msgstr "Automatické odsazení"
-
-#: data/ui/main_window.blp:201 data/ui/main_window_no_csd.blp:208
-msgid "Indent with spaces"
-msgstr "Odsadit mezerami"
-
-#: data/ui/main_window.blp:207 data/ui/main_window_no_csd.blp:214
-msgid "Indent with tabs"
-msgstr "Odsadit tabulátory"
-
-#: data/ui/main_window.blp:213 data/ui/main_window_no_csd.blp:220
-msgid "Spaces per tab"
-msgstr "Délka tabulátoru v mezerách"
-
-#: data/ui/main_window.blp:216 data/ui/main_window_no_csd.blp:223
-msgid "2"
-msgstr "2"
-
-#: data/ui/main_window.blp:222 data/ui/main_window_no_csd.blp:229
-msgid "4"
-msgstr "4"
-
-#: data/ui/main_window.blp:228 data/ui/main_window_no_csd.blp:235
-msgid "8"
-msgstr "8"
-
-#: data/ui/main_window.blp:239 data/ui/main_window_no_csd.blp:246
+#: data/ui/main_window.blp:284 data/ui/main_window_no_csd.blp:286
 msgid "Keyboard shortcuts"
 msgstr "Klávesové zkratky"
 
-#: data/ui/main_window.blp:244 data/ui/main_window_no_csd.blp:251
+#: data/ui/main_window.blp:289 data/ui/main_window_no_csd.blp:291
 msgid "About Cartero"
 msgstr "O aplikaci Cartero"
 
-#: data/ui/main_window.blp:249 data/ui/main_window_no_csd.blp:256
+#: data/ui/main_window.blp:294 data/ui/main_window_no_csd.blp:296
 msgid "Quit"
 msgstr "Ukončit"
 
-#: data/ui/method_dropdown.blp:29
+#: data/ui/method_dropdown.blp:28
 msgid "Request method"
 msgstr "Metoda požadavku"
 
-#: data/ui/payload_tab.blp:34
+#: data/ui/raw_body_pane.blp:28
+#, fuzzy
+msgid "Request body"
+msgstr "Metoda požadavku"
+
+#: data/ui/request_body_pane.blp:34
 msgid "Body type"
 msgstr "Typ těla"
 
-#: data/ui/payload_tab.blp:88
+#: data/ui/request_body_pane.blp:60
 msgid "URL Encoded"
 msgstr "URL Encoded"
 
-#: data/ui/payload_tab.blp:89
+#: data/ui/request_body_pane.blp:61
 msgid "Multipart Form Data"
 msgstr "Multipart Form Data"
 
-#: data/ui/payload_tab.blp:92
+#: data/ui/request_body_pane.blp:64
 msgid "Raw"
 msgstr "Raw"
 
-#: data/ui/response_panel.blp:28
+#: data/ui/request_body_pane.blp:65
+#, fuzzy
+msgid "From file"
+msgstr "Exportovat do"
+
+#: data/ui/response_headers.blp:42
+#, fuzzy
+msgid "No headers"
+msgstr "Hlavičky"
+
+#: data/ui/response_panel.blp:30
 msgid "Ready to request"
 msgstr "Připraveno na požadavek"
 
-#: data/ui/response_panel.blp:29
+#: data/ui/response_panel.blp:31
 msgid "Use the Send button to send a network request and it will show here."
 msgstr ""
 "Použijte tlačítko Odeslat k vykonání síťového požadavku, výsledek bude "
 "zobrazen zde."
+
+#: data/ui/response_panel.blp:68
+msgid "Response body"
+msgstr ""
+
+#: data/ui/response_panel.blp:87
+msgid "Binary response received"
+msgstr ""
+
+#: data/ui/response_panel.blp:88
+msgid "The response of this request should not be rendered in a text view."
+msgstr ""
+
+#: data/ui/response_panel.blp:110
+#, fuzzy
+msgid "Render anyway"
+msgstr "Opravdu zavřít"
 
 #: data/ui/search_box.blp:42 data/ui/search_box.blp:43
 msgid "Search"
@@ -465,42 +681,55 @@ msgid "Application"
 msgstr "Aplikace"
 
 #: data/ui/settings_dialog.blp:30
+msgid "You need to restart the program for the new locale to be used."
+msgstr ""
+
+#: data/ui/settings_dialog.blp:39
+msgid "Language"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:45
 msgid "Appearance"
 msgstr "Vzhled"
 
-#: data/ui/settings_dialog.blp:33
+#: data/ui/settings_dialog.blp:48
 msgid "Application style"
 msgstr "Styl vzhledu"
 
-#: data/ui/settings_dialog.blp:37
+#. Has to be a separate variable due to variable lifetimes.
+#: data/ui/settings_dialog.blp:52 src/windows/settings/locale.rs:81
 msgid "Follow system settings"
 msgstr "Podle systému"
 
-#: data/ui/settings_dialog.blp:38
+#: data/ui/settings_dialog.blp:53
 msgid "Light mode"
 msgstr "Světlé téma"
 
-#: data/ui/settings_dialog.blp:39
+#: data/ui/settings_dialog.blp:54
 msgid "Dark mode"
 msgstr "Tmavé téma"
 
-#: data/ui/settings_dialog.blp:45
+#: data/ui/settings_dialog.blp:60
 msgid "Use system font"
 msgstr "Použít systémové písmo"
 
-#: data/ui/settings_dialog.blp:49
+#: data/ui/settings_dialog.blp:64
 msgid "Custom font"
 msgstr "Vlastní písmo"
 
-#: data/ui/settings_dialog.blp:64
+#: data/ui/settings_dialog.blp:71
+msgid "Click to select a font"
+msgstr ""
+
+#: data/ui/settings_dialog.blp:80
 msgid "File settings"
 msgstr "Volby souborů"
 
-#: data/ui/settings_dialog.blp:67
+#: data/ui/settings_dialog.blp:83
 msgid "Create backup files"
 msgstr "Vytvářet záložní soubory"
 
-#: data/ui/settings_dialog.blp:68
+#: data/ui/settings_dialog.blp:84
 msgid ""
 "You might not want to enable this if you are already using a version control "
 "such as Git"
@@ -508,133 +737,57 @@ msgstr ""
 "Tuto volbu možná nebudete chtít povolit, pokud již používáte správu verzí, "
 "jako je Git"
 
-#: data/ui/settings_dialog.blp:74
+#: data/ui/settings_dialog.blp:90
 msgid "Software updates"
 msgstr "Aktualizace softwaru"
 
-#: data/ui/settings_dialog.blp:81
+#: data/ui/settings_dialog.blp:97
 msgid "Current version"
 msgstr "Aktuální verze"
 
-#: data/ui/settings_dialog.blp:85
-msgid "Check for updates"
-msgstr "Vyhledat aktualizace"
-
-#: data/ui/settings_dialog.blp:93 data/ui/settings_dialog.blp:97
+#: data/ui/settings_dialog.blp:109 data/ui/settings_dialog.blp:113
 msgid "HTTP Client"
 msgstr "HTTP klient"
 
-#: data/ui/settings_dialog.blp:100
+#: data/ui/settings_dialog.blp:116
 msgid "Enforce TLS validation"
 msgstr "Vynutit ověření TLS"
 
-#: data/ui/settings_dialog.blp:101
+#: data/ui/settings_dialog.blp:117
 msgid "Cancel a request if the TLS handshake fails"
 msgstr "Zrušit požadavek, pokud selže TLS handshake"
 
-#: data/ui/settings_dialog.blp:105
+#: data/ui/settings_dialog.blp:121
 msgid "Follow redirects"
 msgstr "Následovat přesměrování"
 
-#: data/ui/settings_dialog.blp:106
+#: data/ui/settings_dialog.blp:122
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
 msgstr ""
 "Provést následné požadavky, pokud server vrátí odpověď s kódem HTTP 3xx"
 
-#: data/ui/settings_dialog.blp:111
+#: data/ui/settings_dialog.blp:127
 msgid "Maximum redirects"
 msgstr "Maximální počet přesměrování"
 
-#: data/ui/settings_dialog.blp:123
+#: data/ui/settings_dialog.blp:139
 msgid "Request timeout"
 msgstr "Časový limit požadavku"
 
-#: data/ui/settings_dialog.blp:124
+#: data/ui/settings_dialog.blp:140
 msgid "Seconds to wait before cancelling the request"
 msgstr "Počet sekund, jak dlouho čekat před ukončením požadavku"
 
-#. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
-#: src/entities/response_data.rs:68
-#, rust-format
-msgid "{} s"
-msgstr "{} s"
-
-#. Format as milliseconds.
-#. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
-#: src/entities/response_data.rs:72
-#, rust-format
-msgid "{} ms"
-msgstr "{} ms"
-
-#: src/error.rs:32
-msgid "The specified URL is not valid"
-msgstr "Zadaná URL není platná"
-
-#: src/error.rs:34
-#, rust-format
-msgid "The header '{}' is not valid"
-msgstr "Hlavička '{}' není platná"
-
-#: src/error.rs:37
-#, rust-format
-msgid "The value for header '{}' is not valid"
-msgstr "Hodnota hlavičky '{}' není platná"
-
-#: src/error.rs:40 src/error.rs:74
-msgid "The given request body could not be encoded correctly"
-msgstr "Zadané tělo požadavku nebylo možné správně zakódovat"
-
-#: src/error.rs:69
-msgid "Cannot recognise the URL"
-msgstr "Nelze rozpoznat URL adresu"
-
-#: src/error.rs:70
-msgid "The given URL is missing a protocol"
-msgstr "V zadané URL adrese chybí protokol"
-
-#: src/error.rs:72
-#, rust-format
-msgid "The protocol {}:// is not supported"
-msgstr "Protokol {}:// není podporován"
-
-#: src/error.rs:76
-#, rust-format
-msgid "The variable '{}' is not defined"
-msgstr "Proměnná '{}' není definována"
-
-#: src/error.rs:79
-msgid "There was a problem with a variable interpolation, review your inputs"
-msgstr "Nastal problém s interpolací proměnných, zkontrolujte vstupy"
-
-#: src/error.rs:104
-msgid "There is a network error"
-msgstr "Nastal problém se sítí"
-
-#: src/error.rs:105
-msgid "There is an input/output error"
-msgstr "Došlo k chybě vstupu/výstupu"
-
-#: src/error.rs:131 src/error.rs:155
-msgid "The current tab is not associated with a file"
-msgstr "Aktuální karta není přidružena k souboru"
-
-#: src/error.rs:133
+#: src/interop.rs:30
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
 "Tento soubor byl vytvořen s novější verzí aplikace, prosím aktualizujte!"
 
-#: src/error.rs:137
+#: src/interop.rs:31
 msgid "The file is corrupt or does not contain valid data for this application"
 msgstr "Soubor je poškozen nebo neobsahuje data platná pro tuto aplikaci"
-
-#: src/file.rs:411
-#, rust-format
-msgid ""
-"The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
-"to '{}'."
-msgstr ""
 
 #: src/updates/ui.rs:33
 msgid "Error checking updates"
@@ -679,39 +832,61 @@ msgstr "_Otevřít webovou stránku"
 msgid "_Not now"
 msgstr "_Nyní ne"
 
-#: src/widgets/dialogs.rs:48
+#: src/widgets/dialogs.rs:50
 #, rust-format
 msgid "Cannot open '{}'"
 msgstr "Nelze otevřít '{}'"
 
-#: src/widgets/dialogs.rs:49
+#: src/widgets/dialogs.rs:51
 msgid "Cannot open the requested file"
 msgstr "Nelze otevřít požadovaný soubor"
 
-#: src/widgets/dialogs.rs:58 src/widgets/dialogs.rs:89
-#: src/widgets/dialogs.rs:112 src/widgets/dialogs.rs:125
+#: src/widgets/dialogs.rs:60 src/widgets/dialogs.rs:91
+#: src/widgets/dialogs.rs:121 src/widgets/dialogs.rs:144
+#: src/widgets/dialogs.rs:157
 msgid "Close"
 msgstr "Zavřít"
 
-#: src/widgets/dialogs.rs:72
+#: src/widgets/dialogs.rs:74
 #, rust-format
 msgid "The file '{}' was loaded but had issues"
 msgstr "Soubor '{}' byl načten, ale vyskytly se s ním problémy"
 
-#: src/widgets/dialogs.rs:73
+#: src/widgets/dialogs.rs:75
 msgid "The requested file was loaded but had issues"
 msgstr "Požadovaný soubor byl načten, ale vyskytly se s ním problémy"
 
-#: src/widgets/dialogs.rs:103
+#: src/widgets/dialogs.rs:98
+#, rust-format
+msgid ""
+"The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
+"to '{}'."
+msgstr ""
+
+#: src/widgets/dialogs.rs:114
+#, fuzzy
+msgid "The requested file cannot be picked"
+msgstr "Požadovaný soubor byl načten, ale vyskytly se s ním problémy"
+
+#: src/widgets/dialogs.rs:115
+#, rust-format
+msgid ""
+"The file must be within the same directory as the request or project file or "
+"any of its subdirectories.\n"
+"\n"
+"The file '{}' is not part of the '{}' directory"
+msgstr ""
+
+#: src/widgets/dialogs.rs:135
 #, rust-format
 msgid "Cannot save '{}'"
 msgstr "Nelze uložit '{}'"
 
-#: src/widgets/dialogs.rs:104
+#: src/widgets/dialogs.rs:136
 msgid "Cannot save the requested file"
 msgstr "Nelze uložit požadovaný soubor"
 
-#: src/widgets/dialogs.rs:106
+#: src/widgets/dialogs.rs:138
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
@@ -719,15 +894,15 @@ msgstr ""
 "Během procesu ukládání došlo k chybě. Je možné, že vaše změny stále nejsou "
 "uloženy."
 
-#: src/widgets/dialogs.rs:120
+#: src/widgets/dialogs.rs:152
 msgid "Could not select a valid file from the file chooser"
 msgstr "Nelze vybrat platný soubor z nástroje pro výběr souborů"
 
-#: src/widgets/dialogs.rs:134
+#: src/widgets/dialogs.rs:166
 msgid "There are unsaved changes"
 msgstr "Existují neuložené změny"
 
-#: src/widgets/dialogs.rs:136
+#: src/widgets/dialogs.rs:168
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
@@ -735,69 +910,146 @@ msgstr ""
 "Zavřením tohoto okna budou ztracena všechna neuložená data. Opravdu chcete "
 "pokračovat?"
 
-#: src/widgets/dialogs.rs:140
+#: src/widgets/dialogs.rs:172
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: src/widgets/dialogs.rs:141
+#: src/widgets/dialogs.rs:173
 msgid "Close anyway"
 msgstr "Opravdu zavřít"
 
-#: src/widgets/dialogs.rs:164
+#: src/widgets/dialogs.rs:196
 #, rust-format
 msgid "Save changes in '{}'?"
 msgstr "Uložit změny v '{}'?"
 
-#: src/widgets/dialogs.rs:165
+#: src/widgets/dialogs.rs:197
 msgid "Save changes?"
 msgstr "Uložit změny?"
 
-#: src/widgets/dialogs.rs:170
+#: src/widgets/dialogs.rs:202
 msgid "There are changes that have not been saved yet. What do you want to do?"
 msgstr "Máte neuložené změny. Co chcete udělat?"
 
-#: src/widgets/dialogs.rs:174
+#: src/widgets/dialogs.rs:206
 msgid "_Cancel"
 msgstr "_Zrušit"
 
-#: src/widgets/dialogs.rs:175
+#: src/widgets/dialogs.rs:207
 msgid "_Discard"
 msgstr "Zahodi_t změny"
 
-#: src/widgets/dialogs.rs:176
+#: src/widgets/dialogs.rs:208
 msgid "_Save"
 msgstr "_Uložit"
 
-#: src/widgets/error_pane.rs:91 src/widgets/error_pane.rs:105
+#: src/widgets/endpoint/endpoint_pane.rs:642
+#, fuzzy
+msgid "Export request as cURL"
+msgstr "Exportovat požadavek"
+
+#: src/widgets/endpoint/endpoint_pane.rs:643
+#, fuzzy
+msgid "Export request as Jetbrains HTTP"
+msgstr "Exportovat požadavek"
+
+#. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
+#: src/widgets/endpoint/response_panel.rs:340
+#, rust-format
+msgid "{} s"
+msgstr "{} s"
+
+#. Format as milliseconds.
+#. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
+#: src/widgets/endpoint/response_panel.rs:344
+#, rust-format
+msgid "{} ms"
+msgstr "{} ms"
+
+#: src/widgets/error_pane.rs:89
+msgid "The specified URL is not valid"
+msgstr "Zadaná URL není platná"
+
+#: src/widgets/error_pane.rs:90
+msgid "Cannot recognise the URL"
+msgstr "Nelze rozpoznat URL adresu"
+
+#: src/widgets/error_pane.rs:91
+msgid "The given URL is missing a protocol"
+msgstr "V zadané URL adrese chybí protokol"
+
+#: src/widgets/error_pane.rs:93
+#, rust-format
+msgid "The protocol {}:// is not supported"
+msgstr "Protokol {}:// není podporován"
+
+#: src/widgets/error_pane.rs:96
+#, rust-format
+msgid "The variable '{}' is not defined"
+msgstr "Proměnná '{}' není definována"
+
+#: src/widgets/error_pane.rs:99
+msgid "There was a problem with a variable interpolation, review your inputs"
+msgstr "Nastal problém s interpolací proměnných, zkontrolujte vstupy"
+
+#: src/widgets/error_pane.rs:102
+#, rust-format
+msgid "The header '{}' is not valid"
+msgstr "Hlavička '{}' není platná"
+
+#: src/widgets/error_pane.rs:105
+#, rust-format
+msgid "The value for header '{}' is not valid"
+msgstr "Hodnota hlavičky '{}' není platná"
+
+#: src/widgets/error_pane.rs:108
+msgid "The given request body could not be encoded correctly"
+msgstr "Zadané tělo požadavku nebylo možné správně zakódovat"
+
+#: src/widgets/error_pane.rs:110
+#, fuzzy
+msgid "You have to save the request first"
+msgstr "Nelze uložit požadovaný soubor"
+
+#: src/widgets/error_pane.rs:112
+#, rust-format
+msgid "The file '{}' cannot be accessed due to the security policy"
+msgstr ""
+
+#: src/widgets/error_pane.rs:116
+msgid "There is an input/output error"
+msgstr "Došlo k chybě vstupu/výstupu"
+
+#: src/widgets/error_pane.rs:117
+msgid "There is a network error"
+msgstr "Nastal problém se sítí"
+
+#: src/widgets/error_pane.rs:136
 msgid "The request data is not valid"
 msgstr "Data požadavku nejsou platná"
 
-#: src/widgets/error_pane.rs:98
+#: src/widgets/error_pane.rs:143
 msgid "The request failed"
 msgstr "Požadavek se nezdařil"
 
-#: src/widgets/export_tab/code.rs:114
+#: src/widgets/export_dialog.rs:112
 msgid "Content copied to the clipboard"
 msgstr "Obsah zkopírován do schránky"
 
 #. TRANSLATORS: presented in file dialogs as the file type for a request
 #. The macOS native file dialog will already add the extension for us.
-#: src/widgets/file_dialogs.rs:40 src/widgets/file_dialogs.rs:148
-#: src/widgets/file_dialogs.rs:150
+#: src/widgets/file_dialogs.rs:42 src/widgets/file_dialogs.rs:150
+#: src/widgets/file_dialogs.rs:152
 msgid "Request"
 msgstr "Požadavek"
 
-#: src/widgets/file_dialogs.rs:108
+#: src/widgets/file_dialogs.rs:110
 msgid "Open request"
 msgstr "Otevřít požadavek"
 
-#: src/widgets/key_value_row.rs:110
-msgid ""
-"The value for this field will not be used because another field with the "
-"same name is overriding it."
+#: src/widgets/file_dialogs.rs:187
+msgid "Select file"
 msgstr ""
-"Hodnota pro toto pole nebude použita, protože ji přepisuje jiné pole se "
-"stejným názvem."
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
@@ -816,34 +1068,43 @@ msgstr[0] "{} požadavek"
 msgstr[1] "{} požadavky"
 msgstr[2] "{} požadavků"
 
-#: src/win.rs:246
+#: src/win.rs:285
 msgid "(untitled)"
 msgstr "(bez názvu)"
 
-#: src/win.rs:260
+#: src/win.rs:299
 msgid "Draft"
 msgstr "Koncept"
 
-#: src/win.rs:561
+#: src/win.rs:613
 msgid "The Cartero authors"
 msgstr "Autoři aplikace Cartero"
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
-#: src/win.rs:584
+#: src/win.rs:636
 msgid "translator-credits"
 msgstr "vesp"
 
-#: src/win.rs:585
+#: src/win.rs:637
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 autoři aplikace Cartero"
 
-#: src/win.rs:589
-msgid "User manual"
-msgstr "Uživatelská příručka"
+#~ msgid "The current tab is not associated with a file"
+#~ msgstr "Aktuální karta není přidružena k souboru"
 
-#: src/win.rs:591
-msgid "Help us translate"
-msgstr "Pomozte nám s překladem"
+#~ msgid ""
+#~ "The value for this field will not be used because another field with the "
+#~ "same name is overriding it."
+#~ msgstr ""
+#~ "Hodnota pro toto pole nebude použita, protože ji přepisuje jiné pole se "
+#~ "stejným názvem."
+
+#~ msgid "Export to"
+#~ msgstr "Exportovat do"
+
+#, fuzzy
+#~ msgid "Restart the application to use the new language"
+#~ msgstr "Zda má být aplikace otevřena maximalizovaně"
 
 #~ msgid "Request (.cartero)"
 #~ msgstr "Požadavek (.cartero)"

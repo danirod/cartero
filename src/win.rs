@@ -25,7 +25,7 @@ mod imp {
     use std::collections::HashSet;
 
     use adw::prelude::WidgetExt;
-    use std::cell::{OnceCell, RefCell};
+    use std::cell::OnceCell;
 
     use adw::AboutDialog;
     use adw::{prelude::*, subclass::prelude::*, TabPage};
@@ -73,7 +73,6 @@ mod imp {
         export_request: TemplateChild<gtk::MenuButton>,
 
         current_tab_binding_group: OnceCell<glib::BindingGroup>,
-        export_menu_tab_responses: RefCell<Vec<gtk::ExpressionWatch>>,
     }
 
     #[gtk::template_callbacks]
@@ -94,40 +93,28 @@ mod imp {
             is_endpoint.bind(&*self.export_request, "visible", Some(&*self.tabview));
         }
 
-        /// Updates the binds for the "Export response" actions, so that
-        /// they use the has-response property of the current pane, or
-        /// false if there is no current pane at all. This function should
-        /// be called whenever the current page changes.
-        fn evaluate_export_menu_tab_responses(&self) {
-            {
-                let watches = self.export_menu_tab_responses.borrow_mut();
-                for watch in &*watches {
-                    watch.unwatch();
+        fn current_pane_action_expression(&self, name: &str) -> gtk::Expression {
+            let current_pane_action = self
+                .current_pane()
+                .and_then(|pane| pane.lookup_action(name));
+            match current_pane_action {
+                None => gtk::ConstantExpression::new(false).upcast(),
+                Some(action) => action.property_expression("enabled").upcast(),
+            }
+        }
+
+        /// Some actions have to call the action of the same name of the current pane
+        /// when activated. This function will re-evaluate if those actions exist,
+        /// and bind or disable the action in CarteroWindow depending on the result.
+        fn eval_delegated_actions(&self) {
+            let delegated_actions = ["export-request", "export-response-body"];
+            for action in delegated_actions {
+                if let Some(this_action) = self.obj().lookup_action(action) {
+                    println!("action_here: {action}");
+                    let pane_exp = self.current_pane_action_expression(action);
+                    pane_exp.bind(&this_action, "enabled", gtk::Widget::NONE);
                 }
             }
-
-            let action_binding = if let Some(page) = self.tabview.selected_page() {
-                page.property_expression("child")
-                    .chain_property::<EndpointPane>("has-response")
-                    .upcast()
-            } else {
-                gtk::ConstantExpression::new(false).upcast()
-            };
-            let obj = self.obj();
-
-            /* Enable these actions only if there is an open page and the page has a valid response. */
-            let tab_and_response_actions = ["export-response-body", "export-har"];
-            let new_tab_bindings = tab_and_response_actions
-                .iter()
-                .filter_map(|tab| {
-                    if let Some(action) = obj.lookup_action(&tab) {
-                        Some(action_binding.bind(&action, "enabled", Some(&*self.tabview)))
-                    } else {
-                        None
-                    }
-                })
-                .collect::<Vec<_>>();
-            self.export_menu_tab_responses.replace(new_tab_bindings);
         }
 
         fn init_tab_bindings(&self) {
@@ -168,14 +155,12 @@ mod imp {
                 ));
 
             /* Enable these actions only if there is an open page. */
-            let tab_dependent_actions = ["save", "save-as", "close", "request", "export-request"];
+            let tab_dependent_actions = ["save", "save-as", "close", "request"];
             for tab in tab_dependent_actions {
                 if let Some(action) = obj.lookup_action(&tab) {
                     has_page.bind(&action, "enabled", Some(&*self.tabview));
                 }
             }
-
-            self.evaluate_export_menu_tab_responses();
 
             self.tabview.connect_notify_local(
                 Some("selected-page"),
@@ -183,9 +168,6 @@ mod imp {
                     #[weak(rename_to = imp)]
                     self,
                     move |tv: &adw::TabView, _| {
-                        // Re-evalute the export bindings.
-                        imp.evaluate_export_menu_tab_responses();
-
                         let page = tv.selected_page();
                         let binding_group = imp.current_tab_binding_group.get().unwrap();
                         binding_group.set_source(page.as_ref());
@@ -330,7 +312,7 @@ mod imp {
         pub(super) fn action_new_endpoint(&self) {
             self.kill_clean_drafts();
 
-            let pane = EndpointPane::new();
+            let pane = EndpointPane::default();
             self.insert_pane_into_tabs(&pane.upcast());
         }
 
@@ -378,7 +360,7 @@ mod imp {
         {
             let mut loaded = IndexMap::new();
             for file in files {
-                let pane = EndpointPane::new();
+                let pane = EndpointPane::default();
                 pane.set_file(Some(file.clone()));
                 let result = pane.load();
                 loaded.insert(pane.upcast(), result);
@@ -578,19 +560,6 @@ mod imp {
                     self.save_visible_tabs();
                 }
             }
-        }
-
-        async fn action_export_request(&self, format: &str) {
-            /*if let Some(pane) = self.current_pane() {
-                /* Try to export. */
-                pane.export_request(format).await;
-            }*/
-        }
-
-        async fn action_export_response(&self) {
-            /*if let Some(pane) = self.current_pane() {
-                pane.export_response().await;
-            }*/
         }
 
         async fn close_tab_requested(&self, tabpage: &TabPage) {
@@ -919,36 +888,25 @@ mod imp {
 
             let action_export_request = ActionEntry::builder("export-request")
                 .parameter_type(Some(&String::static_variant_type()))
-                .activate(move |window: &super::CarteroWindow, _, variant| {
-                    let param = variant.unwrap().get::<String>().unwrap();
-                    glib::spawn_future_local(glib::clone!(
-                        #[weak]
-                        window,
-                        async move {
-                            window.imp().action_export_request(&param).await;
+                .activate(glib::clone!(
+                    #[weak(rename_to = window)]
+                    self,
+                    move |_, _, variant| {
+                        if let Some(pane) = window.current_pane() {
+                            let _ = pane.activate_action("endpoint.export-request", variant);
                         }
-                    ));
-                })
+                    }
+                ))
                 .build();
 
             let action_export_response_body = ActionEntry::builder("export-response-body")
-                .activate(move |window: &super::CarteroWindow, _, _| {
-                    glib::spawn_future_local(glib::clone!(
-                        #[weak]
-                        window,
-                        async move {
-                            window.imp().action_export_response().await;
-                        }
-                    ));
-                })
-                .build();
-
-            let action_export_har = ActionEntry::builder("export-har")
                 .activate(glib::clone!(
                     #[weak(rename_to = window)]
                     self,
                     move |_, _, _| {
-                        println!("Exporting interaction as HAr");
+                        if let Some(pane) = window.current_pane() {
+                            let _ = pane.activate_action("endpoint.export-response-body", None);
+                        }
                     }
                 ))
                 .build();
@@ -964,7 +922,6 @@ mod imp {
                 action_about,
                 action_export_request,
                 action_export_response_body,
-                action_export_har,
             ]);
 
             #[cfg(feature = "app_updater")]
@@ -990,6 +947,14 @@ mod imp {
             self.init_tab_bindings();
 
             self.init_dynamic_toolbar_menu_buttons();
+            self.eval_delegated_actions();
+            self.tabview.connect_selected_page_notify(glib::clone!(
+                #[weak(rename_to = win)]
+                self,
+                move |_| {
+                    win.eval_delegated_actions();
+                }
+            ));
         }
     }
 

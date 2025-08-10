@@ -15,30 +15,21 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use adw::prelude::AdwDialogExt;
-use gettextrs::gettext;
-use glib::object::CastNone;
-use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
-use gtk::gio::{self, FileCreateFlags};
+use gtk::gio;
 use gtk::glib;
-use gtk::prelude::WidgetExt;
-use sourceview5::prelude::FileExtManual;
 use url::form_urlencoded;
 
 use crate::widgets::shell::BasePane;
-use crate::{
-    export::curl::CodeExportService,
-    widgets::{file_dialogs, ExportDialog},
-};
-
 mod imp {
     use std::cell::{OnceCell, RefCell};
     use std::sync::{Arc, Mutex};
 
+    use adw::prelude::AdwDialogExt;
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
     use cartero_http::RequestError;
     use cartero_objects::{Field, Request, Response};
+    use gettextrs::gettext;
     use glib::subclass::InitializingObject;
     use glib::{JoinHandle, Properties};
     use gtk::gio::{self, Cancellable, FileCreateFlags, SimpleAction, SimpleActionGroup};
@@ -46,13 +37,14 @@ mod imp {
     use gtk::{prelude::*, ClosureExpression, CompositeTemplate};
 
     use crate::app::CarteroApplication;
+    use crate::export::curl::CodeExportService;
     use crate::interop::{InnerError, LoadResult, SaveResult};
     use crate::widgets::authentication::AuthenticationPane;
     use crate::widgets::endpoint::ResponsePanel;
     use crate::widgets::field::FieldTableListView;
     use crate::widgets::req_body::RequestBodyPane;
     use crate::widgets::shell::BasePaneImpl;
-    use crate::widgets::MethodDropdown;
+    use crate::widgets::{file_dialogs, ExportDialog, MethodDropdown};
 
     #[derive(CompositeTemplate, Properties, Default)]
     #[template(resource = "/es/danirod/Cartero/endpoint_pane.ui")]
@@ -99,11 +91,8 @@ mod imp {
         #[property(get, set)]
         busy: RefCell<bool>,
 
-        #[property(get = Self::has_response_impl)]
-        _has_response: RefCell<bool>,
-
         request_thread: Arc<RefCell<Option<JoinHandle<()>>>>,
-
+        action_group: OnceCell<gio::SimpleActionGroup>,
         variable_changing: Arc<Mutex<bool>>,
     }
 
@@ -165,7 +154,10 @@ mod imp {
 
     impl BasePaneImpl for EndpointPane {
         fn lookup_action(&self, name: &str) -> Option<gio::Action> {
-            self.obj().lookup_action(name)
+            self.action_group
+                .get()
+                .expect("No action_group is prepared")
+                .lookup_action(name)
         }
 
         fn load(&self) -> LoadResult {
@@ -284,14 +276,6 @@ mod imp {
             ));
         }
 
-        pub(super) fn get_response_object(&self) -> Option<Response> {
-            self.response_pane.response()
-        }
-
-        fn has_response_impl(&self) -> bool {
-            self.response_pane.response().is_some()
-        }
-
         fn init_actions(&self) {
             let obj = self.obj();
 
@@ -322,6 +306,33 @@ mod imp {
                 }
             ));
 
+            let action_export_request =
+                SimpleAction::new("export-request", Some(&String::static_variant_type()));
+            action_export_request.connect_activate(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |_, variant| {
+                    let format = variant
+                        .expect("No variant is provided?")
+                        .get::<String>()
+                        .expect("No string variant is provided?");
+                    glib::spawn_future_local(async move {
+                        imp.action_export_request(format.as_ref()).await;
+                    });
+                }
+            ));
+
+            let action_export_response_body = SimpleAction::new("export-response-body", None);
+            action_export_response_body.connect_activate(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |_, _| {
+                    glib::spawn_future_local(async move {
+                        imp.action_export_response().await;
+                    });
+                }
+            ));
+
             /* The action should only be enabled if there is an URL set and if not busy. */
             let text = self.request_url.property_expression("text");
             let busy = obj.property_expression("busy");
@@ -344,11 +355,27 @@ mod imp {
                 .sync_create()
                 .build();
 
+            /* Response body can only be exported if there is a response at all. */
+            self.response_pane
+                .property_expression("response")
+                .chain_closure::<bool>(glib::closure!(
+                    move |_: glib::Object, response: Option<Response>| { response.is_some() }
+                ))
+                .bind(
+                    &action_export_response_body,
+                    "enabled",
+                    Some(&*self.response_pane),
+                );
+
             let action_group = SimpleActionGroup::new();
             action_group.add_action(&action_focus_url);
             action_group.add_action(&action_request);
             action_group.add_action(&action_cancel);
+            action_group.add_action(&action_export_request);
+            action_group.add_action(&action_export_response_body);
+            println!("action_group is ready");
             obj.insert_action_group("endpoint", Some(&action_group));
+            self.action_group.set(action_group).unwrap();
         }
 
         fn update_url_from_query_params(&self) {
@@ -527,6 +554,78 @@ mod imp {
                 }
             };
         }
+
+        async fn action_export_request(&self, format: &str) {
+            let command = match format {
+                "curl" => {
+                    let curl = CodeExportService::new(self.obj().request());
+                    curl.generate().await
+                }
+                "jetbrains-http" => {
+                    cartero_jetbrains_http_format::export(&self.obj().request()).await
+                }
+                _ => {
+                    return;
+                }
+            };
+
+            let file_format = match format {
+                "curl" => sourceview5::LanguageManager::default().language("sh"),
+                _ => None,
+            };
+
+            match command {
+                Ok(command) => {
+                    let buffer = glib::Bytes::from(command.as_bytes());
+                    let dialog = glib::Object::builder::<ExportDialog>()
+                        .property("blob", Some(&buffer))
+                        .property("format", file_format)
+                        .build();
+
+                    let title = match format {
+                        "curl" => gettext("Export request as cURL"),
+                        "jetbrains-http" => gettext("Export request as Jetbrains HTTP"),
+                        _ => {
+                            return;
+                        }
+                    };
+                    dialog.set_title(&title);
+                    dialog.present(Some(&*self.obj()));
+                }
+                Err(e) => {
+                    println!("{:?}", e);
+                }
+            };
+        }
+
+        async fn action_export_response(&self) {
+            let root = self.obj().root().and_downcast::<gtk::Window>().unwrap();
+            let export_file = file_dialogs::export_file(&root).await;
+            match export_file {
+                Err(e) => crate::widgets::dialogs::glib_file_dialog_error(&root, &e).await,
+                Ok(file) => {
+                    if let Some(file) = file {
+                        // get the current response payload
+                        let resp = self
+                            .response_pane
+                            .response()
+                            .expect("No response to export?");
+                        let payload = resp.body().unwrap_or(glib::Bytes::from_static(&[]));
+                        if let Err((_, e)) = file
+                            .replace_contents_future(
+                                payload.to_vec(),
+                                None,
+                                false,
+                                FileCreateFlags::NONE,
+                            )
+                            .await
+                        {
+                            crate::widgets::dialogs::glib_file_dialog_error(&root, &e).await;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     #[cfg(test)]
@@ -640,80 +739,6 @@ glib::wrapper! {
 impl Default for EndpointPane {
     fn default() -> Self {
         Object::builder().build()
-    }
-}
-
-impl EndpointPane {
-    pub fn new() -> Self {
-        // TODO: Accept additional initial state maybe?
-        Object::builder().build()
-    }
-
-    pub async fn export_response(&self) {
-        let root = self.root().and_downcast::<gtk::Window>().unwrap();
-        let export_file = file_dialogs::export_file(&root).await;
-        match export_file {
-            Err(e) => crate::widgets::dialogs::glib_file_dialog_error(&root, &e).await,
-            Ok(file) => {
-                if let Some(file) = file {
-                    // get the current response payload
-                    let resp = self.imp().get_response_object().unwrap();
-                    let payload = resp.body().unwrap_or(glib::Bytes::from_static(&[]));
-                    if let Err((_, e)) = file
-                        .replace_contents_future(
-                            payload.to_vec(),
-                            None,
-                            false,
-                            FileCreateFlags::NONE,
-                        )
-                        .await
-                    {
-                        crate::widgets::dialogs::glib_file_dialog_error(&root, &e).await;
-                    }
-                }
-            }
-        }
-    }
-
-    pub async fn export_request(&self, format: &str) {
-        let command = match format {
-            "curl" => {
-                let curl = CodeExportService::new(self.request());
-                curl.generate().await
-            }
-            "jetbrains-http" => cartero_jetbrains_http_format::export(&self.request()).await,
-            _ => {
-                return;
-            }
-        };
-
-        let file_format = match format {
-            "curl" => sourceview5::LanguageManager::default().language("sh"),
-            _ => None,
-        };
-
-        match command {
-            Ok(command) => {
-                let buffer = glib::Bytes::from(command.as_bytes());
-                let dialog = glib::Object::builder::<ExportDialog>()
-                    .property("blob", Some(&buffer))
-                    .property("format", file_format)
-                    .build();
-
-                let title = match format {
-                    "curl" => gettext("Export request as cURL"),
-                    "jetbrains-http" => gettext("Export request as Jetbrains HTTP"),
-                    _ => {
-                        return;
-                    }
-                };
-                dialog.set_title(&title);
-                dialog.present(Some(self));
-            }
-            Err(e) => {
-                println!("{:?}", e);
-            }
-        };
     }
 }
 

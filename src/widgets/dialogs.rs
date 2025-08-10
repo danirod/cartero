@@ -15,12 +15,13 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use crate::interop::InnerError;
+use crate::interop::{get_request_error_message, InnerError};
 
 use adw::{
     prelude::{AlertDialogExt, AlertDialogExtManual},
     AlertDialog,
 };
+use cartero_http::RequestError;
 use cartero_interop::{FileLoadError, FileSaveError, FileWarningTag};
 use formatx::formatx;
 use gettextrs::gettext;
@@ -98,6 +99,15 @@ fn pretty_warning(warning: FileWarningTag) -> String {
                 gettext("The HTTP verb found in the file was '{}'. It is not valid, it will fallback to '{}'."),
                 v, "GET").unwrap()
         }
+}
+
+pub async fn present_request_error_message(root: &impl IsA<gtk::Widget>, error: &RequestError) {
+    let alert = AlertDialog::builder()
+        .body(&get_request_error_message(error))
+        .default_response("close")
+        .build();
+    alert.add_response("close", &gettext("Close"));
+    alert.choose_future(root).await;
 }
 
 /// Renders an error message when a file cannot be picked because it's not part of the given prefix

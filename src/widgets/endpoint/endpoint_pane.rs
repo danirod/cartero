@@ -27,7 +27,7 @@ mod imp {
 
     use adw::prelude::AdwDialogExt;
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
-    use cartero_http::RequestError;
+    use cartero_http::{BoundRequest, RequestError};
     use cartero_objects::{Field, Request, Response};
     use gettextrs::gettext;
     use glib::subclass::InitializingObject;
@@ -40,6 +40,7 @@ mod imp {
     use crate::export::curl::CodeExportService;
     use crate::interop::{InnerError, LoadResult, SaveResult};
     use crate::widgets::authentication::AuthenticationPane;
+    use crate::widgets::dialogs::present_request_error_message;
     use crate::widgets::endpoint::ResponsePanel;
     use crate::widgets::field::FieldTableListView;
     use crate::widgets::req_body::RequestBodyPane;
@@ -555,15 +556,27 @@ mod imp {
             };
         }
 
+        async fn get_request_for_sharing(&self) -> Request {
+            let request = self.obj().request();
+
+            let outcome = BoundRequest::new(&request, &self.request_environment()).await;
+            if matches!(outcome, Err(RequestError::MissingProtocol)) {
+                let current_url = request.url();
+                request.set_url(format!("http://{}", current_url));
+            }
+
+            request
+        }
+
         async fn action_export_request(&self, format: &str) {
+            let root = self.obj().root().and_downcast::<gtk::Window>().unwrap();
+            let request = self.get_request_for_sharing().await;
             let command = match format {
                 "curl" => {
-                    let curl = CodeExportService::new(self.obj().request());
+                    let curl = CodeExportService::new(request);
                     curl.generate().await
                 }
-                "jetbrains-http" => {
-                    cartero_jetbrains_http_format::export(&self.obj().request()).await
-                }
+                "jetbrains-http" => cartero_jetbrains_http_format::export(&request).await,
                 _ => {
                     return;
                 }
@@ -593,7 +606,7 @@ mod imp {
                     dialog.present(Some(&*self.obj()));
                 }
                 Err(e) => {
-                    println!("{:?}", e);
+                    present_request_error_message(&root, &e).await;
                 }
             };
         }

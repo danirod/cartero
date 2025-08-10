@@ -53,6 +53,7 @@ template $CarteroWindow: Gtk.ApplicationWindow {
             spacing: 5;
 
             Image {
+              accessible-role: presentation;
               icon-name: 'document-open-symbolic';
             }
 
@@ -85,6 +86,7 @@ template $CarteroWindow: Gtk.ApplicationWindow {
 
         MenuButton {
           icon-name: "open-menu-symbolic";
+          tooltip-text: _("Menu");
           primary: true;
           menu-model: main_menu;
         }

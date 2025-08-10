@@ -55,6 +55,7 @@ template $CarteroWindow: Adw.ApplicationWindow {
             spacing: 5;
 
             Image {
+              accessible-role: presentation;
               icon-name: 'document-open-symbolic';
             }
 
@@ -74,6 +75,7 @@ template $CarteroWindow: Adw.ApplicationWindow {
       [end]
       MenuButton {
         icon-name: "open-menu-symbolic";
+        tooltip-text: _("Menu");
         primary: true;
         menu-model: main_menu;
       }

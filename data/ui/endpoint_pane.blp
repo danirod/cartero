@@ -67,6 +67,7 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
           editable: bind template.read-only inverted;
           hexpand: true;
           placeholder-text: _("Request URL");
+          tooltip-text: _("Request URL");
           changed => $on_url_changed() swapped;
           activate => $on_url_activated() swapped;
         }

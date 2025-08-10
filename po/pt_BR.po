@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-08 22:12+0200\n"
-"PO-Revision-Date: 2025-05-12 14:02+0000\n"
-"Last-Translator: John Peter Sa <johnppetersa@gmail.com>\n"
+"PO-Revision-Date: 2025-08-09 10:15-0300\n"
+"Last-Translator: John peter sa <johnppetersa@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "cartero/cartero/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Poedit 3.6\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -84,6 +84,8 @@ msgstr "Gnome;GTK;HTTP;REST;"
 msgid ""
 "A specific locale to use within the application instead of the system default"
 msgstr ""
+"Um local específico para usar dentro do aplicativo em vez do padrão do "
+"sistema"
 
 #: data/es.danirod.Cartero.gschema.xml:16
 msgid "Automatically indent new lines for the request body"
@@ -211,31 +213,29 @@ msgid "Close request tab"
 msgstr "Guia de solicitação de fechamento"
 
 #: data/gtk/help_overlay.blp:68
-#, fuzzy
 msgctxt "shortcuts window"
 msgid "Code view operations"
-msgstr "Solicitar operações"
+msgstr "Operações de visualização de código"
 
 #: data/gtk/help_overlay.blp:71
 msgctxt "shortcuts window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Ampliar"
 
 #: data/gtk/help_overlay.blp:76
 msgctxt "shortcuts window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Diminuir o zoom"
 
 #: data/gtk/help_overlay.blp:81
 msgctxt "shortcuts window"
 msgid "Reset zoom"
-msgstr ""
+msgstr "Redefinir zoom"
 
 #: data/gtk/help_overlay.blp:86
-#, fuzzy
 msgctxt "shortcuts window"
 msgid "Start search"
-msgstr "Procurar"
+msgstr "Iniciar pesquisa"
 
 #: data/gtk/help_overlay.blp:92
 msgctxt "shortcuts window"
@@ -243,10 +243,9 @@ msgid "Request operations"
 msgstr "Solicitar operações"
 
 #: data/gtk/help_overlay.blp:95
-#, fuzzy
 msgctxt "shortcuts window"
 msgid "Focus URL"
-msgstr "Solicitar url"
+msgstr "URL de foco"
 
 #: data/gtk/help_overlay.blp:100
 msgctxt "shortcuts window"
@@ -318,24 +317,21 @@ msgid "Body"
 msgstr "Corpo"
 
 #: data/ui/export_dialog.blp:54
-#, fuzzy
 msgid "Generated output"
-msgstr "Atalhos gerais"
+msgstr "Saída gerada"
 
 #: data/ui/export_dialog.blp:64
-#, fuzzy
 msgid "Copy to clipboard"
-msgstr "Conteúdo copiado para a área de transferência"
+msgstr "Copiar para a área de transferência"
 
 #: data/ui/export_dialog.blp:69 data/ui/response_panel.blp:103
 #: src/widgets/file_dialogs.rs:226
-#, fuzzy
 msgid "Export to file"
-msgstr "Exportar para"
+msgstr "Exportar para arquivo"
 
 #: data/ui/field_list_box_row.blp:23 data/ui/field_placeholder_row.blp:27
 msgid "Enabled"
-msgstr ""
+msgstr "Habilitado"
 
 #: data/ui/field_list_box_row.blp:37 data/ui/field_list_box_row.blp:38
 #: data/ui/field_placeholder_row.blp:41 data/ui/field_placeholder_row.blp:42
@@ -362,7 +358,7 @@ msgstr "Excluir"
 #: data/ui/mac_menu.blp:21
 msgctxt "menubar"
 msgid "File"
-msgstr ""
+msgstr "Arquivo"
 
 #: data/ui/mac_menu.blp:25 data/ui/main_window.blp:137
 #: data/ui/main_window.blp:193 data/ui/main_window_no_csd.blp:138
@@ -394,25 +390,24 @@ msgstr "Beche a guia"
 #: data/ui/mac_menu.blp:54
 msgctxt "menubar"
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: data/ui/mac_menu.blp:58
 msgctxt "menubar"
 msgid "Undo"
-msgstr ""
+msgstr "Desfazer"
 
 #: data/ui/mac_menu.blp:63
 msgctxt "menubar"
 msgid "Redo"
-msgstr ""
+msgstr "Refazer"
 
 #: data/ui/mac_menu.blp:70
 msgctxt "menubar"
 msgid "Cut"
-msgstr ""
+msgstr "Corte"
 
 #: data/ui/mac_menu.blp:75
-#, fuzzy
 msgctxt "menubar"
 msgid "Copy"
 msgstr "Cópia"
@@ -420,28 +415,27 @@ msgstr "Cópia"
 #: data/ui/mac_menu.blp:80
 msgctxt "menubar"
 msgid "Paste"
-msgstr ""
+msgstr "Colar"
 
 #: data/ui/mac_menu.blp:85
-#, fuzzy
 msgctxt "menubar"
 msgid "Delete"
-msgstr "Excluir"
+msgstr "Deletar"
 
 #: data/ui/mac_menu.blp:92
 msgctxt "menubar"
 msgid "Select All"
-msgstr ""
+msgstr "Selecione tudo"
 
 #: data/ui/mac_menu.blp:99
 msgctxt "menubar"
 msgid "Endpoint"
-msgstr ""
+msgstr "Ponto final"
 
 #: data/ui/mac_menu.blp:103
 msgctxt "menubar"
 msgid "Edit URL"
-msgstr ""
+msgstr "Editar URL"
 
 #: data/ui/mac_menu.blp:120 data/ui/main_window.blp:225
 #: data/ui/main_window_no_csd.blp:227
@@ -496,23 +490,23 @@ msgstr "8"
 #: data/ui/mac_menu.blp:179
 msgctxt "menubar"
 msgid "Window"
-msgstr ""
+msgstr "Janela"
 
 #: data/ui/mac_menu.blp:183
 msgctxt "menubar"
 msgid "Minimize"
-msgstr ""
+msgstr "Minimizar"
 
 #. TRANSLATORS: This item will only be visible in macOS, where the convention is to call it "zoom" instead of "maximize"
 #: data/ui/mac_menu.blp:189
 msgctxt "menubar"
 msgid "Zoom"
-msgstr ""
+msgstr "Zoom"
 
 #: data/ui/mac_menu.blp:196
 msgctxt "menubar"
 msgid "Help"
-msgstr ""
+msgstr "Ajuda"
 
 #: data/ui/mac_menu.blp:200 src/win.rs:669
 msgid "User manual"
@@ -521,12 +515,12 @@ msgstr "Manual do usuário"
 #: data/ui/mac_menu.blp:205
 msgctxt "menubar"
 msgid "Report a bug"
-msgstr ""
+msgstr "Reportar um bug"
 
 #: data/ui/mac_menu.blp:210
 msgctxt "menubar"
 msgid "View discussions"
-msgstr ""
+msgstr "Ver discussões"
 
 #: data/ui/mac_menu.blp:217 src/win.rs:671
 msgid "Help us translate"
@@ -557,7 +551,7 @@ msgstr "Solicitação de exportação"
 
 #: data/ui/main_window.blp:99
 msgid "Menu"
-msgstr ""
+msgstr "Menu"
 
 #: data/ui/main_window.blp:117 data/ui/main_window_no_csd.blp:118
 msgid "Welcome to Cartero"
@@ -568,19 +562,16 @@ msgid "Create or open a request and start testing APIs now."
 msgstr "Crie ou abra uma solicitação e comece a testar as APIs agora."
 
 #: data/ui/main_window.blp:170 data/ui/main_window_no_csd.blp:172
-#, fuzzy
 msgid "Export request as cURL…"
-msgstr "Solicitação de exportação"
+msgstr "Solicitação de exportação como cURL…"
 
 #: data/ui/main_window.blp:176 data/ui/main_window_no_csd.blp:178
-#, fuzzy
 msgid "Export request as Jetbrains HTTP…"
-msgstr "Solicitação de exportação"
+msgstr "Solicitação de exportação como Jetbrains HTTP…"
 
 #: data/ui/main_window.blp:184 data/ui/main_window_no_csd.blp:186
-#, fuzzy
 msgid "Export response body…"
-msgstr "Solicitação de exportação"
+msgstr "Exportar corpo de resposta…"
 
 #: data/ui/main_window.blp:220 data/ui/main_window_no_csd.blp:222
 #: data/ui/settings_dialog.blp:21
@@ -604,9 +595,8 @@ msgid "Request method"
 msgstr "Método de solicitação"
 
 #: data/ui/raw_body_pane.blp:28
-#, fuzzy
 msgid "Request body"
-msgstr "Método de solicitação"
+msgstr "Corpo da solicitação"
 
 #: data/ui/request_body_pane.blp:34
 msgid "Body type"
@@ -625,14 +615,12 @@ msgid "Raw"
 msgstr "Cru"
 
 #: data/ui/request_body_pane.blp:65
-#, fuzzy
 msgid "From file"
-msgstr "Exportar para"
+msgstr "Do arquivo"
 
 #: data/ui/response_headers.blp:42
-#, fuzzy
 msgid "No headers"
-msgstr "Cabeçalhos"
+msgstr "Sem cabeçalhos"
 
 #: data/ui/response_panel.blp:30
 msgid "Ready to request"
@@ -646,20 +634,21 @@ msgstr ""
 
 #: data/ui/response_panel.blp:68
 msgid "Response body"
-msgstr ""
+msgstr "Corpo de resposta"
 
 #: data/ui/response_panel.blp:87
 msgid "Binary response received"
-msgstr ""
+msgstr "Resposta binária recebida"
 
 #: data/ui/response_panel.blp:88
 msgid "The response of this request should not be rendered in a text view."
 msgstr ""
+"A resposta desta solicitação não deve ser renderizada em uma visualização de "
+"texto."
 
 #: data/ui/response_panel.blp:110
-#, fuzzy
 msgid "Render anyway"
-msgstr "Feche de qualquer maneira"
+msgstr "Renderizar de qualquer maneira"
 
 #: data/ui/search_box.blp:42 data/ui/search_box.blp:43
 msgid "Search"
@@ -683,11 +672,11 @@ msgstr "Aplicativo"
 
 #: data/ui/settings_dialog.blp:30
 msgid "You need to restart the program for the new locale to be used."
-msgstr ""
+msgstr "Você precisa reiniciar o programa para que o novo idioma seja usado."
 
 #: data/ui/settings_dialog.blp:39
 msgid "Language"
-msgstr ""
+msgstr "Linguagem"
 
 #: data/ui/settings_dialog.blp:45
 msgid "Appearance"
@@ -720,7 +709,7 @@ msgstr "Fonte personalizada"
 
 #: data/ui/settings_dialog.blp:71
 msgid "Click to select a font"
-msgstr ""
+msgstr "Clique para selecionar uma fonte"
 
 #: data/ui/settings_dialog.blp:80
 msgid "File settings"
@@ -870,9 +859,8 @@ msgstr ""
 "para '{}'."
 
 #: src/widgets/dialogs.rs:114
-#, fuzzy
 msgid "The requested file cannot be picked"
-msgstr "O arquivo solicitado foi carregado, mas apresentou problemas"
+msgstr "O arquivo solicitado não pode ser selecionado"
 
 #: src/widgets/dialogs.rs:115
 #, rust-format
@@ -882,6 +870,10 @@ msgid ""
 "\n"
 "The file '{}' is not part of the '{}' directory"
 msgstr ""
+"O arquivo deve estar no mesmo diretório que o arquivo de solicitação ou "
+"projeto ou qualquer um de seus subdiretórios.\n"
+"\n"
+"O arquivo '{}' não faz parte do diretório '{}'"
 
 #: src/widgets/dialogs.rs:135
 #, rust-format
@@ -950,14 +942,12 @@ msgid "_Save"
 msgstr "_Salvar"
 
 #: src/widgets/endpoint/endpoint_pane.rs:642
-#, fuzzy
 msgid "Export request as cURL"
-msgstr "Solicitação de exportação"
+msgstr "Solicitação de exportação como cURL"
 
 #: src/widgets/endpoint/endpoint_pane.rs:643
-#, fuzzy
 msgid "Export request as Jetbrains HTTP"
-msgstr "Solicitação de exportação"
+msgstr "Solicitação de exportação como Jetbrains HTTP"
 
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
 #: src/widgets/endpoint/response_panel.rs:340
@@ -1014,14 +1004,13 @@ msgid "The given request body could not be encoded correctly"
 msgstr "O corpo da solicitação fornecida não pôde ser codificado corretamente"
 
 #: src/widgets/error_pane.rs:110
-#, fuzzy
 msgid "You have to save the request first"
-msgstr "Não é possível salvar o arquivo solicitado"
+msgstr "Você tem que salvar a solicitação primeiro"
 
 #: src/widgets/error_pane.rs:112
 #, rust-format
 msgid "The file '{}' cannot be accessed due to the security policy"
-msgstr ""
+msgstr "O arquivo '{}' não pode ser acessado devido à política de segurança"
 
 #: src/widgets/error_pane.rs:116
 msgid "There is an input/output error"
@@ -1056,7 +1045,7 @@ msgstr "Solicitação aberta"
 
 #: src/widgets/file_dialogs.rs:187
 msgid "Select file"
-msgstr ""
+msgstr "Selecionar arquivo"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.

@@ -141,7 +141,7 @@ dependencies = [
 
 [[package]]
 name = "cartero"
-version = "0.3.0"
+version = "0.3.0-beta.1"
 dependencies = [
  "base64 0.22.1",
  "cartero_file_format",
@@ -175,7 +175,7 @@ dependencies = [
 
 [[package]]
 name = "cartero_file_format"
-version = "0.3.0"
+version = "0.3.0-beta.1"
 dependencies = [
  "cartero_interop",
  "cartero_objects",
@@ -190,7 +190,7 @@ dependencies = [
 
 [[package]]
 name = "cartero_http"
-version = "0.3.0"
+version = "0.3.0-beta.1"
 dependencies = [
  "base64 0.22.1",
  "cartero_objects",
@@ -205,14 +205,14 @@ dependencies = [
 
 [[package]]
 name = "cartero_interop"
-version = "0.3.0"
+version = "0.3.0-beta.1"
 dependencies = [
  "cartero_objects",
 ]
 
 [[package]]
 name = "cartero_isahc_client"
-version = "0.3.0"
+version = "0.3.0-beta.1"
 dependencies = [
  "cartero_http",
  "cartero_objects",
@@ -223,7 +223,7 @@ dependencies = [
 
 [[package]]
 name = "cartero_jetbrains_http_format"
-version = "0.3.0"
+version = "0.3.0-beta.1"
 dependencies = [
  "cartero_http",
  "cartero_objects",
@@ -232,7 +232,7 @@ dependencies = [
 
 [[package]]
 name = "cartero_objects"
-version = "0.3.0"
+version = "0.3.0-beta.1"
 dependencies = [
  "ctor",
  "gio",

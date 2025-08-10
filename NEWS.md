@@ -2,7 +2,7 @@
 
 These are the user-visible changes that you will notice when you use Cartero.
 
-## [0.3.0] (unreleased)
+## [0.3.0-beta.1] - 2025-08-10
 
 ### Added
 
@@ -17,13 +17,8 @@ These are the user-visible changes that you will notice when you use Cartero.
 * The default user agent used in HTTP request has changed to "Cartero/0.3.0 (isahc/1.7.2 curl/8.12.1-DEV)" (version numbers will bump as future releases flow).
 * The responsiveness of the application will behave better on small windows and mobile devices.
 * Dependency bumped: minimum version of GLib required to compile the application is now GLib 2.74.
-
-## [0.2.4] (unreleased)
-
-### Changed
-
 * Pressing the Tab or the Shift-Tab keys in a request table (parameters, variables...) will now skip the row itself and focus instead an actual component like the checkbox or the dropdown menu.
-* Translation updates: Spanish, French, Galician, Russian
+* Translation updates: Spanish, French, Galician, Brazilian Portuguese, Russian
 
 ### Fixed
 

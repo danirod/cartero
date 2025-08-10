@@ -374,7 +374,6 @@ mod imp {
             action_group.add_action(&action_cancel);
             action_group.add_action(&action_export_request);
             action_group.add_action(&action_export_response_body);
-            println!("action_group is ready");
             obj.insert_action_group("endpoint", Some(&action_group));
             self.action_group.set(action_group).unwrap();
         }

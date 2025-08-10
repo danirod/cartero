@@ -110,7 +110,6 @@ mod imp {
             let delegated_actions = ["export-request", "export-response-body"];
             for action in delegated_actions {
                 if let Some(this_action) = self.obj().lookup_action(action) {
-                    println!("action_here: {action}");
                     let pane_exp = self.current_pane_action_expression(action);
                     pane_exp.bind(&this_action, "enabled", gtk::Widget::NONE);
                 }

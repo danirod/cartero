@@ -16,21 +16,19 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use adw::prelude::AdwDialogExt;
-use cartero_objects::Request;
 use gettextrs::gettext;
 use glib::object::CastNone;
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
-use gtk::gio::FileCreateFlags;
+use gtk::gio::{self, FileCreateFlags};
 use gtk::glib;
-use gtk::{gio::prelude::SettingsExtManual, prelude::WidgetExt};
+use gtk::prelude::WidgetExt;
 use sourceview5::prelude::FileExtManual;
 use url::form_urlencoded;
 
+use crate::widgets::shell::BasePane;
 use crate::{
-    app::CarteroApplication,
     export::curl::CodeExportService,
-    interop::{InnerError, LoadResult, ObjectPane, SaveResult},
     widgets::{file_dialogs, ExportDialog},
 };
 
@@ -43,15 +41,17 @@ mod imp {
     use cartero_objects::{Field, Request, Response};
     use glib::subclass::InitializingObject;
     use glib::{JoinHandle, Properties};
-    use gtk::gio::{self, SimpleAction, SimpleActionGroup};
+    use gtk::gio::{self, Cancellable, FileCreateFlags, SimpleAction, SimpleActionGroup};
     use gtk::subclass::prelude::*;
     use gtk::{prelude::*, ClosureExpression, CompositeTemplate};
 
     use crate::app::CarteroApplication;
+    use crate::interop::{InnerError, LoadResult, SaveResult};
     use crate::widgets::authentication::AuthenticationPane;
     use crate::widgets::endpoint::ResponsePanel;
     use crate::widgets::field::FieldTableListView;
     use crate::widgets::req_body::RequestBodyPane;
+    use crate::widgets::shell::BasePaneImpl;
     use crate::widgets::MethodDropdown;
 
     #[derive(CompositeTemplate, Properties, Default)]
@@ -111,7 +111,7 @@ mod imp {
     impl ObjectSubclass for EndpointPane {
         const NAME: &'static str = "CarteroEndpointPane";
         type Type = super::EndpointPane;
-        type ParentType = adw::BreakpointBin;
+        type ParentType = crate::widgets::shell::BasePane;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -162,6 +162,75 @@ mod imp {
     impl WidgetImpl for EndpointPane {}
 
     impl BreakpointBinImpl for EndpointPane {}
+
+    impl BasePaneImpl for EndpointPane {
+        fn lookup_action(&self, name: &str) -> Option<gio::Action> {
+            self.obj().lookup_action(name)
+        }
+
+        fn load(&self) -> LoadResult {
+            let Some(file) = self.obj().file() else {
+                return LoadResult::Anonymous;
+            };
+
+            let contents = file.load_contents(gio::Cancellable::NONE);
+            match contents {
+                Ok((contents, _)) => {
+                    let input = String::from_utf8_lossy(&contents).to_string();
+                    match cartero_file_format::deserialize_request(&input) {
+                        Ok(result) => {
+                            let request = result.object();
+                            self.obj().set_request(request);
+
+                            let warnings = result.warnings();
+                            if warnings.is_empty() {
+                                LoadResult::Successful
+                            } else {
+                                LoadResult::Warning(warnings)
+                            }
+                        }
+                        Err(e) => LoadResult::Error(InnerError::InteropError(e)),
+                    }
+                }
+                Err(e) => LoadResult::Error(InnerError::GlibError(e)),
+            }
+        }
+
+        fn save(&self) -> SaveResult {
+            let Some(file) = self.obj().file() else {
+                return SaveResult::Anonymous;
+            };
+
+            let create_file_backup = {
+                let app = CarteroApplication::default();
+                let settings = app.settings();
+                settings.get::<bool>("create-backup-files")
+            };
+
+            let request = self.obj().request();
+            match cartero_file_format::serialize_request(&request) {
+                Ok(contents) => {
+                    let use_backups = create_file_backup;
+                    let saved = file.replace_contents(
+                        contents.as_bytes(),
+                        None,
+                        use_backups,
+                        FileCreateFlags::NONE,
+                        Cancellable::NONE,
+                    );
+
+                    match saved {
+                        Ok(_) => {
+                            self.obj().set_dirty(false);
+                            SaveResult::Successful
+                        }
+                        Err(e) => SaveResult::Error(InnerError::GlibError(e)),
+                    }
+                }
+                Err(e) => SaveResult::Error(InnerError::InteropError(e)),
+            }
+        }
+    }
 
     #[gtk::template_callbacks]
     impl EndpointPane {
@@ -564,7 +633,8 @@ mod imp {
 
 glib::wrapper! {
     pub struct EndpointPane(ObjectSubclass<imp::EndpointPane>)
-        @extends gtk::Widget, gtk::Box;
+        @extends gtk::Widget, gtk::Box, BasePane,
+        @implements gio::ActionMap;
 }
 
 impl Default for EndpointPane {
@@ -645,71 +715,6 @@ impl EndpointPane {
             }
         };
     }
-}
-
-impl ObjectPane<Request> for EndpointPane {
-    async fn load(&self) -> LoadResult {
-        let Some(file) = self.file() else {
-            return LoadResult::Anonymous;
-        };
-
-        match file.load_contents_future().await {
-            Ok((contents, _)) => {
-                let input = String::from_utf8_lossy(&contents).to_string();
-                match cartero_file_format::deserialize_request(&input) {
-                    Ok(result) => {
-                        let request = result.object();
-                        self.set_request(request);
-
-                        let warnings = result.warnings();
-                        if warnings.is_empty() {
-                            LoadResult::Successful
-                        } else {
-                            LoadResult::Warning(warnings)
-                        }
-                    }
-                    Err(e) => LoadResult::Error(InnerError::InteropError(e)),
-                }
-            }
-            Err(e) => LoadResult::Error(InnerError::GlibError(e)),
-        }
-    }
-
-    async fn save(&self) -> SaveResult {
-        let Some(file) = self.file() else {
-            return SaveResult::Anonymous;
-        };
-
-        let request = self.request();
-        match cartero_file_format::serialize_request(&request) {
-            Ok(contents) => {
-                let use_backups = create_file_backup();
-                let saved = file
-                    .replace_contents_future(
-                        contents,
-                        None,
-                        use_backups,
-                        gtk::gio::FileCreateFlags::NONE,
-                    )
-                    .await;
-
-                match saved {
-                    Ok(_) => {
-                        self.set_dirty(false);
-                        SaveResult::Successful
-                    }
-                    Err((_, e)) => SaveResult::Error(InnerError::GlibError(e)),
-                }
-            }
-            Err(e) => SaveResult::Error(InnerError::InteropError(e)),
-        }
-    }
-}
-
-fn create_file_backup() -> bool {
-    let app = CarteroApplication::default();
-    let settings = app.settings();
-    settings.get::<bool>("create-backup-files")
 }
 
 fn extract_queryparams(url: &str) -> Vec<(String, String)> {

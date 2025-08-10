@@ -15,7 +15,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use crate::{app::CarteroApplication, interop::LoadResult, widgets::endpoint::EndpointPane};
+use crate::{app::CarteroApplication, interop::LoadResult, widgets::shell::BasePane};
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
 use gtk::{gio, glib};
@@ -35,8 +35,9 @@ mod imp {
     use indexmap::IndexMap;
 
     use crate::app::CarteroApplication;
-    use crate::interop::{LoadResult, ObjectPane, SaveResult};
+    use crate::interop::{LoadResult, SaveResult};
     use crate::widgets::endpoint::EndpointPane;
+    use crate::widgets::shell::{BasePane, BasePaneExt};
     use crate::{config, widgets::*};
     use glib::subclass::InitializingObject;
     use gtk::{CompositeTemplate, TemplateChild};
@@ -244,7 +245,7 @@ mod imp {
             let mut paths = Vec::new();
             for i in 0..count {
                 let page = pages.item(i).and_downcast::<TabPage>().unwrap();
-                let child = page.child().downcast::<EndpointPane>().unwrap();
+                let child = page.child().downcast::<BasePane>().unwrap();
                 let path = child.file();
                 let file = path
                     .and_then(|f| f.path())
@@ -263,9 +264,9 @@ mod imp {
         /// Returns the pane currently visible in the window.
         ///
         /// This method will make more sense in the future once multiple panes can be visible in tabs.
-        pub fn current_pane(&self) -> Option<EndpointPane> {
+        pub fn current_pane(&self) -> Option<BasePane> {
             let page = self.tabview.selected_page()?;
-            let page = page.child().downcast::<EndpointPane>().unwrap();
+            let page = page.child().downcast::<BasePane>().unwrap();
             Some(page)
         }
 
@@ -276,7 +277,7 @@ mod imp {
                 .filter(Result::is_ok)
                 .flatten()
                 .find(|page| {
-                    let item = page.child().downcast::<EndpointPane>().unwrap();
+                    let item = page.child().downcast::<BasePane>().unwrap();
                     match item.file() {
                         Some(f) => f.equal(file),
                         None => false,
@@ -284,7 +285,7 @@ mod imp {
                 })
         }
 
-        fn insert_pane_into_tabs(&self, pane: &EndpointPane) -> TabPage {
+        fn insert_pane_into_tabs(&self, pane: &BasePane) -> TabPage {
             // Wrap the pane into a page and mark it as the current one.
             let page = self.tabview.add_page(pane, None);
             self.stack.set_visible_child_name("tabview");
@@ -330,7 +331,7 @@ mod imp {
             self.kill_clean_drafts();
 
             let pane = EndpointPane::new();
-            self.insert_pane_into_tabs(&pane);
+            self.insert_pane_into_tabs(&pane.upcast());
         }
 
         /// Returns a generic iterator to traverse the pages in the tab view.
@@ -343,9 +344,9 @@ mod imp {
         }
 
         /// Returns a generic iterator to traverse the panes in the tab view.
-        fn iter_panes(&self) -> impl Iterator<Item = EndpointPane> {
+        fn iter_panes(&self) -> impl Iterator<Item = BasePane> {
             self.iter_pages()
-                .map(|page| page.child().downcast::<EndpointPane>().unwrap())
+                .map(|page| page.child().downcast::<BasePane>().unwrap())
         }
 
         /// This function receives an iterator of gio::Files to open, and returns a filtered
@@ -369,9 +370,9 @@ mod imp {
         }
 
         /// Given a list of endpoint files to open, this function will return the collection of
-        /// EndpointPanes that were opened last time the program was run. They will be loaded and
-        /// the UI state will be populated, but they won't be added to the user interface yet.
-        async fn preload_endpoints<I>(&self, files: I) -> IndexMap<EndpointPane, LoadResult>
+        /// panes that were opened last time the program was run. They will be loaded and the UI
+        /// state will be populated, but they won't be added to the user interface yet.
+        async fn preload_panes<I>(&self, files: I) -> IndexMap<BasePane, LoadResult>
         where
             I: IntoIterator<Item = gio::File> + Clone,
         {
@@ -379,13 +380,13 @@ mod imp {
             for file in files {
                 let pane = EndpointPane::new();
                 pane.set_file(Some(file.clone()));
-                let result = pane.load().await;
-                loaded.insert(pane, result);
+                let result = pane.load();
+                loaded.insert(pane.upcast(), result);
             }
             loaded
         }
 
-        async fn display_opened_panes(&self, panes: &IndexMap<EndpointPane, LoadResult>) {
+        async fn display_opened_panes(&self, panes: &IndexMap<BasePane, LoadResult>) {
             for (pane, failures) in panes {
                 let can_open = match failures {
                     LoadResult::Successful | LoadResult::Anonymous | LoadResult::Warning(_) => true,
@@ -413,7 +414,7 @@ mod imp {
                     }
                 }
             } else {
-                let results = self.preload_endpoints(not_opened_paths).await;
+                let results = self.preload_panes(not_opened_paths).await;
 
                 /* Because this is interactive, we can do all the UI update right now. */
                 self.display_opened_panes(&results).await;
@@ -433,7 +434,7 @@ mod imp {
         pub(super) async fn open_endpoints(
             &self,
             files: &[gio::File],
-        ) -> IndexMap<EndpointPane, LoadResult> {
+        ) -> IndexMap<BasePane, LoadResult> {
             let not_opened_paths = self.filter_endpoints_to_open(files);
             if not_opened_paths.is_empty() {
                 /* Every requested file is opened. Just switch to one of the requested panes. */
@@ -444,7 +445,7 @@ mod imp {
                 }
                 IndexMap::new()
             } else {
-                let results = self.preload_endpoints(not_opened_paths).await;
+                let results = self.preload_panes(not_opened_paths).await;
                 self.display_opened_panes(&results).await;
                 self.save_visible_tabs();
                 results
@@ -457,7 +458,7 @@ mod imp {
         /// until the window is actually visible.
         pub(super) async fn report_open_endpoints_errors(
             &self,
-            opened: &IndexMap<EndpointPane, LoadResult>,
+            opened: &IndexMap<BasePane, LoadResult>,
         ) {
             let obj = self.obj();
             for (pane, failures) in opened {
@@ -491,7 +492,7 @@ mod imp {
             let tabs = self.tabview.pages().snapshot();
             for tab in tabs {
                 let page = tab.downcast::<TabPage>().unwrap();
-                let pane = page.child().downcast::<EndpointPane>().unwrap();
+                let pane = page.child().downcast::<BasePane>().unwrap();
                 if pane.file().is_none() && !pane.dirty() {
                     self.tabview.close_page(&page);
                 }
@@ -530,7 +531,7 @@ mod imp {
             }
         }
 
-        async fn save_pane(&self, pane: &EndpointPane) -> glib::Propagation {
+        async fn save_pane(&self, pane: &BasePane) -> glib::Propagation {
             /* If the pane is anonymous, give it a chance to have a file. */
             let target_file = match pane.file() {
                 Some(file) => Some(file),
@@ -541,7 +542,7 @@ mod imp {
             if target_file.is_some() {
                 let previous = pane.file();
                 pane.set_file(target_file.clone());
-                let result = pane.save().await;
+                let result = pane.save();
                 match result {
                     SaveResult::Anonymous => glib::Propagation::Stop,
                     SaveResult::Successful => glib::Propagation::Proceed,
@@ -580,21 +581,21 @@ mod imp {
         }
 
         async fn action_export_request(&self, format: &str) {
-            if let Some(pane) = self.current_pane() {
+            /*if let Some(pane) = self.current_pane() {
                 /* Try to export. */
                 pane.export_request(format).await;
-            }
+            }*/
         }
 
         async fn action_export_response(&self) {
-            if let Some(pane) = self.current_pane() {
+            /*if let Some(pane) = self.current_pane() {
                 pane.export_response().await;
-            }
+            }*/
         }
 
         async fn close_tab_requested(&self, tabpage: &TabPage) {
             let obj = self.obj();
-            let endpoint_pane = tabpage.child().downcast::<EndpointPane>().unwrap();
+            let endpoint_pane = tabpage.child().downcast::<BasePane>().unwrap();
             let close_page = if endpoint_pane.dirty() {
                 /* The window has been modified, so we ask the user what to do. */
                 match dialogs::confirm_save(&*obj, endpoint_pane.file().as_ref()).await {
@@ -1042,12 +1043,12 @@ impl CarteroWindow {
         Object::builder().property("application", Some(app)).build()
     }
 
-    pub async fn open_endpoints(&self, files: &[gio::File]) -> IndexMap<EndpointPane, LoadResult> {
+    pub async fn open_endpoints(&self, files: &[gio::File]) -> IndexMap<BasePane, LoadResult> {
         let imp = self.imp();
         imp.open_endpoints(files).await
     }
 
-    pub async fn report_open_endpoints_errors(&self, opened: &IndexMap<EndpointPane, LoadResult>) {
+    pub async fn report_open_endpoints_errors(&self, opened: &IndexMap<BasePane, LoadResult>) {
         let imp = self.imp();
         imp.report_open_endpoints_errors(opened).await
     }

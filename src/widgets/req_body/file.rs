@@ -19,13 +19,10 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 
 mod imp {
-    use std::{
-        cell::{OnceCell, RefCell},
-        path::PathBuf,
-    };
+    use std::cell::{OnceCell, RefCell};
 
     use crate::{
-        widgets::{dialogs::glib_file_dialog_error, endpoint::EndpointPane, pick_file},
+        widgets::{dialogs::glib_file_dialog_error, pick_file, shell::BasePane},
         win::CarteroWindow,
     };
 
@@ -111,8 +108,8 @@ mod imp {
 
         fn grab_current_file(&self) -> Option<gtk::gio::File> {
             self.obj()
-                .ancestor(EndpointPane::static_type())
-                .and_downcast::<EndpointPane>()
+                .ancestor(BasePane::static_type())
+                .and_downcast::<BasePane>()
                 .and_then(|pane| pane.file())
         }
 

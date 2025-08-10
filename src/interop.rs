@@ -60,11 +60,3 @@ pub enum SaveResult {
     Anonymous,
     Error(InnerError<FileSaveError>),
 }
-
-pub trait ObjectPane<T>
-where
-    T: Clone,
-{
-    async fn load(&self) -> LoadResult;
-    async fn save(&self) -> SaveResult;
-}

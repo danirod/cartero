@@ -64,7 +64,7 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
         }
 
         Entry url {
-          editable: bind template.read-only inverted;
+          sensitive: bind template.read-only inverted;
           hexpand: true;
           placeholder-text: _("Request URL");
           tooltip-text: _("Request URL");

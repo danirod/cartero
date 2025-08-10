@@ -37,7 +37,7 @@ template $CarteroKeyValueRow: Gtk.ListBoxRow {
           "flat",
         ]
 
-        editable: bind template.read-only inverted;
+        sensitive: bind template.read-only inverted;
         hexpand: true;
         text: bind template.header-name bidirectional;
         placeholder-text: _("Name");
@@ -49,7 +49,7 @@ template $CarteroKeyValueRow: Gtk.ListBoxRow {
           "flat",
         ]
 
-        editable: bind template.read-only inverted;
+        sensitive: bind template.read-only inverted;
         hexpand: true;
         secondary-icon-activatable: false;
         secondary-icon-sensitive: false;

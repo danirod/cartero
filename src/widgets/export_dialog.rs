@@ -21,7 +21,7 @@ use adw::subclass::prelude::*;
 mod imp {
     use std::cell::RefCell;
 
-    use crate::{widgets::dialogs::glib_file_dialog_error, win::CarteroWindow};
+    use crate::widgets::dialogs::glib_file_dialog_error;
 
     use super::*;
     use formatx::formatx;

@@ -18,7 +18,6 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 use cartero_http::RequestError;
-use formatx::formatx;
 use gettextrs::gettext;
 use glib::subclass::InitializingObject;
 use glib::Properties;

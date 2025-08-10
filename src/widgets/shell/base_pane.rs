@@ -145,6 +145,7 @@ pub trait BasePaneImpl: BreakpointBinImpl {
 }
 
 #[doc(hidden)]
+#[allow(unused)]
 pub trait BasePaneImplExt: BasePaneImpl {
     fn parent_lookup_action(&self, name: &str) -> Option<gio::Action> {
         let data = Self::type_data();

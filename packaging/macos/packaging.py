@@ -72,6 +72,12 @@ def sign(identity: str, path: Path):
     subprocess.run(args)
 
 
+def gettext_linguas():
+    linguas_file = source_dir / "po" / "LINGUAS"
+    linguas_data = linguas_file.read_text().splitlines()
+    return [l for l in linguas_data if not l.startswith("#")]
+
+
 def shared_libraries(path):
     args = ["otool", "-L", path]
     output = subprocess.check_output(args).decode("utf-8")
@@ -131,6 +137,10 @@ for res_dir in ["lib", "opt", "share"]:
 # Move additional resources
 for icns in ["Cartero.icns", "Cartero-request.icns"]:
     shutil.copy(template_dir / icns, app_resources / icns)
+linguas = gettext_linguas()
+for lang in linguas:
+    lang_path = app_resources / f"{lang}.lproj"
+    lang_path.mkdir(exist_ok=True)
 
 # Copy the .plist
 plist_src = build_dir / "packaging" / "macos" / "Info.plist"

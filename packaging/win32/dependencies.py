@@ -158,6 +158,16 @@ for root, _, files in loaders.walk():
             print(f"Copying {path} to {bindir / name}...")
             shutil.copy(path, bindir / name)
 
+# For some reason, sometimes librsvg is not copied, at least in CLANGARM64.
+# TODO: Why? The reason is not clear. Running ldd.exe in CLANGARM64 does not
+# initially reveal that librsvg is required. However, when running ldd in
+# another clean CLANGARM64 root shows the librsvg dependency.
+librsvg = next((msys / "bin").glob("librsvg*.dll"))
+if not librsvg:
+    print("Error: librsvg DLL not found!")
+    sys.exit(1)
+shutil.copy(librsvg, bindir / librsvg.name)
+
 # Copy datafiles required by dependencies
 datadeps = ["glib-2.0", "gtksourceview-5", "icons/Adwaita", "icons/hicolor"]
 for dep in datadeps:

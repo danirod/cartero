@@ -18,18 +18,20 @@ These are the user-visible changes that you will notice when you use Cartero.
 * The responsiveness of the application will behave better on small windows and mobile devices.
 * Dependency bumped: minimum version of GLib required to compile the application is now GLib 2.74.
 
-## [0.2.4] (unreleased)
+## [0.2.4] - 2025-08-10
 
 ### Changed
 
 * Pressing the Tab or the Shift-Tab keys in a request table (parameters, variables...) will now skip the row itself and focus instead an actual component like the checkbox or the dropdown menu.
-* Translation updates: Spanish, French, Galician, Russian
+* MacOS: on systems with a dual graphics card setup, Cartero will now run on the integrated rather than the discrete one. (This is good, it will save a lot of battery.)
+* Translation updates: Spanish, French, Galician, Brazilian Portuguese, Russian.
 
 ### Fixed
 
+* Fixed accessibility issues: missing labels and tooltips within some window widgets.
 * Some keyboard shortcuts were not being described by thee Keyboard Shortcuts help dialog.
-* MacOS: Zoom in, zoom out, zoom reset and search keyboard shortcuts for code views were using the wrong keyboard modifiers.
 * The dropdown menu for the request method had the wrong appearance when the computer uses a right-to-left layout (such as Arabic or Hebrew).
+* MacOS: Zoom in, zoom out, zoom reset and search keyboard shortcuts for code views were using the wrong keyboard modifiers.
 
 ## [0.2.3] - 2025-07-05
 

@@ -15,7 +15,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use crate::{app::CarteroApplication, interop::LoadResult, widgets::endpoint::EndpointPane};
+use crate::{app::CarteroApplication, interop::LoadResult, widgets::shell::BasePane};
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
 use gtk::{gio, glib};
@@ -25,7 +25,7 @@ mod imp {
     use std::collections::HashSet;
 
     use adw::prelude::WidgetExt;
-    use std::cell::{OnceCell, RefCell};
+    use std::cell::OnceCell;
 
     use adw::AboutDialog;
     use adw::{prelude::*, subclass::prelude::*, TabPage};
@@ -35,8 +35,9 @@ mod imp {
     use indexmap::IndexMap;
 
     use crate::app::CarteroApplication;
-    use crate::interop::{LoadResult, ObjectPane, SaveResult};
+    use crate::interop::{LoadResult, SaveResult};
     use crate::widgets::endpoint::EndpointPane;
+    use crate::widgets::shell::{BasePane, BasePaneExt};
     use crate::{config, widgets::*};
     use glib::subclass::InitializingObject;
     use gtk::{CompositeTemplate, TemplateChild};
@@ -68,46 +69,51 @@ mod imp {
         #[template_child]
         stack: TemplateChild<gtk::Stack>,
 
+        #[template_child]
+        export_request: TemplateChild<gtk::MenuButton>,
+
         current_tab_binding_group: OnceCell<glib::BindingGroup>,
-        export_menu_tab_responses: RefCell<Vec<gtk::ExpressionWatch>>,
     }
 
     #[gtk::template_callbacks]
     impl CarteroWindow {
-        /// Updates the binds for the "Export response" actions, so that
-        /// they use the has-response property of the current pane, or
-        /// false if there is no current pane at all. This function should
-        /// be called whenever the current page changes.
-        fn evaluate_export_menu_tab_responses(&self) {
-            {
-                let watches = self.export_menu_tab_responses.borrow_mut();
-                for watch in &*watches {
-                    watch.unwatch();
+        /// Some buttons of the toolbar must only be available depending on the type of pane.
+        fn init_dynamic_toolbar_menu_buttons(&self) {
+            let is_endpoint = self
+                .tabview
+                .property_expression("selected-page")
+                .chain_closure::<bool>(glib::closure!(
+                    move |_: glib::Object, page: Option<adw::TabPage>| {
+                        page.is_some_and(|page| {
+                            page.child().downcast_ref::<EndpointPane>().is_some()
+                        })
+                    }
+                ));
+
+            is_endpoint.bind(&*self.export_request, "visible", Some(&*self.tabview));
+        }
+
+        fn current_pane_action_expression(&self, name: &str) -> gtk::Expression {
+            let current_pane_action = self
+                .current_pane()
+                .and_then(|pane| pane.lookup_action(name));
+            match current_pane_action {
+                None => gtk::ConstantExpression::new(false).upcast(),
+                Some(action) => action.property_expression("enabled").upcast(),
+            }
+        }
+
+        /// Some actions have to call the action of the same name of the current pane
+        /// when activated. This function will re-evaluate if those actions exist,
+        /// and bind or disable the action in CarteroWindow depending on the result.
+        fn eval_delegated_actions(&self) {
+            let delegated_actions = ["export-request", "export-response-body"];
+            for action in delegated_actions {
+                if let Some(this_action) = self.obj().lookup_action(action) {
+                    let pane_exp = self.current_pane_action_expression(action);
+                    pane_exp.bind(&this_action, "enabled", gtk::Widget::NONE);
                 }
             }
-
-            let action_binding = if let Some(page) = self.tabview.selected_page() {
-                page.property_expression("child")
-                    .chain_property::<EndpointPane>("has-response")
-                    .upcast()
-            } else {
-                gtk::ConstantExpression::new(false).upcast()
-            };
-            let obj = self.obj();
-
-            /* Enable these actions only if there is an open page and the page has a valid response. */
-            let tab_and_response_actions = ["export-response-body", "export-har"];
-            let new_tab_bindings = tab_and_response_actions
-                .iter()
-                .filter_map(|tab| {
-                    if let Some(action) = obj.lookup_action(&tab) {
-                        Some(action_binding.bind(&action, "enabled", Some(&*self.tabview)))
-                    } else {
-                        None
-                    }
-                })
-                .collect::<Vec<_>>();
-            self.export_menu_tab_responses.replace(new_tab_bindings);
         }
 
         fn init_tab_bindings(&self) {
@@ -148,14 +154,12 @@ mod imp {
                 ));
 
             /* Enable these actions only if there is an open page. */
-            let tab_dependent_actions = ["save", "save-as", "close", "request", "export-request"];
+            let tab_dependent_actions = ["save", "save-as", "close", "request"];
             for tab in tab_dependent_actions {
                 if let Some(action) = obj.lookup_action(&tab) {
                     has_page.bind(&action, "enabled", Some(&*self.tabview));
                 }
             }
-
-            self.evaluate_export_menu_tab_responses();
 
             self.tabview.connect_notify_local(
                 Some("selected-page"),
@@ -163,9 +167,6 @@ mod imp {
                     #[weak(rename_to = imp)]
                     self,
                     move |tv: &adw::TabView, _| {
-                        // Re-evalute the export bindings.
-                        imp.evaluate_export_menu_tab_responses();
-
                         let page = tv.selected_page();
                         let binding_group = imp.current_tab_binding_group.get().unwrap();
                         binding_group.set_source(page.as_ref());
@@ -225,7 +226,7 @@ mod imp {
             let mut paths = Vec::new();
             for i in 0..count {
                 let page = pages.item(i).and_downcast::<TabPage>().unwrap();
-                let child = page.child().downcast::<EndpointPane>().unwrap();
+                let child = page.child().downcast::<BasePane>().unwrap();
                 let path = child.file();
                 let file = path
                     .and_then(|f| f.path())
@@ -244,9 +245,9 @@ mod imp {
         /// Returns the pane currently visible in the window.
         ///
         /// This method will make more sense in the future once multiple panes can be visible in tabs.
-        pub fn current_pane(&self) -> Option<EndpointPane> {
+        pub fn current_pane(&self) -> Option<BasePane> {
             let page = self.tabview.selected_page()?;
-            let page = page.child().downcast::<EndpointPane>().unwrap();
+            let page = page.child().downcast::<BasePane>().unwrap();
             Some(page)
         }
 
@@ -257,7 +258,7 @@ mod imp {
                 .filter(Result::is_ok)
                 .flatten()
                 .find(|page| {
-                    let item = page.child().downcast::<EndpointPane>().unwrap();
+                    let item = page.child().downcast::<BasePane>().unwrap();
                     match item.file() {
                         Some(f) => f.equal(file),
                         None => false,
@@ -265,7 +266,7 @@ mod imp {
                 })
         }
 
-        fn insert_pane_into_tabs(&self, pane: &EndpointPane) -> TabPage {
+        fn insert_pane_into_tabs(&self, pane: &BasePane) -> TabPage {
             // Wrap the pane into a page and mark it as the current one.
             let page = self.tabview.add_page(pane, None);
             self.stack.set_visible_child_name("tabview");
@@ -310,8 +311,8 @@ mod imp {
         pub(super) fn action_new_endpoint(&self) {
             self.kill_clean_drafts();
 
-            let pane = EndpointPane::new();
-            self.insert_pane_into_tabs(&pane);
+            let pane = EndpointPane::default();
+            self.insert_pane_into_tabs(&pane.upcast());
         }
 
         /// Returns a generic iterator to traverse the pages in the tab view.
@@ -324,9 +325,9 @@ mod imp {
         }
 
         /// Returns a generic iterator to traverse the panes in the tab view.
-        fn iter_panes(&self) -> impl Iterator<Item = EndpointPane> {
+        fn iter_panes(&self) -> impl Iterator<Item = BasePane> {
             self.iter_pages()
-                .map(|page| page.child().downcast::<EndpointPane>().unwrap())
+                .map(|page| page.child().downcast::<BasePane>().unwrap())
         }
 
         /// This function receives an iterator of gio::Files to open, and returns a filtered
@@ -350,23 +351,23 @@ mod imp {
         }
 
         /// Given a list of endpoint files to open, this function will return the collection of
-        /// EndpointPanes that were opened last time the program was run. They will be loaded and
-        /// the UI state will be populated, but they won't be added to the user interface yet.
-        async fn preload_endpoints<I>(&self, files: I) -> IndexMap<EndpointPane, LoadResult>
+        /// panes that were opened last time the program was run. They will be loaded and the UI
+        /// state will be populated, but they won't be added to the user interface yet.
+        async fn preload_panes<I>(&self, files: I) -> IndexMap<BasePane, LoadResult>
         where
             I: IntoIterator<Item = gio::File> + Clone,
         {
             let mut loaded = IndexMap::new();
             for file in files {
-                let pane = EndpointPane::new();
+                let pane = EndpointPane::default();
                 pane.set_file(Some(file.clone()));
-                let result = pane.load().await;
-                loaded.insert(pane, result);
+                let result = pane.load();
+                loaded.insert(pane.upcast(), result);
             }
             loaded
         }
 
-        async fn display_opened_panes(&self, panes: &IndexMap<EndpointPane, LoadResult>) {
+        async fn display_opened_panes(&self, panes: &IndexMap<BasePane, LoadResult>) {
             for (pane, failures) in panes {
                 let can_open = match failures {
                     LoadResult::Successful | LoadResult::Anonymous | LoadResult::Warning(_) => true,
@@ -394,7 +395,7 @@ mod imp {
                     }
                 }
             } else {
-                let results = self.preload_endpoints(not_opened_paths).await;
+                let results = self.preload_panes(not_opened_paths).await;
 
                 /* Because this is interactive, we can do all the UI update right now. */
                 self.display_opened_panes(&results).await;
@@ -414,7 +415,7 @@ mod imp {
         pub(super) async fn open_endpoints(
             &self,
             files: &[gio::File],
-        ) -> IndexMap<EndpointPane, LoadResult> {
+        ) -> IndexMap<BasePane, LoadResult> {
             let not_opened_paths = self.filter_endpoints_to_open(files);
             if not_opened_paths.is_empty() {
                 /* Every requested file is opened. Just switch to one of the requested panes. */
@@ -425,7 +426,7 @@ mod imp {
                 }
                 IndexMap::new()
             } else {
-                let results = self.preload_endpoints(not_opened_paths).await;
+                let results = self.preload_panes(not_opened_paths).await;
                 self.display_opened_panes(&results).await;
                 self.save_visible_tabs();
                 results
@@ -438,7 +439,7 @@ mod imp {
         /// until the window is actually visible.
         pub(super) async fn report_open_endpoints_errors(
             &self,
-            opened: &IndexMap<EndpointPane, LoadResult>,
+            opened: &IndexMap<BasePane, LoadResult>,
         ) {
             let obj = self.obj();
             for (pane, failures) in opened {
@@ -472,7 +473,7 @@ mod imp {
             let tabs = self.tabview.pages().snapshot();
             for tab in tabs {
                 let page = tab.downcast::<TabPage>().unwrap();
-                let pane = page.child().downcast::<EndpointPane>().unwrap();
+                let pane = page.child().downcast::<BasePane>().unwrap();
                 if pane.file().is_none() && !pane.dirty() {
                     self.tabview.close_page(&page);
                 }
@@ -511,7 +512,7 @@ mod imp {
             }
         }
 
-        async fn save_pane(&self, pane: &EndpointPane) -> glib::Propagation {
+        async fn save_pane(&self, pane: &BasePane) -> glib::Propagation {
             /* If the pane is anonymous, give it a chance to have a file. */
             let target_file = match pane.file() {
                 Some(file) => Some(file),
@@ -522,7 +523,7 @@ mod imp {
             if target_file.is_some() {
                 let previous = pane.file();
                 pane.set_file(target_file.clone());
-                let result = pane.save().await;
+                let result = pane.save();
                 match result {
                     SaveResult::Anonymous => glib::Propagation::Stop,
                     SaveResult::Successful => glib::Propagation::Proceed,
@@ -560,22 +561,9 @@ mod imp {
             }
         }
 
-        async fn action_export_request(&self, format: &str) {
-            if let Some(pane) = self.current_pane() {
-                /* Try to export. */
-                pane.export_request(format).await;
-            }
-        }
-
-        async fn action_export_response(&self) {
-            if let Some(pane) = self.current_pane() {
-                pane.export_response().await;
-            }
-        }
-
         async fn close_tab_requested(&self, tabpage: &TabPage) {
             let obj = self.obj();
-            let endpoint_pane = tabpage.child().downcast::<EndpointPane>().unwrap();
+            let endpoint_pane = tabpage.child().downcast::<BasePane>().unwrap();
             let close_page = if endpoint_pane.dirty() {
                 /* The window has been modified, so we ask the user what to do. */
                 match dialogs::confirm_save(&*obj, endpoint_pane.file().as_ref()).await {
@@ -624,46 +612,18 @@ mod imp {
                     "Erick Tucto https://github.com/ericktucto",
                     "Sergio Alejandro Ribera Costa https://github.com/SergioRibera",
                     "Drsheppard https://github.com/Drsheppard01",
-                    "sekito https://github.com/ser356"
+                    "sekito https://github.com/ser356",
                 ])
                 .documenters(vec![
                     "David (@davidtaim) https://github.com/davidtaim",
                     "@SoloAntonio https://github.com/SoloAntonio",
                     "Victor (@barrientosvctor) https://github.com/barrientosvctor",
                     "Pablo (@pabloblgra) https://github.com/pabloblgra",
-                    ])
-                    // Translators: Replace "translator-credits" with your names. Put a comma between.
+                ])
+                // Translators: Replace "translator-credits" with your names. Put a comma between.
                 .translator_credits(gettext("translator-credits"))
                 .copyright(gettext("© 2024-2025 the Cartero authors"))
-                .release_notes(r#"
-                <p>Added:</p>
-        <ul>
-          <li>An authorization tab, currently supporting basic authentication and bearer tokens.</li>
-          <li>A Cancel button to stop an HTTP request in progress.</li>
-          <li>An error panel to report errors related to a failing web request.</li>
-          <li>Alert dialogs to report errors related to loading and saving files.</li>
-          <li>New keyboard shortcuts and mouse gestures for zooming text views.</li>
-          <li>Improved the about dialog.</li>
-        </ul>
-        <p>Changed:</p>
-        <ul>
-          <li>Application errors will now properly report the cause of an error and not just generic messages.</li>
-          <li>During a request, the application will now stay clickable and not freeze.</li>
-          <li>Units for the response size will now be internationalized (for instance, 32.4 Ko rather than 32.4 kB when running in French).</li>
-          <li>Reduced the precission of the response duration indicator to prevent confusion.</li>
-          <li>Disabled query params in the Parameters table will now be persisted into the file.</li>
-          <li>Simplified the application icon and updated the branding.</li>
-        </ul>
-        <p>Fixed:</p>
-        <ul>
-          <li>Requests whose URL do not start with http:// or https:// (such as "localhost:3000/users") should not fail now.</li>
-          <li>During prettification of JSON responses, objects were being sorted; they will respect the original order now.</li>
-          <li>The headers and variables tables lost the ability to report when a field name was duplicated.</li>
-          <li>Disabled query params in the Parameters table were lost when the request URL changed.</li>
-          <li>Windows: closing the settings dialog sometimes buried the Cartero main window under other windows.</li>
-          <li>Windows: the title bar stayed in light mode even when the application ran in dark mode.</li>
-        </ul>
-                "#)
+                .release_notes(include_str!("widgets/changelog.xml.inc"))
                 .license_type(gtk::License::Gpl30)
                 .build();
             about.add_link(&gettext("User manual"), "https://cartero.danirod.es/docs/");
@@ -899,36 +859,25 @@ mod imp {
 
             let action_export_request = ActionEntry::builder("export-request")
                 .parameter_type(Some(&String::static_variant_type()))
-                .activate(move |window: &super::CarteroWindow, _, variant| {
-                    let param = variant.unwrap().get::<String>().unwrap();
-                    glib::spawn_future_local(glib::clone!(
-                        #[weak]
-                        window,
-                        async move {
-                            window.imp().action_export_request(&param).await;
+                .activate(glib::clone!(
+                    #[weak(rename_to = window)]
+                    self,
+                    move |_, _, variant| {
+                        if let Some(pane) = window.current_pane() {
+                            let _ = pane.activate_action("endpoint.export-request", variant);
                         }
-                    ));
-                })
+                    }
+                ))
                 .build();
 
             let action_export_response_body = ActionEntry::builder("export-response-body")
-                .activate(move |window: &super::CarteroWindow, _, _| {
-                    glib::spawn_future_local(glib::clone!(
-                        #[weak]
-                        window,
-                        async move {
-                            window.imp().action_export_response().await;
-                        }
-                    ));
-                })
-                .build();
-
-            let action_export_har = ActionEntry::builder("export-har")
                 .activate(glib::clone!(
                     #[weak(rename_to = window)]
                     self,
                     move |_, _, _| {
-                        println!("Exporting interaction as HAr");
+                        if let Some(pane) = window.current_pane() {
+                            let _ = pane.activate_action("endpoint.export-response-body", None);
+                        }
                     }
                 ))
                 .build();
@@ -944,7 +893,6 @@ mod imp {
                 action_about,
                 action_export_request,
                 action_export_response_body,
-                action_export_har,
             ]);
 
             #[cfg(feature = "app_updater")]
@@ -968,6 +916,16 @@ mod imp {
             }
 
             self.init_tab_bindings();
+
+            self.init_dynamic_toolbar_menu_buttons();
+            self.eval_delegated_actions();
+            self.tabview.connect_selected_page_notify(glib::clone!(
+                #[weak(rename_to = win)]
+                self,
+                move |_| {
+                    win.eval_delegated_actions();
+                }
+            ));
         }
     }
 
@@ -1021,12 +979,12 @@ impl CarteroWindow {
         Object::builder().property("application", Some(app)).build()
     }
 
-    pub async fn open_endpoints(&self, files: &[gio::File]) -> IndexMap<EndpointPane, LoadResult> {
+    pub async fn open_endpoints(&self, files: &[gio::File]) -> IndexMap<BasePane, LoadResult> {
         let imp = self.imp();
         imp.open_endpoints(files).await
     }
 
-    pub async fn report_open_endpoints_errors(&self, opened: &IndexMap<EndpointPane, LoadResult>) {
+    pub async fn report_open_endpoints_errors(&self, opened: &IndexMap<BasePane, LoadResult>) {
         let imp = self.imp();
         imp.report_open_endpoints_errors(opened).await
     }

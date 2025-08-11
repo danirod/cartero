@@ -243,7 +243,16 @@ if rsvg_convert := shutil.which("rsvg-convert"):
         )
 
     # Symlink the 512x512 version to be used as the AppImage icon.
-    hd_icon = icon_root / "512x512" / "apps" / f"{app_id}.png"
+    hd_icon = (
+        Path(".")
+        / "usr"
+        / "share"
+        / "icons"
+        / "hicolor"
+        / "512x512"
+        / "apps"
+        / f"{app_id}.png"
+    )
 
     app_icon = Path(destdir / f"{app_id}.png")
     if app_icon.exists():
@@ -258,7 +267,16 @@ else:
     # Fallback to SVG
     print("rsvg-convert not found. Will use the SVG variant as AppImage icon")
     print("This will render improperly on KDE and some other SVG renderers")
-    hd_icon = icon_root / "scalable" / "apps" / f"{app_id}.svg"
+    hd_icon = (
+        Path(".")
+        / "usr"
+        / "share"
+        / "icons"
+        / "hicolor"
+        / "scalable"
+        / "apps"
+        / f"{app_id}.svg"
+    )
 
     app_icon = Path(destdir / f"{app_id}.svg")
     if app_icon.exists():

@@ -140,6 +140,7 @@ path = [
     "doc/**/*.png",
     "packaging/macos/DmgBackground.png",
     "packaging/macos/DmgBackground.svg",
+    "src/widgets/changelog.xml.inc",
 ]
 SPDX-FileCopyrightText = "the Cartero authors"
 SPDX-License-Identifier = "CC-BY-SA-4.0"

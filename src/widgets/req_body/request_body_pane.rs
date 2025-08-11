@@ -22,8 +22,8 @@ mod imp {
     use std::cell::RefCell;
 
     use crate::widgets::{
-        endpoint::EndpointPane,
         req_body::{File, Multipart, Raw, Urlencoded},
+        shell::BasePane,
     };
 
     use super::*;
@@ -121,7 +121,7 @@ mod imp {
                         // Before the widget can be returned, we need to bind the 'saved' property
                         // first. It is reactive, so that saving a new file for the first time triggers
                         // an update of the property here to enable the buttons.
-                        if let Some(pane) = self.grab_endpoint_pane() {
+                        if let Some(pane) = self.grab_base_pane() {
                             // Safety check in case you are trying to use the widget standalone.
                             pane.property_expression("file")
                                 .chain_closure::<bool>(glib::closure!(
@@ -150,10 +150,8 @@ mod imp {
             self.sync_container();
         }
 
-        fn grab_endpoint_pane(&self) -> Option<EndpointPane> {
-            self.obj()
-                .ancestor(EndpointPane::static_type())
-                .and_downcast()
+        fn grab_base_pane(&self) -> Option<BasePane> {
+            self.obj().ancestor(BasePane::static_type()).and_downcast()
         }
     }
 

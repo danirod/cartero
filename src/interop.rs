@@ -15,7 +15,9 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use cartero_http::RequestError;
 use cartero_interop::{FileLoadError, FileSaveError, FileWarningTag};
+use formatx::formatx;
 use gettextrs::gettext;
 
 pub enum InnerError<T> {
@@ -48,6 +50,40 @@ impl std::fmt::Display for InnerError<FileSaveError> {
     }
 }
 
+pub fn get_request_error_message(error: &RequestError) -> String {
+    match error {
+        RequestError::EmptyUrl => gettext("The specified URL is not valid"),
+        RequestError::UrlBadParse => gettext("Cannot recognise the URL"),
+        RequestError::MissingProtocol => gettext("The given URL is missing a protocol"),
+        RequestError::UnsupportedProtocol(proto) => {
+            formatx!(gettext("The protocol {}:// is not supported"), proto).unwrap()
+        }
+        RequestError::VariableNotFound(var) => {
+            formatx!(gettext("The variable '{}' is not defined"), var).unwrap()
+        }
+        RequestError::BadInterpolation => {
+            gettext("There was a problem with a variable interpolation, review your inputs")
+        }
+        RequestError::InvalidHeaderName(name) => {
+            formatx!(gettext("The header '{}' is not valid"), name).unwrap()
+        }
+        RequestError::InvalidHeaderValue(name) => {
+            formatx!(gettext("The value for header '{}' is not valid"), name).unwrap()
+        }
+        RequestError::EncodingError => {
+            gettext("The given request body could not be encoded correctly")
+        }
+        RequestError::FilePrefixUnset => gettext("You have to save the request first"),
+        RequestError::UnsecureFile(str) => formatx!(
+            gettext("The file '{}' cannot be accessed due to the security policy"),
+            str
+        )
+        .unwrap(),
+        RequestError::IOError(_) => gettext("There is an input/output error"),
+        RequestError::NetworkError(_) => gettext("There is a network error"),
+    }
+}
+
 pub enum LoadResult {
     Successful,
     Anonymous,
@@ -59,12 +95,4 @@ pub enum SaveResult {
     Successful,
     Anonymous,
     Error(InnerError<FileSaveError>),
-}
-
-pub trait ObjectPane<T>
-where
-    T: Clone,
-{
-    async fn load(&self) -> LoadResult;
-    async fn save(&self) -> SaveResult;
 }

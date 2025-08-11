@@ -17,7 +17,7 @@
 using Gtk 4.0;
 using Adw 1;
 
-template $CarteroEndpointPane: Adw.BreakpointBin {
+template $CarteroEndpointPane: $CarteroBasePane {
   width-request: 320;
   height-request: 480;
 
@@ -26,10 +26,10 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
 
     setters {
       paned.orientation: vertical;
-      request.width-request: -1;
-      request.height-request: 170;
-      response.width-request: -1;
-      response.height-request: 170;
+      request_pane.width-request: -1;
+      request_pane.height-request: 170;
+      response_pane.width-request: -1;
+      response_pane.height-request: 170;
     }
   }
 
@@ -56,11 +56,11 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
       margin-end: 6;
       orientation: horizontal;
 
-      $CarteroMethodDropdown method {
+      $CarteroMethodDropdown request_method {
         sensitive: bind template.read-only inverted;
       }
 
-      Entry url {
+      Entry request_url {
         sensitive: bind template.read-only inverted;
         hexpand: true;
         placeholder-text: _("Request URL");
@@ -106,7 +106,7 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
       resize-end-child: true;
       position: 500;
 
-      start-child: Notebook request {
+      start-child: Notebook request_pane {
         show-border: false;
         scrollable: true;
         width-request: 320;
@@ -196,7 +196,7 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
             hexpand: true;
             vexpand: true;
 
-            $CarteroAuthenticationPane authentication {
+            $CarteroAuthenticationPane authentication_pane {
               read-only: bind template.read-only;
             }
           };
@@ -211,14 +211,14 @@ template $CarteroEndpointPane: Adw.BreakpointBin {
             hexpand: true;
             vexpand: true;
 
-            $CarteroRequestBodyPane body {
+            $CarteroRequestBodyPane body_pane {
               read-only: bind template.read-only;
             }
           };
         }
       };
 
-      end-child: $CarteroResponsePanel response {};
+      end-child: $CarteroResponsePanel response_pane {};
     }
   }
 }

@@ -15,81 +15,62 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use adw::prelude::AdwDialogExt;
-use cartero_objects::Request;
-use gettextrs::gettext;
-use glib::object::CastNone;
-use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
-use gtk::gio::FileCreateFlags;
+use gtk::gio;
 use gtk::glib;
-use gtk::{gio::prelude::SettingsExtManual, prelude::WidgetExt};
-use sourceview5::prelude::FileExtManual;
 use url::form_urlencoded;
 
-use crate::{
-    app::CarteroApplication,
-    export::curl::CodeExportService,
-    interop::{InnerError, LoadResult, ObjectPane, SaveResult},
-    widgets::{file_dialogs, ExportDialog},
-};
-
+use crate::widgets::shell::BasePane;
 mod imp {
     use std::cell::{OnceCell, RefCell};
     use std::sync::{Arc, Mutex};
 
+    use adw::prelude::AdwDialogExt;
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
-    use cartero_http::RequestError;
+    use cartero_http::{BoundRequest, RequestError};
     use cartero_objects::{Field, Request, Response};
+    use gettextrs::gettext;
     use glib::subclass::InitializingObject;
     use glib::{JoinHandle, Properties};
-    use gtk::gio::{self, SimpleAction, SimpleActionGroup};
+    use gtk::gio::{self, Cancellable, FileCreateFlags, SimpleAction, SimpleActionGroup};
     use gtk::subclass::prelude::*;
     use gtk::{prelude::*, ClosureExpression, CompositeTemplate};
 
     use crate::app::CarteroApplication;
+    use crate::export::curl::CodeExportService;
+    use crate::interop::{InnerError, LoadResult, SaveResult};
     use crate::widgets::authentication::AuthenticationPane;
+    use crate::widgets::dialogs::present_request_error_message;
     use crate::widgets::endpoint::ResponsePanel;
     use crate::widgets::field::FieldTableListView;
     use crate::widgets::req_body::RequestBodyPane;
-    use crate::widgets::MethodDropdown;
+    use crate::widgets::shell::BasePaneImpl;
+    use crate::widgets::{file_dialogs, ExportDialog, MethodDropdown};
 
     #[derive(CompositeTemplate, Properties, Default)]
     #[template(resource = "/es/danirod/Cartero/endpoint_pane.ui")]
     #[properties(wrapper_type = super::EndpointPane)]
     pub struct EndpointPane {
-        #[template_child(id = "send")]
-        pub send_button: TemplateChild<gtk::Button>,
-
         #[template_child(id = "cancel")]
         cancel_button: TemplateChild<gtk::Button>,
-
         #[template_child]
-        pub parameter_pane: TemplateChild<FieldTableListView>,
-
+        parameter_pane: TemplateChild<FieldTableListView>,
         #[template_child]
-        pub header_pane: TemplateChild<FieldTableListView>,
-
+        header_pane: TemplateChild<FieldTableListView>,
         #[template_child]
-        pub variable_pane: TemplateChild<FieldTableListView>,
-
-        #[template_child(id = "method")]
-        pub request_method: TemplateChild<MethodDropdown>,
-
-        #[template_child(id = "url")]
-        pub request_url: TemplateChild<gtk::Entry>,
-
+        variable_pane: TemplateChild<FieldTableListView>,
         #[template_child]
-        body: TemplateChild<RequestBodyPane>,
-
+        request_method: TemplateChild<MethodDropdown>,
         #[template_child]
-        authentication: TemplateChild<AuthenticationPane>,
-
+        request_url: TemplateChild<gtk::Entry>,
         #[template_child]
-        pub response: TemplateChild<ResponsePanel>,
-
+        body_pane: TemplateChild<RequestBodyPane>,
         #[template_child]
-        pub paned: TemplateChild<gtk::Paned>,
+        authentication_pane: TemplateChild<AuthenticationPane>,
+        #[template_child]
+        response_pane: TemplateChild<ResponsePanel>,
+        #[template_child]
+        paned: TemplateChild<gtk::Paned>,
 
         #[property(get, set, name = "read-only")]
         read_only: RefCell<bool>,
@@ -111,11 +92,8 @@ mod imp {
         #[property(get, set)]
         busy: RefCell<bool>,
 
-        #[property(get = Self::has_response_impl)]
-        _has_response: RefCell<bool>,
-
         request_thread: Arc<RefCell<Option<JoinHandle<()>>>>,
-
+        action_group: OnceCell<gio::SimpleActionGroup>,
         variable_changing: Arc<Mutex<bool>>,
     }
 
@@ -123,7 +101,7 @@ mod imp {
     impl ObjectSubclass for EndpointPane {
         const NAME: &'static str = "CarteroEndpointPane";
         type Type = super::EndpointPane;
-        type ParentType = adw::BreakpointBin;
+        type ParentType = crate::widgets::shell::BasePane;
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -160,7 +138,7 @@ mod imp {
                 ))
                 .bind(&*obj, "cursor", Some(&*obj));
 
-            self.response.connect_response_notify(glib::clone!(
+            self.response_pane.connect_response_notify(glib::clone!(
                 #[weak(rename_to = pane)]
                 self,
                 move |_| {
@@ -174,6 +152,78 @@ mod imp {
     impl WidgetImpl for EndpointPane {}
 
     impl BreakpointBinImpl for EndpointPane {}
+
+    impl BasePaneImpl for EndpointPane {
+        fn lookup_action(&self, name: &str) -> Option<gio::Action> {
+            self.action_group
+                .get()
+                .expect("No action_group is prepared")
+                .lookup_action(name)
+        }
+
+        fn load(&self) -> LoadResult {
+            let Some(file) = self.obj().file() else {
+                return LoadResult::Anonymous;
+            };
+
+            let contents = file.load_contents(gio::Cancellable::NONE);
+            match contents {
+                Ok((contents, _)) => {
+                    let input = String::from_utf8_lossy(&contents).to_string();
+                    match cartero_file_format::deserialize_request(&input) {
+                        Ok(result) => {
+                            let request = result.object();
+                            self.obj().set_request(request);
+
+                            let warnings = result.warnings();
+                            if warnings.is_empty() {
+                                LoadResult::Successful
+                            } else {
+                                LoadResult::Warning(warnings)
+                            }
+                        }
+                        Err(e) => LoadResult::Error(InnerError::InteropError(e)),
+                    }
+                }
+                Err(e) => LoadResult::Error(InnerError::GlibError(e)),
+            }
+        }
+
+        fn save(&self) -> SaveResult {
+            let Some(file) = self.obj().file() else {
+                return SaveResult::Anonymous;
+            };
+
+            let create_file_backup = {
+                let app = CarteroApplication::default();
+                let settings = app.settings();
+                settings.get::<bool>("create-backup-files")
+            };
+
+            let request = self.obj().request();
+            match cartero_file_format::serialize_request(&request) {
+                Ok(contents) => {
+                    let use_backups = create_file_backup;
+                    let saved = file.replace_contents(
+                        contents.as_bytes(),
+                        None,
+                        use_backups,
+                        FileCreateFlags::NONE,
+                        Cancellable::NONE,
+                    );
+
+                    match saved {
+                        Ok(_) => {
+                            self.obj().set_dirty(false);
+                            SaveResult::Successful
+                        }
+                        Err(e) => SaveResult::Error(InnerError::GlibError(e)),
+                    }
+                }
+                Err(e) => SaveResult::Error(InnerError::InteropError(e)),
+            }
+        }
+    }
 
     #[gtk::template_callbacks]
     impl EndpointPane {
@@ -203,11 +253,15 @@ mod imp {
                 .sync_create()
                 .build();
             binding_group
-                .bind("authentication", &*self.authentication, "authentication")
+                .bind(
+                    "authentication",
+                    &*self.authentication_pane,
+                    "authentication",
+                )
                 .sync_create()
                 .build();
             binding_group
-                .bind("body", &*self.body, "body")
+                .bind("body", &*self.body_pane, "body")
                 .sync_create()
                 .build();
 
@@ -221,14 +275,6 @@ mod imp {
                     binding_group_2.set_source(Some(&ep.request()));
                 }
             ));
-        }
-
-        pub(super) fn get_response_object(&self) -> Option<Response> {
-            self.response.response()
-        }
-
-        fn has_response_impl(&self) -> bool {
-            self.response.response().is_some()
         }
 
         fn init_actions(&self) {
@@ -261,6 +307,33 @@ mod imp {
                 }
             ));
 
+            let action_export_request =
+                SimpleAction::new("export-request", Some(&String::static_variant_type()));
+            action_export_request.connect_activate(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |_, variant| {
+                    let format = variant
+                        .expect("No variant is provided?")
+                        .get::<String>()
+                        .expect("No string variant is provided?");
+                    glib::spawn_future_local(async move {
+                        imp.action_export_request(format.as_ref()).await;
+                    });
+                }
+            ));
+
+            let action_export_response_body = SimpleAction::new("export-response-body", None);
+            action_export_response_body.connect_activate(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |_, _| {
+                    glib::spawn_future_local(async move {
+                        imp.action_export_response().await;
+                    });
+                }
+            ));
+
             /* The action should only be enabled if there is an URL set and if not busy. */
             let text = self.request_url.property_expression("text");
             let busy = obj.property_expression("busy");
@@ -283,11 +356,26 @@ mod imp {
                 .sync_create()
                 .build();
 
+            /* Response body can only be exported if there is a response at all. */
+            self.response_pane
+                .property_expression("response")
+                .chain_closure::<bool>(glib::closure!(
+                    move |_: glib::Object, response: Option<Response>| { response.is_some() }
+                ))
+                .bind(
+                    &action_export_response_body,
+                    "enabled",
+                    Some(&*self.response_pane),
+                );
+
             let action_group = SimpleActionGroup::new();
             action_group.add_action(&action_focus_url);
             action_group.add_action(&action_request);
             action_group.add_action(&action_cancel);
+            action_group.add_action(&action_export_request);
+            action_group.add_action(&action_export_response_body);
             obj.insert_action_group("endpoint", Some(&action_group));
+            self.action_group.set(action_group).unwrap();
         }
 
         fn update_url_from_query_params(&self) {
@@ -387,7 +475,7 @@ mod imp {
                     thread_ref.abort();
 
                     /* reset the user interface state. */
-                    self.response.set_spinning(false);
+                    self.response_pane.set_spinning(false);
                     obj.set_read_only(false);
                     obj.set_busy(false);
                 }
@@ -405,12 +493,12 @@ mod imp {
                     /* prelude */
                     obj.set_busy(true);
                     obj.set_read_only(true);
-                    imp.response.set_spinning(true);
+                    imp.response_pane.set_spinning(true);
 
                     imp.perform_request().await;
 
                     /* restore */
-                    imp.response.set_spinning(false);
+                    imp.response_pane.set_spinning(false);
                     obj.set_read_only(false);
                     obj.set_busy(false);
 
@@ -459,12 +547,96 @@ mod imp {
 
             match response {
                 Ok(response) => {
-                    self.response.assign_from_response(&response);
+                    self.response_pane.assign_from_response(&response);
                 }
                 Err(e) => {
-                    self.response.present_error(e);
+                    self.response_pane.present_error(e);
                 }
             };
+        }
+
+        async fn get_request_for_sharing(&self) -> Request {
+            let request = self.obj().request();
+
+            let outcome = BoundRequest::new(&request, &self.request_environment()).await;
+            if matches!(outcome, Err(RequestError::MissingProtocol)) {
+                let current_url = request.url();
+                request.set_url(format!("http://{}", current_url));
+            }
+
+            request
+        }
+
+        async fn action_export_request(&self, format: &str) {
+            let root = self.obj().root().and_downcast::<gtk::Window>().unwrap();
+            let request = self.get_request_for_sharing().await;
+            let command = match format {
+                "curl" => {
+                    let curl = CodeExportService::new(request);
+                    curl.generate().await
+                }
+                "jetbrains-http" => cartero_jetbrains_http_format::export(&request).await,
+                _ => {
+                    return;
+                }
+            };
+
+            let file_format = match format {
+                "curl" => sourceview5::LanguageManager::default().language("sh"),
+                _ => None,
+            };
+
+            match command {
+                Ok(command) => {
+                    let buffer = glib::Bytes::from(command.as_bytes());
+                    let dialog = glib::Object::builder::<ExportDialog>()
+                        .property("blob", Some(&buffer))
+                        .property("format", file_format)
+                        .build();
+
+                    let title = match format {
+                        "curl" => gettext("Export request as cURL"),
+                        "jetbrains-http" => gettext("Export request as Jetbrains HTTP"),
+                        _ => {
+                            return;
+                        }
+                    };
+                    dialog.set_title(&title);
+                    dialog.present(Some(&*self.obj()));
+                }
+                Err(e) => {
+                    present_request_error_message(&root, &e).await;
+                }
+            };
+        }
+
+        async fn action_export_response(&self) {
+            let root = self.obj().root().and_downcast::<gtk::Window>().unwrap();
+            let export_file = file_dialogs::export_file(&root).await;
+            match export_file {
+                Err(e) => crate::widgets::dialogs::glib_file_dialog_error(&root, &e).await,
+                Ok(file) => {
+                    if let Some(file) = file {
+                        // get the current response payload
+                        let resp = self
+                            .response_pane
+                            .response()
+                            .expect("No response to export?");
+                        let payload = resp.body().unwrap_or(glib::Bytes::from_static(&[]));
+                        if let Err((_, e)) = file
+                            .replace_contents_future(
+                                payload.to_vec(),
+                                None,
+                                false,
+                                FileCreateFlags::NONE,
+                            )
+                            .await
+                        {
+                            crate::widgets::dialogs::glib_file_dialog_error(&root, &e).await;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -572,152 +744,14 @@ mod imp {
 
 glib::wrapper! {
     pub struct EndpointPane(ObjectSubclass<imp::EndpointPane>)
-        @extends gtk::Widget, gtk::Box;
+        @extends gtk::Widget, gtk::Box, BasePane,
+        @implements gio::ActionMap;
 }
 
 impl Default for EndpointPane {
     fn default() -> Self {
         Object::builder().build()
     }
-}
-
-impl EndpointPane {
-    pub fn new() -> Self {
-        // TODO: Accept additional initial state maybe?
-        Object::builder().build()
-    }
-
-    pub async fn export_response(&self) {
-        let root = self.root().and_downcast::<gtk::Window>().unwrap();
-        let export_file = file_dialogs::export_file(&root).await;
-        match export_file {
-            Err(e) => crate::widgets::dialogs::glib_file_dialog_error(&root, &e).await,
-            Ok(file) => {
-                if let Some(file) = file {
-                    // get the current response payload
-                    let resp = self.imp().get_response_object().unwrap();
-                    let payload = resp.body().unwrap_or(glib::Bytes::from_static(&[]));
-                    if let Err((_, e)) = file
-                        .replace_contents_future(
-                            payload.to_vec(),
-                            None,
-                            false,
-                            FileCreateFlags::NONE,
-                        )
-                        .await
-                    {
-                        crate::widgets::dialogs::glib_file_dialog_error(&root, &e).await;
-                    }
-                }
-            }
-        }
-    }
-
-    pub async fn export_request(&self, format: &str) {
-        let command = match format {
-            "curl" => {
-                let curl = CodeExportService::new(self.request());
-                curl.generate().await
-            }
-            "jetbrains-http" => cartero_jetbrains_http_format::export(&self.request()).await,
-            _ => {
-                return;
-            }
-        };
-
-        let file_format = match format {
-            "curl" => sourceview5::LanguageManager::default().language("sh"),
-            _ => None,
-        };
-
-        match command {
-            Ok(command) => {
-                let buffer = glib::Bytes::from(command.as_bytes());
-                let dialog = glib::Object::builder::<ExportDialog>()
-                    .property("blob", Some(&buffer))
-                    .property("format", file_format)
-                    .build();
-
-                let title = match format {
-                    "curl" => gettext("Export request as cURL"),
-                    "jetbrains-http" => gettext("Export request as Jetbrains HTTP"),
-                    _ => {
-                        return;
-                    }
-                };
-                dialog.set_title(&title);
-                dialog.present(Some(self));
-            }
-            Err(e) => {
-                println!("{:?}", e);
-            }
-        };
-    }
-}
-
-impl ObjectPane<Request> for EndpointPane {
-    async fn load(&self) -> LoadResult {
-        let Some(file) = self.file() else {
-            return LoadResult::Anonymous;
-        };
-
-        match file.load_contents_future().await {
-            Ok((contents, _)) => {
-                let input = String::from_utf8_lossy(&contents).to_string();
-                match cartero_file_format::deserialize_request(&input) {
-                    Ok(result) => {
-                        let request = result.object();
-                        self.set_request(request);
-
-                        let warnings = result.warnings();
-                        if warnings.is_empty() {
-                            LoadResult::Successful
-                        } else {
-                            LoadResult::Warning(warnings)
-                        }
-                    }
-                    Err(e) => LoadResult::Error(InnerError::InteropError(e)),
-                }
-            }
-            Err(e) => LoadResult::Error(InnerError::GlibError(e)),
-        }
-    }
-
-    async fn save(&self) -> SaveResult {
-        let Some(file) = self.file() else {
-            return SaveResult::Anonymous;
-        };
-
-        let request = self.request();
-        match cartero_file_format::serialize_request(&request) {
-            Ok(contents) => {
-                let use_backups = create_file_backup();
-                let saved = file
-                    .replace_contents_future(
-                        contents,
-                        None,
-                        use_backups,
-                        gtk::gio::FileCreateFlags::NONE,
-                    )
-                    .await;
-
-                match saved {
-                    Ok(_) => {
-                        self.set_dirty(false);
-                        SaveResult::Successful
-                    }
-                    Err((_, e)) => SaveResult::Error(InnerError::GlibError(e)),
-                }
-            }
-            Err(e) => SaveResult::Error(InnerError::InteropError(e)),
-        }
-    }
-}
-
-fn create_file_backup() -> bool {
-    let app = CarteroApplication::default();
-    let settings = app.settings();
-    settings.get::<bool>("create-backup-files")
 }
 
 fn extract_queryparams(url: &str) -> Vec<(String, String)> {

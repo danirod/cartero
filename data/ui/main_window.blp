@@ -86,13 +86,11 @@ template $CarteroWindow: Adw.ApplicationWindow {
       Box {
         spacing: 5;
 
-        MenuButton {
+        MenuButton export_request {
           tooltip-text: _("Export request");
           icon-name: "share-symbolic";
           menu-model: share_menu;
         }
-
-        Separator {}
 
         MenuButton {
           icon-name: "open-menu-symbolic";

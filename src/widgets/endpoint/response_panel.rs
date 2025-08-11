@@ -221,6 +221,7 @@ impl ResponsePanel {
     }
 
     pub fn present_error(&self, error: RequestError) {
+        self.set_response(Option::<Response>::None);
         self.imp().present_error(error);
     }
 

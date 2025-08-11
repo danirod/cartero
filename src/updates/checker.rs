@@ -122,6 +122,7 @@ async fn fetch_response(payload: &Request) -> Option<String> {
             redirects: 0,
             timeout: 10.0,
         },
+        prefix: None,
     };
     let response = cartero_isahc_client::request(&payload, &environment)
         .await

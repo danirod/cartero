@@ -1,0 +1,59 @@
+name: cartero
+base: core24
+version: '0.3.0-beta.1'
+summary: Make HTTP requests and test APIs
+description: |
+  Cartero is a graphical HTTP client that can be used as a developer tool to
+  test web APIs and perform all kind of HTTP requests to web servers. It is
+  compatible with any REST, SOAP or XML-RPC API and it supports multiple
+  request methods as well as attaching body payloads to compatible requests.
+grade: stable
+confinement: strict
+license: GPL-3.0-or-later
+compression: lzo
+website: https://cartero.danirod.es
+source-code: https://github.com/danirod/cartero
+issues: https://github.com/danirod/cartero/issues
+
+platforms:
+  amd64:
+  arm64:
+
+apps:
+  cartero:
+    extensions: [gnome]
+    command: usr/bin/cartero
+    desktop: usr/share/applications/es.danirod.Cartero.desktop
+    common-id: es.danirod.Cartero
+    plugs:
+      - home
+      - removable-media
+      - gsettings
+      - network
+      - network-status
+
+parts:
+  rust:
+    plugin: rust
+    source: .
+    rust-channel: "1.89"
+    override-build: ""
+    override-prime: ""
+  cartero:
+    plugin: meson
+    source: https://github.com/danirod/cartero/releases/download/v0.3.0-beta.1/cartero-0.3.0-beta.1.tar.xz
+    build-packages:
+      - libssl-dev
+    meson-parameters:
+      - --prefix=/usr
+      - --buildtype=release
+    parse-info: [usr/share/metainfo/es.danirod.Cartero.metainfo.xml]
+    override-pull: |
+      snapcraftctl pull
+      sed -i.bak -e 's|Icon=@app_id@|Icon=/usr/share/icons/hicolor/scalable/apps/es.danirod.Cartero.svg|' data/cartero.desktop.in.in
+
+slots:
+  cartero:
+    interface: dbus
+    bus: session
+    name: es.danirod.Cartero

@@ -110,6 +110,8 @@ path = [
     "po/LINGUAS",
     "po/POTFILES.in",
     "snapcraft.yaml",
+    "packaging/snap/latest/beta/snapcraft.yaml",
+    "packaging/snap/latest/stable/snapcraft.yaml",
     "subprojects/blueprint-compiler.wrap",
 ]
 SPDX-FileCopyrightText = "No copyright"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-08 22:12+0200\n"
-"PO-Revision-Date: 2025-08-05 14:02+0000\n"
+"PO-Revision-Date: 2025-08-12 12:49+0000\n"
 "Last-Translator: Eric Pernas <ericpg76@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/cartero/cartero/"
 "gl/>\n"
@@ -219,23 +219,22 @@ msgstr "Operacións de petición"
 #: data/gtk/help_overlay.blp:71
 msgctxt "shortcuts window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Aumentar tamaño"
 
 #: data/gtk/help_overlay.blp:76
 msgctxt "shortcuts window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Reducir tamaño"
 
 #: data/gtk/help_overlay.blp:81
 msgctxt "shortcuts window"
 msgid "Reset zoom"
-msgstr ""
+msgstr "Reiniciar nivel de ampliación"
 
 #: data/gtk/help_overlay.blp:86
-#, fuzzy
 msgctxt "shortcuts window"
 msgid "Start search"
-msgstr "Buscar"
+msgstr "Comezar busca"
 
 #: data/gtk/help_overlay.blp:92
 msgctxt "shortcuts window"
@@ -318,24 +317,21 @@ msgid "Body"
 msgstr "Corpo"
 
 #: data/ui/export_dialog.blp:54
-#, fuzzy
 msgid "Generated output"
-msgstr "Atallos xerais"
+msgstr "Saída xerada"
 
 #: data/ui/export_dialog.blp:64
-#, fuzzy
 msgid "Copy to clipboard"
-msgstr "Contido copiado ao portapapeis"
+msgstr "Copiar ao portapapeis"
 
 #: data/ui/export_dialog.blp:69 data/ui/response_panel.blp:103
 #: src/widgets/file_dialogs.rs:226
-#, fuzzy
 msgid "Export to file"
-msgstr "Exportar coma"
+msgstr "Exportar a arquivo"
 
 #: data/ui/field_list_box_row.blp:23 data/ui/field_placeholder_row.blp:27
 msgid "Enabled"
-msgstr ""
+msgstr "Habilitado"
 
 #: data/ui/field_list_box_row.blp:37 data/ui/field_list_box_row.blp:38
 #: data/ui/field_placeholder_row.blp:41 data/ui/field_placeholder_row.blp:42
@@ -362,7 +358,7 @@ msgstr "Borrar"
 #: data/ui/mac_menu.blp:21
 msgctxt "menubar"
 msgid "File"
-msgstr ""
+msgstr "Arquivo"
 
 #: data/ui/mac_menu.blp:25 data/ui/main_window.blp:137
 #: data/ui/main_window.blp:193 data/ui/main_window_no_csd.blp:138
@@ -394,22 +390,22 @@ msgstr "Pechar lapela"
 #: data/ui/mac_menu.blp:54
 msgctxt "menubar"
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: data/ui/mac_menu.blp:58
 msgctxt "menubar"
 msgid "Undo"
-msgstr ""
+msgstr "Desfacer"
 
 #: data/ui/mac_menu.blp:63
 msgctxt "menubar"
 msgid "Redo"
-msgstr ""
+msgstr "Refacer"
 
 #: data/ui/mac_menu.blp:70
 msgctxt "menubar"
 msgid "Cut"
-msgstr ""
+msgstr "Cortar"
 
 #: data/ui/mac_menu.blp:75
 #, fuzzy

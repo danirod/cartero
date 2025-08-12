@@ -15,7 +15,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-name: Snapcraft Edge
+name: Snapcraft Stable
 
 on:
   workflow_dispatch:
@@ -43,7 +43,7 @@ jobs:
       - uses: snapcore/action-build@v1
         id: build-snap
         with:
-          path: packaging/snap/latest/${{ github.event.inputs.branch }}/snapcraft.yml
+          path: packaging/snap/latest/${{ github.event.inputs.branch }}
       - uses: snapcore/action-publish@v1
         env:
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_LOGIN }}

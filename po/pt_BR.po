@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-08 22:12+0200\n"
-"PO-Revision-Date: 2025-08-09 10:15-0300\n"
-"Last-Translator: John peter sa <johnppetersa@gmail.com>\n"
+"PO-Revision-Date: 2025-08-09 13:10+0000\n"
+"Last-Translator: John Peter Sa <johnppetersa@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "cartero/cartero/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -805,7 +805,6 @@ msgid "You are running the latest version of Cartero."
 msgstr "Você está executando a versão mais recente do Cartero."
 
 #: src/updates/ui.rs:57
-#, rust-format
 msgid ""
 "Version {} has been released. Do you want to visit the website to download "
 "the update now?"
@@ -826,7 +825,6 @@ msgid "_Not now"
 msgstr "_Agora não"
 
 #: src/widgets/dialogs.rs:50
-#, rust-format
 msgid "Cannot open '{}'"
 msgstr "Não é possível abrir '{}'"
 
@@ -841,7 +839,6 @@ msgid "Close"
 msgstr "Fechar"
 
 #: src/widgets/dialogs.rs:74
-#, rust-format
 msgid "The file '{}' was loaded but had issues"
 msgstr "O arquivo '{}' foi carregado, mas teve problemas"
 
@@ -850,7 +847,6 @@ msgid "The requested file was loaded but had issues"
 msgstr "O arquivo solicitado foi carregado, mas apresentou problemas"
 
 #: src/widgets/dialogs.rs:98
-#, rust-format
 msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
@@ -863,7 +859,6 @@ msgid "The requested file cannot be picked"
 msgstr "O arquivo solicitado não pode ser selecionado"
 
 #: src/widgets/dialogs.rs:115
-#, rust-format
 msgid ""
 "The file must be within the same directory as the request or project file or "
 "any of its subdirectories.\n"
@@ -876,7 +871,6 @@ msgstr ""
 "O arquivo '{}' não faz parte do diretório '{}'"
 
 #: src/widgets/dialogs.rs:135
-#, rust-format
 msgid "Cannot save '{}'"
 msgstr "Não é possível salvar '{}'"
 
@@ -917,7 +911,6 @@ msgid "Close anyway"
 msgstr "Feche de qualquer maneira"
 
 #: src/widgets/dialogs.rs:196
-#, rust-format
 msgid "Save changes in '{}'?"
 msgstr "Salvar alterações em '{}'?"
 
@@ -951,14 +944,12 @@ msgstr "Solicitação de exportação como Jetbrains HTTP"
 
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
 #: src/widgets/endpoint/response_panel.rs:340
-#, rust-format
 msgid "{} s"
 msgstr "{} s"
 
 #. Format as milliseconds.
 #. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
 #: src/widgets/endpoint/response_panel.rs:344
-#, rust-format
 msgid "{} ms"
 msgstr "{} ms"
 
@@ -975,12 +966,10 @@ msgid "The given URL is missing a protocol"
 msgstr "O URL fornecido não possui um protocolo"
 
 #: src/widgets/error_pane.rs:93
-#, rust-format
 msgid "The protocol {}:// is not supported"
 msgstr "O protocolo {}:// não é suportado"
 
 #: src/widgets/error_pane.rs:96
-#, rust-format
 msgid "The variable '{}' is not defined"
 msgstr "A variável '{}' não está definida"
 
@@ -990,12 +979,10 @@ msgstr ""
 "Ocorreu um problema com uma interpolação de variável, revise suas entradas"
 
 #: src/widgets/error_pane.rs:102
-#, rust-format
 msgid "The header '{}' is not valid"
 msgstr "O cabeçalho '{}' não é válido"
 
 #: src/widgets/error_pane.rs:105
-#, rust-format
 msgid "The value for header '{}' is not valid"
 msgstr "O valor do cabeçalho '{}' não é válido"
 
@@ -1008,7 +995,6 @@ msgid "You have to save the request first"
 msgstr "Você tem que salvar a solicitação primeiro"
 
 #: src/widgets/error_pane.rs:112
-#, rust-format
 msgid "The file '{}' cannot be accessed due to the security policy"
 msgstr "O arquivo '{}' não pode ser acessado devido à política de segurança"
 
@@ -1050,14 +1036,12 @@ msgstr "Selecionar arquivo"
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
 #: src/widgets/search_box.rs:254
-#, rust-format
 msgid "{} of {}"
 msgstr "{} de {}"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count when only
 #. the number of total ocurrences is known.
 #: src/widgets/search_box.rs:262
-#, rust-format
 msgid "{} result"
 msgid_plural "{} results"
 msgstr[0] "{} resultado"

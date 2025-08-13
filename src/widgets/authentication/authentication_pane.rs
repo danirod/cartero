@@ -24,7 +24,10 @@ mod imp {
     use super::*;
     use std::cell::RefCell;
 
-    use cartero_objects::{RequestAuthentication, RequestAuthenticationType};
+    use cartero_objects::{
+        RequestAuthentication, RequestAuthenticationBasic, RequestAuthenticationBearer,
+        RequestAuthenticationType,
+    };
     use glib::{subclass::InitializingObject, Object, Properties};
     use gtk::CompositeTemplate;
 
@@ -36,6 +39,9 @@ mod imp {
         authentication: RefCell<RequestAuthentication>,
         #[property(get, set)]
         read_only: RefCell<bool>,
+
+        last_basic_auth: RefCell<RequestAuthenticationBasic>,
+        last_bearer_token: RefCell<RequestAuthenticationBearer>,
 
         #[template_child]
         container: TemplateChild<adw::Bin>,
@@ -102,10 +108,45 @@ mod imp {
             self.container.set_child(container_child.as_ref());
         }
 
+        fn push_authentication(&self) {
+            let authentication = self.obj().authentication();
+            match authentication.auth_type() {
+                RequestAuthenticationType::BasicAuth => {
+                    self.last_basic_auth
+                        .replace(authentication.basic_auth().expect("Expected BasicAuth?"));
+                }
+                RequestAuthenticationType::BearerToken => {
+                    self.last_bearer_token.replace(
+                        authentication
+                            .bearer_token()
+                            .expect("Expected BearerToken?"),
+                    );
+                }
+                _ => {}
+            }
+        }
+
+        fn pop_authentication(&self) {
+            let authentication = self.obj().authentication();
+            match authentication.auth_type() {
+                RequestAuthenticationType::BasicAuth => {
+                    let data = self.last_basic_auth.borrow().clone();
+                    authentication.set_auth_data(data.into());
+                }
+                RequestAuthenticationType::BearerToken => {
+                    let data = self.last_bearer_token.borrow().clone();
+                    authentication.set_auth_data(data.into());
+                }
+                _ => {}
+            }
+        }
+
         #[template_callback]
         fn on_selection_changed(&self) {
+            self.push_authentication();
             let authentication = self.obj().authentication();
             authentication.set_auth_type(cast_selected_entry(self.combo.selected()));
+            self.pop_authentication();
             self.sync_container();
         }
     }

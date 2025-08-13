@@ -27,7 +27,9 @@ mod imp {
     };
 
     use super::*;
-    use cartero_objects::{RequestBody, RequestBodyRawType, RequestBodyType};
+    use cartero_objects::{
+        FieldTable, RequestBody, RequestBodyFile, RequestBodyRawType, RequestBodyType,
+    };
     use glib::{subclass::InitializingObject, Properties};
     use gtk::CompositeTemplate;
 
@@ -39,6 +41,10 @@ mod imp {
         body: RefCell<RequestBody>,
         #[property(get, set)]
         read_only: RefCell<bool>,
+
+        last_parameters_table: RefCell<FieldTable>,
+        last_raw_payload: RefCell<String>,
+        last_file: RefCell<RequestBodyFile>,
 
         #[template_child]
         container: TemplateChild<adw::Bin>,
@@ -139,6 +145,7 @@ mod imp {
 
         #[template_callback]
         fn on_selection_changed(&self) {
+            self.push_body();
             let body = self.obj().body();
             let (body_type, raw_body_type) = cast_selected_entry(self.combo.selected());
             body.set_body_type(body_type);
@@ -147,7 +154,57 @@ mod imp {
                     raw.set_payload_type(raw_body_type);
                 }
             }
+            self.pop_body();
             self.sync_container();
+        }
+
+        fn pop_body(&self) {
+            let body = self.obj().body();
+            match body.body_type() {
+                RequestBodyType::UrlEncoded => {
+                    let params = self.last_parameters_table.borrow().clone();
+                    let urlencoded = body.urlencoded().expect("Urlencoded?");
+                    urlencoded.set_params(params);
+                }
+                RequestBodyType::Multipart => {
+                    let params = self.last_parameters_table.borrow().clone();
+                    let multipart = body.multipart().expect("Multipart?");
+                    multipart.set_params(params);
+                }
+                RequestBodyType::Raw => {
+                    let payload = self.last_raw_payload.borrow().clone();
+                    let raw = body.raw().expect("Raw?");
+                    raw.set_payload(payload);
+                }
+                RequestBodyType::File => {
+                    let file = self.last_file.borrow().clone();
+                    body.set_body_data(file.into());
+                }
+                _ => {}
+            }
+        }
+
+        fn push_body(&self) {
+            let body = self.obj().body();
+            match body.body_type() {
+                RequestBodyType::UrlEncoded => {
+                    let urlencoded = body.urlencoded().expect("Urlencoded?");
+                    self.last_parameters_table.replace(urlencoded.params());
+                }
+                RequestBodyType::Multipart => {
+                    let multipart = body.multipart().expect("Multipart?");
+                    self.last_parameters_table.replace(multipart.params());
+                }
+                RequestBodyType::Raw => {
+                    let raw = body.raw().expect("Raw?");
+                    self.last_raw_payload.replace(raw.payload());
+                }
+                RequestBodyType::File => {
+                    let file = body.file().expect("File?");
+                    self.last_file.replace(file);
+                }
+                _ => {}
+            }
         }
 
         fn grab_base_pane(&self) -> Option<BasePane> {

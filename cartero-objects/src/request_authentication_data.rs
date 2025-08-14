@@ -19,6 +19,7 @@ use glib::{
     object::{Cast, IsA, ObjectExt},
     subclass::prelude::*,
 };
+use srtemplate::SrTemplate;
 
 use crate::RequestAuthenticationType;
 
@@ -41,6 +42,8 @@ impl RequestAuthenticationData {
 }
 
 mod ffi {
+    use srtemplate::SrTemplate;
+
     use crate::RequestAuthenticationType;
 
     #[derive(Copy, Clone)]
@@ -48,6 +51,11 @@ mod ffi {
     pub struct Class {
         parent_class: glib::gobject_ffi::GObjectClass,
         pub(super) auth_type: fn(&super::RequestAuthenticationData) -> RequestAuthenticationType,
+        pub(super) resolve: fn(
+            &super::RequestAuthenticationData,
+            &SrTemplate,
+        )
+            -> Result<super::RequestAuthenticationData, srtemplate::Error>,
     }
 
     unsafe impl glib::subclass::types::ClassStruct for Class {
@@ -67,6 +75,7 @@ mod imp {
     use std::sync::OnceLock;
 
     use glib::{subclass::Signal, types::StaticType};
+    use srtemplate::SrTemplate;
 
     use crate::RequestAuthenticationType;
 
@@ -84,6 +93,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.auth_type = |obj| obj.imp().auth_type_default();
+            klass.resolve = |obj, tpl| obj.imp().resolve_default(tpl);
         }
     }
 
@@ -102,6 +112,13 @@ mod imp {
         fn auth_type_default(&self) -> RequestAuthenticationType {
             panic!("not implemented");
         }
+
+        fn resolve_default(
+            &self,
+            _: &SrTemplate,
+        ) -> Result<super::RequestAuthenticationData, srtemplate::Error> {
+            panic!("not implemented");
+        }
     }
 }
 
@@ -111,6 +128,15 @@ pub trait RequestAuthenticationDataExt: IsA<RequestAuthenticationData> {
         let this = self.upcast_ref();
         let class = this.class();
         (class.as_ref().auth_type)(this)
+    }
+
+    fn resolve(
+        &self,
+        tpl: &SrTemplate,
+    ) -> Result<super::RequestAuthenticationData, srtemplate::Error> {
+        let this = self.upcast_ref();
+        let class = this.class();
+        (class.as_ref().resolve)(this, tpl)
     }
 }
 
@@ -125,6 +151,11 @@ pub trait RequestAuthenticationDataImpl: ObjectImpl {
     /// authentication payload. This is also used during validation when the
     /// auth-type of a [RequestAuthentication][super::RequestAuthentication] changes.
     fn auth_type(&self) -> RequestAuthenticationType;
+
+    fn resolve(
+        &self,
+        tpl: &SrTemplate,
+    ) -> Result<super::RequestAuthenticationData, srtemplate::Error>;
 }
 
 #[doc(hidden)]
@@ -134,6 +165,16 @@ pub trait RequestAuthenticationDataImplExt: RequestAuthenticationDataImpl {
         let parent_class = unsafe { &*(data.as_ref().parent_class() as *const ffi::Class) };
         let auth_type = parent_class.auth_type;
         auth_type(unsafe { self.obj().unsafe_cast_ref() })
+    }
+
+    fn parent_resolve(
+        &self,
+        tpl: &SrTemplate,
+    ) -> Result<super::RequestAuthenticationData, srtemplate::Error> {
+        let data = Self::type_data();
+        let parent_class = unsafe { &*(data.as_ref().parent_class() as *const ffi::Class) };
+        let resolve = parent_class.resolve;
+        resolve(unsafe { self.obj().unsafe_cast_ref() }, tpl)
     }
 }
 
@@ -147,7 +188,11 @@ unsafe impl<T: RequestAuthenticationDataImpl> IsSubclassable<T> for RequestAuthe
         klass.auth_type = |obj| {
             let this = unsafe { obj.unsafe_cast_ref::<<T as ObjectSubclass>::Type>().imp() };
             RequestAuthenticationDataImpl::auth_type(this)
-        }
+        };
+        klass.resolve = |obj, tpl| {
+            let this = unsafe { obj.unsafe_cast_ref::<<T as ObjectSubclass>::Type>().imp() };
+            RequestAuthenticationDataImpl::resolve(this, tpl)
+        };
     }
 }
 

@@ -17,6 +17,7 @@
 
 use glib::subclass::prelude::*;
 use glib::{prelude::*, Object};
+use srtemplate::SrTemplate;
 
 use crate::{
     RequestAuthenticationBasic, RequestAuthenticationBearer, RequestAuthenticationData,
@@ -242,6 +243,12 @@ impl RequestAuthentication {
 
     pub fn builder() -> builder::RequestAuthenticationBuilder {
         builder::RequestAuthenticationBuilder::default()
+    }
+
+    pub fn resolve(&self, tpl: &SrTemplate) -> Result<Self, srtemplate::Error> {
+        let auth_type = self.auth_type();
+        let auth_data = self.auth_data().map(|data| data.resolve(tpl)).transpose()?;
+        Ok(RequestAuthentication::new(auth_type, auth_data))
     }
 
     /// Returns the basic authentication data, if it's the current type.
@@ -750,5 +757,51 @@ mod tests {
         assert_emits_signal(&auth, "changed", || {
             auth.bearer_token().unwrap().set_token("12341234");
         });
+    }
+
+    #[test]
+    fn test_resolve_when_auth_is_none() {
+        let auth = RequestAuthentication::builder().none().build();
+        let tpl = SrTemplate::default();
+        let resolved_auth = auth.resolve(&tpl).expect("Invalid resolve?");
+        assert_eq!(resolved_auth.auth_type(), RequestAuthenticationType::None);
+        assert!(resolved_auth.auth_data().is_none());
+    }
+
+    #[test]
+    fn test_resolve_when_auth_is_basic() {
+        let auth = RequestAuthenticationBasic::builder()
+            .username("{{USER}}")
+            .password("{{PASS}}")
+            .build();
+        let auth = RequestAuthentication::builder().basic_auth(&auth).build();
+        let tpl = SrTemplate::default();
+        tpl.add_variable("USER", "admin");
+        tpl.add_variable("PASS", "1234");
+        let resolved_auth = auth.resolve(&tpl).expect("Invalid resolve?");
+        assert_eq!(
+            resolved_auth.auth_type(),
+            RequestAuthenticationType::BasicAuth
+        );
+        let resolved_basic = resolved_auth.basic_auth().expect("No basic auth?");
+        assert_eq!(resolved_basic.username(), "admin");
+        assert_eq!(resolved_basic.password(), "1234");
+    }
+
+    #[test]
+    fn test_resolve_when_auth_is_bearer() {
+        let auth = RequestAuthenticationBearer::builder()
+            .token("{{TOKEN}}")
+            .build();
+        let auth = RequestAuthentication::builder().bearer_token(&auth).build();
+        let tpl = SrTemplate::default();
+        tpl.add_variable("TOKEN", "12341234");
+        let resolved_auth = auth.resolve(&tpl).expect("Invalid resolve?");
+        assert_eq!(
+            resolved_auth.auth_type(),
+            RequestAuthenticationType::BearerToken
+        );
+        let resolved_bearer = resolved_auth.bearer_token().expect("No bearer token?");
+        assert_eq!(resolved_bearer.token(), "12341234");
     }
 }

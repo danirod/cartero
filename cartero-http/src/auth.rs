@@ -32,20 +32,20 @@ impl TryFrom<&Request> for BoundHeaders {
     type Error = RequestError;
 
     fn try_from(value: &Request) -> Result<Self, Self::Error> {
-        let processor = value.template_processor();
+        let value = value.resolve()?;
 
         let auth_type = value.authentication().auth_type();
         let headers: Vec<(String, String)> = match auth_type {
             RequestAuthenticationType::None | RequestAuthenticationType::Inherit => vec![],
             RequestAuthenticationType::BasicAuth => {
                 let auth = value.authentication().basic_auth().unwrap();
-                let username = processor.render(auth.username())?;
-                let password = processor.render(auth.password())?;
+                let username = auth.username();
+                let password = auth.password();
                 basic_auth_headers(&username, &password)
             }
             RequestAuthenticationType::BearerToken => {
                 let bearer = value.authentication().bearer_token().unwrap();
-                let token = processor.render(bearer.token())?;
+                let token = bearer.token();
                 vec![("Authorization".to_string(), format!("Bearer {token}"))]
             }
         };

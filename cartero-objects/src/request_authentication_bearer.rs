@@ -97,6 +97,17 @@ mod imp {
         fn auth_type(&self) -> crate::RequestAuthenticationType {
             crate::RequestAuthenticationType::BearerToken
         }
+
+        fn resolve(
+            &self,
+            tpl: &srtemplate::SrTemplate,
+        ) -> Result<crate::RequestAuthenticationData, srtemplate::Error> {
+            let token = tpl.render(self.obj().token())?;
+            Ok(super::RequestAuthenticationBearer::builder()
+                .token(token)
+                .build()
+                .upcast())
+        }
     }
 }
 
@@ -133,6 +144,8 @@ mod builder {
 
 #[cfg(test)]
 mod tests {
+    use srtemplate::SrTemplate;
+
     use crate::{
         utils::test::assert_emits_signal, RequestAuthenticationDataExt, RequestAuthenticationType,
     };
@@ -177,5 +190,30 @@ mod tests {
     pub fn test_emits_signals() {
         let bearer = RequestAuthenticationBearer::default();
         assert_emits_signal(&bearer, "changed", || bearer.set_token("1234"));
+    }
+
+    #[test]
+    pub fn test_resolve_successful() {
+        let auth = RequestAuthenticationBearer::builder()
+            .token("{{TOKEN}}")
+            .build();
+        let tpl = SrTemplate::default();
+        tpl.add_variable("TOKEN", "12341234");
+        let auth = auth
+            .resolve(&tpl)
+            .expect("Invalid resolve?")
+            .downcast::<RequestAuthenticationBearer>()
+            .expect("Invalid cast?");
+        assert_eq!(auth.token(), "12341234");
+    }
+
+    #[test]
+    #[should_panic]
+    pub fn test_resolve_unsuccessful() {
+        let auth = RequestAuthenticationBearer::builder()
+            .token("{{TOKEN}}")
+            .build();
+        let tpl = SrTemplate::default();
+        auth.resolve(&tpl).expect("Invalid resolve?");
     }
 }

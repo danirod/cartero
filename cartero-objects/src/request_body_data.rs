@@ -19,6 +19,7 @@ use glib::{
     object::{Cast, IsA, ObjectExt},
     subclass::prelude::*,
 };
+use srtemplate::SrTemplate;
 
 use crate::RequestBodyType;
 
@@ -49,6 +50,10 @@ mod ffi {
     pub struct Class {
         parent_class: glib::gobject_ffi::GObjectClass,
         pub(super) body_type: fn(&super::RequestBodyData) -> RequestBodyType,
+        pub(super) resolve: fn(
+            &super::RequestBodyData,
+            &srtemplate::SrTemplate,
+        ) -> Result<super::RequestBodyData, srtemplate::Error>,
     }
 
     unsafe impl glib::subclass::types::ClassStruct for Class {
@@ -68,6 +73,7 @@ mod imp {
     use std::sync::OnceLock;
 
     use glib::{subclass::Signal, types::StaticType};
+    use srtemplate::SrTemplate;
 
     use crate::RequestBodyType;
 
@@ -85,6 +91,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.body_type = |obj| obj.imp().body_type_default();
+            klass.resolve = |obj, tpl| obj.imp().resolve_default(tpl);
         }
     }
 
@@ -103,6 +110,13 @@ mod imp {
         fn body_type_default(&self) -> RequestBodyType {
             panic!("not implemented");
         }
+
+        fn resolve_default(
+            &self,
+            _: &SrTemplate,
+        ) -> Result<super::RequestBodyData, srtemplate::Error> {
+            panic!("not implemented");
+        }
     }
 }
 
@@ -112,6 +126,12 @@ pub trait RequestBodyDataExt: IsA<RequestBodyData> {
         let this = self.upcast_ref();
         let class = this.class();
         (class.as_ref().body_type)(this)
+    }
+
+    fn resolve(&self, tpl: &SrTemplate) -> Result<RequestBodyData, srtemplate::Error> {
+        let this = self.upcast_ref();
+        let class = this.class();
+        (class.as_ref().resolve)(this, tpl)
     }
 }
 
@@ -126,6 +146,8 @@ pub trait RequestBodyDataImpl: ObjectImpl {
     /// is also used during validation when the body-type of a
     /// [RequestBody][super::RequestBody] changes.
     fn body_type(&self) -> RequestBodyType;
+
+    fn resolve(&self, tpl: &SrTemplate) -> Result<RequestBodyData, srtemplate::Error>;
 }
 
 #[doc(hidden)]
@@ -135,6 +157,13 @@ pub trait RequestBodyDataImplExt: RequestBodyDataImpl {
         let parent_class = unsafe { &*(data.as_ref().parent_class() as *const ffi::Class) };
         let body_type = parent_class.body_type;
         body_type(unsafe { self.obj().unsafe_cast_ref() })
+    }
+
+    fn resolve(&self, tpl: &SrTemplate) -> Result<RequestBodyData, srtemplate::Error> {
+        let data = Self::type_data();
+        let parent_class = unsafe { &*(data.as_ref().parent_class() as *const ffi::Class) };
+        let resolve = parent_class.resolve;
+        resolve(unsafe { self.obj().unsafe_cast_ref() }, tpl)
     }
 }
 
@@ -149,7 +178,11 @@ unsafe impl<T: RequestBodyDataImpl> IsSubclassable<T> for RequestBodyData {
         klass.body_type = |obj| {
             let this = unsafe { obj.unsafe_cast_ref::<<T as ObjectSubclass>::Type>().imp() };
             RequestBodyDataImpl::body_type(this)
-        }
+        };
+        klass.resolve = |obj, tpl| {
+            let this = unsafe { obj.unsafe_cast_ref::<<T as ObjectSubclass>::Type>().imp() };
+            RequestBodyDataImpl::resolve(this, tpl)
+        };
     }
 }
 

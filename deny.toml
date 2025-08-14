@@ -2,6 +2,7 @@
 [licenses]
 allow = [
     "GPL-3.0",
+    "GPL-3.0-or-later",
     "LGPL-2.1",
     "MIT",
     "BSD-3-Clause",

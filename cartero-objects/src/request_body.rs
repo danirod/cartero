@@ -17,9 +17,11 @@
 
 use glib::subclass::prelude::*;
 use glib::{prelude::*, Object};
+use srtemplate::SrTemplate;
 
 use crate::{
-    RequestBodyData, RequestBodyFile, RequestBodyMultipart, RequestBodyRaw, RequestBodyUrlencoded,
+    RequestBodyData, RequestBodyDataExt, RequestBodyFile, RequestBodyMultipart, RequestBodyRaw,
+    RequestBodyUrlencoded,
 };
 
 glib::wrapper! {
@@ -165,6 +167,11 @@ glib::wrapper! {
 impl RequestBody {
     pub fn builder() -> builder::RequestBodyBuilder {
         builder::RequestBodyBuilder::default()
+    }
+
+    pub(crate) fn resolve(&self, processor: &SrTemplate) -> Result<Self, srtemplate::Error> {
+        let data = self.body_data().map(|b| b.resolve(processor)).transpose()?;
+        Ok(Self::new(self.body_type(), data))
     }
 }
 
@@ -455,6 +462,7 @@ mod imp {
 mod tests {
     use gio::prelude::ListModelExt;
     use glib::object::CastNone;
+    use srtemplate::SrTemplate;
 
     use crate::{
         utils::test::{assert_emits_signal, assert_emits_signals, assert_not_emits_signal},
@@ -738,5 +746,128 @@ mod tests {
                 .expect("This is not file")
                 .set_content_type(Some("application/xml"));
         });
+    }
+
+    #[test]
+    pub fn test_resolve_body_with_none() {
+        let body = RequestBody::builder().none().build();
+        let tpl = SrTemplate::default();
+        let resolved_body = body.resolve(&tpl).expect("Invalid resolve");
+        assert!(resolved_body.body_data().is_none());
+        assert_eq!(resolved_body.body_type(), RequestBodyType::None);
+    }
+
+    #[test]
+    pub fn test_resolve_body_with_urlencoded() {
+        let field1 = Field::builder()
+            .key("User-Agent")
+            .value("{{USER_AGENT}}")
+            .build();
+        let field2 = Field::builder()
+            .key("Accept")
+            .value("application/json")
+            .build();
+        let body = RequestBodyUrlencoded::builder()
+            .field(&field1)
+            .field(&field2)
+            .build();
+        let body = RequestBody::builder().urlencoded(&body).build();
+        let tpl = SrTemplate::default();
+        tpl.add_variable("USER_AGENT", "Mozilla/5.0");
+        let resolved_body = body.resolve(&tpl).expect("Invalid resolve");
+        assert_eq!(resolved_body.body_type(), RequestBodyType::UrlEncoded);
+        let resolved_urlencoded = resolved_body.urlencoded().expect("Is not urlencoded?");
+        assert_eq!(2, resolved_urlencoded.params().n_items());
+        assert_eq!(
+            "User-Agent",
+            resolved_urlencoded.params().field(0).unwrap().key()
+        );
+        assert_eq!(
+            "Mozilla/5.0",
+            resolved_urlencoded.params().field(0).unwrap().value()
+        );
+        assert_eq!(
+            "Accept",
+            resolved_urlencoded.params().field(1).unwrap().key()
+        );
+        assert_eq!(
+            "application/json",
+            resolved_urlencoded.params().field(1).unwrap().value()
+        );
+    }
+
+    #[test]
+    pub fn test_resolve_body_with_multipart() {
+        let field1 = Field::builder()
+            .key("User-Agent")
+            .value("{{USER_AGENT}}")
+            .build();
+        let field2 = Field::builder()
+            .key("Accept")
+            .value("application/json")
+            .build();
+        let body = RequestBodyMultipart::builder()
+            .field(&field1)
+            .field(&field2)
+            .build();
+        let body = RequestBody::builder().multipart(&body).build();
+        let tpl = SrTemplate::default();
+        tpl.add_variable("USER_AGENT", "Mozilla/5.0");
+        let resolved_body = body.resolve(&tpl).expect("Invalid resolve");
+        assert_eq!(resolved_body.body_type(), RequestBodyType::Multipart);
+        let resolved_multipart = resolved_body.multipart().expect("Is not multipart?");
+        assert_eq!(2, resolved_multipart.params().n_items());
+        assert_eq!(
+            "User-Agent",
+            resolved_multipart.params().field(0).unwrap().key()
+        );
+        assert_eq!(
+            "Mozilla/5.0",
+            resolved_multipart.params().field(0).unwrap().value()
+        );
+        assert_eq!(
+            "Accept",
+            resolved_multipart.params().field(1).unwrap().key()
+        );
+        assert_eq!(
+            "application/json",
+            resolved_multipart.params().field(1).unwrap().value()
+        );
+    }
+
+    #[test]
+    fn test_resolve_body_with_raw() {
+        let raw = RequestBodyRaw::new(RequestBodyRawType::OctetStream, "hello {{WHO}}");
+        let body = RequestBody::builder().raw(&raw).build();
+        let tpl = SrTemplate::default();
+        tpl.add_variable("WHO", "world");
+        let resolve_body = body.resolve(&tpl).expect("Invalid resolve");
+        let resolve_raw = resolve_body.raw().expect("Not a raw?");
+        assert_eq!(resolve_raw.payload_type(), RequestBodyRawType::OctetStream);
+        assert_eq!(resolve_raw.payload(), "hello world");
+    }
+
+    #[test]
+    fn test_resolve_body_with_file() {
+        let request_body = RequestBodyFile::builder()
+            .path("./assets/{{DOCUMENT_ID}}/report.xml")
+            .content_type(Some("application/{{FORMAT}}+xml"))
+            .build();
+        let body = RequestBody::builder().file(&request_body).build();
+        let tpl = SrTemplate::default();
+        tpl.add_variable("DOCUMENT_ID", "1234");
+        tpl.add_variable("FORMAT", "atom");
+
+        let resolved_body = body.resolve(&tpl).expect("Invalid resolve");
+        assert_eq!(resolved_body.body_type(), RequestBodyType::File);
+        let rendered_body = resolved_body.file().expect("Is not file?");
+        assert_eq!(rendered_body.path(), "./assets/1234/report.xml");
+        assert!(
+            rendered_body
+                .content_type()
+                .is_some_and(|t| t == "application/atom+xml"),
+            "content-type: {:?}",
+            rendered_body.content_type()
+        );
     }
 }

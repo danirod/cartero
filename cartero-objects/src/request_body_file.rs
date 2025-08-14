@@ -63,7 +63,7 @@ impl RequestBodyFile {
 }
 
 mod imp {
-    use crate::RequestBodyDataImpl;
+    use crate::{RequestBodyData, RequestBodyDataImpl};
 
     use super::*;
     use glib::Properties;
@@ -105,6 +105,23 @@ mod imp {
         fn body_type(&self) -> crate::RequestBodyType {
             crate::RequestBodyType::File
         }
+
+        fn resolve(
+            &self,
+            tpl: &srtemplate::SrTemplate,
+        ) -> Result<RequestBodyData, srtemplate::Error> {
+            let path = tpl.render(&self.obj().path())?;
+            let content_type = self
+                .obj()
+                .content_type()
+                .map(|s| tpl.render(&s))
+                .transpose()?;
+            Ok(super::RequestBodyFile::builder()
+                .path(&path)
+                .content_type(content_type.as_ref())
+                .build()
+                .upcast())
+        }
     }
 }
 
@@ -123,8 +140,11 @@ mod builder {
             }
         }
 
-        pub fn content_type(mut self, content_type: impl AsRef<str>) -> Self {
-            self.builder = self.builder.property("content-type", content_type.as_ref());
+        pub fn content_type(mut self, content_type: Option<impl AsRef<str>>) -> Self {
+            self.builder = match content_type {
+                Some(value) => self.builder.property("content-type", value.as_ref()),
+                None => self.builder,
+            };
             self
         }
 
@@ -141,9 +161,64 @@ mod builder {
 
 #[cfg(test)]
 mod tests {
-    use crate::utils::test::assert_emits_signal;
+    use srtemplate::SrTemplate;
+
+    use crate::{utils::test::assert_emits_signal, RequestBodyDataExt};
 
     use super::*;
+
+    #[test]
+    fn test_resolve_with_content_type() {
+        let request_body = RequestBodyFile::builder()
+            .path("./assets/{{DOCUMENT_ID}}/report.xml")
+            .content_type(Some("application/{{FORMAT}}+xml"))
+            .build();
+        let template = SrTemplate::default();
+        template.add_variable("DOCUMENT_ID", "1234");
+        template.add_variable("FORMAT", "atom");
+
+        let rendered_body = request_body
+            .resolve(&template)
+            .expect("Did not expect a fail")
+            .downcast::<RequestBodyFile>()
+            .expect("Did not downcast properly");
+
+        assert_eq!(rendered_body.path(), "./assets/1234/report.xml");
+        assert!(
+            rendered_body
+                .content_type()
+                .is_some_and(|t| t == "application/atom+xml"),
+            "content-type: {:?}",
+            rendered_body.content_type()
+        );
+    }
+
+    #[test]
+    fn test_resolve_without_content_type() {
+        let request_body = RequestBodyFile::builder()
+            .path("./assets/{{DOCUMENT_ID}}/report.xml")
+            .build();
+        let template = SrTemplate::default();
+        template.add_variable("DOCUMENT_ID", "1234");
+
+        let rendered_body = request_body
+            .resolve(&template)
+            .expect("Did not expect a fail")
+            .downcast::<RequestBodyFile>()
+            .expect("Did not downcast properly");
+        assert_eq!(rendered_body.path(), "./assets/1234/report.xml");
+        assert!(rendered_body.content_type().is_none());
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_resolve_invalid_fails() {
+        let request_body = RequestBodyFile::builder()
+            .path("./assets/{{DOCUMENT_ID}}/report.xml")
+            .build();
+        let template = SrTemplate::default();
+        request_body.resolve(&template).unwrap();
+    }
 
     #[test]
     fn test_builder_simple_case() {
@@ -158,7 +233,7 @@ mod tests {
     fn test_builder_with_content_type() {
         let request_body = RequestBodyFile::builder()
             .path("./assets/report.xml")
-            .content_type("application/xml")
+            .content_type(Some("application/xml"))
             .build();
         assert_eq!(request_body.path(), "./assets/report.xml");
         assert!(request_body
@@ -172,6 +247,7 @@ mod tests {
         assert_emits_signal(&body, "changed", || {
             body.set_content_type(Some("application/xml"));
         });
+
         assert_emits_signal(&body, "changed", || body.set_path("report.xml"));
     }
 }

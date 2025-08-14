@@ -78,6 +78,22 @@ impl Request {
         // Currently only delegates to variables(). In the future may be bound to an environment.
         self.variables().template_processor()
     }
+
+    pub fn resolve(&self) -> Result<Self, srtemplate::Error> {
+        let processor = self.template_processor();
+
+        let url = processor.render(self.url())?;
+        let method = self.method();
+        let headers = self.headers().render(&processor)?;
+        let auth = self.authentication().resolve(&processor)?;
+        let body = self.body().resolve(&processor)?;
+
+        Ok(Self::builder(&url, method)
+            .headers(&headers)
+            .with_auth(auth)
+            .with_body(body)
+            .build())
+    }
 }
 
 mod imp {
@@ -409,6 +425,8 @@ mod builder {
 
 #[cfg(test)]
 mod tests {
+    use gio::prelude::ListModelExt;
+
     use crate::{
         utils::test::assert_emits_signal, Field, FieldTable, RequestAuthentication,
         RequestAuthenticationBearer, RequestAuthenticationType, RequestBody, RequestBodyRaw,
@@ -681,5 +699,149 @@ mod tests {
                 .params()
                 .insert(&field);
         });
+    }
+
+    #[test]
+    fn test_resolve_request() {
+        let request = Request::builder("{{API_ROOT}}/api/users", RequestMethod::Get)
+            .header(
+                &Field::builder()
+                    .key("User-Agent")
+                    .value("{{USER_AGENT}}")
+                    .build(),
+            )
+            .variable(
+                &Field::builder()
+                    .key("API_ROOT")
+                    .value("http://localhost:3000")
+                    .build(),
+            )
+            .variable(
+                &Field::builder()
+                    .key("USER_AGENT")
+                    .value("Mozilla/5.0")
+                    .build(),
+            )
+            .build();
+        let resolved = request.resolve().expect("Expected a request?");
+        assert_eq!(resolved.url(), "http://localhost:3000/api/users");
+        assert_eq!(resolved.method(), RequestMethod::Get);
+        assert_eq!(resolved.variables().n_items(), 0);
+        assert_eq!(resolved.headers().n_items(), 1);
+        assert_eq!(resolved.headers().field(0).unwrap().key(), "User-Agent");
+        assert_eq!(resolved.headers().field(0).unwrap().value(), "Mozilla/5.0");
+    }
+
+    #[test]
+    fn test_resolve_request_is_idempotent() {
+        let request = Request::builder("{{API_ROOT}}/api/users", RequestMethod::Get)
+            .header(
+                &Field::builder()
+                    .key("User-Agent")
+                    .value("{{USER_AGENT}}")
+                    .build(),
+            )
+            .variable(
+                &Field::builder()
+                    .key("API_ROOT")
+                    .value("http://localhost:3000")
+                    .build(),
+            )
+            .variable(
+                &Field::builder()
+                    .key("USER_AGENT")
+                    .value("Mozilla/5.0")
+                    .build(),
+            )
+            .build();
+        let resolved = request.resolve().expect("Expected a request?");
+        let resolved = resolved.resolve().expect("Expected to still be resolvable");
+        assert_eq!(resolved.url(), "http://localhost:3000/api/users");
+        assert_eq!(resolved.method(), RequestMethod::Get);
+        assert_eq!(resolved.variables().n_items(), 0);
+        assert_eq!(resolved.headers().n_items(), 1);
+        assert_eq!(resolved.headers().field(0).unwrap().key(), "User-Agent");
+        assert_eq!(resolved.headers().field(0).unwrap().value(), "Mozilla/5.0");
+    }
+
+    #[test]
+    fn test_resolve_request_ignores_deactivated_variables() {
+        let request = Request::builder("{{API_ROOT}}/api/users", RequestMethod::Get)
+            .header(
+                &Field::builder()
+                    .key("User-Agent")
+                    .value("{{USER_AGENT}}")
+                    .build(),
+            )
+            .variable(
+                &Field::builder()
+                    .key("API_ROOT")
+                    .value("http://localhost:3000")
+                    .active(false)
+                    .build(),
+            )
+            .variable(
+                &Field::builder()
+                    .key("API_ROOT")
+                    .value("http://staging.example.com")
+                    .build(),
+            )
+            .variable(
+                &Field::builder()
+                    .key("USER_AGENT")
+                    .value("Mozilla/5.0")
+                    .build(),
+            )
+            .build();
+        let resolved = request.resolve().expect("Expected a request?");
+        assert_eq!(resolved.url(), "http://staging.example.com/api/users");
+        assert_eq!(resolved.method(), RequestMethod::Get);
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_resolve_request_without_active_variables() {
+        let request = Request::builder("{{API_ROOT}}/api/users", RequestMethod::Get)
+            .header(
+                &Field::builder()
+                    .key("User-Agent")
+                    .value("{{USER_AGENT}}")
+                    .build(),
+            )
+            .variable(
+                &Field::builder()
+                    .key("API_ROOT")
+                    .value("http://localhost:3000")
+                    .active(false)
+                    .build(),
+            )
+            .variable(
+                &Field::builder()
+                    .key("USER_AGENT")
+                    .value("Mozilla/5.0")
+                    .build(),
+            )
+            .build();
+        request.resolve().expect("Expected a request?");
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_resolve_request_missing_variables() {
+        let request = Request::builder("{{API_ROOT}}/api/users", RequestMethod::Get)
+            .header(
+                &Field::builder()
+                    .key("User-Agent")
+                    .value("{{USER_AGENT}}")
+                    .build(),
+            )
+            .variable(
+                &Field::builder()
+                    .key("API_ROOT")
+                    .value("http://localhost:3000")
+                    .build(),
+            )
+            .build();
+        request.resolve().expect("Expected a request?");
     }
 }

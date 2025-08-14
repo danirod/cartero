@@ -77,7 +77,7 @@ mod imp {
 
     use std::cell::{OnceCell, RefCell};
 
-    use crate::{FieldTable, RequestBodyDataImpl};
+    use crate::{FieldTable, RequestBodyData, RequestBodyDataImpl};
 
     #[derive(Default, Properties)]
     #[properties(wrapper_type = super::RequestBodyMultipart)]
@@ -123,6 +123,17 @@ mod imp {
     impl RequestBodyDataImpl for RequestBodyMultipart {
         fn body_type(&self) -> crate::RequestBodyType {
             crate::RequestBodyType::Multipart
+        }
+
+        fn resolve(
+            &self,
+            tpl: &srtemplate::SrTemplate,
+        ) -> Result<RequestBodyData, srtemplate::Error> {
+            let params = self.obj().params().render(&tpl)?;
+            Ok(super::RequestBodyMultipart::builder()
+                .params(&params)
+                .build()
+                .upcast())
         }
     }
 
@@ -192,7 +203,8 @@ mod builder {
 #[cfg(test)]
 mod tests {
     use gio::prelude::ListModelExt;
-    use glib::object::CastNone;
+    use glib::object::{Cast, CastNone};
+    use srtemplate::SrTemplate;
 
     use crate::{
         utils::test::assert_emits_signal, Field, FieldTable, RequestBodyDataExt, RequestBodyType,
@@ -262,6 +274,53 @@ mod tests {
     pub fn test_body_type() {
         let body = RequestBodyMultipart::default();
         assert_eq!(body.body_type(), RequestBodyType::Multipart);
+    }
+
+    #[test]
+    pub fn test_resolve() {
+        let field1 = Field::builder()
+            .key("User-Agent")
+            .value("{{USER_AGENT}}")
+            .build();
+        let field2 = Field::builder()
+            .key("Accept")
+            .value("application/json")
+            .build();
+        let body = RequestBodyMultipart::builder()
+            .field(&field1)
+            .field(&field2)
+            .build();
+        let tpl = SrTemplate::default();
+        tpl.add_variable("USER_AGENT", "Mozilla/5.0");
+        let body = body
+            .resolve(&tpl)
+            .expect("Invalid resolve")
+            .downcast::<RequestBodyMultipart>()
+            .expect("Invalid cast");
+        assert_eq!(2, body.params().n_items());
+        assert_eq!("User-Agent", body.params().field(0).unwrap().key());
+        assert_eq!("Mozilla/5.0", body.params().field(0).unwrap().value());
+        assert_eq!("Accept", body.params().field(1).unwrap().key());
+        assert_eq!("application/json", body.params().field(1).unwrap().value());
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_resolve_with_errors() {
+        let field1 = Field::builder()
+            .key("User-Agent")
+            .value("{{USER_AGENT}}")
+            .build();
+        let field2 = Field::builder()
+            .key("Accept")
+            .value("application/json")
+            .build();
+        let body = RequestBodyMultipart::builder()
+            .field(&field1)
+            .field(&field2)
+            .build();
+        let tpl = SrTemplate::default();
+        body.resolve(&tpl).expect("Invalid resolve");
     }
 
     #[test]

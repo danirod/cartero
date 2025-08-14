@@ -332,7 +332,7 @@ fn file_with_content_type() {
                 .file(
                     &RequestBodyFile::builder()
                         .path("payload.xml")
-                        .content_type("application/xml")
+                        .content_type(Some("application/xml"))
                         .build(),
                 )
                 .build(),
@@ -351,7 +351,7 @@ fn file_with_empty_content_type() {
                 .file(
                     &RequestBodyFile::builder()
                         .path("payload.xml")
-                        .content_type("")
+                        .content_type(Some(""))
                         .build(),
                 )
                 .build(),

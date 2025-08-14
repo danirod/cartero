@@ -102,7 +102,7 @@ pub enum RequestBodyRawType {
 mod imp {
     use std::cell::RefCell;
 
-    use crate::RequestBodyDataImpl;
+    use crate::{RequestBodyData, RequestBodyDataImpl};
 
     use super::*;
     use glib::Properties;
@@ -149,6 +149,18 @@ mod imp {
         fn body_type(&self) -> crate::RequestBodyType {
             crate::RequestBodyType::Raw
         }
+
+        fn resolve(
+            &self,
+            tpl: &srtemplate::SrTemplate,
+        ) -> Result<RequestBodyData, srtemplate::Error> {
+            let payload = tpl.render(&self.obj().payload())?;
+            let payload_type = self.obj().payload_type();
+            Ok(super::RequestBodyRaw::builder(payload_type)
+                .payload(payload)
+                .build()
+                .upcast())
+        }
     }
 }
 
@@ -181,6 +193,9 @@ mod builder {
 
 #[cfg(test)]
 mod tests {
+    use glib::object::Cast;
+    use srtemplate::SrTemplate;
+
     use crate::{
         utils::test::assert_emits_signal, RequestBodyDataExt, RequestBodyRawType, RequestBodyType,
     };
@@ -232,6 +247,28 @@ mod tests {
     pub fn test_body_type() {
         let body: RequestBodyRaw = RequestBodyRaw::default();
         assert_eq!(body.body_type(), RequestBodyType::Raw);
+    }
+
+    #[test]
+    pub fn test_resolve_successful() {
+        let raw = RequestBodyRaw::new(RequestBodyRawType::OctetStream, "hello {{WHO}}");
+        let tpl = SrTemplate::default();
+        tpl.add_variable("WHO", "world");
+        let resolved_raw = raw
+            .resolve(&tpl)
+            .expect("Invalid resolve")
+            .downcast::<RequestBodyRaw>()
+            .expect("Invalid downcast");
+        assert_eq!(resolved_raw.payload_type(), RequestBodyRawType::OctetStream);
+        assert_eq!(resolved_raw.payload(), "hello world");
+    }
+
+    #[test]
+    #[should_panic]
+    pub fn test_resolve_unsuccessful() {
+        let raw = RequestBodyRaw::new(RequestBodyRawType::OctetStream, "hello {{WHO}}");
+        let tpl = SrTemplate::default();
+        raw.resolve(&tpl).expect("Invalid resolve");
     }
 
     #[test]

@@ -106,6 +106,19 @@ mod imp {
         fn auth_type(&self) -> crate::RequestAuthenticationType {
             crate::RequestAuthenticationType::BasicAuth
         }
+
+        fn resolve(
+            &self,
+            tpl: &srtemplate::SrTemplate,
+        ) -> Result<crate::RequestAuthenticationData, srtemplate::Error> {
+            let user = tpl.render(self.obj().username())?;
+            let pass = tpl.render(self.obj().password())?;
+            Ok(super::RequestAuthenticationBasic::builder()
+                .username(user)
+                .password(pass)
+                .build()
+                .upcast())
+        }
     }
 }
 
@@ -150,6 +163,8 @@ mod builder {
 
 #[cfg(test)]
 mod tests {
+    use srtemplate::SrTemplate;
+
     use crate::{
         utils::test::assert_emits_signal, RequestAuthenticationDataExt, RequestAuthenticationType,
     };
@@ -200,5 +215,34 @@ mod tests {
         let basic = RequestAuthenticationBasic::default();
         assert_emits_signal(&basic, "changed", || basic.set_username("foo"));
         assert_emits_signal(&basic, "changed", || basic.set_password("bar"));
+    }
+
+    #[test]
+    pub fn test_resolve_successful() {
+        let auth = RequestAuthenticationBasic::builder()
+            .username("{{USER}}")
+            .password("{{PASS}}")
+            .build();
+        let tpl = SrTemplate::default();
+        tpl.add_variable("USER", "admin");
+        tpl.add_variable("PASS", "1234");
+        let auth = auth
+            .resolve(&tpl)
+            .expect("Invalid resolve?")
+            .downcast::<RequestAuthenticationBasic>()
+            .expect("Invalid cast?");
+        assert_eq!(auth.username(), "admin");
+        assert_eq!(auth.password(), "1234");
+    }
+
+    #[test]
+    #[should_panic]
+    pub fn test_resolve_unsuccessful() {
+        let auth = RequestAuthenticationBasic::builder()
+            .username("{{USER}}")
+            .password("{{PASS}}")
+            .build();
+        let tpl = SrTemplate::default();
+        auth.resolve(&tpl).expect("Invalid resolve?");
     }
 }

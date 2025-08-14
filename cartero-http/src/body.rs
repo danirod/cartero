@@ -505,7 +505,7 @@ mod tests {
     async fn test_file() {
         let file = RequestBodyFile::builder()
             .path("fixtures/hello.txt")
-            .content_type("text/plain")
+            .content_type(Some("text/plain"))
             .build();
         let body = RequestBody::builder().file(&file).build();
         let req = Request::builder("https://www.example.com", RequestMethod::Get)
@@ -537,7 +537,7 @@ mod tests {
     async fn test_file_for_file_that_does_not_exist() {
         let file = RequestBodyFile::builder()
             .path("fixtures/not_found.txt")
-            .content_type("text/plain")
+            .content_type(Some("text/plain"))
             .build();
         let body = RequestBody::builder().file(&file).build();
         let req = Request::builder("https://www.example.com", RequestMethod::Get)
@@ -562,7 +562,7 @@ mod tests {
     async fn test_file_for_file_that_is_not_a_file() {
         let file = RequestBodyFile::builder()
             .path("fixtures")
-            .content_type("text/plain")
+            .content_type(Some("text/plain"))
             .build();
         let body = RequestBody::builder().file(&file).build();
         let req = Request::builder("https://www.example.com", RequestMethod::Get)
@@ -587,7 +587,7 @@ mod tests {
     async fn test_file_outside_current_dir() {
         let file = RequestBodyFile::builder()
             .path("../testing.txt")
-            .content_type("text/plain")
+            .content_type(Some("text/plain"))
             .build();
         let body = RequestBody::builder().file(&file).build();
         let req = Request::builder("https://www.example.com", RequestMethod::Get)
@@ -612,7 +612,7 @@ mod tests {
     async fn test_file_absolute_dir() {
         let file = RequestBodyFile::builder()
             .path("/etc/passwd")
-            .content_type("text/plain")
+            .content_type(Some("text/plain"))
             .build();
         let body = RequestBody::builder().file(&file).build();
         let req = Request::builder("https://www.example.com", RequestMethod::Get)
@@ -637,7 +637,7 @@ mod tests {
     async fn test_file_without_a_prefix() {
         let file = RequestBodyFile::builder()
             .path("fixtures/hello.txt")
-            .content_type("text/plain")
+            .content_type(Some("text/plain"))
             .build();
         let body = RequestBody::builder().file(&file).build();
         let req = Request::builder("https://www.example.com", RequestMethod::Get)

@@ -40,14 +40,16 @@ impl BoundBody {
         self.content.clone()
     }
     pub async fn new(value: &Request, env: &RequestEnvironment) -> Result<Self, RequestError> {
+        let value = value.resolve()?;
+
         let body_type = value.body().body_type();
 
         match body_type {
             RequestBodyType::None => Ok(BoundBody::default()),
-            RequestBodyType::UrlEncoded => Self::try_from_urlencoded(value),
-            RequestBodyType::Multipart => Self::try_from_multipart(value),
-            RequestBodyType::Raw => Self::try_from_raw(value),
-            RequestBodyType::File => Self::try_from_file(value, env).await,
+            RequestBodyType::UrlEncoded => Self::try_from_urlencoded(&value),
+            RequestBodyType::Multipart => Self::try_from_multipart(&value),
+            RequestBodyType::Raw => Self::try_from_raw(&value),
+            RequestBodyType::File => Self::try_from_file(&value, env).await,
         }
     }
 
@@ -93,8 +95,7 @@ impl BoundBody {
     fn try_from_urlencoded(value: &Request) -> Result<Self, RequestError> {
         let urlencoded = value.body().urlencoded().unwrap();
 
-        let context = value.template_processor();
-        let values = urlencoded.params().render(&context)?;
+        let values = urlencoded.params();
         let pairs = active_pairs(&values);
         let body = serde_urlencoded::to_string(pairs).map_err(|_| RequestError::EncodingError)?;
         let raw = Vec::from(body.as_str());
@@ -111,9 +112,7 @@ impl BoundBody {
 
     fn try_from_multipart(value: &Request) -> Result<Self, RequestError> {
         let multipart = value.body().multipart().unwrap();
-
-        let context = value.template_processor();
-        let values = multipart.params().render(&context)?;
+        let values = multipart.params();
         let pairs = active_pairs(&values);
 
         let boundary = formdata::generate_boundary();
@@ -146,16 +145,13 @@ impl BoundBody {
         let content = raw.payload();
         let encoding = raw.payload_type();
 
-        let processor = value.template_processor();
-        let interpolated = processor.render(&content)?;
-
         let content_type = match encoding {
             RequestBodyRawType::OctetStream => "application/octet-stream",
             RequestBodyRawType::Xml => "application/xml",
             RequestBodyRawType::Json => "application/json",
         };
         Ok(Self {
-            content: Some(Vec::from(interpolated.as_str())),
+            content: Some(Vec::from(content.as_str())),
             headers: vec![("Content-Type".into(), content_type.into())],
         })
     }

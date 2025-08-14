@@ -37,14 +37,12 @@ impl BoundRequest {
             return Err(RequestError::EmptyUrl);
         }
 
-        let processor = value.template_processor();
+        let resolved = value.resolve()?;
+        let url = normalize_url(&resolved.url())?;
 
-        let url = processor.render(value.url())?;
-        let url = normalize_url(&url)?;
+        let method = resolved.method();
 
-        let method = value.method();
-
-        let user_headers = value.headers().render(&processor)?;
+        let user_headers = resolved.headers();
         let auth = BoundHeaders::try_from(value)?;
         let body = BoundBody::new(value, env).await?;
         let headers = combine_headers(&user_headers, &auth, &body);

@@ -23,6 +23,7 @@ use url::form_urlencoded;
 use crate::widgets::shell::BasePane;
 mod imp {
     use std::cell::{OnceCell, RefCell};
+    use std::collections::HashSet;
     use std::sync::{Arc, Mutex};
 
     use adw::prelude::AdwDialogExt;
@@ -420,8 +421,20 @@ mod imp {
         }
 
         fn update_pregenerated_headers(&self) {
-            let pregenerated = self.pregenerated_headers.table();
+            // Need a way to check which headers will be disabled.
+            let user_headers = self
+                .request
+                .borrow()
+                .headers()
+                .iter::<Field>()
+                .filter_map(|row| {
+                    row.ok()
+                        .take_if(|field| field.active())
+                        .map(|field| field.key().trim().to_lowercase())
+                })
+                .collect::<HashSet<String>>();
 
+            let pregenerated = self.pregenerated_headers.table();
             let default_headers = vec![("User-Agent".into(), default_user_agent())];
             let auth_headers = self
                 .obj()
@@ -442,7 +455,20 @@ mod imp {
                 .chain(auth_headers)
                 .chain(body_headers)
                 .collect::<Vec<(String, String)>>();
+
+            pregenerated.iter::<Field>().for_each(|row| {
+                if let Ok(field) = row {
+                    field.set_active(true);
+                }
+            });
             pregenerated.reconcile(&entries);
+            pregenerated.iter::<Field>().for_each(|row| {
+                if let Ok(field) = row {
+                    let current_header = field.key().trim().to_lowercase();
+                    let set_by_user = user_headers.contains(&current_header);
+                    field.set_active(!set_by_user);
+                }
+            });
 
             let toggle_prompt = formatx!(
                 ngettext(

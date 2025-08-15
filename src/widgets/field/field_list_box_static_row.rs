@@ -19,14 +19,11 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 
 mod imp {
-    use std::{cell::RefCell, sync::OnceLock};
+    use std::cell::{OnceCell, RefCell};
 
     use super::*;
     use cartero_objects::Field;
-    use glib::{
-        subclass::{InitializingObject, Signal},
-        Properties,
-    };
+    use glib::{subclass::InitializingObject, BindingGroup, Properties};
     use gtk::CompositeTemplate;
 
     #[derive(Default, CompositeTemplate, Properties)]
@@ -40,8 +37,10 @@ mod imp {
         key: TemplateChild<gtk::Entry>,
         #[template_child]
         value: TemplateChild<gtk::Entry>,
+        #[template_child]
+        checked: TemplateChild<gtk::CheckButton>,
 
-        binding_group: glib::BindingGroup,
+        binding_group: OnceCell<glib::BindingGroup>,
     }
 
     #[glib::object_subclass]
@@ -65,11 +64,6 @@ mod imp {
             self.parent_constructed();
             self.init_binding_group();
         }
-
-        fn signals() -> &'static [Signal] {
-            static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
-            SIGNALS.get_or_init(|| vec![Signal::builder("deleted").build()])
-        }
     }
 
     impl WidgetImpl for FieldListBoxStaticRow {}
@@ -78,24 +72,30 @@ mod imp {
 
     impl FieldListBoxStaticRow {
         fn init_binding_group(&self) {
-            self.binding_group
+            let binding_group = BindingGroup::new();
+            binding_group
                 .bind("key", &*self.key, "text")
-                .bidirectional()
                 .sync_create()
                 .build();
-            self.binding_group
+            binding_group
                 .bind("value", &*self.value, "text")
-                .bidirectional()
                 .sync_create()
                 .build();
-            self.binding_group.set_source(Some(&self.obj().field()));
+            binding_group
+                .bind("active", &*self.checked, "active")
+                .sync_create()
+                .build();
+            binding_group.set_source(Some(&self.obj().field()));
             self.obj().connect_field_notify(glib::clone!(
-                #[weak(rename_to = imp)]
-                self,
+                #[weak]
+                binding_group,
                 move |field| {
-                    imp.binding_group.set_source(Some(&field.field()));
+                    binding_group.set_source(Some(&field.field()));
                 }
             ));
+            self.binding_group
+                .set(binding_group)
+                .expect("Couldn't initialise BindingGroup here");
         }
     }
 }

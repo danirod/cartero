@@ -28,7 +28,7 @@ use isahc::{
     AsyncBody, RequestExt,
 };
 
-fn default_user_agent() -> String {
+pub fn default_user_agent() -> String {
     let cartero_version = env!("CARGO_PKG_VERSION");
     let isahc_version = isahc::version().split_once(" ").map(|v| v.0);
     let curl_version = {

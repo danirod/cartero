@@ -146,17 +146,43 @@ template $CarteroEndpointPane: $CarteroBasePane {
             hexpand: true;
             vexpand: true;
 
-            Gtk.Frame {
-              vexpand: false;
-              valign: start;
-              margin-top: 12;
-              margin-bottom: 12;
-              margin-start: 12;
-              margin-end: 12;
+            Gtk.Box {
+              spacing: 12;
+              orientation: vertical;
 
-              $CarteroFieldTableListView header_pane {
-                read-only: bind template.read-only;
-                show-placeholder: true;
+              Gtk.Frame {
+                vexpand: false;
+                valign: start;
+                margin-top: 12;
+                margin-bottom: 12;
+                margin-start: 12;
+                margin-end: 12;
+
+                Gtk.Box {
+                  orientation: vertical;
+
+                  $CarteroFieldTableListView pregenerated_headers {
+                    visible: bind template.show-pregenerated;
+                    read-only: true;
+                    show-placeholder: false;
+                  }
+
+                  $CarteroFieldTableListView header_pane {
+                    read-only: bind template.read-only;
+                    show-placeholder: true;
+                  }
+                }
+              }
+
+              Gtk.ToggleButton toggle_pregenerated {
+                styles [
+                  "flat",
+                  "caption",
+                ]
+
+                active: bind template.show-pregenerated bidirectional;
+                halign: center;
+                hexpand: false;
               }
             }
           };

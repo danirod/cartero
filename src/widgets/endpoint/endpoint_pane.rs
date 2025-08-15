@@ -28,8 +28,12 @@ mod imp {
     use adw::prelude::AdwDialogExt;
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
     use cartero_http::{BoundRequest, RequestError};
-    use cartero_objects::{Field, Request, Response};
-    use gettextrs::gettext;
+    use cartero_isahc_client::default_user_agent;
+    use cartero_objects::{
+        Field, Request, RequestAuthenticationDataExt, RequestBodyDataExt, Response,
+    };
+    use formatx::formatx;
+    use gettextrs::{gettext, ngettext};
     use glib::subclass::InitializingObject;
     use glib::{JoinHandle, Properties};
     use gtk::gio::{self, Cancellable, FileCreateFlags, SimpleAction, SimpleActionGroup};
@@ -71,6 +75,10 @@ mod imp {
         response_pane: TemplateChild<ResponsePanel>,
         #[template_child]
         paned: TemplateChild<gtk::Paned>,
+        #[template_child]
+        toggle_pregenerated: TemplateChild<gtk::ToggleButton>,
+        #[template_child]
+        pregenerated_headers: TemplateChild<FieldTableListView>,
 
         #[property(get, set, name = "read-only")]
         read_only: RefCell<bool>,
@@ -78,6 +86,9 @@ mod imp {
         #[property(get, set)]
         request: RefCell<Request>,
         request_signal_group: OnceCell<glib::SignalGroup>,
+
+        #[property(get, set)]
+        show_pregenerated: RefCell<bool>,
 
         #[property(get)]
         request_binding_group: RefCell<glib::BindingGroup>,
@@ -120,7 +131,8 @@ mod imp {
 
             self.init_request_binding_group();
 
-            self.init_dirty_events();
+            self.init_request_signal_group();
+            self.init_pregenerated_rows();
             self.init_settings();
             self.init_actions();
 
@@ -227,6 +239,16 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl EndpointPane {
+        fn init_pregenerated_rows(&self) {
+            self.update_pregenerated_headers();
+            self.obj().connect_request_notify(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |_| {
+                    imp.update_pregenerated_headers();
+                }
+            ));
+        }
         fn init_request_binding_group(&self) {
             let binding_group = self.request_binding_group.borrow();
 
@@ -397,7 +419,44 @@ mod imp {
             self.obj().request().params().reconcile(&params);
         }
 
-        fn init_dirty_events(&self) {
+        fn update_pregenerated_headers(&self) {
+            let pregenerated = self.pregenerated_headers.table();
+
+            let default_headers = vec![("User-Agent".into(), default_user_agent())];
+            let auth_headers = self
+                .obj()
+                .request()
+                .authentication()
+                .auth_data()
+                .map(|auth| auth.rendered_headers())
+                .unwrap_or_default();
+            let body_headers = self
+                .obj()
+                .request()
+                .body()
+                .body_data()
+                .map(|body| body.rendered_headers())
+                .unwrap_or_default();
+            let entries = default_headers
+                .into_iter()
+                .chain(auth_headers)
+                .chain(body_headers)
+                .collect::<Vec<(String, String)>>();
+            pregenerated.reconcile(&entries);
+
+            let toggle_prompt = formatx!(
+                ngettext(
+                    "Show {} pre-generated header",
+                    "Show {} pre-generated headers",
+                    entries.len() as u32,
+                ),
+                entries.len()
+            )
+            .unwrap();
+            self.toggle_pregenerated.set_label(&toggle_prompt);
+        }
+
+        fn init_request_signal_group(&self) {
             let obj = self.obj();
 
             let request_signal_group = glib::SignalGroup::new::<Request>();
@@ -413,6 +472,18 @@ mod imp {
                 ),
             );
 
+            request_signal_group.connect_closure(
+                "changed",
+                false,
+                glib::closure_local!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |_: &Request, _: &str| {
+                        imp.update_pregenerated_headers();
+                    }
+                ),
+            );
+
             request_signal_group.set_target(Some(&obj.request()));
             obj.connect_request_notify(glib::clone!(
                 #[weak]
@@ -421,7 +492,6 @@ mod imp {
                     request_signal_group.set_target(Some(&pane.request()));
                 }
             ));
-
             self.request_signal_group.set(request_signal_group).unwrap();
         }
 

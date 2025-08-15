@@ -15,8 +15,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use base64::prelude::*;
-use cartero_objects::{Request, RequestAuthenticationType};
+use cartero_objects::{Request, RequestAuthenticationDataExt};
 
 use crate::RequestError;
 
@@ -33,31 +32,13 @@ impl TryFrom<&Request> for BoundHeaders {
 
     fn try_from(value: &Request) -> Result<Self, Self::Error> {
         let value = value.resolve()?;
-
-        let auth_type = value.authentication().auth_type();
-        let headers: Vec<(String, String)> = match auth_type {
-            RequestAuthenticationType::None | RequestAuthenticationType::Inherit => vec![],
-            RequestAuthenticationType::BasicAuth => {
-                let auth = value.authentication().basic_auth().unwrap();
-                let username = auth.username();
-                let password = auth.password();
-                basic_auth_headers(&username, &password)
-            }
-            RequestAuthenticationType::BearerToken => {
-                let bearer = value.authentication().bearer_token().unwrap();
-                let token = bearer.token();
-                vec![("Authorization".to_string(), format!("Bearer {token}"))]
-            }
-        };
+        let headers: Vec<(String, String)> = value
+            .authentication()
+            .auth_data()
+            .map(|auth| auth.rendered_headers())
+            .unwrap_or_default();
         Ok(BoundHeaders(headers))
     }
-}
-
-fn basic_auth_headers(username: &str, password: &str) -> Vec<(String, String)> {
-    let input = format!("{username}:{password}");
-    let hash = BASE64_STANDARD.encode(input);
-    let hashed = format!("Basic {hash}");
-    vec![("Authorization".to_string(), hashed)]
 }
 
 #[cfg(test)]

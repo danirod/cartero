@@ -17,13 +17,13 @@
 using Gtk 4.0;
 
 template $CarteroFieldTableStaticListView: Gtk.Box {
-  styles [
-    "dim-label",
-  ]
-
   orientation: vertical;
 
   Gtk.ListBox list_box {
+    styles [
+      "background",
+    ]
+
     show-separators: true;
   }
 }

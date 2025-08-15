@@ -46,7 +46,7 @@ mod imp {
     use crate::widgets::authentication::AuthenticationPane;
     use crate::widgets::dialogs::present_request_error_message;
     use crate::widgets::endpoint::ResponsePanel;
-    use crate::widgets::field::FieldTableListView;
+    use crate::widgets::field::{FieldTableListView, FieldTableStaticListView};
     use crate::widgets::req_body::RequestBodyPane;
     use crate::widgets::shell::BasePaneImpl;
     use crate::widgets::{file_dialogs, ExportDialog, MethodDropdown};
@@ -78,7 +78,7 @@ mod imp {
         #[template_child]
         toggle_pregenerated: TemplateChild<gtk::ToggleButton>,
         #[template_child]
-        pregenerated_headers: TemplateChild<FieldTableListView>,
+        pregenerated_headers: TemplateChild<FieldTableStaticListView>,
 
         #[property(get, set, name = "read-only")]
         read_only: RefCell<bool>,

@@ -161,10 +161,8 @@ template $CarteroEndpointPane: $CarteroBasePane {
                 Gtk.Box {
                   orientation: vertical;
 
-                  $CarteroFieldTableListView pregenerated_headers {
+                  $CarteroFieldTableStaticListView pregenerated_headers {
                     visible: bind template.show-pregenerated;
-                    read-only: true;
-                    show-placeholder: false;
                   }
 
                   $CarteroFieldTableListView header_pane {

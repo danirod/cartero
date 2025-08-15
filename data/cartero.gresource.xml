@@ -11,7 +11,9 @@
     <file alias="field_action_row.ui" compressed="true" preprocess="xml-stripblanks">ui/field_action_row.ui</file>
     <file alias="field_placeholder_row.ui" compressed="true" preprocess="xml-stripblanks">ui/field_placeholder_row.ui</file>
     <file alias="field_list_box_row.ui" compressed="true" preprocess="xml-stripblanks">ui/field_list_box_row.ui</file>
+    <file alias="field_list_box_static_row.ui" compressed="true" preprocess="xml-stripblanks">ui/field_list_box_static_row.ui</file>
     <file alias="field_table_list_view.ui" compressed="true" preprocess="xml-stripblanks">ui/field_table_list_view.ui</file>
+    <file alias="field_table_static_list_view.ui" compressed="true" preprocess="xml-stripblanks">ui/field_table_static_list_view.ui</file>
     <file alias="file_body_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/file_body_pane.ui</file>
     <file alias="mac_menu.ui" compressed="true" preprocess="xml-stripblanks">ui/mac_menu.ui</file>
     <file alias="main_window_no_csd.ui" compressed="true" preprocess="xml-stripblanks">ui/main_window_no_csd.ui</file>

@@ -234,6 +234,7 @@ dependencies = [
 name = "cartero_objects"
 version = "0.3.0"
 dependencies = [
+ "base64 0.22.1",
  "ctor",
  "gio",
  "glib",

@@ -122,6 +122,15 @@ mod imp {
                 .build()
                 .upcast())
         }
+
+        fn rendered_headers(&self) -> Vec<(String, String)> {
+            let content_type = self
+                .obj()
+                .content_type()
+                .take_if(|str| !str.trim().is_empty())
+                .unwrap_or("application/octet-stream".into());
+            vec![("Content-Type".into(), content_type)]
+        }
     }
 }
 
@@ -249,5 +258,52 @@ mod tests {
         });
 
         assert_emits_signal(&body, "changed", || body.set_path("report.xml"));
+    }
+
+    #[test]
+    fn test_renders_default_content_type() {
+        let request_body = RequestBodyFile::builder()
+            .path("./assets/report.xml")
+            .build();
+        let headers = request_body.rendered_headers();
+        assert_eq!(1, headers.len());
+        assert_eq!(
+            (
+                "Content-Type".to_string(),
+                "application/octet-stream".to_string()
+            ),
+            headers[0]
+        );
+    }
+
+    #[test]
+    fn test_renders_custom_content_type() {
+        let request_body = RequestBodyFile::builder()
+            .path("./assets/report.xml")
+            .content_type(Some("text/csv"))
+            .build();
+        let headers = request_body.rendered_headers();
+        assert_eq!(1, headers.len());
+        assert_eq!(
+            ("Content-Type".to_string(), "text/csv".to_string()),
+            headers[0]
+        );
+    }
+
+    #[test]
+    fn test_renders_empty_content_type() {
+        let request_body = RequestBodyFile::builder()
+            .path("./assets/report.xml")
+            .content_type(Some(""))
+            .build();
+        let headers = request_body.rendered_headers();
+        assert_eq!(1, headers.len());
+        assert_eq!(
+            (
+                "Content-Type".to_string(),
+                "application/octet-stream".to_string()
+            ),
+            headers[0]
+        );
     }
 }

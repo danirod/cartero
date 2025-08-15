@@ -108,6 +108,12 @@ mod imp {
                 .build()
                 .upcast())
         }
+
+        fn rendered_headers(&self) -> Vec<(String, String)> {
+            let token = self.obj().token();
+            let bearer_token_header = format!("Bearer {token}");
+            vec![("Authorization".to_string(), bearer_token_header)]
+        }
     }
 }
 
@@ -215,5 +221,16 @@ mod tests {
             .build();
         let tpl = SrTemplate::default();
         auth.resolve(&tpl).expect("Invalid resolve?");
+    }
+
+    #[test]
+    pub fn test_rendered_headers() {
+        let bearer = RequestAuthenticationBearer::builder()
+            .token("123412341234")
+            .build();
+        let headers = bearer.rendered_headers();
+        assert_eq!(1, headers.len());
+        assert_eq!("Authorization", headers[0].0);
+        assert_eq!("Bearer 123412341234", headers[0].1);
     }
 }

@@ -135,6 +135,13 @@ mod imp {
                 .build()
                 .upcast())
         }
+
+        fn rendered_headers(&self) -> Vec<(String, String)> {
+            vec![(
+                "Content-Type".into(),
+                "multipart/form-data; boundary=".into(),
+            )]
+        }
     }
 
     impl RequestBodyMultipart {
@@ -343,5 +350,19 @@ mod tests {
             let field = Field::builder().key("user-agent").value("mozilla").build();
             body.params().insert(&field);
         });
+    }
+
+    #[test]
+    fn test_rendered_headers() {
+        let body = RequestBodyMultipart::default();
+        let headers = body.rendered_headers();
+        assert_eq!(1, headers.len());
+        assert_eq!(
+            (
+                "Content-Type".into(),
+                "multipart/form-data; boundary=".into()
+            ),
+            headers[0]
+        );
     }
 }

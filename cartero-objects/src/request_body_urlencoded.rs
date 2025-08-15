@@ -130,6 +130,13 @@ mod imp {
                 .build()
                 .upcast())
         }
+
+        fn rendered_headers(&self) -> Vec<(String, String)> {
+            vec![(
+                "Content-Type".into(),
+                "application/x-www-form-urlencoded".into(),
+            )]
+        }
     }
 
     impl RequestBodyUrlencoded {
@@ -328,5 +335,19 @@ mod tests {
             let field = Field::builder().key("user-agent").value("mozilla").build();
             body.params().insert(&field);
         });
+    }
+
+    #[test]
+    fn test_rendered_headers() {
+        let body = RequestBodyUrlencoded::default();
+        let headers = body.rendered_headers();
+        assert_eq!(1, headers.len());
+        assert_eq!(
+            (
+                "Content-Type".into(),
+                "application/x-www-form-urlencoded".into()
+            ),
+            headers[0]
+        );
     }
 }

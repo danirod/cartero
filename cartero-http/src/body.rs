@@ -20,7 +20,7 @@ use std::{
     path::PathBuf,
 };
 
-use cartero_objects::{Request, RequestBodyRawType, RequestBodyType};
+use cartero_objects::{Request, RequestBodyDataExt, RequestBodyType};
 use gio::prelude::FileExt;
 
 use crate::{active_pairs, RequestEnvironment, RequestError};
@@ -57,7 +57,8 @@ impl BoundBody {
         value: &Request,
         env: &RequestEnvironment,
     ) -> Result<Self, RequestError> {
-        let desired_path = value.body().file().unwrap().path();
+        let file = value.body().file().unwrap();
+        let desired_path = file.path();
         if desired_path.trim().is_empty() {
             return Ok(Self::default());
         }
@@ -75,19 +76,10 @@ impl BoundBody {
 
         // Generate the output
         match absolute_file.load_bytes_future().await {
-            Ok((content, _)) => {
-                let content_type = value
-                    .body()
-                    .file()
-                    .unwrap()
-                    .content_type()
-                    .take_if(|f| !f.trim().is_empty())
-                    .unwrap_or("application/octet-stream".to_string());
-                Ok(Self {
-                    content: Some(content.to_vec()),
-                    headers: vec![("Content-Type".to_string(), content_type)],
-                })
-            }
+            Ok((content, _)) => Ok(Self {
+                content: Some(content.to_vec()),
+                headers: file.rendered_headers(),
+            }),
             Err(e) => Err(RequestError::IOError(Box::new(e))),
         }
     }
@@ -100,12 +92,8 @@ impl BoundBody {
         let body = serde_urlencoded::to_string(pairs).map_err(|_| RequestError::EncodingError)?;
         let raw = Vec::from(body.as_str());
 
-        let headers = vec![(
-            "Content-Type".into(),
-            "application/x-www-form-urlencoded".into(),
-        )];
         Ok(Self {
-            headers,
+            headers: urlencoded.rendered_headers(),
             content: Some(raw),
         })
     }
@@ -143,16 +131,9 @@ impl BoundBody {
     fn try_from_raw(value: &Request) -> Result<Self, RequestError> {
         let raw = value.body().raw().unwrap();
         let content = raw.payload();
-        let encoding = raw.payload_type();
-
-        let content_type = match encoding {
-            RequestBodyRawType::OctetStream => "application/octet-stream",
-            RequestBodyRawType::Xml => "application/xml",
-            RequestBodyRawType::Json => "application/json",
-        };
         Ok(Self {
             content: Some(Vec::from(content.as_str())),
-            headers: vec![("Content-Type".into(), content_type.into())],
+            headers: raw.rendered_headers(),
         })
     }
 }

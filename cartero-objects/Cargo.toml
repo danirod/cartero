@@ -22,6 +22,7 @@ edition.workspace = true
 license.workspace = true
 
 [dependencies]
+base64 = "0.22.1"
 glib.workspace = true
 gio.workspace = true
 itertools = "0.14.0"

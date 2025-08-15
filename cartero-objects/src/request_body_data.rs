@@ -54,6 +54,7 @@ mod ffi {
             &super::RequestBodyData,
             &srtemplate::SrTemplate,
         ) -> Result<super::RequestBodyData, srtemplate::Error>,
+        pub(super) rendered_headers: fn(&super::RequestBodyData) -> Vec<(String, String)>,
     }
 
     unsafe impl glib::subclass::types::ClassStruct for Class {
@@ -92,6 +93,7 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             klass.body_type = |obj| obj.imp().body_type_default();
             klass.resolve = |obj, tpl| obj.imp().resolve_default(tpl);
+            klass.rendered_headers = |obj| obj.imp().rendered_headers_default();
         }
     }
 
@@ -117,6 +119,10 @@ mod imp {
         ) -> Result<super::RequestBodyData, srtemplate::Error> {
             panic!("not implemented");
         }
+
+        fn rendered_headers_default(&self) -> Vec<(String, String)> {
+            Vec::new()
+        }
     }
 }
 
@@ -133,6 +139,12 @@ pub trait RequestBodyDataExt: IsA<RequestBodyData> {
         let class = this.class();
         (class.as_ref().resolve)(this, tpl)
     }
+
+    fn rendered_headers(&self) -> Vec<(String, String)> {
+        let this = self.upcast_ref();
+        let class = this.class();
+        (class.as_ref().rendered_headers)(this)
+    }
 }
 
 impl<T: IsA<RequestBodyData>> RequestBodyDataExt for T {}
@@ -148,6 +160,8 @@ pub trait RequestBodyDataImpl: ObjectImpl {
     fn body_type(&self) -> RequestBodyType;
 
     fn resolve(&self, tpl: &SrTemplate) -> Result<RequestBodyData, srtemplate::Error>;
+
+    fn rendered_headers(&self) -> Vec<(String, String)>;
 }
 
 #[doc(hidden)]
@@ -164,6 +178,13 @@ pub trait RequestBodyDataImplExt: RequestBodyDataImpl {
         let parent_class = unsafe { &*(data.as_ref().parent_class() as *const ffi::Class) };
         let resolve = parent_class.resolve;
         resolve(unsafe { self.obj().unsafe_cast_ref() }, tpl)
+    }
+
+    fn parent_rendered_headers(&self) -> Vec<(String, String)> {
+        let data = Self::type_data();
+        let parent_class = unsafe { &*(data.as_ref().parent_class() as *const ffi::Class) };
+        let rendered_headers = parent_class.rendered_headers;
+        rendered_headers(unsafe { self.obj().unsafe_cast_ref() })
     }
 }
 
@@ -182,6 +203,10 @@ unsafe impl<T: RequestBodyDataImpl> IsSubclassable<T> for RequestBodyData {
         klass.resolve = |obj, tpl| {
             let this = unsafe { obj.unsafe_cast_ref::<<T as ObjectSubclass>::Type>().imp() };
             RequestBodyDataImpl::resolve(this, tpl)
+        };
+        klass.rendered_headers = |obj| {
+            let this = unsafe { obj.unsafe_cast_ref::<<T as ObjectSubclass>::Type>().imp() };
+            RequestBodyDataImpl::rendered_headers(this)
         };
     }
 }

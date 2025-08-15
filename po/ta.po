@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-08 22:12+0200\n"
+"POT-Creation-Date: 2025-08-15 17:20+0200\n"
 "PO-Revision-Date: 2025-04-27 13:08+0000\n"
 "Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/cartero/cartero/ta/"
@@ -303,15 +303,15 @@ msgstr "அளவுருக்கள்"
 msgid "Headers"
 msgstr "தலைப்பிகளுக்கு"
 
-#: data/ui/endpoint_pane.blp:167
+#: data/ui/endpoint_pane.blp:191
 msgid "Variables"
 msgstr "மாறிகள்"
 
-#: data/ui/endpoint_pane.blp:192
+#: data/ui/endpoint_pane.blp:216
 msgid "Authorization"
 msgstr "ஏற்பு"
 
-#: data/ui/endpoint_pane.blp:207 data/ui/response_panel.blp:55
+#: data/ui/endpoint_pane.blp:231 data/ui/response_panel.blp:55
 msgid "Body"
 msgstr "உடல்"
 
@@ -362,30 +362,30 @@ msgctxt "menubar"
 msgid "File"
 msgstr ""
 
-#: data/ui/mac_menu.blp:25 data/ui/main_window.blp:137
-#: data/ui/main_window.blp:193 data/ui/main_window_no_csd.blp:138
-#: data/ui/main_window_no_csd.blp:195
+#: data/ui/mac_menu.blp:25 data/ui/main_window.blp:135
+#: data/ui/main_window.blp:191 data/ui/main_window_no_csd.blp:136
+#: data/ui/main_window_no_csd.blp:193
 msgid "New tab"
 msgstr "புதிய தாவல்"
 
-#: data/ui/mac_menu.blp:30 data/ui/main_window.blp:150
-#: data/ui/main_window.blp:198 data/ui/main_window_no_csd.blp:151
-#: data/ui/main_window_no_csd.blp:200
+#: data/ui/mac_menu.blp:30 data/ui/main_window.blp:148
+#: data/ui/main_window.blp:196 data/ui/main_window_no_csd.blp:149
+#: data/ui/main_window_no_csd.blp:198
 msgid "Open request…"
 msgstr "திறந்த கோரிக்கை …"
 
-#: data/ui/mac_menu.blp:35 data/ui/main_window.blp:203
-#: data/ui/main_window_no_csd.blp:205 src/widgets/file_dialogs.rs:146
+#: data/ui/mac_menu.blp:35 data/ui/main_window.blp:201
+#: data/ui/main_window_no_csd.blp:203 src/widgets/file_dialogs.rs:146
 msgid "Save request"
 msgstr "கோரிக்கையைச் சேமிக்கவும்"
 
-#: data/ui/mac_menu.blp:40 data/ui/main_window.blp:208
-#: data/ui/main_window_no_csd.blp:210
+#: data/ui/mac_menu.blp:40 data/ui/main_window.blp:206
+#: data/ui/main_window_no_csd.blp:208
 msgid "Save request as…"
 msgstr "கோரிக்கையை சேமிக்கவும் …"
 
-#: data/ui/mac_menu.blp:47 data/ui/main_window.blp:213
-#: data/ui/main_window_no_csd.blp:215
+#: data/ui/mac_menu.blp:47 data/ui/main_window.blp:211
+#: data/ui/main_window_no_csd.blp:213
 msgid "Close tab"
 msgstr "தாவலை மூடு"
 
@@ -441,53 +441,53 @@ msgctxt "menubar"
 msgid "Edit URL"
 msgstr ""
 
-#: data/ui/mac_menu.blp:120 data/ui/main_window.blp:225
-#: data/ui/main_window_no_csd.blp:227
+#: data/ui/mac_menu.blp:120 data/ui/main_window.blp:223
+#: data/ui/main_window_no_csd.blp:225
 msgid "Body appearance"
 msgstr "உடல் தோற்றம்"
 
-#: data/ui/mac_menu.blp:124 data/ui/main_window.blp:229
-#: data/ui/main_window_no_csd.blp:231
+#: data/ui/mac_menu.blp:124 data/ui/main_window.blp:227
+#: data/ui/main_window_no_csd.blp:229
 msgid "Wrap content"
 msgstr "உள்ளடக்கத்தை மடக்கு"
 
-#: data/ui/mac_menu.blp:129 data/ui/main_window.blp:234
-#: data/ui/main_window_no_csd.blp:236
+#: data/ui/mac_menu.blp:129 data/ui/main_window.blp:232
+#: data/ui/main_window_no_csd.blp:234
 msgid "Show line numbers"
 msgstr "வரி எண்களைக் காட்டு"
 
-#: data/ui/mac_menu.blp:136 data/ui/main_window.blp:241
-#: data/ui/main_window_no_csd.blp:243
+#: data/ui/mac_menu.blp:136 data/ui/main_window.blp:239
+#: data/ui/main_window_no_csd.blp:241
 msgid "Automatic indentation"
 msgstr "தானியங்கி உள்தள்ளல்"
 
-#: data/ui/mac_menu.blp:141 data/ui/main_window.blp:246
-#: data/ui/main_window_no_csd.blp:248
+#: data/ui/mac_menu.blp:141 data/ui/main_window.blp:244
+#: data/ui/main_window_no_csd.blp:246
 msgid "Indent with spaces"
 msgstr "இடைவெளிகளுடன் உள்தள்ளுங்கள்"
 
-#: data/ui/mac_menu.blp:147 data/ui/main_window.blp:252
-#: data/ui/main_window_no_csd.blp:254
+#: data/ui/mac_menu.blp:147 data/ui/main_window.blp:250
+#: data/ui/main_window_no_csd.blp:252
 msgid "Indent with tabs"
 msgstr "தாவல்களுடன் உள்தள்ளுங்கள்"
 
-#: data/ui/mac_menu.blp:153 data/ui/main_window.blp:258
-#: data/ui/main_window_no_csd.blp:260
+#: data/ui/mac_menu.blp:153 data/ui/main_window.blp:256
+#: data/ui/main_window_no_csd.blp:258
 msgid "Spaces per tab"
 msgstr "ஒரு தாவலுக்கு இடங்கள்"
 
-#: data/ui/mac_menu.blp:156 data/ui/main_window.blp:261
-#: data/ui/main_window_no_csd.blp:263
+#: data/ui/mac_menu.blp:156 data/ui/main_window.blp:259
+#: data/ui/main_window_no_csd.blp:261
 msgid "2"
 msgstr "2"
 
-#: data/ui/mac_menu.blp:162 data/ui/main_window.blp:267
-#: data/ui/main_window_no_csd.blp:269
+#: data/ui/mac_menu.blp:162 data/ui/main_window.blp:265
+#: data/ui/main_window_no_csd.blp:267
 msgid "4"
 msgstr "4"
 
-#: data/ui/mac_menu.blp:168 data/ui/main_window.blp:273
-#: data/ui/main_window_no_csd.blp:275
+#: data/ui/mac_menu.blp:168 data/ui/main_window.blp:271
+#: data/ui/main_window_no_csd.blp:273
 msgid "8"
 msgstr "8"
 
@@ -512,7 +512,7 @@ msgctxt "menubar"
 msgid "Help"
 msgstr ""
 
-#: data/ui/mac_menu.blp:200 src/win.rs:669
+#: data/ui/mac_menu.blp:200 src/win.rs:629
 msgid "User manual"
 msgstr "பயனர் கையேடு"
 
@@ -526,7 +526,7 @@ msgctxt "menubar"
 msgid "View discussions"
 msgstr ""
 
-#: data/ui/mac_menu.blp:217 src/win.rs:671
+#: data/ui/mac_menu.blp:217 src/win.rs:631
 msgid "Help us translate"
 msgstr "உதவி us மொழிபெயர்த்திடு"
 
@@ -553,47 +553,47 @@ msgstr "சேமி"
 msgid "Export request"
 msgstr "ஏற்றுமதி கோரிக்கை"
 
-#: data/ui/main_window.blp:99
+#: data/ui/main_window.blp:97
 msgid "Menu"
 msgstr ""
 
-#: data/ui/main_window.blp:117 data/ui/main_window_no_csd.blp:118
+#: data/ui/main_window.blp:115 data/ui/main_window_no_csd.blp:116
 msgid "Welcome to Cartero"
 msgstr "கார்டெரோவுக்கு வருக"
 
-#: data/ui/main_window.blp:118 data/ui/main_window_no_csd.blp:119
+#: data/ui/main_window.blp:116 data/ui/main_window_no_csd.blp:117
 msgid "Create or open a request and start testing APIs now."
 msgstr "ஒரு கோரிக்கையை உருவாக்கி அல்லது திறந்து இப்போது பநிஇ களை சோதிக்கத் தொடங்குங்கள்."
 
-#: data/ui/main_window.blp:170 data/ui/main_window_no_csd.blp:172
+#: data/ui/main_window.blp:168 data/ui/main_window_no_csd.blp:170
 #, fuzzy
 msgid "Export request as cURL…"
 msgstr "ஏற்றுமதி கோரிக்கை"
 
-#: data/ui/main_window.blp:176 data/ui/main_window_no_csd.blp:178
+#: data/ui/main_window.blp:174 data/ui/main_window_no_csd.blp:176
 #, fuzzy
 msgid "Export request as Jetbrains HTTP…"
 msgstr "ஏற்றுமதி கோரிக்கை"
 
-#: data/ui/main_window.blp:184 data/ui/main_window_no_csd.blp:186
+#: data/ui/main_window.blp:182 data/ui/main_window_no_csd.blp:184
 #, fuzzy
 msgid "Export response body…"
 msgstr "ஏற்றுமதி கோரிக்கை"
 
-#: data/ui/main_window.blp:220 data/ui/main_window_no_csd.blp:222
+#: data/ui/main_window.blp:218 data/ui/main_window_no_csd.blp:220
 #: data/ui/settings_dialog.blp:21
 msgid "Settings"
 msgstr "அமைப்புகள்"
 
-#: data/ui/main_window.blp:284 data/ui/main_window_no_csd.blp:286
+#: data/ui/main_window.blp:282 data/ui/main_window_no_csd.blp:284
 msgid "Keyboard shortcuts"
 msgstr "விசைப்பலகை குறுக்குவழிகள்"
 
-#: data/ui/main_window.blp:289 data/ui/main_window_no_csd.blp:291
+#: data/ui/main_window.blp:287 data/ui/main_window_no_csd.blp:289
 msgid "About Cartero"
 msgstr "கார்டெரோ பற்றி"
 
-#: data/ui/main_window.blp:294 data/ui/main_window_no_csd.blp:296
+#: data/ui/main_window.blp:292 data/ui/main_window_no_csd.blp:294
 msgid "Quit"
 msgstr "வெளியேறு"
 
@@ -775,16 +775,74 @@ msgstr "நேரம் முடிந்தது"
 msgid "Seconds to wait before cancelling the request"
 msgstr "கோரிக்கையை ரத்து செய்வதற்கு முன் காத்திருக்க வேண்டிய விநாடிகள்"
 
-#: src/interop.rs:30
+#: src/interop.rs:32
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
 "இந்த பயன்பாட்டின் புதிய பதிப்போடு இந்த கோப்பு உருவாக்கப்பட்டது; தயவுசெய்து புதுப்பிக்கவும்!"
 
-#: src/interop.rs:31
+#: src/interop.rs:33
 msgid "The file is corrupt or does not contain valid data for this application"
 msgstr "கோப்பு ஊழல் நிறைந்தது அல்லது இந்த பயன்பாட்டிற்கான சரியான தரவு இல்லை"
+
+#: src/interop.rs:55
+msgid "The specified URL is not valid"
+msgstr "குறிப்பிட்ட முகவரி செல்லுபடியாகாது"
+
+#: src/interop.rs:56
+msgid "Cannot recognise the URL"
+msgstr "முகவரி ஐ அங்கீகரிக்க முடியாது"
+
+#: src/interop.rs:57
+msgid "The given URL is missing a protocol"
+msgstr "கொடுக்கப்பட்ட முகவரி ஒரு நெறிமுறையைக் காணவில்லை"
+
+#: src/interop.rs:59
+#, rust-format
+msgid "The protocol {}:// is not supported"
+msgstr "நெறிமுறை {}: // ஆதரிக்கப்படவில்லை"
+
+#: src/interop.rs:62
+#, rust-format
+msgid "The variable '{}' is not defined"
+msgstr "'{}' மாறி வரையறுக்கப்படவில்லை"
+
+#: src/interop.rs:65
+msgid "There was a problem with a variable interpolation, review your inputs"
+msgstr "மாறி இடைக்கணிப்பில் சிக்கல் இருந்தது, உங்கள் உள்ளீடுகளை மதிப்பாய்வு செய்யவும்"
+
+#: src/interop.rs:68
+#, rust-format
+msgid "The header '{}' is not valid"
+msgstr "'{}' தலைப்பு செல்லுபடியாகாது"
+
+#: src/interop.rs:71
+#, rust-format
+msgid "The value for header '{}' is not valid"
+msgstr "'{}' என்ற தலைப்புக்கான மதிப்பு செல்லுபடியாகாது"
+
+#: src/interop.rs:74
+msgid "The given request body could not be encoded correctly"
+msgstr "கொடுக்கப்பட்ட கோரிக்கை உடலை சரியாக குறியாக்கம் செய்ய முடியவில்லை"
+
+#: src/interop.rs:76
+#, fuzzy
+msgid "You have to save the request first"
+msgstr "கோரப்பட்ட கோப்பை சேமிக்க முடியாது"
+
+#: src/interop.rs:78
+#, rust-format
+msgid "The file '{}' cannot be accessed due to the security policy"
+msgstr ""
+
+#: src/interop.rs:82
+msgid "There is an input/output error"
+msgstr "உள்ளீடு/வெளியீட்டு பிழை உள்ளது"
+
+#: src/interop.rs:83
+msgid "There is a network error"
+msgstr "பிணைய பிழை உள்ளது"
 
 #: src/updates/ui.rs:33
 msgid "Error checking updates"
@@ -828,31 +886,31 @@ msgstr "_ திறந்த வலைத்தளம்"
 msgid "_Not now"
 msgstr "_ இப்போது இல்லை"
 
-#: src/widgets/dialogs.rs:50
+#: src/widgets/dialogs.rs:51
 #, rust-format
 msgid "Cannot open '{}'"
 msgstr "'{}' திறக்க முடியாது"
 
-#: src/widgets/dialogs.rs:51
+#: src/widgets/dialogs.rs:52
 msgid "Cannot open the requested file"
 msgstr "கோரப்பட்ட கோப்பைத் திறக்க முடியாது"
 
-#: src/widgets/dialogs.rs:60 src/widgets/dialogs.rs:91
-#: src/widgets/dialogs.rs:121 src/widgets/dialogs.rs:144
-#: src/widgets/dialogs.rs:157
+#: src/widgets/dialogs.rs:61 src/widgets/dialogs.rs:92
+#: src/widgets/dialogs.rs:109 src/widgets/dialogs.rs:131
+#: src/widgets/dialogs.rs:154 src/widgets/dialogs.rs:167
 msgid "Close"
 msgstr "மூடு"
 
-#: src/widgets/dialogs.rs:74
+#: src/widgets/dialogs.rs:75
 #, rust-format
 msgid "The file '{}' was loaded but had issues"
 msgstr "'{}' கோப்பு ஏற்றப்பட்டது, ஆனால் சிக்கல்கள் இருந்தன"
 
-#: src/widgets/dialogs.rs:75
+#: src/widgets/dialogs.rs:76
 msgid "The requested file was loaded but had issues"
 msgstr "கோரப்பட்ட கோப்பு ஏற்றப்பட்டது, ஆனால் சிக்கல்கள் இருந்தன"
 
-#: src/widgets/dialogs.rs:98
+#: src/widgets/dialogs.rs:99
 #, rust-format
 msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
@@ -861,12 +919,12 @@ msgstr ""
 "கோப்பில் காணப்படும் HTTP வினைச்சொல் '{}' ஆகும். இது செல்லுபடியாகாது, அது '{}' க்கு "
 "குறையும்."
 
-#: src/widgets/dialogs.rs:114
+#: src/widgets/dialogs.rs:124
 #, fuzzy
 msgid "The requested file cannot be picked"
 msgstr "கோரப்பட்ட கோப்பு ஏற்றப்பட்டது, ஆனால் சிக்கல்கள் இருந்தன"
 
-#: src/widgets/dialogs.rs:115
+#: src/widgets/dialogs.rs:125
 #, rust-format
 msgid ""
 "The file must be within the same directory as the request or project file or "
@@ -875,16 +933,16 @@ msgid ""
 "The file '{}' is not part of the '{}' directory"
 msgstr ""
 
-#: src/widgets/dialogs.rs:135
+#: src/widgets/dialogs.rs:145
 #, rust-format
 msgid "Cannot save '{}'"
 msgstr "'{}' சேமிக்க முடியாது"
 
-#: src/widgets/dialogs.rs:136
+#: src/widgets/dialogs.rs:146
 msgid "Cannot save the requested file"
 msgstr "கோரப்பட்ட கோப்பை சேமிக்க முடியாது"
 
-#: src/widgets/dialogs.rs:138
+#: src/widgets/dialogs.rs:148
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
@@ -892,15 +950,15 @@ msgstr ""
 "சேமிப்பு செயல்பாட்டின் போது பிழை ஏற்பட்டது. உங்கள் மாற்றங்கள் இன்னும் சேமிக்கப்படவில்லை என்று "
 "வைத்துக் கொள்ளுங்கள்."
 
-#: src/widgets/dialogs.rs:152
+#: src/widgets/dialogs.rs:162
 msgid "Could not select a valid file from the file chooser"
 msgstr "கோப்பு தேர்வாளரிடமிருந்து செல்லுபடியாகும் கோப்பைத் தேர்ந்தெடுக்க முடியவில்லை"
 
-#: src/widgets/dialogs.rs:166
+#: src/widgets/dialogs.rs:176
 msgid "There are unsaved changes"
 msgstr "There அரே unsaved changes"
 
-#: src/widgets/dialogs.rs:168
+#: src/widgets/dialogs.rs:178
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
@@ -908,125 +966,78 @@ msgstr ""
 "Closing this சாளரம் will lose அனைத்தும் unsaved data. Do you really want பெறுநர் "
 "proceed?"
 
-#: src/widgets/dialogs.rs:172
+#: src/widgets/dialogs.rs:182
 msgid "Cancel"
 msgstr "ரத்துசெய்"
 
-#: src/widgets/dialogs.rs:173
+#: src/widgets/dialogs.rs:183
 msgid "Close anyway"
 msgstr "எப்படியும் மூடு"
 
-#: src/widgets/dialogs.rs:196
+#: src/widgets/dialogs.rs:206
 #, rust-format
 msgid "Save changes in '{}'?"
 msgstr "சேமி changes in '{}'?"
 
-#: src/widgets/dialogs.rs:197
+#: src/widgets/dialogs.rs:207
 msgid "Save changes?"
 msgstr "மாற்றங்களைச் சேமிக்கவா?"
 
-#: src/widgets/dialogs.rs:202
+#: src/widgets/dialogs.rs:212
 msgid "There are changes that have not been saved yet. What do you want to do?"
 msgstr "இன்னும் சேமிக்கப்படாத மாற்றங்கள் உள்ளன. நீங்கள் என்ன செய்ய விரும்புகிறீர்கள்?"
 
-#: src/widgets/dialogs.rs:206
+#: src/widgets/dialogs.rs:216
 msgid "_Cancel"
 msgstr "_CANCEL"
 
-#: src/widgets/dialogs.rs:207
+#: src/widgets/dialogs.rs:217
 msgid "_Discard"
 msgstr "_ டிச்கார்ட்"
 
-#: src/widgets/dialogs.rs:208
+#: src/widgets/dialogs.rs:218
 msgid "_Save"
 msgstr "_சேவ்"
 
-#: src/widgets/endpoint/endpoint_pane.rs:642
+#: src/widgets/endpoint/endpoint_pane.rs:442
+#: src/widgets/endpoint/endpoint_pane.rs:448
+#: src/widgets/endpoint/endpoint_pane.rs:469
+msgid "(generated during request)"
+msgstr ""
+
+#: src/widgets/endpoint/endpoint_pane.rs:497
+#, rust-format
+msgid "Show {} pre-generated headers"
+msgstr ""
+
+#: src/widgets/endpoint/endpoint_pane.rs:710
 #, fuzzy
 msgid "Export request as cURL"
 msgstr "ஏற்றுமதி கோரிக்கை"
 
-#: src/widgets/endpoint/endpoint_pane.rs:643
+#: src/widgets/endpoint/endpoint_pane.rs:711
 #, fuzzy
 msgid "Export request as Jetbrains HTTP"
 msgstr "ஏற்றுமதி கோரிக்கை"
 
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
-#: src/widgets/endpoint/response_panel.rs:340
+#: src/widgets/endpoint/response_panel.rs:341
 #, rust-format
 msgid "{} s"
 msgstr "{} கள்"
 
 #. Format as milliseconds.
 #. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
-#: src/widgets/endpoint/response_panel.rs:344
+#: src/widgets/endpoint/response_panel.rs:345
 #, rust-format
 msgid "{} ms"
 msgstr "{} எம்.எச்"
 
-#: src/widgets/error_pane.rs:89
-msgid "The specified URL is not valid"
-msgstr "குறிப்பிட்ட முகவரி செல்லுபடியாகாது"
-
-#: src/widgets/error_pane.rs:90
-msgid "Cannot recognise the URL"
-msgstr "முகவரி ஐ அங்கீகரிக்க முடியாது"
-
-#: src/widgets/error_pane.rs:91
-msgid "The given URL is missing a protocol"
-msgstr "கொடுக்கப்பட்ட முகவரி ஒரு நெறிமுறையைக் காணவில்லை"
-
-#: src/widgets/error_pane.rs:93
-#, rust-format
-msgid "The protocol {}:// is not supported"
-msgstr "நெறிமுறை {}: // ஆதரிக்கப்படவில்லை"
-
-#: src/widgets/error_pane.rs:96
-#, rust-format
-msgid "The variable '{}' is not defined"
-msgstr "'{}' மாறி வரையறுக்கப்படவில்லை"
-
-#: src/widgets/error_pane.rs:99
-msgid "There was a problem with a variable interpolation, review your inputs"
-msgstr "மாறி இடைக்கணிப்பில் சிக்கல் இருந்தது, உங்கள் உள்ளீடுகளை மதிப்பாய்வு செய்யவும்"
-
-#: src/widgets/error_pane.rs:102
-#, rust-format
-msgid "The header '{}' is not valid"
-msgstr "'{}' தலைப்பு செல்லுபடியாகாது"
-
-#: src/widgets/error_pane.rs:105
-#, rust-format
-msgid "The value for header '{}' is not valid"
-msgstr "'{}' என்ற தலைப்புக்கான மதிப்பு செல்லுபடியாகாது"
-
-#: src/widgets/error_pane.rs:108
-msgid "The given request body could not be encoded correctly"
-msgstr "கொடுக்கப்பட்ட கோரிக்கை உடலை சரியாக குறியாக்கம் செய்ய முடியவில்லை"
-
-#: src/widgets/error_pane.rs:110
-#, fuzzy
-msgid "You have to save the request first"
-msgstr "கோரப்பட்ட கோப்பை சேமிக்க முடியாது"
-
-#: src/widgets/error_pane.rs:112
-#, rust-format
-msgid "The file '{}' cannot be accessed due to the security policy"
-msgstr ""
-
-#: src/widgets/error_pane.rs:116
-msgid "There is an input/output error"
-msgstr "உள்ளீடு/வெளியீட்டு பிழை உள்ளது"
-
-#: src/widgets/error_pane.rs:117
-msgid "There is a network error"
-msgstr "பிணைய பிழை உள்ளது"
-
-#: src/widgets/error_pane.rs:136
+#: src/widgets/error_pane.rs:103
 msgid "The request data is not valid"
 msgstr "The request தகவல்கள் is not valid"
 
-#: src/widgets/error_pane.rs:143
+#: src/widgets/error_pane.rs:110
 msgid "The request failed"
 msgstr "கோரிக்கை தோல்வியடைந்தது"
 
@@ -1065,24 +1076,24 @@ msgid_plural "{} results"
 msgstr[0] "{} முடிவு"
 msgstr[1] "{} முடிவுகள்"
 
-#: src/win.rs:285
+#: src/win.rs:286
 msgid "(untitled)"
 msgstr "(பெயரிடப்படாதது)"
 
-#: src/win.rs:299
+#: src/win.rs:300
 msgid "Draft"
 msgstr "வரைவு"
 
-#: src/win.rs:613
+#: src/win.rs:601
 msgid "The Cartero authors"
 msgstr "கார்டெரோ ஆசிரியர்கள்"
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
-#: src/win.rs:636
+#: src/win.rs:624
 msgid "translator-credits"
 msgstr "தமிழ்நேரம்"
 
-#: src/win.rs:637
+#: src/win.rs:625
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 கார்டெரோ ஆசிரியர்கள்"
 

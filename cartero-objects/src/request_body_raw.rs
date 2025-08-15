@@ -161,6 +161,15 @@ mod imp {
                 .build()
                 .upcast())
         }
+
+        fn rendered_headers(&self) -> Vec<(String, String)> {
+            let content_type = match self.obj().payload_type() {
+                RequestBodyRawType::Json => "application/json",
+                RequestBodyRawType::OctetStream => "application/octet-stream",
+                RequestBodyRawType::Xml => "application/xml",
+            };
+            vec![("Content-Type".into(), content_type.into())]
+        }
     }
 }
 
@@ -197,7 +206,8 @@ mod tests {
     use srtemplate::SrTemplate;
 
     use crate::{
-        utils::test::assert_emits_signal, RequestBodyDataExt, RequestBodyRawType, RequestBodyType,
+        utils::test::assert_emits_signal, RequestBody, RequestBodyDataExt, RequestBodyRawType,
+        RequestBodyType,
     };
 
     use super::RequestBodyRaw;
@@ -278,5 +288,39 @@ mod tests {
         assert_emits_signal(&body, "changed", || {
             body.set_payload_type(RequestBodyRawType::Xml)
         });
+    }
+
+    #[test]
+    fn test_rendered_headers_on_json() {
+        let body = RequestBodyRaw::new(RequestBodyRawType::Json, r#"{"hello": "world"}"#);
+        let headers = body.rendered_headers();
+        assert_eq!(1, headers.len());
+        assert_eq!(
+            ("Content-Type".into(), "application/json".into()),
+            headers[0]
+        );
+    }
+
+    #[test]
+    fn test_rendered_headers_on_xml() {
+        let body =
+            RequestBodyRaw::new(RequestBodyRawType::Xml, r#"<?xml version="1.0" ?><data />"#);
+        let headers = body.rendered_headers();
+        assert_eq!(1, headers.len());
+        assert_eq!(
+            ("Content-Type".into(), "application/xml".into()),
+            headers[0]
+        );
+    }
+
+    #[test]
+    fn test_rendered_headers_on_octet_stream() {
+        let body = RequestBodyRaw::new(RequestBodyRawType::OctetStream, r#"hello world"#);
+        let headers = body.rendered_headers();
+        assert_eq!(1, headers.len());
+        assert_eq!(
+            ("Content-Type".into(), "application/octet-stream".into()),
+            headers[0]
+        );
     }
 }

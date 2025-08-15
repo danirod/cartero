@@ -65,6 +65,7 @@ impl RequestAuthenticationBasic {
 mod imp {
     use std::cell::RefCell;
 
+    use base64::{prelude::BASE64_STANDARD, Engine};
     use glib::Properties;
 
     use crate::RequestAuthenticationDataImpl;
@@ -118,6 +119,15 @@ mod imp {
                 .password(pass)
                 .build()
                 .upcast())
+        }
+
+        fn rendered_headers(&self) -> Vec<(String, String)> {
+            let username = self.obj().username();
+            let password = self.obj().password();
+            let input = format!("{username}:{password}");
+            let hash = BASE64_STANDARD.encode(input);
+            let basic_auth_header = format!("Basic {hash}");
+            vec![("Authorization".to_string(), basic_auth_header)]
         }
     }
 }
@@ -244,5 +254,17 @@ mod tests {
             .build();
         let tpl = SrTemplate::default();
         auth.resolve(&tpl).expect("Invalid resolve?");
+    }
+
+    #[test]
+    pub fn test_rendered_headers() {
+        let auth = RequestAuthenticationBasic::builder()
+            .username("operator")
+            .password("operator")
+            .build();
+        let headers = auth.rendered_headers();
+        assert_eq!(1, headers.len());
+        assert_eq!("Authorization", headers[0].0);
+        assert_eq!("Basic b3BlcmF0b3I6b3BlcmF0b3I=", headers[0].1);
     }
 }

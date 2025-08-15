@@ -14,17 +14,16 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
+using Gtk 4.0;
 
-mod field_action_row;
-mod field_list_box_row;
-mod field_list_box_static_row;
-mod field_placeholder_row;
-mod field_table_list_view;
-mod field_table_static_list_view;
+template $CarteroFieldTableStaticListView: Gtk.Box {
+  styles [
+    "dim-label",
+  ]
 
-pub use field_action_row::*;
-pub use field_list_box_row::*;
-pub use field_list_box_static_row::*;
-pub use field_placeholder_row::*;
-pub use field_table_list_view::*;
-pub use field_table_static_list_view::*;
+  orientation: vertical;
+
+  Gtk.ListBox list_box {
+    show-separators: true;
+  }
+}

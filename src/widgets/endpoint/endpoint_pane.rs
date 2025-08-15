@@ -23,12 +23,17 @@ use url::form_urlencoded;
 use crate::widgets::shell::BasePane;
 mod imp {
     use std::cell::{OnceCell, RefCell};
+    use std::collections::HashSet;
     use std::sync::{Arc, Mutex};
 
     use adw::prelude::AdwDialogExt;
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
     use cartero_http::{BoundRequest, RequestError};
-    use cartero_objects::{Field, Request, Response};
+    use cartero_isahc_client::default_user_agent;
+    use cartero_objects::{
+        Field, Request, RequestAuthenticationDataExt, RequestBodyDataExt, RequestBodyType, Response,
+    };
+    use formatx::formatx;
     use gettextrs::gettext;
     use glib::subclass::InitializingObject;
     use glib::{JoinHandle, Properties};
@@ -42,7 +47,7 @@ mod imp {
     use crate::widgets::authentication::AuthenticationPane;
     use crate::widgets::dialogs::present_request_error_message;
     use crate::widgets::endpoint::ResponsePanel;
-    use crate::widgets::field::FieldTableListView;
+    use crate::widgets::field::{FieldTableListView, FieldTableStaticListView};
     use crate::widgets::req_body::RequestBodyPane;
     use crate::widgets::shell::BasePaneImpl;
     use crate::widgets::{file_dialogs, ExportDialog, MethodDropdown};
@@ -71,6 +76,10 @@ mod imp {
         response_pane: TemplateChild<ResponsePanel>,
         #[template_child]
         paned: TemplateChild<gtk::Paned>,
+        #[template_child]
+        toggle_pregenerated: TemplateChild<gtk::ToggleButton>,
+        #[template_child]
+        pregenerated_headers: TemplateChild<FieldTableStaticListView>,
 
         #[property(get, set, name = "read-only")]
         read_only: RefCell<bool>,
@@ -78,6 +87,9 @@ mod imp {
         #[property(get, set)]
         request: RefCell<Request>,
         request_signal_group: OnceCell<glib::SignalGroup>,
+
+        #[property(get, set)]
+        show_pregenerated: RefCell<bool>,
 
         #[property(get)]
         request_binding_group: RefCell<glib::BindingGroup>,
@@ -120,7 +132,8 @@ mod imp {
 
             self.init_request_binding_group();
 
-            self.init_dirty_events();
+            self.init_request_signal_group();
+            self.init_pregenerated_rows();
             self.init_settings();
             self.init_actions();
 
@@ -227,6 +240,16 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl EndpointPane {
+        fn init_pregenerated_rows(&self) {
+            self.update_pregenerated_headers();
+            self.obj().connect_request_notify(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |_| {
+                    imp.update_pregenerated_headers();
+                }
+            ));
+        }
         fn init_request_binding_group(&self) {
             let binding_group = self.request_binding_group.borrow();
 
@@ -397,7 +420,85 @@ mod imp {
             self.obj().request().params().reconcile(&params);
         }
 
-        fn init_dirty_events(&self) {
+        fn update_pregenerated_headers(&self) {
+            // Need a way to check which headers will be disabled.
+            let user_headers = self
+                .request
+                .borrow()
+                .headers()
+                .iter::<Field>()
+                .filter_map(|row| {
+                    row.ok()
+                        .take_if(|field| field.active())
+                        .map(|field| field.key().trim().to_lowercase())
+                })
+                .collect::<HashSet<String>>();
+
+            let pregenerated = self.pregenerated_headers.table();
+            // TODO: These are dependant on the HTTP client, so they should be taken from there.
+            let mut default_headers = vec![
+                ("Accept".into(), "*/*".into()),
+                ("Accept-Encoding".into(), "deflate, gzip".into()),
+                ("Host".into(), gettext("(generated during request)")),
+                ("User-Agent".into(), default_user_agent()),
+            ];
+            if self.obj().request().body().body_data().is_some() {
+                default_headers.push((
+                    "Content-Length".into(),
+                    gettext("(generated during request)"),
+                ));
+            }
+            let auth_headers = self
+                .obj()
+                .request()
+                .authentication()
+                .auth_data()
+                .map(|auth| auth.rendered_headers())
+                .unwrap_or_default();
+            let body_headers = self
+                .obj()
+                .request()
+                .body()
+                .body_data()
+                .map(|body| {
+                    let mut headers = body.rendered_headers();
+                    if body.body_type() == RequestBodyType::Multipart {
+                        if let Some((_, value)) =
+                            headers.iter_mut().find(|(key, _)| key == "Content-Type")
+                        {
+                            *value = format!("{}{}", *value, gettext("(generated during request)"));
+                        }
+                    }
+                    headers
+                })
+                .unwrap_or_default();
+            let mut entries = default_headers
+                .into_iter()
+                .chain(auth_headers)
+                .chain(body_headers)
+                .collect::<Vec<(String, String)>>();
+            entries.sort_by_key(|(key, _)| key.clone());
+
+            pregenerated.iter::<Field>().for_each(|row| {
+                if let Ok(field) = row {
+                    field.set_active(true);
+                }
+            });
+            pregenerated.reconcile(&entries);
+            pregenerated.iter::<Field>().for_each(|row| {
+                if let Ok(field) = row {
+                    let current_header = field.key().trim().to_lowercase();
+                    let set_by_user = user_headers.contains(&current_header);
+                    field.set_active(!set_by_user);
+                }
+            });
+
+            let toggle_prompt =
+                formatx!(gettext("Show {} pre-generated headers"), entries.len()).unwrap();
+            self.toggle_pregenerated.set_label(&toggle_prompt);
+        }
+
+        fn init_request_signal_group(&self) {
             let obj = self.obj();
 
             let request_signal_group = glib::SignalGroup::new::<Request>();
@@ -413,6 +514,18 @@ mod imp {
                 ),
             );
 
+            request_signal_group.connect_closure(
+                "changed",
+                false,
+                glib::closure_local!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |_: &Request, _: &str| {
+                        imp.update_pregenerated_headers();
+                    }
+                ),
+            );
+
             request_signal_group.set_target(Some(&obj.request()));
             obj.connect_request_notify(glib::clone!(
                 #[weak]
@@ -421,7 +534,6 @@ mod imp {
                     request_signal_group.set_target(Some(&pane.request()));
                 }
             ));
-
             self.request_signal_group.set(request_signal_group).unwrap();
         }
 

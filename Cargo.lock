@@ -192,7 +192,6 @@ dependencies = [
 name = "cartero_http"
 version = "0.3.0"
 dependencies = [
- "base64 0.22.1",
  "cartero_objects",
  "formdata",
  "gio",
@@ -234,6 +233,7 @@ dependencies = [
 name = "cartero_objects"
 version = "0.3.0"
 dependencies = [
+ "base64 0.22.1",
  "ctor",
  "gio",
  "glib",

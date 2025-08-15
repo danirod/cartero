@@ -31,10 +31,10 @@ mod imp {
     use cartero_http::{BoundRequest, RequestError};
     use cartero_isahc_client::default_user_agent;
     use cartero_objects::{
-        Field, Request, RequestAuthenticationDataExt, RequestBodyDataExt, Response,
+        Field, Request, RequestAuthenticationDataExt, RequestBodyDataExt, RequestBodyType, Response,
     };
     use formatx::formatx;
-    use gettextrs::{gettext, ngettext};
+    use gettextrs::gettext;
     use glib::subclass::InitializingObject;
     use glib::{JoinHandle, Properties};
     use gtk::gio::{self, Cancellable, FileCreateFlags, SimpleAction, SimpleActionGroup};
@@ -435,7 +435,19 @@ mod imp {
                 .collect::<HashSet<String>>();
 
             let pregenerated = self.pregenerated_headers.table();
-            let default_headers = vec![("User-Agent".into(), default_user_agent())];
+            // TODO: These are dependant on the HTTP client, so they should be taken from there.
+            let mut default_headers = vec![
+                ("Accept".into(), "*/*".into()),
+                ("Accept-Encoding".into(), "deflate, gzip".into()),
+                ("Host".into(), gettext("(generated during request)")),
+                ("User-Agent".into(), default_user_agent()),
+            ];
+            if self.obj().request().body().body_data().is_some() {
+                default_headers.push((
+                    "Content-Length".into(),
+                    gettext("(generated during request)"),
+                ));
+            }
             let auth_headers = self
                 .obj()
                 .request()
@@ -448,13 +460,24 @@ mod imp {
                 .request()
                 .body()
                 .body_data()
-                .map(|body| body.rendered_headers())
+                .map(|body| {
+                    let mut headers = body.rendered_headers();
+                    if body.body_type() == RequestBodyType::Multipart {
+                        if let Some((_, value)) =
+                            headers.iter_mut().find(|(key, _)| key == "Content-Type")
+                        {
+                            *value = format!("{}{}", *value, gettext("(generated during request)"));
+                        }
+                    }
+                    headers
+                })
                 .unwrap_or_default();
-            let entries = default_headers
+            let mut entries = default_headers
                 .into_iter()
                 .chain(auth_headers)
                 .chain(body_headers)
                 .collect::<Vec<(String, String)>>();
+            entries.sort_by_key(|(key, _)| key.clone());
 
             pregenerated.iter::<Field>().for_each(|row| {
                 if let Ok(field) = row {
@@ -470,15 +493,8 @@ mod imp {
                 }
             });
 
-            let toggle_prompt = formatx!(
-                ngettext(
-                    "Show {} pre-generated header",
-                    "Show {} pre-generated headers",
-                    entries.len() as u32,
-                ),
-                entries.len()
-            )
-            .unwrap();
+            let toggle_prompt =
+                formatx!(gettext("Show {} pre-generated headers"), entries.len()).unwrap();
             self.toggle_pregenerated.set_label(&toggle_prompt);
         }
 

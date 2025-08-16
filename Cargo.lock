@@ -195,11 +195,11 @@ name = "cartero"
 version = "0.3.0"
 dependencies = [
  "base64 0.22.1",
+ "cartero_code_exporters",
  "cartero_file_format",
  "cartero_http",
  "cartero_interop",
  "cartero_isahc_client",
- "cartero_jetbrains_http_format",
  "cartero_objects",
  "formatx",
  "formdata",
@@ -283,15 +283,6 @@ dependencies = [
  "curl",
  "futures-lite 2.6.0",
  "isahc",
-]
-
-[[package]]
-name = "cartero_jetbrains_http_format"
-version = "0.3.0"
-dependencies = [
- "cartero_http",
- "cartero_objects",
- "tokio",
 ]
 
 [[package]]

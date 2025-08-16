@@ -229,6 +229,7 @@ name = "cartero_code_exporters"
 version = "0.3.0"
 dependencies = [
  "askama",
+ "base64 0.22.1",
  "cartero_file_format",
  "cartero_objects",
  "gio",

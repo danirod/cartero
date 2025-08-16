@@ -25,6 +25,7 @@ license = "GPL-3.0-or-later"
 
 [workspace.dependencies]
 askama = "0.14.0"
+base64 = "0.22.1"
 glib = { version = "0.20.10", features = ["v2_74"] }
 gio = { version = "0.20.11", features = ["v2_74"] }
 serde = { version = "1.0.219", features = ["derive"] }
@@ -48,7 +49,7 @@ app_updater = []
 
 [dependencies]
 adw = { version = "0.7.1", package = "libadwaita", features = ["v1_5"] }
-base64 = "0.22.1"
+base64.workspace = true
 cartero_http = { path = "cartero-http" }
 cartero_interop = { path = "cartero-interop" }
 cartero_isahc_client = { path = "cartero-isahc-client" }

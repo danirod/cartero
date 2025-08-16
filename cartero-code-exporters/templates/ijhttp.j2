@@ -1,0 +1,45 @@
+{{ request.method }} {{ request.url }}
+{%- for (key, value) in request.headers -%}
+  {{ "\n" }}{{ key }}: {{ value }}
+{%- endfor -%}
+{%- match request.auth -%}
+  {%- when Some(Auth::BasicAuth { username, password }) -%}
+    {{ "\n" }}Authorization: Basic {{ username }} {{ password }}
+  {%- when Some(Auth::BearerToken { token }) -%}
+    {{ "\n" }}Authorization: Bearer {{ token }}
+  {%- else -%}
+{%- endmatch -%}
+{%- if let Some(body) = request.body -%}
+  {%- match body -%}
+    {%- when Body::Urlencoded { .. } -%}
+      {{ "\n" }}Content-Type: application/x-www-form-urlencoded
+    {%- when Body::Multipart { .. } -%}
+      {{ "\n" }}Content-Type: multipart/form-data; boundary={{ self.boundary() }}
+    {%- when Body::Raw { .. } -%}
+      {%- if self.get_header("Content-Type").is_none() -%}
+      {{ "\n" }}Content-Type: application/octet-stream
+      {%- endif -%}
+    {%- when Body::File { .. } -%}
+      {%- if self.get_header("Content-Type").is_none() -%}
+      {{ "\n" }}Content-Type: application/octet-stream
+      {%- endif -%}
+    {%- else -%}
+  {%- endmatch -%}
+  {{ "\n\n" }}
+  {%- match body -%}
+    {%- when Body::Urlencoded { urlencoded, .. } -%}
+      {{ urlencoded }}
+    {%- when Body::Multipart { inline} -%}
+      {%- for (key, value) in inline -%}
+      --{{ self.boundary() -}}
+      {{- "\n" }}Content-Disposition: form-data; name="{{ key }}"
+      {{- "\n\n" ~ value ~ "\n" -}}
+      {%- endfor -%}
+      --{{ self.boundary() }}--
+    {%- when Body::Raw { payload } -%}
+      {{ payload }}
+    {%- when Body::File { path } -%}
+      < {{ path }}
+    {%- else -%}
+  {%- endmatch -%}
+{%- endif -%}

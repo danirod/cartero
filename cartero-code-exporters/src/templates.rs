@@ -16,6 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use askama::Template;
+use base64::prelude::*;
 
 use crate::plain::*;
 
@@ -23,4 +24,25 @@ use crate::plain::*;
 #[template(path = "../templates/curl.j2", escape = "none")]
 pub struct CurlTemplate {
     pub(crate) request: Request,
+}
+
+#[derive(Template)]
+#[template(path = "../templates/ijhttp.j2", escape = "none")]
+pub struct IjhttpTemplate {
+    pub(crate) request: Request,
+}
+
+impl IjhttpTemplate {
+    fn get_header(&self, name: &str) -> Option<String> {
+        self.request
+            .headers
+            .iter()
+            .find(|(k, _)| k == name)
+            .map(|(_, v)| v.clone())
+    }
+
+    fn boundary(&self) -> String {
+        let input = format!("{} {}", self.request.method, self.request.url);
+        BASE64_STANDARD.encode(&input)
+    }
 }

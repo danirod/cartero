@@ -23,6 +23,7 @@ license.workspace = true
 
 [dependencies]
 askama.workspace = true
+base64.workspace = true
 cartero_objects = { path = "../cartero-objects" }
 gio.workspace = true
 glib.workspace = true

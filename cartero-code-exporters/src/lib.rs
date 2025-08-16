@@ -15,18 +15,18 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use askama::Template;
-
-mod curl;
 mod plain;
+mod templates;
 
 pub enum Format {
     Curl,
+    Ijhttp,
 }
 
-fn template(format: Format, request: plain::Request) -> Box<impl askama::Template> {
+fn template(format: Format, request: plain::Request) -> Box<dyn askama::DynTemplate> {
     match format {
-        Format::Curl => Box::new(curl::CurlTemplate { request }),
+        Format::Curl => Box::new(templates::CurlTemplate { request }),
+        Format::Ijhttp => Box::new(templates::IjhttpTemplate { request }),
     }
 }
 
@@ -69,7 +69,7 @@ pub fn export_request(
     let plain: plain::Request = request.resolve()?.into();
     let renderer = template(format, plain);
     renderer
-        .render()
+        .dyn_render()
         .map(|s| s.trim().to_string())
         .map_err(ExportError::from)
 }

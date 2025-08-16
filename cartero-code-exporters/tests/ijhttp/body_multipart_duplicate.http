@@ -1,0 +1,12 @@
+POST https://www.example.com/search
+Content-Type: multipart/form-data; boundary=UE9TVCBodHRwczovL3d3dy5leGFtcGxlLmNvbS9zZWFyY2g=
+
+--UE9TVCBodHRwczovL3d3dy5leGFtcGxlLmNvbS9zZWFyY2g=
+Content-Disposition: form-data; name="category"
+
+10
+--UE9TVCBodHRwczovL3d3dy5leGFtcGxlLmNvbS9zZWFyY2g=
+Content-Disposition: form-data; name="category"
+
+40
+--UE9TVCBodHRwczovL3d3dy5leGFtcGxlLmNvbS9zZWFyY2g=--

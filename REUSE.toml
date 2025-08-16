@@ -155,6 +155,7 @@ path = [
         "cartero-http/src/fixtures/hello.txt",
         "cartero-code-exporters/tests/**/*.cartero",
         "cartero-code-exporters/tests/**/*.curl",
+        "cartero-code-exporters/tests/**/*.http",
 ]
 SPDX-FileCopyrightText = "No copyright"
 SPDX-License-Identifier = "CC0-1.0"

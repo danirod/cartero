@@ -56,6 +56,7 @@ macro_rules! test_suites {
 test_suites! {
     formats [
         curl => { directory: "curl", extension: ".curl", value: Format::Curl },
+        ijhttp => { directory: "ijhttp", extension: ".http", value: Format::Ijhttp },
     ],
     cases [
         "auth_basic" => auth_basic,

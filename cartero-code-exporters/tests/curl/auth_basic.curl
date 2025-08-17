@@ -1,0 +1,2 @@
+curl -X GET 'https://www.example.com/dashboard' \
+    --basic -u 'operator:password'

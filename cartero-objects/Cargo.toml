@@ -22,11 +22,11 @@ edition.workspace = true
 license.workspace = true
 
 [dependencies]
-base64 = "0.22.1"
+base64.workspace = true
 glib.workspace = true
 gio.workspace = true
 itertools = "0.14.0"
-srtemplate = "0.3.3"
+srtemplate.workspace = true
 
 [dev-dependencies]
 ctor = "0.4.2"

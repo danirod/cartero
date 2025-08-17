@@ -1,0 +1,2 @@
+curl -X POST 'https://www.example.com/search' \
+    --data-raw 'category=10&category=40'

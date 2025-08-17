@@ -29,8 +29,6 @@ data/ui/settings_dialog.blp
 data/ui/urlencoded_body_pane.blp
 
 src/app.rs
-src/export/curl.rs
-src/export/mod.rs
 src/interop.rs
 src/main.rs
 src/platform.rs

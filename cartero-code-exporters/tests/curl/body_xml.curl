@@ -1,0 +1,3 @@
+curl -X POST 'https://www.example.com/login' \
+    -H 'Content-Type: application/xml' \
+    --data-raw '<?xml version="1.0" ?><payload value="Hello world" />'

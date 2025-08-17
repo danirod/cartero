@@ -1,0 +1,4 @@
+PUT https://www.example.com/api/users
+Accept: text/html
+Accept-Language: en-US
+Authorization: Bearer token1234

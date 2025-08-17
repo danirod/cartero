@@ -1,0 +1,6 @@
+curl -X PUT 'https://www.example.com/search' \
+    -F 'category'='kitchenware' \
+    -F 'category'='decoration' \
+    -F 'category'='garden' \
+    -F 'max_price'='25' \
+    -F 'min_price'='10'

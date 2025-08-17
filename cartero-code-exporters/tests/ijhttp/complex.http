@@ -1,0 +1,7 @@
+POST https://httpbin.org/post
+Accept: application/json
+X-Customer-Id: 1234000
+Authorization: Basic admin 1234
+Content-Type: application/x-www-form-urlencoded
+
+category=20&limit=10&order=-created_at

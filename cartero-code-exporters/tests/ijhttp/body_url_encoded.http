@@ -1,0 +1,4 @@
+POST https://www.example.com/login
+Content-Type: application/x-www-form-urlencoded
+
+password=bar&username=foo

@@ -1,0 +1,4 @@
+curl -X PUT 'https://www.example.com/api/users' \
+    -H 'Accept: text/html' \
+    -H 'Accept-Language: en-US' \
+    -H 'Authorization: Bearer token1234'

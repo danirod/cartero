@@ -16,17 +16,18 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 [package]
-name = "cartero_objects"
+name = "cartero_code_exporters"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 
 [dependencies]
-base64 = "0.22.1"
-glib.workspace = true
+askama.workspace = true
+cartero_objects = { path = "../cartero-objects" }
 gio.workspace = true
-itertools = "0.14.0"
+glib.workspace = true
+serde_urlencoded.workspace = true
 srtemplate.workspace = true
 
 [dev-dependencies]
-ctor = "0.4.2"
+cartero_file_format = { path = "../cartero-file-format" }

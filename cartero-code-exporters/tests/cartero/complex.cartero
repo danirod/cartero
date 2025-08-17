@@ -1,0 +1,20 @@
+version = 1
+url = "https://httpbin.org/post"
+method = "POST"
+
+[authorization]
+type = "basic"
+username = "admin"
+password = "1234"
+
+[headers]
+X-Customer-Id = "1234000"
+Accept = "application/json"
+
+[body]
+type = "urlencoded"
+
+[body.variables]
+category = "20"
+limit = "10"
+order = "-created_at"

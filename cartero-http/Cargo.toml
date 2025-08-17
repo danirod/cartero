@@ -24,10 +24,10 @@ license.workspace = true
 [dependencies]
 cartero_objects = { path = "../cartero-objects" }
 url = "2.5.4"
-srtemplate = "0.3.3"
+srtemplate.workspace = true
 glib.workspace = true
 gio.workspace = true
-serde_urlencoded = "0.7.1"
+serde_urlencoded.workspace = true
 formdata = "0.13.0"
 
 [dev-dependencies]

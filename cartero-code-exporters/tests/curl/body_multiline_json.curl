@@ -1,0 +1,8 @@
+curl -X POST 'https://www.example.com/login' \
+    -H 'Content-Type: application/json' \
+    --data-raw '{
+  "message": {
+    "code": "HELLO_WORLD",
+    "text": "Hello world!"
+  }
+}'

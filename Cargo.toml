@@ -24,9 +24,12 @@ version = "0.3.0"
 license = "GPL-3.0-or-later"
 
 [workspace.dependencies]
+askama = "0.14.0"
 glib = { version = "0.20.10", features = ["v2_74"] }
 gio = { version = "0.20.11", features = ["v2_74"] }
 serde = { version = "1.0.219", features = ["derive"] }
+srtemplate = "0.3.3"
+serde_urlencoded = "0.7.1"
 toml = "0.8.23"
 tokio = { version = "1.44.1", features = ["rt", "macros", "sync"] }
 
@@ -63,7 +66,7 @@ isahc = "1.7.2"
 regex = "1.11.1"
 serde.workspace = true
 serde_json = { version = "1.0.140", features = ["preserve_order"] }
-serde_urlencoded = "0.7.1"
+serde_urlencoded.workspace = true
 sourceview5 = "0.9.1"
 srtemplate = { version = "0.3.2", features = [] }
 tokio.workspace = true

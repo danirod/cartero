@@ -1,0 +1,3 @@
+curl -X POST 'https://www.example.com/login' \
+    -F 'password'='bar' \
+    -F 'username'='foo'

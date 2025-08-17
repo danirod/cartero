@@ -1,0 +1,3 @@
+curl -X POST 'https://www.example.com/search' \
+    -F 'category'='10' \
+    -F 'category'='40'

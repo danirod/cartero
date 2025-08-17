@@ -1,0 +1,15 @@
+version = 1
+url = "https://www.example.com/api/users"
+method = "PUT"
+
+[headers]
+Accept-Language = [
+    "en-US",
+    { value = "es-ES", active = false, secret = false },
+]
+X-Forwarded-Host = [
+    "192.168.1.1",
+    { value = "192.168.33.10", active = false, secret = false },
+    { value = "10.0.2.15", active = true, secret = true },
+    { value = "172.16.99.15", active = false, secret = true },
+]

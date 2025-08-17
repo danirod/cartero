@@ -1,0 +1,20 @@
+version = 1
+url = "{{API_ROOT}}/users"
+method = "POST"
+
+[body]
+type = "raw"
+format = "json"
+body = """
+{
+  "name": "John",
+  "surname": "Doe"
+}"""
+
+[variables]
+API_ROOT = "https://staging.api.example.com/v1"
+TOKEN = "my_little_token"
+
+[authorization]
+type = "bearer"
+token = "{{TOKEN}}"

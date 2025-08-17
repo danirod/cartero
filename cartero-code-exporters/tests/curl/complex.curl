@@ -2,4 +2,4 @@ curl -X POST 'https://httpbin.org/post' \
     -H 'Accept: application/json' \
     -H 'X-Customer-Id: 1234000' \
     --basic -u 'admin:1234' \
-    -d 'category=20&limit=10&order=-created_at'
+    --data-raw 'category=20&limit=10&order=-created_at'

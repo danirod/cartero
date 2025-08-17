@@ -161,6 +161,7 @@ pub async fn glib_file_dialog_error(root: &impl IsA<gtk::Widget>, error: &glib::
 
 pub async fn export_dialog_error(root: &impl IsA<gtk::Widget>, cause: CodeExportError) {
     let error = match cause {
+        CodeExportError::UrlBadParse => gettext("Cannot recognise the URL"),
         CodeExportError::VariableNotFound(var) => {
             formatx!(gettext("The variable '{}' is not defined"), var).unwrap()
         }

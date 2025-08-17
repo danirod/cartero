@@ -234,6 +234,7 @@ dependencies = [
  "cartero_objects",
  "gio",
  "glib",
+ "http 1.3.1",
  "serde_urlencoded",
  "srtemplate",
 ]
@@ -1040,6 +1041,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "http"
+version = "1.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f4a85d31aea989eead29a3aaf9e1115a180df8282431156e533de47660892565"
+dependencies = [
+ "bytes",
+ "fnv",
+ "itoa",
+]
+
+[[package]]
 name = "httparse"
 version = "1.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1248,7 +1260,7 @@ dependencies = [
  "encoding_rs",
  "event-listener",
  "futures-lite 1.13.0",
- "http",
+ "http 0.2.12",
  "log 0.4.26",
  "mime 0.3.17",
  "once_cell",

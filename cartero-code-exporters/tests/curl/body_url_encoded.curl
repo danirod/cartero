@@ -1,2 +1,2 @@
 curl -X POST 'https://www.example.com/login' \
-    -d 'password=bar&username=foo'
+    --data-raw 'password=bar&username=foo'

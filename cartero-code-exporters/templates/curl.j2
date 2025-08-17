@@ -13,12 +13,12 @@ curl -X {{ request.method }} '{{ request.url }}'
 {%- if let Some(body) = request.body -%}
 {{- " \\\n" -}}
 {%- match body -%}
-{%- when Body::Urlencoded { urlencoded, .. } %}    -d '{{ urlencoded }}'
+{%- when Body::Urlencoded { urlencoded, .. } %}    --data-raw '{{ urlencoded }}'
 {%- when Body::Multipart { inline } -%}
 {%- for (key, value) in inline -%}
-{% if !loop.first %}{{- " \\\n" -}}{% endif %}    -F '{{ key }}'='{{ value }}'
+{% if !loop.first %}{{- " \\\n" -}}{% endif %}    -F '{{ self.unquote(key) }}'='{{ self.unquote(value) }}'
 {%- endfor -%}
-{%- when Body::Raw { payload } %}    --data-raw '{{ payload }}'
+{%- when Body::Raw { payload } %}    --data-raw '{{ self.unquote(payload) }}'
 {%- when Body::File { path } %}    --data-binary '@{{ path }}'
 {%- when _ -%}
 {%- endmatch -%}

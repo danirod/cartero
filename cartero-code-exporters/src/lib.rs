@@ -32,6 +32,7 @@ fn template(format: Format, request: plain::Request) -> Box<dyn askama::DynTempl
 
 #[derive(Debug, Clone)]
 pub enum ExportError {
+    UrlBadParse,
     VariableNotFound(String),
     BadInterpolation,
     TemplateError(String),
@@ -40,6 +41,7 @@ pub enum ExportError {
 impl std::fmt::Display for ExportError {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
+            Self::UrlBadParse => write!(f, "bad parsing of source URL"),
             Self::VariableNotFound(var) => write!(f, "variable not found: {}", var),
             Self::BadInterpolation => write!(f, "bad interpolation"),
             Self::TemplateError(cause) => write!(f, "inner template error: {}", cause),
@@ -66,7 +68,7 @@ pub fn export_request(
     format: Format,
     request: &cartero_objects::Request,
 ) -> Result<String, ExportError> {
-    let plain: plain::Request = request.resolve()?.into();
+    let plain: plain::Request = request.resolve()?.try_into()?;
     let renderer = template(format, plain);
     renderer
         .dyn_render()

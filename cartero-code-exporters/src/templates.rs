@@ -26,6 +26,12 @@ pub struct CurlTemplate {
     pub(crate) request: Request,
 }
 
+impl CurlTemplate {
+    fn unquote(&self, string: &str) -> String {
+        string.replace("'", "'\"'\"'")
+    }
+}
+
 #[derive(Template)]
 #[template(path = "../templates/ijhttp.j2", escape = "none")]
 pub struct IjhttpTemplate {

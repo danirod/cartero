@@ -1,2 +1,2 @@
 curl -X PUT 'https://www.example.com/search' \
-    -d 'category=kitchenware&category=decoration&category=garden&max_price=25&min_price=10'
+    --data-raw 'category=kitchenware&category=decoration&category=garden&max_price=25&min_price=10'

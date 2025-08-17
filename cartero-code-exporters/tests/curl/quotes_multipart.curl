@@ -1,0 +1,3 @@
+curl -X POST 'https://staging.shop.example.com/send?to=O%27Donnell' \
+    -F 'normal'='good "morning" world' \
+    -F 'single'='good '"'"'afternoon'"'"' world'

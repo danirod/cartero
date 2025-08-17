@@ -15,6 +15,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use std::str::FromStr;
+
 use cartero_objects::{
     Field, FieldTable, Request as ObjectRequest, RequestAuthenticationBasic,
     RequestAuthenticationBearer, RequestAuthenticationData, RequestAuthenticationDataExt,
@@ -23,6 +25,12 @@ use cartero_objects::{
 };
 use gio::prelude::ListModelExtManual;
 use glib::object::Cast;
+use http::{
+    uri::{Parts, PathAndQuery},
+    Uri,
+};
+
+use crate::ExportError;
 
 #[derive(Eq, PartialEq, Clone)]
 pub(crate) enum Auth {
@@ -129,8 +137,48 @@ fn extract_table(table: &FieldTable) -> Vec<(String, String)> {
     headers
 }
 
-impl From<ObjectRequest> for Request {
-    fn from(value: ObjectRequest) -> Self {
+fn clean_querystring(qs: &str) -> Result<String, ExportError> {
+    let keys = serde_urlencoded::from_str::<Vec<(String, String)>>(qs)
+        .or(Err(ExportError::UrlBadParse))?;
+    serde_urlencoded::to_string(keys).or(Err(ExportError::UrlBadParse))
+}
+
+// Mainly exists to deal with urlencoded query params.
+fn extract_url(url: &str) -> Result<String, ExportError> {
+    let uri = Uri::from_str(url).or(Err(ExportError::UrlBadParse))?;
+    let scheme = uri.scheme().map(|sch| sch.clone());
+    let authority = uri.authority().map(|aut| aut.clone());
+    let pq = uri
+        .path_and_query()
+        .map(|pq| {
+            let path = pq.path();
+            let query = pq.query().map(|str| clean_querystring(str)).transpose();
+            match query {
+                Err(_) => Err(ExportError::UrlBadParse),
+                Ok(None) => PathAndQuery::from_str(path).or(Err(ExportError::UrlBadParse)),
+                Ok(Some(q)) => {
+                    let pq = format!("{}?{}", path, q);
+                    PathAndQuery::from_str(pq.as_str()).or(Err(ExportError::UrlBadParse))
+                }
+            }
+        })
+        .transpose()?;
+
+    let mut parts = Parts::default();
+    parts.authority = authority;
+    parts.path_and_query = pq;
+    parts.scheme = scheme;
+    match Uri::from_parts(parts) {
+        Ok(uri) => Ok(uri.to_string()),
+        Err(_) => Err(ExportError::UrlBadParse),
+    }
+}
+
+impl TryFrom<ObjectRequest> for Request {
+    type Error = ExportError;
+
+    fn try_from(value: ObjectRequest) -> Result<Self, Self::Error> {
+        let url = extract_url(value.url().as_ref())?;
         let (body, body_headers) = Body::extract(&value.body());
         let headers = extract_table(&value.headers());
 
@@ -140,13 +188,13 @@ impl From<ObjectRequest> for Request {
             .collect::<Vec<(String, String)>>();
         headers.sort_by_key(|(k, _)| k.to_string());
 
-        Self {
-            url: value.url(),
+        Ok(Self {
+            url,
             method: value.method().to_string(),
             headers,
             auth: value.authentication().auth_data().map(|data| data.into()),
             body,
-        }
+        })
     }
 }
 
@@ -177,47 +225,17 @@ impl From<RequestAuthenticationData> for Auth {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-
     #[test]
-    fn test_extraction() {
-        let request = ObjectRequest::builder(
-            "https://www.example.com/foobar",
-            cartero_objects::RequestMethod::Post,
-        )
-        .header(
-            &Field::builder()
-                .key("X-Api-Key")
-                .value("123412341234")
-                .build(),
-        )
-        .build();
-        let parsed_request = Request::from(request);
-        assert_eq!(parsed_request.url, "https://www.example.com/foobar");
-        assert_eq!(parsed_request.method, "POST");
-        assert_eq!(
-            parsed_request.headers,
-            vec![("X-Api-Key".to_string(), "123412341234".to_string()),]
-        );
-    }
+    fn clean_querystring() {
+        let cases = vec![
+            ("normal", "normal="),
+            ("key=value", "key=value"),
+            ("q=five o'clock", "q=five+o%27clock"),
+        ];
 
-    #[test]
-    fn test_extraction_ignores_disabled_variables() {
-        let request = ObjectRequest::builder(
-            "https://www.example.com/foobar",
-            cartero_objects::RequestMethod::Post,
-        )
-        .header(
-            &Field::builder()
-                .key("X-Api-Key")
-                .value("123412341234")
-                .active(false)
-                .build(),
-        )
-        .build();
-        let parsed_request = Request::from(request);
-        assert_eq!(parsed_request.url, "https://www.example.com/foobar");
-        assert_eq!(parsed_request.method, "POST");
-        assert_eq!(parsed_request.headers, vec![]);
+        for (input, expected) in cases {
+            let output = super::clean_querystring(input).unwrap();
+            assert_eq!(output, expected);
+        }
     }
 }

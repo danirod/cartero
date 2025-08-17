@@ -28,6 +28,7 @@ askama = "0.14.0"
 base64 = "0.22.1"
 glib = { version = "0.20.10", features = ["v2_74"] }
 gio = { version = "0.20.11", features = ["v2_74"] }
+http = "1.3.1"
 serde = { version = "1.0.219", features = ["derive"] }
 srtemplate = "0.3.3"
 serde_urlencoded = "0.7.1"

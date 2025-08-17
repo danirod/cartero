@@ -1,0 +1,4 @@
+POST https://www.example.com/login
+Content-Type: application/xml
+
+< payload.xml

@@ -1,0 +1,4 @@
+PUT https://www.example.com/search
+Content-Type: application/x-www-form-urlencoded
+
+category=kitchenware&category=decoration&category=garden&max_price=25&min_price=10

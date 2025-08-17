@@ -1,0 +1,9 @@
+POST https://www.example.com/login
+Content-Type: application/json
+
+{
+  "message": {
+    "code": "HELLO_WORLD",
+    "text": "Hello world!"
+  }
+}

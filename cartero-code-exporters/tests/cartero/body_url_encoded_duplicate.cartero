@@ -1,0 +1,14 @@
+version = 1
+url = "https://www.example.com/search"
+method = "POST"
+
+[body]
+type = "urlencoded"
+
+[body.variables]
+category = [
+    "10",
+    { value = "20", active = false, secret = false },
+    { value = "30", active = false, secret = true },
+    { value = "40", active = true, secret = true },
+]

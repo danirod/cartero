@@ -1,0 +1,2 @@
+GET https://www.example.com/dashboard
+Authorization: Basic operator password

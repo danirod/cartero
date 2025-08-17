@@ -1,0 +1,2 @@
+curl -X POST 'https://www.example.com/login' \
+    --data-binary '@payload.xml'

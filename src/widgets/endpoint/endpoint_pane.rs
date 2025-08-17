@@ -28,7 +28,7 @@ mod imp {
 
     use adw::prelude::AdwDialogExt;
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
-    use cartero_http::{BoundRequest, RequestError};
+    use cartero_http::RequestError;
     use cartero_isahc_client::default_user_agent;
     use cartero_objects::{
         Field, Request, RequestAuthenticationDataExt, RequestBodyDataExt, RequestBodyType, Response,
@@ -42,10 +42,9 @@ mod imp {
     use gtk::{prelude::*, ClosureExpression, CompositeTemplate};
 
     use crate::app::CarteroApplication;
-    use crate::export::curl::CodeExportService;
     use crate::interop::{InnerError, LoadResult, SaveResult};
     use crate::widgets::authentication::AuthenticationPane;
-    use crate::widgets::dialogs::present_request_error_message;
+    use crate::widgets::dialogs::export_dialog_error;
     use crate::widgets::endpoint::ResponsePanel;
     use crate::widgets::field::{FieldTableListView, FieldTableStaticListView};
     use crate::widgets::req_body::RequestBodyPane;
@@ -667,28 +666,22 @@ mod imp {
             };
         }
 
-        async fn get_request_for_sharing(&self) -> Request {
-            let request = self.obj().request();
-
-            let outcome = BoundRequest::new(&request, &self.request_environment()).await;
-            if matches!(outcome, Err(RequestError::MissingProtocol)) {
-                let current_url = request.url();
-                request.set_url(format!("http://{}", current_url));
-            }
-
-            request
-        }
-
         async fn action_export_request(&self, format: &str) {
             let root = self.obj().root().and_downcast::<gtk::Window>().unwrap();
-            let request = self.get_request_for_sharing().await;
-            let command = match format {
-                "curl" => {
-                    let curl = CodeExportService::new(request);
-                    curl.generate().await
-                }
-                "jetbrains-http" => cartero_jetbrains_http_format::export(&request).await,
+            let request = self.obj().request();
+
+            let template = match format {
+                "curl" => cartero_code_exporters::Format::Curl,
+                "jetbrains-http" => cartero_code_exporters::Format::Ijhttp,
                 _ => {
+                    return;
+                }
+            };
+
+            let encoded = match cartero_code_exporters::export_request(template, &request) {
+                Ok(command) => command,
+                Err(e) => {
+                    export_dialog_error(&root, e).await;
                     return;
                 }
             };
@@ -698,28 +691,21 @@ mod imp {
                 _ => None,
             };
 
-            match command {
-                Ok(command) => {
-                    let buffer = glib::Bytes::from(command.as_bytes());
-                    let dialog = glib::Object::builder::<ExportDialog>()
-                        .property("blob", Some(&buffer))
-                        .property("format", file_format)
-                        .build();
+            let buffer = glib::Bytes::from(encoded.as_bytes());
+            let dialog = glib::Object::builder::<ExportDialog>()
+                .property("blob", Some(&buffer))
+                .property("format", file_format)
+                .build();
 
-                    let title = match format {
-                        "curl" => gettext("Export request as cURL"),
-                        "jetbrains-http" => gettext("Export request as Jetbrains HTTP"),
-                        _ => {
-                            return;
-                        }
-                    };
-                    dialog.set_title(&title);
-                    dialog.present(Some(&*self.obj()));
-                }
-                Err(e) => {
-                    present_request_error_message(&root, &e).await;
+            let title = match format {
+                "curl" => gettext("Export request as cURL"),
+                "jetbrains-http" => gettext("Export request as Jetbrains HTTP"),
+                _ => {
+                    return;
                 }
             };
+            dialog.set_title(&title);
+            dialog.present(Some(&*self.obj()));
         }
 
         async fn action_export_response(&self) {

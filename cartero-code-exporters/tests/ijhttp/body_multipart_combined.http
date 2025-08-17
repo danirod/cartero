@@ -1,0 +1,24 @@
+PUT https://www.example.com/search
+Content-Type: multipart/form-data; boundary=UFVUIGh0dHBzOi8vd3d3LmV4YW1wbGUuY29tL3NlYXJjaA==
+
+--UFVUIGh0dHBzOi8vd3d3LmV4YW1wbGUuY29tL3NlYXJjaA==
+Content-Disposition: form-data; name="category"
+
+kitchenware
+--UFVUIGh0dHBzOi8vd3d3LmV4YW1wbGUuY29tL3NlYXJjaA==
+Content-Disposition: form-data; name="category"
+
+decoration
+--UFVUIGh0dHBzOi8vd3d3LmV4YW1wbGUuY29tL3NlYXJjaA==
+Content-Disposition: form-data; name="category"
+
+garden
+--UFVUIGh0dHBzOi8vd3d3LmV4YW1wbGUuY29tL3NlYXJjaA==
+Content-Disposition: form-data; name="max_price"
+
+25
+--UFVUIGh0dHBzOi8vd3d3LmV4YW1wbGUuY29tL3NlYXJjaA==
+Content-Disposition: form-data; name="min_price"
+
+10
+--UFVUIGh0dHBzOi8vd3d3LmV4YW1wbGUuY29tL3NlYXJjaA==--

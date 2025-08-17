@@ -1,0 +1,8 @@
+POST https://staging.api.example.com/v1/users
+Content-Type: application/json
+Authorization: Bearer my_little_token
+
+{
+  "name": "John",
+  "surname": "Doe"
+}

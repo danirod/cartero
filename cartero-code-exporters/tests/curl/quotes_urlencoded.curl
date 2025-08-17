@@ -1,0 +1,2 @@
+curl -X POST 'https://staging.shop.example.com/send?to=O%27Donnell' \
+    --data-raw 'normal=good+%22morning%22+world&single=good+%27afternoon%27+world'

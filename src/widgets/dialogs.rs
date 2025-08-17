@@ -15,13 +15,13 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use crate::interop::{get_request_error_message, InnerError};
+use crate::interop::InnerError;
 
 use adw::{
     prelude::{AlertDialogExt, AlertDialogExtManual},
     AlertDialog,
 };
-use cartero_http::RequestError;
+use cartero_code_exporters::ExportError as CodeExportError;
 use cartero_interop::{FileLoadError, FileSaveError, FileWarningTag};
 use formatx::formatx;
 use gettextrs::gettext;
@@ -101,15 +101,6 @@ fn pretty_warning(warning: FileWarningTag) -> String {
         }
 }
 
-pub async fn present_request_error_message(root: &impl IsA<gtk::Widget>, error: &RequestError) {
-    let alert = AlertDialog::builder()
-        .body(&get_request_error_message(error))
-        .default_response("close")
-        .build();
-    alert.add_response("close", &gettext("Close"));
-    alert.choose_future(root).await;
-}
-
 /// Renders an error message when a file cannot be picked because it's not part of the given prefix
 /// directory and the security policy currently disallows attaching any kind of file to an HTTP
 /// request.
@@ -162,6 +153,30 @@ pub async fn glib_file_dialog_error(root: &impl IsA<gtk::Widget>, error: &glib::
             "Could not select a valid file from the file chooser",
         ))
         .body(&error.to_string())
+        .default_response("close")
+        .build();
+    alert.add_response("close", &gettext("Close"));
+    alert.choose_future(root).await;
+}
+
+pub async fn export_dialog_error(root: &impl IsA<gtk::Widget>, cause: CodeExportError) {
+    let error = match cause {
+        CodeExportError::UrlBadParse => gettext("Cannot recognise the URL"),
+        CodeExportError::VariableNotFound(var) => {
+            formatx!(gettext("The variable '{}' is not defined"), var).unwrap()
+        }
+        CodeExportError::BadInterpolation => {
+            gettext("There was a problem with a variable interpolation, review your inputs")
+        }
+        CodeExportError::TemplateError(cause) => {
+            let top = gettext("There has been an internal error during the export process. This is most likely a development error. (If you could report your test case and this error, we might be able to fix this in the future.)");
+            let error_cause = gettext("Error cause:");
+            format!("{}\n\n{} {}", top, error_cause, cause)
+        }
+    };
+    let alert = AlertDialog::builder()
+        .heading(&gettext("Could not export the request"))
+        .body(&error)
         .default_response("close")
         .build();
     alert.add_response("close", &gettext("Close"));

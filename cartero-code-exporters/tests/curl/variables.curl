@@ -1,0 +1,7 @@
+curl -X POST 'https://staging.api.example.com/v1/users' \
+    -H 'Content-Type: application/json' \
+    --oauth2-bearer 'my_little_token' \
+    --data-raw '{
+  "name": "John",
+  "surname": "Doe"
+}'

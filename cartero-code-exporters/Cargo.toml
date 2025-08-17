@@ -16,14 +16,20 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 [package]
-name = "cartero_jetbrains_http_format"
+name = "cartero_code_exporters"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 
 [dependencies]
+askama.workspace = true
+base64.workspace = true
 cartero_objects = { path = "../cartero-objects" }
-cartero_http = { path = "../cartero-http" }
+gio.workspace = true
+glib.workspace = true
+http.workspace = true
+serde_urlencoded.workspace = true
+srtemplate.workspace = true
 
 [dev-dependencies]
-tokio.workspace = true
+cartero_file_format = { path = "../cartero-file-format" }

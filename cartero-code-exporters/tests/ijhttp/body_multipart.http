@@ -1,0 +1,12 @@
+POST https://www.example.com/login
+Content-Type: multipart/form-data; boundary=UE9TVCBodHRwczovL3d3dy5leGFtcGxlLmNvbS9sb2dpbg==
+
+--UE9TVCBodHRwczovL3d3dy5leGFtcGxlLmNvbS9sb2dpbg==
+Content-Disposition: form-data; name="password"
+
+bar
+--UE9TVCBodHRwczovL3d3dy5leGFtcGxlLmNvbS9sb2dpbg==
+Content-Disposition: form-data; name="username"
+
+foo
+--UE9TVCBodHRwczovL3d3dy5leGFtcGxlLmNvbS9sb2dpbg==--

@@ -1,0 +1,15 @@
+version = 1
+url = "https://www.example.com/search"
+method = "PUT"
+
+[body]
+type = "multipart"
+
+[body.variables]
+category = [
+    "kitchenware",
+    "decoration",
+    "garden",
+]
+max_price = "25"
+min_price = "10"

@@ -1,0 +1,2 @@
+curl -X GET 'https://www.example.com/dashboard' \
+    --oauth2-bearer 'auth1234'

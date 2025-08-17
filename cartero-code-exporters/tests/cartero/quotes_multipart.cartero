@@ -1,0 +1,10 @@
+version = 1
+url = "https://staging.shop.example.com/send?to=O'Donnell"
+method = "POST"
+
+[body]
+type = "multipart"
+
+[body.variables]
+normal = 'good "morning" world'
+single = "good 'afternoon' world"

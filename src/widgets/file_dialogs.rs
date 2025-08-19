@@ -217,12 +217,16 @@ where
 /// Opens a generic export dialog that can be used to pick a save location.
 /// This dialog will accept other file types that are not the application
 /// type.
-pub async fn export_file<T>(parent: &T) -> Result<Option<gio::File>, glib::Error>
+pub async fn export_file<T>(
+    parent: &T,
+    initial_name: Option<&str>,
+) -> Result<Option<gio::File>, glib::Error>
 where
     T: IsA<gtk::Window> + Clone + 'static,
 {
     let dialog = FileDialog::builder().modal(true).build();
     dialog.set_accept_label(Some(&gettext("Save")));
+    dialog.set_initial_name(initial_name);
     dialog.set_title(&gettext("Export to file"));
 
     let file = match dialog.save_future(Some(parent)).await {

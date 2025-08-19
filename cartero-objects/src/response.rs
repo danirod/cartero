@@ -15,8 +15,12 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use std::str::FromStr;
+
+use content_disposition::parse_content_disposition;
 use glib::prelude::*;
 use glib::subclass::prelude::*;
+use http::Uri;
 
 use crate::{FieldTable, Request};
 
@@ -52,6 +56,38 @@ impl Response {
             },
             None => false,
         }
+    }
+
+    pub fn file_name(&self) -> String {
+        let disposition = self
+            .headers()
+            .find_by_name_icase("content-disposition")
+            .and_then(|headers| {
+                if headers.len() == 1 {
+                    Some(headers[0].clone())
+                } else {
+                    None
+                }
+            })
+            .map(|header| parse_content_disposition(header.as_str()))
+            .and_then(|disposition| disposition.filename_full());
+
+        disposition.unwrap_or_else(|| {
+            let full_url = self.request().url();
+            let url = full_url
+                .split_once('?')
+                .map(|(start, _)| start)
+                .unwrap_or(&full_url);
+            match Uri::from_str(url) {
+                Ok(uri) => uri
+                    .path()
+                    .rsplit_once("/")
+                    .map(|(_, end)| end)
+                    .unwrap_or(url)
+                    .to_owned(),
+                Err(_) => url.to_owned(),
+            }
+        })
     }
 
     pub fn is_json(&self) -> bool {
@@ -200,6 +236,58 @@ mod tests {
 
     fn request() -> Request {
         Request::builder("https://www.example.com/api/users", RequestMethod::Get).build()
+    }
+
+    #[test]
+    fn file_name_reads_from_url() {
+        let response = Response::builder(&request()).build();
+        let file_name = response.file_name();
+        assert_eq!(file_name, "users");
+    }
+
+    #[test]
+    fn file_name_strips_query_params() {
+        let request = Request::builder(
+            "https://www.example.com/index.html?page=12341234",
+            RequestMethod::Get,
+        )
+        .build();
+        let response = Response::builder(&request).build();
+        let file_name = response.file_name();
+        assert_eq!(file_name, "index.html");
+    }
+
+    #[test]
+    fn file_name_includes_extension() {
+        let request =
+            Request::builder("https://www.example.com/attachment.jpg", RequestMethod::Get).build();
+        let response = Response::builder(&request).build();
+        let file_name = response.file_name();
+        assert_eq!(file_name, "attachment.jpg");
+    }
+
+    #[test]
+    fn file_name_deprioritizes_inline_content_disposition() {
+        let disposition = Field::builder()
+            .key("Content-Disposition")
+            .value("inline")
+            .build();
+        let headers = FieldTable::from_iter([disposition]);
+        let response = Response::builder(&request()).headers(&headers).build();
+        let file_name = response.file_name();
+        assert_eq!(file_name, "users");
+    }
+
+    #[test]
+    fn file_name_prioritizes_attachment_content_disposition() {
+        let disposition = Field::builder()
+            .key("Content-Disposition")
+            .value("attachment; filename=\"report.json\"")
+            .build();
+        let headers = FieldTable::from_iter([disposition]);
+        let response = Response::builder(&request()).headers(&headers).build();
+        let file_name = response.file_name();
+        assert_eq!(file_name, "report.json");
     }
 
     #[test]

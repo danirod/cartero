@@ -26,6 +26,7 @@ license = "GPL-3.0-or-later"
 [workspace.dependencies]
 askama = "0.14.0"
 base64 = "0.22.1"
+content_disposition = "0.4.0"
 glib = { version = "0.20.10", features = ["v2_74"] }
 gio = { version = "0.20.11", features = ["v2_74"] }
 http = "1.3.1"

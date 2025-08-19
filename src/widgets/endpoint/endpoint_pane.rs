@@ -710,7 +710,12 @@ mod imp {
 
         async fn action_export_response(&self) {
             let root = self.obj().root().and_downcast::<gtk::Window>().unwrap();
-            let export_file = file_dialogs::export_file(&root).await;
+            let initial_file = self
+                .response_pane
+                .response()
+                .expect("No response to export?")
+                .file_name();
+            let export_file = file_dialogs::export_file(&root, Some(initial_file.as_str())).await;
             match export_file {
                 Err(e) => crate::widgets::dialogs::glib_file_dialog_error(&root, &e).await,
                 Ok(file) => {

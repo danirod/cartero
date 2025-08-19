@@ -23,8 +23,10 @@ license.workspace = true
 
 [dependencies]
 base64.workspace = true
+content_disposition.workspace = true
 glib.workspace = true
 gio.workspace = true
+http.workspace = true
 itertools = "0.14.0"
 srtemplate.workspace = true
 

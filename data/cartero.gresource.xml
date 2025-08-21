@@ -31,6 +31,7 @@
     <file alias="settings/shell.ui" compressed="true" preprocess="xml-stripblanks">ui/settings/shell.ui</file>
     <file alias="settings/page_application.ui" compressed="true" preprocess="xml-stripblanks">ui/settings/page_application.ui</file>
     <file alias="settings/page_appearance.ui" compressed="true" preprocess="xml-stripblanks">ui/settings/page_appearance.ui</file>
+    <file alias="settings/page_code_editor.ui" compressed="true" preprocess="xml-stripblanks">ui/settings/page_code_editor.ui</file>
     <file alias="settings/page_http_client.ui" compressed="true" preprocess="xml-stripblanks">ui/settings/page_http_client.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/horizontal-arrows-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/tab-new-symbolic.svg</file>
@@ -39,6 +40,7 @@
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/apps/es.danirod.Cartero.Devel.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/apps/es.danirod.Cartero.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/eye-not-looking-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/code-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/symbolic/apps/es.danirod.Cartero-symbolic.svg</file>
   </gresource>
 </gresources>

@@ -45,6 +45,7 @@ blueprint_files = [
     'ui/settings/shell.blp',
     'ui/settings/page_application.blp',
     'ui/settings/page_appearance.blp',
+    'ui/settings/page_code_editor.blp',
     'ui/settings/page_http_client.blp',
 ]
 

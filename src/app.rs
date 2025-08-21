@@ -202,7 +202,7 @@ impl CarteroApplication {
                     let settings_shell = crate::windows::settings::Shell::new();
                     let window = app.new_window(&settings_shell);
                     window.set_modal(true);
-                    window.set_default_size(700, 500);
+                    window.set_default_size(700, 540);
                     window.set_title(Some(&gettext("Settings")));
                     window.set_resizable(false);
                     window.present();

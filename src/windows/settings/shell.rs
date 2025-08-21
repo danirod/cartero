@@ -124,9 +124,14 @@ mod imp {
         }
 
         fn init_content_view(&self) {
+            if adw::major_version() == 1 && adw::minor_version() >= 7 {
+                self.settings_stack.set_property("enable-transitions", true);
+            }
+
             let pages: Vec<adw::PreferencesPage> = vec![
                 pages::Application::new().upcast(),
                 pages::Appearance::new().upcast(),
+                pages::CodeEditor::new().upcast(),
                 pages::HttpClient::new().upcast(),
             ];
 

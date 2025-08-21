@@ -1,0 +1,61 @@
+// Copyright 2024-2025 the Cartero authors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+using Gtk 4.0;
+using Adw 1;
+
+template $CarteroSettingsPageAppearance: Adw.PreferencesPage {
+  name: "appearance";
+  title: _("Appearance");
+  icon-name: "preferences-desktop-appearance-symbolic";
+
+  Adw.PreferencesGroup {
+    Adw.ComboRow option_theme {
+      title: _("Application style");
+
+      model: Gtk.StringList {
+        strings [
+          _("Follow system settings"),
+          _("Light mode"),
+          _("Dark mode"),
+        ]
+      };
+    }
+  }
+
+  Adw.PreferencesGroup {
+    Adw.SwitchRow option_use_system_font {
+      title: _("Use system font");
+    }
+
+    Adw.ActionRow {
+      title: _("Custom font");
+
+      Gtk.FontDialogButton option_custom_font {
+        styles [
+          "flat",
+        ]
+
+        tooltip-text: _("Click to select a font");
+        dialog: font_dialog;
+        vexpand: false;
+        valign: center;
+      }
+    }
+  }
+}
+
+Gtk.FontDialog font_dialog {}

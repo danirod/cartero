@@ -15,5 +15,9 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-pub mod common;
-pub mod settings;
+mod locale;
+pub mod pages;
+mod pill;
+mod shell;
+
+pub use shell::Shell;

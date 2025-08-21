@@ -1,0 +1,188 @@
+// Copyright 2024-2025 the Cartero authors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+using Gtk 4.0;
+using Adw 1;
+
+template $CarteroStandaloneShell: Adw.BreakpointBin {
+  width-request: 100;
+  height-request: 100;
+
+  Adw.Breakpoint {
+    condition ("max-width: 500sp")
+
+    setters {
+      header_bar_start.visible: false;
+    }
+  }
+
+  Adw.ToolbarView {
+    top-bar-style: raised;
+
+    [top]
+    // An ID is assigned so that I can set the use-native-controls property
+    // dynamically when Adw is 1.8 or greater. This has to be done in code
+    // to keep the template compiling for Adw 1.5.
+    Adw.HeaderBar header_bar {
+      title-widget: window_title;
+
+      [start]
+      Gtk.Box header_bar_start {
+        spacing: 5;
+        orientation: horizontal;
+
+        Button {
+          action-name: "win.new-endpoint";
+          icon-name: "tab-new-symbolic";
+          tooltip-text: _("New");
+        }
+
+        Button {
+          action-name: "win.open-tab";
+          tooltip-text: _("Open");
+
+          Adw.ButtonContent {
+            icon-name: "document-open-symbolic";
+            label: _("Open");
+          }
+        }
+
+        Button {
+          action-name: "win.save-tab";
+          icon-name: "document-save-symbolic";
+          tooltip-text: _("Save");
+        }
+      }
+
+      [end]
+      Gtk.Box {
+        spacing: 5;
+        orientation: horizontal;
+
+        MenuButton export_request {
+          tooltip-text: _("Export request");
+          icon-name: "share-symbolic";
+          menu-model: export_request_menu;
+        }
+
+        MenuButton {
+          tooltip-text: _("Menu");
+          icon-name: "open-menu-symbolic";
+          primary: true;
+          menu-model: main_menu;
+        }
+      }
+    }
+
+    [top]
+    Adw.TabBar {
+      view: tabview;
+    }
+
+    Adw.TabView tabview {
+      notify::selected-page => $on_page_change() swapped;
+      create-window => $on_window_create_request();
+    }
+  }
+}
+
+// The title widget is detached so that it can be added or removed from the
+// HeaderBar when no tab is attached to the TabView, in order to let the
+// AdwHeaderBar present the default window title.
+Adw.WindowTitle window_title {}
+
+menu export_request_menu {
+  section {
+    item {
+      label: _("Export request as cURL…");
+      action: "win.export-request";
+      target: "curl";
+    }
+
+    item {
+      label: _("Export request as Jetbrains HTTP…");
+      action: "win.export-request";
+      target: "jetbrains-http";
+    }
+  }
+
+  section {
+    item {
+      label: _("Export response body…");
+      action: "win.export-response-body";
+    }
+  }
+}
+
+menu main_menu {
+  section {
+    item {
+      label: _("New endpoint");
+      action: "win.new-endpoint";
+    }
+
+    item {
+      label: _("New window");
+      action: "app.new-window";
+    }
+  }
+
+  section {
+    item {
+      label: _("Open request…");
+      action: "win.open-tab";
+    }
+
+    item {
+      label: _("Save request");
+      action: "win.save-tab";
+    }
+
+    item {
+      label: _("Save request as…");
+      action: "win.save-tab-as";
+    }
+
+    item {
+      label: _("Close tab");
+      action: "win.close-tab";
+    }
+  }
+
+  section {
+    item {
+      label: _("Settings");
+      action: "app.preferences";
+    }
+  }
+
+  section {
+    item {
+      label: _("Keyboard shortcuts");
+      action: "win.show-help-overlay";
+    }
+
+    item {
+      label: _("About Cartero");
+      action: "win.about";
+    }
+
+    item {
+      label: _("Quit");
+      action: "app.quit";
+    }
+  }
+}

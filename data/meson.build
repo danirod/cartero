@@ -42,6 +42,7 @@ blueprint_files = [
     'ui/raw_body_pane.blp',
     'ui/multipart_body_pane.blp',
     'ui/urlencoded_body_pane.blp',
+    'ui/standalone/shell.blp',
 ]
 
 blueprint_targets = []

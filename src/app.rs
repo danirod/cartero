@@ -18,12 +18,12 @@
 use adw::prelude::*;
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
-use gtk::gio::{self, ActionEntryBuilder, Settings};
-use gtk::prelude::ActionMapExtManual;
+use gtk::gio::{self, Settings};
 
-use crate::config::{APP_ID, BASE_ID, RESOURCE_PATH};
-use crate::win::CarteroWindow;
-use crate::windows::SettingsDialog;
+use crate::{
+    config::{APP_ID, BASE_ID, RESOURCE_PATH},
+    widgets::standalone::Shell,
+};
 
 #[macro_export]
 macro_rules! accelerator {
@@ -42,7 +42,7 @@ mod imp {
     use adw::prelude::*;
     use adw::subclass::application::AdwApplicationImpl;
     use glib::subclass::{object::ObjectImpl, types::ObjectSubclass};
-    use gtk::gio::Settings;
+    use gtk::gio::{ActionEntry, Settings};
     use gtk::subclass::prelude::*;
     use gtk::subclass::{application::GtkApplicationImpl, prelude::ApplicationImpl};
 
@@ -65,27 +65,7 @@ mod imp {
     impl ApplicationImpl for CarteroApplication {
         fn activate(&self) {
             self.parent_activate();
-            let obj = self.obj();
-
-            let (window, is_new_window) = match obj.active_window() {
-                Some(window) => (window.downcast::<CarteroWindow>().unwrap(), false),
-                None => (CarteroWindow::new(&obj), true),
-            };
-
-            glib::spawn_future_local(glib::clone!(
-                #[weak]
-                obj,
-                async move {
-                    if is_new_window {
-                        let last_session = obj.last_session_tabs();
-                        let open_result = window.open_endpoints(&last_session).await;
-                        window.present();
-                        window.report_open_endpoints_errors(&open_result).await;
-                    } else {
-                        window.present();
-                    }
-                }
-            ));
+            self.obj().new_window();
         }
 
         fn startup(&self) {
@@ -112,38 +92,34 @@ mod imp {
             obj.set_accels_for_action("app.preferences", &[accelerator!("comma")]);
             obj.set_accels_for_action("app.quit", &[accelerator!("q")]);
             obj.set_accels_for_action("win.show-help-overlay", &[accelerator!("question")]);
-            obj.setup_app_actions();
             obj.setup_color_scheme();
+
+            self.init_actions();
         }
 
         fn open(&self, files: &[gio::File], hint: &str) {
             self.parent_open(files, hint);
-            let obj = self.obj();
-            let (window, is_new_window) = match self.obj().active_window() {
-                Some(window) => (window.downcast::<CarteroWindow>().unwrap(), false),
-                None => (CarteroWindow::new(&self.obj()), true),
-            };
-
-            /* If it's a new window, also open the files from the previous session. */
-            let files_to_open: Vec<gio::File> = if is_new_window {
-                let mut previous_files = obj.last_session_tabs();
-                previous_files.extend(files.to_vec());
-                previous_files
-            } else {
-                files.to_vec()
-            };
-
-            glib::spawn_future_local(async move {
-                let open_result = window.open_endpoints(&files_to_open).await;
-                window.present();
-                window.report_open_endpoints_errors(&open_result).await;
-            });
         }
     }
 
     impl GtkApplicationImpl for CarteroApplication {}
 
     impl AdwApplicationImpl for CarteroApplication {}
+
+    impl CarteroApplication {
+        fn init_actions(&self) {
+            let new_window = ActionEntry::builder("new-window")
+                .activate(glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |_, _, _| {
+                        imp.obj().new_window();
+                    }
+                ))
+                .build();
+            self.obj().add_action_entries([new_window]);
+        }
+    }
 }
 
 glib::wrapper! {
@@ -193,94 +169,26 @@ impl CarteroApplication {
             .build();
     }
 
-    fn setup_app_actions(&self) {
-        let settings = ActionEntryBuilder::new("preferences")
-            .activate(glib::clone!(
-                #[weak(rename_to = app)]
-                self,
-                move |_, _, _| {
-                    if let Some(window) = app.active_window() {
-                        SettingsDialog::present_for_window(&window);
-                    }
-                }
-            ))
-            .build();
-        let about = ActionEntryBuilder::new("about")
-            .activate(|app: &Self, _, _| {
-                if let Some(window) = app.active_window() {
-                    let _ = window.activate_action("win.about", None);
-                }
-            })
-            .build();
-        let quit = ActionEntryBuilder::new("quit")
-            .activate(glib::clone!(
-                #[weak(rename_to = app)]
-                self,
-                move |_, _, _| {
-                    for window in app.windows() {
-                        window.close();
-                    }
+    pub fn new_window(&self) -> Shell {
+        let shell = Shell::default();
 
-                    if app.windows().is_empty() {
-                        app.quit();
-                    }
-                }
-            ))
-            .build();
+        let use_csd = true;
+        let window: gtk::ApplicationWindow = if use_csd {
+            let window = adw::ApplicationWindow::new(self);
+            window.set_content(Some(&shell));
+            window.upcast()
+        } else {
+            let window = gtk::ApplicationWindow::new(self);
+            window.set_child(Some(&shell));
+            window.upcast()
+        };
 
-        self.add_action_entries([settings, about, quit]);
+        //let group = gtk::WindowGroup::new();
+        //group.add_window(&window);
 
-        if cfg!(target_os = "macos") {
-            let links = vec![
-                ("menubar.user-manual", "https://cartero.danirod.es/docs/"),
-                (
-                    "menubar.report-issue",
-                    "https://github.com/danirod/cartero/issues",
-                ),
-                (
-                    "menubar.view-discussions",
-                    "https://github.com/danirod/cartero/discussions",
-                ),
-                (
-                    "menubar.translate",
-                    "https://hosted.weblate.org/projects/cartero/cartero",
-                ),
-            ];
+        window.set_default_size(800, 500);
+        window.present();
 
-            let actions = links
-                .into_iter()
-                .map(|(id, url)| {
-                    ActionEntryBuilder::new(id)
-                        .activate(move |_, _, _| {
-                            glib::spawn_future_local(async move {
-                                let _ = gtk::UriLauncher::new(url)
-                                    .launch_future(gtk::Window::NONE)
-                                    .await;
-                            });
-                        })
-                        .build()
-                })
-                .collect::<Vec<_>>();
-            self.add_action_entries(actions);
-        }
-    }
-
-    pub fn last_session_tabs(&self) -> Vec<gio::File> {
-        let settings = self.settings();
-
-        settings
-            .get::<Vec<String>>("open-files")
-            .iter()
-            .filter_map(|path| {
-                // These paths are in the format file:///home/user/endpoint.cartero.
-                // TODO: Can't use the url crate to extract the path from the scheme?
-                if let Some((_type, path)) = path.split_once(':') {
-                    let file = gio::File::for_path(path);
-                    Some(file)
-                } else {
-                    None
-                }
-            })
-            .collect()
+        shell
     }
 }

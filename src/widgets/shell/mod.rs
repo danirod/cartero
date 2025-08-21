@@ -16,5 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 mod base_pane;
+mod common_shell;
 
 pub use base_pane::*;
+pub use common_shell::*;

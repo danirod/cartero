@@ -28,6 +28,7 @@
     <file alias="urlencoded_body_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/urlencoded_body_pane.ui</file>
     <file alias="multipart_body_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/multipart_body_pane.ui</file>
     <file alias="raw_body_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/raw_body_pane.ui</file>
+    <file alias="standalone/shell.ui" compressed="true" preprocess="xml-stripblanks">ui/standalone/shell.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/horizontal-arrows-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/tab-new-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/share-symbolic.svg</file>

@@ -20,7 +20,10 @@ use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
 use gtk::gio::{self, Settings};
 
-use crate::config::{APP_ID, BASE_ID, RESOURCE_PATH};
+use crate::{
+    config::{APP_ID, BASE_ID, RESOURCE_PATH},
+    widgets::standalone::Shell,
+};
 
 #[macro_export]
 macro_rules! accelerator {
@@ -39,7 +42,7 @@ mod imp {
     use adw::prelude::*;
     use adw::subclass::application::AdwApplicationImpl;
     use glib::subclass::{object::ObjectImpl, types::ObjectSubclass};
-    use gtk::gio::Settings;
+    use gtk::gio::{ActionEntry, Settings};
     use gtk::subclass::prelude::*;
     use gtk::subclass::{application::GtkApplicationImpl, prelude::ApplicationImpl};
 
@@ -62,6 +65,7 @@ mod imp {
     impl ApplicationImpl for CarteroApplication {
         fn activate(&self) {
             self.parent_activate();
+            self.obj().new_window();
         }
 
         fn startup(&self) {
@@ -89,6 +93,8 @@ mod imp {
             obj.set_accels_for_action("app.quit", &[accelerator!("q")]);
             obj.set_accels_for_action("win.show-help-overlay", &[accelerator!("question")]);
             obj.setup_color_scheme();
+
+            self.init_actions();
         }
 
         fn open(&self, files: &[gio::File], hint: &str) {
@@ -99,6 +105,21 @@ mod imp {
     impl GtkApplicationImpl for CarteroApplication {}
 
     impl AdwApplicationImpl for CarteroApplication {}
+
+    impl CarteroApplication {
+        fn init_actions(&self) {
+            let new_window = ActionEntry::builder("new-window")
+                .activate(glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |_, _, _| {
+                        imp.obj().new_window();
+                    }
+                ))
+                .build();
+            self.obj().add_action_entries([new_window]);
+        }
+    }
 }
 
 glib::wrapper! {
@@ -146,5 +167,28 @@ impl CarteroApplication {
                 Some(scheme.into())
             })
             .build();
+    }
+
+    pub fn new_window(&self) -> Shell {
+        let shell = Shell::default();
+
+        let use_csd = true;
+        let window: gtk::ApplicationWindow = if use_csd {
+            let window = adw::ApplicationWindow::new(self);
+            window.set_content(Some(&shell));
+            window.upcast()
+        } else {
+            let window = gtk::ApplicationWindow::new(self);
+            window.set_child(Some(&shell));
+            window.upcast()
+        };
+
+        //let group = gtk::WindowGroup::new();
+        //group.add_window(&window);
+
+        window.set_default_size(800, 500);
+        window.present();
+
+        shell
     }
 }

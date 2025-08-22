@@ -205,7 +205,7 @@ mod imp {
 
 glib::wrapper! {
     pub struct ResponsePanel(ObjectSubclass<imp::ResponsePanel>)
-        @extends gtk::Widget, gtk::Overlay,
+        @extends gtk::Widget, adw::Bin,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 

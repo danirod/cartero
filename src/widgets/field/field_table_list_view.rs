@@ -175,5 +175,6 @@ mod imp {
 
 glib::wrapper! {
     pub struct FieldTableListView(ObjectSubclass<imp::FieldTableListView>)
-        @extends gtk::Widget, gtk::Box;
+        @extends gtk::Widget, gtk::Box,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }

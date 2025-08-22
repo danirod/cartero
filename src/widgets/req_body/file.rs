@@ -137,7 +137,10 @@ mod imp {
                         .await
                         .map(|(bytes, _)| bytes.to_vec())
                         .unwrap_or_default();
-                    let (mime, _) = gtk::gio::content_type_guess(Some(file.uri()), &file_contents);
+                    let (mime, _) = gtk::gio::content_type_guess(
+                        Some(file.uri()),
+                        Some(file_contents.as_slice()),
+                    );
                     self.obj().file().set_content_type(Some(mime));
                 }
                 Ok(None) => {
@@ -167,5 +170,6 @@ mod imp {
 
 glib::wrapper! {
     pub struct File(ObjectSubclass<imp::File>)
-        @extends gtk::Widget, gtk::Box;
+        @extends gtk::Widget, gtk::Box,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }

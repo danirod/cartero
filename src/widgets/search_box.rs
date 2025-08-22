@@ -278,7 +278,7 @@ mod imp {
 glib::wrapper! {
     pub struct SearchBox(ObjectSubclass<imp::SearchBox>)
         @extends gtk::Widget, gtk::Box,
-        @implements gtk::Accessible, gtk::Actionable, gtk::Buildable;
+        @implements gtk::Accessible, gtk::Actionable, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl SearchBox {

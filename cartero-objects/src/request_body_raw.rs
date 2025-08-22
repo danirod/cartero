@@ -206,8 +206,7 @@ mod tests {
     use srtemplate::SrTemplate;
 
     use crate::{
-        utils::test::assert_emits_signal, RequestBody, RequestBodyDataExt, RequestBodyRawType,
-        RequestBodyType,
+        utils::test::assert_emits_signal, RequestBodyDataExt, RequestBodyRawType, RequestBodyType,
     };
 
     use super::RequestBodyRaw;

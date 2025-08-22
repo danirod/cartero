@@ -244,5 +244,6 @@ mod imp {
 
 glib::wrapper! {
     pub struct RequestBodyPane(ObjectSubclass<imp::RequestBodyPane>)
-        @extends gtk::Widget, gtk::Box;
+        @extends gtk::Widget, gtk::Box,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }

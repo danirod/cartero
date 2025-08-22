@@ -66,6 +66,12 @@ mod imp {
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
             klass.bind_template_callbacks();
+
+            klass.add_binding_action(
+                gtk::gdk::Key::Escape,
+                gtk::gdk::ModifierType::empty(),
+                "window.close",
+            );
         }
 
         fn instance_init(obj: &InitializingObject<Self>) {

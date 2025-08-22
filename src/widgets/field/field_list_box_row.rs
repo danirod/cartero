@@ -186,5 +186,6 @@ mod imp {
 
 glib::wrapper! {
     pub struct FieldListBoxRow(ObjectSubclass<imp::FieldListBoxRow>)
-        @extends gtk::Widget, gtk::Box;
+        @extends gtk::Widget, gtk::Box,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }

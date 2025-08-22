@@ -20,7 +20,8 @@ use adw::subclass::prelude::*;
 
 glib::wrapper! {
     pub struct Shell(ObjectSubclass<imp::Shell>)
-        @extends gtk::Widget, adw::BreakpointBin;
+        @extends gtk::Widget, adw::BreakpointBin,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl Shell {

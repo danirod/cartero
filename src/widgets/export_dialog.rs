@@ -164,5 +164,6 @@ mod imp {
 
 glib::wrapper! {
     pub struct ExportDialog(ObjectSubclass<imp::ExportDialog>)
-        @extends gtk::Widget, adw::Dialog;
+        @extends gtk::Widget, adw::Dialog,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }

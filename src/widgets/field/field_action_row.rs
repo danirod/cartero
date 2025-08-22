@@ -78,7 +78,8 @@ mod imp {
 
 glib::wrapper! {
     pub struct FieldActionRow(ObjectSubclass<imp::FieldActionRow>)
-        @extends gtk::Widget, gtk::ListBoxRow, adw::PreferencesRow, adw::ActionRow;
+        @extends gtk::Widget, gtk::ListBoxRow, adw::PreferencesRow, adw::ActionRow,
+        @implements gtk::Accessible, gtk::Actionable, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl Default for FieldActionRow {

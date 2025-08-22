@@ -913,14 +913,14 @@ mod imp {
 glib::wrapper! {
     pub struct CarteroWindow(ObjectSubclass<imp::CarteroWindow>)
         @extends gtk::Widget, gtk::Window, gtk::ApplicationWindow, adw::ApplicationWindow,
-        @implements gio::ActionGroup, gio::ActionMap, gtk::Native, gtk::Root;
+        @implements gtk::Accessible, gio::ActionGroup, gio::ActionMap, gtk::Buildable, gtk::ConstraintTarget, gtk::Native, gtk::Root, gtk::ShortcutManager;
 }
 
 #[cfg(not(feature = "csd"))]
 glib::wrapper! {
     pub struct CarteroWindow(ObjectSubclass<imp::CarteroWindow>)
         @extends gtk::Widget, gtk::Window, gtk::ApplicationWindow,
-        @implements gio::ActionGroup, gio::ActionMap, gtk::Native, gtk::Root;
+        @implements gtk::Accessible, gio::ActionGroup, gio::ActionMap, gtk::Buildable, gtk::ConstraintTarget, gtk::Native, gtk::Root, gtk::ShortcutManager;
 }
 
 impl CarteroWindow {

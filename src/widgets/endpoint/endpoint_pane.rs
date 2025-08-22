@@ -847,8 +847,8 @@ mod imp {
 
 glib::wrapper! {
     pub struct EndpointPane(ObjectSubclass<imp::EndpointPane>)
-        @extends gtk::Widget, gtk::Box, BasePane,
-        @implements gio::ActionMap;
+        @extends gtk::Widget, adw::BreakpointBin, BasePane,
+        @implements gtk::Accessible, gio::ActionMap, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl Default for EndpointPane {

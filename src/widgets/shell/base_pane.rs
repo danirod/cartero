@@ -23,7 +23,8 @@ use crate::interop::{LoadResult, SaveResult};
 
 glib::wrapper! {
     pub struct BasePane(ObjectSubclass<imp::BasePane>)
-        @extends gtk::Widget, adw::BreakpointBin;
+        @extends gtk::Widget, adw::BreakpointBin,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 mod ffi {

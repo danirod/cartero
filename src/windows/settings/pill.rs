@@ -20,7 +20,8 @@ use adw::subclass::prelude::*;
 
 glib::wrapper! {
     pub struct Pill(ObjectSubclass<imp::Pill>)
-        @extends gtk::Widget, gtk::Box;
+        @extends gtk::Widget, gtk::Box,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 mod imp {

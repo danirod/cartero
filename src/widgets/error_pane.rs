@@ -82,7 +82,7 @@ mod imp {
 glib::wrapper! {
     pub struct ErrorPane(ObjectSubclass<imp::ErrorPane>)
         @extends gtk::Widget, adw::Bin,
-        @implements gtk::Buildable;
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl ErrorPane {

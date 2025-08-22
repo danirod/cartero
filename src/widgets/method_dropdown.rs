@@ -91,7 +91,7 @@ mod imp {
 glib::wrapper! {
     pub struct MethodDropdown(ObjectSubclass<imp::MethodDropdown>)
         @extends gtk::Widget, adw::Bin,
-        @implements gtk::Accessible, gtk::Buildable;
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
 impl MethodDropdown {}

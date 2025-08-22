@@ -27,8 +27,8 @@ license = "GPL-3.0-or-later"
 askama = "0.14.0"
 base64 = "0.22.1"
 content_disposition = "0.4.0"
-glib = { version = "0.20.10", features = ["v2_74"] }
-gio = { version = "0.20.11", features = ["v2_74"] }
+glib = { version = "0.20.10", features = ["v2_80"] }
+gio = { version = "0.20.11", features = ["v2_80"] }
 http = "1.3.1"
 serde = { version = "1.0.219", features = ["derive"] }
 srtemplate = "0.3.3"
@@ -63,14 +63,14 @@ formdata = "0.13.0"
 futures-lite = "2.6.0"
 gettext-rs = { version = "0.7.2", features = ["gettext-system"] }
 glib.workspace = true
-gtk = { package = "gtk4", version = "0.9.6", features = ["v4_12"] }
+gtk = { package = "gtk4", version = "0.9.6", features = ["v4_14"] }
 indexmap = "2.8.0"
 isahc = "1.7.2"
 regex = "1.11.1"
 serde.workspace = true
 serde_json = { version = "1.0.140", features = ["preserve_order"] }
 serde_urlencoded.workspace = true
-sourceview5 = "0.9.1"
+sourceview5 = { version = "0.9.1", features = ["v5_12"]}
 srtemplate = { version = "0.3.2", features = [] }
 tokio.workspace = true
 toml.workspace = true

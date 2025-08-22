@@ -73,14 +73,15 @@ You can also add Cartero to your system [as a flake][flake].
 
 ## Building
 
-Currently, to build the application you'll have to make sure that the required
-libraries are installed on your system.
+Cartero requires GNOME SDK 46 or greater to build. This includes:
 
-**Required libraries:**
-- glib >= 2.72
+- adwaita-1 >= 1.5
+- glib >= 2.80
 - gtk >= 4.14
-- gtksourceview >= 5.4
-- libadwaita >= 1.5
+- gtksourceview >= 5.12
+
+Additionally required:
+
 - openssl >= 1.0
 
 For a successful build, will also need the following packages installed in your system: **meson**, **ninja**, **rust** and **gettext**.

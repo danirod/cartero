@@ -28,9 +28,9 @@ gnome = import('gnome')
 
 base_id = 'es.danirod.Cartero'
 
-dependency('glib-2.0', version: '>= 2.74')
+dependency('glib-2.0', version: '>= 2.80')
 dependency('gtk4', version: '>= 4.14')
-dependency('gtksourceview-5', version: '>= 5.4')
+dependency('gtksourceview-5', version: '>= 5.12')
 dependency('libadwaita-1', version: '>= 1.5')
 dependency('openssl', version: '>= 1.0')
 

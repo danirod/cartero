@@ -102,5 +102,6 @@ mod imp {
 
 glib::wrapper! {
     pub struct FieldListBoxStaticRow(ObjectSubclass<imp::FieldListBoxStaticRow>)
-        @extends gtk::Widget, gtk::Box;
+        @extends gtk::Widget, gtk::Box,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }

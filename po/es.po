@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-22 01:57+0200\n"
-"PO-Revision-Date: 2025-08-15 17:02+0000\n"
+"PO-Revision-Date: 2025-08-22 02:02+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/cartero/cartero/"
 "es/>\n"
@@ -357,29 +357,28 @@ msgid "Delete"
 msgstr "Borrar"
 
 #: data/ui/file_body_pane.blp:26
-#, fuzzy
 msgid "File"
 msgstr "Archivo"
 
 #: data/ui/file_body_pane.blp:30
 msgid "Content Type"
-msgstr ""
+msgstr "Tipo de contenido"
 
 #: data/ui/file_body_pane.blp:41
-#, fuzzy
 msgid "or select a file from the file system:"
-msgstr "No se pudo seleccionar un archivo válido desde el selector de archivos"
+msgstr "o selecciona un archivo desde el sistema de archivos:"
 
 #: data/ui/file_body_pane.blp:50
-#, fuzzy
 msgid "Select file…"
-msgstr "Seleccionar archivo"
+msgstr "Seleccionar archivo…"
 
 #: data/ui/file_body_pane.blp:71
 msgid ""
 "You cannot pick a file from the file system until you save this request to "
 "disk."
 msgstr ""
+"No puedes seleccionar un archivo del sistema de archivos hasta que guardes "
+"esta petición a disco."
 
 #: data/ui/file_body_pane.blp:97
 msgid ""
@@ -388,6 +387,10 @@ msgid ""
 "if they are in a parent directory or outside the project folder, or use "
 "absolute paths."
 msgstr ""
+"Sólo puedes adjuntar archivos a una petición si están en el mismo directorio "
+"que el archivo de petición, o en un subdirectorio. No puedes adjuntar "
+"archivos a una petición si están en el directorio superior o fuera de la "
+"carpeta de proyecto, o si se usan rutas absolutas."
 
 #: data/ui/mac_menu.blp:21
 msgctxt "menubar"
@@ -760,7 +763,7 @@ msgstr "Versión actual"
 
 #: data/ui/settings/page_code_editor.blp:22
 msgid "Code editor"
-msgstr ""
+msgstr "Editor de código"
 
 #: data/ui/settings/page_http_client.blp:22
 msgid "HTTP Client"
@@ -986,15 +989,17 @@ msgid ""
 "likely a development error. (If you could report your test case and this "
 "error, we might be able to fix this in the future.)"
 msgstr ""
+"Ha habido un error interno durante el proceso de exportado. Esto seguramente "
+"sea un error de desarrollo. (Si pudieses reportar tu caso y este error, "
+"podríamos resolverlo en el futuro.)"
 
 #: src/widgets/dialogs.rs:173
 msgid "Error cause:"
-msgstr ""
+msgstr "Causa del error:"
 
 #: src/widgets/dialogs.rs:178
-#, fuzzy
 msgid "Could not export the request"
-msgstr "No se puede abrir el archivo solicitado"
+msgstr "No se pudo exportar la petición"
 
 #: src/widgets/dialogs.rs:191
 msgid "There are unsaved changes"

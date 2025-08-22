@@ -15,5 +15,12 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-pub mod common;
-pub mod settings;
+mod appearance;
+mod application;
+mod code_editor;
+mod http_client;
+
+pub use appearance::Appearance;
+pub use application::Application;
+pub use code_editor::CodeEditor;
+pub use http_client::HttpClient;

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-15 17:20+0200\n"
+"POT-Creation-Date: 2025-08-22 01:57+0200\n"
 "PO-Revision-Date: 2025-08-12 14:01+0000\n"
 "Last-Translator: Eric Pernas <ericpg76@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -325,7 +325,7 @@ msgid "Copy to clipboard"
 msgstr "Copiar ao portapapeis"
 
 #: data/ui/export_dialog.blp:69 data/ui/response_panel.blp:103
-#: src/widgets/file_dialogs.rs:226
+#: src/widgets/file_dialogs.rs:230
 msgid "Export to file"
 msgstr "Exportar a arquivo"
 
@@ -334,11 +334,13 @@ msgid "Enabled"
 msgstr "Habilitado"
 
 #: data/ui/field_list_box_row.blp:37 data/ui/field_list_box_row.blp:38
+#: data/ui/field_list_box_static_row.blp:36
 #: data/ui/field_placeholder_row.blp:41 data/ui/field_placeholder_row.blp:42
 msgid "Name"
 msgstr "Nome"
 
 #: data/ui/field_list_box_row.blp:48 data/ui/field_list_box_row.blp:49
+#: data/ui/field_list_box_static_row.blp:46
 #: data/ui/field_placeholder_row.blp:52 data/ui/field_placeholder_row.blp:53
 msgid "Value"
 msgstr "Valor"
@@ -354,6 +356,40 @@ msgstr "Alternar segredo"
 #: data/ui/field_list_box_row.blp:76
 msgid "Delete"
 msgstr "Borrar"
+
+#: data/ui/file_body_pane.blp:26
+#, fuzzy
+msgid "File"
+msgstr "Arquivo"
+
+#: data/ui/file_body_pane.blp:30
+msgid "Content Type"
+msgstr ""
+
+#: data/ui/file_body_pane.blp:41
+#, fuzzy
+msgid "or select a file from the file system:"
+msgstr ""
+"Non se puido seleccionar un arquivo válido dende o selector de arquivos"
+
+#: data/ui/file_body_pane.blp:50
+#, fuzzy
+msgid "Select file…"
+msgstr "Seleccionar arquivo"
+
+#: data/ui/file_body_pane.blp:71
+msgid ""
+"You cannot pick a file from the file system until you save this request to "
+"disk."
+msgstr ""
+
+#: data/ui/file_body_pane.blp:97
+msgid ""
+"You can only attach files to a request if they are in the same directory as "
+"the request file, or in a subdirectory. You cannot attach files to a request "
+"if they are in a parent directory or outside the project folder, or use "
+"absolute paths."
+msgstr ""
 
 #: data/ui/mac_menu.blp:21
 msgctxt "menubar"
@@ -437,53 +473,43 @@ msgctxt "menubar"
 msgid "Edit URL"
 msgstr "Editar URL"
 
-#: data/ui/mac_menu.blp:120 data/ui/main_window.blp:223
-#: data/ui/main_window_no_csd.blp:225
+#: data/ui/mac_menu.blp:120 data/ui/settings/page_code_editor.blp:26
 msgid "Body appearance"
 msgstr "Apariencia do corpo"
 
-#: data/ui/mac_menu.blp:124 data/ui/main_window.blp:227
-#: data/ui/main_window_no_csd.blp:229
+#: data/ui/mac_menu.blp:124 data/ui/settings/page_code_editor.blp:29
 msgid "Wrap content"
 msgstr "Adaptar contido"
 
-#: data/ui/mac_menu.blp:129 data/ui/main_window.blp:232
-#: data/ui/main_window_no_csd.blp:234
+#: data/ui/mac_menu.blp:129 data/ui/settings/page_code_editor.blp:34
 msgid "Show line numbers"
 msgstr "Mostrar números de liña"
 
-#: data/ui/mac_menu.blp:136 data/ui/main_window.blp:239
-#: data/ui/main_window_no_csd.blp:241
+#: data/ui/mac_menu.blp:136 data/ui/settings/page_code_editor.blp:41
 msgid "Automatic indentation"
 msgstr "Indentar automáticamente"
 
-#: data/ui/mac_menu.blp:141 data/ui/main_window.blp:244
-#: data/ui/main_window_no_csd.blp:246
+#: data/ui/mac_menu.blp:141 data/ui/settings/page_code_editor.blp:46
 msgid "Indent with spaces"
 msgstr "Indentar con espazos"
 
-#: data/ui/mac_menu.blp:147 data/ui/main_window.blp:250
-#: data/ui/main_window_no_csd.blp:252
+#: data/ui/mac_menu.blp:147 data/ui/settings/page_code_editor.blp:56
 msgid "Indent with tabs"
 msgstr "Indentar con tabuladores"
 
-#: data/ui/mac_menu.blp:153 data/ui/main_window.blp:256
-#: data/ui/main_window_no_csd.blp:258
+#: data/ui/mac_menu.blp:153 data/ui/settings/page_code_editor.blp:67
 msgid "Spaces per tab"
 msgstr "Espazos por tabulador"
 
-#: data/ui/mac_menu.blp:156 data/ui/main_window.blp:259
-#: data/ui/main_window_no_csd.blp:261
+#: data/ui/mac_menu.blp:156
 msgid "2"
 msgstr "2"
 
-#: data/ui/mac_menu.blp:162 data/ui/main_window.blp:265
-#: data/ui/main_window_no_csd.blp:267
+#: data/ui/mac_menu.blp:162
 msgid "4"
 msgstr "4"
 
-#: data/ui/mac_menu.blp:168 data/ui/main_window.blp:271
-#: data/ui/main_window_no_csd.blp:273
+#: data/ui/mac_menu.blp:168
 msgid "8"
 msgstr "8"
 
@@ -526,7 +552,7 @@ msgstr "Ver discusións"
 msgid "Help us translate"
 msgstr "Axúdanos a traducir"
 
-#: data/ui/mac_menu.blp:224 data/ui/settings_dialog.blp:101
+#: data/ui/mac_menu.blp:224 data/ui/settings/page_application.blp:72
 msgid "Check for updates"
 msgstr "Comprobar actualizacións"
 
@@ -541,7 +567,7 @@ msgid "Open"
 msgstr "Abrir"
 
 #: data/ui/main_window.blp:81 data/ui/main_window_no_csd.blp:78
-#: src/widgets/file_dialogs.rs:145 src/widgets/file_dialogs.rs:225
+#: src/widgets/file_dialogs.rs:145 src/widgets/file_dialogs.rs:228
 msgid "Save"
 msgstr "Gardar"
 
@@ -574,19 +600,19 @@ msgid "Export response body…"
 msgstr "Exportar corpo da resposta…"
 
 #: data/ui/main_window.blp:218 data/ui/main_window_no_csd.blp:220
-#: data/ui/settings_dialog.blp:21
+#: data/ui/settings/shell.blp:47
 msgid "Settings"
 msgstr "Axustes"
 
-#: data/ui/main_window.blp:282 data/ui/main_window_no_csd.blp:284
+#: data/ui/main_window.blp:225 data/ui/main_window_no_csd.blp:227
 msgid "Keyboard shortcuts"
 msgstr "Atallos de teclado"
 
-#: data/ui/main_window.blp:287 data/ui/main_window_no_csd.blp:289
+#: data/ui/main_window.blp:230 data/ui/main_window_no_csd.blp:232
 msgid "About Cartero"
 msgstr "Sobre Cartero"
 
-#: data/ui/main_window.blp:292 data/ui/main_window_no_csd.blp:294
+#: data/ui/main_window.blp:235 data/ui/main_window_no_csd.blp:237
 msgid "Quit"
 msgstr "Saír"
 
@@ -663,60 +689,61 @@ msgstr "Resultado seguinte"
 msgid "Close search"
 msgstr "Pechar búsqueda"
 
-#: data/ui/settings_dialog.blp:26
-msgid "Application"
-msgstr "Aplicación"
-
-#: data/ui/settings_dialog.blp:30
-msgid "You need to restart the program for the new locale to be used."
-msgstr "Precisas reiniciar o programa para utilizar o novo idioma."
-
-#: data/ui/settings_dialog.blp:39
-msgid "Language"
-msgstr "Idioma"
-
-#: data/ui/settings_dialog.blp:45
+#: data/ui/settings/page_appearance.blp:22
 msgid "Appearance"
 msgstr "Apariencia"
 
-#: data/ui/settings_dialog.blp:48
+#: data/ui/settings/page_appearance.blp:27
 msgid "Application style"
 msgstr "Estilo da aplicación"
 
 #. Has to be a separate variable due to variable lifetimes.
-#: data/ui/settings_dialog.blp:52 src/windows/settings/locale.rs:81
+#: data/ui/settings/page_appearance.blp:31 src/windows/settings/locale.rs:81
 msgid "Follow system settings"
 msgstr "Seguir opcións do sistema"
 
-#: data/ui/settings_dialog.blp:53
+#: data/ui/settings/page_appearance.blp:32
 msgid "Light mode"
 msgstr "Modo claro"
 
-#: data/ui/settings_dialog.blp:54
+#: data/ui/settings/page_appearance.blp:33
 msgid "Dark mode"
 msgstr "Modo escuro"
 
-#: data/ui/settings_dialog.blp:60
+#: data/ui/settings/page_appearance.blp:41
 msgid "Use system font"
 msgstr "Usar a fonte do sistema"
 
-#: data/ui/settings_dialog.blp:64
+#: data/ui/settings/page_appearance.blp:45
 msgid "Custom font"
 msgstr "Fonte personalizada"
 
-#: data/ui/settings_dialog.blp:71
+#: data/ui/settings/page_appearance.blp:52
 msgid "Click to select a font"
 msgstr "Fai clic para seleccionar unha fonte"
 
-#: data/ui/settings_dialog.blp:80
+#: data/ui/settings/page_application.blp:22
+msgid "Application"
+msgstr "Aplicación"
+
+#: data/ui/settings/page_application.blp:26
+#: data/ui/settings/page_application.blp:33
+msgid "Language"
+msgstr "Idioma"
+
+#: data/ui/settings/page_application.blp:43
+msgid "You need to restart the program for the new locale to be used."
+msgstr "Precisas reiniciar o programa para utilizar o novo idioma."
+
+#: data/ui/settings/page_application.blp:50
 msgid "File settings"
 msgstr "Preferencias de arquivos"
 
-#: data/ui/settings_dialog.blp:83
+#: data/ui/settings/page_application.blp:53
 msgid "Create backup files"
 msgstr "Crear copias de seguridade"
 
-#: data/ui/settings_dialog.blp:84
+#: data/ui/settings/page_application.blp:54
 msgid ""
 "You might not want to enable this if you are already using a version control "
 "such as Git"
@@ -724,43 +751,47 @@ msgstr ""
 "Quizais non queiras activar isto se estás a usar un control de versións coma "
 "Git"
 
-#: data/ui/settings_dialog.blp:90
+#: data/ui/settings/page_application.blp:60
 msgid "Software updates"
 msgstr "Actualizacións de software"
 
-#: data/ui/settings_dialog.blp:97
+#: data/ui/settings/page_application.blp:67
 msgid "Current version"
 msgstr "Versión actual"
 
-#: data/ui/settings_dialog.blp:109 data/ui/settings_dialog.blp:113
+#: data/ui/settings/page_code_editor.blp:22
+msgid "Code editor"
+msgstr ""
+
+#: data/ui/settings/page_http_client.blp:22
 msgid "HTTP Client"
 msgstr "Cliente HTTP"
 
-#: data/ui/settings_dialog.blp:116
+#: data/ui/settings/page_http_client.blp:27
 msgid "Enforce TLS validation"
 msgstr "Esixir validación TLS"
 
-#: data/ui/settings_dialog.blp:117
+#: data/ui/settings/page_http_client.blp:28
 msgid "Cancel a request if the TLS handshake fails"
 msgstr "Cancelar unha petición se o intercambio TLS falla"
 
-#: data/ui/settings_dialog.blp:121
+#: data/ui/settings/page_http_client.blp:32
 msgid "Follow redirects"
 msgstr "Seguir redireccións"
 
-#: data/ui/settings_dialog.blp:122
+#: data/ui/settings/page_http_client.blp:33
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
 msgstr "Seguir facendo peticións se o servidor devolve unha resposta HTTP 3xx"
 
-#: data/ui/settings_dialog.blp:127
+#: data/ui/settings/page_http_client.blp:38
 msgid "Maximum redirects"
 msgstr "Redireccións máximas"
 
-#: data/ui/settings_dialog.blp:139
+#: data/ui/settings/page_http_client.blp:50
 msgid "Request timeout"
 msgstr "Tempo límite de petición"
 
-#: data/ui/settings_dialog.blp:140
+#: data/ui/settings/page_http_client.blp:51
 msgid "Seconds to wait before cancelling the request"
 msgstr "Segundos para esperar antes de cancelar unha petición"
 
@@ -780,7 +811,7 @@ msgstr "O arquivo está corrupto ou non ten datos válidos para esta aplicación
 msgid "The specified URL is not valid"
 msgstr "A URL especificada non é válida"
 
-#: src/interop.rs:56
+#: src/interop.rs:56 src/widgets/dialogs.rs:164
 msgid "Cannot recognise the URL"
 msgstr "Non se pode recoñecer a URL"
 
@@ -793,12 +824,12 @@ msgstr "A URL indicada non ten un protocolo"
 msgid "The protocol {}:// is not supported"
 msgstr "O protocolo {}:// non está soportado"
 
-#: src/interop.rs:62
+#: src/interop.rs:62 src/widgets/dialogs.rs:166
 #, rust-format
 msgid "The variable '{}' is not defined"
 msgstr "A variable '{}' non está definida"
 
-#: src/interop.rs:65
+#: src/interop.rs:65 src/widgets/dialogs.rs:169
 msgid "There was a problem with a variable interpolation, review your inputs"
 msgstr "Houbo un problema interpolando a variable, revisa as entradas"
 
@@ -885,8 +916,8 @@ msgid "Cannot open the requested file"
 msgstr "Non se pode abrir o arquivo solicitado"
 
 #: src/widgets/dialogs.rs:61 src/widgets/dialogs.rs:92
-#: src/widgets/dialogs.rs:109 src/widgets/dialogs.rs:131
-#: src/widgets/dialogs.rs:154 src/widgets/dialogs.rs:167
+#: src/widgets/dialogs.rs:122 src/widgets/dialogs.rs:145
+#: src/widgets/dialogs.rs:158 src/widgets/dialogs.rs:182
 msgid "Close"
 msgstr "Pechar"
 
@@ -908,11 +939,11 @@ msgstr ""
 "O verbo HTTP que se atopou no arquivo era '{}'. Non é válido, así que se "
 "reestablecerá a '{}'."
 
-#: src/widgets/dialogs.rs:124
+#: src/widgets/dialogs.rs:115
 msgid "The requested file cannot be picked"
 msgstr "O arquivo solicitado non puido ser elixido"
 
-#: src/widgets/dialogs.rs:125
+#: src/widgets/dialogs.rs:116
 #, rust-format
 msgid ""
 "The file must be within the same directory as the request or project file or "
@@ -925,16 +956,16 @@ msgstr ""
 "\n"
 "O arquivo '{}' non é parte do directorio '{}'"
 
-#: src/widgets/dialogs.rs:145
+#: src/widgets/dialogs.rs:136
 #, rust-format
 msgid "Cannot save '{}'"
 msgstr "Non se puido gardar '{}'"
 
-#: src/widgets/dialogs.rs:146
+#: src/widgets/dialogs.rs:137
 msgid "Cannot save the requested file"
 msgstr "Non se puido gardar o arquivo solicitado"
 
-#: src/widgets/dialogs.rs:148
+#: src/widgets/dialogs.rs:139
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
@@ -942,16 +973,32 @@ msgstr ""
 "Houbo un erro durante o proceso de gardado. Asume que os teus cambios aínda "
 "non foron gardados."
 
-#: src/widgets/dialogs.rs:162
+#: src/widgets/dialogs.rs:153
 msgid "Could not select a valid file from the file chooser"
 msgstr ""
 "Non se puido seleccionar un arquivo válido dende o selector de arquivos"
 
-#: src/widgets/dialogs.rs:176
+#: src/widgets/dialogs.rs:172
+msgid ""
+"There has been an internal error during the export process. This is most "
+"likely a development error. (If you could report your test case and this "
+"error, we might be able to fix this in the future.)"
+msgstr ""
+
+#: src/widgets/dialogs.rs:173
+msgid "Error cause:"
+msgstr ""
+
+#: src/widgets/dialogs.rs:178
+#, fuzzy
+msgid "Could not export the request"
+msgstr "Non se pode abrir o arquivo solicitado"
+
+#: src/widgets/dialogs.rs:191
 msgid "There are unsaved changes"
 msgstr "Hai cambios sen gardar"
 
-#: src/widgets/dialogs.rs:178
+#: src/widgets/dialogs.rs:193
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
@@ -959,55 +1006,55 @@ msgstr ""
 "Pechar está ventá perderá calquera dato non gardado. De verdade queres "
 "continuar?"
 
-#: src/widgets/dialogs.rs:182
+#: src/widgets/dialogs.rs:197
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: src/widgets/dialogs.rs:183
+#: src/widgets/dialogs.rs:198
 msgid "Close anyway"
 msgstr "Pechar de tódolos modos"
 
-#: src/widgets/dialogs.rs:206
+#: src/widgets/dialogs.rs:221
 #, rust-format
 msgid "Save changes in '{}'?"
 msgstr "Gardar cambios en '{}'?"
 
-#: src/widgets/dialogs.rs:207
+#: src/widgets/dialogs.rs:222
 msgid "Save changes?"
 msgstr "Gardar cambios?"
 
-#: src/widgets/dialogs.rs:212
+#: src/widgets/dialogs.rs:227
 msgid "There are changes that have not been saved yet. What do you want to do?"
 msgstr "Hai cambios que non foron gardados aínda. Que queres facer?"
 
-#: src/widgets/dialogs.rs:216
+#: src/widgets/dialogs.rs:231
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: src/widgets/dialogs.rs:217
+#: src/widgets/dialogs.rs:232
 msgid "_Discard"
 msgstr "_Descartar"
 
-#: src/widgets/dialogs.rs:218
+#: src/widgets/dialogs.rs:233
 msgid "_Save"
 msgstr "_Gardar"
 
-#: src/widgets/endpoint/endpoint_pane.rs:442
-#: src/widgets/endpoint/endpoint_pane.rs:448
-#: src/widgets/endpoint/endpoint_pane.rs:469
+#: src/widgets/endpoint/endpoint_pane.rs:441
+#: src/widgets/endpoint/endpoint_pane.rs:447
+#: src/widgets/endpoint/endpoint_pane.rs:468
 msgid "(generated during request)"
 msgstr ""
 
-#: src/widgets/endpoint/endpoint_pane.rs:497
+#: src/widgets/endpoint/endpoint_pane.rs:496
 #, rust-format
 msgid "Show {} pre-generated headers"
 msgstr ""
 
-#: src/widgets/endpoint/endpoint_pane.rs:710
+#: src/widgets/endpoint/endpoint_pane.rs:701
 msgid "Export request as cURL"
 msgstr "Exportar petición coma cURL"
 
-#: src/widgets/endpoint/endpoint_pane.rs:711
+#: src/widgets/endpoint/endpoint_pane.rs:702
 msgid "Export request as Jetbrains HTTP"
 msgstr "Exportar petición coma Jetbrains HTTP"
 

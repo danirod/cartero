@@ -38,10 +38,15 @@ blueprint_files = [
     'ui/response_headers.blp',
     'ui/response_panel.blp',
     'ui/search_box.blp',
-    'ui/settings_dialog.blp',
     'ui/raw_body_pane.blp',
     'ui/multipart_body_pane.blp',
     'ui/urlencoded_body_pane.blp',
+    'ui/settings/pill.blp',
+    'ui/settings/shell.blp',
+    'ui/settings/page_application.blp',
+    'ui/settings/page_appearance.blp',
+    'ui/settings/page_code_editor.blp',
+    'ui/settings/page_http_client.blp',
 ]
 
 blueprint_targets = []

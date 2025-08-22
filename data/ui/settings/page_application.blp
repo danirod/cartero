@@ -1,0 +1,77 @@
+// Copyright 2024-2025 the Cartero authors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+using Gtk 4.0;
+using Adw 1;
+
+template $CarteroSettingsPageApplication: Adw.PreferencesPage {
+  name: "application";
+  title: _("Application");
+  icon-name: "applications-system-symbolic";
+
+  Adw.PreferencesGroup {
+    title: _("Language");
+
+    Adw.ComboRow option_locale {
+      styles [
+        "property",
+      ]
+
+      title: _("Language");
+      use-subtitle: true;
+    }
+
+    Gtk.Revealer locale_changed {
+      transition-type: slide_down;
+
+      Gtk.Label {
+        margin-top: 12;
+        justify: center;
+        label: _("You need to restart the program for the new locale to be used.");
+        wrap: true;
+      }
+    }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("File settings");
+
+    Adw.SwitchRow option_create_backups {
+      title: _("Create backup files");
+      subtitle: _("You might not want to enable this if you are already using a version control such as Git");
+    }
+  }
+
+  Adw.PreferencesGroup group_updates {
+    visible: false;
+    title: _("Software updates");
+
+    Adw.ActionRow version_id {
+      styles [
+        "property",
+      ]
+
+      title: _("Current version");
+      subtitle-selectable: true;
+
+      Gtk.Button {
+        valign: center;
+        label: _("Check for updates");
+        action-name: "app.check-updates";
+      }
+    }
+  }
+}

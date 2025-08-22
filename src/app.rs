@@ -16,6 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use adw::prelude::*;
+use gettextrs::gettext;
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
 use gtk::gio::{self, ActionEntryBuilder, Settings};
@@ -23,7 +24,6 @@ use gtk::prelude::ActionMapExtManual;
 
 use crate::config::{APP_ID, BASE_ID, RESOURCE_PATH};
 use crate::win::CarteroWindow;
-use crate::windows::SettingsDialog;
 
 #[macro_export]
 macro_rules! accelerator {
@@ -199,9 +199,13 @@ impl CarteroApplication {
                 #[weak(rename_to = app)]
                 self,
                 move |_, _, _| {
-                    if let Some(window) = app.active_window() {
-                        SettingsDialog::present_for_window(&window);
-                    }
+                    let settings_shell = crate::windows::settings::Shell::new();
+                    let window = app.new_window(&settings_shell);
+                    window.set_modal(true);
+                    window.set_default_size(700, 540);
+                    window.set_title(Some(&gettext("Settings")));
+                    window.set_resizable(false);
+                    window.present();
                 }
             ))
             .build();
@@ -227,6 +231,27 @@ impl CarteroApplication {
                 }
             ))
             .build();
+
+        #[cfg(feature = "app_updater")]
+        {
+            let action_check_updates = ActionEntryBuilder::new("check-updates")
+                .activate(|app: &CarteroApplication, _, _| {
+                    glib::spawn_future_local(glib::clone!(
+                        #[weak]
+                        app,
+                        async move {
+                            let action = app
+                                .lookup_action("check-updates")
+                                .expect("Action not registered?");
+                            action.set_property("enabled", false);
+                            app.action_check_updates().await;
+                            action.set_property("enabled", true);
+                        }
+                    ));
+                })
+                .build();
+            self.add_action_entries([action_check_updates]);
+        }
 
         self.add_action_entries([settings, about, quit]);
 
@@ -282,5 +307,52 @@ impl CarteroApplication {
                 }
             })
             .collect()
+    }
+
+    #[cfg(feature = "app_updater")]
+    async fn action_check_updates(&self) {
+        use crate::updates::AppUpdateDialogResponse;
+
+        let root = self.active_window().expect("No active window?");
+
+        match crate::updates::get_latest_version().await {
+            None => crate::updates::notify_check_update_error(&root).await,
+            Some(response) => {
+                use crate::config::VERSION;
+
+                if !response.needs_update(VERSION) {
+                    crate::updates::notify_latest_version(&root).await;
+                } else {
+                    match crate::updates::notify_app_available(
+                        &root,
+                        &response.get_latest_version(),
+                    )
+                    .await
+                    {
+                        AppUpdateDialogResponse::Skip => {}
+                        AppUpdateDialogResponse::OpenWebsite => {
+                            let _ = gtk::UriLauncher::new("https://cartero.danirod.es")
+                                .launch_future(gtk::Window::NONE)
+                                .await;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    pub fn new_window<T>(&self, child: &T) -> gtk::ApplicationWindow
+    where
+        T: IsA<gtk::Widget>,
+    {
+        if cfg!(feature = "csd") {
+            let window = adw::ApplicationWindow::new(self);
+            window.set_content(Some(child));
+            window.upcast()
+        } else {
+            let window = gtk::ApplicationWindow::new(self);
+            window.set_child(Some(child));
+            window.upcast()
+        }
     }
 }

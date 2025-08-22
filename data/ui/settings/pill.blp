@@ -14,6 +14,24 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
+using Gtk 4.0;
 
-pub mod common;
-pub mod settings;
+template $CarteroSettingsPill: Gtk.Box {
+  hexpand: false;
+  vexpand: false;
+  orientation: horizontal;
+  spacing: 12;
+  margin-start: 6;
+  margin-end: 6;
+  margin-top: 12;
+  margin-bottom: 12;
+
+  Gtk.Image {
+    icon-name: bind template.icon-name;
+    accessible-role: presentation;
+  }
+
+  Gtk.Label {
+    label: bind template.label;
+  }
+}

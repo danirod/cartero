@@ -1,0 +1,102 @@
+// Copyright 2024-2025 the Cartero authors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+using Gtk 4.0;
+using Adw 1;
+
+template $CarteroSettingsPageCodeEditor: Adw.PreferencesPage {
+  name: "code-editor";
+  title: _("Code editor");
+  icon-name: "code-symbolic";
+
+  Adw.PreferencesGroup {
+    title: _("Body appearance");
+
+    Adw.SwitchRow {
+      title: _("Wrap content");
+      action-name: "widget.body-wrap";
+    }
+
+    Adw.SwitchRow {
+      title: _("Show line numbers");
+      action-name: "widget.show-line-numbers";
+    }
+  }
+
+  Adw.PreferencesGroup {
+    Adw.SwitchRow option_auto_indent {
+      title: _("Automatic indentation");
+      action-name: "widget.auto-indent";
+    }
+
+    Adw.ActionRow {
+      title: _("Indent with spaces");
+
+      [prefix]
+      Gtk.CheckButton indent_mode_spaces {
+        action-name: "widget.indent-style";
+        action-target: "'spaces'";
+      }
+    }
+
+    Adw.ActionRow {
+      title: _("Indent with tabs");
+
+      [prefix]
+      Gtk.CheckButton indent_mode_tabs {
+        group: indent_mode_spaces;
+        action-name: "widget.indent-style";
+        action-target: "'tabs'";
+      }
+    }
+
+    Adw.ActionRow option_spaces_per_tab {
+      title: _("Spaces per tab");
+
+      Gtk.Box {
+        styles [
+          "linked",
+        ]
+
+        halign: center;
+        valign: center;
+        hexpand: false;
+        vexpand: false;
+        orientation: horizontal;
+
+        Gtk.ToggleButton tab_width {
+          action-name: "widget.tab-width";
+          action-target: "'2'";
+          label: "2";
+        }
+
+        Gtk.ToggleButton {
+          group: tab_width;
+          action-name: "widget.tab-width";
+          action-target: "'4'";
+          label: "4";
+        }
+
+        Gtk.ToggleButton {
+          group: tab_width;
+          action-name: "widget.tab-width";
+          action-target: "'8'";
+          label: "8";
+        }
+      }
+    }
+  }
+}

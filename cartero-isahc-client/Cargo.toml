@@ -26,4 +26,4 @@ cartero_objects = { path = "../cartero-objects" }
 cartero_http = { path = "../cartero-http" }
 isahc = "1.7.2"
 curl = "0.4.48"
-futures-lite = "2.6.0"
+futures-lite.workspace = true

@@ -30,4 +30,4 @@ glib.workspace = true
 gio.workspace = true
 serde.workspace = true
 toml.workspace = true
-toml_edit = "0.22.27"
+toml_edit = { version = "0.23.3", features = ["serde"] }

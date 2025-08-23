@@ -78,7 +78,27 @@ impl Default for FieldTable {
     }
 }
 
+pub enum CombinePriority {
+    Prepend,
+    Append,
+}
+
 impl FieldTable {
+    /// Will merge the contents of the given FieldTable into this FieldTable.
+    /// Depending on the priority given, the elements will be prepended or
+    /// appended. This is important because it affects how template processors
+    /// will perceive the combined variables. If appended, they will have more
+    /// priority if a variable has the same name.
+    pub fn combine(&self, another: &Self, priority: CombinePriority) {
+        for n in 0..another.n_items() {
+            let next = another.field(n).expect("Empty but not empty?");
+            match priority {
+                CombinePriority::Prepend => self.insert_at(&next, n),
+                CombinePriority::Append => self.insert(&next),
+            }
+        }
+    }
+
     /// Register the change signal for this field, so that whenever the inner
     /// Field changes because it emits a "change" signal, this table broadcasts
     /// the same event upwards.
@@ -510,6 +530,141 @@ mod tests {
         assert_eq!(table.n_items(), 0);
     }
 
+    #[test]
+    fn combine_prepend() {
+        let f1 = Field::builder()
+            .key("User-Agent")
+            .value("Mozilla/5.0")
+            .build();
+        let f2 = Field::builder()
+            .key("Content-Type")
+            .value("text/html")
+            .build();
+        let f3 = Field::builder().key("Host").value("example.com").build();
+        let ft1 = FieldTable::from_iter(vec![f1, f2]);
+        let ft2 = FieldTable::from_iter(vec![f3]);
+        assert_eq!(2, ft1.n_items());
+        ft1.combine(&ft2, CombinePriority::Prepend);
+        assert_eq!(3, ft1.n_items());
+        assert_eq!("User-Agent", ft1.field(1).unwrap().key(),);
+        assert_eq!("Content-Type", ft1.field(2).unwrap().key(),);
+        assert_eq!("Host", ft1.field(0).unwrap().key(),);
+    }
+
+    #[test]
+    fn combine_append() {
+        let f1 = Field::builder()
+            .key("User-Agent")
+            .value("Mozilla/5.0")
+            .build();
+        let f2 = Field::builder()
+            .key("Content-Type")
+            .value("text/html")
+            .build();
+        let f3 = Field::builder().key("Host").value("example.com").build();
+        let ft1 = FieldTable::from_iter(vec![f1, f2]);
+        let ft2 = FieldTable::from_iter(vec![f3]);
+        assert_eq!(2, ft1.n_items());
+        ft1.combine(&ft2, CombinePriority::Append);
+        assert_eq!(3, ft1.n_items());
+        assert_eq!("User-Agent", ft1.field(0).unwrap().key(),);
+        assert_eq!("Content-Type", ft1.field(1).unwrap().key(),);
+        assert_eq!("Host", ft1.field(2).unwrap().key(),);
+    }
+
+    #[test]
+    fn combine_append_may_change_priorities() {
+        let staging = Field::builder().key("ENVIRONMENT").value("staging").build();
+        let production = Field::builder()
+            .key("ENVIRONMENT")
+            .value("production")
+            .build();
+        let table = FieldTable::from_iter(vec![staging]);
+
+        let values = table.template_processor();
+        let rendered = values.render("{{ENVIRONMENT}}");
+        assert_eq!(rendered, Ok("staging".to_string()));
+
+        let incoming = FieldTable::from_iter(vec![production]);
+        table.combine(&incoming, CombinePriority::Append);
+
+        let values = table.template_processor();
+        let rendered = values.render("{{ENVIRONMENT}}");
+        assert_eq!(rendered, Ok("production".to_string()));
+    }
+
+    #[test]
+    fn combine_append_may_not_change_priorities_if_variable_is_disabled() {
+        let staging = Field::builder().key("ENVIRONMENT").value("staging").build();
+        let production = Field::builder()
+            .key("ENVIRONMENT")
+            .value("production")
+            .active(false)
+            .build();
+        let table = FieldTable::from_iter(vec![staging]);
+
+        let values = table.template_processor();
+        let rendered = values.render("{{ENVIRONMENT}}");
+        assert_eq!(rendered, Ok("staging".to_string()));
+
+        let incoming = FieldTable::from_iter(vec![production]);
+        table.combine(&incoming, CombinePriority::Append);
+
+        let values = table.template_processor();
+        let rendered = values.render("{{ENVIRONMENT}}");
+        assert_eq!(rendered, Ok("staging".to_string()));
+    }
+
+    #[test]
+    fn combine_prepend_may_not_change_priorities() {
+        let staging = Field::builder().key("ENVIRONMENT").value("staging").build();
+        let production = Field::builder()
+            .key("ENVIRONMENT")
+            .value("production")
+            .build();
+        let table = FieldTable::from_iter(vec![staging]);
+
+        let values = table.template_processor();
+        let rendered = values.render("{{ENVIRONMENT}}");
+        assert_eq!(rendered, Ok("staging".to_string()));
+
+        let incoming = FieldTable::from_iter(vec![production]);
+        table.combine(&incoming, CombinePriority::Prepend);
+
+        let values = table.template_processor();
+        let rendered = values.render("{{ENVIRONMENT}}");
+        assert_eq!(rendered, Ok("staging".to_string()));
+    }
+
+    #[test]
+    fn combine_prepend_may_change_priorities_when_disabled() {
+        let staging = Field::builder()
+            .key("ENVIRONMENT")
+            .value("staging")
+            .active(false)
+            .build();
+        let production = Field::builder()
+            .key("ENVIRONMENT")
+            .value("production")
+            .build();
+        let table = FieldTable::from_iter(vec![staging]);
+
+        let values = table.template_processor();
+        let rendered = values.render("{{ENVIRONMENT}}");
+        assert_eq!(
+            rendered,
+            Err(srtemplate::Error::VariableNotFound(
+                "ENVIRONMENT".to_string()
+            ))
+        );
+
+        let incoming = FieldTable::from_iter(vec![production]);
+        table.combine(&incoming, CombinePriority::Prepend);
+
+        let values = table.template_processor();
+        let rendered = values.render("{{ENVIRONMENT}}");
+        assert_eq!(rendered, Ok("production".to_string()));
+    }
     #[test]
     pub fn test_valid_from_iter_vec() {
         let field = Field::builder()

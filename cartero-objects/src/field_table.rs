@@ -124,7 +124,46 @@ impl FieldTable {
         let len = { self.imp().fields.borrow().len() };
         self.connect_signal(field, len - 1);
         self.items_changed((len - 1) as u32, 0, 1);
-        self.emit_by_name::<()>("changed", &[&""]);
+        let value = format!("[{}]", len - 1);
+        self.emit_by_name::<()>("changed", &[&value]);
+    }
+
+    /// Inserts a field into the table so that it lands at the requested position.
+    ///
+    /// When the given `pos` value is the position of a current value in the
+    /// FieldTable (so, when `pos` is a number in inclusive range 0 to n_items(),
+    /// the new item is added at that position and everything is moved one position
+    /// to the right.
+    ///
+    /// When the given `pos` is higher than the current n_items(), it behaves like
+    /// `insert()`.
+    pub fn insert_at(&self, field: &Field, pos: u32) {
+        if pos >= self.n_items() {
+            self.insert(field);
+            return;
+        }
+
+        let upos = pos as usize;
+        {
+            let mut fields = self.imp().fields.borrow_mut();
+            fields.insert(upos, field.clone());
+
+            // Signals from elements that have shifted to the right need to change
+            // because they are using the old index position.
+            for i in (upos + 1)..fields.len() {
+                self.disconnect_signal(&fields[i]);
+            }
+
+            // Signals from elements that have shifted to the right need to change
+            // because they are using the old index position.
+            for i in (upos)..fields.len() {
+                self.connect_signal(&fields[i], i);
+            }
+        }
+
+        self.items_changed(pos, 0, 1);
+        let value = format!("[{}]", pos);
+        self.emit_by_name::<()>("changed", &[&value]);
     }
 
     pub fn field(&self, pos: u32) -> Option<Field> {
@@ -503,6 +542,228 @@ mod tests {
         fields.insert(field2);
         let table = FieldTable::from_iter(fields);
         assert_eq!(2, table.n_items());
+    }
+
+    #[test]
+    fn test_insert_prepend() {
+        let f1 = Field::builder().key("HOST").value("example.com").build();
+        let f2 = Field::builder().key("TOKEN").value("123412341234").build();
+        let f3 = Field::builder().key("STAGE").value("staging").build();
+        let ft = FieldTable::from_iter(vec![f1, f2, f3]);
+
+        let fnew = Field::builder().key("DB").value("staging").build();
+        ft.insert_at(&fnew, 0);
+
+        assert_eq!(ft.n_items(), 4);
+        assert_eq!("DB", ft.field(0).unwrap().key());
+        assert_eq!("HOST", ft.field(1).unwrap().key());
+        assert_eq!("TOKEN", ft.field(2).unwrap().key());
+        assert_eq!("STAGE", ft.field(3).unwrap().key());
+    }
+
+    #[test]
+    fn test_insert_prepend_keeps_signal_order() {
+        let arc = Arc::new(Mutex::new(Vec::new()));
+
+        let f1 = Field::builder().key("HOST").value("example.com").build();
+        let f2 = Field::builder().key("TOKEN").value("123412341234").build();
+        let f3 = Field::builder().key("STAGE").value("staging").build();
+        let ft = FieldTable::from_iter(vec![f1.clone(), f2.clone(), f3.clone()]);
+
+        let sub_arc = Arc::clone(&arc);
+        ft.connect_local("changed", true, move |val| {
+            let mut messages = sub_arc.lock().expect("Cannot lock the mutex");
+            messages.push(val[1].get::<String>().expect("Value not a string?"));
+            None
+        });
+
+        // Let's check the current state of the field table.
+        f1.set_masked(true);
+        f2.set_masked(true);
+        f3.set_masked(true);
+        {
+            let messages = arc.lock().expect("Cannot lock the mutex");
+            assert_eq!(*messages, vec!["[0].masked", "[1].masked", "[2].masked"]);
+        }
+
+        // Reset to default and clear check array.
+        f1.set_masked(false);
+        f2.set_masked(false);
+        f3.set_masked(false);
+        {
+            let mut messages = arc.lock().expect("Cannot lock the mutex");
+            messages.clear();
+        }
+
+        let fnew = Field::builder().key("DB").value("staging").build();
+        ft.insert_at(&fnew, 0);
+
+        // The order must have swapped.
+        f1.set_masked(true);
+        f2.set_masked(true);
+        f3.set_masked(true);
+        fnew.set_masked(true);
+        {
+            let messages = arc.lock().expect("Cannot lock the mutex");
+            assert_eq!(
+                *messages,
+                vec![
+                    "[0]",
+                    "[1].masked",
+                    "[2].masked",
+                    "[3].masked",
+                    "[0].masked"
+                ]
+            );
+        }
+    }
+
+    #[test]
+    fn test_insert_mid() {
+        let f1 = Field::builder().key("HOST").value("example.com").build();
+        let f2 = Field::builder().key("TOKEN").value("123412341234").build();
+        let f3 = Field::builder().key("STAGE").value("staging").build();
+        let ft = FieldTable::from_iter(vec![f1, f2, f3]);
+
+        let fnew = Field::builder().key("DB").value("staging").build();
+        ft.insert_at(&fnew, 2);
+
+        assert_eq!(ft.n_items(), 4);
+        assert_eq!("HOST", ft.field(0).unwrap().key());
+        assert_eq!("TOKEN", ft.field(1).unwrap().key());
+        assert_eq!("DB", ft.field(2).unwrap().key());
+        assert_eq!("STAGE", ft.field(3).unwrap().key());
+    }
+
+    #[test]
+    fn test_insert_mid_keeps_signal_order() {
+        let arc = Arc::new(Mutex::new(Vec::new()));
+
+        let f1 = Field::builder().key("HOST").value("example.com").build();
+        let f2 = Field::builder().key("TOKEN").value("123412341234").build();
+        let f3 = Field::builder().key("STAGE").value("staging").build();
+        let ft = FieldTable::from_iter(vec![f1.clone(), f2.clone(), f3.clone()]);
+
+        let sub_arc = Arc::clone(&arc);
+        ft.connect_local("changed", true, move |val| {
+            let mut messages = sub_arc.lock().expect("Cannot lock the mutex");
+            messages.push(val[1].get::<String>().expect("Value not a string?"));
+            None
+        });
+
+        // Let's check the current state of the field table.
+        f1.set_masked(true);
+        f2.set_masked(true);
+        f3.set_masked(true);
+        {
+            let messages = arc.lock().expect("Cannot lock the mutex");
+            assert_eq!(*messages, vec!["[0].masked", "[1].masked", "[2].masked"]);
+        }
+
+        // Reset to default and clear check array.
+        f1.set_masked(false);
+        f2.set_masked(false);
+        f3.set_masked(false);
+        {
+            let mut messages = arc.lock().expect("Cannot lock the mutex");
+            messages.clear();
+        }
+
+        let fnew = Field::builder().key("DB").value("staging").build();
+        ft.insert_at(&fnew, 2);
+
+        // The order must have swapped.
+        f1.set_masked(true);
+        f2.set_masked(true);
+        f3.set_masked(true);
+        fnew.set_masked(true);
+        {
+            let messages = arc.lock().expect("Cannot lock the mutex");
+            assert_eq!(
+                *messages,
+                vec![
+                    "[2]",
+                    "[0].masked",
+                    "[1].masked",
+                    "[3].masked",
+                    "[2].masked"
+                ]
+            );
+        }
+    }
+
+    #[test]
+    fn test_insert_append() {
+        let f1 = Field::builder().key("HOST").value("example.com").build();
+        let f2 = Field::builder().key("TOKEN").value("123412341234").build();
+        let f3 = Field::builder().key("STAGE").value("staging").build();
+        let ft = FieldTable::from_iter(vec![f1, f2, f3]);
+
+        let fnew = Field::builder().key("DB").value("staging").build();
+        ft.insert_at(&fnew, 4);
+
+        assert_eq!(ft.n_items(), 4);
+        assert_eq!("HOST", ft.field(0).unwrap().key());
+        assert_eq!("TOKEN", ft.field(1).unwrap().key());
+        assert_eq!("STAGE", ft.field(2).unwrap().key());
+        assert_eq!("DB", ft.field(3).unwrap().key());
+    }
+
+    #[test]
+    fn test_insert_append_keeps_signal_order() {
+        let arc = Arc::new(Mutex::new(Vec::new()));
+
+        let f1 = Field::builder().key("HOST").value("example.com").build();
+        let f2 = Field::builder().key("TOKEN").value("123412341234").build();
+        let f3 = Field::builder().key("STAGE").value("staging").build();
+        let ft = FieldTable::from_iter(vec![f1.clone(), f2.clone(), f3.clone()]);
+
+        let sub_arc = Arc::clone(&arc);
+        ft.connect_local("changed", true, move |val| {
+            let mut messages = sub_arc.lock().expect("Cannot lock the mutex");
+            messages.push(val[1].get::<String>().expect("Value not a string?"));
+            None
+        });
+
+        // Let's check the current state of the field table.
+        f1.set_masked(true);
+        f2.set_masked(true);
+        f3.set_masked(true);
+        {
+            let messages = arc.lock().expect("Cannot lock the mutex");
+            assert_eq!(*messages, vec!["[0].masked", "[1].masked", "[2].masked"]);
+        }
+
+        // Reset to default and clear check array.
+        f1.set_masked(false);
+        f2.set_masked(false);
+        f3.set_masked(false);
+        {
+            let mut messages = arc.lock().expect("Cannot lock the mutex");
+            messages.clear();
+        }
+
+        let fnew = Field::builder().key("DB").value("staging").build();
+        ft.insert_at(&fnew, 4);
+
+        // The order must have swapped.
+        f1.set_masked(true);
+        f2.set_masked(true);
+        f3.set_masked(true);
+        fnew.set_masked(true);
+        {
+            let messages = arc.lock().expect("Cannot lock the mutex");
+            assert_eq!(
+                *messages,
+                vec![
+                    "[3]",
+                    "[0].masked",
+                    "[1].masked",
+                    "[2].masked",
+                    "[3].masked"
+                ]
+            );
+        }
     }
 
     #[test]

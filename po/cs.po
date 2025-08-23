@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-22 01:57+0200\n"
-"PO-Revision-Date: 2025-04-16 11:02+0000\n"
+"PO-Revision-Date: 2025-08-24 01:02+0000\n"
 "Last-Translator: vesp <vesp@post.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/cartero/cartero/cs/"
 ">\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.11.1-dev\n"
+"X-Generator: Weblate 5.13\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -218,17 +218,17 @@ msgstr "Operace s požadavky"
 #: data/gtk/help_overlay.blp:71
 msgctxt "shortcuts window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Přiblížit"
 
 #: data/gtk/help_overlay.blp:76
 msgctxt "shortcuts window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Oddálit"
 
 #: data/gtk/help_overlay.blp:81
 msgctxt "shortcuts window"
 msgid "Reset zoom"
-msgstr ""
+msgstr "Obnovit přiblížení"
 
 #: data/gtk/help_overlay.blp:86
 #, fuzzy
@@ -334,7 +334,7 @@ msgstr "Exportovat do"
 
 #: data/ui/field_list_box_row.blp:23 data/ui/field_placeholder_row.blp:27
 msgid "Enabled"
-msgstr ""
+msgstr "Povoleno"
 
 #: data/ui/field_list_box_row.blp:37 data/ui/field_list_box_row.blp:38
 #: data/ui/field_list_box_static_row.blp:36
@@ -362,7 +362,7 @@ msgstr "Smazat"
 
 #: data/ui/file_body_pane.blp:26
 msgid "File"
-msgstr ""
+msgstr "Soubor"
 
 #: data/ui/file_body_pane.blp:30
 msgid "Content Type"
@@ -375,13 +375,15 @@ msgstr "Nelze vybrat platný soubor z nástroje pro výběr souborů"
 
 #: data/ui/file_body_pane.blp:50
 msgid "Select file…"
-msgstr ""
+msgstr "Vybrat soubor…"
 
 #: data/ui/file_body_pane.blp:71
 msgid ""
 "You cannot pick a file from the file system until you save this request to "
 "disk."
 msgstr ""
+"Nemůžete vybrat soubor ze souborového systému, dokud tento požadavek "
+"neuložíte na disk."
 
 #: data/ui/file_body_pane.blp:97
 msgid ""
@@ -390,11 +392,15 @@ msgid ""
 "if they are in a parent directory or outside the project folder, or use "
 "absolute paths."
 msgstr ""
+"Můžete přiložit pouze soubory, pokud jsou uloženy ve stejném adresáři jako "
+"soubor s požadavkem, nebo v podadresáři. Nemůžete přiložit soubory s "
+"požadavkem, pokud jsou v nadřazeném adresáři nebo mimo složku projektu a "
+"nebo používat absolutní cesty."
 
 #: data/ui/mac_menu.blp:21
 msgctxt "menubar"
 msgid "File"
-msgstr ""
+msgstr "Soubor"
 
 #: data/ui/mac_menu.blp:25 data/ui/main_window.blp:135
 #: data/ui/main_window.blp:191 data/ui/main_window_no_csd.blp:136
@@ -424,24 +430,25 @@ msgid "Close tab"
 msgstr "Zavřít panel"
 
 #: data/ui/mac_menu.blp:54
+#, fuzzy
 msgctxt "menubar"
 msgid "Edit"
-msgstr ""
+msgstr "Upravit"
 
 #: data/ui/mac_menu.blp:58
 msgctxt "menubar"
 msgid "Undo"
-msgstr ""
+msgstr "Zpět"
 
 #: data/ui/mac_menu.blp:63
 msgctxt "menubar"
 msgid "Redo"
-msgstr ""
+msgstr "Znovu"
 
 #: data/ui/mac_menu.blp:70
 msgctxt "menubar"
 msgid "Cut"
-msgstr ""
+msgstr "Vyjmout"
 
 #: data/ui/mac_menu.blp:75
 #, fuzzy
@@ -452,7 +459,7 @@ msgstr "Kopírovat"
 #: data/ui/mac_menu.blp:80
 msgctxt "menubar"
 msgid "Paste"
-msgstr ""
+msgstr "Vložit"
 
 #: data/ui/mac_menu.blp:85
 #, fuzzy
@@ -463,7 +470,7 @@ msgstr "Smazat"
 #: data/ui/mac_menu.blp:92
 msgctxt "menubar"
 msgid "Select All"
-msgstr ""
+msgstr "Vybrat vše"
 
 #: data/ui/mac_menu.blp:99
 msgctxt "menubar"
@@ -471,9 +478,10 @@ msgid "Endpoint"
 msgstr ""
 
 #: data/ui/mac_menu.blp:103
+#, fuzzy
 msgctxt "menubar"
 msgid "Edit URL"
-msgstr ""
+msgstr "Upravit URL"
 
 #: data/ui/mac_menu.blp:120 data/ui/settings/page_code_editor.blp:26
 msgid "Body appearance"
@@ -518,12 +526,12 @@ msgstr "8"
 #: data/ui/mac_menu.blp:179
 msgctxt "menubar"
 msgid "Window"
-msgstr ""
+msgstr "Okno"
 
 #: data/ui/mac_menu.blp:183
 msgctxt "menubar"
 msgid "Minimize"
-msgstr ""
+msgstr "Minimalizovat"
 
 #. TRANSLATORS: This item will only be visible in macOS, where the convention is to call it "zoom" instead of "maximize"
 #: data/ui/mac_menu.blp:189
@@ -532,9 +540,10 @@ msgid "Zoom"
 msgstr ""
 
 #: data/ui/mac_menu.blp:196
+#, fuzzy
 msgctxt "menubar"
 msgid "Help"
-msgstr ""
+msgstr "Nápověda"
 
 #: data/ui/mac_menu.blp:200 src/win.rs:629
 msgid "User manual"
@@ -543,12 +552,12 @@ msgstr "Uživatelská příručka"
 #: data/ui/mac_menu.blp:205
 msgctxt "menubar"
 msgid "Report a bug"
-msgstr ""
+msgstr "Nahlásit chybu"
 
 #: data/ui/mac_menu.blp:210
 msgctxt "menubar"
 msgid "View discussions"
-msgstr ""
+msgstr "Zobrazit diskuze"
 
 #: data/ui/mac_menu.blp:217 src/win.rs:631
 msgid "Help us translate"
@@ -579,7 +588,7 @@ msgstr "Exportovat požadavek"
 
 #: data/ui/main_window.blp:97
 msgid "Menu"
-msgstr ""
+msgstr "Nabídka"
 
 #: data/ui/main_window.blp:115 data/ui/main_window_no_csd.blp:116
 msgid "Welcome to Cartero"
@@ -667,12 +676,13 @@ msgstr ""
 "zobrazen zde."
 
 #: data/ui/response_panel.blp:68
+#, fuzzy
 msgid "Response body"
-msgstr ""
+msgstr "Tělo odpovědi"
 
 #: data/ui/response_panel.blp:87
 msgid "Binary response received"
-msgstr ""
+msgstr "Přijata binární odpověď"
 
 #: data/ui/response_panel.blp:88
 msgid "The response of this request should not be rendered in a text view."
@@ -730,7 +740,7 @@ msgstr "Vlastní písmo"
 
 #: data/ui/settings/page_appearance.blp:52
 msgid "Click to select a font"
-msgstr ""
+msgstr "Klikněte pro výběr fontu"
 
 #: data/ui/settings/page_application.blp:22
 msgid "Application"
@@ -739,11 +749,11 @@ msgstr "Aplikace"
 #: data/ui/settings/page_application.blp:26
 #: data/ui/settings/page_application.blp:33
 msgid "Language"
-msgstr ""
+msgstr "Jazyk"
 
 #: data/ui/settings/page_application.blp:43
 msgid "You need to restart the program for the new locale to be used."
-msgstr ""
+msgstr "Musíte restartovat aplikaci, aby bylo použito nové místní nastavení."
 
 #: data/ui/settings/page_application.blp:50
 msgid "File settings"
@@ -770,8 +780,9 @@ msgid "Current version"
 msgstr "Aktuální verze"
 
 #: data/ui/settings/page_code_editor.blp:22
+#, fuzzy
 msgid "Code editor"
-msgstr ""
+msgstr "Editor kódu"
 
 #: data/ui/settings/page_http_client.blp:22
 msgid "HTTP Client"
@@ -865,7 +876,7 @@ msgstr "Nelze uložit požadovaný soubor"
 #: src/interop.rs:78
 #, rust-format
 msgid "The file '{}' cannot be accessed due to the security policy"
-msgstr ""
+msgstr "K souboru '{}' nelze přistupit kvůli bezpečnostní politice"
 
 #: src/interop.rs:82
 msgid "There is an input/output error"

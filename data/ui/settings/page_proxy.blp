@@ -97,36 +97,63 @@ template $CarteroSettingsPageProxy: Adw.PreferencesPage {
     title: _("Environment variables");
     description: _("Cartero supports the use of the standard http_proxy, https_proxy and no_proxy environment variables to provide the system proxy settings.");
 
-    Adw.SwitchRow option_use_proxy_std {
-      title: _("Use environment variables if proxy settings are blank");
-      action-name: "widget.proxy-use-env";
-    }
+    Gtk.Box {
+      orientation: vertical;
+      spacing: 12;
 
-    Adw.ActionRow option_std_http {
-      styles [
-        "property",
-      ]
+      Gtk.ListBox {
+        selection-mode: none;
 
-      title: "http_proxy";
-      subtitle: _("(empty)");
-    }
+        styles [
+          "boxed-list",
+        ]
 
-    Adw.ActionRow option_std_https {
-      styles [
-        "property",
-      ]
+        Adw.SwitchRow option_use_proxy_std {
+          title: _("Use environment variables as a fallback");
+          action-name: "widget.proxy-use-env";
+        }
+      }
 
-      title: "https_proxy";
-      subtitle: _("(empty)");
-    }
+      Gtk.ListBox {
+        selection-mode: none;
 
-    Adw.ActionRow option_std_no_proxy {
-      styles [
-        "property",
-      ]
+        styles [
+          "boxed-list",
+        ]
 
-      title: "no_proxy";
-      subtitle: _("(empty)");
+        Adw.ActionRow option_std_http {
+          styles [
+            "property",
+          ]
+
+          focusable: false;
+          selectable: false;
+          title: "http_proxy";
+          subtitle: _("(empty)");
+        }
+
+        Adw.ActionRow option_std_https {
+          styles [
+            "property",
+          ]
+
+          focusable: false;
+          selectable: false;
+          title: "https_proxy";
+          subtitle: _("(empty)");
+        }
+
+        Adw.ActionRow option_std_no_proxy {
+          styles [
+            "property",
+          ]
+
+          focusable: false;
+          selectable: false;
+          title: "no_proxy";
+          subtitle: _("(empty)");
+        }
+      }
     }
   }
 }

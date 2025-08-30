@@ -237,11 +237,14 @@ mod imp {
                 .and_downcast::<gtk::Window>()
                 .expect("Widget is not attached to a window");
             let body = formatx!(
-                gettext("Delete the host identifier '{}' from the list of excluded proxy hosts?"),
+                gettext("Delete '{}' from the list of excluded hosts for the proxy?"),
                 host
             )
             .unwrap();
-            let dialog = adw::AlertDialog::builder().body(&body).build();
+            let dialog = adw::AlertDialog::builder()
+                .heading(gettext("Delete identifier?"))
+                .body(&body)
+                .build();
             dialog.add_response("cancel", &gettext("Cancel"));
             dialog.add_response("remove", &gettext("Remove"));
             dialog.set_response_appearance("remove", adw::ResponseAppearance::Destructive);
@@ -272,6 +275,7 @@ mod imp {
                     let action_row = adw::ActionRow::builder()
                         .title(&host)
                         .selectable(false)
+                        .title_selectable(true)
                         .build();
                     let remove_host = gtk::Button::builder()
                         .icon_name("user-trash-symbolic")

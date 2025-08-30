@@ -31,10 +31,11 @@ mod imp {
     use cartero_http::RequestError;
     use cartero_isahc_client::default_user_agent;
     use cartero_objects::{
-        Field, Request, RequestAuthenticationDataExt, RequestBodyDataExt, RequestBodyType, Response,
+        EnvFile, Field, Request, RequestAuthenticationDataExt, RequestBodyDataExt, RequestBodyType,
+        Response,
     };
     use formatx::formatx;
-    use gettextrs::gettext;
+    use gettextrs::{gettext, ngettext};
     use glib::subclass::InitializingObject;
     use glib::{JoinHandle, Properties};
     use gtk::gio::{self, Cancellable, FileCreateFlags, SimpleAction, SimpleActionGroup};
@@ -42,6 +43,7 @@ mod imp {
     use gtk::{prelude::*, ClosureExpression, CompositeTemplate};
 
     use crate::app::CarteroApplication;
+    use crate::config::BASE_ID;
     use crate::interop::{InnerError, LoadResult, SaveResult};
     use crate::widgets::authentication::AuthenticationPane;
     use crate::widgets::dialogs::export_dialog_error;
@@ -79,6 +81,12 @@ mod imp {
         toggle_pregenerated: TemplateChild<gtk::ToggleButton>,
         #[template_child]
         pregenerated_headers: TemplateChild<FieldTableStaticListView>,
+        #[template_child]
+        env_variables: TemplateChild<FieldTableStaticListView>,
+        #[template_child]
+        toggle_env_variables: TemplateChild<gtk::ToggleButton>,
+        #[template_child]
+        env_file_status: TemplateChild<gtk::Stack>,
 
         #[property(get, set, name = "read-only")]
         read_only: RefCell<bool>,
@@ -88,7 +96,11 @@ mod imp {
         request_signal_group: OnceCell<glib::SignalGroup>,
 
         #[property(get, set)]
-        show_pregenerated: RefCell<bool>,
+        show_pregenerated_headers: RefCell<bool>,
+        #[property(get, set)]
+        show_env_variables: RefCell<bool>,
+        #[property(get, set)]
+        env_file: RefCell<EnvFile>,
 
         #[property(get)]
         request_binding_group: RefCell<glib::BindingGroup>,
@@ -133,6 +145,7 @@ mod imp {
 
             self.init_request_signal_group();
             self.init_pregenerated_rows();
+            self.init_env_file();
             self.init_settings();
             self.init_actions();
 
@@ -239,6 +252,87 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl EndpointPane {
+        fn init_env_file(&self) {
+            self.update_env_file();
+            self.obj().connect_file_notify(|pane| {
+                pane.imp().update_env_file();
+            });
+
+            self.update_env_data();
+            self.obj().env_file().connect_items_changed(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |_, _, _, _| {
+                    imp.update_env_data();
+                }
+            ));
+
+            let app = CarteroApplication::get();
+            let settings = app.settings();
+            settings.connect_changed(
+                Some("read-env-files"),
+                glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |_, _| {
+                        imp.update_env_file();
+                    }
+                ),
+            );
+        }
+
+        fn update_env_data(&self) {
+            let entries = self
+                .obj()
+                .env_file()
+                .iter::<Field>()
+                .filter_map(|item| item.ok().map(|field| (field.key(), "*".repeat(4))))
+                .collect::<Vec<(String, String)>>();
+            let toggle_prompt = formatx!(
+                ngettext(
+                    "Show {} variable from .env",
+                    "Show {} variables from .env",
+                    entries.len() as u32
+                ),
+                entries.len()
+            )
+            .unwrap();
+            let pregenerated = self.env_variables.table();
+            pregenerated.reconcile(&entries);
+            pregenerated.iter::<Field>().for_each(|item| {
+                if let Ok(field) = item {
+                    field.set_masked(true);
+                }
+            });
+            self.toggle_env_variables.set_label(&toggle_prompt);
+        }
+
+        fn update_env_file(&self) {
+            let settings = gio::Settings::new(BASE_ID);
+            let allow_env = settings.boolean("read-env-files");
+
+            let env_file = if allow_env {
+                self.obj()
+                    .file()
+                    .and_then(|file| EnvFile::locate_for_path(&file))
+            } else {
+                None
+            };
+            self.obj().env_file().set_file(env_file.as_ref());
+
+            if allow_env {
+                if self.obj().file().is_none() {
+                    self.env_file_status.set_visible_child_name("unsaved-file");
+                } else if env_file.is_none() {
+                    self.env_file_status.set_visible_child_name("not-found");
+                } else {
+                    self.env_file_status.set_visible_child_name("toggle");
+                }
+            } else {
+                self.env_file_status.set_visible_child_name("env-disabled");
+            }
+        }
+
         fn init_pregenerated_rows(&self) {
             self.update_pregenerated_headers();
             self.obj().connect_request_notify(glib::clone!(
@@ -390,12 +484,22 @@ mod imp {
                     Some(&*self.response_pane),
                 );
 
+            let action_reload_env = SimpleAction::new("reload-env", None);
+            action_reload_env.connect_activate(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |_, _| {
+                    imp.update_env_file();
+                }
+            ));
+
             let action_group = SimpleActionGroup::new();
             action_group.add_action(&action_focus_url);
             action_group.add_action(&action_request);
             action_group.add_action(&action_cancel);
             action_group.add_action(&action_export_request);
             action_group.add_action(&action_export_response_body);
+            action_group.add_action(&action_reload_env);
             obj.insert_action_group("endpoint", Some(&action_group));
             self.action_group.set(action_group).unwrap();
         }

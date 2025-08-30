@@ -23,6 +23,12 @@ glib::wrapper! {
     pub struct EnvFile(ObjectSubclass<imp::EnvFile>) @implements gio::ListModel;
 }
 
+impl Default for EnvFile {
+    fn default() -> Self {
+        glib::Object::new()
+    }
+}
+
 impl EnvFile {
     pub fn builder() -> builder::EnvFileBuilder {
         builder::EnvFileBuilder::new()
@@ -137,7 +143,7 @@ mod imp {
                 Some(file) => {
                     self.reload_env(&file);
                     let monitor = file
-                        .monitor_file(gio::FileMonitorFlags::SEND_MOVED, gio::Cancellable::NONE)
+                        .monitor_file(gio::FileMonitorFlags::empty(), gio::Cancellable::NONE)
                         .ok();
                     if let Some(monitor) = &monitor {
                         monitor.connect_changed(glib::clone!(
@@ -151,13 +157,18 @@ mod imp {
                     }
                     monitor
                 }
-                None => None,
+                None => {
+                    self.clean_env();
+                    None
+                }
             };
             self.monitor.set(next_monitor);
         }
 
         fn reload_env(&self, file: &gio::File) {
+            let old_env_vars = self.env_vars.borrow().n_items();
             self.env_vars.borrow().clear();
+
             let path = file.path().expect("dotenv file has no path?");
             match dotenvy::from_path_iter(&path) {
                 Ok(iter) => {
@@ -186,6 +197,15 @@ mod imp {
                     )
                 }
             }
+
+            let new_env_vars = self.env_vars.borrow().n_items();
+            self.obj().items_changed(0, old_env_vars, new_env_vars);
+        }
+
+        fn clean_env(&self) {
+            let old_env_vars = self.env_vars.borrow().n_items();
+            self.env_vars.borrow().clear();
+            self.obj().items_changed(0, old_env_vars, 0);
         }
     }
 }

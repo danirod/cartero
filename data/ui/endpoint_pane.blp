@@ -162,7 +162,7 @@ template $CarteroEndpointPane: $CarteroBasePane {
                   orientation: vertical;
 
                   $CarteroFieldTableStaticListView pregenerated_headers {
-                    visible: bind template.show-pregenerated;
+                    visible: bind template.show-pregenerated-headers;
                   }
 
                   $CarteroFieldTableListView header_pane {
@@ -178,7 +178,7 @@ template $CarteroEndpointPane: $CarteroBasePane {
                   "caption",
                 ]
 
-                active: bind template.show-pregenerated bidirectional;
+                active: bind template.show-pregenerated-headers bidirectional;
                 halign: center;
                 hexpand: false;
               }
@@ -195,17 +195,128 @@ template $CarteroEndpointPane: $CarteroBasePane {
             hexpand: true;
             vexpand: true;
 
-            Gtk.Frame {
-              vexpand: false;
-              valign: start;
-              margin-top: 12;
-              margin-bottom: 12;
-              margin-start: 12;
-              margin-end: 12;
+            Gtk.Box {
+              spacing: 12;
+              orientation: vertical;
 
-              $CarteroFieldTableListView variable_pane {
-                read-only: bind template.read-only;
-                show-placeholder: true;
+              Gtk.Frame {
+                vexpand: false;
+                valign: start;
+                margin-top: 12;
+                margin-bottom: 12;
+                margin-start: 12;
+                margin-end: 12;
+
+                Gtk.Box {
+                  orientation: vertical;
+
+                  $CarteroFieldTableStaticListView env_variables {
+                    visible: bind template.show-env-variables;
+                  }
+
+                  $CarteroFieldTableListView variable_pane {
+                    read-only: bind template.read-only;
+                    show-placeholder: true;
+                  }
+                }
+              }
+
+              Gtk.Stack env_file_status {
+                vhomogeneous: false;
+
+                Gtk.StackPage {
+                  name: "env-disabled";
+
+                  child: Gtk.ListBox {
+                    styles [
+                      "boxed-list",
+                    ]
+
+                    margin-start: 12;
+                    margin-end: 12;
+                    selection-mode: none;
+
+                    Adw.ActionRow {
+                      selectable: false;
+                      focusable: false;
+                      title: _("Cartero supports reading variables from an .env file, but this feature is disabled in the app settings.");
+
+                      Gtk.Button {
+                        valign: center;
+                        vexpand: false;
+                        action-name: "app.preferences";
+                        action-target: "security";
+                        label: _("Settings");
+                        margin-start: 6;
+                      }
+                    }
+                  };
+                }
+
+                Gtk.StackPage {
+                  name: "unsaved-file";
+
+                  child: Gtk.ListBox {
+                    styles [
+                      "boxed-list",
+                    ]
+
+                    margin-start: 12;
+                    margin-end: 12;
+                    selection-mode: none;
+
+                    Adw.ActionRow {
+                      selectable: false;
+                      focusable: false;
+                      title: _("Cartero supports reading variables from an .env file, but you have to save the request first.");
+                    }
+                  };
+                }
+
+                Gtk.StackPage {
+                  name: "not-found";
+
+                  child: Gtk.ListBox {
+                    styles [
+                      "boxed-list",
+                    ]
+
+                    margin-start: 12;
+                    margin-end: 12;
+                    selection-mode: none;
+
+                    Adw.ActionRow {
+                      selectable: false;
+                      focusable: false;
+                      title: _("Cartero supports reading variables from an .env file, but no suitable .env file has been found.");
+
+                      Gtk.Button {
+                        valign: center;
+                        vexpand: false;
+                        action-name: "endpoint.reload-env";
+                        action-target: "security";
+                        label: _("Retry");
+                        margin-start: 6;
+                      }
+                    }
+                  };
+                }
+
+                Gtk.StackPage {
+                  name: "toggle";
+
+                  child: Gtk.ToggleButton toggle_env_variables {
+                    styles [
+                      "flat",
+                      "caption",
+                    ]
+
+                    label: "Show variables from .env";
+                    active: bind template.show-env-variables bidirectional;
+                    halign: center;
+                    hexpand: false;
+                  };
+                }
               }
             }
           };

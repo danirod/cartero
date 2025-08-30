@@ -24,6 +24,7 @@ use gtk::prelude::ActionMapExtManual;
 
 use crate::config::{APP_ID, BASE_ID, RESOURCE_PATH};
 use crate::win::CarteroWindow;
+use crate::windows::common::get_window_shell;
 
 #[macro_export]
 macro_rules! accelerator {
@@ -211,7 +212,7 @@ impl CarteroApplication {
             .activate(glib::clone!(
                 #[weak(rename_to = app)]
                 self,
-                move |_, _, _| {
+                move |_, _, page| {
                     let window = app
                         .windows_by_type::<crate::windows::settings::Shell>()
                         .first()
@@ -225,6 +226,36 @@ impl CarteroApplication {
                             window.set_resizable(false);
                             window.upcast()
                         });
+                    window.present();
+                }
+            ))
+            .build();
+        let settings_page = ActionEntryBuilder::new("preferences-page")
+            .parameter_type(Some(&String::static_variant_type()))
+            .activate(glib::clone!(
+                #[weak(rename_to = app)]
+                self,
+                move |_, _, page| {
+                    let page = page
+                        .map(|v| v.get::<String>().expect("Missing parameter "))
+                        .unwrap_or("application".to_string());
+                    let window = app
+                        .windows_by_type::<crate::windows::settings::Shell>()
+                        .first()
+                        .map(|win| win.clone())
+                        .unwrap_or_else(|| {
+                            let settings_shell = crate::windows::settings::Shell::new();
+                            let window = app.new_window(&settings_shell);
+                            window.set_modal(true);
+                            window.set_default_size(700, 540);
+                            window.set_title(Some(&gettext("Settings")));
+                            window.set_resizable(false);
+                            window.upcast()
+                        });
+                    let shell = get_window_shell(&window)
+                        .and_downcast::<crate::windows::settings::Shell>()
+                        .expect("No settings shell?");
+                    shell.set_page(&page);
                     window.present();
                 }
             ))
@@ -273,7 +304,7 @@ impl CarteroApplication {
             self.add_action_entries([action_check_updates]);
         }
 
-        self.add_action_entries([settings, about, quit]);
+        self.add_action_entries([settings, settings_page, about, quit]);
 
         if cfg!(target_os = "macos") {
             let links = vec![

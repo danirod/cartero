@@ -18,6 +18,8 @@
 use adw::prelude::*;
 use adw::subclass::prelude::*;
 
+use crate::windows::settings::pill::Pill;
+
 glib::wrapper! {
     pub struct Shell(ObjectSubclass<imp::Shell>)
         @extends gtk::Widget, adw::BreakpointBin,
@@ -27,6 +29,18 @@ glib::wrapper! {
 impl Shell {
     pub fn new() -> Self {
         glib::Object::new()
+    }
+
+    pub fn set_page(&self, page: &str) {
+        let mut index = 0;
+        while let Some(row) = self.imp().sidebar_box.row_at_index(index) {
+            let child = row.child().and_downcast::<Pill>().expect("Not a pill?");
+            if child.name() == page {
+                row.activate();
+                return;
+            }
+            index = index + 1;
+        }
     }
 }
 
@@ -53,9 +67,9 @@ mod imp {
         #[template_child]
         sidebar_header_bar: TemplateChild<adw::HeaderBar>,
         #[template_child]
-        settings_stack: TemplateChild<adw::ViewStack>,
+        pub(super) settings_stack: TemplateChild<adw::ViewStack>,
         #[template_child]
-        sidebar_box: TemplateChild<gtk::ListBox>,
+        pub(super) sidebar_box: TemplateChild<gtk::ListBox>,
     }
 
     #[glib::object_subclass]

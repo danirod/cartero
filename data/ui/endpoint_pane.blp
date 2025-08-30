@@ -244,8 +244,8 @@ template $CarteroEndpointPane: $CarteroBasePane {
                       Gtk.Button {
                         valign: center;
                         vexpand: false;
-                        action-name: "app.preferences";
-                        action-target: "security";
+                        action-name: "app.preferences-page";
+                        action-target: "'security'";
                         label: _("Settings");
                         margin-start: 6;
                       }
@@ -294,7 +294,6 @@ template $CarteroEndpointPane: $CarteroBasePane {
                         valign: center;
                         vexpand: false;
                         action-name: "endpoint.reload-env";
-                        action-target: "security";
                         label: _("Retry");
                         margin-start: 6;
                       }

@@ -35,8 +35,67 @@ template $CarteroSettingsPageProxy: Adw.PreferencesPage {
   }
 
   Adw.PreferencesGroup {
+    title: _("Exclude from proxy");
+    description: _("IP addresses and domain names contained in this list will bypass the proxy settings and be accessed directly.");
+
+    Gtk.Box {
+      orientation: vertical;
+      spacing: 3;
+
+      Gtk.Box {
+        styles [
+          "linked",
+        ]
+
+        orientation: horizontal;
+        hexpand: true;
+
+        Gtk.Entry add_excluded {
+          hexpand: true;
+          tooltip-text: _("Address to exclude");
+          placeholder-text: _("Address to exclude");
+        }
+
+        Gtk.Button {
+          label: _("Add");
+          action-name: "widget.add-excluded-host";
+        }
+      }
+
+      Gtk.Revealer add_error_revealer {
+        margin-bottom: 12;
+        reveal-child: false;
+
+        Gtk.Label add_error {
+          styles [
+            "caption",
+            "error",
+          ]
+
+          wrap: true;
+          hexpand: true;
+          halign: start;
+          label: _("");
+        }
+      }
+    }
+
+    Gtk.ListBox excluded_hosts_list {
+      styles [
+        "boxed-list",
+      ]
+
+      Adw.ActionRow {
+        title: _("No IP addresses or domain names are being excluded.");
+        halign: center;
+        sensitive: false;
+      }
+    }
+  }
+
+  Adw.PreferencesGroup {
     title: _("Environment variables");
-    description: _("Cartero supports the use of the standard http_proxy, https_proxy and no_proxy environment variables to provide the system proxy settings.");
+    description: _("Cartero supports the use of the standard HTTP_PROXY, HTTPS_PROXY and NO_PROXY environment variables to provide the system proxy settings.");
 
     Adw.SwitchRow option_use_proxy_std {
       title: _("Use environment variables if proxy settings are blank");
@@ -48,7 +107,7 @@ template $CarteroSettingsPageProxy: Adw.PreferencesPage {
         "property",
       ]
 
-      title: "http_proxy";
+      title: "HTTP_PROXY";
       subtitle: _("(empty)");
     }
 
@@ -57,7 +116,7 @@ template $CarteroSettingsPageProxy: Adw.PreferencesPage {
         "property",
       ]
 
-      title: "https_proxy";
+      title: "HTTPS_PROXY";
       subtitle: _("(empty)");
     }
 
@@ -66,7 +125,7 @@ template $CarteroSettingsPageProxy: Adw.PreferencesPage {
         "property",
       ]
 
-      title: "no_proxy";
+      title: "NO_PROXY";
       subtitle: _("(empty)");
     }
   }

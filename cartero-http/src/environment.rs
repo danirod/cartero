@@ -15,6 +15,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use cartero_objects::EnvFile;
+
 pub struct ClientConfig {
     pub validate_tls: bool,
     pub redirects: u64,
@@ -24,4 +26,5 @@ pub struct ClientConfig {
 pub struct RequestEnvironment {
     pub config: ClientConfig,
     pub prefix: Option<gio::File>,
+    pub env_file: Option<EnvFile>,
 }

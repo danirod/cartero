@@ -741,6 +741,7 @@ mod imp {
             };
             cartero_http::RequestEnvironment {
                 config,
+                env_file: Some(self.obj().env_file()),
                 prefix: self.obj().file().and_then(|f| f.parent()),
             }
         }

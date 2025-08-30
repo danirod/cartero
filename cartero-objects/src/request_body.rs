@@ -210,6 +210,10 @@ impl RequestBody {
             .build()
     }
 
+    pub fn dup(&self) -> Self {
+        Self::new(self.body_type(), self.body_data().map(|body| body.dup()))
+    }
+
     /// Returns the urlencoded payload, if the body is of such type.
     pub fn urlencoded(&self) -> Option<RequestBodyUrlencoded> {
         if self.body_type() == RequestBodyType::UrlEncoded {

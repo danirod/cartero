@@ -49,6 +49,7 @@ mod ffi {
     #[repr(C)]
     pub struct Class {
         parent_class: glib::gobject_ffi::GObjectClass,
+        pub(super) dup: fn(&super::RequestBodyData) -> super::RequestBodyData,
         pub(super) body_type: fn(&super::RequestBodyData) -> RequestBodyType,
         pub(super) resolve: fn(
             &super::RequestBodyData,
@@ -91,6 +92,7 @@ mod imp {
         type Class = super::ffi::Class;
 
         fn class_init(klass: &mut Self::Class) {
+            klass.dup = |obj| obj.imp().dup_default();
             klass.body_type = |obj| obj.imp().body_type_default();
             klass.resolve = |obj, tpl| obj.imp().resolve_default(tpl);
             klass.rendered_headers = |obj| obj.imp().rendered_headers_default();
@@ -109,6 +111,10 @@ mod imp {
     }
 
     impl RequestBodyData {
+        fn dup_default(&self) -> super::RequestBodyData {
+            panic!("not implemented");
+        }
+
         fn body_type_default(&self) -> RequestBodyType {
             panic!("not implemented");
         }
@@ -128,6 +134,12 @@ mod imp {
 
 #[doc(hidden)]
 pub trait RequestBodyDataExt: IsA<RequestBodyData> {
+    fn dup(&self) -> RequestBodyData {
+        let this = self.upcast_ref();
+        let class = this.class();
+        (class.as_ref().dup)(this)
+    }
+
     fn body_type(&self) -> RequestBodyType {
         let this = self.upcast_ref();
         let class = this.class();
@@ -151,6 +163,8 @@ impl<T: IsA<RequestBodyData>> RequestBodyDataExt for T {}
 
 /// Trait with operations for subclasses of [RequestBodyData].
 pub trait RequestBodyDataImpl: ObjectImpl {
+    fn dup(&self) -> RequestBodyData;
+
     /// Returns the body-type associated with this class.
     ///
     /// Returns the specific [RequestBodyType][super::RequestBodyType] variant
@@ -166,6 +180,13 @@ pub trait RequestBodyDataImpl: ObjectImpl {
 
 #[doc(hidden)]
 pub trait RequestBodyDataImplExt: RequestBodyDataImpl {
+    fn parent_dup(&self) -> RequestBodyData {
+        let data = Self::type_data();
+        let parent_class = unsafe { &*(data.as_ref().parent_class() as *const ffi::Class) };
+        let dup = parent_class.dup;
+        dup(unsafe { self.obj().unsafe_cast_ref() })
+    }
+
     fn parent_body_type(&self) -> RequestBodyType {
         let data = Self::type_data();
         let parent_class = unsafe { &*(data.as_ref().parent_class() as *const ffi::Class) };
@@ -196,6 +217,10 @@ unsafe impl<T: RequestBodyDataImpl> IsSubclassable<T> for RequestBodyData {
         Self::parent_class_init::<T>(class);
 
         let klass = class.as_mut();
+        klass.dup = |obj| {
+            let this = unsafe { obj.unsafe_cast_ref::<<T as ObjectSubclass>::Type>().imp() };
+            RequestBodyDataImpl::dup(this)
+        };
         klass.body_type = |obj| {
             let this = unsafe { obj.unsafe_cast_ref::<<T as ObjectSubclass>::Type>().imp() };
             RequestBodyDataImpl::body_type(this)

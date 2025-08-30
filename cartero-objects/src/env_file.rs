@@ -19,6 +19,8 @@ use gio::prelude::FileExt;
 use glib::prelude::*;
 use glib::subclass::prelude::*;
 
+use crate::FieldTable;
+
 glib::wrapper! {
     pub struct EnvFile(ObjectSubclass<imp::EnvFile>) @implements gio::ListModel;
 }
@@ -32,6 +34,12 @@ impl Default for EnvFile {
 impl EnvFile {
     pub fn builder() -> builder::EnvFileBuilder {
         builder::EnvFileBuilder::new()
+    }
+
+    pub fn field_table(&self) -> FieldTable {
+        let ft = FieldTable::default();
+        ft.replace(&self.imp().env_vars.borrow());
+        ft
     }
 
     pub fn locate_for_path(file: &gio::File) -> Option<gio::File> {
@@ -96,7 +104,7 @@ mod imp {
 
         monitor: RefCell<Option<gio::FileMonitor>>,
         monitor_handler: RefCell<Option<SignalHandlerId>>,
-        env_vars: RefCell<FieldTable>,
+        pub(super) env_vars: RefCell<FieldTable>,
     }
 
     #[glib::object_subclass]

@@ -37,14 +37,25 @@ impl BoundRequest {
             return Err(RequestError::EmptyUrl);
         }
 
+        let value = value.dup();
+
+        if let Some(env_file) = &env.env_file {
+            let field_table = value.variables().clone();
+            field_table.combine(
+                &env_file.field_table(),
+                cartero_objects::CombinePriority::Prepend,
+            );
+            value.set_variables(&field_table);
+        }
+
         let resolved = value.resolve()?;
         let url = normalize_url(&resolved.url())?;
 
         let method = resolved.method();
 
         let user_headers = resolved.headers();
-        let auth = BoundHeaders::try_from(value)?;
-        let body = BoundBody::new(value, env).await?;
+        let auth = BoundHeaders::try_from(&value)?;
+        let body = BoundBody::new(&value, env).await?;
         let headers = combine_headers(&user_headers, &auth, &body);
 
         Ok(Self {
@@ -86,6 +97,7 @@ mod tests {
     fn dummy_env() -> RequestEnvironment {
         RequestEnvironment {
             prefix: None,
+            env_file: None,
             config: crate::ClientConfig {
                 validate_tls: false,
                 redirects: 0,

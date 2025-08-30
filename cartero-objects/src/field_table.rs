@@ -99,6 +99,16 @@ impl FieldTable {
         }
     }
 
+    pub fn dup(&self) -> Self {
+        let table = Self::default();
+        for field in self.iter::<Field>() {
+            if let Ok(field) = &field {
+                table.insert(&field.dup());
+            }
+        }
+        table
+    }
+
     /// Register the change signal for this field, so that whenever the inner
     /// Field changes because it emits a "change" signal, this table broadcasts
     /// the same event upwards.

@@ -103,7 +103,10 @@ mod imp {
             let obj = &*self.obj();
             let content = {
                 let blob = obj.blob().unwrap_or(glib::Bytes::from(&[]));
-                ContentProvider::for_bytes("text/plain", &blob)
+                ContentProvider::new_union(&[
+                    ContentProvider::for_bytes("text/plain", &blob),
+                    ContentProvider::for_bytes("text/plain;charset=utf-8", &blob),
+                ])
             };
             if let Some(display) = Display::default() {
                 let clipboard = display.clipboard();

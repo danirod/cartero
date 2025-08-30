@@ -55,6 +55,8 @@ mod imp {
     #[template(resource = "/es/danirod/Cartero/endpoint_pane.ui")]
     #[properties(wrapper_type = super::EndpointPane)]
     pub struct EndpointPane {
+        #[template_child]
+        shortcuts: TemplateChild<gtk::ShortcutController>,
         #[template_child(id = "cancel")]
         cancel_button: TemplateChild<gtk::Button>,
         #[template_child]
@@ -128,6 +130,7 @@ mod imp {
     impl ObjectImpl for EndpointPane {
         fn constructed(&self) {
             self.parent_constructed();
+            self.init_shortcuts();
 
             self.init_request_binding_group();
 
@@ -239,6 +242,19 @@ mod imp {
 
     #[gtk::template_callbacks]
     impl EndpointPane {
+        fn init_shortcuts(&self) {
+            let focus_url_trigger = if cfg!(target_os = "macos") {
+                "<Meta>l"
+            } else {
+                "<Primary>l"
+            };
+            let focus_url = gtk::Shortcut::builder()
+                .trigger(&gtk::ShortcutTrigger::parse_string(focus_url_trigger).unwrap())
+                .action(&gtk::ShortcutAction::parse_string("action(endpoint.focus-url)").unwrap())
+                .build();
+            self.shortcuts.add_shortcut(focus_url);
+        }
+
         fn init_pregenerated_rows(&self) {
             self.update_pregenerated_headers();
             self.obj().connect_request_notify(glib::clone!(

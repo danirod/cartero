@@ -57,6 +57,8 @@ mod imp {
     #[template(resource = "/es/danirod/Cartero/endpoint_pane.ui")]
     #[properties(wrapper_type = super::EndpointPane)]
     pub struct EndpointPane {
+        #[template_child]
+        shortcuts: TemplateChild<gtk::ShortcutController>,
         #[template_child(id = "cancel")]
         cancel_button: TemplateChild<gtk::Button>,
         #[template_child]
@@ -140,6 +142,7 @@ mod imp {
     impl ObjectImpl for EndpointPane {
         fn constructed(&self) {
             self.parent_constructed();
+            self.init_shortcuts();
 
             self.init_request_binding_group();
 
@@ -341,6 +344,19 @@ mod imp {
             }
         }
 
+        fn init_shortcuts(&self) {
+            let focus_url_trigger = if cfg!(target_os = "macos") {
+                "<Meta>l"
+            } else {
+                "<Primary>l"
+            };
+            let focus_url = gtk::Shortcut::builder()
+                .trigger(&gtk::ShortcutTrigger::parse_string(focus_url_trigger).unwrap())
+                .action(&gtk::ShortcutAction::parse_string("action(endpoint.focus-url)").unwrap())
+                .build();
+            self.shortcuts.add_shortcut(focus_url);
+        }
+
         fn init_pregenerated_rows(&self) {
             self.update_pregenerated_headers();
             self.obj().connect_request_notify(glib::clone!(
@@ -351,6 +367,7 @@ mod imp {
                 }
             ));
         }
+
         fn init_request_binding_group(&self) {
             let binding_group = self.request_binding_group.borrow();
 
@@ -747,9 +764,20 @@ mod imp {
                 timeout,
                 validate_tls,
             };
+            let proxy = cartero_http::ProxyConfig {
+                respect_system_proxy: settings.boolean("proxy-use-env"),
+                http_proxy: settings.string("proxy-http").to_string(),
+                https_proxy: settings.string("proxy-https").to_string(),
+                no_proxy: settings
+                    .strv("proxy-no-proxy")
+                    .iter()
+                    .map(|v| v.to_string())
+                    .collect::<Vec<String>>(),
+            };
             cartero_http::RequestEnvironment {
                 config,
                 env_file: Some(self.obj().env_file()),
+                proxy: Some(proxy),
                 prefix: self.obj().file().and_then(|f| f.parent()),
             }
         }

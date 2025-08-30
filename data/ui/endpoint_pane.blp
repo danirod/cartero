@@ -33,13 +33,8 @@ template $CarteroEndpointPane: $CarteroBasePane {
     }
   }
 
-  ShortcutController {
+  ShortcutController shortcuts {
     scope: managed;
-
-    Shortcut {
-      trigger: '<Primary>l';
-      action: 'action(endpoint.focus-url)';
-    }
   }
 
   Box {

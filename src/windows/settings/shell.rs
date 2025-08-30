@@ -155,6 +155,7 @@ mod imp {
                 pages::Appearance::new().upcast(),
                 pages::CodeEditor::new().upcast(),
                 pages::HttpClient::new().upcast(),
+                pages::Proxy::new().upcast(),
             ];
 
             for page in pages {

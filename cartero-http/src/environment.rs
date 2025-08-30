@@ -21,7 +21,15 @@ pub struct ClientConfig {
     pub timeout: f64,
 }
 
+pub struct ProxyConfig {
+    pub respect_system_proxy: bool,
+    pub http_proxy: String,
+    pub https_proxy: String,
+    pub no_proxy: Vec<String>,
+}
+
 pub struct RequestEnvironment {
     pub config: ClientConfig,
+    pub proxy: Option<ProxyConfig>,
     pub prefix: Option<gio::File>,
 }

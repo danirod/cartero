@@ -1,0 +1,159 @@
+// Copyright 2024-2025 the Cartero authors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+using Gtk 4.0;
+using Adw 1;
+
+template $CarteroSettingsPageProxy: Adw.PreferencesPage {
+  name: "proxy";
+  title: _("Proxy");
+  icon-name: "network-proxy-symbolic";
+
+  Adw.PreferencesGroup {
+    title: _("Proxy settings");
+
+    Adw.EntryRow option_proxy_http {
+      title: _("HTTP Proxy");
+    }
+
+    Adw.EntryRow option_proxy_https {
+      title: _("HTTPS Proxy");
+    }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("Exclude from proxy");
+    description: _("IP addresses and domain names contained in this list will bypass the proxy settings and be accessed directly.");
+
+    Gtk.Box {
+      orientation: vertical;
+      spacing: 3;
+
+      Gtk.Box {
+        styles [
+          "linked",
+        ]
+
+        orientation: horizontal;
+        hexpand: true;
+
+        Gtk.Entry add_excluded {
+          hexpand: true;
+          tooltip-text: _("Address to exclude");
+          placeholder-text: _("Address to exclude");
+        }
+
+        Gtk.Button {
+          label: _("Add");
+          action-name: "widget.add-excluded-host";
+        }
+      }
+
+      Gtk.Revealer add_error_revealer {
+        margin-bottom: 12;
+        reveal-child: false;
+
+        Gtk.Label add_error {
+          styles [
+            "caption",
+            "error",
+          ]
+
+          wrap: true;
+          hexpand: true;
+          halign: start;
+          label: _("");
+        }
+      }
+    }
+
+    Gtk.ListBox excluded_hosts_list {
+      styles [
+        "boxed-list",
+      ]
+
+      Adw.ActionRow {
+        title: _("No IP addresses or domain names are being excluded.");
+        halign: center;
+        sensitive: false;
+      }
+    }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("Environment variables");
+    description: _("Cartero supports the use of the standard http_proxy, https_proxy and no_proxy environment variables to provide the system proxy settings.");
+
+    Gtk.Box {
+      orientation: vertical;
+      spacing: 12;
+
+      Gtk.ListBox {
+        selection-mode: none;
+
+        styles [
+          "boxed-list",
+        ]
+
+        Adw.SwitchRow option_use_proxy_std {
+          title: _("Use environment variables as a fallback");
+          action-name: "widget.proxy-use-env";
+        }
+      }
+
+      Gtk.ListBox {
+        selection-mode: none;
+
+        styles [
+          "boxed-list",
+        ]
+
+        Adw.ActionRow option_std_http {
+          styles [
+            "property",
+          ]
+
+          focusable: false;
+          selectable: false;
+          title: "http_proxy";
+          subtitle: _("(empty)");
+        }
+
+        Adw.ActionRow option_std_https {
+          styles [
+            "property",
+          ]
+
+          focusable: false;
+          selectable: false;
+          title: "https_proxy";
+          subtitle: _("(empty)");
+        }
+
+        Adw.ActionRow option_std_no_proxy {
+          styles [
+            "property",
+          ]
+
+          focusable: false;
+          selectable: false;
+          title: "no_proxy";
+          subtitle: _("(empty)");
+        }
+      }
+    }
+  }
+}

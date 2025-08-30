@@ -79,6 +79,11 @@ pub fn get_request_error_message(error: &RequestError) -> String {
             str
         )
         .unwrap(),
+        RequestError::ProxyConfigError(cfg) => formatx!(
+            gettext("Defined value for proxy '{}' is not a valid configuration"),
+            cfg
+        )
+        .unwrap(),
         RequestError::IOError(_) => gettext("There is an input/output error"),
         RequestError::NetworkError(_) => gettext("There is a network error"),
     }

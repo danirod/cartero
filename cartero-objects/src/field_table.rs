@@ -235,6 +235,13 @@ impl FieldTable {
         self.emit_by_name::<()>("changed", &[&""]);
     }
 
+    /// Removes all the fields from the table.
+    pub fn clear(&self) {
+        while self.n_items() > 0 {
+            self.remove(0);
+        }
+    }
+
     /// Groups by key every field contained in this table, accepting duplicates.
     pub fn group_by_key(&self) -> HashMap<String, Vec<Field>> {
         self.iter::<Field>().fold(HashMap::new(), |mut map, item| {

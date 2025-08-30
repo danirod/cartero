@@ -91,5 +91,17 @@
       <default>false</default>
       <summary>Whether to create backup files on save</summary>
     </key>
+    <key name="proxy-no-proxy" type="as">
+      <default>[]</default>
+    </key>
+    <key name="proxy-http" type="s">
+      <default>''</default>
+    </key>
+    <key name="proxy-https" type="s">
+      <default>''</default>
+    </key>
+    <key name="proxy-use-env" type="b">
+      <default>true</default>
+    </key>
   </schema>
 </schemalist>

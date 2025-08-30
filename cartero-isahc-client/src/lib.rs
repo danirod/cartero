@@ -24,7 +24,7 @@ use cartero_http::{BoundRequest, RequestEnvironment, RequestError};
 use cartero_objects::{Field, FieldTable, Request, RequestMethod, Response};
 use isahc::{
     config::{Configurable, RedirectPolicy, SslOption},
-    http::{HeaderName, HeaderValue},
+    http::{HeaderName, HeaderValue, Uri},
     AsyncBody, RequestExt,
 };
 
@@ -111,12 +111,38 @@ async fn build_request(
     // Build the request entity.
     let bound_request = BoundRequest::new(&request, &env).await?;
 
-    let mut builder = isahc::Request::builder()
-        .uri(bound_request.url)
+    let builder = isahc::Request::builder()
+        .uri(bound_request.url.clone())
         .method(isahc_request_method(&request.method()))
         .ssl_options(ssl_mode)
         .redirect_policy(redirect_policy)
         .timeout(request_timeout);
+    let mut builder = match &env.proxy {
+        Some(proxy) => {
+            let builder = builder.proxy_blacklist(proxy.no_proxy.clone());
+
+            let proxy_in_use = if bound_request.url.clone().starts_with("https://") {
+                proxy.https_proxy.clone()
+            } else {
+                proxy.http_proxy.clone()
+            };
+            if proxy_in_use.is_empty() {
+                if proxy.respect_system_proxy {
+                    // Respect system settings, so do not touch the proxy at all.
+                    builder
+                } else {
+                    // Force None to disable system proxy
+                    builder.proxy(None)
+                }
+            } else {
+                let proxy_in_use: Uri = proxy_in_use
+                    .parse()
+                    .map_err(|_| RequestError::ProxyConfigError(proxy_in_use))?;
+                builder.proxy(Some(proxy_in_use))
+            }
+        }
+        None => builder,
+    };
     let headers = builder.headers_mut().unwrap();
     for (key, value) in &bound_request.headers {
         let header_key = HeaderName::try_from(key)

@@ -86,6 +86,7 @@ mod tests {
     fn dummy_env() -> RequestEnvironment {
         RequestEnvironment {
             prefix: None,
+            proxy: None,
             config: crate::ClientConfig {
                 validate_tls: false,
                 redirects: 0,

@@ -651,8 +651,19 @@ mod imp {
                 timeout,
                 validate_tls,
             };
+            let proxy = cartero_http::ProxyConfig {
+                respect_system_proxy: settings.boolean("proxy-use-env"),
+                http_proxy: settings.string("proxy-http").to_string(),
+                https_proxy: settings.string("proxy-https").to_string(),
+                no_proxy: settings
+                    .strv("proxy-no-proxy")
+                    .iter()
+                    .map(|v| v.to_string())
+                    .collect::<Vec<String>>(),
+            };
             cartero_http::RequestEnvironment {
                 config,
+                proxy: Some(proxy),
                 prefix: self.obj().file().and_then(|f| f.parent()),
             }
         }

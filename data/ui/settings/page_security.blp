@@ -1,0 +1,34 @@
+// Copyright 2024-2025 the Cartero authors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+using Gtk 4.0;
+using Adw 1;
+
+template $CarteroSettingsPageSecurity: Adw.PreferencesPage {
+  name: "security";
+  title: _("Security");
+  icon-name: "security-medium-symbolic";
+
+  Adw.PreferencesGroup {
+    title: _(".env files");
+    description: _("Cartero supports loading additional request variables from an .env file present in the same directory as the request file or any parent directory.\n\nIf enabled, it will allow you to keep sensitive values in a separate .env file, without having to save them in the request files.\n\nHowever, you should take precautions to avoid sending sensitive values to untrusted servers.");
+
+    Adw.SwitchRow {
+      action-name: "widget.read-env-files";
+      title: _("Find and load .env files");
+    }
+  }
+}

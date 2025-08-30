@@ -137,6 +137,7 @@ mod imp {
 
             let pages: Vec<adw::PreferencesPage> = vec![
                 pages::Application::new().upcast(),
+                pages::Security::new().upcast(),
                 pages::Appearance::new().upcast(),
                 pages::CodeEditor::new().upcast(),
                 pages::HttpClient::new().upcast(),

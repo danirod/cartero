@@ -91,5 +91,8 @@
       <default>false</default>
       <summary>Whether to create backup files on save</summary>
     </key>
+    <key name="read-env-files" type="b">
+      <default>false</default>
+    </key>
   </schema>
 </schemalist>

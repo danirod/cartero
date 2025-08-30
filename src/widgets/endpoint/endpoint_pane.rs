@@ -26,7 +26,7 @@ mod imp {
     use std::collections::HashSet;
     use std::sync::{Arc, Mutex};
 
-    use adw::prelude::AdwDialogExt;
+    use adw::prelude::{ActionRowExt, AdwDialogExt, PreferencesRowExt};
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
     use cartero_http::RequestError;
     use cartero_isahc_client::default_user_agent;
@@ -84,7 +84,7 @@ mod imp {
         #[template_child]
         env_variables: TemplateChild<FieldTableStaticListView>,
         #[template_child]
-        toggle_env_variables: TemplateChild<gtk::ToggleButton>,
+        toggle_env_variables: TemplateChild<adw::SwitchRow>,
         #[template_child]
         env_file_status: TemplateChild<gtk::Stack>,
 
@@ -304,7 +304,15 @@ mod imp {
                     field.set_masked(true);
                 }
             });
-            self.toggle_env_variables.set_label(&toggle_prompt);
+            self.toggle_env_variables.set_title(&toggle_prompt);
+            self.toggle_env_variables.set_subtitle(
+                self.obj()
+                    .env_file()
+                    .file()
+                    .map(|p| p.path().expect("No path for file?").display().to_string())
+                    .unwrap_or_default()
+                    .as_str(),
+            );
         }
 
         fn update_env_file(&self) {

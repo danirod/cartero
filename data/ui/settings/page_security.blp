@@ -24,11 +24,12 @@ template $CarteroSettingsPageSecurity: Adw.PreferencesPage {
 
   Adw.PreferencesGroup {
     title: _(".env files");
-    description: _("Cartero supports loading additional request variables from an .env file present in the same directory as the request file or any parent directory.\n\nIf enabled, it will allow you to keep sensitive values in a separate .env file, without having to save them in the request files.\n\nHowever, you should take precautions to avoid sending sensitive values to untrusted servers.");
+    description: _(".env files are commonly used in projects to store sensitive values such as credentials. Cartero can locate .env files and expose the variables inside so that you can use them in your requests. Please be cautious to not send a request with sensitive values to untrusted servers.");
 
     Adw.SwitchRow {
       action-name: "widget.read-env-files";
       title: _("Find and load .env files");
+      subtitle: _("Cartero will only traverse your disk looking for .env files if you enable this option.");
     }
   }
 }

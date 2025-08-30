@@ -147,6 +147,7 @@ mod tests {
     fn dummy_env() -> RequestEnvironment {
         RequestEnvironment {
             prefix: None,
+            proxy: None,
             config: crate::ClientConfig {
                 validate_tls: false,
                 redirects: 0,
@@ -492,6 +493,7 @@ mod tests {
         let env = dummy_env();
         let env = RequestEnvironment {
             config: env.config,
+            proxy: None,
             prefix: gio_file_for_current_file().parent(),
         };
 
@@ -524,6 +526,7 @@ mod tests {
         let env = dummy_env();
         let env = RequestEnvironment {
             config: env.config,
+            proxy: None,
             prefix: gio_file_for_current_file().parent(),
         };
 
@@ -549,6 +552,7 @@ mod tests {
         let env = dummy_env();
         let env = RequestEnvironment {
             config: env.config,
+            proxy: None,
             prefix: gio_file_for_current_file().parent(),
         };
 
@@ -574,6 +578,7 @@ mod tests {
         let env = dummy_env();
         let env = RequestEnvironment {
             config: env.config,
+            proxy: None,
             prefix: gio_file_for_current_file().parent(),
         };
 
@@ -599,6 +604,7 @@ mod tests {
         let env = dummy_env();
         let env = RequestEnvironment {
             config: env.config,
+            proxy: None,
             prefix: gio_file_for_current_file().parent(),
         };
 
@@ -624,6 +630,7 @@ mod tests {
         let env = dummy_env();
         let env = RequestEnvironment {
             config: env.config,
+            proxy: None,
             prefix: None,
         };
 
@@ -648,6 +655,7 @@ mod tests {
         let env = dummy_env();
         let env = RequestEnvironment {
             config: env.config,
+            proxy: None,
             prefix: gio_file_for_current_file().parent(),
         };
 

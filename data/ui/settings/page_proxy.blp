@@ -95,7 +95,7 @@ template $CarteroSettingsPageProxy: Adw.PreferencesPage {
 
   Adw.PreferencesGroup {
     title: _("Environment variables");
-    description: _("Cartero supports the use of the standard HTTP_PROXY, HTTPS_PROXY and NO_PROXY environment variables to provide the system proxy settings.");
+    description: _("Cartero supports the use of the standard http_proxy, https_proxy and no_proxy environment variables to provide the system proxy settings.");
 
     Adw.SwitchRow option_use_proxy_std {
       title: _("Use environment variables if proxy settings are blank");
@@ -107,7 +107,7 @@ template $CarteroSettingsPageProxy: Adw.PreferencesPage {
         "property",
       ]
 
-      title: "HTTP_PROXY";
+      title: "http_proxy";
       subtitle: _("(empty)");
     }
 
@@ -116,7 +116,7 @@ template $CarteroSettingsPageProxy: Adw.PreferencesPage {
         "property",
       ]
 
-      title: "HTTPS_PROXY";
+      title: "https_proxy";
       subtitle: _("(empty)");
     }
 
@@ -125,7 +125,7 @@ template $CarteroSettingsPageProxy: Adw.PreferencesPage {
         "property",
       ]
 
-      title: "NO_PROXY";
+      title: "no_proxy";
       subtitle: _("(empty)");
     }
   }

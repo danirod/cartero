@@ -46,6 +46,7 @@ pub enum RequestError {
     UnsecureFile(String), // access a file that is outside the prefix.
 
     // network error during the request (the type is up to the implementor)
+    ProxyConfigError(String),
     NetworkError(Box<dyn StdError>),
     IOError(Box<dyn StdError>),
 }

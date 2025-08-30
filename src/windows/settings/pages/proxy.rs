@@ -158,9 +158,11 @@ mod imp {
                 .bind("proxy-https", &*self.option_proxy_https, "text")
                 .build();
 
-            self.option_std_http.set_subtitle(&env_var("HTTP_PROXY"));
-            self.option_std_https.set_subtitle(&env_var("HTTPS_PROXY"));
-            self.option_std_no_proxy.set_subtitle(&env_var("NO_PROXY"));
+            self.option_std_http.set_subtitle(&env_var("http_proxy"));
+            self.option_std_https
+                .set_subtitle(&env_var_or("https_proxy", "HTTPS_PROXY"));
+            self.option_std_no_proxy
+                .set_subtitle(&env_var_or("no_proxy", "NO_PROXY"));
         }
     }
 
@@ -291,6 +293,20 @@ mod imp {
         let var = std::env::var(key).unwrap_or_default();
         if var.is_empty() {
             gettext("(none)")
+        } else {
+            var
+        }
+    }
+
+    fn env_var_or(key: &str, alt: &str) -> String {
+        let var = std::env::var(key).unwrap_or_default();
+        if var.is_empty() {
+            let var = std::env::var(alt).unwrap_or_default();
+            if var.is_empty() {
+                gettext("(none)")
+            } else {
+                var
+            }
         } else {
             var
         }

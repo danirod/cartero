@@ -45,3 +45,16 @@
   background: var(--headerbar-bg-color);
   border-bottom-left-radius: 10px;
 }
+
+window.mica, window.mica .top-bar {
+  background-color: transparent;
+}
+
+window.mica .welcome-pane {
+  background-color: rgb(255 255 255 / 45%);
+}
+
+window.mica .sidebar-pane {
+  background-color: transparent;
+  --sidebar-border-color: transparent;
+}

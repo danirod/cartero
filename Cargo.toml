@@ -80,7 +80,13 @@ url.workspace = true
 addr = "0.15.6"
 
 [target.'cfg(windows)'.dependencies]
-winapi = { version = "0.3.9", features = ["dwmapi"] }
+winapi = { version = "0.3.9", features = ["dwmapi", "winnt", "sysinfoapi"] }
+windows-sys = { version = "0.60.2", features = [
+    "Wdk",
+    "Wdk_System",
+    "Wdk_System_SystemServices",
+    "Win32_System_SystemInformation",
+]}
 gdk4-win32 = '0.10.0'
 
 [build-dependencies]

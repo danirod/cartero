@@ -116,6 +116,13 @@ mod imp {
     }
 
     impl RequestBodyDataImpl for RequestBodyUrlencoded {
+        fn dup(&self) -> RequestBodyData {
+            super::RequestBodyUrlencoded::builder()
+                .params(&self.obj().params().dup())
+                .build()
+                .upcast()
+        }
+
         fn body_type(&self) -> crate::RequestBodyType {
             crate::RequestBodyType::UrlEncoded
         }

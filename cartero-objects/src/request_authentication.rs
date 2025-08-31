@@ -241,6 +241,10 @@ impl RequestAuthentication {
             .build()
     }
 
+    pub fn dup(&self) -> Self {
+        Self::new(self.auth_type(), self.auth_data().map(|body| body.dup()))
+    }
+
     pub fn builder() -> builder::RequestAuthenticationBuilder {
         builder::RequestAuthenticationBuilder::default()
     }

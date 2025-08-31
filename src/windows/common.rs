@@ -15,7 +15,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use glib::object::CastNone;
+use adw::prelude::AdwApplicationWindowExt;
+use glib::object::{CastNone, MayDowncastTo};
 use gtk::prelude::*;
 use gtk::subclass::prelude::*;
 
@@ -37,5 +38,15 @@ where
         self.get_application_window()
             .and_downcast::<adw::ApplicationWindow>()
             .is_some()
+    }
+}
+
+pub fn get_window_shell<T>(win: &T) -> Option<gtk::Widget>
+where
+    T: IsA<gtk::Window> + MayDowncastTo<adw::ApplicationWindow>,
+{
+    match win.downcast_ref::<adw::ApplicationWindow>() {
+        Some(adw_win) => adw_win.content(),
+        None => win.child(),
     }
 }

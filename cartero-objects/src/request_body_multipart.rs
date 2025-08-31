@@ -121,6 +121,13 @@ mod imp {
     }
 
     impl RequestBodyDataImpl for RequestBodyMultipart {
+        fn dup(&self) -> RequestBodyData {
+            super::RequestBodyMultipart::builder()
+                .params(&self.obj().params().dup())
+                .build()
+                .upcast()
+        }
+
         fn body_type(&self) -> crate::RequestBodyType {
             crate::RequestBodyType::Multipart
         }

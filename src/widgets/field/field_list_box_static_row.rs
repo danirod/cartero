@@ -85,6 +85,11 @@ mod imp {
                 .bind("active", &*self.checked, "active")
                 .sync_create()
                 .build();
+            binding_group
+                .bind("masked", &*self.value, "visibility")
+                .sync_create()
+                .invert_boolean()
+                .build();
             binding_group.set_source(Some(&self.obj().field()));
             self.obj().connect_field_notify(glib::clone!(
                 #[weak]

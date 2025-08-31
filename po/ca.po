@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-31 23:19+0200\n"
+"POT-Creation-Date: 2025-08-31 23:21+0200\n"
 "PO-Revision-Date: 2025-05-22 15:06+0000\n"
 "Last-Translator: alesdevux <aleswebgit@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -859,18 +859,19 @@ msgstr ""
 msgid "Environment variables"
 msgstr ""
 
-#: data/ui/settings/page_proxy.blp:92
+#. TRANSLATORS: Keep the variable names "http_proxy", "https_proxy" and "no_proxy" in English because that's the name of the variable.
+#: data/ui/settings/page_proxy.blp:93
 msgid ""
 "Cartero supports the use of the standard http_proxy, https_proxy and "
 "no_proxy environment variables to provide the system proxy settings."
 msgstr ""
 
-#: data/ui/settings/page_proxy.blp:106
+#: data/ui/settings/page_proxy.blp:107
 msgid "Use environment variables as a fallback"
 msgstr ""
 
-#: data/ui/settings/page_proxy.blp:126 data/ui/settings/page_proxy.blp:137
-#: data/ui/settings/page_proxy.blp:148
+#: data/ui/settings/page_proxy.blp:127 data/ui/settings/page_proxy.blp:138
+#: data/ui/settings/page_proxy.blp:149
 msgid "(empty)"
 msgstr ""
 

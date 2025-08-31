@@ -32,9 +32,12 @@ data/ui/settings/page_appearance.blp
 data/ui/settings/page_application.blp
 data/ui/settings/page_code_editor.blp
 data/ui/settings/page_http_client.blp
+data/ui/settings/page_proxy.blp
+data/ui/settings/page_security.blp
 data/ui/settings/pill.blp
 data/ui/settings/shell.blp
 data/ui/urlencoded_body_pane.blp
+data/ui/welcome/welcome_pane.blp
 
 src/app.rs
 src/interop.rs
@@ -74,6 +77,8 @@ src/widgets/req_body/urlencoded.rs
 src/widgets/search_box.rs
 src/widgets/shell/base_pane.rs
 src/widgets/shell/mod.rs
+src/widgets/welcome/mod.rs
+src/widgets/welcome/welcome_pane.rs
 src/win.rs
 src/windows/common.rs
 src/windows/mod.rs
@@ -84,5 +89,7 @@ src/windows/settings/pages/application.rs
 src/windows/settings/pages/code_editor.rs
 src/windows/settings/pages/http_client.rs
 src/windows/settings/pages/mod.rs
+src/windows/settings/pages/proxy.rs
+src/windows/settings/pages/security.rs
 src/windows/settings/pill.rs
 src/windows/settings/shell.rs

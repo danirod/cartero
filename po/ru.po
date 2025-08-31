@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the Cartero package.
 # Vladimir Kosolapov, 2024.
 #
+#: data/ui/settings/page_proxy.blp:78
 msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-22 01:57+0200\n"
+"POT-Creation-Date: 2025-08-31 22:47+0200\n"
 "PO-Revision-Date: 2025-08-17 22:02+0000\n"
 "Last-Translator: Yurt Page <yurtpage@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -255,6 +256,8 @@ msgid "Authorization method"
 msgstr "Метод авторизации"
 
 #: data/ui/authentication_pane.blp:59 data/ui/request_body_pane.blp:59
+#: src/windows/settings/pages/proxy.rs:299
+#: src/windows/settings/pages/proxy.rs:310
 msgid "(none)"
 msgstr "(нет)"
 
@@ -278,39 +281,66 @@ msgstr "Пароль"
 msgid "Token"
 msgstr "Токен"
 
-#: data/ui/endpoint_pane.blp:66 data/ui/endpoint_pane.blp:67
+#: data/ui/endpoint_pane.blp:61 data/ui/endpoint_pane.blp:62
 msgid "Request URL"
 msgstr "URL-адрес запроса"
 
-#: data/ui/endpoint_pane.blp:79 data/ui/mac_menu.blp:113
+#: data/ui/endpoint_pane.blp:74 data/ui/mac_menu.blp:113
 msgid "Cancel request"
 msgstr "Отменить запрос"
 
-#: data/ui/endpoint_pane.blp:88 data/ui/mac_menu.blp:108
+#: data/ui/endpoint_pane.blp:83 data/ui/mac_menu.blp:108
 msgid "Send"
 msgstr "Отправить"
 
-#: data/ui/endpoint_pane.blp:89
+#: data/ui/endpoint_pane.blp:84
 msgid "Execute this HTTP request"
 msgstr "Выполнить этот HTTP-запрос"
 
-#: data/ui/endpoint_pane.blp:116
+#: data/ui/endpoint_pane.blp:111
 msgid "Parameters"
 msgstr "Параметры"
 
-#: data/ui/endpoint_pane.blp:142 data/ui/response_panel.blp:137
+#: data/ui/endpoint_pane.blp:137 data/ui/response_panel.blp:137
 msgid "Headers"
 msgstr "Заголовки"
 
-#: data/ui/endpoint_pane.blp:191
+#: data/ui/endpoint_pane.blp:186
 msgid "Variables"
 msgstr "Переменные"
 
-#: data/ui/endpoint_pane.blp:216
+#: data/ui/endpoint_pane.blp:230
+msgid ""
+"Cartero supports reading variables from an .env file, but you need to enable "
+"the feature first."
+msgstr ""
+
+#: data/ui/endpoint_pane.blp:237 data/ui/main_window.blp:178
+#: data/ui/main_window_no_csd.blp:189 data/ui/settings/shell.blp:47
+msgid "Settings"
+msgstr "Настройки"
+
+#: data/ui/endpoint_pane.blp:249
+msgid ""
+"Cartero supports reading variables from an .env file, but you have to save "
+"the request first."
+msgstr ""
+
+#: data/ui/endpoint_pane.blp:259
+msgid ""
+"Place an .env file in the same disk directory as the request or in a parent "
+"directory to load the variables in Cartero."
+msgstr ""
+
+#: data/ui/endpoint_pane.blp:265
+msgid "Check again"
+msgstr ""
+
+#: data/ui/endpoint_pane.blp:293
 msgid "Authorization"
 msgstr "Авторизация"
 
-#: data/ui/endpoint_pane.blp:231 data/ui/response_panel.blp:55
+#: data/ui/endpoint_pane.blp:308 data/ui/response_panel.blp:55
 msgid "Body"
 msgstr "Тело"
 
@@ -393,30 +423,28 @@ msgctxt "menubar"
 msgid "File"
 msgstr "Файл"
 
-#: data/ui/mac_menu.blp:25 data/ui/main_window.blp:135
-#: data/ui/main_window.blp:191 data/ui/main_window_no_csd.blp:136
-#: data/ui/main_window_no_csd.blp:193
+#: data/ui/mac_menu.blp:25 data/ui/main_window.blp:151
+#: data/ui/main_window_no_csd.blp:162 data/ui/welcome/welcome_pane.blp:65
 msgid "New tab"
 msgstr "Новая вкладка"
 
-#: data/ui/mac_menu.blp:30 data/ui/main_window.blp:148
-#: data/ui/main_window.blp:196 data/ui/main_window_no_csd.blp:149
-#: data/ui/main_window_no_csd.blp:198
+#: data/ui/mac_menu.blp:30 data/ui/main_window.blp:156
+#: data/ui/main_window_no_csd.blp:167 data/ui/welcome/welcome_pane.blp:78
 msgid "Open request…"
 msgstr "Открыть запрос…"
 
-#: data/ui/mac_menu.blp:35 data/ui/main_window.blp:201
-#: data/ui/main_window_no_csd.blp:203 src/widgets/file_dialogs.rs:146
+#: data/ui/mac_menu.blp:35 data/ui/main_window.blp:161
+#: data/ui/main_window_no_csd.blp:172 src/widgets/file_dialogs.rs:146
 msgid "Save request"
 msgstr "Сохранить запрос"
 
-#: data/ui/mac_menu.blp:40 data/ui/main_window.blp:206
-#: data/ui/main_window_no_csd.blp:208
+#: data/ui/mac_menu.blp:40 data/ui/main_window.blp:166
+#: data/ui/main_window_no_csd.blp:177
 msgid "Save request as…"
 msgstr "Сохранить запрос как…"
 
-#: data/ui/mac_menu.blp:47 data/ui/main_window.blp:211
-#: data/ui/main_window_no_csd.blp:213
+#: data/ui/mac_menu.blp:47 data/ui/main_window.blp:171
+#: data/ui/main_window_no_csd.blp:182
 msgid "Close tab"
 msgstr "Закрыть вкладку"
 
@@ -531,11 +559,11 @@ msgctxt "menubar"
 msgid "Help"
 msgstr "Справка"
 
-#: data/ui/mac_menu.blp:200 src/win.rs:629
+#: data/ui/mac_menu.blp:200 data/ui/welcome/welcome_pane.blp:132 src/win.rs:631
 msgid "User manual"
 msgstr "Руководство пользователя"
 
-#: data/ui/mac_menu.blp:205
+#: data/ui/mac_menu.blp:205 data/ui/welcome/welcome_pane.blp:142
 msgctxt "menubar"
 msgid "Report a bug"
 msgstr "Сообщить об ошибке"
@@ -545,7 +573,7 @@ msgctxt "menubar"
 msgid "View discussions"
 msgstr "Просмотр обсуждений"
 
-#: data/ui/mac_menu.blp:217 src/win.rs:631
+#: data/ui/mac_menu.blp:217 src/win.rs:633
 msgid "Help us translate"
 msgstr "Помогите нам перевести"
 
@@ -553,22 +581,22 @@ msgstr "Помогите нам перевести"
 msgid "Check for updates"
 msgstr "Проверить обновления"
 
-#: data/ui/main_window.blp:50 data/ui/main_window_no_csd.blp:47
+#: data/ui/main_window.blp:50 data/ui/main_window_no_csd.blp:50
 msgid "New"
 msgstr "Новая"
 
 #: data/ui/main_window.blp:61 data/ui/main_window.blp:73
-#: data/ui/main_window_no_csd.blp:58 data/ui/main_window_no_csd.blp:70
+#: data/ui/main_window_no_csd.blp:61 data/ui/main_window_no_csd.blp:73
 #: src/widgets/file_dialogs.rs:109 src/widgets/file_dialogs.rs:186
 msgid "Open"
 msgstr "Открыть"
 
-#: data/ui/main_window.blp:81 data/ui/main_window_no_csd.blp:78
+#: data/ui/main_window.blp:81 data/ui/main_window_no_csd.blp:81
 #: src/widgets/file_dialogs.rs:145 src/widgets/file_dialogs.rs:228
 msgid "Save"
 msgstr "Сохранить"
 
-#: data/ui/main_window.blp:90 data/ui/main_window_no_csd.blp:99
+#: data/ui/main_window.blp:90 data/ui/main_window_no_csd.blp:102
 msgid "Export request"
 msgstr "Экспортировать запрос"
 
@@ -576,40 +604,27 @@ msgstr "Экспортировать запрос"
 msgid "Menu"
 msgstr "Меню"
 
-#: data/ui/main_window.blp:115 data/ui/main_window_no_csd.blp:116
-msgid "Welcome to Cartero"
-msgstr "Добро пожаловать в Cartero"
-
-#: data/ui/main_window.blp:116 data/ui/main_window_no_csd.blp:117
-msgid "Create or open a request and start testing APIs now."
-msgstr "Создайте или откройте запрос и начните тестировать API прямо сейчас."
-
-#: data/ui/main_window.blp:168 data/ui/main_window_no_csd.blp:170
+#: data/ui/main_window.blp:128 data/ui/main_window_no_csd.blp:139
 msgid "Export request as cURL…"
 msgstr "Экспортировать запрос как cURL…"
 
-#: data/ui/main_window.blp:174 data/ui/main_window_no_csd.blp:176
+#: data/ui/main_window.blp:134 data/ui/main_window_no_csd.blp:145
 msgid "Export request as Jetbrains HTTP…"
 msgstr "Экспортировать запрос как Jetbrains HTTP…"
 
-#: data/ui/main_window.blp:182 data/ui/main_window_no_csd.blp:184
+#: data/ui/main_window.blp:142 data/ui/main_window_no_csd.blp:153
 msgid "Export response body…"
 msgstr "Экспортировать запрос…"
 
-#: data/ui/main_window.blp:218 data/ui/main_window_no_csd.blp:220
-#: data/ui/settings/shell.blp:47
-msgid "Settings"
-msgstr "Настройки"
-
-#: data/ui/main_window.blp:225 data/ui/main_window_no_csd.blp:227
+#: data/ui/main_window.blp:185 data/ui/main_window_no_csd.blp:196
 msgid "Keyboard shortcuts"
 msgstr "Комбинации клавиш"
 
-#: data/ui/main_window.blp:230 data/ui/main_window_no_csd.blp:232
+#: data/ui/main_window.blp:190 data/ui/main_window_no_csd.blp:201
 msgid "About Cartero"
 msgstr "О приложении"
 
-#: data/ui/main_window.blp:235 data/ui/main_window_no_csd.blp:237
+#: data/ui/main_window.blp:195 data/ui/main_window_no_csd.blp:206
 msgid "Quit"
 msgstr "Выход"
 
@@ -793,6 +808,167 @@ msgstr "Тайм-аут запроса"
 msgid "Seconds to wait before cancelling the request"
 msgstr "Срок ожидания перед отменой запроса"
 
+#: data/ui/settings/page_proxy.blp:22
+msgid "Proxy"
+msgstr ""
+
+#: data/ui/settings/page_proxy.blp:26
+#, fuzzy
+msgid "Proxy settings"
+msgstr "Настройки файла"
+
+#: data/ui/settings/page_proxy.blp:29
+msgid "HTTP Proxy"
+msgstr ""
+
+#: data/ui/settings/page_proxy.blp:33
+msgid "HTTPS Proxy"
+msgstr ""
+
+#: data/ui/settings/page_proxy.blp:38
+msgid "Exclude from proxy"
+msgstr ""
+
+#: data/ui/settings/page_proxy.blp:39
+msgid ""
+"IP addresses and domain names contained in this list will bypass the proxy "
+"settings and be accessed directly."
+msgstr ""
+
+#: data/ui/settings/page_proxy.blp:55 data/ui/settings/page_proxy.blp:56
+msgid "Address to exclude"
+msgstr ""
+
+#: data/ui/settings/page_proxy.blp:60
+msgid "Add"
+msgstr ""
+
+#: data/ui/settings/page_proxy.blp:89
+msgid "No IP addresses or domain names are being excluded."
+msgstr ""
+
+#: data/ui/settings/page_proxy.blp:97
+msgid "Environment variables"
+msgstr ""
+
+#: data/ui/settings/page_proxy.blp:98
+msgid ""
+"Cartero supports the use of the standard http_proxy, https_proxy and "
+"no_proxy environment variables to provide the system proxy settings."
+msgstr ""
+
+#: data/ui/settings/page_proxy.blp:112
+msgid "Use environment variables as a fallback"
+msgstr ""
+
+#: data/ui/settings/page_proxy.blp:132 data/ui/settings/page_proxy.blp:143
+#: data/ui/settings/page_proxy.blp:154
+msgid "(empty)"
+msgstr ""
+
+#: data/ui/settings/page_security.blp:22
+msgid "Security"
+msgstr ""
+
+#: data/ui/settings/page_security.blp:26
+msgid ".env files"
+msgstr ""
+
+#: data/ui/settings/page_security.blp:27
+msgid ""
+".env files are commonly used in projects to store sensitive values such as "
+"credentials. Cartero can locate .env files and expose the variables inside "
+"so that you can use them in your requests."
+msgstr ""
+
+#: data/ui/settings/page_security.blp:31
+msgid "Find and load .env files"
+msgstr ""
+
+#: data/ui/settings/page_security.blp:32
+msgid ""
+"Cartero will only traverse your disk looking for .env files if you enable "
+"this option."
+msgstr ""
+
+#: data/ui/welcome/welcome_pane.blp:45
+msgid "Welcome to Cartero"
+msgstr "Добро пожаловать в Cartero"
+
+#: data/ui/welcome/welcome_pane.blp:46
+msgid "Create or open a request and start testing APIs now."
+msgstr "Создайте или откройте запрос и начните тестировать API прямо сейчас."
+
+#: data/ui/welcome/welcome_pane.blp:113
+msgid ""
+"Cartero is free software, released under the terms of the GNU General Public "
+"License v3 or later."
+msgstr ""
+
+#: data/ui/welcome/welcome_pane.blp:118 data/ui/welcome/welcome_pane.blp:166
+msgid "Know your rights"
+msgstr ""
+
+#: data/ui/welcome/welcome_pane.blp:152
+#, fuzzy
+msgid "Social media updates"
+msgstr "Обновления"
+
+#. TRANSLATORS: if your language has a different word for free as in freedom and free as in beer, and it's clear that free means "freedom", you might skip the "as in freedom" bit if you wish.
+#: data/ui/welcome/welcome_pane.blp:182
+msgid "You can use Cartero for free (as in freedom)"
+msgstr ""
+
+#: data/ui/welcome/welcome_pane.blp:183
+msgid ""
+"You don't have to ask for permission or purchase a license or subscription "
+"to use this software.\n"
+"\n"
+"Even if you use it at work or for commercial purposes."
+msgstr ""
+
+#: data/ui/welcome/welcome_pane.blp:190
+msgid "You can get, study and modify the source code"
+msgstr ""
+
+#: data/ui/welcome/welcome_pane.blp:191
+msgid ""
+"Mod the program so that it works exactly how you want, or just learn things "
+"if you are new to programming."
+msgstr ""
+
+#: data/ui/welcome/welcome_pane.blp:198
+msgid "You can share copies of the program"
+msgstr ""
+
+#: data/ui/welcome/welcome_pane.blp:199
+msgid ""
+"You can repackage Cartero or share copies of the software with other people, "
+"as long as the recipients have access to these freedoms too.\n"
+"\n"
+"(In other words: if you fork, your project must retain the GNU General "
+"Public License too.)"
+msgstr ""
+
+#: data/ui/welcome/welcome_pane.blp:206
+msgid "Cartero is built in community"
+msgstr ""
+
+#: data/ui/welcome/welcome_pane.blp:207
+msgid ""
+"Share feedback, contribute code, report bugs, translate Cartero to your "
+"language… You can be part of this!"
+msgstr ""
+
+#: data/ui/welcome/welcome_pane.blp:219
+#, fuzzy
+msgid "Previous"
+msgstr "Предыдущий результат"
+
+#: data/ui/welcome/welcome_pane.blp:235
+msgid "Next"
+msgstr ""
+
 #: src/interop.rs:32
 msgid ""
 "This file was created with a newer version of this application; please "
@@ -854,11 +1030,16 @@ msgstr "Сначала сохраните запрос"
 msgid "The file '{}' cannot be accessed due to the security policy"
 msgstr "Доступ к файлу '{}' невозможен из-за политики безопасности"
 
-#: src/interop.rs:82
+#: src/interop.rs:83
+#, fuzzy, rust-format
+msgid "Defined value for proxy '{}' is not a valid configuration"
+msgstr "Значение заголовка '{}' недействительно"
+
+#: src/interop.rs:87
 msgid "There is an input/output error"
 msgstr "Ошибка ввода/вывода"
 
-#: src/interop.rs:83
+#: src/interop.rs:88
 msgid "There is a network error"
 msgstr "Возникла ошибка сети"
 
@@ -1002,7 +1183,7 @@ msgstr ""
 "Закрытие этого окна приведёт к потере всех несохранённых данных. Вы "
 "действительно хотите продолжить?"
 
-#: src/widgets/dialogs.rs:197
+#: src/widgets/dialogs.rs:197 src/windows/settings/pages/proxy.rs:248
 msgid "Cancel"
 msgstr "Отмена"
 
@@ -1035,22 +1216,30 @@ msgstr "_Отменить"
 msgid "_Save"
 msgstr "_Сохранить"
 
-#: src/widgets/endpoint/endpoint_pane.rs:441
-#: src/widgets/endpoint/endpoint_pane.rs:447
-#: src/widgets/endpoint/endpoint_pane.rs:468
+#: src/widgets/endpoint/endpoint_pane.rs:296
+#, rust-format
+msgid "Show {} variable from .env"
+msgid_plural "Show {} variables from .env"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: src/widgets/endpoint/endpoint_pane.rs:570
+#: src/widgets/endpoint/endpoint_pane.rs:576
+#: src/widgets/endpoint/endpoint_pane.rs:597
 msgid "(generated during request)"
 msgstr "(сгенерировано во время запроса)"
 
-#: src/widgets/endpoint/endpoint_pane.rs:496
+#: src/widgets/endpoint/endpoint_pane.rs:625
 #, rust-format
 msgid "Show {} pre-generated headers"
 msgstr "Показать {} предварительно сгенерированных заголовков"
 
-#: src/widgets/endpoint/endpoint_pane.rs:701
+#: src/widgets/endpoint/endpoint_pane.rs:842
 msgid "Export request as cURL"
 msgstr "Экспортировать запрос как cURL"
 
-#: src/widgets/endpoint/endpoint_pane.rs:702
+#: src/widgets/endpoint/endpoint_pane.rs:843
 msgid "Export request as Jetbrains HTTP"
 msgstr "Экспортировать запрос как Jetbrains HTTP"
 
@@ -1075,7 +1264,7 @@ msgstr "Данные запроса недействительны"
 msgid "The request failed"
 msgstr "Запросы не выполнился"
 
-#: src/widgets/export_dialog.rs:112
+#: src/widgets/export_dialog.rs:115
 msgid "Content copied to the clipboard"
 msgstr "Содержимое скопировано в буфер обмена"
 
@@ -1111,26 +1300,52 @@ msgstr[0] "{} результат"
 msgstr[1] "{} результата"
 msgstr[2] "{} результатов"
 
-#: src/win.rs:286
+#: src/win.rs:287
 msgid "(untitled)"
 msgstr "(без названия)"
 
-#: src/win.rs:300
+#: src/win.rs:301
 msgid "Draft"
 msgstr "Черновик"
 
-#: src/win.rs:601
+#: src/win.rs:603
 msgid "The Cartero authors"
 msgstr "Авторы Cartero"
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
-#: src/win.rs:624
+#: src/win.rs:626
 msgid "translator-credits"
 msgstr "Vladimir Kosolapov"
 
-#: src/win.rs:625
+#: src/win.rs:627
 msgid "© 2024-2025 the Cartero authors"
 msgstr "© 2024-2025 Авторы Cartero"
+
+#: src/windows/settings/pages/proxy.rs:205
+msgid "The value is not a valid domain or IP address"
+msgstr ""
+
+#: src/windows/settings/pages/proxy.rs:220
+msgid "The host identifier is already excluded"
+msgstr ""
+
+#: src/windows/settings/pages/proxy.rs:240
+#, rust-format
+msgid "Delete '{}' from the list of excluded hosts for the proxy?"
+msgstr ""
+
+#: src/windows/settings/pages/proxy.rs:245
+msgid "Delete identifier?"
+msgstr ""
+
+#: src/windows/settings/pages/proxy.rs:249
+#: src/windows/settings/pages/proxy.rs:284
+msgid "Remove"
+msgstr ""
+
+#: src/windows/settings/pages/proxy.rs:268
+msgid "No domains or IP addresses are being excluded"
+msgstr ""
 
 #~ msgid "The current tab is not associated with a file"
 #~ msgstr "Текущая вкладка не ассоциирована с файлом"

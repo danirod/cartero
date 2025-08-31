@@ -69,6 +69,15 @@ impl Field {
     pub fn builder() -> builder::FieldBuilder {
         builder::FieldBuilder::default()
     }
+
+    pub fn dup(&self) -> Self {
+        builder::FieldBuilder::default()
+            .key(self.key().to_string())
+            .value(self.value().to_string())
+            .active(self.active())
+            .masked(self.masked())
+            .build()
+    }
 }
 
 impl<T> From<(T, T)> for Field

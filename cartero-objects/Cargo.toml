@@ -24,6 +24,7 @@ license.workspace = true
 [dependencies]
 base64.workspace = true
 content_disposition.workspace = true
+dotenvy = "0.15.7"
 glib.workspace = true
 gio.workspace = true
 http.workspace = true

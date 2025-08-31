@@ -74,6 +74,16 @@ impl Request {
         builder::RequestBuilder::new(url, method)
     }
 
+    pub fn dup(&self) -> Self {
+        builder::RequestBuilder::new(self.url().as_str(), self.method())
+            .headers(&self.headers())
+            .params(&self.params().dup())
+            .variables(&self.variables().dup())
+            .with_auth(self.authentication().dup())
+            .with_body(self.body().dup())
+            .build()
+    }
+
     pub fn template_processor(&self) -> SrTemplate<'static> {
         // Currently only delegates to variables(). In the future may be bound to an environment.
         self.variables().template_processor()

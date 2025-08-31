@@ -14,25 +14,22 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
+using Gtk 4.0;
+using Adw 1;
 
-use cartero_objects::EnvFile;
+template $CarteroSettingsPageSecurity: Adw.PreferencesPage {
+  name: "security";
+  title: _("Security");
+  icon-name: "security-medium-symbolic";
 
-pub struct ClientConfig {
-    pub validate_tls: bool,
-    pub redirects: u64,
-    pub timeout: f64,
-}
+  Adw.PreferencesGroup {
+    title: _(".env files");
+    description: _(".env files are commonly used in projects to store sensitive values such as credentials. Cartero can locate .env files and expose the variables inside so that you can use them in your requests.");
 
-pub struct ProxyConfig {
-    pub respect_system_proxy: bool,
-    pub http_proxy: String,
-    pub https_proxy: String,
-    pub no_proxy: Vec<String>,
-}
-
-pub struct RequestEnvironment {
-    pub config: ClientConfig,
-    pub proxy: Option<ProxyConfig>,
-    pub prefix: Option<gio::File>,
-    pub env_file: Option<EnvFile>,
+    Adw.SwitchRow {
+      action-name: "widget.read-env-files";
+      title: _("Find and load .env files");
+      subtitle: _("Cartero will only traverse your disk looking for .env files if you enable this option.");
+    }
+  }
 }

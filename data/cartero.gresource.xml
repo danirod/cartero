@@ -1,55 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/es/danirod/Cartero/">
-    <file alias="style.css" compressed="true">style.css</file>
-    <file alias="gtk/help-overlay.ui" compressed="true" preprocess="xml-stripblanks">gtk/help_overlay.ui</file>
+    <file alias="authentication_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/authentication_pane.ui</file>
     <file alias="basic_auth_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/basic_auth_pane.ui</file>
     <file alias="bearer_token_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/bearer_token_pane.ui</file>
-    <file alias="authentication_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/authentication_pane.ui</file>
     <file alias="endpoint_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/endpoint_pane.ui</file>
     <file alias="error_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/error_pane.ui</file>
+    <file alias="export_dialog.ui" compressed="true" preprocess="xml-stripblanks">ui/export_dialog.ui</file>
     <file alias="field_action_row.ui" compressed="true" preprocess="xml-stripblanks">ui/field_action_row.ui</file>
-    <file alias="field_placeholder_row.ui" compressed="true" preprocess="xml-stripblanks">ui/field_placeholder_row.ui</file>
     <file alias="field_list_box_row.ui" compressed="true" preprocess="xml-stripblanks">ui/field_list_box_row.ui</file>
     <file alias="field_list_box_static_row.ui" compressed="true" preprocess="xml-stripblanks">ui/field_list_box_static_row.ui</file>
+    <file alias="field_placeholder_row.ui" compressed="true" preprocess="xml-stripblanks">ui/field_placeholder_row.ui</file>
     <file alias="field_table_list_view.ui" compressed="true" preprocess="xml-stripblanks">ui/field_table_list_view.ui</file>
     <file alias="field_table_static_list_view.ui" compressed="true" preprocess="xml-stripblanks">ui/field_table_static_list_view.ui</file>
     <file alias="file_body_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/file_body_pane.ui</file>
+    <file alias="gtk/help-overlay.ui" compressed="true" preprocess="xml-stripblanks">gtk/help_overlay.ui</file>
     <file alias="mac_menu.ui" compressed="true" preprocess="xml-stripblanks">ui/mac_menu.ui</file>
     <file alias="main_window_no_csd.ui" compressed="true" preprocess="xml-stripblanks">ui/main_window_no_csd.ui</file>
     <file alias="main_window.ui" compressed="true" preprocess="xml-stripblanks">ui/main_window.ui</file>
     <file alias="method_dropdown.ui" compressed="true" preprocess="xml-stripblanks">ui/method_dropdown.ui</file>
-    <file alias="export_dialog.ui" compressed="true" preprocess="xml-stripblanks">ui/export_dialog.ui</file>
+    <file alias="multipart_body_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/multipart_body_pane.ui</file>
+    <file alias="raw_body_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/raw_body_pane.ui</file>
     <file alias="request_body_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/request_body_pane.ui</file>
     <file alias="response_headers.ui" compressed="true" preprocess="xml-stripblanks">ui/response_headers.ui</file>
     <file alias="response_panel.ui" compressed="true" preprocess="xml-stripblanks">ui/response_panel.ui</file>
     <file alias="search_box.ui" compressed="true" preprocess="xml-stripblanks">ui/search_box.ui</file>
-    <file alias="urlencoded_body_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/urlencoded_body_pane.ui</file>
-    <file alias="multipart_body_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/multipart_body_pane.ui</file>
-    <file alias="raw_body_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/raw_body_pane.ui</file>
-    <file alias="settings/pill.ui" compressed="true" preprocess="xml-stripblanks">ui/settings/pill.ui</file>
-    <file alias="settings/shell.ui" compressed="true" preprocess="xml-stripblanks">ui/settings/shell.ui</file>
-    <file alias="settings/page_application.ui" compressed="true" preprocess="xml-stripblanks">ui/settings/page_application.ui</file>
     <file alias="settings/page_appearance.ui" compressed="true" preprocess="xml-stripblanks">ui/settings/page_appearance.ui</file>
+    <file alias="settings/page_application.ui" compressed="true" preprocess="xml-stripblanks">ui/settings/page_application.ui</file>
     <file alias="settings/page_code_editor.ui" compressed="true" preprocess="xml-stripblanks">ui/settings/page_code_editor.ui</file>
     <file alias="settings/page_http_client.ui" compressed="true" preprocess="xml-stripblanks">ui/settings/page_http_client.ui</file>
     <file alias="settings/page_proxy.ui" compressed="true" preprocess="xml-stripblanks">ui/settings/page_proxy.ui</file>
+    <file alias="settings/page_security.ui" compressed="true" preprocess="xml-stripblanks">ui/settings/page_security.ui</file>
+    <file alias="settings/pill.ui" compressed="true" preprocess="xml-stripblanks">ui/settings/pill.ui</file>
+    <file alias="settings/shell.ui" compressed="true" preprocess="xml-stripblanks">ui/settings/shell.ui</file>
+    <file alias="style.css" compressed="true">style.css</file>
+    <file alias="urlencoded_body_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/urlencoded_body_pane.ui</file>
     <file alias="welcome/welcome_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/welcome/welcome_pane.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/horizontal-arrows-symbolic.svg</file>
-    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/tab-new-symbolic.svg</file>
-    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/share-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/encode-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/horizontal-arrows-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/share-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/actions/tab-new-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/apps/es.danirod.Cartero.Devel.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/apps/es.danirod.Cartero.svg</file>
-    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/eye-not-looking-symbolic.svg</file>
-    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/network-proxy-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/code-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/eye-not-looking-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/fediverse-symbolic.svg</file>
-    <file compressed="true" preprocess="xml-stripblanks">icons/symbolic/apps/es.danirod.Cartero-symbolic.svg</file>
-    <file compressed="true" preprocess="xml-stripblanks">icons/symbolic/apps/git-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/left-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/network-proxy-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/people-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/right-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/verified-checkmark-symbolic.svg</file>
-    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/people-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/symbolic/apps/es.danirod.Cartero-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/symbolic/apps/git-symbolic.svg</file>
   </gresource>
 </gresources>

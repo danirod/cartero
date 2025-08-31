@@ -312,7 +312,8 @@ mod imp {
             self.kill_clean_drafts();
 
             let pane = EndpointPane::default();
-            self.insert_pane_into_tabs(&pane.upcast());
+            self.insert_pane_into_tabs(&pane.clone().upcast());
+            let _ = pane.activate_action("endpoint.focus-url", None);
         }
 
         /// Returns a generic iterator to traverse the pages in the tab view.

@@ -212,7 +212,7 @@ impl CarteroApplication {
             .activate(glib::clone!(
                 #[weak(rename_to = app)]
                 self,
-                move |_, _, page| {
+                move |_, _, _| {
                     let window = app
                         .windows_by_type::<crate::windows::settings::Shell>()
                         .first()
@@ -221,7 +221,7 @@ impl CarteroApplication {
                             let settings_shell = crate::windows::settings::Shell::new();
                             let window = app.new_window(&settings_shell);
                             window.set_modal(true);
-                            window.set_default_size(700, 800);
+                            window.set_default_size(700, 500);
                             window.set_title(Some(&gettext("Settings")));
                             window.set_resizable(false);
                             window.upcast()
@@ -247,7 +247,7 @@ impl CarteroApplication {
                             let settings_shell = crate::windows::settings::Shell::new();
                             let window = app.new_window(&settings_shell);
                             window.set_modal(true);
-                            window.set_default_size(700, 540);
+                            window.set_default_size(700, 500);
                             window.set_title(Some(&gettext("Settings")));
                             window.set_resizable(false);
                             window.upcast()

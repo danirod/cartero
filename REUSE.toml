@@ -83,6 +83,7 @@ path = [
     "data/icons/scalable/emblems/eye-not-looking-symbolic.svg",
     "data/icons/scalable/emblems/network-proxy-symbolic.svg",
     "data/icons/scalable/emblems/code-symbolic.svg",
+    "data/icons/scalable/emblems/shield-half-symbolic.svg",
     "website/assets/adwaita-icons/branch-symbolic.svg",
     "website/assets/adwaita-icons/bug-symbolic.svg",
     "website/assets/adwaita-icons/bug-symbolic.svg",
@@ -155,9 +156,11 @@ SPDX-License-Identifier = "CC-BY-SA-4.0"
 path = [
         "cartero-file-format/tests/**/*.cartero",
         "cartero-http/src/fixtures/hello.txt",
+        "cartero-http/tests/.env",
         "cartero-code-exporters/tests/**/*.cartero",
         "cartero-code-exporters/tests/**/*.curl",
         "cartero-code-exporters/tests/**/*.http",
+        "cartero-objects/tests/env_files/**/*",
 ]
 SPDX-FileCopyrightText = "No copyright"
 SPDX-License-Identifier = "CC0-1.0"

@@ -692,34 +692,11 @@ mod imp {
                 }
             }
 
-            // Dark title bar on Windows
             #[cfg(all(windows, not(feature = "csd")))]
             {
-                let obj = self.obj();
-                let style_manager = adw::StyleManager::default();
-                style_manager.connect_color_scheme_notify(glib::clone!(
-                    #[weak]
-                    obj,
-                    move |scheme: &adw::StyleManager| {
-                        let dark = scheme.is_dark();
-                        crate::platform::win32_set_dark_mode(&obj, dark);
-                    }
-                ));
-                style_manager.connect_dark_notify(glib::clone!(
-                    #[weak]
-                    obj,
-                    move |scheme: &adw::StyleManager| {
-                        let dark = scheme.is_dark();
-                        crate::platform::win32_set_dark_mode(&obj, dark);
-                    }
-                ));
-                obj.connect_show(glib::clone!(
-                    #[weak]
-                    style_manager,
-                    move |obj: &super::CarteroWindow| {
-                        crate::platform::win32_set_dark_mode(&*obj, style_manager.is_dark());
-                    }
-                ));
+                // Init Fluent style.
+                let gtk_window = self.obj().clone().upcast::<gtk::Window>();
+                crate::platform::win32_init_window(&gtk_window, crate::platform::MicaLevel::Tabbed);
             }
 
             self.init_settings();

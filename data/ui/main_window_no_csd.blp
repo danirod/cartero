@@ -120,7 +120,13 @@ template $CarteroWindow: Gtk.ApplicationWindow {
         StackPage {
           name: "tabview";
 
-          child: Adw.TabView tabview {};
+          child: Adw.Bin {
+            styles [
+              "view",
+            ]
+
+            Adw.TabView tabview {}
+          };
         }
       }
     }

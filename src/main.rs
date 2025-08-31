@@ -116,7 +116,22 @@ fn main() -> glib::ExitCode {
 
     init_data_dir();
     if let Some(locale) = get_locale_from_schema() {
-        std::env::set_var("LANGUAGE", locale);
+        if locale != std::env::var("LANGUAGE").unwrap_or_default() {
+            std::env::set_var("LANGUAGE", locale);
+            if cfg!(windows) {
+                // Windows actually will ignore this change to the env var, so
+                // the whole program needs to be relaunched to take effect.
+                let exe = std::env::current_exe().expect("No argv[0]?");
+                let mut args = std::env::args_os();
+                let _ = args.next();
+
+                let status = std::process::Command::new(exe)
+                    .args(args)
+                    .status()
+                    .expect("Invalid re-call for cartero.exe");
+                std::process::exit(status.code().unwrap_or(1));
+            }
+        }
     }
     init_locale();
     init_glib();

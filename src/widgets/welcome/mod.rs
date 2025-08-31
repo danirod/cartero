@@ -15,23 +15,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-pub mod authentication;
-mod code_view;
-pub mod dialogs;
-pub mod endpoint;
-mod error_pane;
-mod export_dialog;
-pub mod field;
-mod file_dialogs;
-mod method_dropdown;
-pub mod req_body;
-mod search_box;
-pub mod shell;
-pub mod welcome;
+mod welcome_pane;
 
-pub use code_view::CodeView;
-pub use error_pane::ErrorPane;
-pub use export_dialog::*;
-pub use file_dialogs::*;
-pub use method_dropdown::MethodDropdown;
-pub use search_box::SearchBox;
+pub use welcome_pane::*;

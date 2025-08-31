@@ -21,6 +21,9 @@ template $CarteroWindow: Gtk.ApplicationWindow {
   title: "Cartero";
 
   Adw.BreakpointBin {
+    width-request: 240;
+    height-request: 320;
+
     Adw.Breakpoint {
       condition ("max-width: 500sp")
 
@@ -111,47 +114,7 @@ template $CarteroWindow: Gtk.ApplicationWindow {
         StackPage {
           name: "welcome";
 
-          child: Adw.StatusPage {
-            vexpand: true;
-            title: _("Welcome to Cartero");
-            description: _("Create or open a request and start testing APIs now.");
-            icon-name: "es.danirod.Cartero-symbolic";
-
-            child: Adw.Clamp {
-              maximum-size: 500;
-
-              Gtk.Box {
-                orientation: vertical;
-
-                Gtk.Button {
-                  styles [
-                    "pill",
-                    "suggested-action",
-                  ]
-
-                  action-name: "win.new";
-
-                  child: Adw.ButtonContent {
-                    icon-name: "tab-new-symbolic";
-                    label: _("New tab");
-                  };
-                }
-
-                Gtk.Button {
-                  styles [
-                    "pill",
-                  ]
-
-                  action-name: "win.open";
-
-                  child: Adw.ButtonContent {
-                    icon-name: "document-open-symbolic";
-                    label: _("Open request…");
-                  };
-                }
-              }
-            };
-          };
+          child: $CarteroWelcomePane {};
         }
 
         StackPage {

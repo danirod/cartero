@@ -38,6 +38,7 @@ mod imp {
     use crate::interop::{LoadResult, SaveResult};
     use crate::widgets::endpoint::EndpointPane;
     use crate::widgets::shell::{BasePane, BasePaneExt};
+    use crate::widgets::welcome::WelcomePane;
     use crate::{config, widgets::*};
     use glib::subclass::InitializingObject;
     use gtk::{CompositeTemplate, TemplateChild};
@@ -655,7 +656,8 @@ mod imp {
         type ParentType = gtk::ApplicationWindow;
 
         fn class_init(klass: &mut Self::Class) {
-            EndpointPane::static_type();
+            EndpointPane::ensure_type();
+            WelcomePane::ensure_type();
             klass.bind_template();
             klass.bind_template_callbacks();
         }

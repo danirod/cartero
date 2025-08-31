@@ -50,6 +50,7 @@ mod ffi {
     #[repr(C)]
     pub struct Class {
         parent_class: glib::gobject_ffi::GObjectClass,
+        pub(super) dup: fn(&super::RequestAuthenticationData) -> super::RequestAuthenticationData,
         pub(super) auth_type: fn(&super::RequestAuthenticationData) -> RequestAuthenticationType,
         pub(super) resolve: fn(
             &super::RequestAuthenticationData,
@@ -93,6 +94,7 @@ mod imp {
         type Class = super::ffi::Class;
 
         fn class_init(klass: &mut Self::Class) {
+            klass.dup = |obj| obj.imp().dup_default();
             klass.auth_type = |obj| obj.imp().auth_type_default();
             klass.resolve = |obj, tpl| obj.imp().resolve_default(tpl);
             klass.rendered_headers = |obj| obj.imp().rendered_headers_default();
@@ -111,6 +113,10 @@ mod imp {
     }
 
     impl RequestAuthenticationData {
+        fn dup_default(&self) -> super::RequestAuthenticationData {
+            panic!("not implemented");
+        }
+
         fn auth_type_default(&self) -> RequestAuthenticationType {
             panic!("not implemented");
         }
@@ -130,6 +136,12 @@ mod imp {
 
 #[doc(hidden)]
 pub trait RequestAuthenticationDataExt: IsA<RequestAuthenticationData> {
+    fn dup(&self) -> RequestAuthenticationData {
+        let this = self.upcast_ref();
+        let class = this.class();
+        (class.as_ref().dup)(this)
+    }
+
     fn auth_type(&self) -> RequestAuthenticationType {
         let this = self.upcast_ref();
         let class = this.class();
@@ -156,6 +168,9 @@ impl<T: IsA<RequestAuthenticationData>> RequestAuthenticationDataExt for T {}
 
 /// Trait with operations for subclasses of [RequestAuthenticationData].
 pub trait RequestAuthenticationDataImpl: ObjectImpl {
+    /// Duplicates the given request authentication data.
+    fn dup(&self) -> RequestAuthenticationData;
+
     /// Returns the auth-type associated with this class.
     ///
     /// Returns the specific [RequestAuthenticationType][super::RequestAuthenticationType]
@@ -174,6 +189,13 @@ pub trait RequestAuthenticationDataImpl: ObjectImpl {
 
 #[doc(hidden)]
 pub trait RequestAuthenticationDataImplExt: RequestAuthenticationDataImpl {
+    fn parent_dup(&self) -> RequestAuthenticationData {
+        let data = Self::type_data();
+        let parent_class = unsafe { &*(data.as_ref().parent_class() as *const ffi::Class) };
+        let dup = parent_class.dup;
+        dup(unsafe { self.obj().unsafe_cast_ref() })
+    }
+
     fn parent_auth_type(&self) -> RequestAuthenticationType {
         let data = Self::type_data();
         let parent_class = unsafe { &*(data.as_ref().parent_class() as *const ffi::Class) };
@@ -206,6 +228,10 @@ unsafe impl<T: RequestAuthenticationDataImpl> IsSubclassable<T> for RequestAuthe
         Self::parent_class_init::<T>(class);
 
         let klass = class.as_mut();
+        klass.dup = |obj| {
+            let this = unsafe { obj.unsafe_cast_ref::<<T as ObjectSubclass>::Type>().imp() };
+            RequestAuthenticationDataImpl::dup(this)
+        };
         klass.auth_type = |obj| {
             let this = unsafe { obj.unsafe_cast_ref::<<T as ObjectSubclass>::Type>().imp() };
             RequestAuthenticationDataImpl::auth_type(this)

@@ -146,6 +146,13 @@ mod imp {
     }
 
     impl RequestBodyDataImpl for RequestBodyRaw {
+        fn dup(&self) -> RequestBodyData {
+            super::RequestBodyRaw::builder(self.obj().payload_type())
+                .payload(self.obj().payload().to_string())
+                .build()
+                .upcast()
+        }
+
         fn body_type(&self) -> crate::RequestBodyType {
             crate::RequestBodyType::Raw
         }

@@ -147,6 +147,7 @@ mod tests {
     fn dummy_env() -> RequestEnvironment {
         RequestEnvironment {
             prefix: None,
+            env_file: None,
             proxy: None,
             config: crate::ClientConfig {
                 validate_tls: false,
@@ -493,6 +494,7 @@ mod tests {
         let env = dummy_env();
         let env = RequestEnvironment {
             config: env.config,
+            env_file: None,
             proxy: None,
             prefix: gio_file_for_current_file().parent(),
         };
@@ -526,6 +528,7 @@ mod tests {
         let env = dummy_env();
         let env = RequestEnvironment {
             config: env.config,
+            env_file: None,
             proxy: None,
             prefix: gio_file_for_current_file().parent(),
         };
@@ -552,6 +555,7 @@ mod tests {
         let env = dummy_env();
         let env = RequestEnvironment {
             config: env.config,
+            env_file: None,
             proxy: None,
             prefix: gio_file_for_current_file().parent(),
         };
@@ -578,6 +582,7 @@ mod tests {
         let env = dummy_env();
         let env = RequestEnvironment {
             config: env.config,
+            env_file: None,
             proxy: None,
             prefix: gio_file_for_current_file().parent(),
         };
@@ -604,6 +609,7 @@ mod tests {
         let env = dummy_env();
         let env = RequestEnvironment {
             config: env.config,
+            env_file: None,
             proxy: None,
             prefix: gio_file_for_current_file().parent(),
         };
@@ -630,6 +636,7 @@ mod tests {
         let env = dummy_env();
         let env = RequestEnvironment {
             config: env.config,
+            env_file: None,
             proxy: None,
             prefix: None,
         };
@@ -655,6 +662,7 @@ mod tests {
         let env = dummy_env();
         let env = RequestEnvironment {
             config: env.config,
+            env_file: None,
             proxy: None,
             prefix: gio_file_for_current_file().parent(),
         };

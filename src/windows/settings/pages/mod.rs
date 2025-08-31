@@ -20,9 +20,11 @@ mod application;
 mod code_editor;
 mod http_client;
 mod proxy;
+mod security;
 
 pub use appearance::Appearance;
 pub use application::Application;
 pub use code_editor::CodeEditor;
 pub use http_client::HttpClient;
 pub use proxy::Proxy;
+pub use security::Security;

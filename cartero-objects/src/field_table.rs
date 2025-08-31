@@ -78,7 +78,37 @@ impl Default for FieldTable {
     }
 }
 
+pub enum CombinePriority {
+    Prepend,
+    Append,
+}
+
 impl FieldTable {
+    /// Will merge the contents of the given FieldTable into this FieldTable.
+    /// Depending on the priority given, the elements will be prepended or
+    /// appended. This is important because it affects how template processors
+    /// will perceive the combined variables. If appended, they will have more
+    /// priority if a variable has the same name.
+    pub fn combine(&self, another: &Self, priority: CombinePriority) {
+        for n in 0..another.n_items() {
+            let next = another.field(n).expect("Empty but not empty?");
+            match priority {
+                CombinePriority::Prepend => self.insert_at(&next, n),
+                CombinePriority::Append => self.insert(&next),
+            }
+        }
+    }
+
+    pub fn dup(&self) -> Self {
+        let table = Self::default();
+        for field in self.iter::<Field>() {
+            if let Ok(field) = &field {
+                table.insert(&field.dup());
+            }
+        }
+        table
+    }
+
     /// Register the change signal for this field, so that whenever the inner
     /// Field changes because it emits a "change" signal, this table broadcasts
     /// the same event upwards.
@@ -124,7 +154,46 @@ impl FieldTable {
         let len = { self.imp().fields.borrow().len() };
         self.connect_signal(field, len - 1);
         self.items_changed((len - 1) as u32, 0, 1);
-        self.emit_by_name::<()>("changed", &[&""]);
+        let value = format!("[{}]", len - 1);
+        self.emit_by_name::<()>("changed", &[&value]);
+    }
+
+    /// Inserts a field into the table so that it lands at the requested position.
+    ///
+    /// When the given `pos` value is the position of a current value in the
+    /// FieldTable (so, when `pos` is a number in inclusive range 0 to n_items(),
+    /// the new item is added at that position and everything is moved one position
+    /// to the right.
+    ///
+    /// When the given `pos` is higher than the current n_items(), it behaves like
+    /// `insert()`.
+    pub fn insert_at(&self, field: &Field, pos: u32) {
+        if pos >= self.n_items() {
+            self.insert(field);
+            return;
+        }
+
+        let upos = pos as usize;
+        {
+            let mut fields = self.imp().fields.borrow_mut();
+            fields.insert(upos, field.clone());
+
+            // Signals from elements that have shifted to the right need to change
+            // because they are using the old index position.
+            for i in (upos + 1)..fields.len() {
+                self.disconnect_signal(&fields[i]);
+            }
+
+            // Signals from elements that have shifted to the right need to change
+            // because they are using the old index position.
+            for i in (upos)..fields.len() {
+                self.connect_signal(&fields[i], i);
+            }
+        }
+
+        self.items_changed(pos, 0, 1);
+        let value = format!("[{}]", pos);
+        self.emit_by_name::<()>("changed", &[&value]);
     }
 
     pub fn field(&self, pos: u32) -> Option<Field> {
@@ -174,6 +243,13 @@ impl FieldTable {
         // If we reach here, we survived delete.
         self.items_changed(pos, 1, 0);
         self.emit_by_name::<()>("changed", &[&""]);
+    }
+
+    /// Removes all the fields from the table.
+    pub fn clear(&self) {
+        while self.n_items() > 0 {
+            self.remove(0);
+        }
     }
 
     /// Groups by key every field contained in this table, accepting duplicates.
@@ -472,6 +548,141 @@ mod tests {
     }
 
     #[test]
+    fn combine_prepend() {
+        let f1 = Field::builder()
+            .key("User-Agent")
+            .value("Mozilla/5.0")
+            .build();
+        let f2 = Field::builder()
+            .key("Content-Type")
+            .value("text/html")
+            .build();
+        let f3 = Field::builder().key("Host").value("example.com").build();
+        let ft1 = FieldTable::from_iter(vec![f1, f2]);
+        let ft2 = FieldTable::from_iter(vec![f3]);
+        assert_eq!(2, ft1.n_items());
+        ft1.combine(&ft2, CombinePriority::Prepend);
+        assert_eq!(3, ft1.n_items());
+        assert_eq!("User-Agent", ft1.field(1).unwrap().key(),);
+        assert_eq!("Content-Type", ft1.field(2).unwrap().key(),);
+        assert_eq!("Host", ft1.field(0).unwrap().key(),);
+    }
+
+    #[test]
+    fn combine_append() {
+        let f1 = Field::builder()
+            .key("User-Agent")
+            .value("Mozilla/5.0")
+            .build();
+        let f2 = Field::builder()
+            .key("Content-Type")
+            .value("text/html")
+            .build();
+        let f3 = Field::builder().key("Host").value("example.com").build();
+        let ft1 = FieldTable::from_iter(vec![f1, f2]);
+        let ft2 = FieldTable::from_iter(vec![f3]);
+        assert_eq!(2, ft1.n_items());
+        ft1.combine(&ft2, CombinePriority::Append);
+        assert_eq!(3, ft1.n_items());
+        assert_eq!("User-Agent", ft1.field(0).unwrap().key(),);
+        assert_eq!("Content-Type", ft1.field(1).unwrap().key(),);
+        assert_eq!("Host", ft1.field(2).unwrap().key(),);
+    }
+
+    #[test]
+    fn combine_append_may_change_priorities() {
+        let staging = Field::builder().key("ENVIRONMENT").value("staging").build();
+        let production = Field::builder()
+            .key("ENVIRONMENT")
+            .value("production")
+            .build();
+        let table = FieldTable::from_iter(vec![staging]);
+
+        let values = table.template_processor();
+        let rendered = values.render("{{ENVIRONMENT}}");
+        assert_eq!(rendered, Ok("staging".to_string()));
+
+        let incoming = FieldTable::from_iter(vec![production]);
+        table.combine(&incoming, CombinePriority::Append);
+
+        let values = table.template_processor();
+        let rendered = values.render("{{ENVIRONMENT}}");
+        assert_eq!(rendered, Ok("production".to_string()));
+    }
+
+    #[test]
+    fn combine_append_may_not_change_priorities_if_variable_is_disabled() {
+        let staging = Field::builder().key("ENVIRONMENT").value("staging").build();
+        let production = Field::builder()
+            .key("ENVIRONMENT")
+            .value("production")
+            .active(false)
+            .build();
+        let table = FieldTable::from_iter(vec![staging]);
+
+        let values = table.template_processor();
+        let rendered = values.render("{{ENVIRONMENT}}");
+        assert_eq!(rendered, Ok("staging".to_string()));
+
+        let incoming = FieldTable::from_iter(vec![production]);
+        table.combine(&incoming, CombinePriority::Append);
+
+        let values = table.template_processor();
+        let rendered = values.render("{{ENVIRONMENT}}");
+        assert_eq!(rendered, Ok("staging".to_string()));
+    }
+
+    #[test]
+    fn combine_prepend_may_not_change_priorities() {
+        let staging = Field::builder().key("ENVIRONMENT").value("staging").build();
+        let production = Field::builder()
+            .key("ENVIRONMENT")
+            .value("production")
+            .build();
+        let table = FieldTable::from_iter(vec![staging]);
+
+        let values = table.template_processor();
+        let rendered = values.render("{{ENVIRONMENT}}");
+        assert_eq!(rendered, Ok("staging".to_string()));
+
+        let incoming = FieldTable::from_iter(vec![production]);
+        table.combine(&incoming, CombinePriority::Prepend);
+
+        let values = table.template_processor();
+        let rendered = values.render("{{ENVIRONMENT}}");
+        assert_eq!(rendered, Ok("staging".to_string()));
+    }
+
+    #[test]
+    fn combine_prepend_may_change_priorities_when_disabled() {
+        let staging = Field::builder()
+            .key("ENVIRONMENT")
+            .value("staging")
+            .active(false)
+            .build();
+        let production = Field::builder()
+            .key("ENVIRONMENT")
+            .value("production")
+            .build();
+        let table = FieldTable::from_iter(vec![staging]);
+
+        let values = table.template_processor();
+        let rendered = values.render("{{ENVIRONMENT}}");
+        assert_eq!(
+            rendered,
+            Err(srtemplate::Error::VariableNotFound(
+                "ENVIRONMENT".to_string()
+            ))
+        );
+
+        let incoming = FieldTable::from_iter(vec![production]);
+        table.combine(&incoming, CombinePriority::Prepend);
+
+        let values = table.template_processor();
+        let rendered = values.render("{{ENVIRONMENT}}");
+        assert_eq!(rendered, Ok("production".to_string()));
+    }
+    #[test]
     pub fn test_valid_from_iter_vec() {
         let field = Field::builder()
             .key("User-Agent")
@@ -503,6 +714,228 @@ mod tests {
         fields.insert(field2);
         let table = FieldTable::from_iter(fields);
         assert_eq!(2, table.n_items());
+    }
+
+    #[test]
+    fn test_insert_prepend() {
+        let f1 = Field::builder().key("HOST").value("example.com").build();
+        let f2 = Field::builder().key("TOKEN").value("123412341234").build();
+        let f3 = Field::builder().key("STAGE").value("staging").build();
+        let ft = FieldTable::from_iter(vec![f1, f2, f3]);
+
+        let fnew = Field::builder().key("DB").value("staging").build();
+        ft.insert_at(&fnew, 0);
+
+        assert_eq!(ft.n_items(), 4);
+        assert_eq!("DB", ft.field(0).unwrap().key());
+        assert_eq!("HOST", ft.field(1).unwrap().key());
+        assert_eq!("TOKEN", ft.field(2).unwrap().key());
+        assert_eq!("STAGE", ft.field(3).unwrap().key());
+    }
+
+    #[test]
+    fn test_insert_prepend_keeps_signal_order() {
+        let arc = Arc::new(Mutex::new(Vec::new()));
+
+        let f1 = Field::builder().key("HOST").value("example.com").build();
+        let f2 = Field::builder().key("TOKEN").value("123412341234").build();
+        let f3 = Field::builder().key("STAGE").value("staging").build();
+        let ft = FieldTable::from_iter(vec![f1.clone(), f2.clone(), f3.clone()]);
+
+        let sub_arc = Arc::clone(&arc);
+        ft.connect_local("changed", true, move |val| {
+            let mut messages = sub_arc.lock().expect("Cannot lock the mutex");
+            messages.push(val[1].get::<String>().expect("Value not a string?"));
+            None
+        });
+
+        // Let's check the current state of the field table.
+        f1.set_masked(true);
+        f2.set_masked(true);
+        f3.set_masked(true);
+        {
+            let messages = arc.lock().expect("Cannot lock the mutex");
+            assert_eq!(*messages, vec!["[0].masked", "[1].masked", "[2].masked"]);
+        }
+
+        // Reset to default and clear check array.
+        f1.set_masked(false);
+        f2.set_masked(false);
+        f3.set_masked(false);
+        {
+            let mut messages = arc.lock().expect("Cannot lock the mutex");
+            messages.clear();
+        }
+
+        let fnew = Field::builder().key("DB").value("staging").build();
+        ft.insert_at(&fnew, 0);
+
+        // The order must have swapped.
+        f1.set_masked(true);
+        f2.set_masked(true);
+        f3.set_masked(true);
+        fnew.set_masked(true);
+        {
+            let messages = arc.lock().expect("Cannot lock the mutex");
+            assert_eq!(
+                *messages,
+                vec![
+                    "[0]",
+                    "[1].masked",
+                    "[2].masked",
+                    "[3].masked",
+                    "[0].masked"
+                ]
+            );
+        }
+    }
+
+    #[test]
+    fn test_insert_mid() {
+        let f1 = Field::builder().key("HOST").value("example.com").build();
+        let f2 = Field::builder().key("TOKEN").value("123412341234").build();
+        let f3 = Field::builder().key("STAGE").value("staging").build();
+        let ft = FieldTable::from_iter(vec![f1, f2, f3]);
+
+        let fnew = Field::builder().key("DB").value("staging").build();
+        ft.insert_at(&fnew, 2);
+
+        assert_eq!(ft.n_items(), 4);
+        assert_eq!("HOST", ft.field(0).unwrap().key());
+        assert_eq!("TOKEN", ft.field(1).unwrap().key());
+        assert_eq!("DB", ft.field(2).unwrap().key());
+        assert_eq!("STAGE", ft.field(3).unwrap().key());
+    }
+
+    #[test]
+    fn test_insert_mid_keeps_signal_order() {
+        let arc = Arc::new(Mutex::new(Vec::new()));
+
+        let f1 = Field::builder().key("HOST").value("example.com").build();
+        let f2 = Field::builder().key("TOKEN").value("123412341234").build();
+        let f3 = Field::builder().key("STAGE").value("staging").build();
+        let ft = FieldTable::from_iter(vec![f1.clone(), f2.clone(), f3.clone()]);
+
+        let sub_arc = Arc::clone(&arc);
+        ft.connect_local("changed", true, move |val| {
+            let mut messages = sub_arc.lock().expect("Cannot lock the mutex");
+            messages.push(val[1].get::<String>().expect("Value not a string?"));
+            None
+        });
+
+        // Let's check the current state of the field table.
+        f1.set_masked(true);
+        f2.set_masked(true);
+        f3.set_masked(true);
+        {
+            let messages = arc.lock().expect("Cannot lock the mutex");
+            assert_eq!(*messages, vec!["[0].masked", "[1].masked", "[2].masked"]);
+        }
+
+        // Reset to default and clear check array.
+        f1.set_masked(false);
+        f2.set_masked(false);
+        f3.set_masked(false);
+        {
+            let mut messages = arc.lock().expect("Cannot lock the mutex");
+            messages.clear();
+        }
+
+        let fnew = Field::builder().key("DB").value("staging").build();
+        ft.insert_at(&fnew, 2);
+
+        // The order must have swapped.
+        f1.set_masked(true);
+        f2.set_masked(true);
+        f3.set_masked(true);
+        fnew.set_masked(true);
+        {
+            let messages = arc.lock().expect("Cannot lock the mutex");
+            assert_eq!(
+                *messages,
+                vec![
+                    "[2]",
+                    "[0].masked",
+                    "[1].masked",
+                    "[3].masked",
+                    "[2].masked"
+                ]
+            );
+        }
+    }
+
+    #[test]
+    fn test_insert_append() {
+        let f1 = Field::builder().key("HOST").value("example.com").build();
+        let f2 = Field::builder().key("TOKEN").value("123412341234").build();
+        let f3 = Field::builder().key("STAGE").value("staging").build();
+        let ft = FieldTable::from_iter(vec![f1, f2, f3]);
+
+        let fnew = Field::builder().key("DB").value("staging").build();
+        ft.insert_at(&fnew, 4);
+
+        assert_eq!(ft.n_items(), 4);
+        assert_eq!("HOST", ft.field(0).unwrap().key());
+        assert_eq!("TOKEN", ft.field(1).unwrap().key());
+        assert_eq!("STAGE", ft.field(2).unwrap().key());
+        assert_eq!("DB", ft.field(3).unwrap().key());
+    }
+
+    #[test]
+    fn test_insert_append_keeps_signal_order() {
+        let arc = Arc::new(Mutex::new(Vec::new()));
+
+        let f1 = Field::builder().key("HOST").value("example.com").build();
+        let f2 = Field::builder().key("TOKEN").value("123412341234").build();
+        let f3 = Field::builder().key("STAGE").value("staging").build();
+        let ft = FieldTable::from_iter(vec![f1.clone(), f2.clone(), f3.clone()]);
+
+        let sub_arc = Arc::clone(&arc);
+        ft.connect_local("changed", true, move |val| {
+            let mut messages = sub_arc.lock().expect("Cannot lock the mutex");
+            messages.push(val[1].get::<String>().expect("Value not a string?"));
+            None
+        });
+
+        // Let's check the current state of the field table.
+        f1.set_masked(true);
+        f2.set_masked(true);
+        f3.set_masked(true);
+        {
+            let messages = arc.lock().expect("Cannot lock the mutex");
+            assert_eq!(*messages, vec!["[0].masked", "[1].masked", "[2].masked"]);
+        }
+
+        // Reset to default and clear check array.
+        f1.set_masked(false);
+        f2.set_masked(false);
+        f3.set_masked(false);
+        {
+            let mut messages = arc.lock().expect("Cannot lock the mutex");
+            messages.clear();
+        }
+
+        let fnew = Field::builder().key("DB").value("staging").build();
+        ft.insert_at(&fnew, 4);
+
+        // The order must have swapped.
+        f1.set_masked(true);
+        f2.set_masked(true);
+        f3.set_masked(true);
+        fnew.set_masked(true);
+        {
+            let messages = arc.lock().expect("Cannot lock the mutex");
+            assert_eq!(
+                *messages,
+                vec![
+                    "[3]",
+                    "[0].masked",
+                    "[1].masked",
+                    "[2].masked",
+                    "[3].masked"
+                ]
+            );
+        }
     }
 
     #[test]

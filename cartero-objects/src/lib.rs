@@ -17,6 +17,7 @@
 
 #![doc = include_str!("../README.md")]
 
+mod env_file;
 mod field;
 mod field_table;
 mod request;
@@ -34,6 +35,7 @@ mod request_method;
 mod response;
 mod utils;
 
+pub use crate::env_file::*;
 pub use crate::field::*;
 pub use crate::field_table::*;
 pub use crate::request::*;

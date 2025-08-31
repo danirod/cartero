@@ -104,6 +104,14 @@ mod imp {
     }
 
     impl RequestAuthenticationDataImpl for RequestAuthenticationBasic {
+        fn dup(&self) -> crate::RequestAuthenticationData {
+            super::RequestAuthenticationBasic::builder()
+                .username(self.obj().username().to_string())
+                .password(self.obj().password().to_string())
+                .build()
+                .upcast()
+        }
+
         fn auth_type(&self) -> crate::RequestAuthenticationType {
             crate::RequestAuthenticationType::BasicAuth
         }

@@ -102,6 +102,14 @@ mod imp {
     }
 
     impl RequestBodyDataImpl for RequestBodyFile {
+        fn dup(&self) -> RequestBodyData {
+            super::RequestBodyFile::builder()
+                .path(self.obj().path())
+                .content_type(self.obj().content_type())
+                .build()
+                .upcast()
+        }
+
         fn body_type(&self) -> crate::RequestBodyType {
             crate::RequestBodyType::File
         }

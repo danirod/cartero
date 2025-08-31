@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-22 01:57+0200\n"
-"PO-Revision-Date: 2025-04-16 11:02+0000\n"
+"PO-Revision-Date: 2025-08-24 08:01+0000\n"
 "Last-Translator: vesp <vesp@post.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/cartero/cartero/cs/"
 ">\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.11.1-dev\n"
+"X-Generator: Weblate 5.13\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -210,31 +210,29 @@ msgid "Close request tab"
 msgstr "Zavřít panel požadavku"
 
 #: data/gtk/help_overlay.blp:68
-#, fuzzy
 msgctxt "shortcuts window"
 msgid "Code view operations"
-msgstr "Operace s požadavky"
+msgstr "Operace se zobrazením kódu"
 
 #: data/gtk/help_overlay.blp:71
 msgctxt "shortcuts window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Přiblížit"
 
 #: data/gtk/help_overlay.blp:76
 msgctxt "shortcuts window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Oddálit"
 
 #: data/gtk/help_overlay.blp:81
 msgctxt "shortcuts window"
 msgid "Reset zoom"
-msgstr ""
+msgstr "Obnovit přiblížení"
 
 #: data/gtk/help_overlay.blp:86
-#, fuzzy
 msgctxt "shortcuts window"
 msgid "Start search"
-msgstr "Hledat"
+msgstr "Spustit hledání"
 
 #: data/gtk/help_overlay.blp:92
 msgctxt "shortcuts window"
@@ -242,10 +240,9 @@ msgid "Request operations"
 msgstr "Operace s požadavky"
 
 #: data/gtk/help_overlay.blp:95
-#, fuzzy
 msgctxt "shortcuts window"
 msgid "Focus URL"
-msgstr "URL požadavku"
+msgstr "Zaměřit na URL"
 
 #: data/gtk/help_overlay.blp:100
 msgctxt "shortcuts window"
@@ -317,24 +314,21 @@ msgid "Body"
 msgstr "Tělo"
 
 #: data/ui/export_dialog.blp:54
-#, fuzzy
 msgid "Generated output"
-msgstr "Obecné klávesové zkratky"
+msgstr "Vygenerovaný výstup"
 
 #: data/ui/export_dialog.blp:64
-#, fuzzy
 msgid "Copy to clipboard"
-msgstr "Obsah zkopírován do schránky"
+msgstr "Zkopírovat do schránky"
 
 #: data/ui/export_dialog.blp:69 data/ui/response_panel.blp:103
 #: src/widgets/file_dialogs.rs:230
-#, fuzzy
 msgid "Export to file"
-msgstr "Exportovat do"
+msgstr "Exportovat do souboru"
 
 #: data/ui/field_list_box_row.blp:23 data/ui/field_placeholder_row.blp:27
 msgid "Enabled"
-msgstr ""
+msgstr "Povoleno"
 
 #: data/ui/field_list_box_row.blp:37 data/ui/field_list_box_row.blp:38
 #: data/ui/field_list_box_static_row.blp:36
@@ -362,26 +356,27 @@ msgstr "Smazat"
 
 #: data/ui/file_body_pane.blp:26
 msgid "File"
-msgstr ""
+msgstr "Soubor"
 
 #: data/ui/file_body_pane.blp:30
 msgid "Content Type"
 msgstr ""
 
 #: data/ui/file_body_pane.blp:41
-#, fuzzy
 msgid "or select a file from the file system:"
-msgstr "Nelze vybrat platný soubor z nástroje pro výběr souborů"
+msgstr "nebo vybrat soubor ze souborového systému:"
 
 #: data/ui/file_body_pane.blp:50
 msgid "Select file…"
-msgstr ""
+msgstr "Vybrat soubor…"
 
 #: data/ui/file_body_pane.blp:71
 msgid ""
 "You cannot pick a file from the file system until you save this request to "
 "disk."
 msgstr ""
+"Nemůžete vybrat soubor ze souborového systému, dokud tento požadavek "
+"neuložíte na disk."
 
 #: data/ui/file_body_pane.blp:97
 msgid ""
@@ -390,11 +385,15 @@ msgid ""
 "if they are in a parent directory or outside the project folder, or use "
 "absolute paths."
 msgstr ""
+"Můžete přiložit pouze soubory, pokud jsou uloženy ve stejném adresáři jako "
+"soubor s požadavkem, nebo v podadresáři. Nemůžete přiložit soubory s "
+"požadavkem, pokud jsou v nadřazeném adresáři nebo mimo složku projektu a "
+"nebo používat absolutní cesty."
 
 #: data/ui/mac_menu.blp:21
 msgctxt "menubar"
 msgid "File"
-msgstr ""
+msgstr "Soubor"
 
 #: data/ui/mac_menu.blp:25 data/ui/main_window.blp:135
 #: data/ui/main_window.blp:191 data/ui/main_window_no_csd.blp:136
@@ -426,25 +425,24 @@ msgstr "Zavřít panel"
 #: data/ui/mac_menu.blp:54
 msgctxt "menubar"
 msgid "Edit"
-msgstr ""
+msgstr "Upravit"
 
 #: data/ui/mac_menu.blp:58
 msgctxt "menubar"
 msgid "Undo"
-msgstr ""
+msgstr "Zpět"
 
 #: data/ui/mac_menu.blp:63
 msgctxt "menubar"
 msgid "Redo"
-msgstr ""
+msgstr "Znovu"
 
 #: data/ui/mac_menu.blp:70
 msgctxt "menubar"
 msgid "Cut"
-msgstr ""
+msgstr "Vyjmout"
 
 #: data/ui/mac_menu.blp:75
-#, fuzzy
 msgctxt "menubar"
 msgid "Copy"
 msgstr "Kopírovat"
@@ -452,10 +450,9 @@ msgstr "Kopírovat"
 #: data/ui/mac_menu.blp:80
 msgctxt "menubar"
 msgid "Paste"
-msgstr ""
+msgstr "Vložit"
 
 #: data/ui/mac_menu.blp:85
-#, fuzzy
 msgctxt "menubar"
 msgid "Delete"
 msgstr "Smazat"
@@ -463,7 +460,7 @@ msgstr "Smazat"
 #: data/ui/mac_menu.blp:92
 msgctxt "menubar"
 msgid "Select All"
-msgstr ""
+msgstr "Vybrat vše"
 
 #: data/ui/mac_menu.blp:99
 msgctxt "menubar"
@@ -473,7 +470,7 @@ msgstr ""
 #: data/ui/mac_menu.blp:103
 msgctxt "menubar"
 msgid "Edit URL"
-msgstr ""
+msgstr "Upravit URL"
 
 #: data/ui/mac_menu.blp:120 data/ui/settings/page_code_editor.blp:26
 msgid "Body appearance"
@@ -518,12 +515,12 @@ msgstr "8"
 #: data/ui/mac_menu.blp:179
 msgctxt "menubar"
 msgid "Window"
-msgstr ""
+msgstr "Okno"
 
 #: data/ui/mac_menu.blp:183
 msgctxt "menubar"
 msgid "Minimize"
-msgstr ""
+msgstr "Minimalizovat"
 
 #. TRANSLATORS: This item will only be visible in macOS, where the convention is to call it "zoom" instead of "maximize"
 #: data/ui/mac_menu.blp:189
@@ -534,7 +531,7 @@ msgstr ""
 #: data/ui/mac_menu.blp:196
 msgctxt "menubar"
 msgid "Help"
-msgstr ""
+msgstr "Nápověda"
 
 #: data/ui/mac_menu.blp:200 src/win.rs:629
 msgid "User manual"
@@ -543,12 +540,12 @@ msgstr "Uživatelská příručka"
 #: data/ui/mac_menu.blp:205
 msgctxt "menubar"
 msgid "Report a bug"
-msgstr ""
+msgstr "Nahlásit chybu"
 
 #: data/ui/mac_menu.blp:210
 msgctxt "menubar"
 msgid "View discussions"
-msgstr ""
+msgstr "Zobrazit diskuze"
 
 #: data/ui/mac_menu.blp:217 src/win.rs:631
 msgid "Help us translate"
@@ -579,7 +576,7 @@ msgstr "Exportovat požadavek"
 
 #: data/ui/main_window.blp:97
 msgid "Menu"
-msgstr ""
+msgstr "Nabídka"
 
 #: data/ui/main_window.blp:115 data/ui/main_window_no_csd.blp:116
 msgid "Welcome to Cartero"
@@ -590,19 +587,16 @@ msgid "Create or open a request and start testing APIs now."
 msgstr "Vytvořte nebo otevřete požadavek a začněte testovat API."
 
 #: data/ui/main_window.blp:168 data/ui/main_window_no_csd.blp:170
-#, fuzzy
 msgid "Export request as cURL…"
-msgstr "Exportovat požadavek"
+msgstr "Exportovat požadavek jako cURL…"
 
 #: data/ui/main_window.blp:174 data/ui/main_window_no_csd.blp:176
-#, fuzzy
 msgid "Export request as Jetbrains HTTP…"
-msgstr "Exportovat požadavek"
+msgstr "Exportovat požadavek jako JetBrains HTTP…"
 
 #: data/ui/main_window.blp:182 data/ui/main_window_no_csd.blp:184
-#, fuzzy
 msgid "Export response body…"
-msgstr "Exportovat požadavek"
+msgstr "Exportovat tělo požadavku…"
 
 #: data/ui/main_window.blp:218 data/ui/main_window_no_csd.blp:220
 #: data/ui/settings/shell.blp:47
@@ -626,9 +620,8 @@ msgid "Request method"
 msgstr "Metoda požadavku"
 
 #: data/ui/raw_body_pane.blp:28
-#, fuzzy
 msgid "Request body"
-msgstr "Metoda požadavku"
+msgstr "Tělo požadavku"
 
 #: data/ui/request_body_pane.blp:34
 msgid "Body type"
@@ -647,14 +640,12 @@ msgid "Raw"
 msgstr "Raw"
 
 #: data/ui/request_body_pane.blp:65
-#, fuzzy
 msgid "From file"
-msgstr "Exportovat do"
+msgstr "Ze souboru"
 
 #: data/ui/response_headers.blp:42
-#, fuzzy
 msgid "No headers"
-msgstr "Hlavičky"
+msgstr "Žádné hlavičky"
 
 #: data/ui/response_panel.blp:30
 msgid "Ready to request"
@@ -668,20 +659,19 @@ msgstr ""
 
 #: data/ui/response_panel.blp:68
 msgid "Response body"
-msgstr ""
+msgstr "Tělo odpovědi"
 
 #: data/ui/response_panel.blp:87
 msgid "Binary response received"
-msgstr ""
+msgstr "Přijata binární odpověď"
 
 #: data/ui/response_panel.blp:88
 msgid "The response of this request should not be rendered in a text view."
-msgstr ""
+msgstr "Odpověď na tento požadavek nemůže být zobrazena jako text."
 
 #: data/ui/response_panel.blp:110
-#, fuzzy
 msgid "Render anyway"
-msgstr "Opravdu zavřít"
+msgstr "Přesto vypsat"
 
 #: data/ui/search_box.blp:42 data/ui/search_box.blp:43
 msgid "Search"
@@ -730,7 +720,7 @@ msgstr "Vlastní písmo"
 
 #: data/ui/settings/page_appearance.blp:52
 msgid "Click to select a font"
-msgstr ""
+msgstr "Klikněte pro výběr fontu"
 
 #: data/ui/settings/page_application.blp:22
 msgid "Application"
@@ -739,11 +729,11 @@ msgstr "Aplikace"
 #: data/ui/settings/page_application.blp:26
 #: data/ui/settings/page_application.blp:33
 msgid "Language"
-msgstr ""
+msgstr "Jazyk"
 
 #: data/ui/settings/page_application.blp:43
 msgid "You need to restart the program for the new locale to be used."
-msgstr ""
+msgstr "Musíte restartovat aplikaci, aby bylo použito nové místní nastavení."
 
 #: data/ui/settings/page_application.blp:50
 msgid "File settings"
@@ -771,7 +761,7 @@ msgstr "Aktuální verze"
 
 #: data/ui/settings/page_code_editor.blp:22
 msgid "Code editor"
-msgstr ""
+msgstr "Editor kódu"
 
 #: data/ui/settings/page_http_client.blp:22
 msgid "HTTP Client"
@@ -858,14 +848,13 @@ msgid "The given request body could not be encoded correctly"
 msgstr "Zadané tělo požadavku nebylo možné správně zakódovat"
 
 #: src/interop.rs:76
-#, fuzzy
 msgid "You have to save the request first"
-msgstr "Nelze uložit požadovaný soubor"
+msgstr "Nejprve je potřeba požadavek uložit"
 
 #: src/interop.rs:78
 #, rust-format
 msgid "The file '{}' cannot be accessed due to the security policy"
-msgstr ""
+msgstr "K souboru '{}' nelze přistupit kvůli bezpečnostní politice"
 
 #: src/interop.rs:82
 msgid "There is an input/output error"
@@ -950,9 +939,8 @@ msgid ""
 msgstr ""
 
 #: src/widgets/dialogs.rs:115
-#, fuzzy
 msgid "The requested file cannot be picked"
-msgstr "Požadovaný soubor byl načten, ale vyskytly se s ním problémy"
+msgstr "Nelze vybrat požadovaný soubor"
 
 #: src/widgets/dialogs.rs:116
 #, rust-format
@@ -990,15 +978,17 @@ msgid ""
 "likely a development error. (If you could report your test case and this "
 "error, we might be able to fix this in the future.)"
 msgstr ""
+"Během exportu došlo k interní chybě. To je s největší pravděpodobností chyba "
+"při vývoji. (Pokud byste nahlásili příklad pro otestování a tuto chybu, "
+"můžeme ji v budoucnu opravit..)"
 
 #: src/widgets/dialogs.rs:173
 msgid "Error cause:"
-msgstr ""
+msgstr "Chyba:"
 
 #: src/widgets/dialogs.rs:178
-#, fuzzy
 msgid "Could not export the request"
-msgstr "Nelze otevřít požadovaný soubor"
+msgstr "Nelze exportovat požadavek"
 
 #: src/widgets/dialogs.rs:191
 msgid "There are unsaved changes"
@@ -1048,23 +1038,22 @@ msgstr "_Uložit"
 #: src/widgets/endpoint/endpoint_pane.rs:441
 #: src/widgets/endpoint/endpoint_pane.rs:447
 #: src/widgets/endpoint/endpoint_pane.rs:468
+#, fuzzy
 msgid "(generated during request)"
-msgstr ""
+msgstr "(vytvořeno v průběhu požadavku)"
 
 #: src/widgets/endpoint/endpoint_pane.rs:496
 #, rust-format
 msgid "Show {} pre-generated headers"
-msgstr ""
+msgstr "Zobrazit {} předpřipravené hlavičky"
 
 #: src/widgets/endpoint/endpoint_pane.rs:701
-#, fuzzy
 msgid "Export request as cURL"
-msgstr "Exportovat požadavek"
+msgstr "Exportovat požadavek jako cURL"
 
 #: src/widgets/endpoint/endpoint_pane.rs:702
-#, fuzzy
 msgid "Export request as Jetbrains HTTP"
-msgstr "Exportovat požadavek"
+msgstr "Exportovat požadavek jako JetBrains HTTP"
 
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
 #: src/widgets/endpoint/response_panel.rs:341
@@ -1104,7 +1093,7 @@ msgstr "Otevřít požadavek"
 
 #: src/widgets/file_dialogs.rs:187
 msgid "Select file"
-msgstr ""
+msgstr "Vybrat soubor"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.

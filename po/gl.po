@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-31 22:47+0200\n"
+"POT-Creation-Date: 2025-08-31 23:19+0200\n"
 "PO-Revision-Date: 2025-08-12 14:01+0000\n"
 "Last-Translator: Eric Pernas <ericpg76@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/cartero/cartero/"
@@ -845,26 +845,22 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: data/ui/settings/page_proxy.blp:89
-msgid "No IP addresses or domain names are being excluded."
-msgstr ""
-
-#: data/ui/settings/page_proxy.blp:97
+#: data/ui/settings/page_proxy.blp:91
 msgid "Environment variables"
 msgstr ""
 
-#: data/ui/settings/page_proxy.blp:98
+#: data/ui/settings/page_proxy.blp:92
 msgid ""
 "Cartero supports the use of the standard http_proxy, https_proxy and "
 "no_proxy environment variables to provide the system proxy settings."
 msgstr ""
 
-#: data/ui/settings/page_proxy.blp:112
+#: data/ui/settings/page_proxy.blp:106
 msgid "Use environment variables as a fallback"
 msgstr ""
 
-#: data/ui/settings/page_proxy.blp:132 data/ui/settings/page_proxy.blp:143
-#: data/ui/settings/page_proxy.blp:154
+#: data/ui/settings/page_proxy.blp:126 data/ui/settings/page_proxy.blp:137
+#: data/ui/settings/page_proxy.blp:148
 msgid "(empty)"
 msgstr ""
 

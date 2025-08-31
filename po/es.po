@@ -1028,12 +1028,10 @@ msgid "The given URL is missing a protocol"
 msgstr "La URL indicada no tiene un protocolo"
 
 #: src/interop.rs:59
-#, rust-format
 msgid "The protocol {}:// is not supported"
 msgstr "El protocolo {}:// no está soportado"
 
 #: src/interop.rs:62 src/widgets/dialogs.rs:166
-#, rust-format
 msgid "The variable '{}' is not defined"
 msgstr "La variable '{}' no está definida"
 
@@ -1042,12 +1040,10 @@ msgid "There was a problem with a variable interpolation, review your inputs"
 msgstr "Hubo un problema interpolando las variables, revisa las entradas"
 
 #: src/interop.rs:68
-#, rust-format
 msgid "The header '{}' is not valid"
 msgstr "La cabecera '{}' no es válida"
 
 #: src/interop.rs:71
-#, rust-format
 msgid "The value for header '{}' is not valid"
 msgstr "El valor de la cabecera '{}' no es válido"
 
@@ -1060,13 +1056,11 @@ msgid "You have to save the request first"
 msgstr "Tienes que guardar la petición primero"
 
 #: src/interop.rs:78
-#, rust-format
 msgid "The file '{}' cannot be accessed due to the security policy"
 msgstr ""
 "El archivo '{}' no puede ser accedido debido a la política de seguridad"
 
 #: src/interop.rs:83
-#, rust-format
 msgid "Defined value for proxy '{}' is not a valid configuration"
 msgstr "El valor definido para el proxy '{}' no es una configuración válida"
 
@@ -1101,7 +1095,6 @@ msgid "You are running the latest version of Cartero."
 msgstr "Estás ejecutando la versión más reciente de Cartero."
 
 #: src/updates/ui.rs:57
-#, rust-format
 msgid ""
 "Version {} has been released. Do you want to visit the website to download "
 "the update now?"
@@ -1122,7 +1115,6 @@ msgid "_Not now"
 msgstr "Ahora _no"
 
 #: src/widgets/dialogs.rs:51
-#, rust-format
 msgid "Cannot open '{}'"
 msgstr "No se puede abrir '{}'"
 
@@ -1137,7 +1129,6 @@ msgid "Close"
 msgstr "Cerrar"
 
 #: src/widgets/dialogs.rs:75
-#, rust-format
 msgid "The file '{}' was loaded but had issues"
 msgstr "El archivo '{}' fue cargado pero tenía problemas"
 
@@ -1146,7 +1137,6 @@ msgid "The requested file was loaded but had issues"
 msgstr "El archivo solicitado fue cargado pero tenía problemas"
 
 #: src/widgets/dialogs.rs:99
-#, rust-format
 msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
@@ -1159,7 +1149,6 @@ msgid "The requested file cannot be picked"
 msgstr "El archivo solicitado no pudo ser elegido"
 
 #: src/widgets/dialogs.rs:116
-#, rust-format
 msgid ""
 "The file must be within the same directory as the request or project file or "
 "any of its subdirectories.\n"
@@ -1172,7 +1161,6 @@ msgstr ""
 "El archivo '{}' no es parte del directorio '{}'"
 
 #: src/widgets/dialogs.rs:136
-#, rust-format
 msgid "Cannot save '{}'"
 msgstr "No se puede guardar '{}'"
 
@@ -1231,7 +1219,6 @@ msgid "Close anyway"
 msgstr "Cerrar de todos modos"
 
 #: src/widgets/dialogs.rs:221
-#, rust-format
 msgid "Save changes in '{}'?"
 msgstr "¿Guardar cambios en '{}'?"
 
@@ -1256,7 +1243,6 @@ msgid "_Save"
 msgstr "_Guardar"
 
 #: src/widgets/endpoint/endpoint_pane.rs:296
-#, rust-format
 msgid "Show {} variable from .env"
 msgid_plural "Show {} variables from .env"
 msgstr[0] "Mostrar {} variable del .env"
@@ -1269,7 +1255,6 @@ msgid "(generated during request)"
 msgstr "(generado durante la petición)"
 
 #: src/widgets/endpoint/endpoint_pane.rs:625
-#, rust-format
 msgid "Show {} pre-generated headers"
 msgstr "Mostrar {} cabeceras pre-generadas"
 
@@ -1283,14 +1268,12 @@ msgstr "Exportar petición como Jetbrains HTTP"
 
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
 #: src/widgets/endpoint/response_panel.rs:341
-#, rust-format
 msgid "{} s"
 msgstr "{} s"
 
 #. Format as milliseconds.
 #. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
 #: src/widgets/endpoint/response_panel.rs:345
-#, rust-format
 msgid "{} ms"
 msgstr "{} ms"
 
@@ -1324,14 +1307,12 @@ msgstr "Seleccionar archivo"
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
 #: src/widgets/search_box.rs:254
-#, rust-format
 msgid "{} of {}"
 msgstr "{} de {}"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count when only
 #. the number of total ocurrences is known.
 #: src/widgets/search_box.rs:262
-#, rust-format
 msgid "{} result"
 msgid_plural "{} results"
 msgstr[0] "{} resultado"
@@ -1367,7 +1348,6 @@ msgid "The host identifier is already excluded"
 msgstr "El identificador de host ya está excluido"
 
 #: src/windows/settings/pages/proxy.rs:240
-#, rust-format
 msgid "Delete '{}' from the list of excluded hosts for the proxy?"
 msgstr "¿Eliminar '{}' de la lista de hosts excluidos para el proxy?"
 

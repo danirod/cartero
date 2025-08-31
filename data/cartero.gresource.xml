@@ -44,6 +44,12 @@
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/eye-not-looking-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/network-proxy-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/code-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/fediverse-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/symbolic/apps/es.danirod.Cartero-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/symbolic/apps/git-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/left-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/right-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/verified-checkmark-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/people-symbolic.svg</file>
   </gresource>
 </gresources>

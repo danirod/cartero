@@ -17,46 +17,231 @@
 using Gtk 4.0;
 using Adw 1;
 
-template $CarteroWelcomePane: Adw.Bin {
-  Adw.StatusPage {
-    vexpand: true;
-    title: _("Welcome to Cartero");
-    description: _("Create or open a request and start testing APIs now.");
-    icon-name: "es.danirod.Cartero-symbolic";
+template $CarteroWelcomePane: Adw.BreakpointBin {
+  width-request: 1;
+  height-request: 1;
 
-    child: Adw.Clamp {
-      maximum-size: 500;
+  Adw.Breakpoint {
+    condition ("max-width: 500sp")
 
-      Gtk.Box {
-        orientation: vertical;
+    setters {
+      bottom_bar.orientation: vertical;
+      gpl_license.halign: fill;
+      know_your_rights.halign: center;
+      links.visible: false;
+    }
+  }
 
-        Gtk.Button {
-          styles [
-            "pill",
-            "suggested-action",
-          ]
+  Gtk.Box {
+    orientation: vertical;
 
-          action-name: "win.new";
+    Adw.StatusPage {
+      hexpand: true;
+      vexpand: true;
+      title: _("Welcome to Cartero");
+      description: _("Create or open a request and start testing APIs now.");
+      icon-name: "es.danirod.Cartero-symbolic";
 
-          child: Adw.ButtonContent {
-            icon-name: "tab-new-symbolic";
-            label: _("New tab");
-          };
+      child: Adw.Clamp {
+        maximum-size: 500;
+
+        Gtk.Box {
+          orientation: vertical;
+
+          Gtk.Button {
+            styles [
+              "pill",
+              "suggested-action",
+            ]
+
+            action-name: "win.new";
+
+            child: Adw.ButtonContent {
+              icon-name: "tab-new-symbolic";
+              label: _("New tab");
+            };
+          }
+
+          Gtk.Button {
+            styles [
+              "pill",
+            ]
+
+            action-name: "win.open";
+
+            child: Adw.ButtonContent {
+              icon-name: "document-open-symbolic";
+              label: _("Open request…");
+            };
+          }
+        }
+      };
+    }
+
+    Adw.Clamp {
+      maximum-size: 720;
+
+      Gtk.Box bottom_bar {
+        styles [
+          "card",
+        ]
+
+        margin-top: 12;
+        margin-bottom: 12;
+        margin-start: 12;
+        margin-end: 12;
+        orientation: horizontal;
+        halign: fill;
+
+        Gtk.Box license_info {
+          margin-top: 12;
+          margin-bottom: 12;
+          margin-start: 12;
+          margin-end: 12;
+          hexpand: true;
+          orientation: vertical;
+          valign: center;
+          spacing: 12;
+
+          Gtk.Label gpl_license {
+            wrap: true;
+            halign: start;
+            label: _("Cartero is free software, released under the terms of the GNU General Public License v3 or later.");
+          }
+
+          Gtk.Button know_your_rights {
+            halign: start;
+            label: _("Know your rights");
+            action-name: "widget.license-conditions";
+          }
         }
 
-        Gtk.Button {
-          styles [
-            "pill",
-          ]
+        Gtk.Box links {
+          orientation: vertical;
+          valign: center;
 
-          action-name: "win.open";
+          Gtk.LinkButton {
+            uri: "https://cartero.danirod.es/docs";
+            halign: end;
 
-          child: Adw.ButtonContent {
-            icon-name: "document-open-symbolic";
-            label: _("Open request…");
-          };
+            Adw.ButtonContent {
+              label: _("User manual");
+              icon-name: "web-browser-symbolic";
+            }
+          }
+
+          Gtk.LinkButton {
+            uri: "https://github.com/danirod/cartero";
+            halign: end;
+
+            Adw.ButtonContent {
+              label: C_("menubar", "Report a bug");
+              icon-name: "dialog-warning-symbolic";
+            }
+          }
+
+          Gtk.LinkButton {
+            uri: "https://floss.social/@cartero";
+            halign: end;
+
+            Adw.ButtonContent {
+              label: _("Social media updates");
+              icon-name: "fediverse-symbolic";
+            }
+          }
         }
       }
-    };
+    }
+  }
+}
+
+Adw.Dialog rights {
+  presentation-mode: auto;
+  content-width: 640;
+  content-height: 500;
+  title: _("Know your rights");
+
+  Adw.ToolbarView {
+    Gtk.Overlay {
+      Adw.Carousel carousel {
+        margin-start: 64;
+        margin-end: 64;
+        allow-long-swipes: true;
+        allow-mouse-drag: true;
+        allow-scroll-wheel: true;
+
+        Adw.StatusPage {
+          hexpand: true;
+          vexpand: true;
+          icon-name: "verified-checkmark-symbolic";
+          // TRANSLATORS: if your language has a different word for free as in freedom and free as in beer, and it's clear that free means "freedom", you might skip the "as in freedom" bit if you wish.
+          title: _("You can use Cartero for free (as in freedom)");
+          description: _("You don't have to ask for permission or purchase a license or subscription to use this software.\n\nEven if you use it at work or for commercial purposes.");
+        }
+
+        Adw.StatusPage {
+          hexpand: true;
+          vexpand: true;
+          icon-name: "git-symbolic";
+          title: _("You can get, study and modify the source code");
+          description: _("Mod the program so that it works exactly how you want, or just learn things if you are new to programming.");
+        }
+
+        Adw.StatusPage {
+          hexpand: true;
+          vexpand: true;
+          icon-name: "share-symbolic";
+          title: _("You can share copies of the program");
+          description: _("You can repackage Cartero or share copies of the software with other people, as long as the recipients have access to these freedoms too.\n\n(In other words: if you fork, your project must retain the GNU General Public License too.)");
+        }
+
+        Adw.StatusPage {
+          hexpand: true;
+          vexpand: true;
+          icon-name: "people-symbolic";
+          title: _("Cartero is built in community");
+          description: _("Share feedback, contribute code, report bugs, translate Cartero to your language… You can be part of this!");
+        }
+      }
+
+      [overlay]
+      Gtk.Button previous {
+        styles [
+          "circular",
+        ]
+
+        clicked => $previous_page() swapped;
+        icon-name: "left-symbolic";
+        tooltip-text: _("Previous");
+        hexpand: false;
+        vexpand: false;
+        margin-start: 12;
+        halign: start;
+        valign: center;
+      }
+
+      [overlay]
+      Gtk.Button next {
+        styles [
+          "circular",
+        ]
+
+        clicked => $next_page() swapped;
+        icon-name: "right-symbolic";
+        tooltip-text: _("Next");
+        hexpand: false;
+        vexpand: false;
+        halign: end;
+        margin-end: 12;
+        valign: center;
+      }
+    }
+
+    [top]
+    Adw.HeaderBar {
+      title-widget: Adw.CarouselIndicatorDots {
+        carousel: carousel;
+      };
+    }
   }
 }

@@ -48,6 +48,7 @@ blueprint_files = [
     'ui/settings/page_code_editor.blp',
     'ui/settings/page_http_client.blp',
     'ui/settings/page_proxy.blp',
+    'ui/welcome/welcome_pane.blp',
 ]
 
 blueprint_targets = []

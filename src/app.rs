@@ -213,6 +213,7 @@ impl CarteroApplication {
                 #[weak(rename_to = app)]
                 self,
                 move |_, _, _| {
+                    let current_window = app.active_window();
                     let window = app
                         .windows_by_type::<crate::windows::settings::Shell>()
                         .first()
@@ -224,8 +225,18 @@ impl CarteroApplication {
                             window.set_default_size(700, 500);
                             window.set_title(Some(&gettext("Settings")));
                             window.set_resizable(false);
+                            #[cfg(all(windows, not(feature = "csd")))]
+                            {
+                                // Prepare Windows L&F.
+                                let base_window = window.clone().upcast::<gtk::Window>();
+                                crate::platform::win32_init_window(
+                                    &base_window,
+                                    crate::platform::MicaLevel::MainWindow,
+                                );
+                            }
                             window.upcast()
                         });
+                    window.set_transient_for(current_window.as_ref());
                     window.present();
                 }
             ))

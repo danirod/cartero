@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-31 23:21+0200\n"
-"PO-Revision-Date: 2025-05-01 14:01+0000\n"
+"PO-Revision-Date: 2025-09-01 16:02+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <ibaios@disroot.org>\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/cartero/cartero/"
 "eu/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 5.13.1-dev\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -222,17 +222,17 @@ msgstr "Eskaeren eragiketak"
 #: data/gtk/help_overlay.blp:71
 msgctxt "shortcuts window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Gerturatu"
 
 #: data/gtk/help_overlay.blp:76
 msgctxt "shortcuts window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Urrundu"
 
 #: data/gtk/help_overlay.blp:81
 msgctxt "shortcuts window"
 msgid "Reset zoom"
-msgstr ""
+msgstr "Berrezarri zooma"
 
 #: data/gtk/help_overlay.blp:86
 #, fuzzy
@@ -339,7 +339,7 @@ msgstr ""
 
 #: data/ui/endpoint_pane.blp:265
 msgid "Check again"
-msgstr ""
+msgstr "Egiaztatu berriro"
 
 #: data/ui/endpoint_pane.blp:293
 msgid "Authorization"
@@ -367,7 +367,7 @@ msgstr "Esportatu hona"
 
 #: data/ui/field_list_box_row.blp:23 data/ui/field_placeholder_row.blp:27
 msgid "Enabled"
-msgstr ""
+msgstr "Gaituta"
 
 #: data/ui/field_list_box_row.blp:37 data/ui/field_list_box_row.blp:38
 #: data/ui/field_list_box_static_row.blp:36
@@ -395,11 +395,11 @@ msgstr "Ezabatu"
 
 #: data/ui/file_body_pane.blp:26
 msgid "File"
-msgstr ""
+msgstr "Fitxategia"
 
 #: data/ui/file_body_pane.blp:30
 msgid "Content Type"
-msgstr ""
+msgstr "Eduki mota"
 
 #: data/ui/file_body_pane.blp:41
 #, fuzzy
@@ -409,7 +409,7 @@ msgstr ""
 
 #: data/ui/file_body_pane.blp:50
 msgid "Select file…"
-msgstr ""
+msgstr "Hautatu fitxategia…"
 
 #: data/ui/file_body_pane.blp:71
 msgid ""
@@ -428,7 +428,7 @@ msgstr ""
 #: data/ui/mac_menu.blp:21
 msgctxt "menubar"
 msgid "File"
-msgstr ""
+msgstr "Fitxategia"
 
 #: data/ui/mac_menu.blp:25 data/ui/main_window.blp:151
 #: data/ui/main_window_no_csd.blp:162 data/ui/welcome/welcome_pane.blp:65
@@ -458,22 +458,22 @@ msgstr "Itxi fitxa"
 #: data/ui/mac_menu.blp:54
 msgctxt "menubar"
 msgid "Edit"
-msgstr ""
+msgstr "Editatu"
 
 #: data/ui/mac_menu.blp:58
 msgctxt "menubar"
 msgid "Undo"
-msgstr ""
+msgstr "Desegin"
 
 #: data/ui/mac_menu.blp:63
 msgctxt "menubar"
 msgid "Redo"
-msgstr ""
+msgstr "Berregin"
 
 #: data/ui/mac_menu.blp:70
 msgctxt "menubar"
 msgid "Cut"
-msgstr ""
+msgstr "Ebaki"
 
 #: data/ui/mac_menu.blp:75
 #, fuzzy
@@ -484,7 +484,7 @@ msgstr "Kopiatu"
 #: data/ui/mac_menu.blp:80
 msgctxt "menubar"
 msgid "Paste"
-msgstr ""
+msgstr "Itsatsi"
 
 #: data/ui/mac_menu.blp:85
 #, fuzzy
@@ -495,7 +495,7 @@ msgstr "Ezabatu"
 #: data/ui/mac_menu.blp:92
 msgctxt "menubar"
 msgid "Select All"
-msgstr ""
+msgstr "Hautatu dena"
 
 #: data/ui/mac_menu.blp:99
 msgctxt "menubar"
@@ -505,7 +505,7 @@ msgstr ""
 #: data/ui/mac_menu.blp:103
 msgctxt "menubar"
 msgid "Edit URL"
-msgstr ""
+msgstr "Editatu URLa"
 
 #: data/ui/mac_menu.blp:120 data/ui/settings/page_code_editor.blp:26
 msgid "Body appearance"
@@ -550,23 +550,23 @@ msgstr "8"
 #: data/ui/mac_menu.blp:179
 msgctxt "menubar"
 msgid "Window"
-msgstr ""
+msgstr "Leihoa"
 
 #: data/ui/mac_menu.blp:183
 msgctxt "menubar"
 msgid "Minimize"
-msgstr ""
+msgstr "Ikonotu"
 
 #. TRANSLATORS: This item will only be visible in macOS, where the convention is to call it "zoom" instead of "maximize"
 #: data/ui/mac_menu.blp:189
 msgctxt "menubar"
 msgid "Zoom"
-msgstr ""
+msgstr "Zoom egin"
 
 #: data/ui/mac_menu.blp:196
 msgctxt "menubar"
 msgid "Help"
-msgstr ""
+msgstr "Laguntza"
 
 #: data/ui/mac_menu.blp:200 data/ui/welcome/welcome_pane.blp:132 src/win.rs:631
 msgid "User manual"
@@ -575,12 +575,12 @@ msgstr "Erabiltzailearen eskuliburua"
 #: data/ui/mac_menu.blp:205 data/ui/welcome/welcome_pane.blp:142
 msgctxt "menubar"
 msgid "Report a bug"
-msgstr ""
+msgstr "Eman arazoaren berri"
 
 #: data/ui/mac_menu.blp:210
 msgctxt "menubar"
 msgid "View discussions"
-msgstr ""
+msgstr "Ikusi eztabaidak"
 
 #: data/ui/mac_menu.blp:217 src/win.rs:633
 msgid "Help us translate"
@@ -611,7 +611,7 @@ msgstr "Esportatu eskaera"
 
 #: data/ui/main_window.blp:97
 msgid "Menu"
-msgstr ""
+msgstr "Menua"
 
 #: data/ui/main_window.blp:128 data/ui/main_window_no_csd.blp:139
 #, fuzzy
@@ -687,15 +687,15 @@ msgstr ""
 
 #: data/ui/response_panel.blp:68
 msgid "Response body"
-msgstr ""
+msgstr "Erantzunaren gorputza"
 
 #: data/ui/response_panel.blp:87
 msgid "Binary response received"
-msgstr ""
+msgstr "Erantzun bitarra jaso da"
 
 #: data/ui/response_panel.blp:88
 msgid "The response of this request should not be rendered in a text view."
-msgstr ""
+msgstr "Eskaeraren erantzuna ez litzateke testu gisa errendatu beharko."
 
 #: data/ui/response_panel.blp:110
 #, fuzzy
@@ -749,7 +749,7 @@ msgstr "Letra-tipo pertsonalizatua"
 
 #: data/ui/settings/page_appearance.blp:52
 msgid "Click to select a font"
-msgstr ""
+msgstr "Egin klik letra-tipoa hautatzeko"
 
 #: data/ui/settings/page_application.blp:22
 msgid "Application"
@@ -758,11 +758,11 @@ msgstr "Aplikazioa"
 #: data/ui/settings/page_application.blp:26
 #: data/ui/settings/page_application.blp:33
 msgid "Language"
-msgstr ""
+msgstr "Hizkuntza"
 
 #: data/ui/settings/page_application.blp:43
 msgid "You need to restart the program for the new locale to be used."
-msgstr ""
+msgstr "Programa berrabiarazi beharra dago hizkuntza berria erabiltzeko."
 
 #: data/ui/settings/page_application.blp:50
 msgid "File settings"
@@ -790,7 +790,7 @@ msgstr "Uneko bertsioa"
 
 #: data/ui/settings/page_code_editor.blp:22
 msgid "Code editor"
-msgstr ""
+msgstr "Kode-editorea"
 
 #: data/ui/settings/page_http_client.blp:22
 msgid "HTTP Client"
@@ -827,7 +827,7 @@ msgstr "Eskaera ezeztatu aurretik itxaron beharreko segundo kopurua"
 
 #: data/ui/settings/page_proxy.blp:22
 msgid "Proxy"
-msgstr ""
+msgstr "Proxya"
 
 #: data/ui/settings/page_proxy.blp:26
 #, fuzzy
@@ -836,33 +836,35 @@ msgstr "Fitxategien ezarpenak"
 
 #: data/ui/settings/page_proxy.blp:29
 msgid "HTTP Proxy"
-msgstr ""
+msgstr "HTTP proxya"
 
 #: data/ui/settings/page_proxy.blp:33
 msgid "HTTPS Proxy"
-msgstr ""
+msgstr "HTTPS proxya"
 
 #: data/ui/settings/page_proxy.blp:38
 msgid "Exclude from proxy"
-msgstr ""
+msgstr "Salbuetsi proxytik"
 
 #: data/ui/settings/page_proxy.blp:39
 msgid ""
 "IP addresses and domain names contained in this list will bypass the proxy "
 "settings and be accessed directly."
 msgstr ""
+"Zerrenda honetara gehitutako IP helbide eta domeinu izenak proxy "
+"ezarpenetatik salbuetsiko dira, zuzenean atzituz."
 
 #: data/ui/settings/page_proxy.blp:55 data/ui/settings/page_proxy.blp:56
 msgid "Address to exclude"
-msgstr ""
+msgstr "Salbuetsitako helbidea"
 
 #: data/ui/settings/page_proxy.blp:60
 msgid "Add"
-msgstr ""
+msgstr "Gehitu"
 
 #: data/ui/settings/page_proxy.blp:91
 msgid "Environment variables"
-msgstr ""
+msgstr "Inguruneko aldagaiak"
 
 #. TRANSLATORS: Keep the variable names "http_proxy", "https_proxy" and "no_proxy" in English because that's the name of the variable.
 #: data/ui/settings/page_proxy.blp:93
@@ -878,15 +880,15 @@ msgstr ""
 #: data/ui/settings/page_proxy.blp:127 data/ui/settings/page_proxy.blp:138
 #: data/ui/settings/page_proxy.blp:149
 msgid "(empty)"
-msgstr ""
+msgstr "(hutsik)"
 
 #: data/ui/settings/page_security.blp:22
 msgid "Security"
-msgstr ""
+msgstr "Segurtasuna"
 
 #: data/ui/settings/page_security.blp:26
 msgid ".env files"
-msgstr ""
+msgstr ".env fitxategiak"
 
 #: data/ui/settings/page_security.blp:27
 msgid ""
@@ -897,7 +899,7 @@ msgstr ""
 
 #: data/ui/settings/page_security.blp:31
 msgid "Find and load .env files"
-msgstr ""
+msgstr "Bilatu eta kargatu .env fitxategiak"
 
 #: data/ui/settings/page_security.blp:32
 msgid ""
@@ -921,7 +923,7 @@ msgstr ""
 
 #: data/ui/welcome/welcome_pane.blp:118 data/ui/welcome/welcome_pane.blp:166
 msgid "Know your rights"
-msgstr ""
+msgstr "Ezagutu zure eskubideak"
 
 #: data/ui/welcome/welcome_pane.blp:152
 #, fuzzy
@@ -931,7 +933,7 @@ msgstr "Software eguneraketak"
 #. TRANSLATORS: if your language has a different word for free as in freedom and free as in beer, and it's clear that free means "freedom", you might skip the "as in freedom" bit if you wish.
 #: data/ui/welcome/welcome_pane.blp:182
 msgid "You can use Cartero for free (as in freedom)"
-msgstr ""
+msgstr "Cartero libreki erabil dezakezu"
 
 #: data/ui/welcome/welcome_pane.blp:183
 msgid ""
@@ -981,7 +983,7 @@ msgstr "Aurreko emaitza"
 
 #: data/ui/welcome/welcome_pane.blp:235
 msgid "Next"
-msgstr ""
+msgstr "Hurrengoa"
 
 #: src/interop.rs:32
 msgid ""
@@ -1178,7 +1180,7 @@ msgstr ""
 
 #: src/widgets/dialogs.rs:173
 msgid "Error cause:"
-msgstr ""
+msgstr "Errorearen kausa:"
 
 #: src/widgets/dialogs.rs:178
 #, fuzzy
@@ -1234,19 +1236,19 @@ msgstr "_Gorde"
 #, rust-format
 msgid "Show {} variable from .env"
 msgid_plural "Show {} variables from .env"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Erakutsi .env fitxategiko aldagaia"
+msgstr[1] "Erakutsi .env fitxategiko {} aldagaiak"
 
 #: src/widgets/endpoint/endpoint_pane.rs:570
 #: src/widgets/endpoint/endpoint_pane.rs:576
 #: src/widgets/endpoint/endpoint_pane.rs:597
 msgid "(generated during request)"
-msgstr ""
+msgstr "(eskaeraren unean sortua)"
 
 #: src/widgets/endpoint/endpoint_pane.rs:625
 #, rust-format
 msgid "Show {} pre-generated headers"
-msgstr ""
+msgstr "Erakutsi aurrez sortutako {} goiburuak"
 
 #: src/widgets/endpoint/endpoint_pane.rs:842
 #, fuzzy
@@ -1296,7 +1298,7 @@ msgstr "Ireki eskaera"
 
 #: src/widgets/file_dialogs.rs:187
 msgid "Select file"
-msgstr ""
+msgstr "Hautatu fitxategia"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
@@ -1337,29 +1339,29 @@ msgstr "© 2024-2025 Carteroren egileak"
 
 #: src/windows/settings/pages/proxy.rs:205
 msgid "The value is not a valid domain or IP address"
-msgstr ""
+msgstr "Balioa ez da baliozko domeinua edo IP helbidea"
 
 #: src/windows/settings/pages/proxy.rs:220
 msgid "The host identifier is already excluded"
-msgstr ""
+msgstr "Ostalari-identifikatzailea dagoeneko salbuetsita dago"
 
 #: src/windows/settings/pages/proxy.rs:240
 #, rust-format
 msgid "Delete '{}' from the list of excluded hosts for the proxy?"
-msgstr ""
+msgstr "'{}' proxyrako salbuetsitako ostalarien zerrendatik ezabatu nahi duzu?"
 
 #: src/windows/settings/pages/proxy.rs:245
 msgid "Delete identifier?"
-msgstr ""
+msgstr "Identifikatzailea ezabatu?"
 
 #: src/windows/settings/pages/proxy.rs:249
 #: src/windows/settings/pages/proxy.rs:284
 msgid "Remove"
-msgstr ""
+msgstr "Kendu"
 
 #: src/windows/settings/pages/proxy.rs:268
 msgid "No domains or IP addresses are being excluded"
-msgstr ""
+msgstr "Ez da domeinurik edo IP helbiderik salbuetsiko"
 
 #~ msgid "The current tab is not associated with a file"
 #~ msgstr "Uneko fitxa ez dago fitxategi bati lotua"

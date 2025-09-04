@@ -698,6 +698,10 @@ mod imp {
                 let gtk_window = self.obj().clone().upcast::<gtk::Window>();
                 crate::platform::win32_init_window(&gtk_window, crate::platform::MicaLevel::Tabbed);
             }
+            {
+                let gtk_window = self.obj().clone().upcast::<gtk::Window>();
+                crate::native::prepare_window(&gtk_window);
+            }
 
             self.init_settings();
 

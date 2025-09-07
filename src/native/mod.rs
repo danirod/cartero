@@ -15,13 +15,16 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use glib::object::{CastNone};
+use gtk::prelude::{NativeExt, WidgetExt};
+
 #[cfg(windows)]
 mod windows;
 
 #[cfg(target_os = "macos")]
 mod macos;
 
-#[derive(Eq, PartialEq)]
+#[derive(Clone, Eq, PartialEq)]
 pub(crate) enum ColorScheme {
     Light,
     Dark,
@@ -38,10 +41,24 @@ impl From<adw::ColorScheme> for ColorScheme {
     }
 }
 
+#[allow(unused)]
+#[derive(Copy, Clone, Eq, PartialEq)]
+pub(crate) enum VibrancyMode {
+    None,
+    Standard,
+    Sidebar,
+}
+
 pub(crate) fn set_window_theme(win: &gtk::Window, color_scheme: adw::ColorScheme) {
     let scheme = ColorScheme::from(color_scheme);
     if cfg!(target_os = "macos") {
         self::macos::set_window_theme(win, scheme);
+    }
+}
+
+pub(crate) fn set_window_vibrancy(win: &gtk::Window, mode: VibrancyMode) {
+    if cfg!(target_os = "macos") {
+        self::macos::set_vibrancy(win, mode);
     }
 }
 
@@ -50,10 +67,28 @@ pub(crate) fn prepare_window(win: &gtk::Window) {
     let color_scheme = style_manager.color_scheme();
     set_window_theme(win, color_scheme);
 
+    if cfg!(target_os = "macos") {
+        win.add_css_class("macos-native");
+    }
+
+    win.connect_realize(|win| {
+        let surface = win.surface().and_downcast::<gdk4_macos::MacosSurface>().expect("Wasn't just realized?");
+        set_window_vibrancy(&win, VibrancyMode::Standard);
+        surface.connect_native_notify(glib::clone!(#[weak] win, move |_| {
+            set_window_vibrancy(&win, VibrancyMode::Standard);
+        }));
+    });
+
     style_manager.connect_color_scheme_notify(glib::clone!(#[weak] win, move |sm| {
         set_window_theme(&win, sm.color_scheme());
+        set_window_vibrancy(&win, VibrancyMode::Standard);
+    }));
+    style_manager.connect_dark_notify(glib::clone!(#[weak] win, move |sm| {
+        set_window_theme(&win, sm.color_scheme());
+        set_window_vibrancy(&win, VibrancyMode::Standard);
     }));
     style_manager.connect_high_contrast_notify(glib::clone!(#[weak] win, move |sm| {
         set_window_theme(&win, sm.color_scheme());
+        set_window_vibrancy(&win, VibrancyMode::Standard);
     }));
 }

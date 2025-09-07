@@ -46,6 +46,7 @@
   border-bottom-left-radius: 10px;
 }
 
+/* Win32 style when running as Mica. */
 window.mica, window.mica .top-bar {
   background-color: transparent;
 }
@@ -57,4 +58,22 @@ window.mica .welcome-pane {
 window.mica .sidebar-pane {
   background-color: transparent;
   --sidebar-border-color: transparent;
+}
+
+/* macOS style when running as Vibrant. */
+window.vibrant, window.vibrant .top-bar {
+  background-color: transparent;
+}
+
+window.vibrant .sidebar-pane {
+  background-color: transparent;
+}
+
+window.vibrant .content-pane {
+  background-color: var(--window-bg-color);
+}
+
+/* Disable window own border radius and use the macOS one because they don't match. */
+window.macos-native {
+  border-radius: 0;
 }

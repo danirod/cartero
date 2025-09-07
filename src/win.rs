@@ -58,6 +58,9 @@ mod imp {
         header_bar: TemplateChild<gtk::HeaderBar>,
 
         #[template_child]
+        toolbar: TemplateChild<adw::ToolbarView>,
+
+        #[template_child]
         tabs: TemplateChild<adw::TabBar>,
 
         #[template_child]
@@ -704,6 +707,18 @@ mod imp {
             }
 
             self.init_settings();
+
+            self.stack.bind_property("visible-child-name", &*self.toolbar, "top-bar-style")
+                .sync_create()
+                .transform_to(|_, value: &glib::Value| {
+                    let page = value.get::<String>().expect("No property?");
+                    if page == "tabview" {
+                        Some(adw::ToolbarStyle::Raised.to_value())
+                    } else {
+                        Some(adw::ToolbarStyle::Flat.to_value())
+                    }
+                })
+                .build();
 
             self.tabview.connect_close_page(glib::clone!(
                 #[weak(rename_to = imp)]

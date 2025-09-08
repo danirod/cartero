@@ -645,6 +645,15 @@ mod imp {
             ));
             about.present(Some(&*obj));
         }
+
+        fn update_native_appearance(&self) {
+            let gtk_window = self.obj().clone().upcast::<gtk::Window>();
+            let headerbar_height = match self.toolbar.top_bar_style() {
+                adw::ToolbarStyle::Flat => None,
+                _ => Some(self.toolbar.top_bar_height()),
+            };
+            crate::native::update_vibrancy(&gtk_window, headerbar_height, None);
+        }
     }
 
     #[glib::object_subclass]
@@ -704,6 +713,25 @@ mod imp {
             {
                 let gtk_window = self.obj().clone().upcast::<gtk::Window>();
                 crate::native::prepare_window(&gtk_window);
+
+                self.toolbar.connect_top_bar_height_notify(glib::clone!(#[weak(rename_to = imp)] self, move |_| {
+                    imp.update_native_appearance();
+                }));
+                self.toolbar.connect_top_bar_style_notify(glib::clone!(#[weak(rename_to = imp)] self, move |_| {
+                    imp.update_native_appearance();
+                }));
+                gtk_window.connect_fullscreened_notify(glib::clone!(#[weak(rename_to = imp)] self, move |_| {
+                    imp.update_native_appearance();
+                }));
+                gtk_window.connect_default_width_notify(glib::clone!(#[weak(rename_to = imp)] self, move |_| {
+                    imp.update_native_appearance();
+                }));
+                gtk_window.connect_default_height_notify(glib::clone!(#[weak(rename_to = imp)] self, move |_| {
+                    imp.update_native_appearance();
+                }));
+                gtk_window.connect_realize(glib::clone!(#[weak(rename_to = imp)] self, move |_| {
+                    imp.update_native_appearance();
+                }));
             }
 
             self.init_settings();
@@ -713,7 +741,11 @@ mod imp {
                 .transform_to(|_, value: &glib::Value| {
                     let page = value.get::<String>().expect("No property?");
                     if page == "tabview" {
-                        Some(adw::ToolbarStyle::Raised.to_value())
+                        if cfg!(target_os = "macos") {
+                            Some(adw::ToolbarStyle::RaisedBorder.to_value())
+                        } else {
+                            Some(adw::ToolbarStyle::Raised.to_value())
+                        }
                     } else {
                         Some(adw::ToolbarStyle::Flat.to_value())
                     }

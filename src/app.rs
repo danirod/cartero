@@ -236,9 +236,9 @@ impl CarteroApplication {
                             }
 
                             {
-                                // Prepare macOS L&F
+                                // Prepare native L&F
                                 let base_window = window.clone().upcast::<gtk::Window>();
-                                crate::native::prepare_window(&base_window);
+                                settings_shell.init_native_window(&base_window);
                             }
                             window.upcast()
                         });

@@ -61,16 +61,13 @@ window.mica .sidebar-pane {
 }
 
 /* macOS style when running as Vibrant. */
-window.vibrant, window.vibrant .top-bar {
-  background-color: transparent;
-}
-
-window.vibrant .sidebar-pane {
-  background-color: transparent;
-}
-
+window.vibrant,
+window.vibrant .top-bar,
+window.vibrant .view,
+window.vibrant .background,
+window.vibrant .sidebar-pane,
 window.vibrant .content-pane {
-  background-color: var(--window-bg-color);
+  background-color: transparent;
 }
 
 /* Disable window own border radius and use the macOS one because they don't match. */

@@ -15,8 +15,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use glib::object::{CastNone};
-use gtk::prelude::{NativeExt, WidgetExt};
+use gtk::prelude::WidgetExt;
 
 #[cfg(windows)]
 mod windows;
@@ -56,39 +55,38 @@ pub(crate) fn set_window_theme(win: &gtk::Window, color_scheme: adw::ColorScheme
     }
 }
 
-pub(crate) fn set_window_vibrancy(win: &gtk::Window, mode: VibrancyMode) {
+pub(crate) fn update_vibrancy(win: &gtk::Window, headerbar_height: Option<i32>, sidebar_width: Option<i32>) {
     if cfg!(target_os = "macos") {
-        self::macos::set_vibrancy(win, mode);
+        self::macos::update_vibrancy(win, sidebar_width, headerbar_height);
     }
 }
 
+/// Initialises the native elements for the window. This function does not initialise the
+/// vibrancy, because it has to receive the window metrics to do so, and they will change
+/// every time the window is resized, so remember to call update_vibrancy() if you want
+/// some of that.
 pub(crate) fn prepare_window(win: &gtk::Window) {
-    let style_manager = adw::StyleManager::default();
-    let color_scheme = style_manager.color_scheme();
-    set_window_theme(win, color_scheme);
-
-    if cfg!(target_os = "macos") {
+    // Marker class.
+    if cfg!(windows) {
+        win.add_css_class("win32-native");
+    } else if cfg!(target_os = "macos") {
         win.add_css_class("macos-native");
     }
 
     win.connect_realize(|win| {
-        let surface = win.surface().and_downcast::<gdk4_macos::MacosSurface>().expect("Wasn't just realized?");
-        set_window_vibrancy(&win, VibrancyMode::Standard);
-        surface.connect_native_notify(glib::clone!(#[weak] win, move |_| {
-            set_window_vibrancy(&win, VibrancyMode::Standard);
-        }));
+        let style_manager = adw::StyleManager::default();
+        let color_scheme = style_manager.color_scheme();
+        set_window_theme(&win, color_scheme);
     });
 
+    let style_manager = adw::StyleManager::default();
     style_manager.connect_color_scheme_notify(glib::clone!(#[weak] win, move |sm| {
         set_window_theme(&win, sm.color_scheme());
-        set_window_vibrancy(&win, VibrancyMode::Standard);
     }));
     style_manager.connect_dark_notify(glib::clone!(#[weak] win, move |sm| {
         set_window_theme(&win, sm.color_scheme());
-        set_window_vibrancy(&win, VibrancyMode::Standard);
     }));
     style_manager.connect_high_contrast_notify(glib::clone!(#[weak] win, move |sm| {
         set_window_theme(&win, sm.color_scheme());
-        set_window_vibrancy(&win, VibrancyMode::Standard);
     }));
 }

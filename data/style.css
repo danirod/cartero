@@ -70,6 +70,13 @@ window.vibrant .content-pane {
   background-color: transparent;
 }
 
+window.vibrant dialog .background {
+  background-color: var(--window-bg-color);
+}
+window.vibrant dialog .view {
+  background-color: var(--view-bg-color);
+}
+
 /* Disable window own border radius and use the macOS one because they don't match. */
 window.macos-native {
   border-radius: 0;

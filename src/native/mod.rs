@@ -50,15 +50,13 @@ pub(crate) enum VibrancyMode {
 
 pub(crate) fn set_window_theme(win: &gtk::Window, color_scheme: adw::ColorScheme) {
     let scheme = ColorScheme::from(color_scheme);
-    if cfg!(target_os = "macos") {
-        self::macos::set_window_theme(win, scheme);
-    }
+    #[cfg(target_os = "macos")]
+    self::macos::set_window_theme(win, scheme);
 }
 
 pub(crate) fn update_vibrancy(win: &gtk::Window, headerbar_height: Option<i32>, sidebar_width: Option<i32>) {
-    if cfg!(target_os = "macos") {
-        self::macos::update_vibrancy(win, sidebar_width, headerbar_height);
-    }
+    #[cfg(target_os = "macos")]
+    self::macos::update_vibrancy(win, sidebar_width, headerbar_height);
 }
 
 /// Initialises the native elements for the window. This function does not initialise the
@@ -67,11 +65,11 @@ pub(crate) fn update_vibrancy(win: &gtk::Window, headerbar_height: Option<i32>, 
 /// some of that.
 pub(crate) fn prepare_window(win: &gtk::Window) {
     // Marker class.
-    if cfg!(windows) {
-        win.add_css_class("win32-native");
-    } else if cfg!(target_os = "macos") {
-        win.add_css_class("macos-native");
-    }
+    #[cfg(target_os = "windows")]
+    win.add_css_class("win32-native");
+
+    #[cfg(target_os = "macos")]
+    win.add_css_class("macos-native");
 
     win.connect_realize(|win| {
         let style_manager = adw::StyleManager::default();

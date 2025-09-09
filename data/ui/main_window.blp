@@ -31,9 +31,7 @@ template $CarteroWindow: Adw.ApplicationWindow {
   }
 
   [content]
-  Adw.ToolbarView {
-    top-bar-style: raised;
-
+  Adw.ToolbarView toolbar {
     [top]
     Gtk.HeaderBar header_bar {
       title-widget: Adw.WindowTitle window_title {
@@ -116,7 +114,13 @@ template $CarteroWindow: Adw.ApplicationWindow {
       StackPage {
         name: "tabview";
 
-        child: Adw.TabView tabview {};
+        child: Adw.Bin {
+          styles [
+            "view",
+          ]
+
+          Adw.TabView tabview {}
+        };
       }
     }
   }

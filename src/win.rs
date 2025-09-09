@@ -58,6 +58,9 @@ mod imp {
         header_bar: TemplateChild<gtk::HeaderBar>,
 
         #[template_child]
+        toolbar: TemplateChild<adw::ToolbarView>,
+
+        #[template_child]
         tabs: TemplateChild<adw::TabBar>,
 
         #[template_child]
@@ -642,6 +645,15 @@ mod imp {
             ));
             about.present(Some(&*obj));
         }
+
+        fn update_native_appearance(&self) {
+            let gtk_window = self.obj().clone().upcast::<gtk::Window>();
+            let headerbar_height = match self.toolbar.top_bar_style() {
+                adw::ToolbarStyle::Flat => None,
+                _ => Some(self.toolbar.top_bar_height()),
+            };
+            crate::native::update_vibrancy(&gtk_window, headerbar_height, None);
+        }
     }
 
     #[glib::object_subclass]
@@ -698,8 +710,72 @@ mod imp {
                 let gtk_window = self.obj().clone().upcast::<gtk::Window>();
                 crate::platform::win32_init_window(&gtk_window, crate::platform::MicaLevel::Tabbed);
             }
+            {
+                let gtk_window = self.obj().clone().upcast::<gtk::Window>();
+                crate::native::prepare_window(&gtk_window);
+
+                self.toolbar.connect_top_bar_height_notify(glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |_| {
+                        imp.update_native_appearance();
+                    }
+                ));
+                self.toolbar.connect_top_bar_style_notify(glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |_| {
+                        imp.update_native_appearance();
+                    }
+                ));
+                gtk_window.connect_fullscreened_notify(glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |_| {
+                        imp.update_native_appearance();
+                    }
+                ));
+                gtk_window.connect_default_width_notify(glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |_| {
+                        imp.update_native_appearance();
+                    }
+                ));
+                gtk_window.connect_default_height_notify(glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |_| {
+                        imp.update_native_appearance();
+                    }
+                ));
+                gtk_window.connect_realize(glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |_| {
+                        imp.update_native_appearance();
+                    }
+                ));
+            }
 
             self.init_settings();
+
+            self.stack
+                .bind_property("visible-child-name", &*self.toolbar, "top-bar-style")
+                .sync_create()
+                .transform_to(|_, value: &glib::Value| {
+                    let page = value.get::<String>().expect("No property?");
+                    if page == "tabview" {
+                        if cfg!(target_os = "macos") {
+                            Some(adw::ToolbarStyle::RaisedBorder.to_value())
+                        } else {
+                            Some(adw::ToolbarStyle::Raised.to_value())
+                        }
+                    } else {
+                        Some(adw::ToolbarStyle::Flat.to_value())
+                    }
+                })
+                .build();
 
             self.tabview.connect_close_page(glib::clone!(
                 #[weak(rename_to = imp)]

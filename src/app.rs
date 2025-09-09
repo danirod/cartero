@@ -234,6 +234,12 @@ impl CarteroApplication {
                                     crate::platform::MicaLevel::MainWindow,
                                 );
                             }
+
+                            {
+                                // Prepare native L&F
+                                let base_window = window.clone().upcast::<gtk::Window>();
+                                settings_shell.init_native_window(&base_window);
+                            }
                             window.upcast()
                         });
                     window.set_transient_for(current_window.as_ref());

@@ -53,7 +53,11 @@ pub(crate) fn set_window_theme(win: &gtk::Window, color_scheme: adw::ColorScheme
 }
 
 #[allow(unused)]
-pub(crate) fn update_vibrancy(win: &gtk::Window, headerbar_height: Option<i32>, sidebar_width: Option<i32>) {
+pub(crate) fn update_vibrancy(
+    win: &gtk::Window,
+    headerbar_height: Option<i32>,
+    sidebar_width: Option<i32>,
+) {
     #[cfg(target_os = "macos")]
     self::macos::update_vibrancy(win, sidebar_width, headerbar_height);
 }
@@ -77,13 +81,25 @@ pub(crate) fn prepare_window(win: &gtk::Window) {
     });
 
     let style_manager = adw::StyleManager::default();
-    style_manager.connect_color_scheme_notify(glib::clone!(#[weak] win, move |sm| {
-        set_window_theme(&win, sm.color_scheme());
-    }));
-    style_manager.connect_dark_notify(glib::clone!(#[weak] win, move |sm| {
-        set_window_theme(&win, sm.color_scheme());
-    }));
-    style_manager.connect_high_contrast_notify(glib::clone!(#[weak] win, move |sm| {
-        set_window_theme(&win, sm.color_scheme());
-    }));
+    style_manager.connect_color_scheme_notify(glib::clone!(
+        #[weak]
+        win,
+        move |sm| {
+            set_window_theme(&win, sm.color_scheme());
+        }
+    ));
+    style_manager.connect_dark_notify(glib::clone!(
+        #[weak]
+        win,
+        move |sm| {
+            set_window_theme(&win, sm.color_scheme());
+        }
+    ));
+    style_manager.connect_high_contrast_notify(glib::clone!(
+        #[weak]
+        win,
+        move |sm| {
+            set_window_theme(&win, sm.color_scheme());
+        }
+    ));
 }

@@ -19,7 +19,10 @@ use gdk4_macos::MacosSurface;
 use glib::object::{CastNone, ObjectExt};
 use gtk::prelude::{GtkWindowExt, NativeExt, WidgetExt};
 use objc2::{class, msg_send, runtime::AnyObject};
-use objc2_app_kit::{NSAppearanceNameAqua, NSAppearanceNameDarkAqua, NSView, NSVisualEffectBlendingMode, NSVisualEffectMaterial, NSVisualEffectView, NSWindow};
+use objc2_app_kit::{
+    NSAppearanceNameAqua, NSAppearanceNameDarkAqua, NSView, NSVisualEffectBlendingMode,
+    NSVisualEffectMaterial, NSVisualEffectView, NSWindow,
+};
 use objc2_core_foundation::{CGRect, CGSize};
 use objc2_core_graphics::CGColor;
 use objc2_foundation::{NSInteger, NSPoint};
@@ -46,7 +49,7 @@ pub(super) fn set_window_theme(win: &gtk::Window, color_scheme: super::ColorSche
                         NSAppearanceNameAqua
                     };
                     msg_send![class!(NSAppearance), appearanceNamed: &*name]
-                },
+                }
             };
             let ns_window = ns_window as *mut AnyObject;
             let _: () = msg_send![ns_window, setAppearance: appearance];
@@ -54,7 +57,10 @@ pub(super) fn set_window_theme(win: &gtk::Window, color_scheme: super::ColorSche
     }
 }
 
-unsafe fn initialize_backdrop(material: NSVisualEffectMaterial, blending: NSVisualEffectBlendingMode) -> *mut NSVisualEffectView {
+unsafe fn initialize_backdrop(
+    material: NSVisualEffectMaterial,
+    blending: NSVisualEffectBlendingMode,
+) -> *mut NSVisualEffectView {
     let backdrop: *mut NSVisualEffectView = msg_send![class!(NSVisualEffectView), new];
 
     let _: () = msg_send![backdrop, setMaterial: material.0 as NSInteger];
@@ -93,10 +99,14 @@ pub(super) fn update_vibrancy(win: &gtk::Window, sidebar: Option<i32>, headerbar
         match sidebar {
             Some(sidebar_width) => {
                 // Add if not present.
-                let sidebar_view = win.data::<*mut NSVisualEffectView>("sidebar-backdrop")
+                let sidebar_view = win
+                    .data::<*mut NSVisualEffectView>("sidebar-backdrop")
                     .map(|pointer| *pointer.as_ptr())
                     .unwrap_or_else(|| {
-                        let backdrop = initialize_backdrop(NSVisualEffectMaterial::Sidebar, NSVisualEffectBlendingMode::BehindWindow);
+                        let backdrop = initialize_backdrop(
+                            NSVisualEffectMaterial::Sidebar,
+                            NSVisualEffectBlendingMode::BehindWindow,
+                        );
                         win.set_data("sidebar-backdrop", backdrop);
                         let _: () = msg_send![view, addSubview: backdrop];
                         backdrop
@@ -107,20 +117,25 @@ pub(super) fn update_vibrancy(win: &gtk::Window, sidebar: Option<i32>, headerbar
                     CGRect::new(pointer, sizes)
                 };
                 let _: () = msg_send![sidebar_view, setFrame: sidebar_view_frame];
-            },
+            }
             None => {
                 // Remove if present.
-                if let Some(sidebar) = win.steal_data::<*mut NSVisualEffectView>("sidebar-backdrop") {
+                if let Some(sidebar) = win.steal_data::<*mut NSVisualEffectView>("sidebar-backdrop")
+                {
                     let _: () = msg_send![sidebar, removeFromSuperview];
                 }
-            },
+            }
         }
 
         // Main backdrop.
-        let main_backdrop = win.data::<*mut NSVisualEffectView>("main-backdrop")
+        let main_backdrop = win
+            .data::<*mut NSVisualEffectView>("main-backdrop")
             .map(|pointer| *pointer.as_ptr())
             .unwrap_or_else(|| {
-                let backdrop = initialize_backdrop(NSVisualEffectMaterial::WindowBackground, NSVisualEffectBlendingMode::BehindWindow);
+                let backdrop = initialize_backdrop(
+                    NSVisualEffectMaterial::WindowBackground,
+                    NSVisualEffectBlendingMode::BehindWindow,
+                );
                 win.set_data("main-backdrop", backdrop);
                 let _: () = msg_send![view, addSubview: backdrop];
                 backdrop
@@ -136,10 +151,14 @@ pub(super) fn update_vibrancy(win: &gtk::Window, sidebar: Option<i32>, headerbar
         match headerbar {
             Some(headerbar_height) => {
                 // Add if not present.
-                let header_view = win.data::<*mut NSVisualEffectView>("header-backdrop")
+                let header_view = win
+                    .data::<*mut NSVisualEffectView>("header-backdrop")
                     .map(|pointer| *pointer.as_ptr())
                     .unwrap_or_else(|| {
-                        let backdrop = initialize_backdrop(NSVisualEffectMaterial::Titlebar, NSVisualEffectBlendingMode::WithinWindow);
+                        let backdrop = initialize_backdrop(
+                            NSVisualEffectMaterial::Titlebar,
+                            NSVisualEffectBlendingMode::WithinWindow,
+                        );
                         win.set_data("header-backdrop", backdrop);
                         let _: () = msg_send![view, addSubview: backdrop];
                         backdrop
@@ -150,13 +169,15 @@ pub(super) fn update_vibrancy(win: &gtk::Window, sidebar: Option<i32>, headerbar
                     CGRect::new(pointer, sizes)
                 };
                 let _: () = msg_send![header_view, setFrame: header_view_frame];
-            },
+            }
             None => {
                 // Remove if present.
-                if let Some(headerbar) = win.steal_data::<*mut NSVisualEffectView>("header-backdrop") {
+                if let Some(headerbar) =
+                    win.steal_data::<*mut NSVisualEffectView>("header-backdrop")
+                {
                     let _: () = msg_send![headerbar, removeFromSuperview];
                 }
-            },
+            }
         }
 
         let _: () = msg_send![class!(CATransaction), commit];

@@ -760,7 +760,8 @@ mod imp {
 
             self.init_settings();
 
-            self.stack.bind_property("visible-child-name", &*self.toolbar, "top-bar-style")
+            self.stack
+                .bind_property("visible-child-name", &*self.toolbar, "top-bar-style")
                 .sync_create()
                 .transform_to(|_, value: &glib::Value| {
                     let page = value.get::<String>().expect("No property?");

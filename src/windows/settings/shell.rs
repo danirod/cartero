@@ -145,18 +145,34 @@ mod imp {
         pub(super) fn init_native_window(&self, win: &gtk::Window) {
             crate::native::prepare_window(&win);
 
-            win.connect_fullscreened_notify(glib::clone!(#[weak(rename_to = imp)] self, move |win| {
-                imp.update_native_appearance(&win);
-            }));
-            win.connect_default_width_notify(glib::clone!(#[weak(rename_to = imp)] self, move |win| {
-                imp.update_native_appearance(&win);
-            }));
-            win.connect_default_height_notify(glib::clone!(#[weak(rename_to = imp)] self, move |win| {
-                imp.update_native_appearance(&win);
-            }));
-            win.connect_realize(glib::clone!(#[weak(rename_to = imp)] self, move |win| {
-                imp.update_native_appearance(&win);
-            }));
+            win.connect_fullscreened_notify(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |win| {
+                    imp.update_native_appearance(&win);
+                }
+            ));
+            win.connect_default_width_notify(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |win| {
+                    imp.update_native_appearance(&win);
+                }
+            ));
+            win.connect_default_height_notify(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |win| {
+                    imp.update_native_appearance(&win);
+                }
+            ));
+            win.connect_realize(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |win| {
+                    imp.update_native_appearance(&win);
+                }
+            ));
         }
 
         fn update_native_appearance(&self, win: &gtk::Window) {

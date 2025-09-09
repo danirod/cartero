@@ -31,6 +31,10 @@ impl Shell {
         glib::Object::new()
     }
 
+    pub fn init_native_window(&self, win: &gtk::Window) {
+        self.imp().init_native_window(win);
+    }
+
     pub fn set_page(&self, page: &str) {
         let mut index = 0;
         while let Some(row) = self.imp().sidebar_box.row_at_index(index) {
@@ -62,6 +66,8 @@ mod imp {
         split_view: TemplateChild<adw::NavigationSplitView>,
         #[template_child]
         settings_page: TemplateChild<adw::NavigationPage>,
+        #[template_child]
+        sidebar: TemplateChild<adw::NavigationPage>,
         #[template_child]
         settings_header_bar: TemplateChild<adw::HeaderBar>,
         #[template_child]
@@ -134,6 +140,44 @@ mod imp {
                 self.settings_stack.set_visible_child_name(&target);
                 self.split_view.set_show_content(true);
             }
+        }
+
+        pub(super) fn init_native_window(&self, win: &gtk::Window) {
+            crate::native::prepare_window(&win);
+
+            win.connect_fullscreened_notify(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |win| {
+                    imp.update_native_appearance(&win);
+                }
+            ));
+            win.connect_default_width_notify(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |win| {
+                    imp.update_native_appearance(&win);
+                }
+            ));
+            win.connect_default_height_notify(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |win| {
+                    imp.update_native_appearance(&win);
+                }
+            ));
+            win.connect_realize(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |win| {
+                    imp.update_native_appearance(&win);
+                }
+            ));
+        }
+
+        fn update_native_appearance(&self, win: &gtk::Window) {
+            let sidebar_width = 175;
+            crate::native::update_vibrancy(&win, None, Some(sidebar_width));
         }
 
         fn init_root_window(&self) {

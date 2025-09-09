@@ -714,24 +714,48 @@ mod imp {
                 let gtk_window = self.obj().clone().upcast::<gtk::Window>();
                 crate::native::prepare_window(&gtk_window);
 
-                self.toolbar.connect_top_bar_height_notify(glib::clone!(#[weak(rename_to = imp)] self, move |_| {
-                    imp.update_native_appearance();
-                }));
-                self.toolbar.connect_top_bar_style_notify(glib::clone!(#[weak(rename_to = imp)] self, move |_| {
-                    imp.update_native_appearance();
-                }));
-                gtk_window.connect_fullscreened_notify(glib::clone!(#[weak(rename_to = imp)] self, move |_| {
-                    imp.update_native_appearance();
-                }));
-                gtk_window.connect_default_width_notify(glib::clone!(#[weak(rename_to = imp)] self, move |_| {
-                    imp.update_native_appearance();
-                }));
-                gtk_window.connect_default_height_notify(glib::clone!(#[weak(rename_to = imp)] self, move |_| {
-                    imp.update_native_appearance();
-                }));
-                gtk_window.connect_realize(glib::clone!(#[weak(rename_to = imp)] self, move |_| {
-                    imp.update_native_appearance();
-                }));
+                self.toolbar.connect_top_bar_height_notify(glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |_| {
+                        imp.update_native_appearance();
+                    }
+                ));
+                self.toolbar.connect_top_bar_style_notify(glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |_| {
+                        imp.update_native_appearance();
+                    }
+                ));
+                gtk_window.connect_fullscreened_notify(glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |_| {
+                        imp.update_native_appearance();
+                    }
+                ));
+                gtk_window.connect_default_width_notify(glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |_| {
+                        imp.update_native_appearance();
+                    }
+                ));
+                gtk_window.connect_default_height_notify(glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |_| {
+                        imp.update_native_appearance();
+                    }
+                ));
+                gtk_window.connect_realize(glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |_| {
+                        imp.update_native_appearance();
+                    }
+                ));
             }
 
             self.init_settings();

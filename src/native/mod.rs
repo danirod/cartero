@@ -17,6 +17,9 @@
 
 use gtk::prelude::WidgetExt;
 
+#[cfg(windows)]
+mod win32;
+
 #[cfg(target_os = "macos")]
 mod macos;
 
@@ -41,13 +44,15 @@ impl From<adw::ColorScheme> for ColorScheme {
 #[derive(Copy, Clone, Eq, PartialEq)]
 pub(crate) enum VibrancyMode {
     None,
-    Standard,
-    Sidebar,
+    MainWindow,
+    Transient,
 }
 
 #[allow(unused)]
 pub(crate) fn set_window_theme(win: &gtk::Window, color_scheme: adw::ColorScheme) {
     let scheme = ColorScheme::from(color_scheme);
+    #[cfg(windows)]
+    self::win32::set_window_theme(win, scheme);
     #[cfg(target_os = "macos")]
     self::macos::set_window_theme(win, scheme);
 }
@@ -55,9 +60,12 @@ pub(crate) fn set_window_theme(win: &gtk::Window, color_scheme: adw::ColorScheme
 #[allow(unused)]
 pub(crate) fn update_vibrancy(
     win: &gtk::Window,
+    vibrancy_mode: VibrancyMode,
     headerbar_height: Option<i32>,
     sidebar_width: Option<i32>,
 ) {
+    #[cfg(windows)]
+    self::win32::update_vibrancy(win, vibrancy_mode);
     #[cfg(target_os = "macos")]
     self::macos::update_vibrancy(win, sidebar_width, headerbar_height);
 }

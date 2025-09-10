@@ -52,9 +52,12 @@ mod imp {
     use glib::subclass::InitializingObject;
     use gtk::CompositeTemplate;
 
-    use crate::windows::{
-        common::CommonShell,
-        settings::{pages, pill::Pill},
+    use crate::{
+        native::VibrancyMode,
+        windows::{
+            common::CommonShell,
+            settings::{pages, pill::Pill},
+        },
     };
 
     use super::*;
@@ -177,7 +180,12 @@ mod imp {
 
         fn update_native_appearance(&self, win: &gtk::Window) {
             let sidebar_width = 175;
-            crate::native::update_vibrancy(&win, None, Some(sidebar_width));
+            crate::native::update_vibrancy(
+                &win,
+                VibrancyMode::Transient,
+                None,
+                Some(sidebar_width),
+            );
         }
 
         fn init_root_window(&self) {

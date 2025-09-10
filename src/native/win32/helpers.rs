@@ -21,6 +21,7 @@ use windows_sys::Win32::System::SystemInformation::OSVERSIONINFOW;
 use winreg::enums::HKEY_CURRENT_USER;
 use winreg::RegKey;
 
+#[allow(unused)]
 pub(super) fn windows_build_number() -> u32 {
     // You use the RtlGetVersion. There was a GetVersion, but it is currently deprecated.
     // I know it will never stop working, but just in case let's not use it.

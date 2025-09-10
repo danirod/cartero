@@ -75,6 +75,7 @@ pub fn set_window_theme(win: &gtk::Window, color_scheme: ColorScheme) {
     }
 }
 
+#[allow(unused)]
 pub fn update_vibrancy(win: &gtk::Window, vibrancy_mode: VibrancyMode) {
     let Some(hwnd) = get_hwnd(win) else { return };
 

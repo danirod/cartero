@@ -64,7 +64,8 @@ pub(crate) fn update_vibrancy(
     headerbar_height: Option<i32>,
     sidebar_width: Option<i32>,
 ) {
-    #[cfg(windows)]
+    // Don't enable vibrancy when running in SSD mode because it adds a box around the window
+    #[cfg(all(windows, not(feature = "csd")))]
     self::win32::update_vibrancy(win, vibrancy_mode);
     #[cfg(target_os = "macos")]
     self::macos::update_vibrancy(win, sidebar_width, headerbar_height);

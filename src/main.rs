@@ -23,7 +23,6 @@ mod widgets;
 mod config;
 mod interop;
 mod native;
-mod platform;
 #[cfg(feature = "app_updater")]
 mod updates;
 mod win;

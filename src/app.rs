@@ -225,16 +225,6 @@ impl CarteroApplication {
                             window.set_default_size(700, 500);
                             window.set_title(Some(&gettext("Settings")));
                             window.set_resizable(false);
-                            #[cfg(all(windows, not(feature = "csd")))]
-                            {
-                                // Prepare Windows L&F.
-                                let base_window = window.clone().upcast::<gtk::Window>();
-                                crate::platform::win32_init_window(
-                                    &base_window,
-                                    crate::platform::MicaLevel::MainWindow,
-                                );
-                            }
-
                             {
                                 // Prepare native L&F
                                 let base_window = window.clone().upcast::<gtk::Window>();

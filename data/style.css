@@ -52,7 +52,7 @@ window.mica, window.mica .top-bar {
 }
 
 window.mica .welcome-pane {
-  background-color: rgb(255 255 255 / 45%);
+  background-color: rgb(255 255 255 / 1%);
 }
 
 window.mica .sidebar-pane {

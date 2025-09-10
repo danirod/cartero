@@ -36,6 +36,7 @@ mod imp {
 
     use crate::app::CarteroApplication;
     use crate::interop::{LoadResult, SaveResult};
+    use crate::native::VibrancyMode;
     use crate::widgets::endpoint::EndpointPane;
     use crate::widgets::shell::{BasePane, BasePaneExt};
     use crate::widgets::welcome::WelcomePane;
@@ -652,7 +653,11 @@ mod imp {
                 adw::ToolbarStyle::Flat => None,
                 _ => Some(self.toolbar.top_bar_height()),
             };
-            crate::native::update_vibrancy(&gtk_window, headerbar_height, None);
+            let vibrancy_mode = match self.toolbar.top_bar_style() {
+                adw::ToolbarStyle::Flat => VibrancyMode::Transient,
+                _ => VibrancyMode::MainWindow,
+            };
+            crate::native::update_vibrancy(&gtk_window, vibrancy_mode, headerbar_height, None);
         }
     }
 
@@ -704,12 +709,6 @@ mod imp {
                 }
             }
 
-            #[cfg(all(windows, not(feature = "csd")))]
-            {
-                // Init Fluent style.
-                let gtk_window = self.obj().clone().upcast::<gtk::Window>();
-                crate::platform::win32_init_window(&gtk_window, crate::platform::MicaLevel::Tabbed);
-            }
             {
                 let gtk_window = self.obj().clone().upcast::<gtk::Window>();
                 crate::native::prepare_window(&gtk_window);

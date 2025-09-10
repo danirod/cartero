@@ -87,6 +87,7 @@ windows-sys = { version = "0.60.2", features = [
     "Wdk_System_SystemServices",
     "Win32_System_SystemInformation",
 ]}
+winreg = "0.55"
 gdk4-win32 = '0.10.0'
 
 [build-dependencies]

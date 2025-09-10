@@ -42,7 +42,10 @@ data/ui/welcome/welcome_pane.blp
 src/app.rs
 src/interop.rs
 src/main.rs
-src/platform.rs
+src/native/macos/mod.rs
+src/native/mod.rs
+src/native/win32/helpers.rs
+src/native/win32/mod.rs
 src/updates/checker.rs
 src/updates/mod.rs
 src/updates/ui.rs

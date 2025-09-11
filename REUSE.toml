@@ -161,7 +161,7 @@ SPDX-License-Identifier = "CC-BY-SA-4.0"
 # not worth copyrighting properly.
 path = [
         "crates/cartero-file-format/tests/**/*.cartero",
-        "crates/cartero-http/src/fixtures/hello.txt",
+        "crates/cartero-http/tests/fixtures/hello.txt",
         "crates/cartero-http/tests/.env",
         "crates/cartero-code-exporters/tests/**/*.cartero",
         "crates/cartero-code-exporters/tests/**/*.curl",

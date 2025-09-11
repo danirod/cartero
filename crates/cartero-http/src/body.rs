@@ -472,14 +472,6 @@ mod tests {
         );
     }
 
-    fn gio_file_for_current_file() -> gio::File {
-        let current_file = file!();
-        // TODO: WHY DO I EVEN HAVE TO DO THIS, I DON'T HAVE AN EXPLANATION FOR THIS
-        // AND I'M GOING SKIZO. Investigate why the path is being prefixed twice.
-        let (_, current_file) = current_file.split_once("/").unwrap();
-        gio::File::for_path(current_file)
-    }
-
     #[tokio::test]
     async fn test_file() {
         let file = RequestBodyFile::builder()
@@ -496,7 +488,7 @@ mod tests {
             config: env.config,
             env_file: None,
             proxy: None,
-            prefix: gio_file_for_current_file().parent(),
+            prefix: Some(gio::File::for_path("tests")),
         };
 
         let result = glib::MainContext::new()
@@ -530,7 +522,7 @@ mod tests {
             config: env.config,
             env_file: None,
             proxy: None,
-            prefix: gio_file_for_current_file().parent(),
+            prefix: Some(gio::File::for_path("tests")),
         };
 
         let result = glib::MainContext::new().block_on(async { BoundBody::new(&req, &env).await });
@@ -557,7 +549,7 @@ mod tests {
             config: env.config,
             env_file: None,
             proxy: None,
-            prefix: gio_file_for_current_file().parent(),
+            prefix: Some(gio::File::for_path("tests")),
         };
 
         let result = glib::MainContext::new().block_on(async { BoundBody::new(&req, &env).await });
@@ -584,7 +576,7 @@ mod tests {
             config: env.config,
             env_file: None,
             proxy: None,
-            prefix: gio_file_for_current_file().parent(),
+            prefix: Some(gio::File::for_path("tests")),
         };
 
         let result = glib::MainContext::new().block_on(async { BoundBody::new(&req, &env).await });
@@ -611,7 +603,7 @@ mod tests {
             config: env.config,
             env_file: None,
             proxy: None,
-            prefix: gio_file_for_current_file().parent(),
+            prefix: Some(gio::File::for_path("tests")),
         };
 
         let result = glib::MainContext::new().block_on(async { BoundBody::new(&req, &env).await });
@@ -664,7 +656,7 @@ mod tests {
             config: env.config,
             env_file: None,
             proxy: None,
-            prefix: gio_file_for_current_file().parent(),
+            prefix: Some(gio::File::for_path("tests")),
         };
 
         let result = glib::MainContext::new()

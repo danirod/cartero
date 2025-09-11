@@ -165,15 +165,6 @@ mod imp {
                     }
                 ))
                 .bind(&*obj, "cursor", Some(&*obj));
-
-            self.response_pane.connect_response_notify(glib::clone!(
-                #[weak(rename_to = pane)]
-                self,
-                move |_| {
-                    let obj = pane.obj();
-                    obj.notify("has-response");
-                }
-            ));
         }
     }
 

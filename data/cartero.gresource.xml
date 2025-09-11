@@ -53,5 +53,7 @@
     <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/verified-checkmark-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/symbolic/apps/es.danirod.Cartero-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks">icons/symbolic/apps/git-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/display-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks">icons/scalable/emblems/earth-symbolic.svg</file>
   </gresource>
 </gresources>

@@ -1,25 +1,22 @@
 # Russian translations for Cartero package.
-# Copyright (C) 2024 Dani Rodríguez
+# Copyright (C) 2024-2025 Dani Rodríguez
 # This file is distributed under the same license as the Cartero package.
 # Vladimir Kosolapov, 2024.
 #
-#: data/ui/settings/page_proxy.blp:78
 msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-31 23:21+0200\n"
-"PO-Revision-Date: 2025-08-17 22:02+0000\n"
-"Last-Translator: Yurt Page <yurtpage@gmail.com>\n"
-"Language-Team: Russian <https://hosted.weblate.org/projects/cartero/cartero/"
-"ru/>\n"
+"PO-Revision-Date: 2025-09-12 14:00+0300\n"
+"Last-Translator: Vladimir Kosolapov\n"
+"Language-Team: \n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.13\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -314,6 +311,8 @@ msgid ""
 "Cartero supports reading variables from an .env file, but you need to enable "
 "the feature first."
 msgstr ""
+"Cartero поддерживает чтение переменных из файла .env, но сначала нужно "
+"включить эту функцию."
 
 #: data/ui/endpoint_pane.blp:237 data/ui/main_window.blp:178
 #: data/ui/main_window_no_csd.blp:189 data/ui/settings/shell.blp:47
@@ -325,16 +324,20 @@ msgid ""
 "Cartero supports reading variables from an .env file, but you have to save "
 "the request first."
 msgstr ""
+"Cartero поддерживает чтение переменных из файла .env, но сначала нужно "
+"сохранить запрос."
 
 #: data/ui/endpoint_pane.blp:259
 msgid ""
 "Place an .env file in the same disk directory as the request or in a parent "
 "directory to load the variables in Cartero."
 msgstr ""
+"Поместите файл .env в ту же папку, что и запрос, или в родительскую "
+"папку, чтобы загрузить переменные в Cartero."
 
 #: data/ui/endpoint_pane.blp:265
 msgid "Check again"
-msgstr ""
+msgstr "Проверить снова"
 
 #: data/ui/endpoint_pane.blp:293
 msgid "Authorization"
@@ -386,29 +389,28 @@ msgid "Delete"
 msgstr "Удалить"
 
 #: data/ui/file_body_pane.blp:26
-#, fuzzy
 msgid "File"
 msgstr "Файл"
 
 #: data/ui/file_body_pane.blp:30
 msgid "Content Type"
-msgstr ""
+msgstr "Тип содержимого"
 
 #: data/ui/file_body_pane.blp:41
-#, fuzzy
 msgid "or select a file from the file system:"
-msgstr "Не удалось выбрать допустимый файл в окне выбора файлов"
+msgstr "или выберите файл из файловой системы:"
 
 #: data/ui/file_body_pane.blp:50
-#, fuzzy
 msgid "Select file…"
-msgstr "Выбрать файл"
+msgstr "Выбрать файл…"
 
 #: data/ui/file_body_pane.blp:71
 msgid ""
 "You cannot pick a file from the file system until you save this request to "
 "disk."
 msgstr ""
+"Вы не можете выбрать файл из файловой системы, пока не сохраните этот запрос "
+"на диск."
 
 #: data/ui/file_body_pane.blp:97
 msgid ""
@@ -417,6 +419,9 @@ msgid ""
 "if they are in a parent directory or outside the project folder, or use "
 "absolute paths."
 msgstr ""
+"Вы можете прикреплять файлы к запросу только из той же папки, что и файл "
+"запроса, или из её подпапок. Нельзя прикреплять файлы из родительских "
+"папок или за пределами папки проекта, а также использовать абсолютные пути."
 
 #: data/ui/mac_menu.blp:21
 msgctxt "menubar"
@@ -774,7 +779,7 @@ msgstr "Текущая версия"
 
 #: data/ui/settings/page_code_editor.blp:22
 msgid "Code editor"
-msgstr ""
+msgstr "Редактор кода"
 
 #: data/ui/settings/page_http_client.blp:22
 msgid "HTTP Client"
@@ -810,42 +815,43 @@ msgstr "Срок ожидания перед отменой запроса"
 
 #: data/ui/settings/page_proxy.blp:22
 msgid "Proxy"
-msgstr ""
+msgstr "Прокси"
 
 #: data/ui/settings/page_proxy.blp:26
-#, fuzzy
 msgid "Proxy settings"
-msgstr "Настройки файла"
+msgstr "Настройки прокси"
 
 #: data/ui/settings/page_proxy.blp:29
 msgid "HTTP Proxy"
-msgstr ""
+msgstr "HTTP-прокси"
 
 #: data/ui/settings/page_proxy.blp:33
 msgid "HTTPS Proxy"
-msgstr ""
+msgstr "HTTPS-прокси"
 
 #: data/ui/settings/page_proxy.blp:38
 msgid "Exclude from proxy"
-msgstr ""
+msgstr "Исключения из прокси"
 
 #: data/ui/settings/page_proxy.blp:39
 msgid ""
 "IP addresses and domain names contained in this list will bypass the proxy "
 "settings and be accessed directly."
 msgstr ""
+"IP-адреса и доменные имена из этого списка будут обходить настройки "
+"прокси и осуществлять прямое соединение."
 
 #: data/ui/settings/page_proxy.blp:55 data/ui/settings/page_proxy.blp:56
 msgid "Address to exclude"
-msgstr ""
+msgstr "Адрес для исключения"
 
 #: data/ui/settings/page_proxy.blp:60
 msgid "Add"
-msgstr ""
+msgstr "Добавить"
 
 #: data/ui/settings/page_proxy.blp:91
 msgid "Environment variables"
-msgstr ""
+msgstr "Переменные окружения"
 
 #. TRANSLATORS: Keep the variable names "http_proxy", "https_proxy" and "no_proxy" in English because that's the name of the variable.
 #: data/ui/settings/page_proxy.blp:93
@@ -853,23 +859,26 @@ msgid ""
 "Cartero supports the use of the standard http_proxy, https_proxy and "
 "no_proxy environment variables to provide the system proxy settings."
 msgstr ""
+"Cartero поддерживает использование стандартных переменных окружения "
+"http_proxy, https_proxy и no_proxy для предоставления системных настроек "
+"прокси."
 
 #: data/ui/settings/page_proxy.blp:107
 msgid "Use environment variables as a fallback"
-msgstr ""
+msgstr "Использовать переменные окружения как резервные"
 
 #: data/ui/settings/page_proxy.blp:127 data/ui/settings/page_proxy.blp:138
 #: data/ui/settings/page_proxy.blp:149
 msgid "(empty)"
-msgstr ""
+msgstr "(пусто)"
 
 #: data/ui/settings/page_security.blp:22
 msgid "Security"
-msgstr ""
+msgstr "Безопасность"
 
 #: data/ui/settings/page_security.blp:26
 msgid ".env files"
-msgstr ""
+msgstr "Файлы .env"
 
 #: data/ui/settings/page_security.blp:27
 msgid ""
@@ -877,16 +886,21 @@ msgid ""
 "credentials. Cartero can locate .env files and expose the variables inside "
 "so that you can use them in your requests."
 msgstr ""
+"Файлы .env обычно используются в проектах для хранения конфиденциальных "
+"данных, таких как учётные данные. Cartero может найти файлы .env и "
+"предоставить переменные из них для использования в запросах."
 
 #: data/ui/settings/page_security.blp:31
 msgid "Find and load .env files"
-msgstr ""
+msgstr "Найти и загрузить файлы .env"
 
 #: data/ui/settings/page_security.blp:32
 msgid ""
 "Cartero will only traverse your disk looking for .env files if you enable "
 "this option."
 msgstr ""
+"Cartero будет обходить диск в поисках файлов .env только при включении "
+"этой опции."
 
 #: data/ui/welcome/welcome_pane.blp:45
 msgid "Welcome to Cartero"
@@ -901,20 +915,21 @@ msgid ""
 "Cartero is free software, released under the terms of the GNU General Public "
 "License v3 or later."
 msgstr ""
+"Cartero — это свободное программное обеспечение, выпущенное на условиях GNU "
+"General Public License v3 или позднее."
 
 #: data/ui/welcome/welcome_pane.blp:118 data/ui/welcome/welcome_pane.blp:166
 msgid "Know your rights"
-msgstr ""
+msgstr "Узнать свои права"
 
 #: data/ui/welcome/welcome_pane.blp:152
-#, fuzzy
 msgid "Social media updates"
-msgstr "Обновления"
+msgstr "Обновления в соцсетях"
 
 #. TRANSLATORS: if your language has a different word for free as in freedom and free as in beer, and it's clear that free means "freedom", you might skip the "as in freedom" bit if you wish.
 #: data/ui/welcome/welcome_pane.blp:182
 msgid "You can use Cartero for free (as in freedom)"
-msgstr ""
+msgstr "Вы можете использовать Cartero бесплатно (свободно)"
 
 #: data/ui/welcome/welcome_pane.blp:183
 msgid ""
@@ -923,20 +938,26 @@ msgid ""
 "\n"
 "Even if you use it at work or for commercial purposes."
 msgstr ""
+"Вам не нужно спрашивать разрешения, покупать лицензию или подписку для "
+"использования этого программного обеспечения.\n"
+"\n"
+"Даже если вы используете его на работе или в коммерческих целях."
 
 #: data/ui/welcome/welcome_pane.blp:190
 msgid "You can get, study and modify the source code"
-msgstr ""
+msgstr "Вы можете получить, изучать и изменять исходный код"
 
 #: data/ui/welcome/welcome_pane.blp:191
 msgid ""
 "Mod the program so that it works exactly how you want, or just learn things "
 "if you are new to programming."
 msgstr ""
+"Модифицируйте программу, чтобы она работала точно так, как вы хотите, или "
+"просто изучайте новое, если вы новичок в программировании."
 
 #: data/ui/welcome/welcome_pane.blp:198
 msgid "You can share copies of the program"
-msgstr ""
+msgstr "Вы можете делиться копиями программы"
 
 #: data/ui/welcome/welcome_pane.blp:199
 msgid ""
@@ -946,25 +967,31 @@ msgid ""
 "(In other words: if you fork, your project must retain the GNU General "
 "Public License too.)"
 msgstr ""
+"Вы можете перепаковывать Cartero или делиться копиями программного обеспечения "
+"с другими людьми, пока получатели также имеют доступ к этим свободам.\n"
+"\n"
+"(Иными словами: если вы создаёте форк, ваш проект должен сохранить GNU "
+"General Public License.)"
 
 #: data/ui/welcome/welcome_pane.blp:206
 msgid "Cartero is built in community"
-msgstr ""
+msgstr "Cartero создаётся сообществом"
 
 #: data/ui/welcome/welcome_pane.blp:207
 msgid ""
 "Share feedback, contribute code, report bugs, translate Cartero to your "
 "language… You can be part of this!"
 msgstr ""
+"Делитесь отзывами, вносите свой вклад в код, сообщайте об ошибках, "
+"переводите Cartero на свой язык… Вы можете стать частью этого!"
 
 #: data/ui/welcome/welcome_pane.blp:219
-#, fuzzy
 msgid "Previous"
-msgstr "Предыдущий результат"
+msgstr "Назад"
 
 #: data/ui/welcome/welcome_pane.blp:235
 msgid "Next"
-msgstr ""
+msgstr "Далее"
 
 #: src/interop.rs:32
 msgid ""
@@ -1028,9 +1055,9 @@ msgid "The file '{}' cannot be accessed due to the security policy"
 msgstr "Доступ к файлу '{}' невозможен из-за политики безопасности"
 
 #: src/interop.rs:83
-#, fuzzy, rust-format
+#, rust-format
 msgid "Defined value for proxy '{}' is not a valid configuration"
-msgstr "Значение заголовка '{}' недействительно"
+msgstr "Определённое значение для прокси '{}' не является допустимой конфигурацией"
 
 #: src/interop.rs:87
 msgid "There is an input/output error"
@@ -1158,15 +1185,17 @@ msgid ""
 "likely a development error. (If you could report your test case and this "
 "error, we might be able to fix this in the future.)"
 msgstr ""
+"Произошла внутренняя ошибка во время процесса экспорта. Скорее всего, это "
+"ошибка разработки. (Если вы могли бы сообщить о своём случае "
+"и этой ошибке, мы могли бы исправить это в будущем.)"
 
 #: src/widgets/dialogs.rs:173
 msgid "Error cause:"
-msgstr ""
+msgstr "Причина ошибки:"
 
 #: src/widgets/dialogs.rs:178
-#, fuzzy
 msgid "Could not export the request"
-msgstr "Невозможно открыть запрашиваемый файл"
+msgstr "Не удалось экспортировать запрос"
 
 #: src/widgets/dialogs.rs:191
 msgid "There are unsaved changes"
@@ -1320,35 +1349,26 @@ msgstr "© 2024-2025 Авторы Cartero"
 
 #: src/windows/settings/pages/proxy.rs:205
 msgid "The value is not a valid domain or IP address"
-msgstr ""
+msgstr "Значение не является допустимым доменом или IP-адресом"
 
 #: src/windows/settings/pages/proxy.rs:220
 msgid "The host identifier is already excluded"
-msgstr ""
+msgstr "Идентификатор хоста уже исключён"
 
 #: src/windows/settings/pages/proxy.rs:240
 #, rust-format
 msgid "Delete '{}' from the list of excluded hosts for the proxy?"
-msgstr ""
+msgstr "Удалить '{}' из списка исключённых хостов для прокси?"
 
 #: src/windows/settings/pages/proxy.rs:245
 msgid "Delete identifier?"
-msgstr ""
+msgstr "Удалить идентификатор?"
 
 #: src/windows/settings/pages/proxy.rs:249
 #: src/windows/settings/pages/proxy.rs:284
 msgid "Remove"
-msgstr ""
+msgstr "Удалить"
 
 #: src/windows/settings/pages/proxy.rs:268
 msgid "No domains or IP addresses are being excluded"
-msgstr ""
-
-#~ msgid "The current tab is not associated with a file"
-#~ msgstr "Текущая вкладка не ассоциирована с файлом"
-
-#~ msgid "Export to"
-#~ msgstr "Экспортировать в"
-
-#~ msgid "Request (.cartero)"
-#~ msgstr "Запрос (.cartero)"
+msgstr "Нет исключённых доменов или IP-адресов"

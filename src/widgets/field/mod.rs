@@ -15,16 +15,16 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+mod collapsed_field_table;
 mod field_action_row;
 mod field_list_box_row;
 mod field_list_box_static_row;
 mod field_placeholder_row;
 mod field_table_list_view;
-mod field_table_static_list_view;
 
+pub use collapsed_field_table::*;
 pub use field_action_row::*;
 pub use field_list_box_row::*;
 pub use field_list_box_static_row::*;
 pub use field_placeholder_row::*;
 pub use field_table_list_view::*;
-pub use field_table_static_list_view::*;

@@ -26,7 +26,7 @@ mod imp {
     use std::collections::HashSet;
     use std::sync::{Arc, Mutex};
 
-    use adw::prelude::{ActionRowExt, AdwDialogExt, PreferencesRowExt};
+    use adw::prelude::AdwDialogExt;
     use adw::subclass::breakpoint_bin::BreakpointBinImpl;
     use cartero_http::RequestError;
     use cartero_isahc_client::default_user_agent;
@@ -48,7 +48,7 @@ mod imp {
     use crate::widgets::authentication::AuthenticationPane;
     use crate::widgets::dialogs::export_dialog_error;
     use crate::widgets::endpoint::ResponsePanel;
-    use crate::widgets::field::{FieldTableListView, FieldTableStaticListView};
+    use crate::widgets::field::{CollapsedFieldTable, FieldTableListView};
     use crate::widgets::req_body::RequestBodyPane;
     use crate::widgets::shell::BasePaneImpl;
     use crate::widgets::{file_dialogs, ExportDialog, MethodDropdown};
@@ -80,13 +80,9 @@ mod imp {
         #[template_child]
         paned: TemplateChild<gtk::Paned>,
         #[template_child]
-        toggle_pregenerated: TemplateChild<gtk::ToggleButton>,
+        pregenerated_headers: TemplateChild<CollapsedFieldTable>,
         #[template_child]
-        pregenerated_headers: TemplateChild<FieldTableStaticListView>,
-        #[template_child]
-        env_variables: TemplateChild<FieldTableStaticListView>,
-        #[template_child]
-        toggle_env_variables: TemplateChild<adw::SwitchRow>,
+        env_variables: TemplateChild<CollapsedFieldTable>,
         #[template_child]
         env_file_status: TemplateChild<gtk::Stack>,
 
@@ -291,15 +287,15 @@ mod imp {
                 entries.len()
             )
             .unwrap();
-            let pregenerated = self.env_variables.table();
+            let pregenerated = self.env_variables.field_table();
             pregenerated.reconcile(&entries);
             pregenerated.iter::<Field>().for_each(|item| {
                 if let Ok(field) = item {
                     field.set_masked(true);
                 }
             });
-            self.toggle_env_variables.set_title(&toggle_prompt);
-            self.toggle_env_variables.set_subtitle(
+            self.env_variables.set_title(toggle_prompt.as_str());
+            self.env_variables.set_subtitle(
                 self.obj()
                     .env_file()
                     .file()
@@ -553,7 +549,7 @@ mod imp {
                 })
                 .collect::<HashSet<String>>();
 
-            let pregenerated = self.pregenerated_headers.table();
+            let pregenerated = self.pregenerated_headers.field_table();
             // TODO: These are dependant on the HTTP client, so they should be taken from there.
             let mut default_headers = vec![
                 ("Accept".into(), "*/*".into()),
@@ -614,7 +610,7 @@ mod imp {
 
             let toggle_prompt =
                 formatx!(gettext("Show {} pre-generated headers"), entries.len()).unwrap();
-            self.toggle_pregenerated.set_label(&toggle_prompt);
+            self.pregenerated_headers.set_title(toggle_prompt.as_str());
         }
 
         fn init_request_signal_group(&self) {

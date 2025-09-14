@@ -8,6 +8,7 @@ data/gtk/help_overlay.blp
 data/ui/authentication_pane.blp
 data/ui/basic_auth_pane.blp
 data/ui/bearer_token_pane.blp
+data/ui/collapsed_field_table.blp
 data/ui/endpoint_pane.blp
 data/ui/error_pane.blp
 data/ui/export_dialog.blp
@@ -16,7 +17,6 @@ data/ui/field_list_box_row.blp
 data/ui/field_list_box_static_row.blp
 data/ui/field_placeholder_row.blp
 data/ui/field_table_list_view.blp
-data/ui/field_table_static_list_view.blp
 data/ui/file_body_pane.blp
 data/ui/mac_menu.blp
 data/ui/main_window.blp
@@ -61,12 +61,12 @@ src/widgets/endpoint/response_headers.rs
 src/widgets/endpoint/response_panel.rs
 src/widgets/error_pane.rs
 src/widgets/export_dialog.rs
+src/widgets/field/collapsed_field_table.rs
 src/widgets/field/field_action_row.rs
 src/widgets/field/field_list_box_row.rs
 src/widgets/field/field_list_box_static_row.rs
 src/widgets/field/field_placeholder_row.rs
 src/widgets/field/field_table_list_view.rs
-src/widgets/field/field_table_static_list_view.rs
 src/widgets/field/mod.rs
 src/widgets/file_dialogs.rs
 src/widgets/method_dropdown.rs

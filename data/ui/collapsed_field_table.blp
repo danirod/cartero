@@ -15,15 +15,18 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 using Gtk 4.0;
+using Adw 1;
 
-template $CarteroFieldTableStaticListView: Gtk.Box {
-  orientation: vertical;
-
-  Gtk.ListBox list_box {
+template $CarteroCollapsedFieldTable: Adw.Bin {
+  Gtk.ListBox {
     styles [
-      "background",
+      "boxed-list",
     ]
 
-    show-separators: true;
+    Adw.ExpanderRow expander {
+      title: bind template.title;
+      subtitle: bind template.subtitle;
+      selectable: false;
+    }
   }
 }

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-31 23:21+0200\n"
+"POT-Creation-Date: 2025-09-14 19:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -287,50 +287,50 @@ msgstr ""
 msgid "Execute this HTTP request"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:111
+#: data/ui/endpoint_pane.blp:112
 msgid "Parameters"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:137 data/ui/response_panel.blp:137
+#: data/ui/endpoint_pane.blp:138 data/ui/response_panel.blp:137
 msgid "Headers"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:186
+#: data/ui/endpoint_pane.blp:170
 msgid "Variables"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:230
+#: data/ui/endpoint_pane.blp:199
 msgid ""
 "Cartero supports reading variables from an .env file, but you need to enable "
 "the feature first."
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:237 data/ui/main_window.blp:178
-#: data/ui/main_window_no_csd.blp:189 data/ui/settings/shell.blp:47
+#: data/ui/endpoint_pane.blp:206 data/ui/main_window.blp:182
+#: data/ui/main_window_no_csd.blp:187 data/ui/settings/shell.blp:47
 msgid "Settings"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:249
+#: data/ui/endpoint_pane.blp:224
 msgid ""
 "Cartero supports reading variables from an .env file, but you have to save "
 "the request first."
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:259
+#: data/ui/endpoint_pane.blp:240
 msgid ""
 "Place an .env file in the same disk directory as the request or in a parent "
 "directory to load the variables in Cartero."
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:265
+#: data/ui/endpoint_pane.blp:246
 msgid "Check again"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:293
+#: data/ui/endpoint_pane.blp:275
 msgid "Authorization"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:308 data/ui/response_panel.blp:55
+#: data/ui/endpoint_pane.blp:290 data/ui/response_panel.blp:55
 msgid "Body"
 msgstr ""
 
@@ -410,28 +410,28 @@ msgctxt "menubar"
 msgid "File"
 msgstr ""
 
-#: data/ui/mac_menu.blp:25 data/ui/main_window.blp:151
-#: data/ui/main_window_no_csd.blp:162 data/ui/welcome/welcome_pane.blp:65
+#: data/ui/mac_menu.blp:25 data/ui/main_window.blp:155
+#: data/ui/main_window_no_csd.blp:160 data/ui/welcome/welcome_pane.blp:65
 msgid "New tab"
 msgstr ""
 
-#: data/ui/mac_menu.blp:30 data/ui/main_window.blp:156
-#: data/ui/main_window_no_csd.blp:167 data/ui/welcome/welcome_pane.blp:78
+#: data/ui/mac_menu.blp:30 data/ui/main_window.blp:160
+#: data/ui/main_window_no_csd.blp:165 data/ui/welcome/welcome_pane.blp:78
 msgid "Open request…"
 msgstr ""
 
-#: data/ui/mac_menu.blp:35 data/ui/main_window.blp:161
-#: data/ui/main_window_no_csd.blp:172 src/widgets/file_dialogs.rs:146
+#: data/ui/mac_menu.blp:35 data/ui/main_window.blp:165
+#: data/ui/main_window_no_csd.blp:170 src/widgets/file_dialogs.rs:146
 msgid "Save request"
 msgstr ""
 
-#: data/ui/mac_menu.blp:40 data/ui/main_window.blp:166
-#: data/ui/main_window_no_csd.blp:177
+#: data/ui/mac_menu.blp:40 data/ui/main_window.blp:170
+#: data/ui/main_window_no_csd.blp:175
 msgid "Save request as…"
 msgstr ""
 
-#: data/ui/mac_menu.blp:47 data/ui/main_window.blp:171
-#: data/ui/main_window_no_csd.blp:182
+#: data/ui/mac_menu.blp:47 data/ui/main_window.blp:175
+#: data/ui/main_window_no_csd.blp:180
 msgid "Close tab"
 msgstr ""
 
@@ -546,7 +546,7 @@ msgctxt "menubar"
 msgid "Help"
 msgstr ""
 
-#: data/ui/mac_menu.blp:200 data/ui/welcome/welcome_pane.blp:132 src/win.rs:631
+#: data/ui/mac_menu.blp:200 data/ui/welcome/welcome_pane.blp:132 src/win.rs:635
 msgid "User manual"
 msgstr ""
 
@@ -560,7 +560,7 @@ msgctxt "menubar"
 msgid "View discussions"
 msgstr ""
 
-#: data/ui/mac_menu.blp:217 src/win.rs:633
+#: data/ui/mac_menu.blp:217 src/win.rs:637
 msgid "Help us translate"
 msgstr ""
 
@@ -568,50 +568,50 @@ msgstr ""
 msgid "Check for updates"
 msgstr ""
 
-#: data/ui/main_window.blp:50 data/ui/main_window_no_csd.blp:50
+#: data/ui/main_window.blp:48 data/ui/main_window_no_csd.blp:48
 msgid "New"
 msgstr ""
 
-#: data/ui/main_window.blp:61 data/ui/main_window.blp:73
-#: data/ui/main_window_no_csd.blp:61 data/ui/main_window_no_csd.blp:73
+#: data/ui/main_window.blp:59 data/ui/main_window.blp:71
+#: data/ui/main_window_no_csd.blp:59 data/ui/main_window_no_csd.blp:71
 #: src/widgets/file_dialogs.rs:109 src/widgets/file_dialogs.rs:186
 msgid "Open"
 msgstr ""
 
-#: data/ui/main_window.blp:81 data/ui/main_window_no_csd.blp:81
+#: data/ui/main_window.blp:79 data/ui/main_window_no_csd.blp:79
 #: src/widgets/file_dialogs.rs:145 src/widgets/file_dialogs.rs:228
 msgid "Save"
 msgstr ""
 
-#: data/ui/main_window.blp:90 data/ui/main_window_no_csd.blp:102
+#: data/ui/main_window.blp:88 data/ui/main_window_no_csd.blp:100
 msgid "Export request"
 msgstr ""
 
-#: data/ui/main_window.blp:97
+#: data/ui/main_window.blp:95
 msgid "Menu"
 msgstr ""
 
-#: data/ui/main_window.blp:128 data/ui/main_window_no_csd.blp:139
+#: data/ui/main_window.blp:132 data/ui/main_window_no_csd.blp:137
 msgid "Export request as cURL…"
 msgstr ""
 
-#: data/ui/main_window.blp:134 data/ui/main_window_no_csd.blp:145
+#: data/ui/main_window.blp:138 data/ui/main_window_no_csd.blp:143
 msgid "Export request as Jetbrains HTTP…"
 msgstr ""
 
-#: data/ui/main_window.blp:142 data/ui/main_window_no_csd.blp:153
+#: data/ui/main_window.blp:146 data/ui/main_window_no_csd.blp:151
 msgid "Export response body…"
 msgstr ""
 
-#: data/ui/main_window.blp:185 data/ui/main_window_no_csd.blp:196
+#: data/ui/main_window.blp:189 data/ui/main_window_no_csd.blp:194
 msgid "Keyboard shortcuts"
 msgstr ""
 
-#: data/ui/main_window.blp:190 data/ui/main_window_no_csd.blp:201
+#: data/ui/main_window.blp:194 data/ui/main_window_no_csd.blp:199
 msgid "About Cartero"
 msgstr ""
 
-#: data/ui/main_window.blp:195 data/ui/main_window_no_csd.blp:206
+#: data/ui/main_window.blp:199 data/ui/main_window_no_csd.blp:204
 msgid "Quit"
 msgstr ""
 
@@ -1178,29 +1178,29 @@ msgstr ""
 msgid "_Save"
 msgstr ""
 
-#: src/widgets/endpoint/endpoint_pane.rs:296
+#: src/widgets/endpoint/endpoint_pane.rs:283
 #, rust-format
 msgid "Show {} variable from .env"
 msgid_plural "Show {} variables from .env"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/widgets/endpoint/endpoint_pane.rs:570
-#: src/widgets/endpoint/endpoint_pane.rs:576
-#: src/widgets/endpoint/endpoint_pane.rs:597
+#: src/widgets/endpoint/endpoint_pane.rs:557
+#: src/widgets/endpoint/endpoint_pane.rs:563
+#: src/widgets/endpoint/endpoint_pane.rs:584
 msgid "(generated during request)"
 msgstr ""
 
-#: src/widgets/endpoint/endpoint_pane.rs:625
+#: src/widgets/endpoint/endpoint_pane.rs:612
 #, rust-format
 msgid "Show {} pre-generated headers"
 msgstr ""
 
-#: src/widgets/endpoint/endpoint_pane.rs:842
+#: src/widgets/endpoint/endpoint_pane.rs:829
 msgid "Export request as cURL"
 msgstr ""
 
-#: src/widgets/endpoint/endpoint_pane.rs:843
+#: src/widgets/endpoint/endpoint_pane.rs:830
 msgid "Export request as Jetbrains HTTP"
 msgstr ""
 
@@ -1260,24 +1260,24 @@ msgid_plural "{} results"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/win.rs:287
+#: src/win.rs:291
 msgid "(untitled)"
 msgstr ""
 
-#: src/win.rs:301
+#: src/win.rs:305
 msgid "Draft"
 msgstr ""
 
-#: src/win.rs:603
+#: src/win.rs:607
 msgid "The Cartero authors"
 msgstr ""
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
-#: src/win.rs:626
+#: src/win.rs:630
 msgid "translator-credits"
 msgstr ""
 
-#: src/win.rs:627
+#: src/win.rs:631
 msgid "© 2024-2025 the Cartero authors"
 msgstr ""
 

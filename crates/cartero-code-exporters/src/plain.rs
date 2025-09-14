@@ -25,10 +25,7 @@ use cartero_objects::{
 };
 use gio::prelude::ListModelExtManual;
 use glib::object::Cast;
-use http::{
-    uri::{Parts, PathAndQuery},
-    Uri,
-};
+use http::Uri;
 
 use crate::ExportError;
 
@@ -145,33 +142,22 @@ fn clean_querystring(qs: &str) -> Result<String, ExportError> {
 
 // Mainly exists to deal with urlencoded query params.
 fn extract_url(url: &str) -> Result<String, ExportError> {
-    let uri = Uri::from_str(url).or(Err(ExportError::UrlBadParse))?;
-    let scheme = uri.scheme().map(|sch| sch.clone());
-    let authority = uri.authority().map(|aut| aut.clone());
-    let pq = uri
-        .path_and_query()
-        .map(|pq| {
-            let path = pq.path();
-            let query = pq.query().map(|str| clean_querystring(str)).transpose();
-            match query {
-                Err(_) => Err(ExportError::UrlBadParse),
-                Ok(None) => PathAndQuery::from_str(path).or(Err(ExportError::UrlBadParse)),
-                Ok(Some(q)) => {
-                    let pq = format!("{}?{}", path, q);
-                    PathAndQuery::from_str(pq.as_str()).or(Err(ExportError::UrlBadParse))
-                }
-            }
-        })
-        .transpose()?;
+    // Remove fragments from the exported URL.
+    let url = match url.split_once('#') {
+        None => url,
+        Some((start, _)) => start,
+    };
 
-    let mut parts = Parts::default();
-    parts.authority = authority;
-    parts.path_and_query = pq;
-    parts.scheme = scheme;
-    match Uri::from_parts(parts) {
-        Ok(uri) => Ok(uri.to_string()),
-        Err(_) => Err(ExportError::UrlBadParse),
-    }
+    let url = match url.split_once('?') {
+        None => url.to_string(),
+        Some((left, right)) => {
+            let clean_qs = clean_querystring(right)?;
+            format!("{}?{}", left, clean_qs)
+        }
+    };
+
+    let uri = Uri::from_str(&url).or(Err(ExportError::UrlBadParse))?;
+    Ok(uri.to_string())
 }
 
 impl TryFrom<ObjectRequest> for Request {
@@ -225,6 +211,37 @@ impl From<RequestAuthenticationData> for Auth {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn clean_url() {
+        let cases = vec![
+            (
+                "https://www.example.com/index.html",
+                "https://www.example.com/index.html",
+            ),
+            (
+                "https://www.example.com/index.html#no-fragment",
+                "https://www.example.com/index.html",
+            ),
+            ("/index.html", "/index.html"),
+            (
+                "https://www.example.com/search.php?key=query string",
+                "https://www.example.com/search.php?key=query+string",
+            ),
+            (
+                "/search.php?query=hello world",
+                "/search.php?query=hello+world",
+            ),
+            (
+                "/search.php?query=hello%world",
+                "/search.php?query=hello%25world",
+            ),
+        ];
+
+        for (input, expected) in cases {
+            let output = super::extract_url(input).expect(input);
+            assert_eq!(output, expected, "{} != {}", output, expected);
+        }
+    }
     #[test]
     fn clean_querystring() {
         let cases = vec![

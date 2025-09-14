@@ -30,6 +30,7 @@ glib.workspace = true
 http.workspace = true
 serde_urlencoded.workspace = true
 srtemplate.workspace = true
+url.workspace = true
 
 [dev-dependencies]
 cartero_file_format = { path = "../cartero-file-format" }

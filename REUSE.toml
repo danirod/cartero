@@ -81,6 +81,8 @@ path = [
     "data/icons/scalable/actions/share-symbolic.svg",
     "data/icons/scalable/actions/tab-new-symbolic.svg",
     "data/icons/scalable/emblems/code-symbolic.svg",
+    "data/icons/scalable/emblems/display-symbolic.svg",
+    "data/icons/scalable/emblems/earth-symbolic.svg",
     "data/icons/scalable/emblems/eye-not-looking-symbolic.svg",
     "data/icons/scalable/emblems/fediverse-symbolic.svg",
     "data/icons/scalable/emblems/left-symbolic.svg",

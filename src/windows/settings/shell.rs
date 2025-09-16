@@ -155,6 +155,13 @@ mod imp {
                     imp.update_native_appearance(&win);
                 }
             ));
+            win.connect_maximized_notify(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |win| {
+                    imp.update_native_appearance(&win);
+                }
+            ));
             win.connect_default_width_notify(glib::clone!(
                 #[weak(rename_to = imp)]
                 self,

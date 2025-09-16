@@ -17,7 +17,7 @@
 
 use gdk4_macos::MacosSurface;
 use glib::object::{CastNone, ObjectExt};
-use gtk::prelude::{GtkWindowExt, NativeExt, WidgetExt};
+use gtk::prelude::{NativeExt, WidgetExt};
 use objc2::{class, msg_send, runtime::AnyObject};
 use objc2_app_kit::{
     NSAppearanceNameAqua, NSAppearanceNameDarkAqua, NSView, NSVisualEffectBlendingMode,
@@ -26,6 +26,7 @@ use objc2_app_kit::{
 use objc2_core_foundation::{CGRect, CGSize};
 use objc2_core_graphics::CGColor;
 use objc2_foundation::{NSInteger, NSPoint};
+use gtk::gdk::prelude::SurfaceExt;
 
 fn ns_window(win: &gtk::Window) -> Option<*mut NSWindow> {
     if let Some(surface) = win.surface().and_downcast::<MacosSurface>() {
@@ -80,9 +81,12 @@ unsafe fn initialize_backdrop(
 }
 
 pub(super) fn update_vibrancy(win: &gtk::Window, sidebar: Option<i32>, headerbar: Option<i32>) {
-    let window_height = win.default_height() as f64;
+    let Some(surface) = win.surface() else {
+        return;
+    };
+    let window_height = surface.height() as f64;
     let corner_x = sidebar.unwrap_or_default() as f64;
-    let area_width = (win.default_width() - sidebar.unwrap_or_default()) as f64;
+    let area_width = (surface.width() - sidebar.unwrap_or_default()) as f64;
 
     let Some(ns_window) = ns_window(win) else {
         return;

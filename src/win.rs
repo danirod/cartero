@@ -727,14 +727,25 @@ mod imp {
                         imp.update_native_appearance();
                     }
                 ));
-                gtk_window.connect_realize(glib::clone!(#[weak(rename_to = imp)] self, move |_| {
+                gtk_window.connect_realize(glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |_| {
                         let surface = imp.obj().surface().expect("No surface?");
-                        surface.connect_width_notify(glib::clone!(#[weak] imp, move |_| {
-                            imp.update_native_appearance();
-                        }));
-                        surface.connect_height_notify(glib::clone!(#[weak] imp, move |_| {
-                            imp.update_native_appearance();
-                        }));
+                        surface.connect_width_notify(glib::clone!(
+                            #[weak]
+                            imp,
+                            move |_| {
+                                imp.update_native_appearance();
+                            }
+                        ));
+                        surface.connect_height_notify(glib::clone!(
+                            #[weak]
+                            imp,
+                            move |_| {
+                                imp.update_native_appearance();
+                            }
+                        ));
                         imp.update_native_appearance();
                     }
                 ));

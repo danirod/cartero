@@ -17,6 +17,7 @@
 
 use gdk4_macos::MacosSurface;
 use glib::object::{CastNone, ObjectExt};
+use gtk::gdk::prelude::SurfaceExt;
 use gtk::prelude::{NativeExt, WidgetExt};
 use objc2::{class, msg_send, runtime::AnyObject};
 use objc2_app_kit::{
@@ -26,7 +27,6 @@ use objc2_app_kit::{
 use objc2_core_foundation::{CGRect, CGSize};
 use objc2_core_graphics::CGColor;
 use objc2_foundation::{NSInteger, NSPoint};
-use gtk::gdk::prelude::SurfaceExt;
 
 fn ns_window(win: &gtk::Window) -> Option<*mut NSWindow> {
     if let Some(surface) = win.surface().and_downcast::<MacosSurface>() {

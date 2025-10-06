@@ -98,6 +98,17 @@ impl Default for Field {
     }
 }
 
+#[derive(Debug, Copy, Clone, Default, PartialEq, Eq, glib::Enum)]
+#[enum_type(name = "CarteroFieldFormat")]
+pub enum FieldFormat {
+    #[default]
+    #[enum_value(name = "FIELD")]
+    Field,
+
+    #[enum_value(name = "FILE")]
+    File,
+}
+
 mod imp {
     use std::{cell::RefCell, sync::OnceLock};
 
@@ -118,6 +129,9 @@ mod imp {
 
         #[property(get, set, default = false)]
         masked: RefCell<bool>,
+
+        #[property(get, set, builder(FieldFormat::default()))]
+        format: RefCell<FieldFormat>,
     }
 
     impl Default for Field {
@@ -127,6 +141,7 @@ mod imp {
                 value: Default::default(),
                 active: true.into(),
                 masked: false.into(),
+                format: Default::default(),
             }
         }
     }

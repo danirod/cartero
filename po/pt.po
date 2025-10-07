@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-31 23:21+0200\n"
-"PO-Revision-Date: 2025-04-10 15:58+0000\n"
+"PO-Revision-Date: 2025-10-07 15:02+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/cartero/"
 "cartero/pt/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.11-dev\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -85,6 +85,8 @@ msgstr "Gnome; gtk; http; descanso;"
 msgid ""
 "A specific locale to use within the application instead of the system default"
 msgstr ""
+"Um local específico para usar dentro da aplicação em vez da predefinição do "
+"sistema"
 
 #: data/es.danirod.Cartero.gschema.xml:16
 msgid "Automatically indent new lines for the request body"
@@ -220,17 +222,17 @@ msgstr "Solicitar operações"
 #: data/gtk/help_overlay.blp:71
 msgctxt "shortcuts window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Ampliar"
 
 #: data/gtk/help_overlay.blp:76
 msgctxt "shortcuts window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Diminuir o zoom"
 
 #: data/gtk/help_overlay.blp:81
 msgctxt "shortcuts window"
 msgid "Reset zoom"
-msgstr ""
+msgstr "Redefinir zoom"
 
 #: data/gtk/help_overlay.blp:86
 #, fuzzy
@@ -337,7 +339,7 @@ msgstr ""
 
 #: data/ui/endpoint_pane.blp:265
 msgid "Check again"
-msgstr ""
+msgstr "Verificar novamente"
 
 #: data/ui/endpoint_pane.blp:293
 msgid "Authorization"
@@ -365,7 +367,7 @@ msgstr "Exportar para"
 
 #: data/ui/field_list_box_row.blp:23 data/ui/field_placeholder_row.blp:27
 msgid "Enabled"
-msgstr ""
+msgstr "Ativado"
 
 #: data/ui/field_list_box_row.blp:37 data/ui/field_list_box_row.blp:38
 #: data/ui/field_list_box_static_row.blp:36
@@ -393,11 +395,11 @@ msgstr "Apagar"
 
 #: data/ui/file_body_pane.blp:26
 msgid "File"
-msgstr ""
+msgstr "Ficheiro"
 
 #: data/ui/file_body_pane.blp:30
 msgid "Content Type"
-msgstr ""
+msgstr "Tipo de conteúdo"
 
 #: data/ui/file_body_pane.blp:41
 #, fuzzy
@@ -406,7 +408,7 @@ msgstr "Não foi possível selecionar um ficheiro válido no seletor de ficheiro
 
 #: data/ui/file_body_pane.blp:50
 msgid "Select file…"
-msgstr ""
+msgstr "Selecione o ficheiro.…"
 
 #: data/ui/file_body_pane.blp:71
 msgid ""
@@ -425,7 +427,7 @@ msgstr ""
 #: data/ui/mac_menu.blp:21
 msgctxt "menubar"
 msgid "File"
-msgstr ""
+msgstr "Ficheiro"
 
 #: data/ui/mac_menu.blp:25 data/ui/main_window.blp:151
 #: data/ui/main_window_no_csd.blp:162 data/ui/welcome/welcome_pane.blp:65
@@ -455,22 +457,22 @@ msgstr "Beche a guia"
 #: data/ui/mac_menu.blp:54
 msgctxt "menubar"
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: data/ui/mac_menu.blp:58
 msgctxt "menubar"
 msgid "Undo"
-msgstr ""
+msgstr "Desfazer"
 
 #: data/ui/mac_menu.blp:63
 msgctxt "menubar"
 msgid "Redo"
-msgstr ""
+msgstr "Refazer"
 
 #: data/ui/mac_menu.blp:70
 msgctxt "menubar"
 msgid "Cut"
-msgstr ""
+msgstr "Corte"
 
 #: data/ui/mac_menu.blp:75
 #, fuzzy
@@ -481,7 +483,7 @@ msgstr "Cópia"
 #: data/ui/mac_menu.blp:80
 msgctxt "menubar"
 msgid "Paste"
-msgstr ""
+msgstr "Colar"
 
 #: data/ui/mac_menu.blp:85
 #, fuzzy
@@ -492,17 +494,17 @@ msgstr "Apagar"
 #: data/ui/mac_menu.blp:92
 msgctxt "menubar"
 msgid "Select All"
-msgstr ""
+msgstr "Selecione tudo"
 
 #: data/ui/mac_menu.blp:99
 msgctxt "menubar"
 msgid "Endpoint"
-msgstr ""
+msgstr "Ponto final"
 
 #: data/ui/mac_menu.blp:103
 msgctxt "menubar"
 msgid "Edit URL"
-msgstr ""
+msgstr "Editar URL"
 
 #: data/ui/mac_menu.blp:120 data/ui/settings/page_code_editor.blp:26
 msgid "Body appearance"
@@ -547,23 +549,23 @@ msgstr "8"
 #: data/ui/mac_menu.blp:179
 msgctxt "menubar"
 msgid "Window"
-msgstr ""
+msgstr "Janela"
 
 #: data/ui/mac_menu.blp:183
 msgctxt "menubar"
 msgid "Minimize"
-msgstr ""
+msgstr "Minimizar"
 
 #. TRANSLATORS: This item will only be visible in macOS, where the convention is to call it "zoom" instead of "maximize"
 #: data/ui/mac_menu.blp:189
 msgctxt "menubar"
 msgid "Zoom"
-msgstr ""
+msgstr "Zoom"
 
 #: data/ui/mac_menu.blp:196
 msgctxt "menubar"
 msgid "Help"
-msgstr ""
+msgstr "Ajuda"
 
 #: data/ui/mac_menu.blp:200 data/ui/welcome/welcome_pane.blp:132 src/win.rs:631
 msgid "User manual"
@@ -572,12 +574,12 @@ msgstr "Manual do utilizador"
 #: data/ui/mac_menu.blp:205 data/ui/welcome/welcome_pane.blp:142
 msgctxt "menubar"
 msgid "Report a bug"
-msgstr ""
+msgstr "Reportar um bug"
 
 #: data/ui/mac_menu.blp:210
 msgctxt "menubar"
 msgid "View discussions"
-msgstr ""
+msgstr "Ver discussões"
 
 #: data/ui/mac_menu.blp:217 src/win.rs:633
 msgid "Help us translate"
@@ -608,7 +610,7 @@ msgstr "Solicitação de exportação"
 
 #: data/ui/main_window.blp:97
 msgid "Menu"
-msgstr ""
+msgstr "Menu"
 
 #: data/ui/main_window.blp:128 data/ui/main_window_no_csd.blp:139
 #, fuzzy
@@ -684,15 +686,17 @@ msgstr ""
 
 #: data/ui/response_panel.blp:68
 msgid "Response body"
-msgstr ""
+msgstr "Corpo de resposta"
 
 #: data/ui/response_panel.blp:87
 msgid "Binary response received"
-msgstr ""
+msgstr "Resposta binária recebida"
 
 #: data/ui/response_panel.blp:88
 msgid "The response of this request should not be rendered in a text view."
 msgstr ""
+"A resposta desta solicitação não deve ser renderizada numa visualização de "
+"texto."
 
 #: data/ui/response_panel.blp:110
 #, fuzzy
@@ -746,7 +750,7 @@ msgstr "Fonte personalizada"
 
 #: data/ui/settings/page_appearance.blp:52
 msgid "Click to select a font"
-msgstr ""
+msgstr "Clique para selecionar uma fonte"
 
 #: data/ui/settings/page_application.blp:22
 msgid "Application"
@@ -755,11 +759,11 @@ msgstr "Aplicação"
 #: data/ui/settings/page_application.blp:26
 #: data/ui/settings/page_application.blp:33
 msgid "Language"
-msgstr ""
+msgstr "Linguagem"
 
 #: data/ui/settings/page_application.blp:43
 msgid "You need to restart the program for the new locale to be used."
-msgstr ""
+msgstr "Precisa reiniciar o programa para que o novo idioma seja usado."
 
 #: data/ui/settings/page_application.blp:50
 msgid "File settings"
@@ -823,7 +827,7 @@ msgstr "Segundos a esperar antes de cancelar a solicitação"
 
 #: data/ui/settings/page_proxy.blp:22
 msgid "Proxy"
-msgstr ""
+msgstr "Proxy"
 
 #: data/ui/settings/page_proxy.blp:26
 #, fuzzy
@@ -836,11 +840,11 @@ msgstr ""
 
 #: data/ui/settings/page_proxy.blp:33
 msgid "HTTPS Proxy"
-msgstr ""
+msgstr "Proxy de HTTPS"
 
 #: data/ui/settings/page_proxy.blp:38
 msgid "Exclude from proxy"
-msgstr ""
+msgstr "Excluir do proxy"
 
 #: data/ui/settings/page_proxy.blp:39
 msgid ""
@@ -850,15 +854,15 @@ msgstr ""
 
 #: data/ui/settings/page_proxy.blp:55 data/ui/settings/page_proxy.blp:56
 msgid "Address to exclude"
-msgstr ""
+msgstr "Endereço a excluir"
 
 #: data/ui/settings/page_proxy.blp:60
 msgid "Add"
-msgstr ""
+msgstr "Adicionar"
 
 #: data/ui/settings/page_proxy.blp:91
 msgid "Environment variables"
-msgstr ""
+msgstr "Variáveis de ambiente"
 
 #. TRANSLATORS: Keep the variable names "http_proxy", "https_proxy" and "no_proxy" in English because that's the name of the variable.
 #: data/ui/settings/page_proxy.blp:93
@@ -874,11 +878,11 @@ msgstr ""
 #: data/ui/settings/page_proxy.blp:127 data/ui/settings/page_proxy.blp:138
 #: data/ui/settings/page_proxy.blp:149
 msgid "(empty)"
-msgstr ""
+msgstr "(vazio)"
 
 #: data/ui/settings/page_security.blp:22
 msgid "Security"
-msgstr ""
+msgstr "Segurança"
 
 #: data/ui/settings/page_security.blp:26
 msgid ".env files"
@@ -917,7 +921,7 @@ msgstr ""
 
 #: data/ui/welcome/welcome_pane.blp:118 data/ui/welcome/welcome_pane.blp:166
 msgid "Know your rights"
-msgstr ""
+msgstr "Conheça os seus direitos"
 
 #: data/ui/welcome/welcome_pane.blp:152
 #, fuzzy
@@ -939,7 +943,7 @@ msgstr ""
 
 #: data/ui/welcome/welcome_pane.blp:190
 msgid "You can get, study and modify the source code"
-msgstr ""
+msgstr "Pode obter, estudar e modificar o código-fonte"
 
 #: data/ui/welcome/welcome_pane.blp:191
 msgid ""
@@ -949,7 +953,7 @@ msgstr ""
 
 #: data/ui/welcome/welcome_pane.blp:198
 msgid "You can share copies of the program"
-msgstr ""
+msgstr "Pode partilhar cópias do programa"
 
 #: data/ui/welcome/welcome_pane.blp:199
 msgid ""
@@ -962,7 +966,7 @@ msgstr ""
 
 #: data/ui/welcome/welcome_pane.blp:206
 msgid "Cartero is built in community"
-msgstr ""
+msgstr "Cartero é construído na comunidade"
 
 #: data/ui/welcome/welcome_pane.blp:207
 msgid ""
@@ -977,7 +981,7 @@ msgstr "Resultado anterior"
 
 #: data/ui/welcome/welcome_pane.blp:235
 msgid "Next"
-msgstr ""
+msgstr "Próximo"
 
 #: src/interop.rs:32
 msgid ""
@@ -1041,7 +1045,7 @@ msgstr "Não é possível gravar o ficheiro solicitado"
 #: src/interop.rs:78
 #, rust-format
 msgid "The file '{}' cannot be accessed due to the security policy"
-msgstr ""
+msgstr "O ficheiro '{}' não pode ser acedido devido à política de segurança"
 
 #: src/interop.rs:83
 #, fuzzy, rust-format
@@ -1145,6 +1149,10 @@ msgid ""
 "\n"
 "The file '{}' is not part of the '{}' directory"
 msgstr ""
+"O ficheiro deve estar no mesmo diretório que o ficheiro de solicitação ou "
+"projeto ou qualquer um dos seus subdiretórios.\n"
+"\n"
+"O ficheiro '{}' não faz parte do diretório '{}'"
 
 #: src/widgets/dialogs.rs:136
 #, rust-format
@@ -1176,7 +1184,7 @@ msgstr ""
 
 #: src/widgets/dialogs.rs:173
 msgid "Error cause:"
-msgstr ""
+msgstr "Causa do erro:"
 
 #: src/widgets/dialogs.rs:178
 #, fuzzy
@@ -1244,7 +1252,7 @@ msgstr ""
 #: src/widgets/endpoint/endpoint_pane.rs:625
 #, rust-format
 msgid "Show {} pre-generated headers"
-msgstr ""
+msgstr "Mostrar {} cabeçalhos pré-gerados"
 
 #: src/widgets/endpoint/endpoint_pane.rs:842
 #, fuzzy
@@ -1294,7 +1302,7 @@ msgstr "Solicitação aberta"
 
 #: src/widgets/file_dialogs.rs:187
 msgid "Select file"
-msgstr ""
+msgstr "Selecionar ficheiro"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
@@ -1335,29 +1343,29 @@ msgstr "© 2024-2025 Os autores Cartero"
 
 #: src/windows/settings/pages/proxy.rs:205
 msgid "The value is not a valid domain or IP address"
-msgstr ""
+msgstr "O valor não é um domínio válido ou endereço IP"
 
 #: src/windows/settings/pages/proxy.rs:220
 msgid "The host identifier is already excluded"
-msgstr ""
+msgstr "O identificador do anfitrião já está excluído"
 
 #: src/windows/settings/pages/proxy.rs:240
 #, rust-format
 msgid "Delete '{}' from the list of excluded hosts for the proxy?"
-msgstr ""
+msgstr "Apagar '{}' da lista de anfitriões excluídos para o proxy?"
 
 #: src/windows/settings/pages/proxy.rs:245
 msgid "Delete identifier?"
-msgstr ""
+msgstr "Apagar identificador?"
 
 #: src/windows/settings/pages/proxy.rs:249
 #: src/windows/settings/pages/proxy.rs:284
 msgid "Remove"
-msgstr ""
+msgstr "Remover"
 
 #: src/windows/settings/pages/proxy.rs:268
 msgid "No domains or IP addresses are being excluded"
-msgstr ""
+msgstr "Nenhum domínio ou endereço IP está a ser excluído"
 
 #~ msgid "The current tab is not associated with a file"
 #~ msgstr "A guia atual não está associada a um ficheiro"

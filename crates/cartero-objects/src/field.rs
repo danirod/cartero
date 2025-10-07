@@ -228,6 +228,11 @@ mod builder {
             self.builder = self.builder.property("masked", masked);
             self
         }
+
+        pub fn file(mut self) -> Self {
+            self.builder = self.builder.property("format", FieldFormat::File);
+            self
+        }
     }
 }
 
@@ -247,6 +252,7 @@ mod tests {
         assert_eq!(field.value(), "Mozilla/5.0");
         assert!(field.active());
         assert!(!field.masked());
+        assert_eq!(field.format(), FieldFormat::Field);
     }
 
     #[test]
@@ -256,11 +262,13 @@ mod tests {
             .value("Mozilla/5.0")
             .active(false)
             .masked(true)
+            .file()
             .build();
         assert_eq!(field.key(), "User-Agent");
         assert_eq!(field.value(), "Mozilla/5.0");
         assert!(!field.active());
         assert!(field.masked());
+        assert_eq!(field.format(), FieldFormat::File);
     }
 
     #[test]

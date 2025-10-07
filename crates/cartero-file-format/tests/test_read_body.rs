@@ -162,6 +162,56 @@ pub fn multipart() {
 }
 
 #[test]
+pub fn multipart_file() {
+    let contents = include_str!("body/multipart_file.cartero");
+    let result = deserialize_request(contents).unwrap();
+
+    assert!(result.warnings().is_empty());
+    let request = result.object();
+
+    assert_eq!(request.body().body_type(), RequestBodyType::Multipart);
+    let multipart = request.body().multipart().unwrap();
+    assert_eq!(multipart.params().n_items(), 6);
+    let vars = multipart.params().group_by_key();
+
+    let username = vars.get("username").unwrap();
+    assert_eq!(username.len(), 1);
+    assert_field(username[0].as_ref(), "username", "foo", true, false);
+
+    let password = vars.get("password").unwrap();
+    assert_eq!(password.len(), 1);
+    assert_field(password[0].as_ref(), "password", "bar", true, true);
+
+    let remember_me = vars.get("remember_me").unwrap();
+    assert_eq!(remember_me.len(), 1);
+    assert_field(remember_me[0].as_ref(), "remember_me", "1", false, false);
+
+    let csrf_token = vars.get("csrf_token").unwrap();
+    assert_eq!(csrf_token.len(), 1);
+    assert_field(csrf_token[0].as_ref(), "csrf_token", "token", false, true);
+
+    let banner = vars.get("banner_picture").unwrap();
+    assert_eq!(banner.len(), 1);
+    assert_field(
+        banner[0].as_ref(),
+        "banner_picture",
+        "banner.jpg",
+        false,
+        false,
+    );
+
+    let profile = vars.get("profile_picture").unwrap();
+    assert_eq!(profile.len(), 1);
+    assert_field(
+        profile[0].as_ref(),
+        "profile_picture",
+        "avatar.jpg",
+        true,
+        false,
+    );
+}
+
+#[test]
 pub fn multipart_duplicate() {
     let contents = include_str!("body/multipart_duplicate.cartero");
     let result = deserialize_request(contents).unwrap();

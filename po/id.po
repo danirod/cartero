@@ -9,18 +9,20 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-09-14 19:23+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-10-09 11:07+0000\n"
+"Last-Translator: Ega <ega8642@gmail.com>\n"
+"Language-Team: Indonesian <https://hosted.weblate.org/projects/cartero/"
+"cartero/id/>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
-msgstr ""
+msgstr "Buat permintaan HTTP dan tes API"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:14
 msgid ""
@@ -32,7 +34,7 @@ msgstr ""
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:15
 msgid "Features:"
-msgstr ""
+msgstr "Fitur:"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:17
 msgid ""
@@ -51,19 +53,19 @@ msgstr ""
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:25
 msgid "Main window of Cartero"
-msgstr ""
+msgstr "Jendela utama Cartero"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:29
 msgid "Modifying HTTP headers"
-msgstr ""
+msgstr "Memodifikasi kepala HTTP"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:33
 msgid "Setting the request payload"
-msgstr ""
+msgstr "Menyetel muatan permintaan"
 
 #: data/cartero.desktop.in.in:2
 msgid "Cartero"
-msgstr ""
+msgstr "Cartero"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/cartero.desktop.in.in:10
@@ -117,31 +119,31 @@ msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:56
 msgid "The last location where a file was opened"
-msgstr ""
+msgstr "Lokasi terakhir berkas dibuka"
 
 #: data/es.danirod.Cartero.gschema.xml:60
 msgid "The last location where a file was saved"
-msgstr ""
+msgstr "Lokasi terakhir berkas disimpan"
 
 #: data/es.danirod.Cartero.gschema.xml:64
 msgid "Whether to validate the TLS certificates during a request"
-msgstr ""
+msgstr "Apakah ingin validasi sertifikat TLS selama permintaan"
 
 #: data/es.danirod.Cartero.gschema.xml:68
 msgid "Whether to follow redirections if that is the server response"
-msgstr ""
+msgstr "Apakah ingin mengikuti alihan jika itu merupakan respon server"
 
 #: data/es.danirod.Cartero.gschema.xml:72
 msgid "Maximum number of redirections to follow before giving up"
-msgstr ""
+msgstr "Jumlah maksimum alihan yang harus diikuti sebelum menyerah"
 
 #: data/es.danirod.Cartero.gschema.xml:76
 msgid "Maximum timeout when awaiting for an HTTP response."
-msgstr ""
+msgstr "Batas waktu pada saat menunggu respon HTTP."
 
 #: data/es.danirod.Cartero.gschema.xml:80
 msgid "Whether to use light or dark mode."
-msgstr ""
+msgstr "Apakah ingin menggunakan mode gelap."
 
 #: data/es.danirod.Cartero.gschema.xml:84
 msgid "The custom font in use"
@@ -158,47 +160,47 @@ msgstr ""
 #: data/gtk/help_overlay.blp:25
 msgctxt "shortcuts window"
 msgid "General shortcuts"
-msgstr ""
+msgstr "Pintasan Umum"
 
 #: data/gtk/help_overlay.blp:28
 msgctxt "shortcuts window"
 msgid "Show Keyboard Shortcuts"
-msgstr ""
+msgstr "Tampilkan Pintasan Papan tik"
 
 #: data/gtk/help_overlay.blp:33
 msgctxt "shortcuts window"
 msgid "Quit"
-msgstr ""
+msgstr "Keluar"
 
 #: data/gtk/help_overlay.blp:39
 msgctxt "shortcuts window"
 msgid "Tab operations"
-msgstr ""
+msgstr "Operasi tab"
 
 #: data/gtk/help_overlay.blp:42
 msgctxt "shortcuts window"
 msgid "New request tab"
-msgstr ""
+msgstr "Tab permintaan baru"
 
 #: data/gtk/help_overlay.blp:47
 msgctxt "shortcuts window"
 msgid "Open request"
-msgstr ""
+msgstr "Buka permintaan"
 
 #: data/gtk/help_overlay.blp:52
 msgctxt "shortcuts window"
 msgid "Save request"
-msgstr ""
+msgstr "Simpan permintaan"
 
 #: data/gtk/help_overlay.blp:57
 msgctxt "shortcuts window"
 msgid "Save request as"
-msgstr ""
+msgstr "Simpan permintaan sebagai"
 
 #: data/gtk/help_overlay.blp:62
 msgctxt "shortcuts window"
 msgid "Close request tab"
-msgstr ""
+msgstr "Tutup tab permintaan"
 
 #: data/gtk/help_overlay.blp:68
 msgctxt "shortcuts window"
@@ -208,27 +210,27 @@ msgstr ""
 #: data/gtk/help_overlay.blp:71
 msgctxt "shortcuts window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Zum ke dalam"
 
 #: data/gtk/help_overlay.blp:76
 msgctxt "shortcuts window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Zum keluar"
 
 #: data/gtk/help_overlay.blp:81
 msgctxt "shortcuts window"
 msgid "Reset zoom"
-msgstr ""
+msgstr "Reset zum"
 
 #: data/gtk/help_overlay.blp:86
 msgctxt "shortcuts window"
 msgid "Start search"
-msgstr ""
+msgstr "Mulai pencarian"
 
 #: data/gtk/help_overlay.blp:92
 msgctxt "shortcuts window"
 msgid "Request operations"
-msgstr ""
+msgstr "Operasi permintaan"
 
 #: data/gtk/help_overlay.blp:95
 msgctxt "shortcuts window"
@@ -238,157 +240,163 @@ msgstr ""
 #: data/gtk/help_overlay.blp:100
 msgctxt "shortcuts window"
 msgid "Send request"
-msgstr ""
+msgstr "Kirim permintaan"
 
 #: data/ui/authentication_pane.blp:34
 msgid "Authorization method"
-msgstr ""
+msgstr "Metode autorisasi"
 
 #: data/ui/authentication_pane.blp:59 data/ui/request_body_pane.blp:59
 #: src/windows/settings/pages/proxy.rs:299
 #: src/windows/settings/pages/proxy.rs:310
 msgid "(none)"
-msgstr ""
+msgstr "(nihil)"
 
 #: data/ui/authentication_pane.blp:60
 msgid "Basic auth"
-msgstr ""
+msgstr "Autentikasi sederhana"
 
 #: data/ui/authentication_pane.blp:61
 msgid "Bearer token"
-msgstr ""
+msgstr "Pembawa token"
 
 #: data/ui/basic_auth_pane.blp:23
 msgid "Username"
-msgstr ""
+msgstr "Nama pengguna"
 
 #: data/ui/basic_auth_pane.blp:28
 msgid "Password"
-msgstr ""
+msgstr "Kata sandi"
 
 #: data/ui/bearer_token_pane.blp:23
 msgid "Token"
-msgstr ""
+msgstr "Token"
 
 #: data/ui/endpoint_pane.blp:61 data/ui/endpoint_pane.blp:62
 msgid "Request URL"
-msgstr ""
+msgstr "URL Permintaan"
 
 #: data/ui/endpoint_pane.blp:74 data/ui/mac_menu.blp:113
 msgid "Cancel request"
-msgstr ""
+msgstr "Batalkan permintaan"
 
 #: data/ui/endpoint_pane.blp:83 data/ui/mac_menu.blp:108
 msgid "Send"
-msgstr ""
+msgstr "Kirim"
 
 #: data/ui/endpoint_pane.blp:84
 msgid "Execute this HTTP request"
-msgstr ""
+msgstr "Eksekusi permintaan HTTP ini"
 
 #: data/ui/endpoint_pane.blp:112
 msgid "Parameters"
-msgstr ""
+msgstr "Parameter"
 
 #: data/ui/endpoint_pane.blp:138 data/ui/response_panel.blp:137
 msgid "Headers"
-msgstr ""
+msgstr "Header"
 
 #: data/ui/endpoint_pane.blp:170
 msgid "Variables"
-msgstr ""
+msgstr "Variabel"
 
 #: data/ui/endpoint_pane.blp:199
 msgid ""
 "Cartero supports reading variables from an .env file, but you need to enable "
 "the feature first."
 msgstr ""
+"Cartero mendukung pembacaan variabel dari berkas .env, tetapi anda harus "
+"menyalakannya terlebih dahulu."
 
 #: data/ui/endpoint_pane.blp:206 data/ui/main_window.blp:182
 #: data/ui/main_window_no_csd.blp:187 data/ui/settings/shell.blp:47
 msgid "Settings"
-msgstr ""
+msgstr "Pengaturan"
 
 #: data/ui/endpoint_pane.blp:224
 msgid ""
 "Cartero supports reading variables from an .env file, but you have to save "
 "the request first."
 msgstr ""
+"Cartero mendukung pembacaan variabel dari berkas .env, tetapi anda harus "
+"menyimpan permintaannya terlebih dahulu."
 
 #: data/ui/endpoint_pane.blp:240
 msgid ""
 "Place an .env file in the same disk directory as the request or in a parent "
 "directory to load the variables in Cartero."
 msgstr ""
+"Letakan berkas .env di direktori diska yang sama dengan permintaan atau "
+"dalam direktori orang tua untuk memuat variabel dalam Cartero."
 
 #: data/ui/endpoint_pane.blp:246
 msgid "Check again"
-msgstr ""
+msgstr "Cek lagi"
 
 #: data/ui/endpoint_pane.blp:275
 msgid "Authorization"
-msgstr ""
+msgstr "Autorisasi"
 
 #: data/ui/endpoint_pane.blp:290 data/ui/response_panel.blp:55
 msgid "Body"
-msgstr ""
+msgstr "Badan"
 
 #: data/ui/export_dialog.blp:54
 msgid "Generated output"
-msgstr ""
+msgstr "Hasil output"
 
 #: data/ui/export_dialog.blp:64
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Salin ke papan klip"
 
 #: data/ui/export_dialog.blp:69 data/ui/response_panel.blp:103
 #: src/widgets/file_dialogs.rs:230
 msgid "Export to file"
-msgstr ""
+msgstr "Ekspor ke berkas"
 
 #: data/ui/field_list_box_row.blp:23 data/ui/field_placeholder_row.blp:27
 msgid "Enabled"
-msgstr ""
+msgstr "Menyala"
 
 #: data/ui/field_list_box_row.blp:37 data/ui/field_list_box_row.blp:38
 #: data/ui/field_list_box_static_row.blp:36
 #: data/ui/field_placeholder_row.blp:41 data/ui/field_placeholder_row.blp:42
 msgid "Name"
-msgstr ""
+msgstr "Nama"
 
 #: data/ui/field_list_box_row.blp:48 data/ui/field_list_box_row.blp:49
 #: data/ui/field_list_box_static_row.blp:46
 #: data/ui/field_placeholder_row.blp:52 data/ui/field_placeholder_row.blp:53
 msgid "Value"
-msgstr ""
+msgstr "Nilai"
 
 #: data/ui/field_list_box_row.blp:58 data/ui/field_placeholder_row.blp:62
 msgid "Actions"
-msgstr ""
+msgstr "Aksi"
 
 #: data/ui/field_list_box_row.blp:69
 msgid "Toggle secret"
-msgstr ""
+msgstr "Jungkitkan rahasia"
 
 #: data/ui/field_list_box_row.blp:76
 msgid "Delete"
-msgstr ""
+msgstr "Hapus"
 
 #: data/ui/file_body_pane.blp:26
 msgid "File"
-msgstr ""
+msgstr "Berkas"
 
 #: data/ui/file_body_pane.blp:30
 msgid "Content Type"
-msgstr ""
+msgstr "Tipe Konten"
 
 #: data/ui/file_body_pane.blp:41
 msgid "or select a file from the file system:"
-msgstr ""
+msgstr "atau pilih berkas dari sistem file:"
 
 #: data/ui/file_body_pane.blp:50
 msgid "Select file…"
-msgstr ""
+msgstr "Pilih berkas…"
 
 #: data/ui/file_body_pane.blp:71
 msgid ""
@@ -407,86 +415,86 @@ msgstr ""
 #: data/ui/mac_menu.blp:21
 msgctxt "menubar"
 msgid "File"
-msgstr ""
+msgstr "Berkas"
 
 #: data/ui/mac_menu.blp:25 data/ui/main_window.blp:155
 #: data/ui/main_window_no_csd.blp:160 data/ui/welcome/welcome_pane.blp:65
 msgid "New tab"
-msgstr ""
+msgstr "Tab baru"
 
 #: data/ui/mac_menu.blp:30 data/ui/main_window.blp:160
 #: data/ui/main_window_no_csd.blp:165 data/ui/welcome/welcome_pane.blp:78
 msgid "Open request…"
-msgstr ""
+msgstr "Buka permintaan…"
 
 #: data/ui/mac_menu.blp:35 data/ui/main_window.blp:165
 #: data/ui/main_window_no_csd.blp:170 src/widgets/file_dialogs.rs:146
 msgid "Save request"
-msgstr ""
+msgstr "Simpan permintaan"
 
 #: data/ui/mac_menu.blp:40 data/ui/main_window.blp:170
 #: data/ui/main_window_no_csd.blp:175
 msgid "Save request as…"
-msgstr ""
+msgstr "Simpan permintaan sebagai…"
 
 #: data/ui/mac_menu.blp:47 data/ui/main_window.blp:175
 #: data/ui/main_window_no_csd.blp:180
 msgid "Close tab"
-msgstr ""
+msgstr "Tutup tab"
 
 #: data/ui/mac_menu.blp:54
 msgctxt "menubar"
 msgid "Edit"
-msgstr ""
+msgstr "Sunting"
 
 #: data/ui/mac_menu.blp:58
 msgctxt "menubar"
 msgid "Undo"
-msgstr ""
+msgstr "Urungkan"
 
 #: data/ui/mac_menu.blp:63
 msgctxt "menubar"
 msgid "Redo"
-msgstr ""
+msgstr "Tak Urungkan"
 
 #: data/ui/mac_menu.blp:70
 msgctxt "menubar"
 msgid "Cut"
-msgstr ""
+msgstr "Potong"
 
 #: data/ui/mac_menu.blp:75
 msgctxt "menubar"
 msgid "Copy"
-msgstr ""
+msgstr "Salin"
 
 #: data/ui/mac_menu.blp:80
 msgctxt "menubar"
 msgid "Paste"
-msgstr ""
+msgstr "Tempel"
 
 #: data/ui/mac_menu.blp:85
 msgctxt "menubar"
 msgid "Delete"
-msgstr ""
+msgstr "Hapus"
 
 #: data/ui/mac_menu.blp:92
 msgctxt "menubar"
 msgid "Select All"
-msgstr ""
+msgstr "Pilih Semua"
 
 #: data/ui/mac_menu.blp:99
 msgctxt "menubar"
 msgid "Endpoint"
-msgstr ""
+msgstr "Titik akhir"
 
 #: data/ui/mac_menu.blp:103
 msgctxt "menubar"
 msgid "Edit URL"
-msgstr ""
+msgstr "Sunting URL"
 
 #: data/ui/mac_menu.blp:120 data/ui/settings/page_code_editor.blp:26
 msgid "Body appearance"
-msgstr ""
+msgstr "Penampilan badan"
 
 #: data/ui/mac_menu.blp:124 data/ui/settings/page_code_editor.blp:29
 msgid "Wrap content"
@@ -494,40 +502,40 @@ msgstr ""
 
 #: data/ui/mac_menu.blp:129 data/ui/settings/page_code_editor.blp:34
 msgid "Show line numbers"
-msgstr ""
+msgstr "Tampilkan nomor baris"
 
 #: data/ui/mac_menu.blp:136 data/ui/settings/page_code_editor.blp:41
 msgid "Automatic indentation"
-msgstr ""
+msgstr "Indentasi otomatis"
 
 #: data/ui/mac_menu.blp:141 data/ui/settings/page_code_editor.blp:46
 msgid "Indent with spaces"
-msgstr ""
+msgstr "Indentasi dengan spasi"
 
 #: data/ui/mac_menu.blp:147 data/ui/settings/page_code_editor.blp:56
 msgid "Indent with tabs"
-msgstr ""
+msgstr "Indentasi dengan tab"
 
 #: data/ui/mac_menu.blp:153 data/ui/settings/page_code_editor.blp:67
 msgid "Spaces per tab"
-msgstr ""
+msgstr "Spasi per tab"
 
 #: data/ui/mac_menu.blp:156
 msgid "2"
-msgstr ""
+msgstr "2"
 
 #: data/ui/mac_menu.blp:162
 msgid "4"
-msgstr ""
+msgstr "4"
 
 #: data/ui/mac_menu.blp:168
 msgid "8"
-msgstr ""
+msgstr "8"
 
 #: data/ui/mac_menu.blp:179
 msgctxt "menubar"
 msgid "Window"
-msgstr ""
+msgstr "Jendela"
 
 #: data/ui/mac_menu.blp:183
 msgctxt "menubar"
@@ -538,26 +546,26 @@ msgstr ""
 #: data/ui/mac_menu.blp:189
 msgctxt "menubar"
 msgid "Zoom"
-msgstr ""
+msgstr "Besarkan"
 
 #: data/ui/mac_menu.blp:196
 msgctxt "menubar"
 msgid "Help"
-msgstr ""
+msgstr "Bantuan"
 
 #: data/ui/mac_menu.blp:200 data/ui/welcome/welcome_pane.blp:132 src/win.rs:635
 msgid "User manual"
-msgstr ""
+msgstr "Manual penggnua"
 
 #: data/ui/mac_menu.blp:205 data/ui/welcome/welcome_pane.blp:142
 msgctxt "menubar"
 msgid "Report a bug"
-msgstr ""
+msgstr "Laporkan kutu"
 
 #: data/ui/mac_menu.blp:210
 msgctxt "menubar"
 msgid "View discussions"
-msgstr ""
+msgstr "Tampilkan diskusi"
 
 #: data/ui/mac_menu.blp:217 src/win.rs:637
 msgid "Help us translate"
@@ -569,143 +577,147 @@ msgstr ""
 
 #: data/ui/main_window.blp:48 data/ui/main_window_no_csd.blp:48
 msgid "New"
-msgstr ""
+msgstr "Baru"
 
 #: data/ui/main_window.blp:59 data/ui/main_window.blp:71
 #: data/ui/main_window_no_csd.blp:59 data/ui/main_window_no_csd.blp:71
 #: src/widgets/file_dialogs.rs:109 src/widgets/file_dialogs.rs:186
 msgid "Open"
-msgstr ""
+msgstr "Buka"
 
 #: data/ui/main_window.blp:79 data/ui/main_window_no_csd.blp:79
 #: src/widgets/file_dialogs.rs:145 src/widgets/file_dialogs.rs:228
 msgid "Save"
-msgstr ""
+msgstr "Simpan"
 
 #: data/ui/main_window.blp:88 data/ui/main_window_no_csd.blp:100
 msgid "Export request"
-msgstr ""
+msgstr "Ekspor permintaan"
 
 #: data/ui/main_window.blp:95
 msgid "Menu"
-msgstr ""
+msgstr "Menu"
 
 #: data/ui/main_window.blp:132 data/ui/main_window_no_csd.blp:137
 msgid "Export request as cURL…"
-msgstr ""
+msgstr "Ekspor permintaan sebagai cURL…"
 
 #: data/ui/main_window.blp:138 data/ui/main_window_no_csd.blp:143
 msgid "Export request as Jetbrains HTTP…"
-msgstr ""
+msgstr "Ekspor permintaan sebagai HTTP Jetbrains…"
 
 #: data/ui/main_window.blp:146 data/ui/main_window_no_csd.blp:151
 msgid "Export response body…"
-msgstr ""
+msgstr "Ekspor badan permintaan…"
 
 #: data/ui/main_window.blp:189 data/ui/main_window_no_csd.blp:194
 msgid "Keyboard shortcuts"
-msgstr ""
+msgstr "Pintasan papan tik"
 
 #: data/ui/main_window.blp:194 data/ui/main_window_no_csd.blp:199
 msgid "About Cartero"
-msgstr ""
+msgstr "Tentang Cartero"
 
 #: data/ui/main_window.blp:199 data/ui/main_window_no_csd.blp:204
 msgid "Quit"
-msgstr ""
+msgstr "Keluar"
 
 #: data/ui/method_dropdown.blp:28
 msgid "Request method"
-msgstr ""
+msgstr "Metode Permintaan"
 
 #: data/ui/raw_body_pane.blp:28
 msgid "Request body"
-msgstr ""
+msgstr "Badan permintaan"
 
 #: data/ui/request_body_pane.blp:34
 msgid "Body type"
-msgstr ""
+msgstr "Tipe badan"
 
 #: data/ui/request_body_pane.blp:60
 msgid "URL Encoded"
-msgstr ""
+msgstr "URL terenkode"
 
 #: data/ui/request_body_pane.blp:61
+#, fuzzy
 msgid "Multipart Form Data"
-msgstr ""
+msgstr "Data Form Multibagian"
 
 #: data/ui/request_body_pane.blp:64
 msgid "Raw"
-msgstr ""
+msgstr "Mentahan"
 
 #: data/ui/request_body_pane.blp:65
 msgid "From file"
-msgstr ""
+msgstr "Dari berkas"
 
 #: data/ui/response_headers.blp:42
 msgid "No headers"
-msgstr ""
+msgstr "Tidak ada kepala"
 
 #: data/ui/response_panel.blp:30
 msgid "Ready to request"
-msgstr ""
+msgstr "Siap untuk meminta"
 
 #: data/ui/response_panel.blp:31
 msgid "Use the Send button to send a network request and it will show here."
 msgstr ""
+"Gunakan tombol kirim untuk mengirim permintaan jaringan dan itu akan tampil "
+"disini."
 
 #: data/ui/response_panel.blp:68
 msgid "Response body"
-msgstr ""
+msgstr "Badan respon"
 
 #: data/ui/response_panel.blp:87
 msgid "Binary response received"
-msgstr ""
+msgstr "Menerima respon biner"
 
 #: data/ui/response_panel.blp:88
 msgid "The response of this request should not be rendered in a text view."
 msgstr ""
+"Respon dari permintaan ini seharusnya tidak dirender dalam tampilan teks."
 
 #: data/ui/response_panel.blp:110
 msgid "Render anyway"
-msgstr ""
+msgstr "Render saja"
 
 #: data/ui/search_box.blp:42 data/ui/search_box.blp:43
 msgid "Search"
-msgstr ""
+msgstr "Cari"
 
 #: data/ui/search_box.blp:63
 msgid "Previous result"
-msgstr ""
+msgstr "Hasil sebelumnya"
 
 #: data/ui/search_box.blp:69
 msgid "Next result"
-msgstr ""
+msgstr "Hasil berikutnya"
 
 #: data/ui/search_box.blp:81
 msgid "Close search"
-msgstr ""
+msgstr "Tutup pencarian"
 
 #: data/ui/settings/page_appearance.blp:22
 msgid "Appearance"
-msgstr ""
+msgstr "Tampilan"
 
 #: data/ui/settings/page_appearance.blp:27
 msgid "Application style"
-msgstr ""
+msgstr "Gaya Aplikasi"
 
 #. Has to be a separate variable due to variable lifetimes.
 #: data/ui/settings/page_appearance.blp:31 src/windows/settings/locale.rs:81
 msgid "Follow system settings"
-msgstr ""
+msgstr "Ikuti pengaturan sistem"
 
 #: data/ui/settings/page_appearance.blp:32
 msgid "Light mode"
-msgstr ""
+msgstr "Mode terang"
 
 #: data/ui/settings/page_appearance.blp:33
 msgid "Dark mode"
-msgstr ""
+msgstr "Mode gelap"
 
 #: data/ui/settings/page_appearance.blp:41
 msgid "Use system font"
@@ -760,19 +772,19 @@ msgstr ""
 
 #: data/ui/settings/page_http_client.blp:22
 msgid "HTTP Client"
-msgstr ""
+msgstr "Klien HTTP"
 
 #: data/ui/settings/page_http_client.blp:27
 msgid "Enforce TLS validation"
-msgstr ""
+msgstr "Paksa validasi TLS"
 
 #: data/ui/settings/page_http_client.blp:28
 msgid "Cancel a request if the TLS handshake fails"
-msgstr ""
+msgstr "Batalkan permintaan jika jabat tangan TLS gagal"
 
 #: data/ui/settings/page_http_client.blp:32
 msgid "Follow redirects"
-msgstr ""
+msgstr "Ikuti alihan"
 
 #: data/ui/settings/page_http_client.blp:33
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"

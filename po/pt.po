@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-31 23:21+0200\n"
-"PO-Revision-Date: 2025-10-07 15:02+0000\n"
+"PO-Revision-Date: 2025-10-13 17:07+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/cartero/"
 "cartero/pt/>\n"
@@ -319,6 +319,8 @@ msgid ""
 "Cartero supports reading variables from an .env file, but you need to enable "
 "the feature first."
 msgstr ""
+"Cartero apoia a leitura de variáveis de um ficheiro .env, mas primeiro é "
+"necessário ativar essa funcionalidade."
 
 #: data/ui/endpoint_pane.blp:237 data/ui/main_window.blp:178
 #: data/ui/main_window_no_csd.blp:189 data/ui/settings/shell.blp:47
@@ -330,12 +332,16 @@ msgid ""
 "Cartero supports reading variables from an .env file, but you have to save "
 "the request first."
 msgstr ""
+"Cartero apoia a leitura de variáveis de um ficheiro .env, mas primeiro tem "
+"que gravar o pedido."
 
 #: data/ui/endpoint_pane.blp:259
 msgid ""
 "Place an .env file in the same disk directory as the request or in a parent "
 "directory to load the variables in Cartero."
 msgstr ""
+"Coloque um ficheiro .env no mesmo diretório do disco como o pedido ou num "
+"diretório pai para carregar as variáveis no Cartero."
 
 #: data/ui/endpoint_pane.blp:265
 msgid "Check again"
@@ -415,6 +421,8 @@ msgid ""
 "You cannot pick a file from the file system until you save this request to "
 "disk."
 msgstr ""
+"Não é possível selecionar um ficheiro do sistema de ficheiros até que esta "
+"solicitação seja gravada no disco."
 
 #: data/ui/file_body_pane.blp:97
 msgid ""
@@ -423,6 +431,10 @@ msgid ""
 "if they are in a parent directory or outside the project folder, or use "
 "absolute paths."
 msgstr ""
+"Só pode anexar ficheiros a uma solicitação se estiverem no mesmo diretório "
+"como o ficheiro de solicitação ou num subdiretório. Não pode anexar "
+"ficheiros a uma solicitação se eles estiverem num diretório pai, ou fora da "
+"pasta do projeto, ou a usar caminhos absolutos."
 
 #: data/ui/mac_menu.blp:21
 msgctxt "menubar"
@@ -789,7 +801,7 @@ msgstr "Versão atual"
 
 #: data/ui/settings/page_code_editor.blp:22
 msgid "Code editor"
-msgstr ""
+msgstr "Editor de código"
 
 #: data/ui/settings/page_http_client.blp:22
 msgid "HTTP Client"
@@ -836,7 +848,7 @@ msgstr "Configurações de ficheiro"
 
 #: data/ui/settings/page_proxy.blp:29
 msgid "HTTP Proxy"
-msgstr ""
+msgstr "Proxy de HTTP"
 
 #: data/ui/settings/page_proxy.blp:33
 msgid "HTTPS Proxy"
@@ -851,6 +863,8 @@ msgid ""
 "IP addresses and domain names contained in this list will bypass the proxy "
 "settings and be accessed directly."
 msgstr ""
+"Endereços IP e nomes de domínio contidos nesta lista irão ignorar as "
+"configurações de proxy e ser acedidos diretamente."
 
 #: data/ui/settings/page_proxy.blp:55 data/ui/settings/page_proxy.blp:56
 msgid "Address to exclude"
@@ -870,6 +884,8 @@ msgid ""
 "Cartero supports the use of the standard http_proxy, https_proxy and "
 "no_proxy environment variables to provide the system proxy settings."
 msgstr ""
+"Cartero apoia o uso das variáveis de ambiente predefinidas http_proxy, "
+"https_proxy e no_proxy para fornecer as configurações de proxy do sistema."
 
 #: data/ui/settings/page_proxy.blp:107
 msgid "Use environment variables as a fallback"
@@ -886,7 +902,7 @@ msgstr "Segurança"
 
 #: data/ui/settings/page_security.blp:26
 msgid ".env files"
-msgstr ""
+msgstr "ficheiros .env"
 
 #: data/ui/settings/page_security.blp:27
 msgid ""
@@ -894,16 +910,21 @@ msgid ""
 "credentials. Cartero can locate .env files and expose the variables inside "
 "so that you can use them in your requests."
 msgstr ""
+"Ficheiros .env são comummente usados em projetos para armazenar valores "
+"sensíveis, como credenciais. Cartero pode localizar ficheiros .env e expor "
+"as variáveis no interior para que você possa usá-los nos seus pedidos."
 
 #: data/ui/settings/page_security.blp:31
 msgid "Find and load .env files"
-msgstr ""
+msgstr "Encontrar e carregar ficheiros .env"
 
 #: data/ui/settings/page_security.blp:32
 msgid ""
 "Cartero will only traverse your disk looking for .env files if you enable "
 "this option."
 msgstr ""
+"Cartero só vai atravessar o seu disco a procurar ficheiros .env se ativar "
+"esta opção."
 
 #: data/ui/welcome/welcome_pane.blp:45
 msgid "Welcome to Cartero"
@@ -918,6 +939,8 @@ msgid ""
 "Cartero is free software, released under the terms of the GNU General Public "
 "License v3 or later."
 msgstr ""
+"Cartero é um software livre, lançado sob os termos da Licença Pública Geral "
+"GNU v3 ou posterior."
 
 #: data/ui/welcome/welcome_pane.blp:118 data/ui/welcome/welcome_pane.blp:166
 msgid "Know your rights"
@@ -931,7 +954,7 @@ msgstr "Atualizações de software"
 #. TRANSLATORS: if your language has a different word for free as in freedom and free as in beer, and it's clear that free means "freedom", you might skip the "as in freedom" bit if you wish.
 #: data/ui/welcome/welcome_pane.blp:182
 msgid "You can use Cartero for free (as in freedom)"
-msgstr ""
+msgstr "Pode usar Cartero gratuitamente"
 
 #: data/ui/welcome/welcome_pane.blp:183
 msgid ""
@@ -940,6 +963,10 @@ msgid ""
 "\n"
 "Even if you use it at work or for commercial purposes."
 msgstr ""
+"Não precisa pedir permissão ou comprar uma licença, ou assinatura para usar "
+"este software.\n"
+"\n"
+"Mesmo se o usar no trabalho ou para fins comerciais."
 
 #: data/ui/welcome/welcome_pane.blp:190
 msgid "You can get, study and modify the source code"
@@ -950,6 +977,8 @@ msgid ""
 "Mod the program so that it works exactly how you want, or just learn things "
 "if you are new to programming."
 msgstr ""
+"Modificar o programa para que ele funcione exatamente como quer, ou apenas "
+"aprender coisas se é novo na programação."
 
 #: data/ui/welcome/welcome_pane.blp:198
 msgid "You can share copies of the program"
@@ -963,6 +992,11 @@ msgid ""
 "(In other words: if you fork, your project must retain the GNU General "
 "Public License too.)"
 msgstr ""
+"Pode reembalar Cartero ou partilhar cópias do software com outras pessoas, "
+"desde que os destinatários tenham acesso a essas liberdades também.\n"
+"\n"
+"(Em outras palavras: se bifurcar, o seu projeto tem que reter a Licença "
+"Pública Geral GNU também.)"
 
 #: data/ui/welcome/welcome_pane.blp:206
 msgid "Cartero is built in community"
@@ -973,6 +1007,8 @@ msgid ""
 "Share feedback, contribute code, report bugs, translate Cartero to your "
 "language… You can be part of this!"
 msgstr ""
+"Partilhar feedback, contribuir com código, relatar bugs, traduzir Cartero "
+"para o seu idioma... Pode fazer parte disto!"
 
 #: data/ui/welcome/welcome_pane.blp:219
 #, fuzzy
@@ -1181,6 +1217,9 @@ msgid ""
 "likely a development error. (If you could report your test case and this "
 "error, we might be able to fix this in the future.)"
 msgstr ""
+"Houve um erro interno durante o processo de exportação. Provavelmente é um "
+"erro de desenvolvimento. (Se pudesse relatar o seu caso de teste e esse "
+"erro, poderíamos corrigir isso no futuro.)"
 
 #: src/widgets/dialogs.rs:173
 msgid "Error cause:"
@@ -1240,14 +1279,14 @@ msgstr "_Salvar"
 #, rust-format
 msgid "Show {} variable from .env"
 msgid_plural "Show {} variables from .env"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Mostrar {} variável de .env"
+msgstr[1] "Mostrar {} variáveis de .env"
 
 #: src/widgets/endpoint/endpoint_pane.rs:570
 #: src/widgets/endpoint/endpoint_pane.rs:576
 #: src/widgets/endpoint/endpoint_pane.rs:597
 msgid "(generated during request)"
-msgstr ""
+msgstr "(gerado durante o pedido)"
 
 #: src/widgets/endpoint/endpoint_pane.rs:625
 #, rust-format

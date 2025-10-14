@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-31 23:21+0200\n"
-"PO-Revision-Date: 2025-04-10 15:58+0000\n"
+"PO-Revision-Date: 2025-10-13 17:07+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/cartero/"
 "cartero/pt/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.11-dev\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -85,6 +85,8 @@ msgstr "Gnome; gtk; http; descanso;"
 msgid ""
 "A specific locale to use within the application instead of the system default"
 msgstr ""
+"Um local específico para usar dentro da aplicação em vez da predefinição do "
+"sistema"
 
 #: data/es.danirod.Cartero.gschema.xml:16
 msgid "Automatically indent new lines for the request body"
@@ -220,17 +222,17 @@ msgstr "Solicitar operações"
 #: data/gtk/help_overlay.blp:71
 msgctxt "shortcuts window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Ampliar"
 
 #: data/gtk/help_overlay.blp:76
 msgctxt "shortcuts window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Diminuir o zoom"
 
 #: data/gtk/help_overlay.blp:81
 msgctxt "shortcuts window"
 msgid "Reset zoom"
-msgstr ""
+msgstr "Redefinir zoom"
 
 #: data/gtk/help_overlay.blp:86
 #, fuzzy
@@ -317,6 +319,8 @@ msgid ""
 "Cartero supports reading variables from an .env file, but you need to enable "
 "the feature first."
 msgstr ""
+"Cartero apoia a leitura de variáveis de um ficheiro .env, mas primeiro é "
+"necessário ativar essa funcionalidade."
 
 #: data/ui/endpoint_pane.blp:237 data/ui/main_window.blp:178
 #: data/ui/main_window_no_csd.blp:189 data/ui/settings/shell.blp:47
@@ -328,16 +332,20 @@ msgid ""
 "Cartero supports reading variables from an .env file, but you have to save "
 "the request first."
 msgstr ""
+"Cartero apoia a leitura de variáveis de um ficheiro .env, mas primeiro tem "
+"que gravar o pedido."
 
 #: data/ui/endpoint_pane.blp:259
 msgid ""
 "Place an .env file in the same disk directory as the request or in a parent "
 "directory to load the variables in Cartero."
 msgstr ""
+"Coloque um ficheiro .env no mesmo diretório do disco como o pedido ou num "
+"diretório pai para carregar as variáveis no Cartero."
 
 #: data/ui/endpoint_pane.blp:265
 msgid "Check again"
-msgstr ""
+msgstr "Verificar novamente"
 
 #: data/ui/endpoint_pane.blp:293
 msgid "Authorization"
@@ -365,7 +373,7 @@ msgstr "Exportar para"
 
 #: data/ui/field_list_box_row.blp:23 data/ui/field_placeholder_row.blp:27
 msgid "Enabled"
-msgstr ""
+msgstr "Ativado"
 
 #: data/ui/field_list_box_row.blp:37 data/ui/field_list_box_row.blp:38
 #: data/ui/field_list_box_static_row.blp:36
@@ -393,11 +401,11 @@ msgstr "Apagar"
 
 #: data/ui/file_body_pane.blp:26
 msgid "File"
-msgstr ""
+msgstr "Ficheiro"
 
 #: data/ui/file_body_pane.blp:30
 msgid "Content Type"
-msgstr ""
+msgstr "Tipo de conteúdo"
 
 #: data/ui/file_body_pane.blp:41
 #, fuzzy
@@ -406,13 +414,15 @@ msgstr "Não foi possível selecionar um ficheiro válido no seletor de ficheiro
 
 #: data/ui/file_body_pane.blp:50
 msgid "Select file…"
-msgstr ""
+msgstr "Selecione o ficheiro.…"
 
 #: data/ui/file_body_pane.blp:71
 msgid ""
 "You cannot pick a file from the file system until you save this request to "
 "disk."
 msgstr ""
+"Não é possível selecionar um ficheiro do sistema de ficheiros até que esta "
+"solicitação seja gravada no disco."
 
 #: data/ui/file_body_pane.blp:97
 msgid ""
@@ -421,11 +431,15 @@ msgid ""
 "if they are in a parent directory or outside the project folder, or use "
 "absolute paths."
 msgstr ""
+"Só pode anexar ficheiros a uma solicitação se estiverem no mesmo diretório "
+"como o ficheiro de solicitação ou num subdiretório. Não pode anexar "
+"ficheiros a uma solicitação se eles estiverem num diretório pai, ou fora da "
+"pasta do projeto, ou a usar caminhos absolutos."
 
 #: data/ui/mac_menu.blp:21
 msgctxt "menubar"
 msgid "File"
-msgstr ""
+msgstr "Ficheiro"
 
 #: data/ui/mac_menu.blp:25 data/ui/main_window.blp:151
 #: data/ui/main_window_no_csd.blp:162 data/ui/welcome/welcome_pane.blp:65
@@ -455,22 +469,22 @@ msgstr "Beche a guia"
 #: data/ui/mac_menu.blp:54
 msgctxt "menubar"
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: data/ui/mac_menu.blp:58
 msgctxt "menubar"
 msgid "Undo"
-msgstr ""
+msgstr "Desfazer"
 
 #: data/ui/mac_menu.blp:63
 msgctxt "menubar"
 msgid "Redo"
-msgstr ""
+msgstr "Refazer"
 
 #: data/ui/mac_menu.blp:70
 msgctxt "menubar"
 msgid "Cut"
-msgstr ""
+msgstr "Corte"
 
 #: data/ui/mac_menu.blp:75
 #, fuzzy
@@ -481,7 +495,7 @@ msgstr "Cópia"
 #: data/ui/mac_menu.blp:80
 msgctxt "menubar"
 msgid "Paste"
-msgstr ""
+msgstr "Colar"
 
 #: data/ui/mac_menu.blp:85
 #, fuzzy
@@ -492,17 +506,17 @@ msgstr "Apagar"
 #: data/ui/mac_menu.blp:92
 msgctxt "menubar"
 msgid "Select All"
-msgstr ""
+msgstr "Selecione tudo"
 
 #: data/ui/mac_menu.blp:99
 msgctxt "menubar"
 msgid "Endpoint"
-msgstr ""
+msgstr "Ponto final"
 
 #: data/ui/mac_menu.blp:103
 msgctxt "menubar"
 msgid "Edit URL"
-msgstr ""
+msgstr "Editar URL"
 
 #: data/ui/mac_menu.blp:120 data/ui/settings/page_code_editor.blp:26
 msgid "Body appearance"
@@ -547,23 +561,23 @@ msgstr "8"
 #: data/ui/mac_menu.blp:179
 msgctxt "menubar"
 msgid "Window"
-msgstr ""
+msgstr "Janela"
 
 #: data/ui/mac_menu.blp:183
 msgctxt "menubar"
 msgid "Minimize"
-msgstr ""
+msgstr "Minimizar"
 
 #. TRANSLATORS: This item will only be visible in macOS, where the convention is to call it "zoom" instead of "maximize"
 #: data/ui/mac_menu.blp:189
 msgctxt "menubar"
 msgid "Zoom"
-msgstr ""
+msgstr "Zoom"
 
 #: data/ui/mac_menu.blp:196
 msgctxt "menubar"
 msgid "Help"
-msgstr ""
+msgstr "Ajuda"
 
 #: data/ui/mac_menu.blp:200 data/ui/welcome/welcome_pane.blp:132 src/win.rs:631
 msgid "User manual"
@@ -572,12 +586,12 @@ msgstr "Manual do utilizador"
 #: data/ui/mac_menu.blp:205 data/ui/welcome/welcome_pane.blp:142
 msgctxt "menubar"
 msgid "Report a bug"
-msgstr ""
+msgstr "Reportar um bug"
 
 #: data/ui/mac_menu.blp:210
 msgctxt "menubar"
 msgid "View discussions"
-msgstr ""
+msgstr "Ver discussões"
 
 #: data/ui/mac_menu.blp:217 src/win.rs:633
 msgid "Help us translate"
@@ -608,7 +622,7 @@ msgstr "Solicitação de exportação"
 
 #: data/ui/main_window.blp:97
 msgid "Menu"
-msgstr ""
+msgstr "Menu"
 
 #: data/ui/main_window.blp:128 data/ui/main_window_no_csd.blp:139
 #, fuzzy
@@ -684,15 +698,17 @@ msgstr ""
 
 #: data/ui/response_panel.blp:68
 msgid "Response body"
-msgstr ""
+msgstr "Corpo de resposta"
 
 #: data/ui/response_panel.blp:87
 msgid "Binary response received"
-msgstr ""
+msgstr "Resposta binária recebida"
 
 #: data/ui/response_panel.blp:88
 msgid "The response of this request should not be rendered in a text view."
 msgstr ""
+"A resposta desta solicitação não deve ser renderizada numa visualização de "
+"texto."
 
 #: data/ui/response_panel.blp:110
 #, fuzzy
@@ -746,7 +762,7 @@ msgstr "Fonte personalizada"
 
 #: data/ui/settings/page_appearance.blp:52
 msgid "Click to select a font"
-msgstr ""
+msgstr "Clique para selecionar uma fonte"
 
 #: data/ui/settings/page_application.blp:22
 msgid "Application"
@@ -755,11 +771,11 @@ msgstr "Aplicação"
 #: data/ui/settings/page_application.blp:26
 #: data/ui/settings/page_application.blp:33
 msgid "Language"
-msgstr ""
+msgstr "Linguagem"
 
 #: data/ui/settings/page_application.blp:43
 msgid "You need to restart the program for the new locale to be used."
-msgstr ""
+msgstr "Precisa reiniciar o programa para que o novo idioma seja usado."
 
 #: data/ui/settings/page_application.blp:50
 msgid "File settings"
@@ -785,7 +801,7 @@ msgstr "Versão atual"
 
 #: data/ui/settings/page_code_editor.blp:22
 msgid "Code editor"
-msgstr ""
+msgstr "Editor de código"
 
 #: data/ui/settings/page_http_client.blp:22
 msgid "HTTP Client"
@@ -823,7 +839,7 @@ msgstr "Segundos a esperar antes de cancelar a solicitação"
 
 #: data/ui/settings/page_proxy.blp:22
 msgid "Proxy"
-msgstr ""
+msgstr "Proxy"
 
 #: data/ui/settings/page_proxy.blp:26
 #, fuzzy
@@ -832,33 +848,35 @@ msgstr "Configurações de ficheiro"
 
 #: data/ui/settings/page_proxy.blp:29
 msgid "HTTP Proxy"
-msgstr ""
+msgstr "Proxy de HTTP"
 
 #: data/ui/settings/page_proxy.blp:33
 msgid "HTTPS Proxy"
-msgstr ""
+msgstr "Proxy de HTTPS"
 
 #: data/ui/settings/page_proxy.blp:38
 msgid "Exclude from proxy"
-msgstr ""
+msgstr "Excluir do proxy"
 
 #: data/ui/settings/page_proxy.blp:39
 msgid ""
 "IP addresses and domain names contained in this list will bypass the proxy "
 "settings and be accessed directly."
 msgstr ""
+"Endereços IP e nomes de domínio contidos nesta lista irão ignorar as "
+"configurações de proxy e ser acedidos diretamente."
 
 #: data/ui/settings/page_proxy.blp:55 data/ui/settings/page_proxy.blp:56
 msgid "Address to exclude"
-msgstr ""
+msgstr "Endereço a excluir"
 
 #: data/ui/settings/page_proxy.blp:60
 msgid "Add"
-msgstr ""
+msgstr "Adicionar"
 
 #: data/ui/settings/page_proxy.blp:91
 msgid "Environment variables"
-msgstr ""
+msgstr "Variáveis de ambiente"
 
 #. TRANSLATORS: Keep the variable names "http_proxy", "https_proxy" and "no_proxy" in English because that's the name of the variable.
 #: data/ui/settings/page_proxy.blp:93
@@ -866,6 +884,8 @@ msgid ""
 "Cartero supports the use of the standard http_proxy, https_proxy and "
 "no_proxy environment variables to provide the system proxy settings."
 msgstr ""
+"Cartero apoia o uso das variáveis de ambiente predefinidas http_proxy, "
+"https_proxy e no_proxy para fornecer as configurações de proxy do sistema."
 
 #: data/ui/settings/page_proxy.blp:107
 msgid "Use environment variables as a fallback"
@@ -874,15 +894,15 @@ msgstr ""
 #: data/ui/settings/page_proxy.blp:127 data/ui/settings/page_proxy.blp:138
 #: data/ui/settings/page_proxy.blp:149
 msgid "(empty)"
-msgstr ""
+msgstr "(vazio)"
 
 #: data/ui/settings/page_security.blp:22
 msgid "Security"
-msgstr ""
+msgstr "Segurança"
 
 #: data/ui/settings/page_security.blp:26
 msgid ".env files"
-msgstr ""
+msgstr "ficheiros .env"
 
 #: data/ui/settings/page_security.blp:27
 msgid ""
@@ -890,16 +910,21 @@ msgid ""
 "credentials. Cartero can locate .env files and expose the variables inside "
 "so that you can use them in your requests."
 msgstr ""
+"Ficheiros .env são comummente usados em projetos para armazenar valores "
+"sensíveis, como credenciais. Cartero pode localizar ficheiros .env e expor "
+"as variáveis no interior para que você possa usá-los nos seus pedidos."
 
 #: data/ui/settings/page_security.blp:31
 msgid "Find and load .env files"
-msgstr ""
+msgstr "Encontrar e carregar ficheiros .env"
 
 #: data/ui/settings/page_security.blp:32
 msgid ""
 "Cartero will only traverse your disk looking for .env files if you enable "
 "this option."
 msgstr ""
+"Cartero só vai atravessar o seu disco a procurar ficheiros .env se ativar "
+"esta opção."
 
 #: data/ui/welcome/welcome_pane.blp:45
 msgid "Welcome to Cartero"
@@ -914,10 +939,12 @@ msgid ""
 "Cartero is free software, released under the terms of the GNU General Public "
 "License v3 or later."
 msgstr ""
+"Cartero é um software livre, lançado sob os termos da Licença Pública Geral "
+"GNU v3 ou posterior."
 
 #: data/ui/welcome/welcome_pane.blp:118 data/ui/welcome/welcome_pane.blp:166
 msgid "Know your rights"
-msgstr ""
+msgstr "Conheça os seus direitos"
 
 #: data/ui/welcome/welcome_pane.blp:152
 #, fuzzy
@@ -927,7 +954,7 @@ msgstr "Atualizações de software"
 #. TRANSLATORS: if your language has a different word for free as in freedom and free as in beer, and it's clear that free means "freedom", you might skip the "as in freedom" bit if you wish.
 #: data/ui/welcome/welcome_pane.blp:182
 msgid "You can use Cartero for free (as in freedom)"
-msgstr ""
+msgstr "Pode usar Cartero gratuitamente"
 
 #: data/ui/welcome/welcome_pane.blp:183
 msgid ""
@@ -936,20 +963,26 @@ msgid ""
 "\n"
 "Even if you use it at work or for commercial purposes."
 msgstr ""
+"Não precisa pedir permissão ou comprar uma licença, ou assinatura para usar "
+"este software.\n"
+"\n"
+"Mesmo se o usar no trabalho ou para fins comerciais."
 
 #: data/ui/welcome/welcome_pane.blp:190
 msgid "You can get, study and modify the source code"
-msgstr ""
+msgstr "Pode obter, estudar e modificar o código-fonte"
 
 #: data/ui/welcome/welcome_pane.blp:191
 msgid ""
 "Mod the program so that it works exactly how you want, or just learn things "
 "if you are new to programming."
 msgstr ""
+"Modificar o programa para que ele funcione exatamente como quer, ou apenas "
+"aprender coisas se é novo na programação."
 
 #: data/ui/welcome/welcome_pane.blp:198
 msgid "You can share copies of the program"
-msgstr ""
+msgstr "Pode partilhar cópias do programa"
 
 #: data/ui/welcome/welcome_pane.blp:199
 msgid ""
@@ -959,16 +992,23 @@ msgid ""
 "(In other words: if you fork, your project must retain the GNU General "
 "Public License too.)"
 msgstr ""
+"Pode reembalar Cartero ou partilhar cópias do software com outras pessoas, "
+"desde que os destinatários tenham acesso a essas liberdades também.\n"
+"\n"
+"(Em outras palavras: se bifurcar, o seu projeto tem que reter a Licença "
+"Pública Geral GNU também.)"
 
 #: data/ui/welcome/welcome_pane.blp:206
 msgid "Cartero is built in community"
-msgstr ""
+msgstr "Cartero é construído na comunidade"
 
 #: data/ui/welcome/welcome_pane.blp:207
 msgid ""
 "Share feedback, contribute code, report bugs, translate Cartero to your "
 "language… You can be part of this!"
 msgstr ""
+"Partilhar feedback, contribuir com código, relatar bugs, traduzir Cartero "
+"para o seu idioma... Pode fazer parte disto!"
 
 #: data/ui/welcome/welcome_pane.blp:219
 #, fuzzy
@@ -977,7 +1017,7 @@ msgstr "Resultado anterior"
 
 #: data/ui/welcome/welcome_pane.blp:235
 msgid "Next"
-msgstr ""
+msgstr "Próximo"
 
 #: src/interop.rs:32
 msgid ""
@@ -1041,7 +1081,7 @@ msgstr "Não é possível gravar o ficheiro solicitado"
 #: src/interop.rs:78
 #, rust-format
 msgid "The file '{}' cannot be accessed due to the security policy"
-msgstr ""
+msgstr "O ficheiro '{}' não pode ser acedido devido à política de segurança"
 
 #: src/interop.rs:83
 #, fuzzy, rust-format
@@ -1145,6 +1185,10 @@ msgid ""
 "\n"
 "The file '{}' is not part of the '{}' directory"
 msgstr ""
+"O ficheiro deve estar no mesmo diretório que o ficheiro de solicitação ou "
+"projeto ou qualquer um dos seus subdiretórios.\n"
+"\n"
+"O ficheiro '{}' não faz parte do diretório '{}'"
 
 #: src/widgets/dialogs.rs:136
 #, rust-format
@@ -1173,10 +1217,13 @@ msgid ""
 "likely a development error. (If you could report your test case and this "
 "error, we might be able to fix this in the future.)"
 msgstr ""
+"Houve um erro interno durante o processo de exportação. Provavelmente é um "
+"erro de desenvolvimento. (Se pudesse relatar o seu caso de teste e esse "
+"erro, poderíamos corrigir isso no futuro.)"
 
 #: src/widgets/dialogs.rs:173
 msgid "Error cause:"
-msgstr ""
+msgstr "Causa do erro:"
 
 #: src/widgets/dialogs.rs:178
 #, fuzzy
@@ -1232,19 +1279,19 @@ msgstr "_Salvar"
 #, rust-format
 msgid "Show {} variable from .env"
 msgid_plural "Show {} variables from .env"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Mostrar {} variável de .env"
+msgstr[1] "Mostrar {} variáveis de .env"
 
 #: src/widgets/endpoint/endpoint_pane.rs:570
 #: src/widgets/endpoint/endpoint_pane.rs:576
 #: src/widgets/endpoint/endpoint_pane.rs:597
 msgid "(generated during request)"
-msgstr ""
+msgstr "(gerado durante o pedido)"
 
 #: src/widgets/endpoint/endpoint_pane.rs:625
 #, rust-format
 msgid "Show {} pre-generated headers"
-msgstr ""
+msgstr "Mostrar {} cabeçalhos pré-gerados"
 
 #: src/widgets/endpoint/endpoint_pane.rs:842
 #, fuzzy
@@ -1294,7 +1341,7 @@ msgstr "Solicitação aberta"
 
 #: src/widgets/file_dialogs.rs:187
 msgid "Select file"
-msgstr ""
+msgstr "Selecionar ficheiro"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
@@ -1335,29 +1382,29 @@ msgstr "© 2024-2025 Os autores Cartero"
 
 #: src/windows/settings/pages/proxy.rs:205
 msgid "The value is not a valid domain or IP address"
-msgstr ""
+msgstr "O valor não é um domínio válido ou endereço IP"
 
 #: src/windows/settings/pages/proxy.rs:220
 msgid "The host identifier is already excluded"
-msgstr ""
+msgstr "O identificador do anfitrião já está excluído"
 
 #: src/windows/settings/pages/proxy.rs:240
 #, rust-format
 msgid "Delete '{}' from the list of excluded hosts for the proxy?"
-msgstr ""
+msgstr "Apagar '{}' da lista de anfitriões excluídos para o proxy?"
 
 #: src/windows/settings/pages/proxy.rs:245
 msgid "Delete identifier?"
-msgstr ""
+msgstr "Apagar identificador?"
 
 #: src/windows/settings/pages/proxy.rs:249
 #: src/windows/settings/pages/proxy.rs:284
 msgid "Remove"
-msgstr ""
+msgstr "Remover"
 
 #: src/windows/settings/pages/proxy.rs:268
 msgid "No domains or IP addresses are being excluded"
-msgstr ""
+msgstr "Nenhum domínio ou endereço IP está a ser excluído"
 
 #~ msgid "The current tab is not associated with a file"
 #~ msgstr "A guia atual não está associada a um ficheiro"

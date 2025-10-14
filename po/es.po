@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-31 23:21+0200\n"
-"PO-Revision-Date: 2025-08-22 02:02+0000\n"
+"POT-Creation-Date: 2025-08-31 22:47+0200\n"
+"PO-Revision-Date: 2025-08-31 21:18+0000\n"
 "Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/cartero/cartero/"
 "es/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13\n"
+"X-Generator: Weblate 5.13.1-dev\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -315,6 +315,8 @@ msgid ""
 "Cartero supports reading variables from an .env file, but you need to enable "
 "the feature first."
 msgstr ""
+"Cartero soporta leer variables de un archivo .env, pero tienes que habilitar "
+"la función primero."
 
 #: data/ui/endpoint_pane.blp:237 data/ui/main_window.blp:178
 #: data/ui/main_window_no_csd.blp:189 data/ui/settings/shell.blp:47
@@ -326,16 +328,20 @@ msgid ""
 "Cartero supports reading variables from an .env file, but you have to save "
 "the request first."
 msgstr ""
+"Cartero soporta leer variables de un archivo .env, pero tienes que guardar "
+"la petición primero."
 
 #: data/ui/endpoint_pane.blp:259
 msgid ""
 "Place an .env file in the same disk directory as the request or in a parent "
 "directory to load the variables in Cartero."
 msgstr ""
+"Coloca un archivo .env en el mismo directorio del disco que tu petición o en "
+"un directorio superior para cargar las variables en Cartero."
 
 #: data/ui/endpoint_pane.blp:265
 msgid "Check again"
-msgstr ""
+msgstr "Comprobar de nuevo"
 
 #: data/ui/endpoint_pane.blp:293
 msgid "Authorization"
@@ -815,66 +821,72 @@ msgstr "Segundos para esperar antes de cancelar una petición"
 
 #: data/ui/settings/page_proxy.blp:22
 msgid "Proxy"
-msgstr ""
+msgstr "Proxy"
 
 #: data/ui/settings/page_proxy.blp:26
-#, fuzzy
 msgid "Proxy settings"
-msgstr "Preferencias de archivos"
+msgstr "Preferencias de proxy"
 
 #: data/ui/settings/page_proxy.blp:29
 msgid "HTTP Proxy"
-msgstr ""
+msgstr "Proxy HTTP"
 
 #: data/ui/settings/page_proxy.blp:33
 msgid "HTTPS Proxy"
-msgstr ""
+msgstr "Proxy HTTPS"
 
 #: data/ui/settings/page_proxy.blp:38
 msgid "Exclude from proxy"
-msgstr ""
+msgstr "Excluir del proxy"
 
 #: data/ui/settings/page_proxy.blp:39
 msgid ""
 "IP addresses and domain names contained in this list will bypass the proxy "
 "settings and be accessed directly."
 msgstr ""
+"Las direcciones IP y los nombres de dominio contenidos en esta lista se "
+"saltarán las opciones de proxy y serán accedidos directamente."
 
 #: data/ui/settings/page_proxy.blp:55 data/ui/settings/page_proxy.blp:56
 msgid "Address to exclude"
-msgstr ""
+msgstr "Dirección a excluir"
 
 #: data/ui/settings/page_proxy.blp:60
 msgid "Add"
-msgstr ""
+msgstr "Agregar"
 
-#: data/ui/settings/page_proxy.blp:91
+#: data/ui/settings/page_proxy.blp:89
+msgid "No IP addresses or domain names are being excluded."
+msgstr "No se está excluyendo ninguna dirección IP o nombre de dominio."
+
+#: data/ui/settings/page_proxy.blp:97
 msgid "Environment variables"
-msgstr ""
+msgstr "Variables de entorno"
 
-#. TRANSLATORS: Keep the variable names "http_proxy", "https_proxy" and "no_proxy" in English because that's the name of the variable.
-#: data/ui/settings/page_proxy.blp:93
+#: data/ui/settings/page_proxy.blp:98
 msgid ""
 "Cartero supports the use of the standard http_proxy, https_proxy and "
 "no_proxy environment variables to provide the system proxy settings."
 msgstr ""
+"Cartero soporta el uso de las variables estándar http_proxy, https_proxy y "
+"no_proxy para proveer las opciones de proxy del sistema."
 
-#: data/ui/settings/page_proxy.blp:107
+#: data/ui/settings/page_proxy.blp:112
 msgid "Use environment variables as a fallback"
-msgstr ""
+msgstr "Usar variables de entorno como alternativa"
 
-#: data/ui/settings/page_proxy.blp:127 data/ui/settings/page_proxy.blp:138
-#: data/ui/settings/page_proxy.blp:149
+#: data/ui/settings/page_proxy.blp:132 data/ui/settings/page_proxy.blp:143
+#: data/ui/settings/page_proxy.blp:154
 msgid "(empty)"
-msgstr ""
+msgstr "(vacío)"
 
 #: data/ui/settings/page_security.blp:22
 msgid "Security"
-msgstr ""
+msgstr "Seguridad"
 
 #: data/ui/settings/page_security.blp:26
 msgid ".env files"
-msgstr ""
+msgstr "Archivos .env"
 
 #: data/ui/settings/page_security.blp:27
 msgid ""
@@ -882,16 +894,21 @@ msgid ""
 "credentials. Cartero can locate .env files and expose the variables inside "
 "so that you can use them in your requests."
 msgstr ""
+"Los archivos .env se usan habitualmente en proyectos para guardar valores "
+"sensibles como credenciales. Cartero puede ubicar archivos .env y exponer "
+"las variables que hay dentro para que las uses en tus peticiones."
 
 #: data/ui/settings/page_security.blp:31
 msgid "Find and load .env files"
-msgstr ""
+msgstr "Buscar y cargar archivos .env"
 
 #: data/ui/settings/page_security.blp:32
 msgid ""
 "Cartero will only traverse your disk looking for .env files if you enable "
 "this option."
 msgstr ""
+"Cartero sólo recorrerá tu disco en busca de archivos .env si activas esta "
+"opción."
 
 #: data/ui/welcome/welcome_pane.blp:45
 msgid "Welcome to Cartero"
@@ -906,20 +923,21 @@ msgid ""
 "Cartero is free software, released under the terms of the GNU General Public "
 "License v3 or later."
 msgstr ""
+"Cartero es software libre, publicado bajo los términos de la Licencia "
+"Pública General (GPL) de GNU v3 o posterior."
 
 #: data/ui/welcome/welcome_pane.blp:118 data/ui/welcome/welcome_pane.blp:166
 msgid "Know your rights"
-msgstr ""
+msgstr "Conoce tus derechos"
 
 #: data/ui/welcome/welcome_pane.blp:152
-#, fuzzy
 msgid "Social media updates"
-msgstr "Actualizaciones de software"
+msgstr "Actualizaciones sociales"
 
 #. TRANSLATORS: if your language has a different word for free as in freedom and free as in beer, and it's clear that free means "freedom", you might skip the "as in freedom" bit if you wish.
 #: data/ui/welcome/welcome_pane.blp:182
 msgid "You can use Cartero for free (as in freedom)"
-msgstr ""
+msgstr "Puedes usar cartero de forma libre"
 
 #: data/ui/welcome/welcome_pane.blp:183
 msgid ""
@@ -928,20 +946,26 @@ msgid ""
 "\n"
 "Even if you use it at work or for commercial purposes."
 msgstr ""
+"No necesitas pedir permiso o comprar una licencia o suscripción para usar "
+"este software.\n"
+"\n"
+"Incluso si lo usas en el trabajo o con fines comerciales."
 
 #: data/ui/welcome/welcome_pane.blp:190
 msgid "You can get, study and modify the source code"
-msgstr ""
+msgstr "Puedes obtener, estudiar y modificar el código fuente"
 
 #: data/ui/welcome/welcome_pane.blp:191
 msgid ""
 "Mod the program so that it works exactly how you want, or just learn things "
 "if you are new to programming."
 msgstr ""
+"Modifica el programa para que funcione exactamente como quieres, o aprende "
+"cosas si estás empezando a programar."
 
 #: data/ui/welcome/welcome_pane.blp:198
 msgid "You can share copies of the program"
-msgstr ""
+msgstr "Puedes compartir copias del programa"
 
 #: data/ui/welcome/welcome_pane.blp:199
 msgid ""
@@ -951,25 +975,32 @@ msgid ""
 "(In other words: if you fork, your project must retain the GNU General "
 "Public License too.)"
 msgstr ""
+"Puedes reempaquetar Cartero o compartir copias del software con otras "
+"personas, siempre y cuando los receptores también tengan acceso a estas "
+"libertades.\n"
+"\n"
+"(En otras palabras: si creas tu propia versión, tu proyecto debe conservar "
+"la Licencia Pública General (GPL) de GNU también.)"
 
 #: data/ui/welcome/welcome_pane.blp:206
 msgid "Cartero is built in community"
-msgstr ""
+msgstr "Cartero se construye en comunidad"
 
 #: data/ui/welcome/welcome_pane.blp:207
 msgid ""
 "Share feedback, contribute code, report bugs, translate Cartero to your "
 "language… You can be part of this!"
 msgstr ""
+"Envía feedback, contribuye código, reporta errores, traduce Cartero a tu "
+"idioma… ¡Puedes ser parte de esto!"
 
 #: data/ui/welcome/welcome_pane.blp:219
-#, fuzzy
 msgid "Previous"
-msgstr "Resultado anterior"
+msgstr "Anterior"
 
 #: data/ui/welcome/welcome_pane.blp:235
 msgid "Next"
-msgstr ""
+msgstr "Siguiente"
 
 #: src/interop.rs:32
 msgid ""
@@ -997,12 +1028,10 @@ msgid "The given URL is missing a protocol"
 msgstr "La URL indicada no tiene un protocolo"
 
 #: src/interop.rs:59
-#, rust-format
 msgid "The protocol {}:// is not supported"
 msgstr "El protocolo {}:// no está soportado"
 
 #: src/interop.rs:62 src/widgets/dialogs.rs:166
-#, rust-format
 msgid "The variable '{}' is not defined"
 msgstr "La variable '{}' no está definida"
 
@@ -1011,12 +1040,10 @@ msgid "There was a problem with a variable interpolation, review your inputs"
 msgstr "Hubo un problema interpolando las variables, revisa las entradas"
 
 #: src/interop.rs:68
-#, rust-format
 msgid "The header '{}' is not valid"
 msgstr "La cabecera '{}' no es válida"
 
 #: src/interop.rs:71
-#, rust-format
 msgid "The value for header '{}' is not valid"
 msgstr "El valor de la cabecera '{}' no es válido"
 
@@ -1029,15 +1056,13 @@ msgid "You have to save the request first"
 msgstr "Tienes que guardar la petición primero"
 
 #: src/interop.rs:78
-#, rust-format
 msgid "The file '{}' cannot be accessed due to the security policy"
 msgstr ""
 "El archivo '{}' no puede ser accedido debido a la política de seguridad"
 
 #: src/interop.rs:83
-#, fuzzy, rust-format
 msgid "Defined value for proxy '{}' is not a valid configuration"
-msgstr "El valor de la cabecera '{}' no es válido"
+msgstr "El valor definido para el proxy '{}' no es una configuración válida"
 
 #: src/interop.rs:87
 msgid "There is an input/output error"
@@ -1070,7 +1095,6 @@ msgid "You are running the latest version of Cartero."
 msgstr "Estás ejecutando la versión más reciente de Cartero."
 
 #: src/updates/ui.rs:57
-#, rust-format
 msgid ""
 "Version {} has been released. Do you want to visit the website to download "
 "the update now?"
@@ -1091,7 +1115,6 @@ msgid "_Not now"
 msgstr "Ahora _no"
 
 #: src/widgets/dialogs.rs:51
-#, rust-format
 msgid "Cannot open '{}'"
 msgstr "No se puede abrir '{}'"
 
@@ -1106,7 +1129,6 @@ msgid "Close"
 msgstr "Cerrar"
 
 #: src/widgets/dialogs.rs:75
-#, rust-format
 msgid "The file '{}' was loaded but had issues"
 msgstr "El archivo '{}' fue cargado pero tenía problemas"
 
@@ -1115,7 +1137,6 @@ msgid "The requested file was loaded but had issues"
 msgstr "El archivo solicitado fue cargado pero tenía problemas"
 
 #: src/widgets/dialogs.rs:99
-#, rust-format
 msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
@@ -1128,7 +1149,6 @@ msgid "The requested file cannot be picked"
 msgstr "El archivo solicitado no pudo ser elegido"
 
 #: src/widgets/dialogs.rs:116
-#, rust-format
 msgid ""
 "The file must be within the same directory as the request or project file or "
 "any of its subdirectories.\n"
@@ -1141,7 +1161,6 @@ msgstr ""
 "El archivo '{}' no es parte del directorio '{}'"
 
 #: src/widgets/dialogs.rs:136
-#, rust-format
 msgid "Cannot save '{}'"
 msgstr "No se puede guardar '{}'"
 
@@ -1200,7 +1219,6 @@ msgid "Close anyway"
 msgstr "Cerrar de todos modos"
 
 #: src/widgets/dialogs.rs:221
-#, rust-format
 msgid "Save changes in '{}'?"
 msgstr "¿Guardar cambios en '{}'?"
 
@@ -1225,11 +1243,10 @@ msgid "_Save"
 msgstr "_Guardar"
 
 #: src/widgets/endpoint/endpoint_pane.rs:296
-#, rust-format
 msgid "Show {} variable from .env"
 msgid_plural "Show {} variables from .env"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Mostrar {} variable del .env"
+msgstr[1] "Mostrar {} variables del .env"
 
 #: src/widgets/endpoint/endpoint_pane.rs:570
 #: src/widgets/endpoint/endpoint_pane.rs:576
@@ -1238,7 +1255,6 @@ msgid "(generated during request)"
 msgstr "(generado durante la petición)"
 
 #: src/widgets/endpoint/endpoint_pane.rs:625
-#, rust-format
 msgid "Show {} pre-generated headers"
 msgstr "Mostrar {} cabeceras pre-generadas"
 
@@ -1252,14 +1268,12 @@ msgstr "Exportar petición como Jetbrains HTTP"
 
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
 #: src/widgets/endpoint/response_panel.rs:341
-#, rust-format
 msgid "{} s"
 msgstr "{} s"
 
 #. Format as milliseconds.
 #. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
 #: src/widgets/endpoint/response_panel.rs:345
-#, rust-format
 msgid "{} ms"
 msgstr "{} ms"
 
@@ -1293,14 +1307,12 @@ msgstr "Seleccionar archivo"
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
 #: src/widgets/search_box.rs:254
-#, rust-format
 msgid "{} of {}"
 msgstr "{} de {}"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count when only
 #. the number of total ocurrences is known.
 #: src/widgets/search_box.rs:262
-#, rust-format
 msgid "{} result"
 msgid_plural "{} results"
 msgstr[0] "{} resultado"
@@ -1329,29 +1341,28 @@ msgstr "© 2024-2025 los autores de Cartero"
 
 #: src/windows/settings/pages/proxy.rs:205
 msgid "The value is not a valid domain or IP address"
-msgstr ""
+msgstr "El valor no es un dominio o dirección IP válida"
 
 #: src/windows/settings/pages/proxy.rs:220
 msgid "The host identifier is already excluded"
-msgstr ""
+msgstr "El identificador de host ya está excluido"
 
 #: src/windows/settings/pages/proxy.rs:240
-#, rust-format
 msgid "Delete '{}' from the list of excluded hosts for the proxy?"
-msgstr ""
+msgstr "¿Eliminar '{}' de la lista de hosts excluidos para el proxy?"
 
 #: src/windows/settings/pages/proxy.rs:245
 msgid "Delete identifier?"
-msgstr ""
+msgstr "¿Eliminar identificador?"
 
 #: src/windows/settings/pages/proxy.rs:249
 #: src/windows/settings/pages/proxy.rs:284
 msgid "Remove"
-msgstr ""
+msgstr "Eliminar"
 
 #: src/windows/settings/pages/proxy.rs:268
 msgid "No domains or IP addresses are being excluded"
-msgstr ""
+msgstr "No se está excluyendo ningún dominio o dirección IP"
 
 #~ msgid "The current tab is not associated with a file"
 #~ msgstr "La pestaña actual no está asociada con un archivo"

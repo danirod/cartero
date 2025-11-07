@@ -15,7 +15,8 @@
     "@astrojs/mdx": "^4.3.10",
     "@astrojs/rss": "^4.0.13",
     "@astrojs/sitemap": "^3.6.0",
-    "astro": "^5.15.4"
+    "astro": "^5.15.4",
+    "sharp": "^0.34.5"
   },
   "devDependencies": {
     "@typescript-eslint/parser": "^8.46.3",

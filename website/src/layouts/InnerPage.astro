@@ -1,0 +1,31 @@
+---
+// SPDX-License-Identifier: GPL-3.0-or-later OR CC-BY-SA-4.0
+// SPDX-FileCopyrightText: 2024-2025 the Cartero authors
+
+import BrowserDetection from "../components/atom/BrowserDetection.astro";
+import BaseHead from "../components/layout/BaseHead.astro";
+import Footer from "../components/layout/Footer.astro";
+import Header from "../components/layout/Header.astro";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+
+  <body>
+    <BrowserDetection />
+    <Header />
+    <div class="main">
+      <slot />
+    </div>
+    <Footer />
+  </body>
+</html>

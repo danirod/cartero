@@ -1,0 +1,87 @@
+---
+// SPDX-License-Identifier: GPL-3.0-or-later OR CC-BY-SA-4.0
+// SPDX-FileCopyrightText: 2024-2025 the Cartero authors
+
+import { Image } from "astro:assets";
+import CarteroLogo from "../../assets/cartero.svg";
+import { LATEST_VERSION } from "../../consts";
+---
+
+<div class="brand">
+  <h1>
+    <Image src={CarteroLogo} width="56" height="37" alt="" />
+    Cartero
+  </h1>
+  <p>Make HTTP requests and test APIs</p>
+  <p class="version">Latest version: {LATEST_VERSION}</p>
+</div>
+
+<style>
+  .brand {
+    text-align: center;
+  }
+
+  .brand img {
+    display: block;
+    margin: 0 auto;
+    width: 112px;
+    height: 76px;
+    margin-bottom: 0.5em;
+  }
+
+  .brand h1 {
+    font-size: 1.8em;
+    font-weight: 900;
+    letter-spacing: -1px;
+    margin: 0 0 0.25em;
+  }
+
+  .brand p {
+    font-weight: 500;
+    font-size: 1.3em;
+    letter-spacing: -0.5px;
+    text-wrap: balance;
+    margin: 0.25em 0 0;
+  }
+
+  /* As soon as there is space to collapse the appdata logo, do it. */
+  @media (min-width: 480px) {
+    .brand {
+      display: inline-flex;
+      flex-direction: column;
+      text-align: left;
+      justify-content: center;
+    }
+
+    .brand h1 {
+      font-size: 2.5em;
+      margin: 0 0 0.15em;
+      line-height: 1;
+    }
+
+    .brand p {
+      margin: 0;
+    }
+
+    .brand img {
+      display: inline;
+      vertical-align: bottom;
+      height: 0.9em;
+      width: auto;
+      margin-bottom: 0;
+    }
+  }
+
+  @media (min-width: 800px) {
+    .brand {
+      font-size: 1.3em;
+    }
+  }
+
+  .brand .version {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+    font-weight: normal;
+  }
+</style>

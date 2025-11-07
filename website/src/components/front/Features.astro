@@ -1,0 +1,75 @@
+---
+// SPDX-License-Identifier: GPL-3.0-or-later OR CC-BY-SA-4.0
+// SPDX-FileCopyrightText: 2024-2025 the Cartero authors
+
+import speedometerSymbolic from "../../assets/adwaita-icons/speedometer-symbolic.svg";
+import shieldSafeSymbolic from "../../assets/adwaita-icons/shield-safe-symbolic.svg";
+import branchSymbolic from "../../assets/adwaita-icons/branch-symbolic.svg";
+import peopleSymbolic from "../../assets/adwaita-icons/people-symbolic.svg";
+import Feature from "../atom/Feature.astro";
+
+const features = [
+  {
+    title: "Native and lightweight",
+    description:
+      "Cartero is not a web application. It is native and leverages the graphical toolkit of your computer in order to be lightweight and fast.",
+    background: "var(--green5)",
+    foreground: "var(--light1)",
+    href: `${speedometerSymbolic.src}#speedometer-symbolic`,
+  },
+  {
+    title: "Private by design",
+    description:
+      "Does not require a cloud subscription. You are not required to create an account to use it. There is no AI integration in Cartero.",
+    background: "var(--yellow5)",
+    foreground: "var(--light1)",
+    href: `${shieldSafeSymbolic.src}#shield-safe-symbolic`,
+  },
+  {
+    title: "Knows how to do teamwork",
+    description:
+      "Use plain text files to persist your requests. Track changes to your requests with Git or any other version control system and share them with your team.",
+    background: "var(--orange5)",
+    foreground: "var(--light1)",
+    href: `${branchSymbolic.src}#branch-symbolic`,
+  },
+  {
+    title: "Fully free software",
+    description:
+      "Cartero is published under a GPL license. You are free to download the program, to access the code, to learn from it and to change it.",
+    background: "var(--red5)",
+    foreground: "var(--light1)",
+    href: `${peopleSymbolic.src}#people-symbolic`,
+  },
+];
+---
+
+<section class="features section">
+  <div class="clamp">
+    <h2 class="section-title">What makes Cartero different?</h2>
+    <div class="feature-grid">
+      {
+        features.map(({ title, description, background, foreground, href }) => (
+          <Feature
+            title={title}
+            description={description}
+            background={background}
+            foreground={foreground}
+            href={href}
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .features {
+    background-color: var(--accent-bg-color-muted);
+  }
+  .feature-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+  }
+</style>

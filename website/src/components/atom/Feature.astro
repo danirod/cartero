@@ -1,0 +1,81 @@
+---
+// SPDX-License-Identifier: GPL-3.0-or-later OR CC-BY-SA-4.0
+// SPDX-FileCopyrightText: 2024-2025 the Cartero authors
+
+interface Props {
+  title: string;
+  description: string;
+  href: string;
+  background: string;
+  foreground: string;
+}
+
+const { background, foreground, href, title, description } = Astro.props;
+---
+
+<div class="feature">
+  <div
+    class="feature-icon"
+    style={`--symbolic-background: ${background}; --symbolic-foreground: ${foreground}`}
+  >
+    <svg width="64" height="64" viewBox="0 0 32 32">
+      <circle class="circle" cx="16" cy="16" r="16"></circle>
+      <g class="symbolic" transform="translate(8, 8)">
+        <use xlink:href={href}></use>
+      </g>
+    </svg>
+  </div>
+  <div class="feature-text">
+    <p class="title">
+      <strong>{title}</strong>
+    </p>
+    <p>{description}</p>
+  </div>
+</div>
+
+<style>
+  .feature {
+    text-align: center;
+  }
+  .feature .feature-text .title {
+    font-size: 1.2em;
+  }
+
+  .feature .feature-text strong {
+    font-weight: 700;
+  }
+
+  .feature p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+
+  .feature .feature-icon > svg {
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+    border-radius: 100%;
+  }
+
+  .feature .feature-icon > svg .circle {
+    fill: var(--symbolic-background);
+  }
+
+  .feature .feature-icon > svg .symbolic {
+    fill: var(--symbolic-foreground);
+  }
+
+  @media screen and (min-width: 800px) {
+    .feature {
+      display: flex;
+      text-align: left;
+      gap: 1.5em;
+    }
+
+    .feature-icon {
+      align-self: center;
+    }
+
+    .feature-text {
+      flex: 1;
+    }
+  }
+</style>

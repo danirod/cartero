@@ -1,0 +1,193 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later OR CC-BY-SA-4.0
+ * SPDX-FileCopyrightText: 2024-2025 the Cartero authors
+ */
+
+:root {
+  --blue1: rgb(153, 193, 241);
+  --blue2: rgb(98, 160, 234);
+  --blue3: rgb(53, 132, 228);
+  --blue4: rgb(28, 113, 216);
+  --blue5: rgb(26, 95, 180);
+  --green1: rgb(143, 240, 164);
+  --green2: rgb(87, 227, 137);
+  --green3: rgb(51, 209, 122);
+  --green4: rgb(46, 194, 126);
+  --green5: rgb(38, 162, 105);
+  --yellow1: rgb(249, 240, 107);
+  --yellow2: rgb(248, 228, 92);
+  --yellow3: rgb(246, 211, 45);
+  --yellow4: rgb(245, 194, 17);
+  --yellow5: rgb(229, 165, 10);
+  --orange1: rgb(255, 190, 111);
+  --orange2: rgb(255, 163, 72);
+  --orange3: rgb(255, 120, 0);
+  --orange4: rgb(230, 97, 0);
+  --orange5: rgb(198, 70, 0);
+  --red1: rgb(246, 97, 81);
+  --red2: rgb(237, 51, 59);
+  --red3: rgb(224, 27, 36);
+  --red4: rgb(192, 28, 40);
+  --red5: rgb(165, 29, 45);
+  --purple1: rgb(220, 138, 221);
+  --purple2: rgb(192, 97, 203);
+  --purple3: rgb(145, 65, 172);
+  --purple4: rgb(129, 61, 156);
+  --purple5: rgb(97, 53, 131);
+  --brown1: rgb(205, 171, 143);
+  --brown2: rgb(181, 131, 90);
+  --brown3: rgb(152, 106, 68);
+  --brown4: rgb(134, 94, 60);
+  --brown5: rgb(99, 69, 44);
+  --light1: rgb(255, 255, 255);
+  --light2: rgb(246, 245, 244);
+  --light3: rgb(222, 221, 218);
+  --light4: rgb(192, 191, 188);
+  --light5: rgb(154, 153, 150);
+  --dark1: rgb(119, 118, 123);
+  --dark2: rgb(94, 92, 100);
+  --dark3: rgb(61, 56, 70);
+  --dark4: rgb(36, 31, 49);
+  --dark5: rgb(0, 0, 0);
+
+  --accent-blue: #3584e4;
+  --accent-teal: #2190a4;
+  --accent-green: #3a944a;
+  --accent-yellow: #c88800;
+  --accent-orange: #ed5b00;
+  --accent-red: #e62d42;
+  --accent-pink: #d56199;
+  --accent-purple: #9141ac;
+  --accent-slate: #6f8396;
+
+  --window-bg-color: #fafafb;
+  --window-fg-color: rgb(0 0 6 / 80%);
+}
+
+:root {
+  --accent-bg-color: var(--accent-blue);
+  --accent-bg-hover-color: #4990e7;
+  --accent-bg-active-color: #2a6ab6;
+  --accent-bg-color-muted: #3584e420;
+  --link-color: var(--blue5);
+  --accent-fg-color: white;
+  --button-bg-color: #e6e6e7; /* color-mix(in srgb, currentColor 10%, transparent); */
+  --button-bg-hover-color: #dcdcdd;
+  --button-bg-active-color: #bebec0;
+  --contribution-bg-color: var(--light4);
+  --contribution-fg-color: var(--dark5);
+  --colophon-bg-color: var(--dark3);
+  --colophon-fg-color: var(--light1);
+  --bg-fade-top: var(--accent-bg-color-muted);
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  :root {
+    --accent-bg-color: var(--accent-orange);
+    --accent-bg-hover-color: #ef6b19;
+    --accent-bg-active-color: #c04400;
+    --accent-bg-color-muted: #ed5b0020;
+    --accent-fg-color: white;
+    --link-color: var(--orange1);
+    --window-bg-color: #222226;
+    --window-fg-color: #ffffff;
+    --button-bg-color: #39393c; /* color-mix(in srgb, currentColor 10%, transparent); */
+    --button-bg-hover-color: #434346;
+    --button-bg-active-color: #656568;
+    --contribution-bg-color: var(--dark2);
+    --contribution-fg-color: var(--light1);
+    --colophon-bg-color: var(--dark5);
+    --colophon-fg-color: var(--light1);
+    --bg-fade-top: transparent;
+  }
+}
+
+* {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body,
+div {
+  margin: 0;
+  padding: 0;
+}
+
+strong {
+  font-weight: 600;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 3rem 0 1rem;
+  font-weight: bold;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+a {
+  color: var(--link-color);
+}
+
+img {
+  max-width: 100%;
+}
+
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
+  font-size: 14pt;
+  line-height: 1.3;
+  background-color: var(--window-bg-color);
+  color: var(--window-fg-color);
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+body::before {
+  background-image: linear-gradient(to bottom, var(--bg-fade-top), transparent);
+  content: "";
+  height: 400px;
+  display: block;
+  position: absolute;
+  width: 100%;
+  z-index: -1;
+  top: 0;
+}
+
+.main {
+  flex: 1;
+}
+
+.clamp {
+  padding-left: 20px;
+  padding-right: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.section {
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+
+.section-title {
+  text-align: center;
+  font-weight: 900;
+  margin-top: 0;
+}

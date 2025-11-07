@@ -1,0 +1,117 @@
+---
+// SPDX-License-Identifier: GPL-3.0-or-later OR CC-BY-SA-4.0
+// SPDX-FileCopyrightText: 2024-2025 the Cartero authors
+
+import bugSymbolic from "../../assets/adwaita-icons/bug-symbolic.svg";
+import buildAltSymbolic from "../../assets/adwaita-icons/build-alt-symbolic.svg";
+import translateSymbolic from "../../assets/adwaita-icons/translate-symbolic.svg";
+import cafeSymbolic from "../../assets/adwaita-icons/cafe-symbolic.svg";
+import ContributeItem from "../atom/ContributeItem.astro";
+
+const contributions = [
+  {
+    title: "Found a bug?",
+    description:
+      "Report bugs to the issue tracker. It's the only way to make them go away and to stop disrupting everyone.",
+    ctaText: "Report bugs",
+    ctaHref: "https://github.com/danirod/cartero/issues",
+    imageHref: `${bugSymbolic.src}#bug-symbolic`,
+    background: "var(--red4)",
+    foreground: "var(--light1)",
+  },
+  {
+    title: "Contribute code",
+    description:
+      "Cartero is written in Rust and uses the GTK toolkit, and we try to be as friendly with beginners as we can.",
+    ctaText: "Get sources",
+    ctaHref: "https://github.com/danirod/cartero",
+    imageHref: `${buildAltSymbolic.src}#build-alt-symbolic`,
+    background: "var(--orange4)",
+    foreground: "var(--light1)",
+  },
+  {
+    title: "Help translate",
+    description:
+      "If the application is not available in your language or is partially translated, you can translate the strings.",
+    ctaText: "Translate",
+    ctaHref: "https://hosted.weblate.org/projects/cartero/cartero/",
+    imageHref: `${translateSymbolic.src}#translate-symbolic`,
+    background: "var(--blue4)",
+    foreground: "var(--light1)",
+  },
+  {
+    title: "Tip me a coffee",
+    description:
+      "I am not writing this program for money, but funding the project will help me spend more time on it.",
+    ctaText: "Donate",
+    ctaHref: "https://ko-fi.com/danirod",
+    imageHref: `${cafeSymbolic.src}#cafe-symbolic`,
+    background: "var(--brown4)",
+    foreground: "var(--light1)",
+  },
+];
+---
+
+<section class="contribute section">
+  <div class="clamp">
+    <h2 class="section-title">Contribute</h2>
+
+    <p>
+      <strong
+        >Using the program is the most direct way to help the project. Talk to
+        your colleagues or share your thoughts to let people know about it.</strong
+      >
+      We are on a mission to make sending HTTP requests over the network something
+      affordable, <strong>as it used to be</strong>, and not a dreadful
+      experience or a luxury.
+    </p>
+
+    <p>
+      However, if Cartero is helping you and you want to help the project back,
+      here's how.
+    </p>
+
+    <div class="contributions-grid">
+      {
+        contributions.map(
+          ({
+            title,
+            description,
+            ctaText,
+            ctaHref,
+            imageHref,
+            background,
+            foreground,
+          }) => (
+            <ContributeItem
+              title={title}
+              description={description}
+              ctaText={ctaText}
+              ctaHref={ctaHref}
+              imageHref={imageHref}
+              background={background}
+              foreground={foreground}
+            />
+          ),
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .contribute {
+    text-align: center;
+  }
+
+  @media screen and (min-width: 800px) {
+    .contributions-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      margin-top: 3em;
+      margin-bottom: 3em;
+      gap: 4em;
+      align-content: start;
+    }
+  }
+</style>

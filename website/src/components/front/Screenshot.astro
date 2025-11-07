@@ -1,0 +1,92 @@
+---
+// SPDX-License-Identifier: GPL-3.0-or-later OR CC-BY-SA-4.0
+// SPDX-FileCopyrightText: 2024-2025 the Cartero authors
+
+import cropGnuLinuxDark from "../../assets/main-screenshot/crop-gnu-linux-dark.png";
+import cropGnuLinuxLight from "../../assets/main-screenshot/crop-gnu-linux-light.png";
+import cropMacosDark from "../../assets/main-screenshot/crop-macos-dark.png";
+import cropMacosLight from "../../assets/main-screenshot/crop-macos-light.png";
+import cropWindowsDark from "../../assets/main-screenshot/crop-windows-dark.png";
+import cropWindowsLight from "../../assets/main-screenshot/crop-windows-light.png";
+---
+
+<div class="screenshot">
+  <picture class="gnome">
+    <source
+      srcset={cropGnuLinuxDark.src}
+      media="screen and (prefers-color-scheme: dark)"
+    />
+    <source srcset={cropGnuLinuxLight.src} />
+    <img src={cropGnuLinuxLight.src} alt="A screenshot of Cartero" />
+  </picture>
+  <picture class="macos" hidden>
+    <source
+      srcset={cropMacosDark.src}
+      media="screen and (prefers-color-scheme: dark)"
+    />
+    <source srcset={cropMacosLight.src} />
+    <img src={cropMacosLight.src} alt="A screenshot of Cartero" />
+  </picture>
+  <picture class="windows" hidden>
+    <source
+      srcset={cropWindowsDark.src}
+      media="screen and (prefers-color-scheme: dark)"
+    />
+    <source srcset={cropWindowsLight.src} />
+    <img src={cropWindowsLight.src} alt="A screenshot of Cartero" />
+  </picture>
+</div>
+
+<style>
+  .screenshot {
+    display: none;
+  }
+
+  @media screen and (min-width: 480px) {
+    .screenshot {
+      display: flex;
+      padding-left: 20px;
+      padding-right: 20px;
+      justify-content: center;
+    }
+
+    .screenshot picture:not(.gnome) {
+      display: none;
+    }
+
+    body.is-darwin .screenshot picture:not(.macos) {
+      display: none;
+    }
+    body.is-darwin .screenshot picture.macos {
+      display: flex;
+    }
+
+    body.is-win32 .screenshot picture:not(.windows) {
+      display: none;
+    }
+    body.is-win32 .screenshot picture.windows {
+      display: flex;
+    }
+  }
+
+  .screenshot picture img {
+    display: block;
+    width: 1160px;
+    box-shadow:
+      0 1px 3px 3px transparent,
+      0 2px 6px 3px rgba(0, 0, 0, 0.1),
+      0 4px 7px 3px rgba(0, 0, 0, 0.04),
+      0 0 0 1px rgba(0, 0, 0, 0.08);
+  }
+
+  .screenshot picture.gnome img,
+  .screenshot picture.macos img {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  }
+
+  .screenshot picture.windows img {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+</style>

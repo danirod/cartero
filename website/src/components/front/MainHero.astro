@@ -1,0 +1,82 @@
+---
+// SPDX-License-Identifier: GPL-3.0-or-later OR CC-BY-SA-4.0
+// SPDX-FileCopyrightText: 2024-2025 the Cartero authors
+
+import LargeBrand from "./LargeBrand.astro";
+import AdwButton from "../atom/AdwButton.astro";
+import Screenshot from "./Screenshot.astro";
+---
+
+<header>
+  <div class="clamp">
+    <LargeBrand />
+    <div class="buttons">
+      <AdwButton href="/download/" suggested>Download</AdwButton>
+      <AdwButton
+        href="https://github.com/danirod/cartero/releases/latest"
+        target="_blank">Release notes</AdwButton
+      >
+      <AdwButton href="/docs/" target="_blank">User manual</AdwButton>
+    </div>
+  </div>
+  <Screenshot />
+</header>
+
+<style>
+  header {
+    padding-top: 1em;
+    display: grid;
+    width: 100%;
+    gap: 3em;
+    overflow: hidden;
+    padding-bottom: 3em;
+  }
+
+  .clamp {
+    display: grid;
+    gap: 3em;
+    justify-items: start;
+  }
+
+  @media screen and (min-width: 480px) {
+    header {
+      padding-bottom: 0;
+    }
+
+    .clamp {
+      gap: 2em;
+    }
+  }
+
+  @media screen and (min-width: 800px) {
+    .hero {
+      padding-top: 6em;
+      gap: 4em;
+    }
+  }
+
+  .buttons {
+    display: grid;
+    gap: 1rem;
+    grid-auto-flow: row;
+    width: 100%;
+  }
+
+  .buttons .button {
+    align-content: center;
+  }
+
+  @media screen and (min-width: 480px) {
+    .buttons {
+      font-size: 1.2rem;
+      grid-auto-flow: column;
+      width: initial;
+    }
+  }
+
+  @media screen and (min-width: 800px) {
+    .buttons {
+      font-size: 1.4rem;
+    }
+  }
+</style>

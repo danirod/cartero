@@ -1,0 +1,234 @@
+---
+// SPDX-License-Identifier: GPL-3.0-or-later OR CC-BY-SA-4.0
+// SPDX-FileCopyrightText: 2024-2025 the Cartero authors
+
+import InnerPage from "../layouts/InnerPage.astro";
+import AdwButton from "../components/atom/AdwButton.astro";
+import applicationExecutable from "../assets/adwaita-icons/application-x-executable.svg";
+import packageGeneric from "../assets/adwaita-icons/package-x-generic.svg";
+import icecreamConeSymbolic from "../assets/adwaita-icons/icecream-cone-symbolic.svg";
+import applicationSharedlib from "../assets/adwaita-icons/application-x-sharedlib.svg";
+import pubSymbolic from "../assets/adwaita-icons/pub-symbolic.svg";
+import flathubIcon from "../assets/vendor-icons/flathub.svg";
+import snapcraftIcon from "../assets/vendor-icons/snapcraft.svg";
+import nixIcon from "../assets/vendor-icons/nix.svg";
+import windowsIcon from "../assets/vendor-icons/windows.svg";
+import appleIcon from "../assets/vendor-icons/apple.svg";
+import gitIcon from "../assets/vendor-icons/git.svg";
+import { LATEST_VERSION } from "../consts";
+---
+
+<InnerPage
+  title="Download Cartero"
+  description="Cartero is the free and open source HTTP client that you can use to test APIs."
+>
+  <div class="download-page">
+    <div class="clamp">
+      <div class="platform" data-target="gnulinux">
+        <h2 id="gnulinux">Download Cartero for GNU/Linux</h2>
+
+        <div class="downloads">
+          <AdwButton href={`https://github.com/danirod/cartero/releases/download/v${LATEST_VERSION}/Cartero-${LATEST_VERSION}-x86_64.AppImage`}>
+            <img
+              src={applicationExecutable.src}
+              width="48"
+              height="48"
+              alt=""
+            />
+            AppImage (x86_64)
+          </AdwButton>
+
+          <AdwButton href={`https://github.com/danirod/cartero/releases/download/v${LATEST_VERSION}/Cartero-${LATEST_VERSION}-aarch64.AppImage`}>
+            <img
+              src={applicationExecutable.src}
+              width="48"
+              height="48"
+              alt=""
+            />
+            AppImage (aarch64)
+          </AdwButton>
+
+          <AdwButton href="https://flathub.org/apps/es.danirod.Cartero">
+            <img
+              src={flathubIcon.src}
+              class="symbolic"
+              width="48"
+              height="48"
+              alt=""
+            />
+            Flathub
+          </AdwButton>
+
+          <AdwButton href="https://snapcraft.io/cartero">
+            <img src={snapcraftIcon.src} width="48" height="48" alt="" />
+            Snapcraft
+          </AdwButton>
+
+          <AdwButton
+            href="https://cartero.danirod.es/docs/installing/nixos-flake.html"
+          >
+            <img src={nixIcon.src} width="48" height="48" alt="" />
+            Nix Flake
+          </AdwButton>
+        </div>
+
+        <p>
+          Additional third party packages are <a
+            href="https://repology.org/project/cartero/versions"
+            >available in some package managers</a
+          >.
+        </p>
+      </div>
+
+      <div class="platform" data-target="windows">
+        <h2 id="windows">Download Cartero for Windows</h2>
+
+        <div class="downloads">
+          <AdwButton href={`https://github.com/danirod/cartero/releases/download/v${LATEST_VERSION}/cartero-${LATEST_VERSION}-windows-x64.exe`}>
+            <img src={windowsIcon.src} width="48" height="48" alt="" />
+            Installer (x64)
+          </AdwButton>
+
+          <AdwButton href={`https://github.com/danirod/cartero/releases/download/v${LATEST_VERSION}/cartero-${LATEST_VERSION}-windows-x64.zip`}>
+            <img src={packageGeneric.src} width="48" height="48" alt="" />
+            Portable (x64)
+          </AdwButton>
+
+          <AdwButton href={`https://github.com/danirod/cartero/releases/download/v${LATEST_VERSION}/cartero-${LATEST_VERSION}-windows-arm64.exe`}>
+            <img src={windowsIcon.src} width="48" height="48" alt="" />
+            Installer (ARM64)
+          </AdwButton>
+
+          <AdwButton href={`https://github.com/danirod/cartero/releases/download/v${LATEST_VERSION}/cartero-${LATEST_VERSION}-windows-arm64.zip`}>
+            <img src={packageGeneric.src} width="48" height="48" alt="" />
+            Portable (ARM64)
+          </AdwButton>
+
+          <AdwButton href="https://scoop.sh/#/apps?q=cartero">
+            <img
+              src={icecreamConeSymbolic.src}
+              class="symbolic"
+              width="48"
+              height="48"
+              alt=""
+            />
+            Scoop
+          </AdwButton>
+        </div>
+
+        <p>
+          Note: the Windows x64 version requires Windows 10 or newer. The
+          Windows ARM version requires Windows 11. The application is signed
+          with a valid codesign certificate, but because it's not EV, some
+          Windows versions may still show a warning. If you don't trust the
+          precompiled binaries, you can always build it from sources.
+        </p>
+      </div>
+
+      <div class="platform" data-target="macos">
+        <h2 id="macos">Download Cartero for macOS</h2>
+
+        <div class="downloads">
+          <AdwButton href={`https://github.com/danirod/cartero/releases/download/v${LATEST_VERSION}/Cartero-${LATEST_VERSION}-macOS-arm64.dmg`}>
+            <img
+              src={appleIcon.src}
+              class="symbolic"
+              width="48"
+              height="48"
+              alt=""
+            />
+            Silicon (ARM64)
+          </AdwButton>
+
+          <AdwButton href={`https://github.com/danirod/cartero/releases/download/v${LATEST_VERSION}/Cartero-${LATEST_VERSION}-macOS-x64.dmg`}>
+            <img src={applicationSharedlib.src} width="48" height="48" alt="" />
+            Intel (x86-64)
+          </AdwButton>
+
+          <AdwButton href="https://github.com/soloantonio/homebrew-cartero">
+            <img
+              src={pubSymbolic.src}
+              class="symbolic"
+              width="48"
+              height="48"
+              alt=""
+            />
+            Homebrew
+          </AdwButton>
+        </div>
+
+        <p>Note: the macOS version requires macOS 11.0 or newer.</p>
+      </div>
+
+      <h2 id="sources">Build from sources</h2>
+
+      <p>
+        If you follow the installation procedures and you have the dependencies
+        installed (this includes the Rust compiler and the libraries that
+        Cartero depends on), you can build it from the sources.
+      </p>
+
+      <div class="downloads">
+        <AdwButton href={`https://github.com/danirod/cartero/releases/download/v${LATEST_VERSION}/cartero-${LATEST_VERSION}.tar.xz`}>
+          <img
+            src={packageGeneric.src}
+            class="symbolic"
+            width="48"
+            height="48"
+            alt=""
+          />
+          Tarball
+        </AdwButton>
+
+        <AdwButton href="https://github.com/danirod/cartero">
+          <img src={gitIcon.src} width="48" height="48" alt="" />
+          Git Repository
+        </AdwButton>
+      </div>
+    </div>
+  </div>
+</InnerPage>
+
+<script is:inline>
+  function movePlatformToTop(platform) {
+    let root = document.querySelector(".download-page .clamp");
+    let sel = document.querySelector(`.platform[data-target=${platform}]`);
+    if (sel) {
+      root.insertAdjacentElement("afterbegin", sel);
+    }
+  }
+
+  if (window.navigator.userAgent.indexOf("Win") > -1) {
+    document.body.classList.add("is-win32");
+    movePlatformToTop("windows");
+  } else if (window.navigator.userAgent.indexOf("Mac") > -1) {
+    document.body.classList.add("is-darwin");
+    movePlatformToTop("macos");
+  } else {
+    document.body.classList.add("is-gnome");
+    movePlatformToTop("gnulinux");
+  }
+</script>
+
+<style>
+  .download-page {
+    margin-bottom: 3rem;
+  }
+
+  .downloads {
+    display: grid;
+    gap: 1.5em;
+  }
+
+  @media screen and (min-width: 640px) {
+    .downloads {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .downloads img.symbolic {
+      filter: invert();
+    }
+  }
+</style>

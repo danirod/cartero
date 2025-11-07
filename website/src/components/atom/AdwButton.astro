@@ -1,0 +1,58 @@
+---
+// SPDX-License-Identifier: GPL-3.0-or-later OR CC-BY-SA-4.0
+// SPDX-FileCopyrightText: 2024-2025 the Cartero authors
+
+import cn from "classnames";
+
+interface Props {
+  href: string;
+  target?: string;
+  suggested?: boolean;
+}
+
+const { href, target, suggested } = Astro.props;
+---
+
+<a class={cn("button", { suggested })} target={target} href={href}><slot /></a>
+
+<style>
+  .button {
+    border-radius: 12px;
+    background-color: var(--button-bg-color);
+    transition: background-color 0.2s ease-in-out;
+    color: var(--window-fg-color);
+    padding: 8px 12px;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .button:hover {
+    background: var(--button-bg-hover-color);
+  }
+  .button:active {
+    background: var(--button-bg-active-color);
+  }
+
+  .suggested {
+    background-color: var(--accent-bg-color);
+    color: var(--accent-fg-color);
+  }
+  .suggested:hover {
+    background-color: var(--accent-bg-hover-color);
+  }
+  .suggested:active {
+    background-color: var(--accent-bg-active-color);
+  }
+
+  @media screen and (min-width: 800px) {
+    .button {
+      padding: 10px 20px;
+    }
+  }
+</style>

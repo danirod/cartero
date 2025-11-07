@@ -1,0 +1,30 @@
+---
+// SPDX-License-Identifier: GPL-3.0-or-later OR CC-BY-SA-4.0
+// SPDX-FileCopyrightText: 2024-2025 the Cartero authors
+
+const today = new Date();
+---
+
+<footer class="colophon">
+  <p>
+    Copyright © 2024-{today.getFullYear()} the Cartero authors. Maintained by <a
+      href="https://danirod.es">Dani Rodríguez</a
+    >.
+  </p>
+
+  <p>Made in Spain 🇪🇸, with contributions from 🌐 all around the world!</p>
+</footer>
+
+<style>
+  .colophon {
+    background: var(--colophon-bg-color);
+    color: var(--colophon-fg-color);
+    font-size: 0.9em;
+    text-align: center;
+    padding: 3em;
+  }
+
+  .colophon a {
+    color: var(--colophon-fg-color);
+  }
+</style>

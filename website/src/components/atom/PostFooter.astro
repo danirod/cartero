@@ -1,0 +1,71 @@
+---
+// SPDX-License-Identifier: GPL-3.0-or-later OR CC-BY-SA-4.0
+// SPDX-FileCopyrightText: 2024-2025 the Cartero authors
+
+import AdwButton from "./AdwButton.astro";
+
+import cartero from "../../assets/cartero.svg";
+---
+
+<div class="colophon">
+  <p>
+    <strong
+      >Making HTTP requests and testing APIs should be affordable again.</strong
+    >
+    That's why I am building Cartero, the free and open source HTTP client that you
+    can use to develop and test APIs.
+  </p>
+
+  <img src={cartero.src} alt="" class="envelope" />
+
+  <p class="buttons">
+    <AdwButton suggested href="/">Find out more</AdwButton>
+  </p>
+</div>
+
+<p class="subscribe">
+  <a href="/rss.xml">Subscribe to the RSS feed</a>
+  or
+  <a href="https://floss.social/@cartero">follow us in the fediverse</a>.
+</p>
+
+<style>
+  .colophon {
+    background: rgb(from var(--accent-bg-color) r g b / 0.2);
+    padding: 1rem;
+    border-radius: 10px;
+    margin-top: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .colophon p:first-child {
+    margin-top: 0;
+  }
+
+  .colophon p:last-child {
+    margin-bottom: 0;
+  }
+
+  .envelope {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: -1;
+    opacity: 0.3;
+    user-select: none;
+    pointer-events: none;
+    transform: scale(2) rotate(45deg);
+  }
+
+  @media screen and (prefers-color-scheme: dark) {
+    .envelope {
+      opacity: 0.1;
+    }
+  }
+
+  .subscribe {
+    font-size: 0.9em;
+    text-align: center;
+  }
+</style>

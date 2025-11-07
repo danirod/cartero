@@ -1,0 +1,28 @@
+---
+// SPDX-License-Identifier: GPL-3.0-or-later OR CC-BY-SA-4.0
+// SPDX-FileCopyrightText: 2024-2025 the Cartero authors
+
+import BrowserDetection from "../components/atom/BrowserDetection.astro";
+import BaseHead from "../components/layout/BaseHead.astro";
+import Footer from "../components/layout/Footer.astro";
+import Contribute from "../components/front/Contribute.astro";
+import Features from "../components/front/Features.astro";
+import MainHero from "../components/front/MainHero.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+import Header from "../components/layout/Header.astro";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <BrowserDetection />
+    <Header compact />
+    <MainHero />
+    <Features />
+    <Contribute />
+    <Footer />
+  </body>
+</html>

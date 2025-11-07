@@ -1,0 +1,111 @@
+---
+// SPDX-License-Identifier: GPL-3.0-or-later OR CC-BY-SA-4.0
+// SPDX-FileCopyrightText: 2024-2025 the Cartero authors
+
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import { SITE_DESCRIPTION } from "../../consts";
+import InnerPage from "../../layouts/InnerPage.astro";
+import fallbackImage from "../../assets/social/banner-16-9.jpg";
+import FormattedDate from "../../components/FormattedDate.astro";
+import PostFooter from "../../components/atom/PostFooter.astro";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<InnerPage title="Blog - Cartero" description={SITE_DESCRIPTION}>
+  <div class="clamp">
+    <h1>Blog</h1>
+    <ul class="posts">
+      {
+        posts.map((post) => (
+          <li>
+            <a class="post" href={`/blog/${post.id}/`}>
+              <Image
+                class="image"
+                width={720}
+                height={360}
+                src={post.data.heroImage || fallbackImage}
+                alt=""
+              />
+              <div class="excerpt">
+                <h4 class="title">{post.data.title}</h4>
+                <p class="date">
+                  <FormattedDate date={post.data.pubDate} />
+                </p>
+                <p>{post.data.description}</p>
+              </div>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <PostFooter />
+  </div>
+</InnerPage>
+
+<style>
+  .posts {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .post {
+    display: grid;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: inherit;
+    padding: 1rem;
+    border-radius: 10px;
+  }
+
+  .image {
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+    height: auto;
+    display: none;
+  }
+
+  @media screen and (min-width: 640px) {
+    .posts {
+      margin-left: -1rem;
+      margin-right: -1rem;
+    }
+
+    .post {
+      grid-template-columns: 200px 1fr;
+    }
+
+    .image {
+      display: block;
+    }
+  }
+
+  .excerpt {
+    display: flex;
+    gap: 0.6rem;
+    flex-direction: column;
+  }
+
+  h4,
+  p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .post:hover {
+    background: var(--accent-bg-color-muted);
+  }
+
+  .post:hover h4 {
+    color: var(--link-color);
+    text-decoration: underline;
+  }
+
+  .date {
+    font-size: 0.9rem;
+  }
+</style>

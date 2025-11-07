@@ -1,0 +1,44 @@
+---
+// SPDX-License-Identifier: GPL-3.0-or-later OR CC-BY-SA-4.0
+// SPDX-FileCopyrightText: 2024-2025 the Cartero authors
+
+import { type CollectionEntry, getCollection, render } from "astro:content";
+import InnerPage from "../../layouts/InnerPage.astro";
+import { SITE_TITLE } from "../../consts";
+import FormattedDate from "../../components/FormattedDate.astro";
+import PostFooter from "../../components/atom/PostFooter.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: post,
+  }));
+}
+type Props = CollectionEntry<"blog">;
+
+const post = Astro.props;
+const { Content } = await render(post);
+---
+
+<InnerPage
+  title={`${post.data.title} - ${SITE_TITLE}`}
+  description={post.data.description}
+>
+  <div class="clamp">
+    <header>
+      <h1>{post.data.title}</h1>
+      <p class="date">
+        Published on <FormattedDate date={post.data.pubDate} />
+      </p>
+    </header>
+    <Content />
+    <PostFooter />
+  </div>
+</InnerPage>
+
+<style>
+  .date {
+    font-size: 0.9em;
+  }
+</style>

@@ -1,0 +1,80 @@
+---
+// SPDX-License-Identifier: GPL-3.0-or-later OR CC-BY-SA-4.0
+// SPDX-FileCopyrightText: 2024-2025 the Cartero authors
+
+import AdwButton from "./AdwButton.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  ctaText: string;
+  ctaHref: string;
+  imageHref: string;
+  background: string;
+  foreground: string;
+}
+
+const {
+  title,
+  description,
+  ctaText,
+  ctaHref,
+  imageHref,
+  background,
+  foreground,
+} = Astro.props;
+---
+
+<div class="contribution-item">
+  <svg
+    class="contribution-icon"
+    width="64"
+    height="64"
+    viewBox="0 0 32 32"
+    style={`--contribution-bg-color: ${background}; --contribution-fg-color: ${foreground}`}
+  >
+    <circle class="circle" cx="16" cy="16" r="16"></circle>
+    <g class="symbolic" transform="translate(8, 8)">
+      <use xlink:href={imageHref}></use>
+    </g>
+  </svg>
+
+  <h3>{title}</h3>
+
+  <p>{description}</p>
+
+  <p>
+    <AdwButton suggested href={ctaHref} target="_blank">{ctaText}</AdwButton>
+  </p>
+</div>
+
+<style>
+  .contribution-item {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .contribution-item {
+    margin-top: 4em;
+    margin-bottom: 4em;
+  }
+
+  .contribution-item h3 {
+    margin-top: 0.5em;
+  }
+
+  .contribution-icon .circle {
+    fill: var(--contribution-bg-color);
+  }
+
+  .contribution-icon .symbolic {
+    fill: var(--contribution-fg-color);
+  }
+
+  @media screen and (min-width: 800px) {
+    .contribution-item {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+</style>

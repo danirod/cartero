@@ -1,0 +1,15 @@
+---
+// SPDX-License-Identifier: GPL-3.0-or-later OR CC-BY-SA-4.0
+// SPDX-FileCopyrightText: 2024-2025 the Cartero authors
+---
+
+<script is:inline>
+  const ua = navigator.userAgent;
+  if (ua.includes("Win")) {
+    document.body.classList.add("is-win32");
+  } else if (ua.includes("Mac")) {
+    document.body.classList.add("is-darwin");
+  } else {
+    document.body.classList.add("is-gnome");
+  }
+</script>

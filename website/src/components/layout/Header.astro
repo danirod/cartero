@@ -1,0 +1,170 @@
+---
+// SPDX-License-Identifier: GPL-3.0-or-later OR CC-BY-SA-4.0
+// SPDX-FileCopyrightText: 2024-2025 the Cartero authors
+
+import cn from "classnames";
+import cartero from "../../assets/cartero.svg";
+
+const { pathname } = Astro.url;
+
+const { compact } = Astro.props;
+---
+
+<header class={cn("header clamp", { compact })}>
+  <a href="/" class="logo">
+    <img src={cartero.src} alt="" />
+    Cartero
+  </a>
+  <input id="dropdown-menu" type="checkbox" class="checkbox" />
+  <label for="dropdown-menu" class="burguer">☰</label>
+  <nav class="nav">
+    <a href="/">Home</a>
+    <a class={cn({ active: pathname.startsWith("/download/") })} href="/download/"
+      >Download</a
+    >
+    <a href="/docs/">Docs</a>
+    <a class={cn({ active: pathname.startsWith("/blog/") })} href="/blog/">Blog</a
+    >
+  </nav>
+</header>
+
+<style>
+  .header {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 0;
+    padding-right: 0;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .header:has(.checkbox:checked) {
+    background: var(--button-bg-color);
+  }
+
+  .logo {
+    display: flex;
+    font-size: 2rem;
+    gap: 1rem;
+    flex-direction: row;
+    align-items: center;
+    color: inherit;
+    text-decoration: none;
+    align-self: center;
+    padding-left: 20px;
+  }
+
+  .logo:hover {
+    color: var(--link-color);
+    text-decoration: underline;
+  }
+
+  .header.compact {
+    justify-content: end;
+  }
+
+  .header.compact .logo {
+    visibility: hidden;
+  }
+
+  .header.compact:has(.checkbox:checked) {
+    justify-content: space-between;
+  }
+
+  .header.compact:has(.checkbox:checked) .logo {
+    visibility: visible;
+  }
+
+  .logo img {
+    height: 2rem;
+  }
+
+  .checkbox {
+    display: none;
+  }
+
+  .burguer {
+    padding-right: 20px;
+    font-size: 2rem;
+    cursor: pointer;
+    padding-left: 20px;
+  }
+
+  .nav {
+    display: none;
+    background: var(--button-bg-color);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    flex-direction: column;
+    font-size: 1.5rem;
+  }
+
+  .checkbox:checked ~ .nav {
+    display: flex;
+    box-shadow: 0 6px 5px 0 var(--colophon-bg-color);
+  }
+
+  @media screen and (min-width: 640px) {
+    .header {
+      align-items: center;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    .header:has(.checkbox:checked) {
+      background: transparent;
+    }
+
+    .header.compact:has(.checkbox:checked) .logo {
+      visibility: hidden;
+    }
+
+    .logo {
+      padding-left: 0;
+    }
+
+    .burguer {
+      display: none;
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: row;
+      gap: 0.5rem;
+      position: initial;
+      background: transparent;
+      margin-top: 0;
+      font-size: 1rem;
+    }
+
+    .checkbox:checked ~ .nav {
+      box-shadow: unset;
+    }
+
+    .nav a {
+      border-radius: 12px;
+    }
+  }
+
+  .nav a {
+    color: inherit;
+    display: inline-block;
+    padding: 8px 16px;
+    text-decoration: none;
+  }
+
+  .nav a.active {
+    background-color: rgb(from var(--accent-bg-color) r g b / 0.4);
+  }
+
+  .nav a:hover {
+    background-color: var(--accent-bg-color);
+    color: var(--accent-fg-color);
+  }
+</style>

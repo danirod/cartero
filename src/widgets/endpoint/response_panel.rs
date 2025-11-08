@@ -250,6 +250,9 @@ impl ResponsePanel {
                 .and_then(|text: Value| serde_json::to_string_pretty(&text));
             if let Ok(json) = json {
                 buffer.set_text(&json);
+            } else {
+                #[allow(deprecated)]
+                buffer.set_text(&resp.safe_string());
             }
         } else {
             #[allow(deprecated)]

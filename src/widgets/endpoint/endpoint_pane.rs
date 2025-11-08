@@ -796,7 +796,7 @@ mod imp {
 
         async fn action_export_request(&self, format: &str) {
             let root = self.obj().root().and_downcast::<gtk::Window>().unwrap();
-            let request = self.obj().request();
+            let request = self.obj().request().dup();
 
             let template = match format {
                 "curl" => cartero_code_exporters::Format::Curl,
@@ -805,6 +805,11 @@ mod imp {
                     return;
                 }
             };
+
+            let env_variables = self.obj().env_file().field_table();
+            request
+                .variables()
+                .combine(&env_variables, cartero_objects::CombinePriority::Prepend);
 
             let encoded = match cartero_code_exporters::export_request(template, &request) {
                 Ok(command) => command,

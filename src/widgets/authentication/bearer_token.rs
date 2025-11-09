@@ -21,6 +21,8 @@ use adw::subclass::prelude::*;
 mod imp {
     use std::cell::RefCell;
 
+    use crate::app::CarteroApplication;
+
     use super::*;
     use cartero_objects::RequestAuthenticationBearer;
     use glib::{subclass::InitializingObject, BindingGroup, Properties};
@@ -68,6 +70,14 @@ mod imp {
             obj.bind_property("bearer-token", &obj.binding_group(), "source")
                 .sync_create()
                 .build();
+
+            if let Some(delegate) = self.token.delegate().and_downcast::<gtk::Text>() {
+                let settings = CarteroApplication::ui_settings();
+                settings
+                    .bind("conceal-bearer-token", &delegate, "visibility")
+                    .invert_boolean()
+                    .build();
+            }
         }
     }
 

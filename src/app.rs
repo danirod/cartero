@@ -192,6 +192,11 @@ impl CarteroApplication {
         self.imp().settings.get_or_init(|| Settings::new(BASE_ID))
     }
 
+    pub fn ui_settings() -> Settings {
+        let schema_name = format!("{BASE_ID}.UiState");
+        Settings::new(&schema_name)
+    }
+
     fn setup_color_scheme(&self) {
         let settings = self.settings();
         settings

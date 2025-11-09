@@ -107,4 +107,12 @@
       <default>true</default>
     </key>
   </schema>
+  <schema id="es.danirod.Cartero.UiState" path="/es/danirod/Cartero/">
+    <key name="conceal-basic-auth-password" type="b">
+      <default>true</default>
+    </key>
+    <key name="conceal-bearer-token" type="b">
+      <default>true</default>
+    </key>
+  </schema>
 </schemalist>

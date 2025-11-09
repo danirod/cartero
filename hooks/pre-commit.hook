@@ -71,3 +71,6 @@ if test $? != 0; then
 else
     echo "--Checking Blueprint style pass--"
 fi
+
+echo "-- Checking REUSE compliance"
+reuse lint -l

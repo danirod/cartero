@@ -17,17 +17,18 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-.ignored-header text {
-  color: var(--warning-color);
+.field-row.overriden text {
   text-decoration: line-through;
-}
-
-.ignored-header entry image.right {
-  color: var(--warning-color);
-}
-
-.inactive-header text {
   opacity: 0.65;
+}
+
+.field-row.inactive text {
+  opacity: 0.65;
+}
+
+.field-row .overriden .override-eye {
+  background: @view_bg_color;
+  padding: 6px;
 }
 
 /* So that the request method can keep the linked appearance even when inside another widget. */

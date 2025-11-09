@@ -19,7 +19,7 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 
 mod imp {
-    use std::{cell::RefCell, sync::OnceLock};
+    use std::{cell::RefCell, collections::HashSet, sync::OnceLock};
 
     use crate::widgets::field::{FieldListBoxRow, FieldPlaceholderRow};
 
@@ -41,6 +41,10 @@ mod imp {
         show_placeholder: RefCell<bool>,
         #[property(get, set)]
         read_only: RefCell<bool>,
+        #[property(get, set)]
+        check_overriden: RefCell<bool>,
+        #[property(get, set)]
+        check_overriden_icase: RefCell<bool>,
 
         #[template_child]
         list_box: TemplateChild<gtk::ListBox>,
@@ -70,11 +74,13 @@ mod imp {
             self.parent_constructed();
 
             self.rebind_table();
+            self.update_overriden_status();
             self.obj().connect_table_notify(glib::clone!(
                 #[weak(rename_to = imp)]
                 self,
                 move |_| {
                     imp.rebind_table();
+                    imp.update_overriden_status();
                 }
             ));
         }
@@ -164,11 +170,47 @@ mod imp {
                     #[weak(rename_to = widget)]
                     self,
                     move |_: &FieldTable, param: &str| {
+                        widget.update_overriden_status();
                         widget.obj().emit_by_name::<()>("changed", &[&param]);
                     }
                 ),
             );
             // TODO: If there was an old signal, it should be removed.
+        }
+
+        fn update_overriden_status(&self) {
+            if !self.obj().check_overriden() {
+                return;
+            }
+
+            let rows = self.table.borrow().n_items() as i32;
+            let mut seen = HashSet::new();
+            for row in (0..rows).rev() {
+                if let Some(widget) = self.list_box.row_at_index(row) {
+                    if let Some(field_row) = widget.child().and_downcast::<FieldListBoxRow>() {
+                        if !field_row.field().active() {
+                            field_row.set_overriden(false);
+                            continue;
+                        }
+
+                        let key = {
+                            let key = field_row.field().key();
+                            if self.obj().check_overriden_icase() {
+                                key.to_ascii_lowercase()
+                            } else {
+                                key
+                            }
+                        };
+
+                        if seen.contains(&key) {
+                            field_row.set_overriden(true);
+                        } else {
+                            seen.insert(key.clone());
+                            field_row.set_overriden(false);
+                        }
+                    }
+                }
+            }
         }
     }
 }

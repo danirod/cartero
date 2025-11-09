@@ -17,6 +17,10 @@
 using Gtk 4.0;
 
 template $CarteroFieldListBoxRow: Gtk.Box {
+  styles [
+    "field-row",
+  ]
+
   spacing: 5;
 
   Gtk.CheckButton active {
@@ -27,15 +31,34 @@ template $CarteroFieldListBoxRow: Gtk.Box {
   Gtk.Box {
     hexpand: true;
 
-    Gtk.Entry key {
-      styles [
-        "flat",
-      ]
-
-      editable: bind template.read-only inverted;
+    Gtk.Overlay {
       hexpand: true;
-      placeholder-text: _("Name");
-      tooltip-text: _("Name");
+
+      Gtk.Entry key {
+        styles [
+          "flat",
+        ]
+
+        editable: bind template.read-only inverted;
+        placeholder-text: _("Name");
+        tooltip-text: _("Name");
+      }
+
+      [overlay]
+      Gtk.Image eye {
+        styles [
+          "override-eye",
+        ]
+
+        hexpand: false;
+        vexpand: false;
+        valign: center;
+        halign: end;
+        margin-end: 2;
+        icon-name: "eye-not-looking-symbolic";
+        tooltip-text: _("The value for this field will not be used because another field with the same name is overriding it.");
+        visible: bind template.overriden;
+      }
     }
 
     Gtk.Entry value {

@@ -157,6 +157,8 @@ template $CarteroEndpointPane: $CarteroBasePane {
                 valign: start;
 
                 $CarteroFieldTableListView header_pane {
+                  check-overriden: true;
+                  check-overriden-icase: true;
                   read-only: bind template.read-only;
                   show-placeholder: true;
                 }
@@ -262,6 +264,7 @@ template $CarteroEndpointPane: $CarteroBasePane {
                 valign: start;
 
                 $CarteroFieldTableListView variable_pane {
+                  check-overriden: true;
                   read-only: bind template.read-only;
                   show-placeholder: true;
                 }

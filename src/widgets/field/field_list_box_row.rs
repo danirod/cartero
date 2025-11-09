@@ -35,7 +35,8 @@ mod imp {
     pub struct FieldListBoxRow {
         #[property(get, set)]
         read_only: RefCell<bool>,
-
+        #[property(get, set)]
+        overriden: RefCell<bool>,
         #[property(get, set)]
         field: RefCell<Field>,
 
@@ -69,7 +70,7 @@ mod imp {
     impl ObjectImpl for FieldListBoxRow {
         fn constructed(&self) {
             self.parent_constructed();
-
+            self.init_handlers();
             self.init_binding_group();
             self.init_actions();
         }
@@ -85,6 +86,38 @@ mod imp {
     impl BoxImpl for FieldListBoxRow {}
 
     impl FieldListBoxRow {
+        fn init_handlers(&self) {
+            self.obj()
+                .property_expression("field")
+                .chain_property::<Field>("active")
+                .watch(
+                    Some(&*self.obj()),
+                    glib::clone!(
+                        #[weak(rename_to = widget)]
+                        self.obj(),
+                        move || {
+                            if widget.field().active() {
+                                widget.remove_css_class("inactive");
+                            } else {
+                                widget.add_css_class("inactive");
+                            }
+                        }
+                    ),
+                );
+            if self.obj().field().active() {
+                self.obj().remove_css_class("inactive");
+            } else {
+                self.obj().add_css_class("inactive");
+            }
+            self.obj().connect_overriden_notify(|row| {
+                if row.overriden() {
+                    row.add_css_class("overriden");
+                } else {
+                    row.remove_css_class("overriden");
+                }
+            });
+        }
+
         fn init_binding_group(&self) {
             self.binding_group
                 .bind("active", &*self.active, "active")

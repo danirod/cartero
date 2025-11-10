@@ -29,7 +29,10 @@ use isahc::{
 };
 
 pub fn default_user_agent() -> String {
-    let cartero_version = env!("CARGO_PKG_VERSION");
+    let mut cartero_version = String::from(env!("CARGO_PKG_VERSION"));
+    if cartero_version.ends_with(".0") {
+        cartero_version.truncate(cartero_version.len() - 2);
+    }
     let isahc_version = isahc::version().split_once(" ").map(|v| v.0);
     let curl_version = {
         let version = curl::Version::get();

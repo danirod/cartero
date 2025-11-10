@@ -2,21 +2,43 @@
 
 These are the user-visible changes that you will notice when you use Cartero.
 
-## [0.3.0] (unreleased)
+## [25.0] (unreleased)
 
 ### Added
 
-* Added a new request body type: "From file", sets the request body from the contents of a file.
-* Added a new Export toolbar item with options to export a request or a response.
+* Added support for proxies.
+* Added support for dotenv files: values defined in an .env file can be loaded as variables.
+* The Headers pane will now present pre-generated headers added by Cartero.
+* Added a new request body type: "From file", loads the raw request body from the contents of a file.
 * It is now possible to export requests in JetBrains HTTP format.
 * It is now possible to export a request or a response directly into a file.
+* It is now possible to export the contents of an HTTP response.
+* The welcome pane now has an additional sheet with information and links.
 
 ### Changed
 
+* The Export tab has moved to a dropdown menu in the window toolbar.
+* Opening a new endpoint will automatically focus the URL entry field.
+* Disabled variables, headers or parameters will now render slightly dimmed.
+* When multiple variables or headers with the same key are present, those who will be ignored be marked.
+* Showing or concealing passwords in basic auth or bearer token fields will now be remembered in the application state.
+* The settings dialog has a new look and feel, using split windows.
 * Responses with a binary body (like images or videos or octet-streams) will suggest saving the response into a file rather than rendering it in the code view.
-* The default user agent used in HTTP request has changed to "Cartero/0.3.0 (isahc/1.7.2 curl/8.12.1-DEV)" (version numbers will bump as future releases flow).
+* The default user agent used in HTTP request has changed to "Cartero/25.0 (isahc/1.7.2 curl/8.12.1-DEV)" (version numbers will bump as future releases flow).
 * The responsiveness of the application will behave better on small windows and mobile devices.
-* Dependency bumped: minimum version of GLib required to compile the application is now GLib 2.74.
+* Dependencies bumped: Cartero now requires at least GNOME SDK 46 to build the app.
+* Windows: the application look and feel on Windows 11 now uses the acrilyic look and feel.
+* Translation updates: Czech, Basque, Galician, Indonesian, Portuguese, Brazilian Portuguese, Spanish, Russian, Ukrainian.
+
+### Fixed
+
+* HTTP responses sometimes were not rendered if they had the Content-Type header set to JSON but they were not actually parseable as JSON.
+* HTTP response headers sometimes did not render properly when they had angle brackets (such as the Link header).
+* HTTP requests sometimes could not be exported when they had spaces in the URL.
+* Windows: overriding the language in the settings dialog previously had no effect.
+* MacOS: the URL bar did not focus when pressing Command-L.
+* MacOS: the export dialog did not actually copy the code to the system clipboard.
+
 
 ## [0.2.4] - 2025-08-10
 

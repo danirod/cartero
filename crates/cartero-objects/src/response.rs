@@ -122,7 +122,7 @@ impl Response {
     /// by the GtkSourceView that renders bodies. Converts the \0 character with
     /// an <?> because otherwise you would get a GStrInteriorNulError.
     ///
-    /// This method is born deprecated. It will not be present in 0.3.0 because
+    /// This method is born deprecated. It will not be present in 25.0 because
     /// the response panel will simply refuse to render binary responses that
     /// contain the \0 character and instead will just offer to export the
     /// response.
@@ -130,7 +130,7 @@ impl Response {
     /// It is present because such functionality has not been added yet and we
     /// still need to let things work as they are until a sane exporter is
     /// added.
-    #[deprecated = "Don't use it for new code, will be removed in 0.3.0"]
+    #[deprecated = "Don't use it for new code, will be removed in 25.0"]
     pub fn safe_string(&self) -> String {
         let body = self
             .body()

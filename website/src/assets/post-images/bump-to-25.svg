@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="640"
+   height="360"
+   viewBox="0 0 640 360.00001"
+   version="1.1"
+   id="svg1"
+   inkscape:export-filename="bump-to-25.jpg"
+   inkscape:export-xdpi="192"
+   inkscape:export-ydpi="192"
+   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   sodipodi:docname="bump-to-25.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     inkscape:zoom="1.3589708"
+     inkscape:cx="277.41581"
+     inkscape:cy="234.36853"
+     inkscape:window-width="2512"
+     inkscape:window-height="1347"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Blur"
+       id="filter50"
+       x="-1.153617"
+       y="-0.18784722"
+       width="3.3072341"
+       height="1.3756944">
+      <feGaussianBlur
+         stdDeviation="83.8279 23.3259"
+         result="blur"
+         id="feGaussianBlur50" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Blur"
+       id="filter51"
+       x="-1.153617"
+       y="-0.18784722"
+       width="3.3072341"
+       height="1.3756944">
+      <feGaussianBlur
+         stdDeviation="83.8279 23.3259"
+         result="blur"
+         id="feGaussianBlur51" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Blur"
+       id="filter52"
+       x="-1.153617"
+       y="-0.18784722"
+       width="3.3072341"
+       height="1.3756944">
+      <feGaussianBlur
+         stdDeviation="83.8279 23.3259"
+         result="blur"
+         id="feGaussianBlur52" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Blur"
+       id="filter53"
+       x="-1.153617"
+       y="-0.18784722"
+       width="3.3072341"
+       height="1.3756944">
+      <feGaussianBlur
+         stdDeviation="83.8279 23.3259"
+         result="blur"
+         id="feGaussianBlur53" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Blur"
+       id="filter54"
+       x="-1.153617"
+       y="-0.18784722"
+       width="3.3072341"
+       height="1.3756944">
+      <feGaussianBlur
+         stdDeviation="83.8279 23.3259"
+         result="blur"
+         id="feGaussianBlur54" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Blur"
+       id="filter55"
+       x="-1.153617"
+       y="-0.18784722"
+       width="3.3072341"
+       height="1.3756944">
+      <feGaussianBlur
+         stdDeviation="83.8279 23.3259"
+         result="blur"
+         id="feGaussianBlur55" />
+    </filter>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#928374;stroke-width:14.6778;stroke-linecap:round;paint-order:stroke markers fill"
+       id="rect1"
+       width="640"
+       height="360"
+       x="0"
+       y="0" />
+    <ellipse
+       style="fill:#cc241d;stroke-width:10.7079;stroke-linecap:round;paint-order:stroke markers fill;filter:url(#filter51)"
+       id="path1"
+       cx="51.14164"
+       cy="174.02875"
+       rx="87.198334"
+       ry="149.00981" />
+    <ellipse
+       style="fill:#b8bb26;stroke-width:10.7079;stroke-linecap:round;paint-order:stroke markers fill;filter:url(#filter52)"
+       id="ellipse1"
+       cx="188.74577"
+       cy="210.99019"
+       rx="87.198334"
+       ry="149.00981" />
+    <ellipse
+       style="fill:#fabd2f;stroke-width:10.7079;stroke-linecap:round;paint-order:stroke markers fill;filter:url(#filter53)"
+       id="ellipse2"
+       cx="304.27435"
+       cy="149.00981"
+       rx="87.198334"
+       ry="149.00981" />
+    <ellipse
+       style="fill:#d3869b;stroke-width:10.7079;stroke-linecap:round;paint-order:stroke markers fill;filter:url(#filter55)"
+       id="ellipse3"
+       cx="407.19833"
+       cy="210.99019"
+       rx="87.198334"
+       ry="149.00981" />
+    <ellipse
+       style="fill:#fe8019;stroke-width:10.7079;stroke-linecap:round;paint-order:stroke markers fill;filter:url(#filter54)"
+       id="ellipse4"
+       cx="494.39667"
+       cy="135.19754"
+       rx="87.198334"
+       ry="149.00981" />
+    <ellipse
+       style="fill:#458588;stroke-width:10.7079;stroke-linecap:round;paint-order:stroke markers fill;filter:url(#filter50)"
+       id="ellipse5"
+       cx="581.59497"
+       cy="236.00912"
+       rx="87.198334"
+       ry="149.00981" />
+    <circle
+       style="fill:#ebdbb2;stroke-width:15;stroke-linecap:round;paint-order:stroke markers fill"
+       id="path55"
+       cx="320"
+       cy="180"
+       r="115.59817" />
+    <text
+       xml:space="preserve"
+       style="font-weight:800;font-size:168.933px;line-height:1;font-family:Montserrat;-inkscape-font-specification:'Montserrat Ultra-Bold';text-align:start;letter-spacing:-5.97692px;word-spacing:0px;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#282828;stroke-width:41.3151;stroke-linecap:round;paint-order:stroke markers fill"
+       x="222.22"
+       y="241.66042"
+       id="text55"><tspan
+         sodipodi:role="line"
+         id="tspan55"
+         x="222.22"
+         y="241.66042"
+         style="font-style:normal;font-variant:normal;font-weight:800;font-stretch:normal;font-family:'JetBrains Mono';-inkscape-font-specification:'JetBrains Mono Ultra-Bold';fill:#282828;stroke-width:41.3151">25</tspan></text>
+  </g>
+</svg>

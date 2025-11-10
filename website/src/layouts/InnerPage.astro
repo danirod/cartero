@@ -10,14 +10,15 @@ import Header from "../components/layout/Header.astro";
 interface Props {
   title: string;
   description: string;
+  image?: ImageMetadata;
 }
 
-const { title, description } = Astro.props;
+const { title, description, image } = Astro.props;
 ---
 
 <html lang="en">
   <head>
-    <BaseHead title={title} description={description} />
+    <BaseHead title={title} description={description} image={image} />
   </head>
 
   <body>

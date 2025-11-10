@@ -28,6 +28,9 @@ cargo_file = root_dir / "Cargo.toml"
 cargo_doc = tomllib.loads(cargo_file.read_text())
 cargo_version = cargo_doc["workspace"]["package"]["version"]
 
+if cargo_version.endswith(".0"):
+    cargo_version = cargo_version[:-2]
+
 if args.nightly or os.environ.get("CARTERO_NIGHTLY_VERSION"):
     now = datetime.datetime.now(datetime.UTC)
     date = now.strftime("%Y%m%d")

@@ -201,6 +201,7 @@ path = [
     "packaging/win32/cartero-request.ico",
     "packaging/win32/cartero.ico",
     "website/src/assets/cartero.svg",
+    "website/src/assets/post-images/*",
 ]
 SPDX-FileCopyrightText = "Dani Rodríguez <dani@danirod.es>"
 SPDX-License-Identifier = "CC-BY-SA-4.0"

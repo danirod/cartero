@@ -1,6 +1,6 @@
 name: cartero
 base: core24
-version: '0.2.4'
+version: '25.0'
 summary: Make HTTP requests and test APIs
 description: |
   Cartero is a graphical HTTP client that can be used as a developer tool to
@@ -41,7 +41,7 @@ parts:
     override-prime: "" # nop
   cartero:
     plugin: meson
-    source: https://github.com/danirod/cartero/releases/download/v0.2.4/cartero-0.2.4.tar.xz
+    source: https://github.com/danirod/cartero/releases/download/v25.0/cartero-25.0.tar.xz
     build-packages:
       - libssl-dev
     meson-parameters:

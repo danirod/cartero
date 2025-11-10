@@ -2,7 +2,7 @@
 
 These are the user-visible changes that you will notice when you use Cartero.
 
-## [25.0] (unreleased)
+## [25.0] - 2025-11-14
 
 ### Added
 
@@ -28,7 +28,7 @@ These are the user-visible changes that you will notice when you use Cartero.
 * The responsiveness of the application will behave better on small windows and mobile devices.
 * Dependencies bumped: Cartero now requires at least GNOME SDK 46 to build the app.
 * Windows: the application look and feel on Windows 11 now uses the acrilyic look and feel.
-* Translation updates: Czech, Basque, Galician, Indonesian, Portuguese, Brazilian Portuguese, Spanish, Russian, Ukrainian.
+* Translation updates: Czech, German, Spanish, Basque, Galician, Indonesian (NEW!), Portuguese, Brazilian Portuguese, Russian, Ukrainian (NEW!).
 
 ### Fixed
 

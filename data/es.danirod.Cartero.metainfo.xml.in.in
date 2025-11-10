@@ -7,7 +7,7 @@
   <id>@app_id@</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
-  <name translate="no" translatable="no">Cartero</name>
+  <name translatable="no" translate="no">Cartero</name>
   <summary>Make HTTP requests and test APIs</summary>
   <launchable type="desktop-id">@app_id@.desktop</launchable>
   <description>
@@ -44,9 +44,9 @@
   <url type="help">https://cartero.danirod.es/docs</url>
   <url type="translate">https://hosted.weblate.org/projects/cartero/cartero/</url>
   <url type="donation">https://ko-fi.com/danirod</url>
-  <developer_name translate="no" translatable="no">Dani Rodríguez</developer_name>
+  <developer_name translatable="no" translate="no">Dani Rodríguez</developer_name>
   <developer id="com.github.danirod">
-    <name translate="no" translatable="no">Dani Rodríguez</name>
+    <name translatable="no" translate="no">Dani Rodríguez</name>
   </developer>
   <update_contact>dani@danirod.es</update_contact>
   <content_rating type="oars-1.0"></content_rating>
@@ -56,8 +56,47 @@
     <color scheme_preference="dark" type="primary">#465563</color>
   </branding>
   <releases>
+    <release date="2025-11-14" version="25.0">
+      <description translatable="no" translate="no">
+        <p>Added:</p>
+        <ul>
+          <li>Added support for proxies.</li>
+          <li>Added support for dotenv files: values defined in an .env file can be loaded as variables.</li>
+          <li>The Headers pane will now present pre-generated headers added by Cartero.</li>
+          <li>Added a new request body type: "From file", loads the raw request body from the contents of a file.</li>
+          <li>It is now possible to export requests in JetBrains HTTP format.</li>
+          <li>It is now possible to export a request or a response directly into a file.</li>
+          <li>It is now possible to export the contents of an HTTP response.</li>
+          <li>The welcome pane now has an additional sheet with information and links.</li>
+        </ul>
+        <p>Changed:</p>
+        <ul>
+          <li>The Export tab has moved to a dropdown menu in the window toolbar.</li>
+          <li>Opening a new endpoint will automatically focus the URL entry field.</li>
+          <li>Disabled variables, headers or parameters will now render slightly dimmed.</li>
+          <li>When multiple variables or headers with the same key are present, those who will be ignored be marked.</li>
+          <li>Showing or concealing passwords in basic auth or bearer token fields will now be remembered in the application state.</li>
+          <li>The settings dialog has a new look and feel, using split windows.</li>
+          <li>Responses with a binary body (like images or videos or octet-streams) will suggest saving the response into a file rather than rendering it in the code view.</li>
+          <li>The default user agent used in HTTP request has changed to "Cartero/25.0 (isahc/1.7.2 curl/8.12.1-DEV)" (version numbers will bump as future releases flow).</li>
+          <li>The responsiveness of the application will behave better on small windows and mobile devices.</li>
+          <li>Dependencies bumped: Cartero now requires at least GNOME SDK 46 to build the app.</li>
+          <li>Windows: the application look and feel on Windows 11 now uses the acrilyic look and feel.</li>
+          <li>Translation updates: Czech, German, Spanish, Basque, Galician, Indonesian (NEW!), Portuguese, Brazilian Portuguese, Russian, Ukrainian (NEW!).</li>
+        </ul>
+        <p>Fixed:</p>
+        <ul>
+          <li>HTTP responses sometimes were not rendered if they had the Content-Type header set to JSON but they were not actually parseable as JSON.</li>
+          <li>HTTP response headers sometimes did not render properly when they had angle brackets (such as the Link header).</li>
+          <li>HTTP requests sometimes could not be exported when they had spaces in the URL.</li>
+          <li>Windows: overriding the language in the settings dialog previously had no effect.</li>
+          <li>MacOS: the URL bar did not focus when pressing Command-L.</li>
+          <li>MacOS: the export dialog did not actually copy the code to the system clipboard.</li>
+        </ul>
+      </description>
+    </release>
     <release date="2025-08-10" version="0.2.4">
-      <description translate="no" translatable="no">
+      <description translatable="no" translate="no">
         <p>Changed:</p>
         <ul>
           <li>Pressing the Tab or the Shift-Tab keys in a request table (parameters, variables...) will now skip the row itself and focus instead an actual component like the checkbox or the dropdown menu.</li>
@@ -71,10 +110,10 @@
           <li>The dropdown menu for the request method had the wrong appearance when the computer uses a right-to-left layout (such as Arabic or Hebrew).</li>
           <li>MacOS: Zoom in, zoom out, zoom reset and search keyboard shortcuts for code views were using the wrong keyboard modifiers.</li>
         </ul>
-    </description>
+      </description>
     </release>
     <release date="2025-07-05" version="0.2.3">
-      <description translate="no" translatable="no">
+      <description translatable="no" translate="no">
         <p>Changed:</p>
         <ul>
           <li>Translation updates: Catalan, German, Basque, Portuguese (Brazil), Russian</li>
@@ -83,10 +122,10 @@
         <ul>
           <li>Exporting a request as cURL did not include the request payload when the type is XML.</li>
         </ul>
-    </description>
+      </description>
     </release>
     <release date="2025-04-30" version="0.2.2">
-      <description translate="no" translatable="no">
+      <description translatable="no" translate="no">
         <p>Changed:</p>
         <ul>
           <li>The URL field will be less laggy when the URL has query parameters, thanks to a performance increase in how query params are reflected in the table in the Parameters tab.</li>
@@ -104,7 +143,7 @@
       </description>
     </release>
     <release date="2025-04-03" version="0.2.1">
-      <description translate="no" translatable="no">
+      <description translatable="no" translate="no">
         <p>Changed:</p>
         <ul>
           <li>Translation updates: Catalan, Galician, Brazilian Portuguese</li>
@@ -116,7 +155,7 @@
       </description>
     </release>
     <release date="2025-03-21" version="0.2.0">
-      <description translate="no" translatable="no">
+      <description translatable="no" translate="no">
         <p>Added:</p>
         <ul>
           <li>An authorization tab, currently supporting basic authentication and bearer tokens.</li>
@@ -146,9 +185,8 @@
         </ul>
       </description>
     </release>
-
     <release date="2025-02-15" version="0.1.5">
-      <description translate="no" translatable="no">
+      <description translatable="no" translate="no">
         <p>Changed:</p>
         <ul>
           <li>Changed the error message when a request uses an unsupported protocol for clarity purposes.</li>
@@ -163,7 +201,7 @@
       </description>
     </release>
     <release date="2025-01-26" version="0.1.4">
-      <description translate="no" translatable="no">
+      <description translatable="no" translate="no">
         <p>Changed:</p>
         <ul>
           <li>Translation updates: Czech, French</li>
@@ -175,7 +213,7 @@
       </description>
     </release>
     <release date="2024-12-23" version="0.1.3">
-      <description translate="no" translatable="no">
+      <description translatable="no" translate="no">
         <p>Added:</p>
         <ul>
           <li>Added a tab to generate a cURL command for each request.</li>
@@ -198,7 +236,7 @@
       </description>
     </release>
     <release date="2024-10-11" version="0.1.2">
-      <description translate="no" translatable="no">
+      <description translatable="no" translate="no">
         <p>This is a minor release that addresses some issues and fixes some things found.</p>
         <p>:</p>
         <ul>
@@ -213,9 +251,8 @@
         </ul>
       </description>
     </release>
-
     <release date="2024-07-30" version="0.1.1">
-      <description translate="no" translatable="no">
+      <description translatable="no" translate="no">
         <p>This is a minor release that addresses some issues and small changes found in the last couple of days. It accepts feedback from the community and even some pull requests received in the last days.</p>
         <p>Changed:</p>
         <ul>
@@ -234,7 +271,7 @@
       </description>
     </release>
     <release date="2024-07-26" version="0.1.0">
-      <description translate="no" translatable="no">
+      <description translatable="no" translate="no">
         <p>Initial release. I've crafted a MVP that consolidates the most important features to start using Cartero. Some features has been delayed for a future release, but there is already enough features for it to be useful.</p>
         <p>Added:</p>
         <ul>

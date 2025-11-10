@@ -1,4 +1,4 @@
-/book
+/docs/book
 /src/config.rs
 /subprojects/*
 !/subprojects/*.wrap

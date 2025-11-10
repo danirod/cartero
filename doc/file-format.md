@@ -1,1 +1,0 @@
-# Cartero file format

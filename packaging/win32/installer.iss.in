@@ -48,17 +48,22 @@ WizardStyle=modern
 MinVersion=10.0
 
 [Languages]
-Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "catalan"; MessagesFile: "compiler:Languages\Catalan.isl"
 Name: "czech"; MessagesFile: "compiler:Languages\Czech.isl"
+Name: "german"; MessagesFile: "compiler:Languages\German.isl"
+Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "esperanto"; MessagesFile: "{#MesonSourceRoot}\packaging\win32\Esperanto.isl"
 Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
+Name: "basque"; MessagesFile: "compiler:Languages\Basque.isl"
 Name: "french"; MessagesFile: "compiler:Languages\French.isl"
 Name: "galician"; MessagesFile: "{#MesonSourceRoot}\packaging\win32\Galician.isl"
+Name: "indonesian"; MessagesFile: "{#MesonSourceRoot}\packaging\win32\Indonesian.isl"
+Name: "portuguese"; MessagesFIle: "compiler:Languages\Portuguese.isl"
 Name: "brazilianportuguese"; MessagesFIle: "compiler:Languages\BrazilianPortuguese.isl"
 Name: "romanian"; MessagesFile: "{#MesonSourceRoot}\packaging\win32\Romanian.isl"
 Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
 Name: "tamil"; MessagesFile: "compiler:Languages\Tamil.isl"
+Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked

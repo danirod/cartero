@@ -24,7 +24,7 @@ const LOCALES: [(&str, &str); 15] = [
     ("de", "Deutsch"),
     ("eo", "Esperanto"),
     ("es", "Español"),
-    ("eu", "Euskera"),
+    ("eu", "Euskara"),
     ("fr", "Français"),
     ("gl", "Galego"),
     ("id", "Bahasa Indonesia"),

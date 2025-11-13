@@ -36,6 +36,8 @@ that is next to each row. Press the checkbox again in order to enable it again.
 multiple variables with the same name and quickly toggle the value of the
 variable, for example.
 
+![The dropdown present in every table row](../images/cartero-table-toggle.png)
+
 The extra dropdown menu allows you to do a couple of things:
 
 * Toggle secret. This will mask the value in the row to hide it with asterisks. **This is purely cosmetic**. It is designed as a way to hide values, for instance if you are screensharing your screen. However, the value will be sent as is in your HTTP requests if you use the variable. **Additionally, the value will be saved plain text in request files**.
@@ -63,3 +65,19 @@ You can use variables in most situations:
 
 **Currently it is not possible to escape raw curly braces.**
 (But this should totally be added to the program.)
+
+## Using or inspecting .env variables
+
+As described in the chapter [**Using .env files**](../advanced/env.md), it is
+possible to read variables from an .env file. When this feature is enabled,
+the .env file will be read during a request, and the variables defined in the
+.env file will be accessible as normal variables, even if they were not defined
+inside Cartero.
+
+If this feature is enabled, you can toggle the action row "Show N variables from .env"
+in order to display the names of the variables. For security reasons and to
+prevent leaks if you are sharing your screen, the variable values are not
+visible.
+
+![Showing the .env variables](../images/cartero-inspect-env.png)
+

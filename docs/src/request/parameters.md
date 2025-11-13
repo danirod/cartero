@@ -15,6 +15,10 @@ checkbox that is next to each row. Disabling the checkbox will remove the query 
 from the request URL and will cause it to not be sent. Enable the checkbox again to
 restore the parameter.
 
+## Parameter options
+
+![The dropdown present in every table row](../images/cartero-table-toggle.png)
+
 The extra dropdown menu allows you to do a couple of things:
 
 * Toggle secret. This will mask the value in the row to hide it with asterisks. **This is purely cosmetic**. It is designed as a way to hide values, for instance if you are screensharing your screen. However, the value will be sent as is in your HTTP requests. **Additionally, the value will be saved plain text in request files**.
@@ -25,4 +29,3 @@ The extra dropdown menu allows you to do a couple of things:
 1. There is currently no way to change the order of the rows of the table. (But it would be nice to have this feature.)
 2. The order for the query parameters is currently not defined. In other words, sometimes the application may move parameters up or down. This is the case if you tweak the table, disable some parameters, and then modify the URL field, or if you save a request that has disabled query parameters. The HTTP spec does not define a specific order, in other words, this should not matter. However, some servers or endpoints that still choose to parse the parameters in order as an implementation detail may not like that, even if it's not recommended in first place. Granted, if Cartero ever has a way to sort the rows of a table, this issue would be fixed.
 3. There is no undo/redo for the table at the moment. If you delete a row, the row is gone (unless you can rollback to a saved version of the file).
-4. Cartero does not currently support [variables](./variables.md) as part of the request URL or the parameters table. It might work, but if you update the table it will corrupt the variables.

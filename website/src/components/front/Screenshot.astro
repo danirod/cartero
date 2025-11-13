@@ -2,38 +2,44 @@
 // SPDX-License-Identifier: GPL-3.0-or-later OR CC-BY-SA-4.0
 // SPDX-FileCopyrightText: 2024-2025 the Cartero authors
 
-import cropGnuLinuxDark from "../../assets/main-screenshot/crop-gnu-linux-dark.png";
-import cropGnuLinuxLight from "../../assets/main-screenshot/crop-gnu-linux-light.png";
-import cropMacosDark from "../../assets/main-screenshot/crop-macos-dark.png";
-import cropMacosLight from "../../assets/main-screenshot/crop-macos-light.png";
-import cropWindowsDark from "../../assets/main-screenshot/crop-windows-dark.png";
-import cropWindowsLight from "../../assets/main-screenshot/crop-windows-light.png";
+import gnuLinuxDark from "../../assets/main-screenshot/gnulinux-dark.png";
+import gnuLinuxLight from "../../assets/main-screenshot/gnulinux-light.png";
+import gnuLinuxDark2x from "../../assets/main-screenshot/gnulinux-dark@2x.png";
+import gnuLinuxLight2x from "../../assets/main-screenshot/gnulinux-light@2x.png";
+import macosDark from "../../assets/main-screenshot/macos-dark.png";
+import macosLight from "../../assets/main-screenshot/macos-light.png";
+import macosDark2x from "../../assets/main-screenshot/macos-dark@2x.png";
+import macosLight2x from "../../assets/main-screenshot/macos-light@2x.png";
+import windowsDark from "../../assets/main-screenshot/windows-dark.png";
+import windowsLight from "../../assets/main-screenshot/windows-light.png";
+import windowsDark2x from "../../assets/main-screenshot/windows-dark@2x.png";
+import windowsLight2x from "../../assets/main-screenshot/windows-light@2x.png";
 ---
 
 <div class="screenshot">
   <picture class="gnome">
     <source
-      srcset={cropGnuLinuxDark.src}
+      srcset={`${gnuLinuxDark.src}, ${gnuLinuxDark2x.src} 2x`}
       media="screen and (prefers-color-scheme: dark)"
     />
-    <source srcset={cropGnuLinuxLight.src} />
-    <img src={cropGnuLinuxLight.src} alt="A screenshot of Cartero" />
+    <source srcset={`${gnuLinuxLight.src}, ${gnuLinuxLight2x.src} 2x`} />
+    <img src={gnuLinuxLight.src} alt="A screenshot of Cartero" />
   </picture>
   <picture class="macos" hidden>
     <source
-      srcset={cropMacosDark.src}
+      srcset={`${macosDark.src}, ${macosDark2x.src} 2x`}
       media="screen and (prefers-color-scheme: dark)"
     />
-    <source srcset={cropMacosLight.src} />
-    <img src={cropMacosLight.src} alt="A screenshot of Cartero" />
+    <source srcset={`${macosLight.src}, ${macosLight2x.src} 2x`} />
+    <img src={macosLight.src} alt="A screenshot of Cartero" />
   </picture>
   <picture class="windows" hidden>
     <source
-      srcset={cropWindowsDark.src}
+      srcset={`${windowsDark.src}, ${windowsDark2x.src} 2x`}
       media="screen and (prefers-color-scheme: dark)"
     />
-    <source srcset={cropWindowsLight.src} />
-    <img src={cropWindowsLight.src} alt="A screenshot of Cartero" />
+    <source srcset={`${windowsLight.src}, ${windowsLight2x.src} 2x`} />
+    <img src={windowsLight.src} alt="A screenshot of Cartero" />
   </picture>
 </div>
 
@@ -44,9 +50,8 @@ import cropWindowsLight from "../../assets/main-screenshot/crop-windows-light.pn
 
   @media screen and (min-width: 480px) {
     .screenshot {
-      display: flex;
-      padding-left: 20px;
-      padding-right: 20px;
+      display: block;
+      margin: 0 auto;
       justify-content: center;
     }
 
@@ -58,35 +63,40 @@ import cropWindowsLight from "../../assets/main-screenshot/crop-windows-light.pn
       display: none;
     }
     body.is-darwin .screenshot picture.macos {
-      display: flex;
+      display: block;
     }
 
     body.is-win32 .screenshot picture:not(.windows) {
       display: none;
     }
     body.is-win32 .screenshot picture.windows {
-      display: flex;
+      display: block;
     }
   }
 
   .screenshot picture img {
-    display: block;
+    height: 400px;
+    object-fit: cover;
+    object-position: center top;
     width: 1160px;
-    box-shadow:
-      0 1px 3px 3px transparent,
-      0 2px 6px 3px rgba(0, 0, 0, 0.1),
-      0 4px 7px 3px rgba(0, 0, 0, 0.04),
-      0 0 0 1px rgba(0, 0, 0, 0.08);
+    display: block;
+  }
+
+  .screenshot picture.macos img {
+    width: 1262px;
+    height: 438px;
+    margin-top: -38px;
+  }
+
+  .screenshot picture.gnome img {
+    width: 1210px;
+    height: 425px;
+    margin-top: -25px;
   }
 
   .screenshot picture.gnome img,
   .screenshot picture.macos img {
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
-  }
-
-  .screenshot picture.windows img {
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
   }
 </style>

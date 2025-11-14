@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-31 23:21+0200\n"
-"PO-Revision-Date: 2025-08-12 14:01+0000\n"
+"PO-Revision-Date: 2025-11-14 13:51+0000\n"
 "Last-Translator: Eric Pernas <ericpg76@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/cartero/cartero/"
 "gl/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -243,10 +243,9 @@ msgid "Request operations"
 msgstr "Operacións de petición"
 
 #: data/gtk/help_overlay.blp:95
-#, fuzzy
 msgctxt "shortcuts window"
 msgid "Focus URL"
-msgstr "URL de petición"
+msgstr "Dar foco á URL"
 
 #: data/gtk/help_overlay.blp:100
 msgctxt "shortcuts window"
@@ -316,6 +315,8 @@ msgid ""
 "Cartero supports reading variables from an .env file, but you need to enable "
 "the feature first."
 msgstr ""
+"Cartero soporta ler variables dun arquivo .env, pero tes que habilitar a "
+"función primeiro."
 
 #: data/ui/endpoint_pane.blp:237 data/ui/main_window.blp:178
 #: data/ui/main_window_no_csd.blp:189 data/ui/settings/shell.blp:47
@@ -327,16 +328,20 @@ msgid ""
 "Cartero supports reading variables from an .env file, but you have to save "
 "the request first."
 msgstr ""
+"Cartero soporta ler variables dun arquivo .env, pero tes que gardar a "
+"petición primeiro."
 
 #: data/ui/endpoint_pane.blp:259
 msgid ""
 "Place an .env file in the same disk directory as the request or in a parent "
 "directory to load the variables in Cartero."
 msgstr ""
+"Coloca un arquivo .env no mesmo directorio de disco cá túa petición ou nun "
+"directorio superior para cargar as variables en Cartero."
 
 #: data/ui/endpoint_pane.blp:265
 msgid "Check again"
-msgstr ""
+msgstr "Comprobar de novo"
 
 #: data/ui/endpoint_pane.blp:293
 msgid "Authorization"
@@ -388,38 +393,41 @@ msgid "Delete"
 msgstr "Borrar"
 
 #: data/ui/file_body_pane.blp:26
-#, fuzzy
 msgid "File"
 msgstr "Arquivo"
 
 #: data/ui/file_body_pane.blp:30
 msgid "Content Type"
-msgstr ""
+msgstr "Tipo de contido"
 
 #: data/ui/file_body_pane.blp:41
-#, fuzzy
 msgid "or select a file from the file system:"
-msgstr ""
-"Non se puido seleccionar un arquivo válido dende o selector de arquivos"
+msgstr "ou selecciona un arquivo dende o selector de arquivos:"
 
 #: data/ui/file_body_pane.blp:50
-#, fuzzy
 msgid "Select file…"
-msgstr "Seleccionar arquivo"
+msgstr "Seleccionar arquivo…"
 
 #: data/ui/file_body_pane.blp:71
 msgid ""
 "You cannot pick a file from the file system until you save this request to "
 "disk."
 msgstr ""
+"Non podes seleccionar un arquivo do sistema de arquivos ata que gardes esta "
+"petición a disco."
 
 #: data/ui/file_body_pane.blp:97
+#, fuzzy
 msgid ""
 "You can only attach files to a request if they are in the same directory as "
 "the request file, or in a subdirectory. You cannot attach files to a request "
 "if they are in a parent directory or outside the project folder, or use "
 "absolute paths."
 msgstr ""
+"Soamente podes adxuntar arquivos a unha petición se están no mesmo "
+"directorio ca o arquivo de petición, ou nun subdirectorio. Non podes achegar "
+"arquivos a unha petición se están no directorio superior ou fóra do cartafol "
+"de proxecto, ou se se empregan rutas absolutas."
 
 #: data/ui/mac_menu.blp:21
 msgctxt "menubar"
@@ -776,7 +784,7 @@ msgstr "Versión actual"
 
 #: data/ui/settings/page_code_editor.blp:22
 msgid "Code editor"
-msgstr ""
+msgstr "Editor de código"
 
 #: data/ui/settings/page_http_client.blp:22
 msgid "HTTP Client"
@@ -812,42 +820,43 @@ msgstr "Segundos para esperar antes de cancelar unha petición"
 
 #: data/ui/settings/page_proxy.blp:22
 msgid "Proxy"
-msgstr ""
+msgstr "Proxy"
 
 #: data/ui/settings/page_proxy.blp:26
-#, fuzzy
 msgid "Proxy settings"
-msgstr "Preferencias de arquivos"
+msgstr "Preferencias de proxy"
 
 #: data/ui/settings/page_proxy.blp:29
 msgid "HTTP Proxy"
-msgstr ""
+msgstr "Proxy HTTP"
 
 #: data/ui/settings/page_proxy.blp:33
 msgid "HTTPS Proxy"
-msgstr ""
+msgstr "Proxy HTTPS"
 
 #: data/ui/settings/page_proxy.blp:38
 msgid "Exclude from proxy"
-msgstr ""
+msgstr "Excluír do proxy"
 
 #: data/ui/settings/page_proxy.blp:39
 msgid ""
 "IP addresses and domain names contained in this list will bypass the proxy "
 "settings and be accessed directly."
 msgstr ""
+"As direccións IP e os nomes de dominio contidos nesta lista saltaránse as "
+"opcións de proxy e serán accedidos directamente."
 
 #: data/ui/settings/page_proxy.blp:55 data/ui/settings/page_proxy.blp:56
 msgid "Address to exclude"
-msgstr ""
+msgstr "Dirección a excluír"
 
 #: data/ui/settings/page_proxy.blp:60
 msgid "Add"
-msgstr ""
+msgstr "Engadir"
 
 #: data/ui/settings/page_proxy.blp:91
 msgid "Environment variables"
-msgstr ""
+msgstr "Variables de entorno"
 
 #. TRANSLATORS: Keep the variable names "http_proxy", "https_proxy" and "no_proxy" in English because that's the name of the variable.
 #: data/ui/settings/page_proxy.blp:93
@@ -855,23 +864,25 @@ msgid ""
 "Cartero supports the use of the standard http_proxy, https_proxy and "
 "no_proxy environment variables to provide the system proxy settings."
 msgstr ""
+"Cartero soporta o uso das variables estándar http_proxy, https_proxy e "
+"no_proxy para proveer as opcións de proxy do sistema."
 
 #: data/ui/settings/page_proxy.blp:107
 msgid "Use environment variables as a fallback"
-msgstr ""
+msgstr "Usar variables de entorno coma alternativa"
 
 #: data/ui/settings/page_proxy.blp:127 data/ui/settings/page_proxy.blp:138
 #: data/ui/settings/page_proxy.blp:149
 msgid "(empty)"
-msgstr ""
+msgstr "(baleiro)"
 
 #: data/ui/settings/page_security.blp:22
 msgid "Security"
-msgstr ""
+msgstr "Seguridade"
 
 #: data/ui/settings/page_security.blp:26
 msgid ".env files"
-msgstr ""
+msgstr "Arquivos .env"
 
 #: data/ui/settings/page_security.blp:27
 msgid ""
@@ -879,16 +890,21 @@ msgid ""
 "credentials. Cartero can locate .env files and expose the variables inside "
 "so that you can use them in your requests."
 msgstr ""
+"Os arquivos .env utilízanse habitualmente en proxectos para gardar valores "
+"sensibles coma credenciais. Cartero pode ubicar arquivos .env e expor as "
+"variables que hai dentro para utilizalas nas túas peticions."
 
 #: data/ui/settings/page_security.blp:31
 msgid "Find and load .env files"
-msgstr ""
+msgstr "Buscar e cargar arquivos .env"
 
 #: data/ui/settings/page_security.blp:32
 msgid ""
 "Cartero will only traverse your disk looking for .env files if you enable "
 "this option."
 msgstr ""
+"Cartero só percorrerá o teu disco en busca de arquivos .env se activas esta "
+"opción."
 
 #: data/ui/welcome/welcome_pane.blp:45
 msgid "Welcome to Cartero"
@@ -903,20 +919,21 @@ msgid ""
 "Cartero is free software, released under the terms of the GNU General Public "
 "License v3 or later."
 msgstr ""
+"Cartero é software libre, publicado baixo os efectos da Licencia Pública "
+"Xeral (GPL) de GNU v3 ou posterior."
 
 #: data/ui/welcome/welcome_pane.blp:118 data/ui/welcome/welcome_pane.blp:166
 msgid "Know your rights"
-msgstr ""
+msgstr "Coñece os teus dereitos"
 
 #: data/ui/welcome/welcome_pane.blp:152
-#, fuzzy
 msgid "Social media updates"
-msgstr "Actualizacións de software"
+msgstr "Actualizacións sociais"
 
 #. TRANSLATORS: if your language has a different word for free as in freedom and free as in beer, and it's clear that free means "freedom", you might skip the "as in freedom" bit if you wish.
 #: data/ui/welcome/welcome_pane.blp:182
 msgid "You can use Cartero for free (as in freedom)"
-msgstr ""
+msgstr "Podes utilizar Cartero de forma libre"
 
 #: data/ui/welcome/welcome_pane.blp:183
 msgid ""
@@ -925,20 +942,26 @@ msgid ""
 "\n"
 "Even if you use it at work or for commercial purposes."
 msgstr ""
+"Non precisas pedir permiso ou mercar unha licencia ou suscripción para "
+"utilizar este software\n"
+"\n"
+"Incluso se o utilizas no traballo ou con fins comerciais."
 
 #: data/ui/welcome/welcome_pane.blp:190
 msgid "You can get, study and modify the source code"
-msgstr ""
+msgstr "Podes obter, estudar e modificar o código fonte"
 
 #: data/ui/welcome/welcome_pane.blp:191
 msgid ""
 "Mod the program so that it works exactly how you want, or just learn things "
 "if you are new to programming."
 msgstr ""
+"Modifica o programa para que funcione exactamente como queres, ou aprende "
+"cousas se estás comenzando a programar."
 
 #: data/ui/welcome/welcome_pane.blp:198
 msgid "You can share copies of the program"
-msgstr ""
+msgstr "Podes compartir copias do programa"
 
 #: data/ui/welcome/welcome_pane.blp:199
 msgid ""
@@ -948,6 +971,12 @@ msgid ""
 "(In other words: if you fork, your project must retain the GNU General "
 "Public License too.)"
 msgstr ""
+"Podes reempaquetar Cartero ou compartir copias do software con outras "
+"persoas, sempre e cando os receptores tamén teñan acceso a estas liberdades."
+"\n"
+"\n"
+"(Noutras palabras: se creas a túa propia versión, o teu proxecto tamén debe "
+"reter a Licencia Pública Xeral (GPL) de GNU)"
 
 #: data/ui/welcome/welcome_pane.blp:206
 msgid "Cartero is built in community"

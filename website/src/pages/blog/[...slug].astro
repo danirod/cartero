@@ -28,7 +28,7 @@ const { Content } = await render(post);
   description={post.data.description}
   image={post.data.heroImage || fallbackImage}
 >
-  <div class="clamp">
+  <div class="clamp blogpost">
     <header>
       {post.data.heroImage && <Image src={post.data.heroImage} alt={post.data.title} className="image" />}
       <h1>{post.data.title}</h1>

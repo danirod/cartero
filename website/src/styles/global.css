@@ -191,3 +191,15 @@ body::before {
   font-weight: 900;
   margin-top: 0;
 }
+
+.blogpost img {
+  height: auto;
+}
+
+.blogpost figure {
+  text-align: center;
+}
+
+.blogpost figure img {
+  border: 1px solid var(--button-bg-color);
+}

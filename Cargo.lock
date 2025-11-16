@@ -211,7 +211,7 @@ dependencies = [
 
 [[package]]
 name = "cartero"
-version = "25.0.0"
+version = "25.1.0"
 dependencies = [
  "addr",
  "base64 0.22.1",
@@ -252,7 +252,7 @@ dependencies = [
 
 [[package]]
 name = "cartero_code_exporters"
-version = "25.0.0"
+version = "25.1.0"
 dependencies = [
  "askama",
  "base64 0.22.1",
@@ -268,7 +268,7 @@ dependencies = [
 
 [[package]]
 name = "cartero_file_format"
-version = "25.0.0"
+version = "25.1.0"
 dependencies = [
  "cartero_interop",
  "cartero_objects",
@@ -283,7 +283,7 @@ dependencies = [
 
 [[package]]
 name = "cartero_http"
-version = "25.0.0"
+version = "25.1.0"
 dependencies = [
  "cartero_objects",
  "formdata",
@@ -297,14 +297,14 @@ dependencies = [
 
 [[package]]
 name = "cartero_interop"
-version = "25.0.0"
+version = "25.1.0"
 dependencies = [
  "cartero_objects",
 ]
 
 [[package]]
 name = "cartero_isahc_client"
-version = "25.0.0"
+version = "25.1.0"
 dependencies = [
  "cartero_http",
  "cartero_objects",
@@ -315,7 +315,7 @@ dependencies = [
 
 [[package]]
 name = "cartero_objects"
-version = "25.0.0"
+version = "25.1.0"
 dependencies = [
  "base64 0.22.1",
  "content_disposition",

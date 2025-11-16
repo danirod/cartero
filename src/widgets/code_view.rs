@@ -18,7 +18,7 @@
 use glib::{object::ObjectExt, Object};
 use gtk::{glib, pango::FontDescription, prelude::SettingsExtManual};
 
-use crate::app::CarteroApplication;
+use crate::settings::Settings;
 
 mod imp {
     use std::cell::RefCell;
@@ -40,12 +40,14 @@ mod imp {
     use sourceview5::subclass::view::ViewImpl;
     use sourceview5::StyleSchemeManager;
 
-    use crate::app::CarteroApplication;
+    use crate::settings::Settings;
     use crate::widgets::code_view::{get_monospace_font_descriptor, render_css_rules};
 
     #[derive(Default, Properties)]
     #[properties(wrapper_type = super::CodeView)]
     pub struct CodeView {
+        settings: Settings,
+
         #[property(get, set, name = "zoom-level")]
         zoom_level: RefCell<i32>,
     }
@@ -144,11 +146,9 @@ mod imp {
         }
 
         fn init_settings(&self) {
-            let app = CarteroApplication::get();
-            let settings = app.settings();
             let obj = self.obj();
 
-            settings
+            self.settings
                 .bind("body-wrap", &*obj, "wrap-mode")
                 .flags(SettingsBindFlags::GET)
                 .mapping(|variant, _| {
@@ -160,15 +160,15 @@ mod imp {
                     Some(mode.to_value())
                 })
                 .build();
-            settings
+            self.settings
                 .bind("show-line-numbers", &*obj, "show-line-numbers")
                 .flags(SettingsBindFlags::GET)
                 .build();
-            settings
+            self.settings
                 .bind("auto-indent", &*obj, "auto-indent")
                 .flags(SettingsBindFlags::GET)
                 .build();
-            settings
+            self.settings
                 .bind("indent-style", &*obj, "insert-spaces-instead-of-tabs")
                 .flags(SettingsBindFlags::GET)
                 .mapping(|variant, _| {
@@ -179,7 +179,7 @@ mod imp {
                     Some(use_spaces.to_value())
                 })
                 .build();
-            settings
+            self.settings
                 .bind("tab-width", &*obj, "tab-width")
                 .flags(SettingsBindFlags::GET)
                 .mapping(|variant, _| {
@@ -188,7 +188,7 @@ mod imp {
                     Some(value.to_value())
                 })
                 .build();
-            settings
+            self.settings
                 .bind("tab-width", &*obj, "indent-width")
                 .flags(SettingsBindFlags::GET)
                 .mapping(|variant, _| {
@@ -223,9 +223,7 @@ mod imp {
             provider.load_from_string(&css);
 
             /* Whenever the settings change, we also need to update the font. */
-            let app = CarteroApplication::get();
-            let settings = app.settings();
-            settings.connect_changed(
+            self.settings.connect_changed(
                 None,
                 glib::clone!(
                     #[weak(rename_to = imp)]
@@ -311,8 +309,7 @@ impl Default for CodeView {
 /// If the user has customized the font in the settings, that's the descriptor
 /// that will be returned, otherwise just returns the default system one.
 fn get_monospace_font_descriptor() -> FontDescription {
-    let app = CarteroApplication::get();
-    let settings = app.settings();
+    let settings = Settings::default();
     let use_system_font = settings.get::<bool>("use-system-font");
 
     let mono_font = if use_system_font {

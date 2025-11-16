@@ -31,7 +31,7 @@ impl Proxy {
 }
 
 mod imp {
-    use crate::config::BASE_ID;
+    use crate::settings::Settings;
 
     use super::*;
 
@@ -39,13 +39,15 @@ mod imp {
     use gettextrs::gettext;
     use glib::subclass::InitializingObject;
     use gtk::{
-        gio::{Settings, SimpleAction, SimpleActionGroup},
+        gio::{SimpleAction, SimpleActionGroup},
         CompositeTemplate,
     };
 
     #[derive(Default, CompositeTemplate)]
     #[template(resource = "/es/danirod/Cartero/settings/page_proxy.ui")]
     pub struct Proxy {
+        settings: Settings,
+
         #[template_child]
         option_proxy_http: TemplateChild<adw::EntryRow>,
         #[template_child]
@@ -84,10 +86,9 @@ mod imp {
     impl ObjectImpl for Proxy {
         fn constructed(&self) {
             self.parent_constructed();
-            let settings = Settings::new(BASE_ID);
 
             self.render_hosts_list();
-            settings.connect_changed(
+            self.settings.connect_changed(
                 Some("proxy-no-proxy"),
                 glib::clone!(
                     #[weak(rename_to = imp)]
@@ -143,7 +144,7 @@ mod imp {
                 }
             ));
 
-            let action_use_std = settings.create_action("proxy-use-env");
+            let action_use_std = self.settings.create_action("proxy-use-env");
             let action_group = SimpleActionGroup::new();
             action_group.add_action(&action_use_std);
             action_group.add_action(&action_add_excluded_host);
@@ -151,10 +152,10 @@ mod imp {
             self.obj()
                 .insert_action_group("widget", Some(&action_group));
 
-            settings
+            self.settings
                 .bind("proxy-http", &*self.option_proxy_http, "text")
                 .build();
-            settings
+            self.settings
                 .bind("proxy-https", &*self.option_proxy_https, "text")
                 .build();
 
@@ -172,13 +173,11 @@ mod imp {
 
     impl Proxy {
         fn get_excluded_hosts(&self) -> Vec<String> {
-            let settings = Settings::new(BASE_ID);
-            settings.get::<Vec<String>>("proxy-no-proxy")
+            self.settings.get::<Vec<String>>("proxy-no-proxy")
         }
 
         fn set_excluded_hosts(&self, sites: &[String]) {
-            let settings = Settings::new(BASE_ID);
-            if settings.set("proxy-no-proxy", sites).is_err() {
+            if self.settings.set("proxy-no-proxy", sites).is_err() {
                 glib::g_warning!("es.danirod.Cartero", "proxy-no-proxy update error");
             }
         }
@@ -259,8 +258,7 @@ mod imp {
         }
 
         fn render_hosts_list(&self) {
-            let settings = Settings::new(BASE_ID);
-            let sites = settings.get::<Vec<String>>("proxy-no-proxy");
+            let sites = self.settings.get::<Vec<String>>("proxy-no-proxy");
 
             self.excluded_hosts_list.remove_all();
             if sites.is_empty() {

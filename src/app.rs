@@ -19,10 +19,11 @@ use adw::prelude::*;
 use gettextrs::gettext;
 use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
-use gtk::gio::{self, ActionEntryBuilder, Settings};
+use gtk::gio::{self, ActionEntryBuilder};
 use gtk::prelude::ActionMapExtManual;
 
-use crate::config::{APP_ID, BASE_ID, RESOURCE_PATH};
+use crate::config::{APP_ID, RESOURCE_PATH};
+use crate::settings::Settings;
 use crate::win::CarteroWindow;
 use crate::windows::common::get_window_shell;
 
@@ -38,12 +39,9 @@ macro_rules! accelerator {
 }
 
 mod imp {
-    use std::cell::OnceCell;
-
     use adw::prelude::*;
     use adw::subclass::application::AdwApplicationImpl;
     use glib::subclass::{object::ObjectImpl, types::ObjectSubclass};
-    use gtk::gio::Settings;
     use gtk::subclass::prelude::*;
     use gtk::subclass::{application::GtkApplicationImpl, prelude::ApplicationImpl};
 
@@ -51,7 +49,7 @@ mod imp {
 
     #[derive(Default)]
     pub struct CarteroApplication {
-        pub(super) settings: OnceCell<Settings>,
+        pub(super) settings: Settings,
     }
 
     #[glib::object_subclass]
@@ -188,18 +186,9 @@ impl CarteroApplication {
             .build()
     }
 
-    pub fn settings(&self) -> &Settings {
-        self.imp().settings.get_or_init(|| Settings::new(BASE_ID))
-    }
-
-    pub fn ui_settings() -> Settings {
-        let schema_name = format!("{BASE_ID}.UiState");
-        Settings::new(&schema_name)
-    }
-
     fn setup_color_scheme(&self) {
-        let settings = self.settings();
-        settings
+        self.imp()
+            .settings
             .bind("application-theme", &self.style_manager(), "color-scheme")
             .mapping(|val, _| {
                 let scheme = match val.get::<String>().unwrap().as_str() {
@@ -354,9 +343,8 @@ impl CarteroApplication {
     }
 
     pub fn last_session_tabs(&self) -> Vec<gio::File> {
-        let settings = self.settings();
-
-        settings
+        self.imp()
+            .settings
             .get::<Vec<String>>("open-files")
             .iter()
             .filter_map(|path| {

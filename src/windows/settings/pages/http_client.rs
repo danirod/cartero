@@ -31,16 +31,18 @@ impl HttpClient {
 }
 
 mod imp {
-    use crate::config::BASE_ID;
+    use crate::settings::Settings;
 
     use super::*;
 
     use glib::subclass::InitializingObject;
-    use gtk::{gio::Settings, CompositeTemplate};
+    use gtk::CompositeTemplate;
 
     #[derive(Default, CompositeTemplate)]
     #[template(resource = "/es/danirod/Cartero/settings/page_http_client.ui")]
     pub struct HttpClient {
+        settings: Settings,
+
         #[template_child]
         option_validate_tls: TemplateChild<adw::SwitchRow>,
         #[template_child]
@@ -69,26 +71,25 @@ mod imp {
     impl ObjectImpl for HttpClient {
         fn constructed(&self) {
             self.parent_constructed();
-            let settings = Settings::new(BASE_ID);
 
-            settings
+            self.settings
                 .bind("validate-tls", &*self.option_validate_tls, "active")
                 .build();
-            settings
+            self.settings
                 .bind(
                     "follow-redirects",
                     &*self.option_follow_redirects,
                     "enable-expansion",
                 )
                 .build();
-            settings
+            self.settings
                 .bind(
                     "maximum-redirects",
                     &*self.option_maximum_redirects,
                     "value",
                 )
                 .build();
-            settings
+            self.settings
                 .bind("request-timeout", &*self.option_timeout, "value")
                 .build();
         }

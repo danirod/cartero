@@ -23,6 +23,7 @@ mod widgets;
 mod config;
 mod interop;
 mod native;
+mod settings;
 #[cfg(feature = "app_updater")]
 mod updates;
 mod win;
@@ -30,10 +31,11 @@ mod windows;
 
 use std::path::PathBuf;
 
-use config::BASE_ID;
 use gettextrs::LocaleCategory;
 use gtk::gio;
 use gtk::prelude::*;
+
+use crate::settings::Settings;
 
 use self::app::CarteroApplication;
 use self::config::{APP_ID, GETTEXT_PACKAGE};
@@ -88,7 +90,7 @@ fn init_gio_resources() {
 }
 
 fn get_locale_from_schema() -> Option<String> {
-    let settings = gio::Settings::new(BASE_ID);
+    let settings = Settings::default();
     let locale = settings.get::<String>("locale");
     if locale.is_empty() {
         None

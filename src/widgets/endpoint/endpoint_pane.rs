@@ -42,9 +42,8 @@ mod imp {
     use gtk::subclass::prelude::*;
     use gtk::{prelude::*, ClosureExpression, CompositeTemplate};
 
-    use crate::app::CarteroApplication;
-    use crate::config::BASE_ID;
     use crate::interop::{InnerError, LoadResult, SaveResult};
+    use crate::settings::Settings;
     use crate::widgets::authentication::AuthenticationPane;
     use crate::widgets::dialogs::export_dialog_error;
     use crate::widgets::endpoint::ResponsePanel;
@@ -57,6 +56,8 @@ mod imp {
     #[template(resource = "/es/danirod/Cartero/endpoint_pane.ui")]
     #[properties(wrapper_type = super::EndpointPane)]
     pub struct EndpointPane {
+        settings: Settings,
+
         #[template_child]
         shortcuts: TemplateChild<gtk::ShortcutController>,
         #[template_child(id = "cancel")]
@@ -209,11 +210,7 @@ mod imp {
                 return SaveResult::Anonymous;
             };
 
-            let create_file_backup = {
-                let app = CarteroApplication::default();
-                let settings = app.settings();
-                settings.get::<bool>("create-backup-files")
-            };
+            let create_file_backup = { self.settings.get::<bool>("create-backup-files") };
 
             let request = self.obj().request();
             match cartero_file_format::serialize_request(&request) {
@@ -257,9 +254,7 @@ mod imp {
                 }
             ));
 
-            let app = CarteroApplication::get();
-            let settings = app.settings();
-            settings.connect_changed(
+            self.settings.connect_changed(
                 Some("read-env-files"),
                 glib::clone!(
                     #[weak(rename_to = imp)]
@@ -306,8 +301,7 @@ mod imp {
         }
 
         fn update_env_file(&self) {
-            let settings = gio::Settings::new(BASE_ID);
-            let allow_env = settings.boolean("read-env-files");
+            let allow_env = self.settings.boolean("read-env-files");
 
             let env_file = if allow_env {
                 self.obj()
@@ -653,19 +647,14 @@ mod imp {
         }
 
         fn init_settings(&self) {
-            let app = CarteroApplication::get();
-            let settings = app.settings();
-            let initial_position = SettingsExtManual::get(settings, "paned-position");
+            let initial_position = self.settings.get("paned-position");
             self.paned.set_position(initial_position);
 
-            self.paned.connect_position_notify(glib::clone!(
-                #[weak]
-                settings,
-                move |paned| {
-                    let new_position = paned.position();
-                    let _ = settings.set("paned-position", new_position);
-                }
-            ));
+            self.paned.connect_position_notify(move |paned| {
+                let settings = Settings::default();
+                let new_position = paned.position();
+                let _ = settings.set("paned-position", new_position);
+            });
         }
 
         #[template_callback]
@@ -737,12 +726,10 @@ mod imp {
         }
 
         fn request_environment(&self) -> cartero_http::RequestEnvironment {
-            let app = CarteroApplication::default();
-            let settings = app.settings();
-            let validate_tls = settings.boolean("validate-tls");
-            let timeout = settings.double("request-timeout");
-            let redirects = if settings.boolean("follow-redirects") {
-                settings.uint("maximum-redirects") as u64
+            let validate_tls = self.settings.boolean("validate-tls");
+            let timeout = self.settings.double("request-timeout");
+            let redirects = if self.settings.boolean("follow-redirects") {
+                self.settings.uint("maximum-redirects") as u64
             } else {
                 0
             };
@@ -752,10 +739,11 @@ mod imp {
                 validate_tls,
             };
             let proxy = cartero_http::ProxyConfig {
-                respect_system_proxy: settings.boolean("proxy-use-env"),
-                http_proxy: settings.string("proxy-http").to_string(),
-                https_proxy: settings.string("proxy-https").to_string(),
-                no_proxy: settings
+                respect_system_proxy: self.settings.boolean("proxy-use-env"),
+                http_proxy: self.settings.string("proxy-http").to_string(),
+                https_proxy: self.settings.string("proxy-https").to_string(),
+                no_proxy: self
+                    .settings
                     .strv("proxy-no-proxy")
                     .iter()
                     .map(|v| v.to_string())

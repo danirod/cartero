@@ -21,7 +21,7 @@ use adw::subclass::prelude::*;
 mod imp {
     use std::cell::RefCell;
 
-    use crate::app::CarteroApplication;
+    use crate::settings::UiSettings;
 
     use super::*;
     use cartero_objects::RequestAuthenticationBearer;
@@ -32,6 +32,8 @@ mod imp {
     #[properties(wrapper_type = super::BearerToken)]
     #[template(resource = "/es/danirod/Cartero/bearer_token_pane.ui")]
     pub struct BearerToken {
+        settings: UiSettings,
+
         #[property(get, set)]
         bearer_token: RefCell<RequestAuthenticationBearer>,
         #[property(get)]
@@ -72,8 +74,7 @@ mod imp {
                 .build();
 
             if let Some(delegate) = self.token.delegate().and_downcast::<gtk::Text>() {
-                let settings = CarteroApplication::ui_settings();
-                settings
+                self.settings
                     .bind("conceal-bearer-token", &delegate, "visibility")
                     .invert_boolean()
                     .build();

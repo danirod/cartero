@@ -31,16 +31,18 @@ impl Appearance {
 }
 
 mod imp {
-    use crate::config::BASE_ID;
+    use crate::settings::Settings;
 
     use super::*;
 
     use glib::subclass::InitializingObject;
-    use gtk::{gio::Settings, pango::FontDescription, CompositeTemplate};
+    use gtk::{pango::FontDescription, CompositeTemplate};
 
     #[derive(Default, CompositeTemplate)]
     #[template(resource = "/es/danirod/Cartero/settings/page_appearance.ui")]
     pub struct Appearance {
+        settings: Settings,
+
         #[template_child]
         option_theme: TemplateChild<adw::ComboRow>,
         #[template_child]
@@ -68,13 +70,11 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let settings = Settings::new(BASE_ID);
-
-            settings
+            self.settings
                 .bind("use-system-font", &*self.option_use_system_font, "active")
                 .build();
 
-            settings
+            self.settings
                 .bind("custom-font", &*self.option_custom_font, "font-desc")
                 .mapping(|variant, _| {
                     let value = variant.get::<String>().expect("Expected a string");
@@ -92,7 +92,7 @@ mod imp {
                 .sync_create()
                 .build();
 
-            settings
+            self.settings
                 .bind("application-theme", &*self.option_theme, "selected")
                 .mapping(|variant, _| {
                     let value = variant.get::<String>().expect("Expected a string");

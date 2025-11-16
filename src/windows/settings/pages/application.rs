@@ -31,16 +31,18 @@ impl Application {
 }
 
 mod imp {
-    use crate::{config::BASE_ID, windows::settings::locale::LocaleRepr};
+    use crate::{settings::Settings, windows::settings::locale::LocaleRepr};
 
     use super::*;
 
     use glib::subclass::InitializingObject;
-    use gtk::{gio::Settings, ClosureExpression, CompositeTemplate};
+    use gtk::{ClosureExpression, CompositeTemplate};
 
     #[derive(Default, CompositeTemplate)]
     #[template(resource = "/es/danirod/Cartero/settings/page_application.ui")]
     pub struct Application {
+        settings: Settings,
+
         #[template_child]
         option_locale: TemplateChild<adw::ComboRow>,
         #[template_child]
@@ -72,8 +74,6 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let settings = Settings::new(BASE_ID);
-
             let locale_model = LocaleRepr::get_model();
             let expr: ClosureExpression =
                 gtk::ClosureExpression::with_callback(gtk::Expression::NONE, |args| {
@@ -89,7 +89,7 @@ mod imp {
             self.option_locale.set_expression(Some(&expr));
             self.option_locale.set_model(Some(&locale_model));
 
-            settings
+            self.settings
                 .bind("locale", &*self.locale_changed, "reveal-child")
                 .get_only()
                 .mapping(|variant, _| {
@@ -99,7 +99,7 @@ mod imp {
                 })
                 .build();
 
-            settings
+            self.settings
                 .bind("locale", &*self.option_locale, "selected")
                 .mapping(glib::clone!(
                     #[weak(rename_to = imp)]
@@ -137,7 +137,7 @@ mod imp {
                 self.group_updates.set_visible(true);
             }
 
-            settings
+            self.settings
                 .bind(
                     "create-backup-files",
                     &*self.option_create_backups,

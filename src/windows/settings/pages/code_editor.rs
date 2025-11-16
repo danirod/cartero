@@ -31,19 +31,18 @@ impl CodeEditor {
 }
 
 mod imp {
-    use crate::config::BASE_ID;
+    use crate::settings::Settings;
 
     use super::*;
 
     use glib::subclass::InitializingObject;
-    use gtk::{
-        gio::{Settings, SimpleActionGroup},
-        CompositeTemplate,
-    };
+    use gtk::{gio::SimpleActionGroup, CompositeTemplate};
 
     #[derive(Default, CompositeTemplate)]
     #[template(resource = "/es/danirod/Cartero/settings/page_code_editor.ui")]
-    pub struct CodeEditor;
+    pub struct CodeEditor {
+        settings: Settings,
+    }
 
     #[glib::object_subclass]
     impl ObjectSubclass for CodeEditor {
@@ -64,7 +63,6 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let settings = Settings::new(BASE_ID);
             let action_group = SimpleActionGroup::new();
 
             let actions = [
@@ -75,7 +73,7 @@ mod imp {
                 "tab-width",
             ];
             for action in actions {
-                let action = settings.create_action(action);
+                let action = self.settings.create_action(action);
                 action_group.add_action(&action);
             }
             self.obj()

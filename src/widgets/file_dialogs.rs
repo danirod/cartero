@@ -25,7 +25,7 @@ use gtk::{
 };
 use std::path::PathBuf;
 
-use crate::{app::CarteroApplication, win::CarteroWindow};
+use crate::{settings::Settings, win::CarteroWindow};
 
 use super::dialogs::file_pick_out_of_prefix_error;
 
@@ -70,9 +70,7 @@ const LAST_SAVE_DIR: &'static str = "last-save-dir";
 
 /// Returns the gio::File for the path stored in the settings under the key.
 fn get_file_setting(key: &str) -> Option<gio::File> {
-    let application = CarteroApplication::get();
-    let settings = application.settings();
-
+    let settings = Settings::default();
     settings.get::<Option<String>>(key).map(|path| {
         let path = PathBuf::from(&path);
         gio::File::for_path(path)
@@ -83,9 +81,7 @@ fn get_file_setting(key: &str) -> Option<gio::File> {
 /// It the given file is None, then the assigned key will be reset to the
 /// default value.
 fn set_file_setting(key: &str, value: Option<&gio::File>) {
-    let application = CarteroApplication::get();
-    let settings = application.settings();
-
+    let settings = Settings::default();
     let path = value
         .and_then(|file| file.path())
         .and_then(|path| path.to_str().map(String::from));

@@ -21,7 +21,7 @@ use adw::subclass::prelude::*;
 mod imp {
     use std::cell::RefCell;
 
-    use crate::app::CarteroApplication;
+    use crate::settings::UiSettings;
 
     use super::*;
     use cartero_objects::RequestAuthenticationBasic;
@@ -32,6 +32,8 @@ mod imp {
     #[properties(wrapper_type = super::BasicAuth)]
     #[template(resource = "/es/danirod/Cartero/basic_auth_pane.ui")]
     pub struct BasicAuth {
+        settings: UiSettings,
+
         #[property(get, set)]
         basic_auth: RefCell<RequestAuthenticationBasic>,
         #[property(get)]
@@ -79,8 +81,7 @@ mod imp {
                 .build();
 
             if let Some(delegate) = self.password.delegate().and_downcast::<gtk::Text>() {
-                let settings = CarteroApplication::ui_settings();
-                settings
+                self.settings
                     .bind("conceal-basic-auth-password", &delegate, "visibility")
                     .invert_boolean()
                     .build();

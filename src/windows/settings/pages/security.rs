@@ -31,19 +31,18 @@ impl Security {
 }
 
 mod imp {
-    use crate::config::BASE_ID;
+    use crate::settings::Settings;
 
     use super::*;
 
     use glib::subclass::InitializingObject;
-    use gtk::{
-        gio::{Settings, SimpleActionGroup},
-        CompositeTemplate,
-    };
+    use gtk::{gio::SimpleActionGroup, CompositeTemplate};
 
     #[derive(Default, CompositeTemplate)]
     #[template(resource = "/es/danirod/Cartero/settings/page_security.ui")]
-    pub struct Security {}
+    pub struct Security {
+        settings: Settings,
+    }
 
     #[glib::object_subclass]
     impl ObjectSubclass for Security {
@@ -64,12 +63,11 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let settings = Settings::new(BASE_ID);
             let action_group = SimpleActionGroup::new();
 
             let actions = ["read-env-files"];
             for action in actions {
-                let action = settings.create_action(action);
+                let action = self.settings.create_action(action);
                 action_group.add_action(&action);
             }
             self.obj()

@@ -37,6 +37,7 @@ mod imp {
     use crate::app::CarteroApplication;
     use crate::interop::{LoadResult, SaveResult};
     use crate::native::VibrancyMode;
+    use crate::settings::Settings;
     use crate::widgets::endpoint::EndpointPane;
     use crate::widgets::shell::{BasePane, BasePaneExt};
     use crate::widgets::welcome::WelcomePane;
@@ -54,6 +55,8 @@ mod imp {
         template(resource = "/es/danirod/Cartero/main_window_no_csd.ui")
     )]
     pub struct CarteroWindow {
+        settings: Settings,
+
         #[cfg(feature = "csd")]
         #[template_child]
         header_bar: TemplateChild<gtk::HeaderBar>,
@@ -190,8 +193,6 @@ mod imp {
         }
 
         fn init_settings(&self) {
-            let app = CarteroApplication::get();
-            let settings = app.settings();
             let obj = self.obj();
 
             let actions = [
@@ -202,27 +203,25 @@ mod imp {
                 "tab-width",
             ];
             for action in actions {
-                let action = settings.create_action(action);
+                let action = self.settings.create_action(action);
                 obj.add_action(&action);
             }
 
             // The following settings are only read once. They will be saved when the window closes.
-            let width = settings.get::<i32>("window-width");
-            let height = settings.get::<i32>("window-height");
-            let maximized = settings.get::<bool>("is-maximized");
+            let width = self.settings.get::<i32>("window-width");
+            let height = self.settings.get::<i32>("window-height");
+            let maximized = self.settings.get::<bool>("is-maximized");
             obj.set_default_width(width);
             obj.set_default_height(height);
             obj.set_maximized(maximized);
         }
 
         fn save_window_state(&self) {
-            let app = CarteroApplication::get();
-            let settings = app.settings();
             let obj = self.obj();
 
-            let _ = settings.set("window-width", obj.width());
-            let _ = settings.set("window-height", obj.height());
-            let _ = settings.set("is-maximized", obj.is_maximized());
+            let _ = self.settings.set("window-width", obj.width());
+            let _ = self.settings.set("window-height", obj.height());
+            let _ = self.settings.set("is-maximized", obj.is_maximized());
         }
 
         pub fn save_visible_tabs(&self) {
@@ -242,9 +241,7 @@ mod imp {
                 }
             }
 
-            let app = CarteroApplication::get();
-            let settings = app.settings();
-            settings.set("open-files", paths).unwrap();
+            self.settings.set("open-files", paths).unwrap();
         }
 
         /// Returns the pane currently visible in the window.

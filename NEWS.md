@@ -4,6 +4,10 @@ These are the user-visible changes that you will notice when you use Cartero.
 
 ## [25.1] - unreleased
 
+### Changed
+
+* Translation updates: Simplified Chinese.
+
 ## [25.0] - 2025-11-14
 
 ### Added

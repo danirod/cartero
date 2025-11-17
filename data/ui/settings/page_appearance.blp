@@ -23,6 +23,52 @@ template $CarteroSettingsPageAppearance: Adw.PreferencesPage {
   icon-name: "display-symbolic";
 
   Adw.PreferencesGroup {
+    Adw.PreferencesGroup {
+      title: _("Color scheme");
+
+      Gtk.Box {
+        orientation: vertical;
+        spacing: 6;
+
+        Adw.ViewSwitcher {
+          policy: wide;
+          stack: color_scheme_stack;
+        }
+
+        Adw.ViewStack color_scheme_stack {
+          Adw.ViewStackPage {
+            icon-name: "sun-outline-symbolic";
+            name: "light";
+            title: _("Light mode");
+
+            child: Gtk.FlowBox color_themes_light {
+              styles [
+                "color-scheme-picker",
+              ]
+
+              max-children-per-line: 4;
+              selection-mode: none;
+            };
+          }
+
+          Adw.ViewStackPage {
+            icon-name: "moon-outline-symbolic";
+            name: "dark";
+            title: _("Dark mode");
+
+            child: Gtk.FlowBox color_themes_dark {
+              styles [
+                "color-scheme-picker",
+              ]
+
+              max-children-per-line: 4;
+              selection-mode: none;
+            };
+          }
+        }
+      }
+    }
+
     Adw.ComboRow option_theme {
       title: _("Application style");
 

@@ -287,6 +287,26 @@ mod imp {
                     panel.update_source_view_style();
                 }
             ));
+            self.settings.connect_changed(
+                Some("color-scheme-light"),
+                glib::clone!(
+                    #[weak(rename_to = panel)]
+                    self,
+                    move |_, _| {
+                        panel.update_source_view_style();
+                    }
+                ),
+            );
+            self.settings.connect_changed(
+                Some("color-scheme-dark"),
+                glib::clone!(
+                    #[weak(rename_to = panel)]
+                    self,
+                    move |_, _| {
+                        panel.update_source_view_style();
+                    }
+                ),
+            );
         }
     }
 }

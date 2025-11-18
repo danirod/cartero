@@ -18,7 +18,7 @@
 use gettextrs::gettext;
 use gtk::gio::ListStore;
 
-const LOCALES: [(&str, &str); 15] = [
+const LOCALES: [(&str, &str); 16] = [
     ("ca", "Català"),
     ("cs", "Čeština"),
     ("de", "Deutsch"),
@@ -34,6 +34,7 @@ const LOCALES: [(&str, &str); 15] = [
     ("ru", "Русский язык"),
     ("ta", "தமிழ்"),
     ("uk", "Українська"),
+    ("zh_Hans", "简体中文"),
 ];
 
 use glib::subclass::prelude::*;

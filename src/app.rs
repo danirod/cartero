@@ -21,6 +21,10 @@ use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
 use gtk::gio::{self, ActionEntryBuilder};
 use gtk::prelude::ActionMapExtManual;
+#[allow(deprecated)]
+use gtk::StyleContext;
+use gtk::STYLE_PROVIDER_PRIORITY_APPLICATION;
+use sourceview5::StyleSchemeManager;
 
 use crate::config::{APP_ID, RESOURCE_PATH};
 use crate::settings::Settings;
@@ -39,17 +43,21 @@ macro_rules! accelerator {
 }
 
 mod imp {
+    use std::cell::OnceCell;
+
     use adw::prelude::*;
     use adw::subclass::application::AdwApplicationImpl;
     use glib::subclass::{object::ObjectImpl, types::ObjectSubclass};
     use gtk::subclass::prelude::*;
     use gtk::subclass::{application::GtkApplicationImpl, prelude::ApplicationImpl};
+    use gtk::CssProvider;
 
     use super::*;
 
     #[derive(Default)]
     pub struct CarteroApplication {
         pub(super) settings: Settings,
+        pub(super) app_theme: OnceCell<CssProvider>,
     }
 
     #[glib::object_subclass]
@@ -199,6 +207,84 @@ impl CarteroApplication {
                 Some(scheme.into())
             })
             .build();
+
+        #[allow(deprecated)]
+        StyleContext::add_provider_for_display(
+            &gtk::gdk::Display::default().expect("No display"),
+            self.imp().app_theme.get_or_init(|| gtk::CssProvider::new()),
+            STYLE_PROVIDER_PRIORITY_APPLICATION,
+        );
+
+        self.update_app_css();
+        self.imp().settings.connect_changed(
+            Some("color-scheme-dark"),
+            glib::clone!(
+                #[weak(rename_to = app)]
+                self,
+                move |_, _| {
+                    app.update_app_css();
+                }
+            ),
+        );
+        self.imp().settings.connect_changed(
+            Some("color-scheme-light"),
+            glib::clone!(
+                #[weak(rename_to = app)]
+                self,
+                move |_, _| {
+                    app.update_app_css();
+                }
+            ),
+        );
+        self.style_manager().connect_dark_notify(glib::clone!(
+            #[weak(rename_to = app)]
+            self,
+            move |_| {
+                app.update_app_css();
+            }
+        ));
+    }
+
+    fn update_app_css(&self) {
+        let mut css = String::new();
+
+        let style = if self.style_manager().is_dark() {
+            self.imp().settings.get::<String>("color-scheme-dark")
+        } else {
+            self.imp().settings.get::<String>("color-scheme-light")
+        };
+        if let Some(scheme) = StyleSchemeManager::default().scheme(style.as_ref()) {
+            if let Some(text) = scheme.style("text") {
+                if let Some(fg) = text.foreground() {
+                    css.push_str(&format!("@define-color window_fg_color {};", fg.as_str()));
+                    css.push_str(&format!(
+                        "@define-color headerbar_fg_color {};",
+                        fg.as_str()
+                    ));
+                    css.push_str(&format!("@define-color sidebar_fg_color {};", fg.as_str()));
+                    css.push_str(&format!("@define-color view_fg_color {};", fg.as_str()));
+                }
+                if let Some(bg) = text.background() {
+                    css.push_str(&format!("@define-color window_bg_color {};", bg.as_str()));
+                    css.push_str(&format!("@define-color view_bg_color {};", bg.as_str()));
+                }
+            }
+
+            if let Some(line_number) = scheme.style("current-line") {
+                if let Some(bg) = line_number.background() {
+                    css.push_str(&format!(
+                        "@define-color headerbar_bg_color {};",
+                        bg.as_str()
+                    ));
+                    css.push_str(&format!("@define-color sidebar_bg_color {};", bg.as_str()));
+                }
+            }
+        }
+
+        self.imp()
+            .app_theme
+            .get_or_init(|| gtk::CssProvider::new())
+            .load_from_string(css.as_str());
     }
 
     fn setup_app_actions(&self) {

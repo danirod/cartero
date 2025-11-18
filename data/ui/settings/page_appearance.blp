@@ -23,51 +23,39 @@ template $CarteroSettingsPageAppearance: Adw.PreferencesPage {
   icon-name: "display-symbolic";
 
   Adw.PreferencesGroup {
-    Adw.PreferencesGroup {
-      title: _("Color scheme");
+    title: _("Color scheme");
 
-      Gtk.Box {
-        orientation: vertical;
-        spacing: 6;
+    Gtk.Stack color_scheme_stack {
+      Gtk.StackPage {
+        name: "light";
 
-        Adw.ViewSwitcher {
-          policy: wide;
-          stack: color_scheme_stack;
-        }
+        child: Gtk.FlowBox color_themes_light {
+          styles [
+            "color-scheme-picker",
+          ]
 
-        Adw.ViewStack color_scheme_stack {
-          Adw.ViewStackPage {
-            icon-name: "sun-outline-symbolic";
-            name: "light";
-            title: _("Light mode");
+          max-children-per-line: 4;
+          selection-mode: none;
+        };
+      }
 
-            child: Gtk.FlowBox color_themes_light {
-              styles [
-                "color-scheme-picker",
-              ]
+      Gtk.StackPage {
+        name: "dark";
 
-              max-children-per-line: 4;
-              selection-mode: none;
-            };
-          }
+        child: Gtk.FlowBox color_themes_dark {
+          styles [
+            "color-scheme-picker",
+          ]
 
-          Adw.ViewStackPage {
-            icon-name: "moon-outline-symbolic";
-            name: "dark";
-            title: _("Dark mode");
-
-            child: Gtk.FlowBox color_themes_dark {
-              styles [
-                "color-scheme-picker",
-              ]
-
-              max-children-per-line: 4;
-              selection-mode: none;
-            };
-          }
-        }
+          max-children-per-line: 4;
+          selection-mode: none;
+        };
       }
     }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("Interface");
 
     Adw.ComboRow option_theme {
       title: _("Application style");
@@ -80,9 +68,15 @@ template $CarteroSettingsPageAppearance: Adw.PreferencesPage {
         ]
       };
     }
+
+    Adw.SwitchRow option_tint_interface {
+      title: _("Tint interface colors to follow color scheme");
+    }
   }
 
   Adw.PreferencesGroup {
+    title: _("Font");
+
     Adw.SwitchRow option_use_system_font {
       title: _("Use system font");
     }

@@ -51,6 +51,8 @@ mod imp {
         #[template_child]
         option_custom_font: TemplateChild<gtk::FontDialogButton>,
         #[template_child]
+        color_scheme_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
         color_themes_light: TemplateChild<gtk::FlowBox>,
         #[template_child]
         color_themes_dark: TemplateChild<gtk::FlowBox>,
@@ -118,6 +120,18 @@ mod imp {
                     Some(setting.into())
                 })
                 .build();
+
+            let stack_page = if adw::StyleManager::default().is_dark() {
+                "dark"
+            } else {
+                "light"
+            };
+            self.color_scheme_stack.set_visible_child_name(stack_page);
+            let stack = self.color_scheme_stack.clone();
+            adw::StyleManager::default().connect_dark_notify(move |style| {
+                let stack_page = if style.is_dark() { "dark" } else { "light" };
+                stack.set_visible_child_name(stack_page);
+            });
 
             let action_group = SimpleActionGroup::new();
             let actions = ["color-scheme-light", "color-scheme-dark"];

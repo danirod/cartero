@@ -9,6 +9,10 @@ These are the user-visible changes that you will notice when you use Cartero.
 * Added a color scheme selector for the code views.
 * Added application window theming and tinting.
 
+### Changed
+
+* Translation updates: Simplified Chinese.
+
 ## [25.0] - 2025-11-14
 
 ### Added

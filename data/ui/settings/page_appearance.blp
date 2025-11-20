@@ -23,6 +23,42 @@ template $CarteroSettingsPageAppearance: Adw.PreferencesPage {
   icon-name: "display-symbolic";
 
   Adw.PreferencesGroup {
+    title: _("Color scheme");
+
+    Gtk.Stack color_scheme_stack {
+      Gtk.StackPage {
+        name: "light";
+
+        child: Gtk.FlowBox color_themes_light {
+          styles [
+            "color-scheme-picker",
+          ]
+
+          child-activated => $flow_box_activate_child();
+          max-children-per-line: 4;
+          selection-mode: none;
+        };
+      }
+
+      Gtk.StackPage {
+        name: "dark";
+
+        child: Gtk.FlowBox color_themes_dark {
+          styles [
+            "color-scheme-picker",
+          ]
+
+          child-activated => $flow_box_activate_child();
+          max-children-per-line: 4;
+          selection-mode: none;
+        };
+      }
+    }
+  }
+
+  Adw.PreferencesGroup {
+    title: _("Interface");
+
     Adw.ComboRow option_theme {
       title: _("Application style");
 
@@ -37,6 +73,8 @@ template $CarteroSettingsPageAppearance: Adw.PreferencesPage {
   }
 
   Adw.PreferencesGroup {
+    title: _("Font");
+
     Adw.SwitchRow option_use_system_font {
       title: _("Use system font");
     }

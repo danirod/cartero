@@ -82,3 +82,32 @@ window.vibrant dialog .view {
 window.macos-native {
   border-radius: 0;
 }
+
+/* Theme pickers. */
+.color-scheme-picker flowboxchild {
+  margin: 2px;
+}
+
+.color-scheme-picker GtkSourceStyleSchemePreview {
+  border-radius: 7px;
+  outline-offset: 2px;
+  outline: 2px solid transparent;
+}
+
+.color-scheme-picker GtkSourceStyleSchemePreview:not(.selected) {
+  box-shadow: 0 0 0 1px alpha(black, 0.03),
+              0 1px 3px 1px alpha(black, .07),
+              0 2px 6px 2px alpha(black, .03);
+}
+
+.color-scheme-picker GtkSourceStyleSchemePreview.selected {
+  outline-color: @theme_selected_bg_color;
+}
+
+.color-scheme-picker GtkSourceStyleSchemePreview.selected image {
+  background-color: @theme_selected_bg_color;
+  color: @theme_selected_fg_color;
+  padding: 3px;
+  margin: 3px;
+  border-radius: 100%;
+}

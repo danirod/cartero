@@ -7,6 +7,12 @@
   </enum>
 
   <schema id="es.danirod.Cartero" path="/es/danirod/Cartero/">
+    <key name="color-scheme-light" type="s">
+      <default>'Adwaita'</default>
+    </key>
+    <key name="color-scheme-dark" type="s">
+      <default>'Adwaita-dark'</default>
+    </key>
     <key name="locale" type="s">
       <default>''</default>
       <summary>A specific locale to use within the application instead of the system default</summary>

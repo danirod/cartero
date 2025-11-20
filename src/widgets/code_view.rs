@@ -252,8 +252,12 @@ mod imp {
         fn update_source_view_style(&self) {
             let obj = self.obj();
             let dark_mode = adw::StyleManager::default().is_dark();
-            let color_theme = if dark_mode { "Adwaita-dark" } else { "Adwaita" };
-            let theme = StyleSchemeManager::default().scheme(color_theme);
+            let color_theme = if dark_mode {
+                self.settings.get::<String>("color-scheme-dark")
+            } else {
+                self.settings.get::<String>("color-scheme-light")
+            };
+            let theme = StyleSchemeManager::default().scheme(&color_theme);
             let buffer = obj.buffer().downcast::<sourceview5::Buffer>().unwrap();
             match theme {
                 Some(theme) => {
@@ -283,6 +287,26 @@ mod imp {
                     panel.update_source_view_style();
                 }
             ));
+            self.settings.connect_changed(
+                Some("color-scheme-light"),
+                glib::clone!(
+                    #[weak(rename_to = panel)]
+                    self,
+                    move |_, _| {
+                        panel.update_source_view_style();
+                    }
+                ),
+            );
+            self.settings.connect_changed(
+                Some("color-scheme-dark"),
+                glib::clone!(
+                    #[weak(rename_to = panel)]
+                    self,
+                    move |_, _| {
+                        panel.update_source_view_style();
+                    }
+                ),
+            );
         }
     }
 }

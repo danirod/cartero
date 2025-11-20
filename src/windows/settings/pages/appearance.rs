@@ -36,7 +36,10 @@ mod imp {
     use super::*;
 
     use glib::subclass::InitializingObject;
-    use gtk::{pango::FontDescription, CompositeTemplate};
+    use gtk::{
+        gio::SimpleActionGroup, pango::FontDescription, CompositeTemplate, FlowBox, FlowBoxChild,
+    };
+    use sourceview5::{StyleSchemeManager, StyleSchemePreview};
 
     #[derive(Default, CompositeTemplate)]
     #[template(resource = "/es/danirod/Cartero/settings/page_appearance.ui")]
@@ -49,6 +52,12 @@ mod imp {
         option_use_system_font: TemplateChild<adw::SwitchRow>,
         #[template_child]
         option_custom_font: TemplateChild<gtk::FontDialogButton>,
+        #[template_child]
+        color_scheme_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
+        color_themes_light: TemplateChild<gtk::FlowBox>,
+        #[template_child]
+        color_themes_dark: TemplateChild<gtk::FlowBox>,
     }
 
     #[glib::object_subclass]
@@ -59,6 +68,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
         }
 
         fn instance_init(obj: &InitializingObject<Self>) {
@@ -113,10 +123,119 @@ mod imp {
                     Some(setting.into())
                 })
                 .build();
+
+            let stack_page = if adw::StyleManager::default().is_dark() {
+                "dark"
+            } else {
+                "light"
+            };
+            self.color_scheme_stack.set_visible_child_name(stack_page);
+            let stack = self.color_scheme_stack.clone();
+            adw::StyleManager::default().connect_dark_notify(move |style| {
+                let stack_page = if style.is_dark() { "dark" } else { "light" };
+                stack.set_visible_child_name(stack_page);
+            });
+
+            let action_group = SimpleActionGroup::new();
+            let actions = ["color-scheme-light", "color-scheme-dark"];
+            for action in actions {
+                let action = self.settings.create_action(action);
+                action_group.add_action(&action);
+            }
+            self.obj()
+                .insert_action_group("widget", Some(&action_group));
+
+            self.setup_color_themes();
+            self.settings.connect_changed(
+                Some("color-scheme-light"),
+                glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |_, _| {
+                        imp.update_selected_theme();
+                    }
+                ),
+            );
+            self.settings.connect_changed(
+                Some("color-scheme-dark"),
+                glib::clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |_, _| {
+                        imp.update_selected_theme();
+                    }
+                ),
+            );
         }
     }
 
     impl WidgetImpl for Appearance {}
 
     impl PreferencesPageImpl for Appearance {}
+
+    #[gtk::template_callbacks]
+    impl Appearance {
+        fn setup_color_themes(&self) {
+            self.color_themes_light.remove_all();
+            self.color_themes_dark.remove_all();
+
+            let current_light = self.settings.get::<String>("color-scheme-light");
+            let current_dark = self.settings.get::<String>("color-scheme-dark");
+
+            let style_manager = StyleSchemeManager::default();
+
+            let scheme_ids = style_manager.scheme_ids();
+            let schemes = scheme_ids
+                .iter()
+                .filter_map(|scheme_id| style_manager.scheme(scheme_id.as_str()))
+                .filter(|scheme| scheme.metadata("variant").is_some());
+
+            for scheme in schemes {
+                let variant = scheme
+                    .metadata("variant")
+                    .expect("Variant has dissappeared");
+                let preview = StyleSchemePreview::builder().scheme(&scheme).build();
+                preview.set_action_target(Some(scheme.id().to_string()));
+                if variant.as_str() == "light" {
+                    preview.set_selected(current_light == scheme.id().as_str());
+                    preview.set_action_name(Some("widget.color-scheme-light"));
+                    self.color_themes_light.append(&preview);
+                } else {
+                    preview.set_selected(current_dark == scheme.id().as_str());
+                    preview.set_action_name(Some("widget.color-scheme-dark"));
+                    self.color_themes_dark.append(&preview);
+                }
+            }
+
+            self.update_selected_theme();
+        }
+
+        #[template_callback]
+        fn flow_box_activate_child(_: &FlowBox, child: &FlowBoxChild) {
+            if let Some(widget) = child.child().and_downcast::<StyleSchemePreview>() {
+                widget.activate();
+            }
+        }
+
+        fn update_selected_theme(&self) {
+            let current_light = self.settings.get::<String>("color-scheme-light");
+            let current_dark = self.settings.get::<String>("color-scheme-dark");
+
+            let mut child = self.color_themes_light.first_child();
+            while let Some(widget) = child.and_downcast::<gtk::FlowBoxChild>() {
+                if let Some(preview) = widget.child().and_downcast::<StyleSchemePreview>() {
+                    preview.set_selected(preview.scheme().id().as_str() == current_light);
+                }
+                child = widget.next_sibling();
+            }
+
+            let mut child = self.color_themes_dark.first_child();
+            while let Some(widget) = child.and_downcast::<gtk::FlowBoxChild>() {
+                if let Some(preview) = widget.child().and_downcast::<StyleSchemePreview>() {
+                    preview.set_selected(preview.scheme().id().as_str() == current_dark);
+                }
+                child = widget.next_sibling();
+            }
+        }
+    }
 }

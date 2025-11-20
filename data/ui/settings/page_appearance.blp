@@ -34,6 +34,7 @@ template $CarteroSettingsPageAppearance: Adw.PreferencesPage {
             "color-scheme-picker",
           ]
 
+          child-activated => $flow_box_activate_child();
           max-children-per-line: 4;
           selection-mode: none;
         };
@@ -47,6 +48,7 @@ template $CarteroSettingsPageAppearance: Adw.PreferencesPage {
             "color-scheme-picker",
           ]
 
+          child-activated => $flow_box_activate_child();
           max-children-per-line: 4;
           selection-mode: none;
         };
@@ -67,10 +69,6 @@ template $CarteroSettingsPageAppearance: Adw.PreferencesPage {
           _("Dark mode"),
         ]
       };
-    }
-
-    Adw.SwitchRow option_tint_interface {
-      title: _("Tint interface colors to follow color scheme");
     }
   }
 

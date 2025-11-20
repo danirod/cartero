@@ -36,7 +36,9 @@ mod imp {
     use super::*;
 
     use glib::subclass::InitializingObject;
-    use gtk::{gio::SimpleActionGroup, pango::FontDescription, CompositeTemplate};
+    use gtk::{
+        gio::SimpleActionGroup, pango::FontDescription, CompositeTemplate, FlowBox, FlowBoxChild,
+    };
     use sourceview5::{StyleSchemeManager, StyleSchemePreview};
 
     #[derive(Default, CompositeTemplate)]
@@ -66,6 +68,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
         }
 
         fn instance_init(obj: &InitializingObject<Self>) {
@@ -170,6 +173,7 @@ mod imp {
 
     impl PreferencesPageImpl for Appearance {}
 
+    #[gtk::template_callbacks]
     impl Appearance {
         fn setup_color_themes(&self) {
             self.color_themes_light.remove_all();
@@ -204,6 +208,13 @@ mod imp {
             }
 
             self.update_selected_theme();
+        }
+
+        #[template_callback]
+        fn flow_box_activate_child(_: &FlowBox, child: &FlowBoxChild) {
+            if let Some(widget) = child.child().and_downcast::<StyleSchemePreview>() {
+                widget.activate();
+            }
         }
 
         fn update_selected_theme(&self) {

@@ -235,6 +235,14 @@ mod imp {
                 Err(e) => SaveResult::Error(InnerError::InteropError(e)),
             }
         }
+
+        fn duplicate(&self) -> crate::widgets::shell::BasePane {
+            let new_request = self.obj().request().dup();
+            let endpoint_pane = glib::Object::builder::<super::EndpointPane>()
+                .property("request", new_request)
+                .build();
+            endpoint_pane.upcast()
+        }
     }
 
     #[gtk::template_callbacks]

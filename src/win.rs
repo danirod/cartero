@@ -162,7 +162,7 @@ mod imp {
                 ));
 
             /* Enable these actions only if there is an open page. */
-            let tab_dependent_actions = ["save", "save-as", "close", "request"];
+            let tab_dependent_actions = ["save", "save-as", "duplicate", "close", "request"];
             for tab in tab_dependent_actions {
                 if let Some(action) = obj.lookup_action(&tab) {
                     has_page.bind(&action, "enabled", Some(&*self.tabview));
@@ -564,6 +564,14 @@ mod imp {
             }
         }
 
+        async fn action_duplicate(&self) {
+            if let Some(pane) = self.current_pane() {
+                let new_pane = pane.duplicate();
+                self.insert_pane_into_tabs(&new_pane.clone());
+                let _ = new_pane.activate_action("endpoint.focus-url", None);
+            }
+        }
+
         async fn close_tab_requested(&self, tabpage: &TabPage) {
             let obj = self.obj();
             let endpoint_pane = tabpage.child().downcast::<BasePane>().unwrap();
@@ -850,6 +858,18 @@ mod imp {
                     ));
                 })
                 .build();
+            let action_duplicate = ActionEntry::builder("duplicate")
+                .activate(move |window: &super::CarteroWindow, _, _| {
+                    glib::spawn_future_local(glib::clone!(
+                        #[weak]
+                        window,
+                        async move {
+                            let imp = window.imp();
+                            imp.action_duplicate().await;
+                        }
+                    ));
+                })
+                .build();
             let action_close = ActionEntry::builder("close")
                 .activate(glib::clone!(
                     #[weak(rename_to = window)]
@@ -904,6 +924,7 @@ mod imp {
                 action_open,
                 action_save,
                 action_save_as,
+                action_duplicate,
                 action_close,
                 action_about,
                 action_export_request,

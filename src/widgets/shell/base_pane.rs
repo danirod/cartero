@@ -40,6 +40,7 @@ mod ffi {
         // calls made in the ObjectSubclass impl for imp::BasePane.
         pub(super) load: fn(&super::BasePane) -> LoadResult,
         pub(super) save: fn(&super::BasePane) -> SaveResult,
+        pub(super) duplicate: fn(&super::BasePane) -> super::BasePane,
     }
 
     unsafe impl glib::subclass::types::ClassStruct for Class {
@@ -83,6 +84,7 @@ mod imp {
             klass.lookup_action = |obj, name| obj.imp().lookup_action_default(name);
             klass.load = |obj| obj.imp().load_default();
             klass.save = |obj| obj.imp().save_default();
+            klass.duplicate = |obj| obj.imp().duplicate_default();
         }
     }
 
@@ -104,6 +106,10 @@ mod imp {
 
         fn save_default(&self) -> SaveResult {
             SaveResult::Anonymous
+        }
+
+        fn duplicate_default(&self) -> super::BasePane {
+            glib::Object::new()
         }
     }
 }
@@ -127,6 +133,12 @@ pub trait BasePaneExt: IsA<BasePane> {
         let class = this.class();
         (class.as_ref().save)(this)
     }
+
+    fn duplicate(&self) -> BasePane {
+        let this = self.upcast_ref();
+        let class = this.class();
+        (class.as_ref().duplicate)(this)
+    }
 }
 
 impl<T: IsA<BasePane>> BasePaneExt for T {}
@@ -142,6 +154,10 @@ pub trait BasePaneImpl: BreakpointBinImpl {
 
     fn save(&self) -> SaveResult {
         SaveResult::Anonymous
+    }
+
+    fn duplicate(&self) -> BasePane {
+        glib::Object::new()
     }
 }
 
@@ -168,6 +184,13 @@ pub trait BasePaneImplExt: BasePaneImpl {
         let parent_save = parent_class.save;
         parent_save(unsafe { self.obj().unsafe_cast_ref() })
     }
+
+    fn parent_duplicate(&self) -> BasePane {
+        let data = Self::type_data();
+        let parent_class = unsafe { &*(data.as_ref().parent_class() as *const ffi::Class) };
+        let parent_duplicate = parent_class.duplicate;
+        parent_duplicate(unsafe { self.obj().unsafe_cast_ref() })
+    }
 }
 
 impl<T: BasePaneImpl> BasePaneImplExt for T {}
@@ -188,6 +211,10 @@ unsafe impl<T: BasePaneImpl> IsSubclassable<T> for BasePane {
         klass.save = |obj| {
             let this = unsafe { obj.unsafe_cast_ref::<<T as ObjectSubclass>::Type>().imp() };
             BasePaneImpl::save(this)
+        };
+        klass.duplicate = |obj| {
+            let this = unsafe { obj.unsafe_cast_ref::<<T as ObjectSubclass>::Type>().imp() };
+            BasePaneImpl::duplicate(this)
         };
     }
 }

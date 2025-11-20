@@ -8,6 +8,7 @@ These are the user-visible changes that you will notice when you use Cartero.
 
 * Added a color scheme selector for the code views.
 * Added application window theming and tinting.
+* Added a menu option to duplicate requests.
 
 ### Changed
 

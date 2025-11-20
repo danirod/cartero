@@ -27,6 +27,7 @@ use gtk::STYLE_PROVIDER_PRIORITY_APPLICATION;
 use sourceview5::StyleSchemeManager;
 
 use crate::config::{APP_ID, RESOURCE_PATH};
+use crate::css::generate_window_style;
 use crate::settings::Settings;
 use crate::win::CarteroWindow;
 use crate::windows::common::get_window_shell;
@@ -246,41 +247,19 @@ impl CarteroApplication {
     }
 
     fn update_app_css(&self) {
-        let mut css = String::new();
-
         let style = if self.style_manager().is_dark() {
             self.imp().settings.get::<String>("color-scheme-dark")
         } else {
             self.imp().settings.get::<String>("color-scheme-light")
         };
-        if let Some(scheme) = StyleSchemeManager::default().scheme(style.as_ref()) {
-            if let Some(text) = scheme.style("text") {
-                if let Some(fg) = text.foreground() {
-                    css.push_str(&format!("@define-color window_fg_color {};", fg.as_str()));
-                    css.push_str(&format!(
-                        "@define-color headerbar_fg_color {};",
-                        fg.as_str()
-                    ));
-                    css.push_str(&format!("@define-color sidebar_fg_color {};", fg.as_str()));
-                    css.push_str(&format!("@define-color view_fg_color {};", fg.as_str()));
-                }
-                if let Some(bg) = text.background() {
-                    css.push_str(&format!("@define-color window_bg_color {};", bg.as_str()));
-                    css.push_str(&format!("@define-color view_bg_color {};", bg.as_str()));
-                }
-            }
 
-            if let Some(line_number) = scheme.style("current-line") {
-                if let Some(bg) = line_number.background() {
-                    css.push_str(&format!(
-                        "@define-color headerbar_bg_color {};",
-                        bg.as_str()
-                    ));
-                    css.push_str(&format!("@define-color sidebar_bg_color {};", bg.as_str()));
-                }
-            }
-        }
-
+        // Always generate a css, even if it is empty. Calling load_from_string
+        // will make sure that it gets reset when the user disables tinting
+        // or when the color scheme is not available.
+        let css = StyleSchemeManager::default()
+            .scheme(style.as_ref())
+            .map(|scheme| generate_window_style(&scheme))
+            .unwrap_or_default();
         self.imp()
             .app_theme
             .get_or_init(|| gtk::CssProvider::new())

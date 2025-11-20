@@ -21,6 +21,7 @@ mod app;
 mod widgets;
 #[rustfmt::skip]
 mod config;
+mod css;
 mod interop;
 mod native;
 mod settings;

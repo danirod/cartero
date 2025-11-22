@@ -36,8 +36,8 @@ mod imp {
 
     use crate::widgets::endpoint::ResponseHeaders;
     use crate::widgets::{CodeView, ErrorPane, SearchBox};
-    use adw::prelude::*;
     use adw::subclass::bin::BinImpl;
+    use adw::{prelude::*, ToastOverlay};
     use cartero_http::RequestError;
     use cartero_objects::Response;
     use gettextrs::gettext;
@@ -87,7 +87,8 @@ mod imp {
         search: TemplateChild<SearchBox>,
         #[template_child]
         search_revealer: TemplateChild<Revealer>,
-
+        #[template_child]
+        toaster: TemplateChild<ToastOverlay>,
         #[property(get, set = Self::set_response, nullable)]
         response: RefCell<Option<Response>>,
         #[property(get = Self::spinning, set = Self::set_spinning)]
@@ -157,6 +158,10 @@ mod imp {
                     if let Some(display) = Display::default() {
                         let clipboard = display.clipboard();
                         clipboard.set_content(Some(&content)).unwrap();
+
+                        let msg = gettext("Content copied to the clipboard");
+                        let toast = adw::Toast::new(&msg);
+                        imp.toaster.add_toast(toast);
                     }
                 }
             ));

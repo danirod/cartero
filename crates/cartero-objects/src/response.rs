@@ -157,6 +157,8 @@ mod imp {
         #[property(get, set)]
         request: RefCell<Request>,
         #[property(get, set)]
+        effective_url: RefCell<String>,
+        #[property(get, set)]
         status_code: RefCell<u32>,
         #[property(get, set)]
         duration: RefCell<u64>,
@@ -196,6 +198,11 @@ mod builder {
 
         pub fn build(self) -> Response {
             self.builder.build()
+        }
+
+        pub fn effective_url(mut self, url: String) -> Self {
+            self.builder = self.builder.property("effective-url", url);
+            self
         }
 
         pub fn status_code(mut self, code: u32) -> Self {

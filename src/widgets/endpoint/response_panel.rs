@@ -36,13 +36,15 @@ mod imp {
 
     use crate::widgets::endpoint::ResponseHeaders;
     use crate::widgets::{CodeView, ErrorPane, SearchBox};
-    use adw::prelude::*;
     use adw::subclass::bin::BinImpl;
+    use adw::{prelude::*, ToastOverlay};
     use cartero_http::RequestError;
     use cartero_objects::Response;
+    use gettextrs::gettext;
     use glib::object::Cast;
     use glib::subclass::InitializingObject;
     use glib::Properties;
+    use gtk::gdk::{ContentProvider, Display};
     use gtk::gio::{SimpleAction, SimpleActionGroup};
     use gtk::subclass::prelude::*;
     use gtk::{
@@ -80,10 +82,13 @@ mod imp {
         #[template_child]
         buffer: TemplateChild<sourceview5::Buffer>,
         #[template_child]
+        pub response_url: TemplateChild<gtk::Entry>,
+        #[template_child]
         search: TemplateChild<SearchBox>,
         #[template_child]
         search_revealer: TemplateChild<Revealer>,
-
+        #[template_child]
+        toaster: TemplateChild<ToastOverlay>,
         #[property(get, set = Self::set_response, nullable)]
         response: RefCell<Option<Response>>,
         #[property(get = Self::spinning, set = Self::set_spinning)]
@@ -133,8 +138,37 @@ mod imp {
                 }
             ));
 
+            let action_copy_response_url = SimpleAction::new("copy-response-url", None);
+            action_copy_response_url.connect_activate(glib::clone!(
+                #[weak(rename_to = imp)]
+                self,
+                move |_, _| {
+                    let content = {
+                        let blob = imp
+                            .obj()
+                            .response()
+                            .map(|response| response.effective_url())
+                            .unwrap_or_default();
+                        let blob = glib::Bytes::from(blob.as_bytes());
+                        ContentProvider::new_union(&[
+                            ContentProvider::for_bytes("text/plain", &blob),
+                            ContentProvider::for_bytes("text/plain;charset=utf-8", &blob),
+                        ])
+                    };
+                    if let Some(display) = Display::default() {
+                        let clipboard = display.clipboard();
+                        clipboard.set_content(Some(&content)).unwrap();
+
+                        let msg = gettext("Content copied to the clipboard");
+                        let toast = adw::Toast::new(&msg);
+                        imp.toaster.add_toast(toast);
+                    }
+                }
+            ));
+
             let action_group = SimpleActionGroup::new();
             action_group.add_action(&action_force_binary_render);
+            action_group.add_action(&action_copy_response_url);
             obj.insert_action_group("response", Some(&action_group));
         }
 
@@ -264,6 +298,7 @@ impl ResponsePanel {
         self.set_response(Some(resp.clone()));
 
         let imp = self.imp();
+        imp.response_url.set_text(&resp.effective_url());
 
         let headers = resp.headers().clone();
         imp.response_headers.set_headers(headers);

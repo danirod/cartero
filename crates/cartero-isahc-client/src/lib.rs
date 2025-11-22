@@ -25,7 +25,7 @@ use cartero_objects::{Field, FieldTable, Request, RequestMethod, Response};
 use isahc::{
     config::{Configurable, RedirectPolicy, SslOption},
     http::{HeaderName, HeaderValue, Uri},
-    AsyncBody, RequestExt,
+    AsyncBody, RequestExt, ResponseExt,
 };
 
 pub fn default_user_agent() -> String {
@@ -85,6 +85,12 @@ async fn build_response(
     let duration = start.elapsed();
 
     let response = Response::builder(request)
+        .effective_url(
+            isahc_request
+                .effective_uri()
+                .map(|uri| uri.to_string())
+                .unwrap_or_default(),
+        )
         .status_code(status_code as u32)
         .headers(&headers)
         .size(body.len() as u64)

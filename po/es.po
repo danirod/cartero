@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-31 22:47+0200\n"
 "PO-Revision-Date: 2025-11-22 12:12+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/cartero/cartero/"
 "es/>\n"
 "Language: es\n"
@@ -139,8 +139,7 @@ msgstr "Si validar o no los certificados TLS durante una petición"
 
 #: data/es.danirod.Cartero.gschema.xml:68
 msgid "Whether to follow redirections if that is the server response"
-msgstr ""
-"Si permitir redirecciones o no cuando esa sea la respuesta del servidor"
+msgstr "Si permitir redirecciones o no cuando esa sea la respuesta del servidor"
 
 #: data/es.danirod.Cartero.gschema.xml:72
 msgid "Maximum number of redirections to follow before giving up"
@@ -1007,8 +1006,8 @@ msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
-"El archivo ha sido creado con una versión más reciente de este programa; "
-"¡por favor actualiza!"
+"El archivo ha sido creado con una versión más reciente de este programa; ¡"
+"por favor actualiza!"
 
 #: src/interop.rs:33
 msgid "The file is corrupt or does not contain valid data for this application"
@@ -1057,8 +1056,7 @@ msgstr "Tienes que guardar la petición primero"
 
 #: src/interop.rs:78
 msgid "The file '{}' cannot be accessed due to the security policy"
-msgstr ""
-"El archivo '{}' no puede ser accedido debido a la política de seguridad"
+msgstr "El archivo '{}' no puede ser accedido debido a la política de seguridad"
 
 #: src/interop.rs:83
 msgid "Defined value for proxy '{}' is not a valid configuration"

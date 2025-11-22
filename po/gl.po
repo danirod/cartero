@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-31 23:21+0200\n"
-"PO-Revision-Date: 2025-11-14 13:51+0000\n"
+"PO-Revision-Date: 2025-11-22 12:23+0000\n"
 "Last-Translator: Eric Pernas <ericpg76@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/cartero/cartero/"
 "gl/>\n"
@@ -1182,8 +1182,7 @@ msgstr ""
 
 #: src/widgets/dialogs.rs:153
 msgid "Could not select a valid file from the file chooser"
-msgstr ""
-"Non se puido seleccionar un arquivo válido dende o selector de arquivos"
+msgstr "Non se puido seleccionar un arquivo válido dende o selector de arquivos"
 
 #: src/widgets/dialogs.rs:172
 msgid ""

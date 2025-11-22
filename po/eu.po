@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-31 23:21+0200\n"
-"PO-Revision-Date: 2025-09-01 16:02+0000\n"
+"PO-Revision-Date: 2025-11-22 12:18+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <ibaios@disroot.org>\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/cartero/cartero/"
 "eu/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13.1-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -810,8 +810,7 @@ msgstr "Jarraitu berbideratzeak"
 
 #: data/ui/settings/page_http_client.blp:33
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
-msgstr ""
-"Jarraitu eskaerak egiten zerbitzariak HTTP 3xx erantzuna itzultzen badu"
+msgstr "Jarraitu eskaerak egiten zerbitzariak HTTP 3xx erantzuna itzultzen badu"
 
 #: data/ui/settings/page_http_client.blp:38
 msgid "Maximum redirects"

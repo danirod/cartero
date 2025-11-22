@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-09-14 19:23+0200\n"
 "PO-Revision-Date: 2025-11-22 12:16+0000\n"
-"Last-Translator: Ega <ega8642@gmail.com>\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/cartero/"
 "cartero/id/>\n"
 "Language: id\n"
@@ -1194,7 +1194,6 @@ msgstr ""
 msgid "Show {} variable from .env"
 msgid_plural "Show {} variables from .env"
 msgstr[0] ""
-msgstr[1] ""
 
 #: src/widgets/endpoint/endpoint_pane.rs:557
 #: src/widgets/endpoint/endpoint_pane.rs:563
@@ -1269,7 +1268,6 @@ msgstr ""
 msgid "{} result"
 msgid_plural "{} results"
 msgstr[0] ""
-msgstr[1] ""
 
 #: src/win.rs:291
 msgid "(untitled)"

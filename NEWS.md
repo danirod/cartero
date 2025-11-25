@@ -12,6 +12,7 @@ These are the user-visible changes that you will notice when you use Cartero.
 
 ### Changed
 
+* It is now possible to reveal the values of .env variables in the endpoint pane.
 * Translation updates: Simplified Chinese.
 
 ## [25.0] - 2025-11-14

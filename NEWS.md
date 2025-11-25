@@ -14,6 +14,10 @@ These are the user-visible changes that you will notice when you use Cartero.
 
 * Translation updates: Simplified Chinese.
 
+### Fixed
+
+* Responses were being treated as binary if they contained the CR (\r) character.
+
 ## [25.0] - 2025-11-14
 
 ### Added

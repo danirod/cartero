@@ -113,7 +113,7 @@ impl Response {
                 body.clone()
                     .to_vec()
                     .into_iter()
-                    .find(|ch| *ch < 0x08 || (*ch >= 0x0D && *ch < 0x20))
+                    .find(|ch| *ch < 0x08 || (*ch > 0x0D && *ch < 0x20))
                     .is_some()
             })
     }

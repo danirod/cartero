@@ -279,7 +279,7 @@ mod imp {
                 .obj()
                 .env_file()
                 .iter::<Field>()
-                .filter_map(|item| item.ok().map(|field| (field.key(), "*".repeat(4))))
+                .filter_map(|item| item.ok().map(|field| (field.key(), field.value())))
                 .collect::<Vec<(String, String)>>();
             let toggle_prompt = formatx!(
                 ngettext(

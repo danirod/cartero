@@ -255,7 +255,9 @@ template $CarteroEndpointPane: $CarteroBasePane {
                 Gtk.StackPage {
                   name: "toggle";
 
-                  child: $CarteroCollapsedFieldTable env_variables {};
+                  child: $CarteroCollapsedFieldTable env_variables {
+                    masked: true;
+                  };
                 }
               }
 

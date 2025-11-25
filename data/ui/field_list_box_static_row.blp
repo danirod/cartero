@@ -46,10 +46,13 @@ template $CarteroFieldListBoxStaticRow: Gtk.Box {
       tooltip-text: _("Value");
     }
 
-    Gtk.MenuButton {
-      // This exists just to make some padding
-      opacity: 0.0;
-      sensitive: false;
+    Gtk.Button conceal {
+      styles [
+        "circular",
+        "flat",
+      ]
+
+      clicked => $on_conceal_toggle() swapped;
     }
   }
 }

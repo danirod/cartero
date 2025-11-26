@@ -23,6 +23,7 @@ mod imp {
 
     use super::*;
     use cartero_objects::Field;
+    use gettextrs::gettext;
     use glib::{subclass::InitializingObject, BindingGroup, Properties};
     use gtk::CompositeTemplate;
 
@@ -32,6 +33,10 @@ mod imp {
     pub struct FieldListBoxStaticRow {
         #[property(get, set)]
         field: RefCell<Field>,
+        #[property(get, set)]
+        allow_concealing: RefCell<bool>,
+        #[property(get, set)]
+        concealed: RefCell<bool>,
 
         #[template_child]
         key: TemplateChild<gtk::Entry>,
@@ -39,6 +44,8 @@ mod imp {
         value: TemplateChild<gtk::Entry>,
         #[template_child]
         checked: TemplateChild<gtk::CheckButton>,
+        #[template_child]
+        conceal: TemplateChild<gtk::Button>,
 
         binding_group: OnceCell<glib::BindingGroup>,
     }
@@ -51,6 +58,7 @@ mod imp {
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
+            klass.bind_template_callbacks();
         }
 
         fn instance_init(obj: &InitializingObject<Self>) {
@@ -63,6 +71,7 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
             self.init_binding_group();
+            self.init_concealing();
         }
     }
 
@@ -70,6 +79,7 @@ mod imp {
 
     impl BoxImpl for FieldListBoxStaticRow {}
 
+    #[gtk::template_callbacks]
     impl FieldListBoxStaticRow {
         fn init_binding_group(&self) {
             let binding_group = BindingGroup::new();
@@ -85,11 +95,6 @@ mod imp {
                 .bind("active", &*self.checked, "active")
                 .sync_create()
                 .build();
-            binding_group
-                .bind("masked", &*self.value, "visibility")
-                .sync_create()
-                .invert_boolean()
-                .build();
             binding_group.set_source(Some(&self.obj().field()));
             self.obj().connect_field_notify(glib::clone!(
                 #[weak]
@@ -101,6 +106,63 @@ mod imp {
             self.binding_group
                 .set(binding_group)
                 .expect("Couldn't initialise BindingGroup here");
+        }
+
+        fn init_concealing(&self) {
+            self.obj()
+                .bind_property("allow-concealing", &*self.conceal, "sensitive")
+                .sync_create()
+                .build();
+            self.obj()
+                .bind_property("allow-concealing", &*self.conceal, "opacity")
+                .transform_to(|_, value: &glib::Value| {
+                    let allows_conceal = value
+                        .get::<bool>()
+                        .expect("allow-concealing is of invalid type");
+                    if allows_conceal {
+                        Some(1.0)
+                    } else {
+                        Some(0.0)
+                    }
+                })
+                .sync_create()
+                .build();
+
+            self.obj()
+                .bind_property("concealed", &*self.value, "visibility")
+                .sync_create()
+                .invert_boolean()
+                .build();
+            self.obj()
+                .bind_property("concealed", &*self.conceal, "icon-name")
+                .transform_to(|_, value: &glib::Value| {
+                    let concealed = value.get::<bool>().expect("concealed is of invalid type");
+                    if concealed {
+                        Some("view-reveal")
+                    } else {
+                        Some("view-conceal")
+                    }
+                })
+                .sync_create()
+                .build();
+            self.obj()
+                .bind_property("concealed", &*self.conceal, "tooltip-text")
+                .transform_to(|_, value: &glib::Value| {
+                    let concealed = value.get::<bool>().expect("concealed is of invalid type");
+                    if concealed {
+                        Some(gettext("Show value"))
+                    } else {
+                        Some(gettext("Hide value"))
+                    }
+                })
+                .sync_create()
+                .build();
+        }
+
+        #[template_callback]
+        fn on_conceal_toggle(&self) {
+            let next_conceal = !self.obj().concealed();
+            self.obj().set_concealed(next_conceal);
         }
     }
 }

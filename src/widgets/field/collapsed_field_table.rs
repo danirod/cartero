@@ -114,6 +114,14 @@ mod imp {
                 if let Ok(field) = field {
                     let row: FieldListBoxStaticRow =
                         glib::Object::builder().property("field", field).build();
+                    self.obj()
+                        .bind_property("masked", &row, "allow-concealing")
+                        .sync_create()
+                        .build();
+                    self.obj()
+                        .bind_property("masked", &row, "concealed")
+                        .sync_create()
+                        .build();
                     let widget = row.upcast();
                     self.expander.add_row(&widget);
                     nodes.push(widget);

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-31 23:21+0200\n"
-"PO-Revision-Date: 2025-09-01 16:02+0000\n"
+"PO-Revision-Date: 2025-12-04 10:00+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <ibaios@disroot.org>\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/cartero/cartero/"
 "eu/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13.1-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -84,6 +84,8 @@ msgstr "Gnome;GTK;HTTP;REST;"
 msgid ""
 "A specific locale to use within the application instead of the system default"
 msgstr ""
+"Aplikazioan erabiltzeko hizkuntza zehatza, sistemako lehenetsia erabili "
+"beharrean"
 
 #: data/es.danirod.Cartero.gschema.xml:16
 msgid "Automatically indent new lines for the request body"
@@ -319,6 +321,8 @@ msgid ""
 "Cartero supports reading variables from an .env file, but you need to enable "
 "the feature first."
 msgstr ""
+"Carterok .env fitxategi batetik aldagaiak irakurtzea ahalbidetzen du, baina "
+"aurrena eginbide hau gaitu beharra duzu."
 
 #: data/ui/endpoint_pane.blp:237 data/ui/main_window.blp:178
 #: data/ui/main_window_no_csd.blp:189 data/ui/settings/shell.blp:47
@@ -330,12 +334,16 @@ msgid ""
 "Cartero supports reading variables from an .env file, but you have to save "
 "the request first."
 msgstr ""
+"Carterok .env fitxategietatik aldagaiak irakurtzea ahalbidetzen du, baina "
+"aurrena eskaera gorde beharra duzu."
 
 #: data/ui/endpoint_pane.blp:259
 msgid ""
 "Place an .env file in the same disk directory as the request or in a parent "
 "directory to load the variables in Cartero."
 msgstr ""
+"Carteron aldagaiak kargatzeko, kokatu .env fitxategi bat eskaera gordeta "
+"dagoen direktorio berean, edo gaineko direktorio batean."
 
 #: data/ui/endpoint_pane.blp:265
 msgid "Check again"
@@ -416,6 +424,8 @@ msgid ""
 "You cannot pick a file from the file system until you save this request to "
 "disk."
 msgstr ""
+"Ezin duzu fitxategi-sistemako fitxategirik hautatu eskaera hau diskoan gorde "
+"arte."
 
 #: data/ui/file_body_pane.blp:97
 msgid ""

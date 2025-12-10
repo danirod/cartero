@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-31 23:21+0200\n"
-"PO-Revision-Date: 2025-09-01 16:02+0000\n"
+"PO-Revision-Date: 2025-12-04 12:00+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <ibaios@disroot.org>\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/cartero/cartero/"
 "eu/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13.1-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -84,6 +84,8 @@ msgstr "Gnome;GTK;HTTP;REST;"
 msgid ""
 "A specific locale to use within the application instead of the system default"
 msgstr ""
+"Aplikazioan erabiltzeko hizkuntza zehatza, sistemako lehenetsia erabili "
+"beharrean"
 
 #: data/es.danirod.Cartero.gschema.xml:16
 msgid "Automatically indent new lines for the request body"
@@ -214,10 +216,9 @@ msgid "Close request tab"
 msgstr "Itxi eskaeraren fitxa"
 
 #: data/gtk/help_overlay.blp:68
-#, fuzzy
 msgctxt "shortcuts window"
 msgid "Code view operations"
-msgstr "Eskaeren eragiketak"
+msgstr "Kode-bistaratze eragiketak"
 
 #: data/gtk/help_overlay.blp:71
 msgctxt "shortcuts window"
@@ -235,10 +236,9 @@ msgid "Reset zoom"
 msgstr "Berrezarri zooma"
 
 #: data/gtk/help_overlay.blp:86
-#, fuzzy
 msgctxt "shortcuts window"
 msgid "Start search"
-msgstr "Bilatu"
+msgstr "Hasi bilaketa"
 
 #: data/gtk/help_overlay.blp:92
 msgctxt "shortcuts window"
@@ -246,10 +246,9 @@ msgid "Request operations"
 msgstr "Eskaeren eragiketak"
 
 #: data/gtk/help_overlay.blp:95
-#, fuzzy
 msgctxt "shortcuts window"
 msgid "Focus URL"
-msgstr "Eskaeraren URLa"
+msgstr "Fokuratu URLa"
 
 #: data/gtk/help_overlay.blp:100
 msgctxt "shortcuts window"
@@ -319,6 +318,8 @@ msgid ""
 "Cartero supports reading variables from an .env file, but you need to enable "
 "the feature first."
 msgstr ""
+"Carterok .env fitxategi batetik aldagaiak irakurtzea ahalbidetzen du, baina "
+"aurrena eginbide hau gaitu beharra duzu."
 
 #: data/ui/endpoint_pane.blp:237 data/ui/main_window.blp:178
 #: data/ui/main_window_no_csd.blp:189 data/ui/settings/shell.blp:47
@@ -330,12 +331,16 @@ msgid ""
 "Cartero supports reading variables from an .env file, but you have to save "
 "the request first."
 msgstr ""
+"Carterok .env fitxategietatik aldagaiak irakurtzea ahalbidetzen du, baina "
+"aurrena eskaera gorde beharra duzu."
 
 #: data/ui/endpoint_pane.blp:259
 msgid ""
 "Place an .env file in the same disk directory as the request or in a parent "
 "directory to load the variables in Cartero."
 msgstr ""
+"Carteron aldagaiak kargatzeko, kokatu .env fitxategi bat eskaera gordeta "
+"dagoen direktorio berean, edo gaineko direktorio batean."
 
 #: data/ui/endpoint_pane.blp:265
 msgid "Check again"
@@ -350,20 +355,17 @@ msgid "Body"
 msgstr "Gorputza"
 
 #: data/ui/export_dialog.blp:54
-#, fuzzy
 msgid "Generated output"
-msgstr "Laster-tekla orokorrak"
+msgstr "Sortutako irteera"
 
 #: data/ui/export_dialog.blp:64
-#, fuzzy
 msgid "Copy to clipboard"
-msgstr "Edukia arbelera kopiatu da"
+msgstr "Kopiatu arbelera"
 
 #: data/ui/export_dialog.blp:69 data/ui/response_panel.blp:103
 #: src/widgets/file_dialogs.rs:230
-#, fuzzy
 msgid "Export to file"
-msgstr "Esportatu hona"
+msgstr "Esportatu fitxategira"
 
 #: data/ui/field_list_box_row.blp:23 data/ui/field_placeholder_row.blp:27
 msgid "Enabled"
@@ -402,10 +404,8 @@ msgid "Content Type"
 msgstr "Eduki mota"
 
 #: data/ui/file_body_pane.blp:41
-#, fuzzy
 msgid "or select a file from the file system:"
-msgstr ""
-"Ezin izan da fitxategi-hautatzailearen bidez baliozko fitxategia aukeratu"
+msgstr "edo hautatu fitxategi bat fitxategi-sistematik:"
 
 #: data/ui/file_body_pane.blp:50
 msgid "Select file…"
@@ -416,6 +416,8 @@ msgid ""
 "You cannot pick a file from the file system until you save this request to "
 "disk."
 msgstr ""
+"Ezin duzu fitxategi-sistemako fitxategirik hautatu eskaera hau diskoan gorde "
+"arte."
 
 #: data/ui/file_body_pane.blp:97
 msgid ""
@@ -476,7 +478,6 @@ msgid "Cut"
 msgstr "Ebaki"
 
 #: data/ui/mac_menu.blp:75
-#, fuzzy
 msgctxt "menubar"
 msgid "Copy"
 msgstr "Kopiatu"
@@ -487,7 +488,6 @@ msgid "Paste"
 msgstr "Itsatsi"
 
 #: data/ui/mac_menu.blp:85
-#, fuzzy
 msgctxt "menubar"
 msgid "Delete"
 msgstr "Ezabatu"
@@ -500,7 +500,7 @@ msgstr "Hautatu dena"
 #: data/ui/mac_menu.blp:99
 msgctxt "menubar"
 msgid "Endpoint"
-msgstr ""
+msgstr "Amaiera-puntua"
 
 #: data/ui/mac_menu.blp:103
 msgctxt "menubar"
@@ -614,19 +614,16 @@ msgid "Menu"
 msgstr "Menua"
 
 #: data/ui/main_window.blp:128 data/ui/main_window_no_csd.blp:139
-#, fuzzy
 msgid "Export request as cURL…"
-msgstr "Esportatu eskaera"
+msgstr "Esportatu eskaera cURL gisa…"
 
 #: data/ui/main_window.blp:134 data/ui/main_window_no_csd.blp:145
-#, fuzzy
 msgid "Export request as Jetbrains HTTP…"
-msgstr "Esportatu eskaera"
+msgstr "Esportatu eskaera Jetbrains HTTP gisa…"
 
 #: data/ui/main_window.blp:142 data/ui/main_window_no_csd.blp:153
-#, fuzzy
 msgid "Export response body…"
-msgstr "Esportatu eskaera"
+msgstr "Esportatu eskaeraren gorputza…"
 
 #: data/ui/main_window.blp:185 data/ui/main_window_no_csd.blp:196
 msgid "Keyboard shortcuts"
@@ -645,9 +642,8 @@ msgid "Request method"
 msgstr "Eskaera metodoa"
 
 #: data/ui/raw_body_pane.blp:28
-#, fuzzy
 msgid "Request body"
-msgstr "Eskaera metodoa"
+msgstr "Eskaera gorputza"
 
 #: data/ui/request_body_pane.blp:34
 msgid "Body type"
@@ -666,14 +662,12 @@ msgid "Raw"
 msgstr "Gordina"
 
 #: data/ui/request_body_pane.blp:65
-#, fuzzy
 msgid "From file"
-msgstr "Esportatu hona"
+msgstr "Fitxategitik"
 
 #: data/ui/response_headers.blp:42
-#, fuzzy
 msgid "No headers"
-msgstr "Goiburuak"
+msgstr "Goibururik gabe"
 
 #: data/ui/response_panel.blp:30
 msgid "Ready to request"
@@ -698,9 +692,8 @@ msgid "The response of this request should not be rendered in a text view."
 msgstr "Eskaeraren erantzuna ez litzateke testu gisa errendatu beharko."
 
 #: data/ui/response_panel.blp:110
-#, fuzzy
 msgid "Render anyway"
-msgstr "Itxi halere"
+msgstr "Erakutsi halere"
 
 #: data/ui/search_box.blp:42 data/ui/search_box.blp:43
 msgid "Search"
@@ -830,9 +823,8 @@ msgid "Proxy"
 msgstr "Proxya"
 
 #: data/ui/settings/page_proxy.blp:26
-#, fuzzy
 msgid "Proxy settings"
-msgstr "Fitxategien ezarpenak"
+msgstr "Proxy ezarpenak"
 
 #: data/ui/settings/page_proxy.blp:29
 msgid "HTTP Proxy"
@@ -875,7 +867,7 @@ msgstr ""
 
 #: data/ui/settings/page_proxy.blp:107
 msgid "Use environment variables as a fallback"
-msgstr ""
+msgstr "Erabili inguruneko aldagaiak alternatiba gisa"
 
 #: data/ui/settings/page_proxy.blp:127 data/ui/settings/page_proxy.blp:138
 #: data/ui/settings/page_proxy.blp:149
@@ -920,15 +912,16 @@ msgid ""
 "Cartero is free software, released under the terms of the GNU General Public "
 "License v3 or later."
 msgstr ""
+"Cartero software librea da, GNU Lizentzia Publiko Orokorraren (GPL) v3 edo "
+"bertsio berriagoen baldintzen pean argitaratua."
 
 #: data/ui/welcome/welcome_pane.blp:118 data/ui/welcome/welcome_pane.blp:166
 msgid "Know your rights"
 msgstr "Ezagutu zure eskubideak"
 
 #: data/ui/welcome/welcome_pane.blp:152
-#, fuzzy
 msgid "Social media updates"
-msgstr "Software eguneraketak"
+msgstr "Sare sozialetako eguneraketak"
 
 #. TRANSLATORS: if your language has a different word for free as in freedom and free as in beer, and it's clear that free means "freedom", you might skip the "as in freedom" bit if you wish.
 #: data/ui/welcome/welcome_pane.blp:182
@@ -942,20 +935,26 @@ msgid ""
 "\n"
 "Even if you use it at work or for commercial purposes."
 msgstr ""
+"Ez duzu baimenik eskatu beharrik edo lizentzia / harpidetzarik erosi "
+"beharrik software hau erabiltzeko.\n"
+"\n"
+"Ezta lanerako edo helburu komertzialetarako erabiltzen baduzu ere."
 
 #: data/ui/welcome/welcome_pane.blp:190
 msgid "You can get, study and modify the source code"
-msgstr ""
+msgstr "Iturburu kodea eskuratu, aztertu eta aldatu dezakezu"
 
 #: data/ui/welcome/welcome_pane.blp:191
 msgid ""
 "Mod the program so that it works exactly how you want, or just learn things "
 "if you are new to programming."
 msgstr ""
+"Aldatu programa zehatz-mehatz nahi duzun bezala funtziona dezan, edo erabili "
+"ikasteko, programatzen hasiberria bazara."
 
 #: data/ui/welcome/welcome_pane.blp:198
 msgid "You can share copies of the program"
-msgstr ""
+msgstr "Programaren kopiak parteka ditzakezu"
 
 #: data/ui/welcome/welcome_pane.blp:199
 msgid ""
@@ -965,21 +964,27 @@ msgid ""
 "(In other words: if you fork, your project must retain the GNU General "
 "Public License too.)"
 msgstr ""
+"Cartero birpaketatu dezakezu, edo softwarearen kopiak beste pertsonekin "
+"partekatu, betiere hartzaileek askatasun hauek eskuragarri dituztela.\n"
+"\n"
+"(Bestela esanda: zeure bertsio propioa sortzen baduzu, zure proiektuak ere "
+"GNU Lizentzia Publiko Orokorra mantendu behar du.)"
 
 #: data/ui/welcome/welcome_pane.blp:206
 msgid "Cartero is built in community"
-msgstr ""
+msgstr "Cartero komunitatean garatzen da"
 
 #: data/ui/welcome/welcome_pane.blp:207
 msgid ""
 "Share feedback, contribute code, report bugs, translate Cartero to your "
 "language… You can be part of this!"
 msgstr ""
+"Partekatu zure iritzia, lagundu kodean, eman arazoen berri, itzuli Cartero "
+"zure hizkuntzara… Zeuk ere parte har dezakezu!"
 
 #: data/ui/welcome/welcome_pane.blp:219
-#, fuzzy
 msgid "Previous"
-msgstr "Aurreko emaitza"
+msgstr "Aurrekoa"
 
 #: data/ui/welcome/welcome_pane.blp:235
 msgid "Next"
@@ -1039,19 +1044,18 @@ msgid "The given request body could not be encoded correctly"
 msgstr "Emandako eskaeraren gorputza ezin izan da behar bezala kodetu"
 
 #: src/interop.rs:76
-#, fuzzy
 msgid "You have to save the request first"
-msgstr "Ezin izan da eskatutako fitxategia gorde"
+msgstr "Aurrena eskaera gorde behar duzu"
 
 #: src/interop.rs:78
 #, rust-format
 msgid "The file '{}' cannot be accessed due to the security policy"
-msgstr ""
+msgstr "'{}' fitxategia ezin izan da atzitu, segurtasun-politikarengatik"
 
 #: src/interop.rs:83
-#, fuzzy, rust-format
+#, rust-format
 msgid "Defined value for proxy '{}' is not a valid configuration"
-msgstr "'{}' goiburuaren balioa ez da baliozkoa"
+msgstr "Proxyrako zehaztutako '{}' balioa ez da baliozko konfigurazioa"
 
 #: src/interop.rs:87
 msgid "There is an input/output error"
@@ -1136,9 +1140,8 @@ msgstr ""
 "lehenetsia erabiliko da."
 
 #: src/widgets/dialogs.rs:115
-#, fuzzy
 msgid "The requested file cannot be picked"
-msgstr "Eskatutako fitxategia kargatu da, baina arazoak zituen"
+msgstr "Ezin izan da eskatutako fitxategia hartu"
 
 #: src/widgets/dialogs.rs:116
 #, rust-format
@@ -1148,6 +1151,10 @@ msgid ""
 "\n"
 "The file '{}' is not part of the '{}' directory"
 msgstr ""
+"Fitxategia esakeraren edo proiektuaren fitxategia dagoen direktorio berean "
+"egon behar da, edo proiektuaren azpidirektorioren batean.\n"
+"\n"
+"'{}' fitxategia ez dago '{}' direktorioan"
 
 #: src/widgets/dialogs.rs:136
 #, rust-format
@@ -1183,9 +1190,8 @@ msgid "Error cause:"
 msgstr "Errorearen kausa:"
 
 #: src/widgets/dialogs.rs:178
-#, fuzzy
 msgid "Could not export the request"
-msgstr "Ezin izan da eskatutako fitxategia ireki"
+msgstr "Ezin izan da eskaera esportatu"
 
 #: src/widgets/dialogs.rs:191
 msgid "There are unsaved changes"
@@ -1251,14 +1257,12 @@ msgid "Show {} pre-generated headers"
 msgstr "Erakutsi aurrez sortutako {} goiburuak"
 
 #: src/widgets/endpoint/endpoint_pane.rs:842
-#, fuzzy
 msgid "Export request as cURL"
-msgstr "Esportatu eskaera"
+msgstr "Esportatu eskaera cURL gisa"
 
 #: src/widgets/endpoint/endpoint_pane.rs:843
-#, fuzzy
 msgid "Export request as Jetbrains HTTP"
-msgstr "Esportatu eskaera"
+msgstr "Esportatu eskaera Jetbrains HTTP gisa"
 
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
 #: src/widgets/endpoint/response_panel.rs:341

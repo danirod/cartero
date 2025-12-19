@@ -134,7 +134,7 @@ jobs:
     strategy:
       matrix:
         platform:
-          - runs-on: macos-13
+          - runs-on: macos-14
             name: x64
           - runs-on: macos-15
             name: arm64

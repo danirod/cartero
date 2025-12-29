@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-31 23:21+0200\n"
-"PO-Revision-Date: 2025-12-26 06:00+0000\n"
+"PO-Revision-Date: 2025-12-29 02:00+0000\n"
 "Last-Translator: Netinho Teixeira <fco.ernesto@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "cartero/cartero/pt_BR/>\n"
@@ -340,7 +340,7 @@ msgstr ""
 
 #: data/ui/endpoint_pane.blp:265
 msgid "Check again"
-msgstr ""
+msgstr "Verifique novamente"
 
 #: data/ui/endpoint_pane.blp:293
 msgid "Authorization"
@@ -397,7 +397,7 @@ msgstr "Arquivo"
 
 #: data/ui/file_body_pane.blp:30
 msgid "Content Type"
-msgstr ""
+msgstr "Tipo do Conteúdo"
 
 #: data/ui/file_body_pane.blp:41
 msgid "or select a file from the file system:"
@@ -412,6 +412,8 @@ msgid ""
 "You cannot pick a file from the file system until you save this request to "
 "disk."
 msgstr ""
+"Você não pode selecionar um arquivo do sistema até você salvar essa "
+"requisição."
 
 #: data/ui/file_body_pane.blp:97
 msgid ""
@@ -779,7 +781,7 @@ msgstr "Versão atual"
 
 #: data/ui/settings/page_code_editor.blp:22
 msgid "Code editor"
-msgstr ""
+msgstr "Editor de código"
 
 #: data/ui/settings/page_http_client.blp:22
 msgid "HTTP Client"
@@ -817,7 +819,7 @@ msgstr "Segundos para esperar antes de cancelar a solicitação"
 
 #: data/ui/settings/page_proxy.blp:22
 msgid "Proxy"
-msgstr ""
+msgstr "Proxy"
 
 #: data/ui/settings/page_proxy.blp:26
 msgid "Proxy settings"
@@ -825,15 +827,15 @@ msgstr "Configurações de proxy"
 
 #: data/ui/settings/page_proxy.blp:29
 msgid "HTTP Proxy"
-msgstr ""
+msgstr "Proxy HTTP"
 
 #: data/ui/settings/page_proxy.blp:33
 msgid "HTTPS Proxy"
-msgstr ""
+msgstr "Proxy HTTPS"
 
 #: data/ui/settings/page_proxy.blp:38
 msgid "Exclude from proxy"
-msgstr ""
+msgstr "Remover do proxy"
 
 #: data/ui/settings/page_proxy.blp:39
 msgid ""
@@ -843,15 +845,15 @@ msgstr ""
 
 #: data/ui/settings/page_proxy.blp:55 data/ui/settings/page_proxy.blp:56
 msgid "Address to exclude"
-msgstr ""
+msgstr "Endereços para excluir"
 
 #: data/ui/settings/page_proxy.blp:60
 msgid "Add"
-msgstr ""
+msgstr "Adicionar"
 
 #: data/ui/settings/page_proxy.blp:91
 msgid "Environment variables"
-msgstr ""
+msgstr "Variáveis do ambiente"
 
 #. TRANSLATORS: Keep the variable names "http_proxy", "https_proxy" and "no_proxy" in English because that's the name of the variable.
 #: data/ui/settings/page_proxy.blp:93
@@ -859,23 +861,25 @@ msgid ""
 "Cartero supports the use of the standard http_proxy, https_proxy and "
 "no_proxy environment variables to provide the system proxy settings."
 msgstr ""
+"O Cartero suporta o uso das variáveis de ambiente http_proxy, https_proxy e "
+"no_proxy para fornecer as configurações de proxy do sistema."
 
 #: data/ui/settings/page_proxy.blp:107
 msgid "Use environment variables as a fallback"
-msgstr ""
+msgstr "Use variáveis de ambiente como alternativa"
 
 #: data/ui/settings/page_proxy.blp:127 data/ui/settings/page_proxy.blp:138
 #: data/ui/settings/page_proxy.blp:149
 msgid "(empty)"
-msgstr ""
+msgstr "(vazio)"
 
 #: data/ui/settings/page_security.blp:22
 msgid "Security"
-msgstr ""
+msgstr "Segurança"
 
 #: data/ui/settings/page_security.blp:26
 msgid ".env files"
-msgstr ""
+msgstr "Arquivos .env"
 
 #: data/ui/settings/page_security.blp:27
 msgid ""
@@ -886,7 +890,7 @@ msgstr ""
 
 #: data/ui/settings/page_security.blp:31
 msgid "Find and load .env files"
-msgstr ""
+msgstr "Encontre e carregue arquivos .env"
 
 #: data/ui/settings/page_security.blp:32
 msgid ""

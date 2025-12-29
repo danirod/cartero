@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-31 23:21+0200\n"
-"PO-Revision-Date: 2025-12-29 02:00+0000\n"
+"PO-Revision-Date: 2025-12-29 16:00+0000\n"
 "Last-Translator: Netinho Teixeira <fco.ernesto@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "cartero/cartero/pt_BR/>\n"
@@ -945,7 +945,7 @@ msgstr ""
 
 #: data/ui/welcome/welcome_pane.blp:198
 msgid "You can share copies of the program"
-msgstr ""
+msgstr "Você pode compartilhar cópias do programa"
 
 #: data/ui/welcome/welcome_pane.blp:199
 msgid ""
@@ -958,13 +958,15 @@ msgstr ""
 
 #: data/ui/welcome/welcome_pane.blp:206
 msgid "Cartero is built in community"
-msgstr ""
+msgstr "O Cartero foi construído em comunidade e pela comunidade."
 
 #: data/ui/welcome/welcome_pane.blp:207
 msgid ""
 "Share feedback, contribute code, report bugs, translate Cartero to your "
 "language… You can be part of this!"
 msgstr ""
+"Compartilhe sua opinião, contribua com código, reporte erros, traduza "
+"Cartero para o seu idioma… Faça parte disso!"
 
 #: data/ui/welcome/welcome_pane.blp:219
 msgid "Previous"
@@ -972,7 +974,7 @@ msgstr "Anterior"
 
 #: data/ui/welcome/welcome_pane.blp:235
 msgid "Next"
-msgstr ""
+msgstr "Próximo"
 
 #: src/interop.rs:32
 msgid ""
@@ -1173,7 +1175,7 @@ msgstr ""
 
 #: src/widgets/dialogs.rs:173
 msgid "Error cause:"
-msgstr ""
+msgstr "Causa do erro:"
 
 #: src/widgets/dialogs.rs:178
 msgid "Could not export the request"
@@ -1228,19 +1230,19 @@ msgstr "_Salvar"
 #, rust-format
 msgid "Show {} variable from .env"
 msgid_plural "Show {} variables from .env"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Exibir variável {} do arquivo .env"
+msgstr[1] "Exibir variáveis {} do arquivo .env"
 
 #: src/widgets/endpoint/endpoint_pane.rs:570
 #: src/widgets/endpoint/endpoint_pane.rs:576
 #: src/widgets/endpoint/endpoint_pane.rs:597
 msgid "(generated during request)"
-msgstr ""
+msgstr "(gerado durante a requisição)"
 
 #: src/widgets/endpoint/endpoint_pane.rs:625
 #, rust-format
 msgid "Show {} pre-generated headers"
-msgstr ""
+msgstr "Exibir os cabeçalhos pré-gerados {}"
 
 #: src/widgets/endpoint/endpoint_pane.rs:842
 msgid "Export request as cURL"
@@ -1329,11 +1331,11 @@ msgstr "© 2024-2025 Os autores Cartero"
 
 #: src/windows/settings/pages/proxy.rs:205
 msgid "The value is not a valid domain or IP address"
-msgstr ""
+msgstr "O valor não é um domínio válido ou endereço IP"
 
 #: src/windows/settings/pages/proxy.rs:220
 msgid "The host identifier is already excluded"
-msgstr ""
+msgstr "O host identificado já foi excluído"
 
 #: src/windows/settings/pages/proxy.rs:240
 #, rust-format

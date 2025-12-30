@@ -134,9 +134,9 @@ jobs:
     strategy:
       matrix:
         platform:
-          - runs-on: macos-14
+          - runs-on: macos-15-intel
             name: x64
-          - runs-on: macos-15
+          - runs-on: macos-26
             name: arm64
       fail-fast: false
     name: "macOS ${{ matrix.platform.name }}"

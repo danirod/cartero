@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-31 23:21+0200\n"
-"PO-Revision-Date: 2025-08-09 13:10+0000\n"
-"Last-Translator: John Peter Sa <johnppetersa@gmail.com>\n"
+"PO-Revision-Date: 2025-12-29 16:00+0000\n"
+"Last-Translator: Netinho Teixeira <fco.ernesto@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "cartero/cartero/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 5.15.1\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -316,6 +316,8 @@ msgid ""
 "Cartero supports reading variables from an .env file, but you need to enable "
 "the feature first."
 msgstr ""
+"O Cartero suporta ler as variáveis de um arquivo .env, mas você precisa "
+"habilitar esse recurso antes."
 
 #: data/ui/endpoint_pane.blp:237 data/ui/main_window.blp:178
 #: data/ui/main_window_no_csd.blp:189 data/ui/settings/shell.blp:47
@@ -327,6 +329,8 @@ msgid ""
 "Cartero supports reading variables from an .env file, but you have to save "
 "the request first."
 msgstr ""
+"O Cartero suporte ler as variáveis de um arquivo .env, mas você precisa "
+"salvar a requisição primeiro."
 
 #: data/ui/endpoint_pane.blp:259
 msgid ""
@@ -336,7 +340,7 @@ msgstr ""
 
 #: data/ui/endpoint_pane.blp:265
 msgid "Check again"
-msgstr ""
+msgstr "Verifique novamente"
 
 #: data/ui/endpoint_pane.blp:293
 msgid "Authorization"
@@ -388,29 +392,28 @@ msgid "Delete"
 msgstr "Excluir"
 
 #: data/ui/file_body_pane.blp:26
-#, fuzzy
 msgid "File"
 msgstr "Arquivo"
 
 #: data/ui/file_body_pane.blp:30
 msgid "Content Type"
-msgstr ""
+msgstr "Tipo do Conteúdo"
 
 #: data/ui/file_body_pane.blp:41
-#, fuzzy
 msgid "or select a file from the file system:"
-msgstr "Não foi possível selecionar um arquivo válido no seletor de arquivos"
+msgstr "Não foi possível selecionar um arquivo válido no seletor de arquivos:"
 
 #: data/ui/file_body_pane.blp:50
-#, fuzzy
 msgid "Select file…"
-msgstr "Selecionar arquivo"
+msgstr "Selecionar arquivo…"
 
 #: data/ui/file_body_pane.blp:71
 msgid ""
 "You cannot pick a file from the file system until you save this request to "
 "disk."
 msgstr ""
+"Você não pode selecionar um arquivo do sistema até você salvar essa "
+"requisição."
 
 #: data/ui/file_body_pane.blp:97
 msgid ""
@@ -778,7 +781,7 @@ msgstr "Versão atual"
 
 #: data/ui/settings/page_code_editor.blp:22
 msgid "Code editor"
-msgstr ""
+msgstr "Editor de código"
 
 #: data/ui/settings/page_http_client.blp:22
 msgid "HTTP Client"
@@ -816,24 +819,23 @@ msgstr "Segundos para esperar antes de cancelar a solicitação"
 
 #: data/ui/settings/page_proxy.blp:22
 msgid "Proxy"
-msgstr ""
+msgstr "Proxy"
 
 #: data/ui/settings/page_proxy.blp:26
-#, fuzzy
 msgid "Proxy settings"
-msgstr "Configurações de arquivo"
+msgstr "Configurações de proxy"
 
 #: data/ui/settings/page_proxy.blp:29
 msgid "HTTP Proxy"
-msgstr ""
+msgstr "Proxy HTTP"
 
 #: data/ui/settings/page_proxy.blp:33
 msgid "HTTPS Proxy"
-msgstr ""
+msgstr "Proxy HTTPS"
 
 #: data/ui/settings/page_proxy.blp:38
 msgid "Exclude from proxy"
-msgstr ""
+msgstr "Remover do proxy"
 
 #: data/ui/settings/page_proxy.blp:39
 msgid ""
@@ -843,15 +845,15 @@ msgstr ""
 
 #: data/ui/settings/page_proxy.blp:55 data/ui/settings/page_proxy.blp:56
 msgid "Address to exclude"
-msgstr ""
+msgstr "Endereços para excluir"
 
 #: data/ui/settings/page_proxy.blp:60
 msgid "Add"
-msgstr ""
+msgstr "Adicionar"
 
 #: data/ui/settings/page_proxy.blp:91
 msgid "Environment variables"
-msgstr ""
+msgstr "Variáveis do ambiente"
 
 #. TRANSLATORS: Keep the variable names "http_proxy", "https_proxy" and "no_proxy" in English because that's the name of the variable.
 #: data/ui/settings/page_proxy.blp:93
@@ -859,23 +861,25 @@ msgid ""
 "Cartero supports the use of the standard http_proxy, https_proxy and "
 "no_proxy environment variables to provide the system proxy settings."
 msgstr ""
+"O Cartero suporta o uso das variáveis de ambiente http_proxy, https_proxy e "
+"no_proxy para fornecer as configurações de proxy do sistema."
 
 #: data/ui/settings/page_proxy.blp:107
 msgid "Use environment variables as a fallback"
-msgstr ""
+msgstr "Use variáveis de ambiente como alternativa"
 
 #: data/ui/settings/page_proxy.blp:127 data/ui/settings/page_proxy.blp:138
 #: data/ui/settings/page_proxy.blp:149
 msgid "(empty)"
-msgstr ""
+msgstr "(vazio)"
 
 #: data/ui/settings/page_security.blp:22
 msgid "Security"
-msgstr ""
+msgstr "Segurança"
 
 #: data/ui/settings/page_security.blp:26
 msgid ".env files"
-msgstr ""
+msgstr "Arquivos .env"
 
 #: data/ui/settings/page_security.blp:27
 msgid ""
@@ -886,7 +890,7 @@ msgstr ""
 
 #: data/ui/settings/page_security.blp:31
 msgid "Find and load .env files"
-msgstr ""
+msgstr "Encontre e carregue arquivos .env"
 
 #: data/ui/settings/page_security.blp:32
 msgid ""
@@ -913,9 +917,8 @@ msgid "Know your rights"
 msgstr ""
 
 #: data/ui/welcome/welcome_pane.blp:152
-#, fuzzy
 msgid "Social media updates"
-msgstr "Atualizações de software"
+msgstr "Atualizações nas redes sociais"
 
 #. TRANSLATORS: if your language has a different word for free as in freedom and free as in beer, and it's clear that free means "freedom", you might skip the "as in freedom" bit if you wish.
 #: data/ui/welcome/welcome_pane.blp:182
@@ -942,7 +945,7 @@ msgstr ""
 
 #: data/ui/welcome/welcome_pane.blp:198
 msgid "You can share copies of the program"
-msgstr ""
+msgstr "Você pode compartilhar cópias do programa"
 
 #: data/ui/welcome/welcome_pane.blp:199
 msgid ""
@@ -955,22 +958,23 @@ msgstr ""
 
 #: data/ui/welcome/welcome_pane.blp:206
 msgid "Cartero is built in community"
-msgstr ""
+msgstr "O Cartero foi construído em comunidade e pela comunidade."
 
 #: data/ui/welcome/welcome_pane.blp:207
 msgid ""
 "Share feedback, contribute code, report bugs, translate Cartero to your "
 "language… You can be part of this!"
 msgstr ""
+"Compartilhe sua opinião, contribua com código, reporte erros, traduza "
+"Cartero para o seu idioma… Faça parte disso!"
 
 #: data/ui/welcome/welcome_pane.blp:219
-#, fuzzy
 msgid "Previous"
-msgstr "Resultado anterior"
+msgstr "Anterior"
 
 #: data/ui/welcome/welcome_pane.blp:235
 msgid "Next"
-msgstr ""
+msgstr "Próximo"
 
 #: src/interop.rs:32
 msgid ""
@@ -1036,9 +1040,9 @@ msgid "The file '{}' cannot be accessed due to the security policy"
 msgstr "O arquivo '{}' não pode ser acessado devido à política de segurança"
 
 #: src/interop.rs:83
-#, fuzzy, rust-format
+#, rust-format
 msgid "Defined value for proxy '{}' is not a valid configuration"
-msgstr "O valor do cabeçalho '{}' não é válido"
+msgstr "O valor definido para o proxy '{}' não é uma configuração válida"
 
 #: src/interop.rs:87
 msgid "There is an input/output error"
@@ -1171,12 +1175,11 @@ msgstr ""
 
 #: src/widgets/dialogs.rs:173
 msgid "Error cause:"
-msgstr ""
+msgstr "Causa do erro:"
 
 #: src/widgets/dialogs.rs:178
-#, fuzzy
 msgid "Could not export the request"
-msgstr "Não é possível abrir o arquivo solicitado"
+msgstr "Não é possível exportar a requisição"
 
 #: src/widgets/dialogs.rs:191
 msgid "There are unsaved changes"
@@ -1227,19 +1230,19 @@ msgstr "_Salvar"
 #, rust-format
 msgid "Show {} variable from .env"
 msgid_plural "Show {} variables from .env"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Exibir variável {} do arquivo .env"
+msgstr[1] "Exibir variáveis {} do arquivo .env"
 
 #: src/widgets/endpoint/endpoint_pane.rs:570
 #: src/widgets/endpoint/endpoint_pane.rs:576
 #: src/widgets/endpoint/endpoint_pane.rs:597
 msgid "(generated during request)"
-msgstr ""
+msgstr "(gerado durante a requisição)"
 
 #: src/widgets/endpoint/endpoint_pane.rs:625
 #, rust-format
 msgid "Show {} pre-generated headers"
-msgstr ""
+msgstr "Exibir os cabeçalhos pré-gerados {}"
 
 #: src/widgets/endpoint/endpoint_pane.rs:842
 msgid "Export request as cURL"
@@ -1328,11 +1331,11 @@ msgstr "© 2024-2025 Os autores Cartero"
 
 #: src/windows/settings/pages/proxy.rs:205
 msgid "The value is not a valid domain or IP address"
-msgstr ""
+msgstr "O valor não é um domínio válido ou endereço IP"
 
 #: src/windows/settings/pages/proxy.rs:220
 msgid "The host identifier is already excluded"
-msgstr ""
+msgstr "O host identificado já foi excluído"
 
 #: src/windows/settings/pages/proxy.rs:240
 #, rust-format

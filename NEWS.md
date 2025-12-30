@@ -14,7 +14,7 @@ These are the user-visible changes that you will notice when you use Cartero.
 
 * The response pane will now render the effective URL of a response.
 * It is now possible to reveal the values of .env variables in the endpoint pane.
-* Translation updates: Basque, Indonesian, Simplified Chinese.
+* Translation updates: Basque, Indonesian, Portuguese (Brazil), Simplified Chinese.
 
 ### Fixed
 

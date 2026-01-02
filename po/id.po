@@ -1331,7 +1331,7 @@ msgid "translator-credits"
 msgstr ""
 
 #: src/win.rs:631
-msgid "© 2024-2025 the Cartero authors"
+msgid "© 2024-2026 the Cartero authors"
 msgstr ""
 
 #: src/windows/settings/pages/proxy.rs:205

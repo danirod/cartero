@@ -1,5 +1,5 @@
 # Russian translations for Cartero package.
-# Copyright (C) 2024-2025 Dani Rodríguez
+# Copyright (C) 2024-2026 Dani Rodríguez
 # This file is distributed under the same license as the Cartero package.
 # Vladimir Kosolapov, 2024.
 #
@@ -1347,8 +1347,8 @@ msgid "translator-credits"
 msgstr "Vladimir Kosolapov"
 
 #: src/win.rs:627
-msgid "© 2024-2025 the Cartero authors"
-msgstr "© 2024-2025 Авторы Cartero"
+msgid "© 2024-2026 the Cartero authors"
+msgstr "© 2024-2026 Авторы Cartero"
 
 #: src/windows/settings/pages/proxy.rs:205
 msgid "The value is not a valid domain or IP address"

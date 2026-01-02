@@ -1338,8 +1338,8 @@ msgid "translator-credits"
 msgstr "Ibai Oihanguren Sala"
 
 #: src/win.rs:627
-msgid "© 2024-2025 the Cartero authors"
-msgstr "© 2024-2025 Carteroren egileak"
+msgid "© 2024-2026 the Cartero authors"
+msgstr "© 2024-2026 Carteroren egileak"
 
 #: src/windows/settings/pages/proxy.rs:205
 msgid "The value is not a valid domain or IP address"

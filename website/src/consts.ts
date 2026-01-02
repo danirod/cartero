@@ -3,4 +3,4 @@
 
 export const SITE_TITLE = "Cartero";
 export const SITE_DESCRIPTION = "Make HTTP requests and test APIs";
-export const LATEST_VERSION = "25.1";
+export const LATEST_VERSION = "26.0";

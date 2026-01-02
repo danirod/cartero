@@ -2,7 +2,7 @@
 
 These are the user-visible changes that you will notice when you use Cartero.
 
-## [25.1] - unreleased
+## [26.0] - unreleased
 
 ### Added
 

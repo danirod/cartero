@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-08-31 23:21+0200\n"
-"PO-Revision-Date: 2025-12-29 16:00+0000\n"
-"Last-Translator: Netinho Teixeira <fco.ernesto@gmail.com>\n"
+"PO-Revision-Date: 2026-01-02 03:01+0000\n"
+"Last-Translator: John Peter Sa <johnppetersa@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "cartero/cartero/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -337,6 +337,8 @@ msgid ""
 "Place an .env file in the same disk directory as the request or in a parent "
 "directory to load the variables in Cartero."
 msgstr ""
+"Coloque um arquivo .env no mesmo diretório do disco que a requisição ou em "
+"um diretório pai para carregar as variáveis no Cartero."
 
 #: data/ui/endpoint_pane.blp:265
 msgid "Check again"
@@ -422,6 +424,10 @@ msgid ""
 "if they are in a parent directory or outside the project folder, or use "
 "absolute paths."
 msgstr ""
+"Você só pode anexar arquivos a uma solicitação se eles estiverem no mesmo "
+"diretório que o arquivo de solicitação ou em um subdiretório. Não é possível "
+"anexar arquivos a uma solicitação se eles estiverem em um diretório pai, "
+"fora da pasta do projeto ou se utilizarem caminhos absolutos."
 
 #: data/ui/mac_menu.blp:21
 msgctxt "menubar"
@@ -842,6 +848,8 @@ msgid ""
 "IP addresses and domain names contained in this list will bypass the proxy "
 "settings and be accessed directly."
 msgstr ""
+"Os endereços IP e nomes de domínio contidos nesta lista irão ignorar as "
+"configurações de proxy e serão acessados diretamente."
 
 #: data/ui/settings/page_proxy.blp:55 data/ui/settings/page_proxy.blp:56
 msgid "Address to exclude"
@@ -887,6 +895,10 @@ msgid ""
 "credentials. Cartero can locate .env files and expose the variables inside "
 "so that you can use them in your requests."
 msgstr ""
+"Os arquivos .env são comumente usados em projetos para armazenar valores "
+"sensíveis, como credenciais. O Cartero consegue localizar arquivos .env e "
+"expor as variáveis contidas neles para que você possa usá-las em suas "
+"requisições."
 
 #: data/ui/settings/page_security.blp:31
 msgid "Find and load .env files"
@@ -897,6 +909,8 @@ msgid ""
 "Cartero will only traverse your disk looking for .env files if you enable "
 "this option."
 msgstr ""
+"O Cartero só percorrerá seu disco em busca de arquivos .env se você ativar "
+"esta opção."
 
 #: data/ui/welcome/welcome_pane.blp:45
 msgid "Welcome to Cartero"
@@ -911,10 +925,12 @@ msgid ""
 "Cartero is free software, released under the terms of the GNU General Public "
 "License v3 or later."
 msgstr ""
+"Cartero é um software livre, distribuído sob os termos da Licença Pública "
+"Geral GNU versão 3 ou posterior."
 
 #: data/ui/welcome/welcome_pane.blp:118 data/ui/welcome/welcome_pane.blp:166
 msgid "Know your rights"
-msgstr ""
+msgstr "Conheça seus direitos"
 
 #: data/ui/welcome/welcome_pane.blp:152
 msgid "Social media updates"
@@ -923,7 +939,7 @@ msgstr "Atualizações nas redes sociais"
 #. TRANSLATORS: if your language has a different word for free as in freedom and free as in beer, and it's clear that free means "freedom", you might skip the "as in freedom" bit if you wish.
 #: data/ui/welcome/welcome_pane.blp:182
 msgid "You can use Cartero for free (as in freedom)"
-msgstr ""
+msgstr "Você pode usar o Cartero gratuitamente (no sentido de liberdade)"
 
 #: data/ui/welcome/welcome_pane.blp:183
 msgid ""
@@ -932,16 +948,22 @@ msgid ""
 "\n"
 "Even if you use it at work or for commercial purposes."
 msgstr ""
+"Você não precisa pedir permissão nem comprar uma licença ou assinatura para "
+"usar este software.\n"
+"\n"
+"Mesmo se você o usar no trabalho ou para fins comerciais."
 
 #: data/ui/welcome/welcome_pane.blp:190
 msgid "You can get, study and modify the source code"
-msgstr ""
+msgstr "Você pode obter, estudar e modificar o código-fonte"
 
 #: data/ui/welcome/welcome_pane.blp:191
 msgid ""
 "Mod the program so that it works exactly how you want, or just learn things "
 "if you are new to programming."
 msgstr ""
+"Modifique o programa para que funcione exatamente como você deseja, ou "
+"simplesmente aprenda coisas novas se você for iniciante em programação."
 
 #: data/ui/welcome/welcome_pane.blp:198
 msgid "You can share copies of the program"
@@ -955,6 +977,12 @@ msgid ""
 "(In other words: if you fork, your project must retain the GNU General "
 "Public License too.)"
 msgstr ""
+"Você pode reempacotar o Cartero ou compartilhar cópias do software com "
+"outras pessoas, desde que os destinatários também tenham acesso a essas "
+"liberdades.\n"
+"\n"
+"(Em outras palavras: se você criar um fork, seu projeto também deverá manter "
+"a Licença Pública Geral GNU.)"
 
 #: data/ui/welcome/welcome_pane.blp:206
 msgid "Cartero is built in community"
@@ -1172,6 +1200,9 @@ msgid ""
 "likely a development error. (If you could report your test case and this "
 "error, we might be able to fix this in the future.)"
 msgstr ""
+"Ocorreu um erro interno durante o processo de exportação. É muito provável "
+"que seja um erro de desenvolvimento. (Se você pudesse nos informar seu caso "
+"de teste e o erro, talvez possamos corrigi-lo no futuro.)"
 
 #: src/widgets/dialogs.rs:173
 msgid "Error cause:"
@@ -1340,20 +1371,20 @@ msgstr "O host identificado já foi excluído"
 #: src/windows/settings/pages/proxy.rs:240
 #, rust-format
 msgid "Delete '{}' from the list of excluded hosts for the proxy?"
-msgstr ""
+msgstr "Remover '{}' da lista de hosts excluídos para o proxy?"
 
 #: src/windows/settings/pages/proxy.rs:245
 msgid "Delete identifier?"
-msgstr ""
+msgstr "Excluir identificador?"
 
 #: src/windows/settings/pages/proxy.rs:249
 #: src/windows/settings/pages/proxy.rs:284
 msgid "Remove"
-msgstr ""
+msgstr "Remover"
 
 #: src/windows/settings/pages/proxy.rs:268
 msgid "No domains or IP addresses are being excluded"
-msgstr ""
+msgstr "Nenhum domínio ou endereço IP está sendo excluído"
 
 #~ msgid "The current tab is not associated with a file"
 #~ msgstr "A aba atual não está associada a um arquivo"

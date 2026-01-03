@@ -1,0 +1,2 @@
+The response pane will now render the effective URL of a response.
+It is now possible to reveal the values of .env variables in the endpoint pane.

@@ -62,6 +62,7 @@ dangerous actions.
 
 Control how the application looks.
 
+* **Color scheme**: the color palette in use by the text editors and app.
 * **Application style**: set the theme to light, dark, or use the global
   style defined by the settings of your operating system.
 * **Use system font**: when enabled, Cartero will use the default monospace

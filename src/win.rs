@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -633,7 +633,7 @@ mod imp {
                 ])
                 // Translators: Replace "translator-credits" with your names. Put a comma between.
                 .translator_credits(gettext("translator-credits"))
-                .copyright(gettext("© 2024-2025 the Cartero authors"))
+                .copyright(gettext("© 2024-2026 the Cartero authors"))
                 .release_notes(include_str!("widgets/changelog.xml.inc"))
                 .license_type(gtk::License::Gpl30)
                 .build();

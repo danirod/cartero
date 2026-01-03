@@ -1287,7 +1287,7 @@ msgid "translator-credits"
 msgstr "Dani Rodríguez"
 
 #: src/win.rs:627
-msgid "© 2024-2025 the Cartero authors"
+msgid "© 2024-2026 the Cartero authors"
 msgstr ""
 
 #: src/windows/settings/pages/proxy.rs:205

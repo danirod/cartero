@@ -1,0 +1,2 @@
+The URL field will be less laggy when the URL has query parameters, thanks to a performance increase in how query params are reflected in the table in the Parameters tab.
+Windows, macOS, AppImage: updated vendored runtime to GTK 4.18.4.

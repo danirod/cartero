@@ -1,0 +1,4 @@
+Fixed accessibility issues: missing labels and tooltips within some window widgets.
+Some keyboard shortcuts were not being described by thee Keyboard Shortcuts help dialog.
+The dropdown menu for the request method had the wrong appearance when the computer uses a right-to-left layout (such as Arabic or Hebrew).
+MacOS: Zoom in, zoom out, zoom reset and search keyboard shortcuts for code views were using the wrong keyboard modifiers.

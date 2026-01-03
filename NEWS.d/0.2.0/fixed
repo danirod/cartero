@@ -1,0 +1,6 @@
+Requests whose URL do not start with http:// or https:// (such as "localhost:3000/users") should not fail now.
+During prettification of JSON responses, objects were being sorted; they will respect the original order now.
+The headers and variables tables lost the ability to report when a field name was duplicated.
+Disabled query params in the Parameters table were lost when the request URL changed.
+Windows: closing the settings dialog sometimes buried the Cartero main window under other windows.
+Windows: the title bar stayed in light mode even when the application ran in dark mode.

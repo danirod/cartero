@@ -19,7 +19,7 @@ To start a new session, you will probably want to create a request. There are ma
 
 ## The endpoint layout
 
-In Cartero 25.0, the endpoint pane is organized in sections:
+In Cartero 26.0, the endpoint pane is organized in sections:
 
 ![A screenshot of the empty request panel of Cartero](images/cartero-areas.png)
 

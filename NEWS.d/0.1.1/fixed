@@ -1,0 +1,3 @@
+The application may not open files when running as a Flatpak in sandbox mode
+The Nix flake did not build due to some missing dependencies
+Clicking on any link on Microsoft Windows did not open the default web browser

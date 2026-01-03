@@ -1,0 +1,4 @@
+Pressing the Enter key while focusing the request URL entry will now send the HTTP request
+The response body page is now the default page for the response notebook
+The HTTP status code will now use semantic colors to report the status code category (success, client error, server error...)
+Provided a Metainfo file for submission into Flathub

@@ -1357,8 +1357,8 @@ msgid "translator-credits"
 msgstr "john peter"
 
 #: src/win.rs:627
-msgid "© 2024-2025 the Cartero authors"
-msgstr "© 2024-2025 Os autores Cartero"
+msgid "© 2024-2026 the Cartero authors"
+msgstr "© 2024-2026 Os autores Cartero"
 
 #: src/windows/settings/pages/proxy.rs:205
 msgid "The value is not a valid domain or IP address"

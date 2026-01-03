@@ -1346,8 +1346,8 @@ msgid "translator-credits"
 msgstr "Eric Pernas"
 
 #: src/win.rs:627
-msgid "© 2024-2025 the Cartero authors"
-msgstr "© 2024-2025 os autores de Cartero"
+msgid "© 2024-2026 the Cartero authors"
+msgstr "© 2024-2026 os autores de Cartero"
 
 #: src/windows/settings/pages/proxy.rs:205
 msgid "The value is not a valid domain or IP address"

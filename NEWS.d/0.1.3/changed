@@ -1,0 +1,5 @@
+It is now possible to disable validation of TLS certificates.
+It is now possible to follow redirections when making HTTP requests.
+It is now possible to configure a timeout for the HTTP request.
+It is now possible to customize the font used for the text area panes.
+It is now possible to customize the light or dark appearance of the application.

@@ -1,0 +1,8 @@
+An authorization tab, currently supporting basic authentication and bearer tokens.
+A Cancel button to stop an HTTP request in progress.
+An error panel to report errors related to a failing web request.
+Alert dialogs to report errors related to loading and saving files.
+New keyboard shortcuts and mouse gestures for zooming text views.
+Improved the about dialog.
+Windows, MacOS and AppImage: a software update checker has been added to the settings dialog.
+MacOS: added a menu bar for quick access to the application commands.

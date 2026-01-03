@@ -161,6 +161,7 @@ path = [
     "**/README.md",
     "ChangeLog",
     "NEWS.md",
+    "NEWS.d/*/*",
     "docs/src/**/*.md",
     "docs/src/**/*.png",
     "docs/theme/head.hbs",

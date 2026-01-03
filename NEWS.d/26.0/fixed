@@ -1,0 +1,1 @@
+Responses were being treated as binary if they contained the CR (\r) character.

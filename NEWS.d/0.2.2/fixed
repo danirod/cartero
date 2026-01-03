@@ -1,0 +1,5 @@
+The query params table did not reflect the query params when the address in the URL field started with a variable.
+Fields modified in the query parameters table will not be rendered url-encoded in the URL field, as they used to.
+Requests will not fail anymore if they have a disabled header that references an undefined variable.
+GNU/Linux: fixed an application crash if gsettings-desktop-schemas is not available.
+macOS: the save dialog will not present two extensions in the initial file name in macOS Sequoia.

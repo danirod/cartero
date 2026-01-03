@@ -1,0 +1,3 @@
+Prevents tabs from becoming unresponsive if a request fails in certain conditions.
+Prevents requests from failing if they have a trailing or leading space.
+Requests whose URL start with a variable (bound to something that starts with http or https) can be made again.

@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<moduleset>
+<repository name="curl"
+              href="https://curl.se/download/"
+              type="tarball" />
+
+  <repository name="gnome"
+              default="yes"
+              href="https://download.gnome.org/sources/"
+              type="tarball" />
+  <repository name="github"
+              href="https://github.com/"
+              type="tarball" />
+
+<meson id="libxmlb"
+         mesonargs="-Dgtkdoc=false">
+    <branch module="hughsie/libxmlb/releases/download/0.3.14/libxmlb-0.3.14.tar.xz"
+            version="0.3.14"
+            hash="sha256:a2f0056eed14ff791aee2b08b1514a0f1b6cf215f0579138a8cae8c45a0d3b0f"
+            repo="github" />
+    <dependencies>
+      <dep package="zstd" />
+    </dependencies>
+  </meson>
+  <!---->
+  <autotools id="libyaml"
+             autogen-sh="configure">
+    <branch module="yaml/libyaml/releases/download/0.2.5/yaml-0.2.5.tar.gz"
+            version="0.2.5"
+            hash="sha256:c642ae9b75fee120b2d96c712538bd2cf283228d2337df2cf2988e3c02678ef4"
+            repo="github" />
+  </autotools>
+
+  <cmake id="zstd" cmakeargs='-DCMAKE_INSTALL_LIBDIR=$JHBUILD_PREFIX/lib -DCMAKE_POLICY_VERSION_MINIMUM=3.5'>
+    <branch module="facebook/zstd/releases/download/v1.5.5/zstd-1.5.5.tar.gz"
+            version="1.5.5"
+            hash="sha256:9c4396cc829cfae319a6e2615202e82aad41372073482fce286fac78646d3ee4"
+            repo="github">
+      <!--
+        no cmake files in the root folder
+      -->
+      <patch file="zstd-cmake.patch"
+             strip="1" />
+    </branch>
+  </cmake>
+
+
+
+<cmake id="curl">
+    <branch module="curl-8.4.0.tar.xz"
+            version="8.4.0"
+            hash="sha256:16c62a9c4af0f703d28bda6d7bbf37ba47055ad3414d70dec63e2e6336f2a82d"
+            repo="curl">
+    </branch>
+    <dependencies>
+      <dep package="openssl" />
+      <dep package="zlib" />
+      <dep package="zstd" />
+    </dependencies>
+  </cmake>
+
+<meson id="appstream"
+         mesonargs="-Dsystemd=false -Dstemming=false -Dc_args=-D_DARWIN_C_SOURCE">
+
+    <branch module="ximion/appstream/archive/refs/tags/v1.0.0.tar.gz"
+            version="1.0.0"
+            hash="sha256:e964fea8b4b7efac7976dc13da856421ddec4299acb5012a7c059f03eabcbeae"
+            checkoutdir="appstream-1.0.0"
+            rename-tarball="appstream-1.0.0.tar.gz"
+            repo="github">
+      <patch file="appstream-disable_docs.patch"
+             strip="1" />
+    </branch>
+    <dependencies>
+      <dep package="itstool" />
+      <dep package="curl" />
+      <dep package="libxmlb" />
+      <dep package="libyaml" />
+    </dependencies>
+  </meson>
+
+  <meson id="libadwaita"
+         mesonargs="-Dintrospection=enabled -Dvapi=false">
+    <branch module="libadwaita/1.7/libadwaita-1.7.2.tar.xz"
+            version="1.7.2"
+            hash="sha256:28ee2ff589c6debe47af9da7a56e37c97d6849e003918a4b223f690d25f960be"
+            repo="gnome" />
+    <dependencies>
+      <dep package="appstream" />
+      <dep package="glib" />
+      <dep package="gobject-introspection" />
+      <dep package="gtk-4" />
+    </dependencies>
+  </meson>
+
+</moduleset>

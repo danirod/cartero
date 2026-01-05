@@ -1,0 +1,240 @@
+<!ELEMENT moduleset (if|redirect|repository|include|autotools|metamodule|tarball|distutils|perl|linux|testmodule|cvsroot|cvsmodule|waf|cmake|meson|systemmodule)+>
+<!ATTLIST moduleset
+	name     CDATA  #IMPLIED>
+
+<!-- DTD is incapable of allowing different children of an element
+     of a given name depending on the context in which it appears so
+     this is more permissive than it ought to be.  The RNG version
+     of the schema gets this correct.
+
+     DTD also appears to be incapable of describing the fact that
+     exactly one of condition-set='' and condition-unset='' is required.
+-->
+<!ELEMENT if (if|autotools|dep|autogenargs|cmakeargs|mesonargs|makeargs|ninjaargs|makeinstallargs)+>
+<!ATTLIST if
+	condition-set	CDATA	#IMPLIED
+	condition-unset	CDATA	#IMPLIED>
+
+<!ELEMENT repository (mirror*)>
+<!ATTLIST repository
+	name	 CDATA  #REQUIRED
+	type	 (arch|bzr|cvs|darcs|fossil|git|hg|mtn|svn|system|tarball)  #REQUIRED
+	default  (yes|no)  "no"
+	password CDATA  #IMPLIED
+	cvsroot	 CDATA  #IMPLIED
+	archive	 CDATA	#IMPLIED
+	href	 CDATA  #IMPLIED
+	server   CDATA  #IMPLIED
+	database CDATA  #IMPLIED
+	defbranch CDATA #IMPLIED
+	developer-href-example CDATA #IMPLIED
+	trunk-template CDATA #IMPLIED
+	branches-template CDATA #IMPLIED
+	tags-template CDATA #IMPLIED>
+<!-- note the following attributes are specific to some repository types:
+      - CVS: password & cvsroot
+      - Arch: archive & href
+      - Monotone: server, database, defbranch
+      - Subversion: *-template -->
+
+<!ELEMENT mirror EMPTY>
+<!ATTLIST mirror
+	type	(arch|bzr|cvs|darcs|fossil|git|hg|svn|tarball)  #REQUIRED
+	trunk-template CDATA #IMPLIED
+	branches-template CDATA #IMPLIED
+	href	CDATA  #IMPLIED>
+
+<!ELEMENT include EMPTY>
+<!ATTLIST include href CDATA #REQUIRED>
+
+<!ELEMENT redirect EMPTY>
+<!ATTLIST redirect href CDATA #REQUIRED>
+
+<!ELEMENT autotools (if*,autogenargs*,makeargs*,makeinstallargs*,pkg-config?,branch,dependencies?,suggests?,after?)>
+<!-- Note: Here the ID type is not used as some existing IDs in modsets are not
+     valid XML ID types - instead CDATA is used -->
+<!ATTLIST autotools
+	id		CDATA	#REQUIRED
+	autogenargs	CDATA	#IMPLIED
+	makeargs	CDATA	#IMPLIED
+	makeinstallargs CDATA	#IMPLIED
+	autogen-sh	CDATA	#IMPLIED
+	makefile	CDATA	#IMPLIED
+	bootstrap	(true|false) "false"
+	skip-autogen	(true|false|never) "false"
+	skip-install (yes|no) "no"
+	uninstall-before-install (true|false) "false"
+	supports-non-srcdir-builds (yes|no) "yes"
+	force-non-srcdir-builds (yes|no) "no"
+	supports-parallel-builds (yes|no) "yes"
+	supports-unknown-configure-options (yes|no) "yes"
+	autogen-template CDATA  #IMPLIED
+	check-target	(true|false) "true">
+
+<!ELEMENT autogenargs EMPTY>
+<!ATTLIST autogenargs value CDATA #REQUIRED>
+<!ELEMENT makeargs EMPTY>
+<!ATTLIST makeargs value CDATA #REQUIRED>
+<!ELEMENT makeinstallargs EMPTY>
+<!ATTLIST makeinstallargs value CDATA #REQUIRED>
+
+<!ELEMENT waf (pkg-config?,branch,dependencies?,suggests?,after?)>
+<!-- Note: Here the ID type is not used as some existing IDs in modsets are not
+     valid XML ID types - instead CDATA is used -->
+<!ATTLIST waf
+	id		CDATA	#REQUIRED
+	waf-command	CDATA	#IMPLIED>
+
+<!ELEMENT metamodule (dependencies,suggests?,after?)>
+<!ATTLIST metamodule
+	id		CDATA	#REQUIRED>
+
+<!-- tarball module type is deprecated, a tarball repository inside the
+     appropriate modtype should be used instead -->
+<!ELEMENT tarball (pkg-config?,source,branch?,dependencies?,suggests?,after?,patches?)>
+<!ATTLIST tarball
+	id		CDATA	#REQUIRED
+	version		CDATA	#REQUIRED
+	checkoutdir 	CDATA	#IMPLIED
+	autogenargs	CDATA	#IMPLIED
+	makeargs	CDATA	#IMPLIED
+	autogen-sh	CDATA	#IMPLIED
+	supports-non-srcdir-builds (yes|no) "yes">
+
+<!ELEMENT distutils (pkg-config?,branch?,dependencies?,after?)>
+<!ATTLIST distutils
+	id	ID	#REQUIRED
+	python3 CDATA	#FIXED "1"
+	supports-non-srcdir-builds (yes|no) "yes">
+
+<!ELEMENT ninjaargs EMPTY>
+<!ATTLIST ninjaargs value CDATA #REQUIRED>
+
+<!ELEMENT cmake (if*,cmakeargs*,makeargs*,ninjaargs*,pkg-config?,branch?,dependencies?,suggests?,after?)>
+<!ATTLIST cmake
+	id		CDATA	#REQUIRED
+	cmakeargs	CDATA	#IMPLIED
+	makeargs	CDATA	#IMPLIED
+	ninjaargs	CDATA	#IMPLIED
+	use-ninja (yes|no) "yes"
+	supports-non-srcdir-builds (yes|no) "yes"
+	force-non-srcdir-builds (yes|no) "no">
+
+<!ELEMENT cmakeargs EMPTY>
+<!ATTLIST cmakeargs value CDATA #REQUIRED>
+
+<!ELEMENT meson (if*,mesonargs*,ninjaargs*,pkg-config?,branch?,dependencies?,suggests?,after?)>
+<!ATTLIST meson
+	id		CDATA	#REQUIRED
+	mesonargs	CDATA	#IMPLIED
+	ninjaargs	CDATA	#IMPLIED>
+
+<!ELEMENT mesonargs EMPTY>
+<!ATTLIST mesonargs value CDATA #REQUIRED>
+
+<!ELEMENT perl (pkg-config?,branch?,dependencies?,after?)>
+<!ATTLIST perl
+	id		CDATA	#REQUIRED
+	makeargs	CDATA	#IMPLIED>
+
+<!ELEMENT linux (pkg-config?,branch?,dependencies?,after?,kconfig+)>
+<!ATTLIST linux
+	id		CDATA	#REQUIRED>
+
+<!ELEMENT systemmodule (pkg-config?,branch,dependencies?,suggests?,after?,systemdependencies?)>
+<!ATTLIST systemmodule
+	id		CDATA	#REQUIRED
+	supports-parallel-builds (yes|no) "yes">
+
+<!ELEMENT testmodule (pkg-config?,branch?,dependencies?,after?,testedmodules?)>
+<!ATTLIST testmodule
+	id		CDATA	#REQUIRED
+	type		CDATA	#REQUIRED>
+
+<!ELEMENT cvsroot EMPTY>
+<!ATTLIST cvsroot
+	name	CDATA	#REQUIRED
+	root	CDATA	#REQUIRED
+	password CDATA	"">
+
+
+<!ELEMENT cvsmodule (suggests?,dependencies?,after?)>
+<!ATTLIST cvsmodule
+	id	CDATA	#REQUIRED
+	cvsroot	CDATA	#REQUIRED
+	supports-non-srcdir-builds (yes|no) "yes">
+
+<!-- Tarball's children -->
+<!ELEMENT source EMPTY>
+<!ATTLIST source
+	href	CDATA	#REQUIRED
+	size	CDATA	#IMPLIED
+	md5sum	CDATA	#IMPLIED
+	hash    CDATA   #IMPLIED>
+
+<!ELEMENT patches (patch*)>
+<!ELEMENT patch EMPTY>
+<!ATTLIST patch
+	file	CDATA	#REQUIRED
+	strip	CDATA	"0">
+
+
+<!-- Linux's children -->
+<!ELEMENT kconfig EMPTY>
+<!ATTLIST kconfig
+	repo	CDATA	#IMPLIED
+	version	CDATA	#REQUIRED
+	module	CDATA	#IMPLIED
+	config	CDATA	#IMPLIED>
+
+
+<!-- Testmodule's children -->
+<!ELEMENT testedmodules (tested)>
+<!ELEMENT tested EMPTY>
+<!ATTLIST tested
+	package	CDATA	#REQUIRED>
+
+<!-- Other children -->
+<!ELEMENT pkg-config (#PCDATA)>
+<!ELEMENT dependencies (dep|if)*>
+<!ELEMENT suggests (dep|if)*>
+<!ELEMENT after (dep|if)*>
+<!ELEMENT systemdependencies (dep*)>
+<!ELEMENT dep (altdep*)>
+<!-- This is actually 2 different types of element: <dep package=""/> as used in <dependencies>
+     and <dep type="" name=""/> as used in <systemdependencies>. The DTD can't specify both
+     separately since they have the same element name. -->
+<!ATTLIST dep
+	package	CDATA	#IMPLIED
+	type	CDATA	#IMPLIED
+	name	CDATA	#IMPLIED>
+<!-- <altdep> is only used in <systemdependencies> to specify alternative dependencies. -->
+<!ELEMENT altdep EMPTY>
+<!ATTLIST altdep
+	type	CDATA	#IMPLIED
+	name	CDATA	#IMPLIED>
+
+<!ELEMENT branch (patch*,quilt*)>
+<!ATTLIST branch
+	repo		CDATA	#IMPLIED
+	module		CDATA	#IMPLIED
+	checkoutdir	CDATA	#IMPLIED
+	override-checkoutdir (yes|no) "yes"
+	update-new-dirs (yes|no) "yes"
+	source-subdir   CDATA   #IMPLIED
+	revision	CDATA	#IMPLIED
+	tag             CDATA   #IMPLIED
+        user            CDATA   #IMPLIED
+        revspec         CDATA   #IMPLIED
+        branch          CDATA   #IMPLIED
+	version		CDATA	#IMPLIED
+	size		CDATA	#IMPLIED
+	md5sum		CDATA	#IMPLIED
+	hash		CDATA	#IMPLIED
+        rename-tarball  CDATA   #IMPLIED>
+	<!-- override-checkoutdir and update-new-dirs are CVS only
+	     source-subdir is tarballs only -->
+
+<!ELEMENT quilt (branch)>
+<!ATTLIST quilt
+	id		CDATA	#REQUIRED>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<moduleset>
+  <include href="gtk-osx.modules" />
+  <include href="gtk-osx-python.modules" />
+  <include href="rust.modules" />
+  <include href="libadwaita.modules" />
+  <include href="gtksourceview5.modules" />
+  <include href="desktop-file-utils.modules" />
+
+  <metamodule id="gnome-sdk">
+    <dependencies>
+      <dep package="adwaita-icon-theme" />
+      <dep package="hicolor-icon-theme" />
+      <dep package="libadwaita" />
+      <dep package="gtk-4" />
+      <dep package="gtksourceview-5" />
+      <dep package="rust" />
+      <dep package="pygobject3" />
+      <dep package="desktop-file-utils" />
+      <dep package="shared-mime-info" />
+    </dependencies>
+  </metamodule>
+</moduleset>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<moduleset>
+  <repository name="freedesktop"
+              href="https://www.freedesktop.org/software/"
+              type="tarball" />
+
+<meson id="desktop-file-utils">
+    <branch module="desktop-file-utils/releases/desktop-file-utils-0.26.tar.xz"
+            version="0.26"
+            hash="sha256:b26dbde79ea72c8c84fb7f9d870ffd857381d049a86d25e0038c4cef4c747309"
+            repo="freedesktop" />
+    <dependencies>
+      <dep package="glib" />
+    </dependencies>
+  </meson>
+</moduleset>

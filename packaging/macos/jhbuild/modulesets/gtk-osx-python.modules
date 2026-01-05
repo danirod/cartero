@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<moduleset>
+  <!-- Please format this file using the following command:
+       tidy -config ../tidy.conf -m gtk-osx-python.modules; sed -i "" '/^ *$/d' gtk-osx-python.modules
+       You can get 'tidy' here: https://github.com/htacg/tidy-html5 -->
+  <repository name="download.gnome.org"
+              default="yes"
+              href="https://download.gnome.org/sources/"
+              type="tarball" />
+  <repository name="pymodules"
+              href="https://files.pythonhosted.org/packages/"
+              type="tarball" />
+  <repository name="github-tarball"
+              href="https://github.com"
+              type="tarball" />
+  <include href="../jhb/gtk-osx-python.modules" />
+  <!---->
+  <pip id="packaging">
+    <branch module="df/9e/d1a7217f69310c1db8fdf8ab396229f55a699ce34a203691794c5d1cad0c/packaging-21.3.tar.gz"
+            version="21.3"
+            hash="sha256:dd47c42927d89ab911e606518907cc2d3a1f38bbd026385970643f9c5b8ecfeb"
+            repo="pymodules" />
+    <dependencies>
+      <dep package="python3" />
+    </dependencies>
+  </pip>
+  <meson id="pycairo">
+    <branch module="pygobject/pycairo/releases/download/v1.27.0/pycairo-1.27.0.tar.gz"
+            version="1.27.0"
+            hash="sha256:5cb21e7a00a2afcafea7f14390235be33497a2cce53a98a19389492a60628430"
+            repo="github-tarball" />
+    <dependencies>
+      <dep package="cairo" />
+      <dep package="python3" />
+      <dep package="meta-gtk-osx-gtk3" />
+    </dependencies>
+  </meson>
+  <meson id="pygobject3">
+    <branch module="pygobject/3.51/pygobject-3.51.0.tar.xz"
+            version="3.51.0"
+            hash="sha256:5d8ec64b034a29a14c3739541436a07ea0de83c8a394c6e5ecaa9e2e5b7b4e72" />
+    <dependencies>
+      <dep package="pycairo" />
+    </dependencies>
+    <after>
+      <dep package="python3" />
+    </after>
+  </meson>
+</moduleset>

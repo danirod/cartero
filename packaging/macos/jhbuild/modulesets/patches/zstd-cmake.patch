@@ -1,0 +1,5 @@
+--- a/CMakeLists.txt	2018-06-10 14:37:39.000000000 +0200
++++ b/CMakeLists.txt	2018-06-10 14:37:05.000000000 +0200
+@@ -0,0 +1,2 @@
++cmake_minimum_required(VERSION 3.10)
++add_subdirectory("build/cmake")

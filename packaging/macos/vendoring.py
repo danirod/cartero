@@ -171,10 +171,29 @@ loaders_cache = subprocess.check_output(
     },
 ).decode("utf-8")
 loaders_cache = loaders_cache.replace(
-    str(pixbuf_moduledir) + "/", "@loader_path/gdk-pixbuf-2.0/2.10.0/loaders/"
+    str(pixbuf_moduledir) + "/", "Resources/lib/gdk-pixbuf-2.0/2.10.0/loaders/"
 )
 with open(pixbuf_bindir / "loaders.cache", mode="w") as file:
     file.write(loaders_cache)
+
+# Bring the print backends if available
+printbackends_src = (
+    Path(pkg_config("gtk4", "libdir")) / "gtk-4.0" / "4.0.0" / "printbackends"
+)
+if printbackends_src.exists():
+    printbackends = libdir / "gtk-4.0" / "4.0.0" / "printbackends"
+    printbackends.mkdir(exist_ok=True, parents=True)
+    printbackends_rpath = [
+        Path(pkg_config("gtk4", "libdir")),
+    ]
+    for backend in printbackends_src.glob("*.so"):
+        target_path = printbackends / backend.name
+        if target_path.exists():
+            target_path.unlink()
+        shutil.copy(backend, target_path)
+        relocate_and_vendor(
+            target_path, "@loader_path/../../..", rpath=printbackends_rpath
+        )
 
 # Vendor icon theme
 adwaita_icon_theme_pc = Path(pkg_config("adwaita-icon-theme", "pcfiledir"))

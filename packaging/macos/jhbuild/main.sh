@@ -1,4 +1,6 @@
 #!/bin/bash
+# Copyright 2024-2026 the Cartero authors
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 set -e
 

@@ -68,13 +68,18 @@ def shared_libraries(path):
 
 
 def vtool_show_minver(path):
-    args = ["vtool", "-show", path]
+    args = ["vtool", "-show-build", path]
     output = subprocess.check_output(args).decode("utf-8")
     print({
         'args': args,
         'output': output,
     })
-    sdkver = next(l for l in output.splitlines() if "minos" in l)
+    if "LC_VERSION_MIN_MACOSX" in output:
+        # Is x86_64, look for version
+        sdkver = next(l for l in output.splitlines() if "version" in l)
+    elif "LC_BUILD_VERSION" in output:
+        # Is arm64, look for minos.
+        sdkver = next(l for l in output.splitlines() if "minos" in l)
     return sdkver.split()[1]
 
 
@@ -90,6 +95,7 @@ def vtool_set_sdkver(minver, sdkver, path):
         path,
         path,
     ]
+    print({'args': args})
     subprocess.run(args)
 
 

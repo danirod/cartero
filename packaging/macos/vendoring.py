@@ -67,6 +67,28 @@ def shared_libraries(path):
     return re.findall(otool_lib, output)
 
 
+def vtool_show_minver(path):
+    args = ["vtool", "-show", path]
+    output = subprocess.check_output(args).decode("utf-8")
+    sdkver = next(l for l in output.splitlines() if " minos " in l)
+    return sdkver.split()[1]
+
+
+def vtool_set_sdkver(minver, sdkver, path):
+    args = [
+        "vtool",
+        "-set-version-min",
+        "macos",
+        minver,
+        sdkver,
+        "-replace",
+        "-output",
+        path,
+        path,
+    ]
+    subprocess.run(args)
+
+
 def force_sign_file(path):
     args = [
         "codesign",
@@ -142,6 +164,8 @@ if len(sys.argv) < 2:
 _, app_id = sys.argv
 
 # Start relocating.
+minver = vtool_show_minver(bindir / "cartero")
+vtool_set_sdkver(minver, "15.0", bindir / "cartero")
 relocate_and_vendor(bindir / "cartero", "@loader_path/../lib")
 
 # Bring the gdk-pixbuf-2.0 loaders too

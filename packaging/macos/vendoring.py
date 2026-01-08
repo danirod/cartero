@@ -70,7 +70,11 @@ def shared_libraries(path):
 def vtool_show_minver(path):
     args = ["vtool", "-show", path]
     output = subprocess.check_output(args).decode("utf-8")
-    sdkver = next(l for l in output.splitlines() if " minos " in l)
+    print({
+        args=args,
+        output=output,
+    })
+    sdkver = next(l for l in output.splitlines() if "minos" in l)
     return sdkver.split()[1]
 
 

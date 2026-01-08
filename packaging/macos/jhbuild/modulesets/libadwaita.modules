@@ -83,9 +83,9 @@
 
   <meson id="libadwaita"
          mesonargs="-Dintrospection=enabled -Dvapi=false">
-    <branch module="libadwaita/1.7/libadwaita-1.7.2.tar.xz"
-            version="1.7.2"
-            hash="sha256:28ee2ff589c6debe47af9da7a56e37c97d6849e003918a4b223f690d25f960be"
+    <branch module="libadwaita/1.8/libadwaita-1.8.2.tar.xz"
+            version="1.8.2"
+            hash="sha256:589a6e0f4191740e8690a7d3298e16fa0d4061341b551da7abb2f030b550adb1"
             repo="gnome" />
     <dependencies>
       <dep package="appstream" />

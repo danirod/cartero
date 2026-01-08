@@ -27,9 +27,9 @@
     </dependencies>
   </pip>
   <meson id="pycairo">
-    <branch module="pygobject/pycairo/releases/download/v1.27.0/pycairo-1.27.0.tar.gz"
-            version="1.27.0"
-            hash="sha256:5cb21e7a00a2afcafea7f14390235be33497a2cce53a98a19389492a60628430"
+    <branch module="pygobject/pycairo/releases/download/v1.29.0/pycairo-1.29.0.tar.gz"
+            version="1.29.0"
+            hash="sha256:f3f7fde97325cae80224c09f12564ef58d0d0f655da0e3b040f5807bd5bd3142"
             repo="github-tarball" />
     <dependencies>
       <dep package="cairo" />
@@ -38,9 +38,9 @@
     </dependencies>
   </meson>
   <meson id="pygobject3">
-    <branch module="pygobject/3.51/pygobject-3.51.0.tar.xz"
-            version="3.51.0"
-            hash="sha256:5d8ec64b034a29a14c3739541436a07ea0de83c8a394c6e5ecaa9e2e5b7b4e72" />
+    <branch module="pygobject/3.54/pygobject-3.54.5.tar.gz"
+            version="3.54.5"
+            hash="sha256:b6656f6348f5245606cf15ea48c384c7f05156c75ead206c1b246c80a22fb585" />
     <dependencies>
       <dep package="pycairo" />
     </dependencies>

@@ -11,10 +11,10 @@
 
   <metamodule id="gnome-sdk">
     <dependencies>
+      <dep package="gtk-4" />
       <dep package="adwaita-icon-theme" />
       <dep package="hicolor-icon-theme" />
       <dep package="libadwaita" />
-      <dep package="gtk-4" />
       <dep package="gtksourceview-5" />
       <dep package="rust" />
       <dep package="pygobject3" />

@@ -51,9 +51,9 @@
   <autotools id="libffi"
              autogen-sh="configure"
              autogenargs="--disable-multi-os-directory --disable-docs">
-    <branch module="libffi/libffi/releases/download/v3.4.7/libffi-3.4.7.tar.gz"
-            version="3.4.7"
-            hash="sha256:138607dee268bdecf374adf9144c00e839e38541f75f24a1fcf18b78fda48b2d"
+    <branch module="libffi/libffi/releases/download/v3.5.2/libffi-3.5.2.tar.gz"
+            version="3.5.2"
+            hash="sha256:f3a3082a23b37c293a4fcd1053147b371f2ff91fa7ea1b2a52e335676bac82dc"
             repo="github-tarball" />
   </autotools>
   <autotools id="libpcre2"
@@ -95,9 +95,9 @@
   -->
   <cmake id="freetype-no-harfbuzz"
          cmakeargs='-DFT_DISABLE_HARFBUZZ=ON -DBUILD_SHARED_LIBS=true -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_NAME_DIR="${JHBUILD_PREFIX}/lib"'>
-    <branch module="freetype/freetype-2.13.3.tar.xz"
-            version="2.13.3"
-            hash="sha256:0550350666d427c74daeb85d5ac7bb353acba5f76956395995311a9c6f063289"
+    <branch module="freetype/freetype-2.14.1.tar.xz"
+            version="2.14.1"
+            hash="sha256:32427e8c471ac095853212a37aef816c60b42052d4d9e48230bab3bdf2936ccc"
             repo="sourceforge" />
     <dependencies>
       <dep package="zlib" />
@@ -128,9 +128,9 @@
   </meson>
   <cmake id="freetype"
          cmakeargs='-DFT_REQUIRE_HARFBUZZ=ON -DBUILD_SHARED_LIBS=true -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_NAME_DIR="${JHBUILD_PREFIX}/lib"'>
-    <branch module="freetype/freetype-2.13.3.tar.xz"
-            version="2.13.3"
-            hash="sha256:0550350666d427c74daeb85d5ac7bb353acba5f76956395995311a9c6f063289"
+    <branch module="freetype/freetype-2.14.1.tar.xz"
+            version="2.14.1"
+            hash="sha256:32427e8c471ac095853212a37aef816c60b42052d4d9e48230bab3bdf2936ccc"
             repo="sourceforge" />
     <dependencies>
       <dep package="harfbuzz-no-cairo" />
@@ -174,9 +174,9 @@
     </dependencies>
   </meson>
   <meson id="gobject-introspection">
-    <branch module="gobject-introspection/1.82/gobject-introspection-1.82.0.tar.xz"
-            version="1.82.0"
-            hash="sha256:0f5a4c1908424bf26bc41e9361168c363685080fbdb87a196c891c8401ca2f09">
+    <branch module="gobject-introspection/1.86/gobject-introspection-1.86.0.tar.xz"
+            version="1.86.0"
+            hash="sha256:920d1a3fcedeadc32acff95c2e203b319039dd4b4a08dd1a2dfd283d19c0b9ae">
     </branch>
     <dependencies>
       <dep package="glib-no-introspection" />
@@ -293,18 +293,20 @@
   </autotools>
   <!---->
   <meson id="gtk-4"
-         mesonargs="-Dx11-backend=false -Dmedia-gstreamer=disabled -Dintrospection=enabled">
+         mesonargs="-Dx11-backend=false -Dvulkan=disabled -Dmedia-gstreamer=disabled -Dintrospection=enabled">
 
-    <branch module="gtk/4.18/gtk-4.18.4.tar.xz"
-            version="4.18.4"
-            hash="sha256:d4783ac15037c2c4275a8f1acc94f5fede28a516243fccb92ff54a11c15775ff" />
+    <branch module="gtk/4.20/gtk-4.20.3.tar.xz"
+            version="4.20.3"
+            hash="sha256:2873f2903088a66c71173ea2ed85ffae266a66b972c3a4842bbb2f6f187ec153" />
     <dependencies>
+      <dep package="glib"/>
       <dep package="pango" />
       <dep package="atk" />
       <dep package="gdk-pixbuf" />
       <dep package="graphene" />
-      <dep package="libsass" />
       <dep package="libepoxy" />
+      <dep package="libsass" />
+      <dep package="librsvg" />
     </dependencies>
   </meson>
   <autotools id="libxml2">
@@ -333,11 +335,12 @@
   </autotools>
 
   <meson id="adwaita-icon-theme">
-    <branch module="adwaita-icon-theme/47/adwaita-icon-theme-47.0.tar.xz"
-            version="47.0"
-            hash="sha256:ad088a22958cb8469e41d9f1bba0efb27e586a2102213cd89cc26db2e002bdfe" />
+    <branch module="adwaita-icon-theme/49/adwaita-icon-theme-49.0.tar.xz"
+            version="49.0"
+            hash="sha256:65166461d1b278aa942f59aa8d0fccf1108d71c65f372c6266e172449791755c" />
     <dependencies>
       <dep package="librsvg" />
+      <dep package="gtk-4" /> <!-- gtk4-update-icon-theme -->
     </dependencies>
   </meson>
 </moduleset>

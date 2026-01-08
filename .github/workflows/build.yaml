@@ -148,7 +148,7 @@ jobs:
       uses: actions/cache/restore@v4
       with:
         path: /Users/Shared/work
-        key: jhb-${{ matrix.platform.name }}
+        key: jhb-${{ matrix.platform.name }}-49.3
     - name: Compile jhbuild
       if: ${{ steps.cache-jhbuild.outputs.cache-hit != 'true' }}
       run: packaging/macos/jhbuild/main.sh
@@ -157,7 +157,7 @@ jobs:
       uses: actions/cache/save@v4
       with:
         path: /Users/Shared/work
-        key: jhb-${{ matrix.platform.name }}
+        key: jhb-${{ matrix.platform.name }}-49.3
     - name: Install dependencies
       run: brew install create-dmg
     - name: Fix GETTEXT_DIR for macOS

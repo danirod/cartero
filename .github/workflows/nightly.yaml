@@ -73,7 +73,7 @@ jobs:
         uses: actions/upload-artifact@v6
         id: upload-dist
         with:
-          name: cartero-${{ steps.version-code.outputs.version }}
+          name: cartero-${{ steps.version-code.outputs.version }}.tar.xz
           path: build/meson-dist/*
           compression-level: 0
     outputs:
@@ -220,5 +220,5 @@ jobs:
       - uses: actions/upload-artifact@v4
         name: Upload macOS version
         with:
-          name: Cartero-${{ steps.prepare-dist.outputs.version }}-macOS-${{ matrix.platform.name }}
+          name: Cartero-${{ needs.prepare-dist.outputs.version }}-macOS-${{ matrix.platform.name }}
           path: ${{ needs.prepare-dist.outputs.root }}/output/*

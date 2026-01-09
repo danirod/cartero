@@ -1,0 +1,24 @@
+--- a/CMakeLists.txt	2020-11-29 02:35:19.000000000 +0100
++++ b/CMakeLists.txt	2020-11-29 02:35:44.000000000 +0100
+@@ -0,0 +1,21 @@
++# This is a wrapper to install Rust via cmake. Its only purpose is to supply an
++# interface that can be used from JHBuild.
++#
++# usage:
++#   cmake -DVERSION=<Rust version>
++#   make install
++
++cmake_minimum_required(VERSION 3.1)
++project(rust)
++
++add_custom_command(OUTPUT rust
++  # use bash so we can supply environment variables to rustup-init.sh
++  COMMAND bash "-c" "RUSTUP_HOME=${CMAKE_INSTALL_PREFIX}/home/.rustup CARGO_HOME=${CMAKE_INSTALL_PREFIX}/home/.cargo ${CMAKE_CURRENT_SOURCE_DIR}/rustup-init.sh -y --default-toolchain=${VERSION} --no-modify-path --profile minimal"
++)
++
++add_custom_target(
++  install_rust ALL
++  DEPENDS rust
++)
++
++install(DIRECTORY ${CMAKE_INSTALL_PREFIX}/home/.cargo/bin/ DESTINATION bin USE_SOURCE_PERMISSIONS)

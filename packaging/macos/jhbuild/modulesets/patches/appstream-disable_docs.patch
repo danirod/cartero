@@ -1,0 +1,11 @@
+--- a/meson.build	2023-12-08 14:27:22
++++ b/meson.build	2023-12-08 14:27:15
+@@ -203,7 +203,7 @@
+ subdir('po/')
+ subdir('data/')
+ subdir('contrib/')
+-subdir('docs/')
++#subdir('docs/')
+ subdir('tests/')
+ if get_option('qt') or get_option('qt5')
+     subdir('qt/')

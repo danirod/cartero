@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<moduleset>
+  <!-- Please format this file using the following command:
+       tidy -config ../tidy.conf -m gtk-osx-random.modules; sed -i "" '/^ *$/d' gtk-osx-random.modules
+       You can get 'tidy' here: https://github.com/htacg/tidy-html5 -->
+  <repository name="download.gnome.org"
+              default="yes"
+              href="https://download.gnome.org/sources/"
+              type="tarball" />
+  <repository name="shared-mime-info"
+              href="https://gitlab.freedesktop.org/xdg/shared-mime-info/-/archive/"
+              type="tarball" />
+  <repository name="itstool"
+              href="http://files.itstool.org/"
+              type="tarball" />
+  <!---->
+  <include href="../jhb/gtk-osx-random.modules" />
+  <!---->
+  <autotools id="itstool"
+             autogen-sh="configure">
+    <branch module="itstool/itstool-2.0.7.tar.bz2"
+            version="2.0.7"
+            hash="sha256:6b9a7cd29a12bb95598f5750e8763cee78836a1a207f85b74d8b3275b27e87ca"
+            repo="itstool" />
+    <dependencies>
+      <dep package="libxml2" />
+    </dependencies>
+  </autotools>
+  <meson id="shared-mime-info">
+    <branch module="2.4/shared-mime-info-2.4.tar.bz2"
+            version="2.4"
+            hash="sha256:32dc32ae39ff1c1bf8434dd3b36770b48538a1772bc0298509d034f057005992"
+            repo="shared-mime-info" />
+    <dependencies>
+      <dep package="glib" />
+    </dependencies>
+  </meson>
+</moduleset>

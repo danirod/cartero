@@ -78,7 +78,7 @@ jobs:
           compression-level: 0
     outputs:
       version: ${{ steps.version-code.outputs.version }}
-      dist: cartero-${{ needs.prepare-dist.outputs.version }}.tar.xz
+      dist: cartero-${{ steps.version-code.outputs.version }}.tar.xz
       artifact-id: ${{ steps.upload-dist.outputs.artifact-id }}
 
   # This is the one that builds the Flatpak.

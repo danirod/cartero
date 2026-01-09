@@ -149,3 +149,34 @@ jobs:
         with:
           name: Cartero-${{ needs.prepare-dist.outputs.version }}-${{ matrix.platform.name }}.snap
           path: ${{ steps.build-snap.outputs.snap }}
+
+  # A side action to compile the jhb working dir and cache it.
+  macos-jhb:
+    needs: [check-new-commits]
+    strategy:
+      matrix:
+        platform:
+          - runs-on: macos-15-intel
+            name: x64
+          - runs-on: macos-26
+            name: arm64
+      fail-fast: false
+    name: "Prepare macOS ${{ matrix.platform.name }} buildenv"
+    runs-on: ${{ matrix.platform.runs-on }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch jhbuild
+        id: cache-jhbuild
+        uses: actions/cache/restore@v4
+        with:
+          path: /Users/Shared/work
+          key: jhb-${{ matrix.platform.name }}-49.3
+      - name: Compile jhbuild
+        if: ${{ steps.cache-jhbuild.outputs.cache-hit != 'true' }}
+        run: packaging/macos/jhbuild/main.sh
+      - name: Cache jhbuild
+        if: ${{ steps.cache-jhbuild.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v4
+        with:
+          path: /Users/Shared/work
+          key: jhb-${{ matrix.platform.name }}-49.3

@@ -39,7 +39,7 @@ if args.nightly or os.environ.get("CARTERO_NIGHTLY_VERSION"):
     cargo_version = f"{cargo_version}-nightly.{date}"
 
 if args.cement:
-    cmd = f"{os.environ.get("MESONREWRITE")} --source-dir={os.environ.get("MESON_PROJECT_DIST_ROOT")} kwargs set project / version {cargo_version}"
+    cmd = f"{os.environ.get("MESONREWRITE")} --sourcedir={os.environ.get("MESON_PROJECT_DIST_ROOT")} kwargs set project / version {cargo_version}"
     subprocess.run(cmd, shell=True, capture_output=True)
 else:
     print(cargo_version)

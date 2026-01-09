@@ -58,8 +58,8 @@ parts:
     parse-info: [usr/share/metainfo/es.danirod.Cartero.Devel.metainfo.xml]
     override-pull: |
       craftctl default
-      [-d ${CRAFT_PART_SRC}/vendor] && cp -rv ${CRAFT_PART_SRC}/vendor ${CRAFT_PART_BUILD}/vendor
-      [-d ${CRAFT_PART_SRC}/vendor ] && cp -rv ${CRAFT_PART_SRC}/.cargo ${CRAFT_PART_BUILD}/.cargo
+      [ -d ${CRAFT_PART_SRC}/vendor ] && cp -rv ${CRAFT_PART_SRC}/vendor ${CRAFT_PART_BUILD}/vendor
+      [ -d ${CRAFT_PART_SRC}/vendor ] && cp -rv ${CRAFT_PART_SRC}/.cargo ${CRAFT_PART_BUILD}/.cargo
       sed -i.bak -e 's|Icon=@app_id@|Icon=/usr/share/icons/hicolor/scalable/apps/es.danirod.Cartero.Devel.svg|' data/cartero.desktop.in.in
 
 slots:

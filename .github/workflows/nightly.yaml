@@ -79,7 +79,7 @@ jobs:
       - name: Assess version
         run: |
           cd build/meson-dist
-          tar -xf ${{ steps.version-code.outputs.version }}.tar.xz
+          tar -xf cartero-${{ steps.version-code.outputs.version }}.tar.xz
           cd cartero-${{ steps.version-code.outputs.version }}
           cat meson.build
     outputs:

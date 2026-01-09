@@ -154,8 +154,8 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v6
       with:
-        name: Cartero-${{ needs.prepare-dist.outputs.root }}-${{ matrix.platform.name }}.AppImage
-        path: cartero-${{ needs.prepare-dist.outputs.root }}/Cartero-*.AppImage
+        name: Cartero-${{ needs.prepare-dist.outputs.version }}-${{ matrix.platform.name }}.AppImage
+        path: ${{ needs.prepare-dist.outputs.root }}/Cartero-*.AppImage
 
   # This one builds the Snapcraft package
   gnulinux-snapcraft:

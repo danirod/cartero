@@ -141,13 +141,14 @@ jobs:
       - name: Extract dist
         run: tar -xf ${{ needs.prepare-dist.outputs.dist }}
       - name: Build Snap
+        id: build-snap
         uses: snapcore/action-build@v1
         with:
           path: ${{ needs.prepare-dist.outputs.root }}
       - name: Upload artifact
         uses: actions/upload-artifact@v6
         with:
-          name: Cartero-${{ needs.prepare-dist.outputs.version }}-${{ matrix.platform.name }}.snap
+          name: cartero_${{ needs.prepare-dist.outputs.version }}_${{ matrix.platform.name }}.snap
           path: ${{ steps.build-snap.outputs.snap }}
 
   # A side action to compile the jhb working dir and cache it.

@@ -56,8 +56,8 @@ jobs:
           git checkout -- po
       - name: news
         run: |
-          build-aux/news-update.sh
-          git diff --quiet || echo "NEWS file is not updated, please run build-aux/news-update.sh"
+          build-aux/news-update.py
+          git diff --quiet || echo "NEWS file is not updated, please run build-aux/news-update.py"
       - name: glib-schema
         run: glib-compile-schemas --targetdir build --strict data
       - name: glib-desktop

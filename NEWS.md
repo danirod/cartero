@@ -20,6 +20,8 @@ These are the user-visible changes noticeable within Cartero.
 
 - Responses were being treated as binary if they contained the CR (\\r)
   character.
+- MacOS: the main application window could sometimes stop receiving
+  mouse clicks on macOS 26.
 
 ### Translation Updates
 

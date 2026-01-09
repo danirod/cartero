@@ -54,10 +54,6 @@ jobs:
           ninja -C build cartero-update-po
           ! git -c core.pager="" diff -U0 po | grep -v '^@@' | grep 'msgid'
           git checkout -- po
-      - name: news
-        run: |
-          build-aux/news-update.py
-          git diff --quiet || echo "NEWS file is not updated, please run build-aux/news-update.py"
       - name: glib-schema
         run: glib-compile-schemas --targetdir build --strict data
       - name: glib-desktop
@@ -84,3 +80,15 @@ jobs:
         uses: actions/checkout@v4
       - name: Check REUSE compliance
         uses: fsfe/reuse-action@v5
+  news:
+    name: Check NEWS files are properly updated
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dependencies
+        run: sudo apt update && sudo apt install -y --no-install-recommends mdformat python3-lxml
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Check if news-update.py comes clean
+        run: |
+          build-aux/news-update.py
+          git diff --quiet || echo "NEWS file is not updated, please run build-aux/news-update.py"

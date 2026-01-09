@@ -68,7 +68,7 @@ jobs:
       - name: Setup project
         run: meson setup build
       - name: Build dist
-        run: ninja -C build dist
+        run: meson dist -C build --no-tests
       - name: Upload dist
         uses: actions/upload-artifact@v4
         id: upload-dist

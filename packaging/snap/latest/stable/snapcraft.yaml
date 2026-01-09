@@ -50,6 +50,8 @@ parts:
     parse-info: [usr/share/metainfo/es.danirod.Cartero.metainfo.xml]
     override-pull: |
       snapcraftctl pull
+      cp -rv ${CRAFT_PART_SRC}/vendor ${CRAFT_PART_BUILD}/vendor
+      cp -rv ${CRAFT_PART_SRC}/.cargo ${CRAFT_PART_BUILD}/.cargo
       sed -i.bak -e 's|Icon=@app_id@|Icon=/usr/share/icons/hicolor/scalable/apps/es.danirod.Cartero.svg|' data/cartero.desktop.in.in
 
 slots:

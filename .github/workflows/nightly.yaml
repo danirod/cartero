@@ -70,7 +70,7 @@ jobs:
       - name: Build dist
         run: meson dist -C build --no-tests
       - name: Upload dist
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         id: upload-dist
         with:
           name: cartero-${{ steps.version-code.outputs.version }}
@@ -78,10 +78,11 @@ jobs:
           compression-level: 0
     outputs:
       version: ${{ steps.version-code.outputs.version }}
+      root: cartero-${{ steps.version-code.outputs.version }}
       dist: cartero-${{ steps.version-code.outputs.version }}.tar.xz
       artifact-id: ${{ steps.upload-dist.outputs.artifact-id }}
 
-  # This is the one that builds the Flatpak.
+  # This is the one that builds the Flatpak package.
   flatpak:
     needs: [prepare-dist]
     strategy:
@@ -104,15 +105,47 @@ jobs:
           artifact-ids: ${{ needs.prepare-dist.outputs.artifact-id }}
       - name: Extract dist
         run: tar -xf ${{ needs.prepare-dist.outputs.dist }}
-      - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+      - name: Build Flatpak
+        uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
           bundle: Cartero-${{ needs.prepare-dist.outputs.version }}-${{ matrix.platform.name }}.flatpak
-          manifest-path: ${{ needs.prepare-dist.outputs.dist }}/build-aux/es.danirod.Cartero.Devel.json
+          manifest-path: ${{ needs.prepare-dist.outputs.root }}/build-aux/es.danirod.Cartero.Devel.json
           cache-key: flatpak-builder-${{ github.sha }}-${{ matrix.platform.name }}
           build-bundle: true
           arch: ${{ matrix.platform.name }}
           upload-artifact: false
-      - uses: actions/upload-artifact@v4
+      - name: Upload artifact
+        uses: actions/upload-artifact@v6
         with:
           name: Cartero-${{ needs.prepare-dist.outputs.version }}-${{ matrix.platform.name }}.flatpak
           path: Cartero-*.flatpak
+
+  # This one builds the Snapcraft package
+  snapcraft:
+    needs: [prepare-dist]
+    strategy:
+      matrix:
+        platform:
+          - runs-on: ubuntu-latest
+            name: x86_64
+          - runs-on: ubuntu-24.04-arm
+            name: aarch64
+      fail-fast: false
+    runs-on: ${{ matrix.platform.runs-on }}
+    name: "Edge ${{ matrix.platform.name }}"
+    steps:
+      - name: Fetch dist
+        uses: actions/download-artifact@v7
+        with:
+          artifact-ids: ${{ needs.prepare-dist.outputs.artifact-id }}
+      - name: Extract dist
+        run: tar -xf ${{ needs.prepare-dist.outputs.dist }}
+      - name: Build Snap
+        uses: snapcore/action-build@v1
+        with:
+          path: ${{ needs.prepare-dist.outputs.root }}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: Cartero-${{ needs.prepare-dist.outputs.version }}-${{ matrix.platform.name }}.snap
+          path: ${{ steps.build-snap.outputs.snap }}

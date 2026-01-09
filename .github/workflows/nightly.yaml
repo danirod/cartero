@@ -97,7 +97,7 @@ jobs:
     container:
       image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-49
       options: --privileged
-    name: "Flatpak ${{ matrix.platform.name }}"
+    name: "GNU/Linux Flatpak ${{ matrix.platform.name }}"
     steps:
       - name: Fetch dist
         uses: actions/download-artifact@v7
@@ -132,7 +132,7 @@ jobs:
             name: aarch64
       fail-fast: false
     runs-on: ${{ matrix.platform.runs-on }}
-    name: "Edge ${{ matrix.platform.name }}"
+    name: "GNU/Linux Snap ${{ matrix.platform.name }}"
     steps:
       - name: Fetch dist
         uses: actions/download-artifact@v7
@@ -180,3 +180,44 @@ jobs:
         with:
           path: /Users/Shared/work
           key: jhb-${{ matrix.platform.name }}-49.3
+  # The main compilation pipeline for macOS
+  macos-jhb:
+    needs: [checkprepare-dist, macos-jhb]
+    strategy:
+      matrix:
+        platform:
+          - runs-on: macos-15-intel
+            name: x64
+          - runs-on: macos-26
+            name: arm64
+      fail-fast: false
+    name: "macOS DMG ${{ matrix.platform.name }}"
+    runs-on: ${{ matrix.platform.runs-on }}
+    steps:
+      - name: Fetch dist
+        uses: actions/download-artifact@v7
+        with:
+          artifact-ids: ${{ needs.prepare-dist.outputs.artifact-id }}
+      - name: Extract dist
+        run: tar -xf ${{ needs.prepare-dist.outputs.dist }}
+      - name: Fetch jhbuild
+        id: cache-jhbuild
+        uses: actions/cache/restore@v4
+        with:
+          path: /Users/Shared/work
+          key: jhb-${{ matrix.platform.name }}-49.3
+      - name: Install dependencies
+        run: brew install create-dmg
+      - name: Fix GETTEXT_DIR for macOS
+        run: echo "GETTEXT_DIR=/Users/Shared/work/jhb-1.3+meson184" >> $GITHUB_ENV
+      - name: Build macOS version
+        run: |
+          export PATH=/Users/Shared/work/jhb-1.3+meson184/bin:${PATH}
+          cd ${{ needs.prepare-dist.outputs.root }}
+          meson setup -Dprofile=development -Dmacos-app=enabled --prefix=/ build
+          DESTDIR=$PWD/output ninja -C build install
+      - uses: actions/upload-artifact@v4
+        name: Upload macOS version
+        with:
+          name: Cartero-${{ steps.prepare-dist.outputs.version }}-macOS-${{ matrix.platform.name }}
+          path: ${{ needs.prepare-dist.outputs.root }}/output/*

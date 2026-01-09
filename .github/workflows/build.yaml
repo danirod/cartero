@@ -96,37 +96,3 @@ jobs:
           build/cartero-win32/bin
           build/cartero-win32/lib
           build/cartero-win32/share
-  appimage:
-    strategy:
-      matrix:
-        platform:
-          - runs-on: ubuntu-latest
-            name: x86_64
-          - runs-on: ubuntu-24.04-arm
-            name: aarch64
-      fail-fast: false
-    runs-on: ${{ matrix.platform.runs-on }}
-    name: "AppImage ${{ matrix.platform.name }}"
-    steps:
-    - name: Install dependencies
-      run: sudo apt update && sudo apt install --no-install-recommends desktop-file-utils gettext libadwaita-1-dev libfuse2 libgtk-4-bin libgtk-4-dev libgtksourceview-5-dev librsvg2-common meson jq
-    - uses: actions/checkout@v4
-    - name: Generate version code
-      id: version-code
-      run: |
-        echo "CARTERO_NIGHTLY_VERSION=1" >> $GITHUB_ENV
-        echo "version=$(build-aux/gen-version.py --nightly)" >> $GITHUB_OUTPUT
-        echo "full-version=$(build-aux/gen-version.py --nightly)-${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
-    - name: Build
-      run: |
-        meson setup build -Dappimage=enabled -Dprofile=development --prefix=/usr
-        ninja -C build
-        DESTDIR=$PWD/AppDir ninja -C build install
-        curl -LO https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-$(uname -m).AppImage
-        chmod a+x appimagetool-$(uname -m).AppImage
-        VERSION="${{ steps.version-code.outputs.full-version }}" ./appimagetool-$(uname -m).AppImage AppDir
-    - name: Upload
-      uses: actions/upload-artifact@v4
-      with:
-        name: Cartero-${{ steps.version-code.outputs.full-version }}-appimage-${{ matrix.platform.name }}
-        path: Cartero-*.AppImage

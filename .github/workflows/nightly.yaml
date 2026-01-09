@@ -120,6 +120,43 @@ jobs:
           name: Cartero-${{ needs.prepare-dist.outputs.version }}-${{ matrix.platform.name }}.flatpak
           path: Cartero-*.flatpak
 
+  # This one builds the AppImage package
+  gnulinux-appimage:
+    needs: [prepare-dist]
+    strategy:
+      matrix:
+        platform:
+          - runs-on: ubuntu-latest
+            name: x86_64
+          - runs-on: ubuntu-24.04-arm
+            name: aarch64
+      fail-fast: false
+    runs-on: ${{ matrix.platform.runs-on }}
+    name: "GNU/Linux AppImage ${{ matrix.platform.name }}"
+    steps:
+    - name: Fetch dist
+      uses: actions/download-artifact@v7
+      with:
+        artifact-ids: ${{ needs.prepare-dist.outputs.artifact-id }}
+    - name: Extract dist
+      run: tar -xf ${{ needs.prepare-dist.outputs.dist }}
+    - name: Install dependencies
+      run: sudo apt update && sudo apt install --no-install-recommends desktop-file-utils gettext libadwaita-1-dev libfuse2 libgtk-4-bin libgtk-4-dev libgtksourceview-5-dev librsvg2-common meson jq
+    - name: Build
+      run: |
+        cd ${{ needs.prepare-dist.outputs.root }}
+        meson setup build -Dappimage=enabled -Dprofile=development --prefix=/usr
+        ninja -C build
+        DESTDIR=$PWD/AppDir ninja -C build install
+        curl -LO https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-$(uname -m).AppImage
+        chmod a+x appimagetool-$(uname -m).AppImage
+        VERSION="${{ needs.prepare-dist.outputs.version }}" ./appimagetool-$(uname -m).AppImage AppDir
+    - name: Upload
+      uses: actions/upload-artifact@v6
+      with:
+        name: Cartero-${{ needs.prepare-dist.outputs.root }}-${{ matrix.platform.name }}.AppImage
+        path: cartero-${{ needs.prepare-dist.outputs.root }}/Cartero-*.AppImage
+
   # This one builds the Snapcraft package
   gnulinux-snapcraft:
     needs: [prepare-dist]

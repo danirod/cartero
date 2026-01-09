@@ -9,6 +9,7 @@
 
 import datetime
 import os
+import subprocess
 
 try:
     import tomllib
@@ -20,6 +21,7 @@ from pathlib import Path
 
 parser = ArgumentParser(description="Generate the version number")
 parser.add_argument("--nightly", action=BooleanOptionalAction)
+parser.add_argument("--cement", action=BooleanOptionalAction)
 parser.set_defaults(nightly=False)
 args = parser.parse_args()
 
@@ -36,4 +38,8 @@ if args.nightly or os.environ.get("CARTERO_NIGHTLY_VERSION"):
     date = now.strftime("%Y%m%d")
     cargo_version = f"{cargo_version}-nightly.{date}"
 
-print(cargo_version)
+if args.cement:
+    cmd = f"{os.environ.get("MESONREWRITE")} --source-dir={os.environ.get("MESON_PROJECT_DIST_ROOT")} kwargs set project / version {cargo_version}"
+    subprocess.run(cmd, shell=True, capture_output=True)
+else:
+    print(cargo_version)

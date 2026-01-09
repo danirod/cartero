@@ -1,0 +1,76 @@
+# Copyright 2024-2026 the Cartero authors
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: Nightly release
+
+on:
+  push:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *'
+
+jobs:
+  # Automatic deployment is only triggered if there are new changes.
+  check-new-commits:
+    name: Check if there are new commits
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: get new commits
+        id: check
+        run: |
+          # Manual workflows are always true even when no commits have been made.
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "new-commits=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          if [ -z "$(git rev-list --after="24 hours" HEAD)" ]; then
+            echo "new-commits=false" >> $GITHUB_OUTPUT
+          else
+            echo "new-commits=true" >> $GITHUB_OUTPUT
+          fi
+    outputs:
+      new-commits: ${{ steps.check.outputs.new-commits }}
+
+  # This is the one that triggers the whole set. Runs on manual or if check-new-commits was true.
+  prepare-dist:
+    name: Prepare nightly dist
+    needs: [check-new-commits]
+    if: ${{ needs.check-new-commits.outputs.new-commits == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dependencies
+        run: sudo apt update && sudo apt install -y --no-install-recommends gettext meson libgtk-4-dev libadwaita-1-dev libgtksourceview-5-dev desktop-file-utils xvfb
+      - name: Clone code
+        uses: actions/checkout@v4
+      - name: Generate version code
+        id: version-code
+        run: |
+          echo "CARTERO_NIGHTLY_VERSION=1" >> $GITHUB_ENV
+          echo "version=$(build-aux/gen-version.py --nightly)" >> $GITHUB_OUTPUT
+      - name: Setup project
+        run: meson setup build
+      - name: Build dist
+        run: ninja -C build dist
+      - name: Upload dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: cartero-${{ steps.version-code.outputs.version }}
+          path: build/meson-dist/*

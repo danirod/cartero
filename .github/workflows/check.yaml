@@ -85,7 +85,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install dependencies
-        run: sudo apt update && sudo apt install -y --no-install-recommends mdformat python3-lxml
+        run: |
+          sudo apt update && sudo apt install -y --no-install-recommends python3-pip
+          pip install --break-system-packages mdformat lxml
       - name: Checkout
         uses: actions/checkout@v4
       - name: Check if news-update.py comes clean

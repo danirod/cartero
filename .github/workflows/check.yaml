@@ -93,4 +93,7 @@ jobs:
       - name: Check if news-update.py comes clean
         run: |
           build-aux/news-update.py
-          git diff --quiet || echo "NEWS file is not updated, please run build-aux/news-update.py"
+          if git diff --quiet ; then
+            echo "NEWS file is not updated, please run build-aux/news-update.py"
+            exit 1
+          fi

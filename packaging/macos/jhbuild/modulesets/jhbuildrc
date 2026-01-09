@@ -1,0 +1,2 @@
+# since Xcode 15.4: https://github.com/Koka/gettext-rs/issues/114
+environ_append("CFLAGS", "-Wno-error=incompatible-function-pointer-types")

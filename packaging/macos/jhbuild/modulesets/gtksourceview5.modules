@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<moduleset>
+<repository name="curl"
+              href="https://curl.se/download/"
+              type="tarball" />
+
+  <repository name="gnome"
+              default="yes"
+              href="https://download.gnome.org/sources/"
+              type="tarball" />
+  <repository name="github"
+              href="https://github.com/"
+              type="tarball" />
+
+  <meson id="gtksourceview-5"
+         mesonargs="-Dintrospection=enabled -Dvapi=false">
+    <branch module="gtksourceview/5.18/gtksourceview-5.18.0.tar.xz"
+            version="5.18.0"
+            hash="sha256:051a78fe38f793328047e5bcd6d855c6425c0b480c20d9432179e356742c6ac0"
+            repo="gnome" />
+    <dependencies>
+      <dep package="gobject-introspection" />
+      <dep package="cairo" />
+      <dep package="fontconfig" />
+      <dep package="fribidi" />
+      <dep package="gdk-pixbuf" />
+      <dep package="glib" />
+      <dep package="graphene" />
+      <dep package="gtk-4" />
+      <dep package="pango" />
+      <dep package="pcre2" />
+      <dep package="gettext" />
+    </dependencies>
+  </meson>
+
+</moduleset>

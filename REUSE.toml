@@ -69,6 +69,15 @@ SPDX-FileCopyrightText = "Copyright Canonical"
 SPDX-FileComment = "Taken from https://commons.wikimedia.org/wiki/File:Snapcraft-logo-bird.svg"
 
 [[annotations]]
+path = [
+    "packaging/macos/jhbuild/modulesets/*",
+    "packaging/macos/jhbuild/modulesets/patches/*",
+]
+SPDX-License-Identifier = "GPL-3.0-or-later"
+SPDX-FileCopyrightText = "NONE" # TODO: these are derived, find out who I have to credit
+SPDX-FileComment = "Derived from https://gitlab.gnome.org/GNOME/gtk-osx"
+
+[[annotations]]
 path = "website/src/assets/vendor-icons/windows.svg"
 SPDX-License-Identifier = "CC0-1.0"
 SPDX-FileCopyrightText = "NONE"

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<moduleset>
+  <repository name="github"
+              href="https://github.com/"
+              type="tarball" />
+  <cmake id="rust"
+         cmakeargs="-DVERSION=1.92.0 -DCMAKE_POLICY_VERSION_MINIMUM=3.5"
+         supports-non-srcdir-builds="no"
+         use-ninja="no">
+    <branch module="rust-lang/rustup/archive/1.28.2.tar.gz"
+            version="1.28.2"
+            hash="sha256:5987dcb828068a4a5e29ba99ab26f2983ac0c6e2e4dc3e5b3a3c0fafb69abbc0"
+            checkoutdir="rustup-1.28.2"
+            rename-tarball="rustup-1.28.2.tar.gz"
+            repo="github">
+      <patch file="rust-cmake_install.patch"
+             strip="1" />
+    </branch>
+  </cmake>
+</moduleset>

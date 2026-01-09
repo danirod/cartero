@@ -1,0 +1,25 @@
+diff -c /Users/john/Development/gtk-build/gtk-stable-10.9-x86_64/src/gdk-pixbuf-2.38.0/gdk-pixbuf/meson.build\~ /Users/john/Development/gtk-build/gtk-stable-10.9-x86_64/src/gdk-pixbuf-2.38.0/gdk-pixbuf/meson.build
+--- a/gdk-pixbuf/meson.build	Mon Sep  3 07:41:50 2018
++++ b/gdk-pixbuf/meson.build	Wed Jul 31 16:04:12 2019
+@@ -246,7 +246,8 @@
+                         include_directories: [ root_inc, gdk_pixbuf_inc ],
+                         c_args: common_cflags + gdk_pixbuf_cflags + cflags,
+                         install: true,
+-                        install_dir: gdk_pixbuf_loaderdir)
++                        install_dir: gdk_pixbuf_loaderdir,
++                        name_suffix: 'so')
+ 
+     # We need the path to build loaders.cache for tests
+     dynamic_loaders += mod.full_path()
+@@ -265,7 +266,8 @@
+                           include_directories: [ root_inc, gdk_pixbuf_inc ],
+                           c_args: common_cflags + gdk_pixbuf_cflags + cflags,
+                           install: true,
+-                          install_dir: gdk_pixbuf_loaderdir)
++                          install_dir: gdk_pixbuf_loaderdir,
++                          name_suffix: 'so')
+       dynamic_loaders += mod.full_path()
+     endforeach
+   endif
+
+Diff finished.  Wed Jul 31 16:09:09 2019

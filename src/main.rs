@@ -115,6 +115,11 @@ fn main() -> glib::ExitCode {
         if let Ok(true) = gdk_pixbuf.try_exists() {
             std::env::set_var("GDK_PIXBUF_MODULE_FILE", gdk_pixbuf);
         }
+
+        let gtk_modules_dir = app_rel_path("lib/gtk-4.0");
+        if let Ok(true) = gtk_modules_dir.try_exists() {
+            std::env::set_var("GTK_EXE_PREFIX", app_rel_path("lib"));
+        }
     }
 
     init_data_dir();

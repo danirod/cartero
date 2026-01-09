@@ -183,7 +183,7 @@ jobs:
           key: jhb-${{ matrix.platform.name }}-49.3
   # The main compilation pipeline for macOS
   macos-dmg:
-    needs: [checkprepare-dist, macos-jhb]
+    needs: [prepare-dist, macos-jhb]
     strategy:
       matrix:
         platform:

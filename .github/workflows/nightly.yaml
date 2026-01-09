@@ -83,7 +83,7 @@ jobs:
       artifact-id: ${{ steps.upload-dist.outputs.artifact-id }}
 
   # This is the one that builds the Flatpak package.
-  flatpak:
+  gnulinux-flatpak:
     needs: [prepare-dist]
     strategy:
       matrix:
@@ -121,7 +121,7 @@ jobs:
           path: Cartero-*.flatpak
 
   # This one builds the Snapcraft package
-  snapcraft:
+  gnulinux-snapcraft:
     needs: [prepare-dist]
     strategy:
       matrix:
@@ -181,7 +181,7 @@ jobs:
           path: /Users/Shared/work
           key: jhb-${{ matrix.platform.name }}-49.3
   # The main compilation pipeline for macOS
-  macos-jhb:
+  macos-dmg:
     needs: [checkprepare-dist, macos-jhb]
     strategy:
       matrix:

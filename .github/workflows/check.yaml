@@ -54,6 +54,10 @@ jobs:
           ninja -C build cartero-update-po
           ! git -c core.pager="" diff -U0 po | grep -v '^@@' | grep 'msgid'
           git checkout -- po
+      - name: news
+        run: |
+          build-aux/news-update.sh
+          git diff --quiet || echo "NEWS file is not updated, please run build-aux/news-update.sh"
       - name: glib-schema
         run: glib-compile-schemas --targetdir build --strict data
       - name: glib-desktop

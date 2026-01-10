@@ -64,7 +64,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Generate version code
         id: version-code
-        run: echo "version=$(build-aux/gen-version.py --nightly)" >> $GITHUB_OUTPUT
+        run: echo "version=$(build-aux/gen-version.py)" >> $GITHUB_OUTPUT
       - name: Setup project
         run: meson setup build
       - name: Build dist

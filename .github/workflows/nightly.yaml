@@ -250,8 +250,6 @@ jobs:
         with:
           path: /Users/Shared/work
           key: jhb-${{ matrix.platform.name }}-49.3
-      - name: Install dependencies
-        run: brew install create-dmg
       - name: Fix GETTEXT_DIR for macOS
         run: echo "GETTEXT_DIR=/Users/Shared/work/jhb-1.3+meson184" >> $GITHUB_ENV
       - name: Build macOS version
@@ -260,8 +258,40 @@ jobs:
           cd ${{ needs.prepare-dist.outputs.root }}
           meson setup -Dprofile=development -Dmacos-app=enabled --prefix=/ build
           DESTDIR=$PWD/output ninja -C build install
+      - name: Codesigning
+        env:
+          MACOS_CODESIGN_BASE64: ${{ secrets.MACOS_CODESIGN_BASE64 }}
+          MACOS_CODESIGN_NAME: ${{ secrets.MACOS_CODESIGN_NAME }}
+          MACOS_CODESIGN_PASSWORD: ${{ secrets.MACOS_CODESIGN_PASSWORD }}
+          MACOS_KEYCHAIN_PASSWORD: ${{ secrets.MACOS_KEYCHAIN_PASSWORD }}
+        run: |
+          echo $MACOS_CODESIGN_BASE64 | base64 --decode > certificate.p12
+          security create-keychain -p "$MACOS_KEYCHAIN_PASSWORD" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "$MACOS_KEYCHAIN_PASSWORD" build.keychain
+          security import certificate.p12 -k build.keychain -P "$MACOS_CODESIGN_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$MACOS_KEYCHAIN_PASSWORD" build.keychain
+
+          cd ${{ needs.prepare-dist.outputs.root }}
+          /usr/bin/codesign --force -s "$MACOS_CODESIGN_NAME" --options runtime output/Cartero.app -v
+      - name: Notarization
+        env:
+          MACOS_NOTARIZATION_APPLE_ID: ${{ secrets.MACOS_NOTARIZATION_APPLE_ID }}
+          MACOS_NOTARIZATION_PASSWORD: ${{ secrets.MACOS_NOTARIZATION_PASSWORD }}
+          MACOS_NOTARIZATION_TEAM: ${{ secrets.MACOS_NOTARIZATION_TEAM }}
+        run:
+          cd ${{ needs.prepare-dist.outputs.root }}
+          xcrun notarytool store-credentials "notarytool-profile" --apple-id "$MACOS_NOTARIZATION_APPLE_ID" --team-id "$MACOS_NOTARIZATION_TEAM" --password "$MACOS_NOTARIZATION_PASSWORD"
+          ditto -c -k --keepParent "output/Cartero.app" "build/Cartero-app.zip"
+          xcrun notarytool submit "build/Cartero-app.zip" --keychain-profile "notarytool-profile" --wait
+          xcrun stapler staple "output/Cartero.app"
+      - name: DMG creation
+        run:
+          brew install create-dmg
+          cd ${{ needs.prepare-dist.outputs.root }}
+          create-dmg --volname Cartero --volicon packaging/macos/DmgIcon.icns --window-size 854 480 --background packaging/macos/DmgBackground.png --icon-size 96 --icon Cartero.app 210 225 --app-drop-link 640 225 --eula packaging/COPYING.rtf output/Cartero-${{ needs.prepare-dist.outputs.version }}-macOS-${{ matrix.platform.name }}.dmg output
       - uses: actions/upload-artifact@v4
         name: Upload macOS version
         with:
           name: Cartero-${{ needs.prepare-dist.outputs.version }}-macOS-${{ matrix.platform.name }}
-          path: ${{ needs.prepare-dist.outputs.root }}/output/*
+          path: ${{ needs.prepare-dist.outputs.root }}/output/*.dmg

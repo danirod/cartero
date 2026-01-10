@@ -279,14 +279,14 @@ jobs:
           MACOS_NOTARIZATION_APPLE_ID: ${{ secrets.MACOS_NOTARIZATION_APPLE_ID }}
           MACOS_NOTARIZATION_PASSWORD: ${{ secrets.MACOS_NOTARIZATION_PASSWORD }}
           MACOS_NOTARIZATION_TEAM: ${{ secrets.MACOS_NOTARIZATION_TEAM }}
-        run:
+        run: |
           cd ${{ needs.prepare-dist.outputs.root }}
           xcrun notarytool store-credentials "notarytool-profile" --apple-id "$MACOS_NOTARIZATION_APPLE_ID" --team-id "$MACOS_NOTARIZATION_TEAM" --password "$MACOS_NOTARIZATION_PASSWORD"
           ditto -c -k --keepParent "output/Cartero.app" "build/Cartero-app.zip"
           xcrun notarytool submit "build/Cartero-app.zip" --keychain-profile "notarytool-profile" --wait
           xcrun stapler staple "output/Cartero.app"
       - name: DMG creation
-        run:
+        run: |
           brew install create-dmg
           cd ${{ needs.prepare-dist.outputs.root }}
           create-dmg --volname Cartero --volicon packaging/macos/DmgIcon.icns --window-size 854 480 --background packaging/macos/DmgBackground.png --icon-size 96 --icon Cartero.app 210 225 --app-drop-link 640 225 --eula packaging/COPYING.rtf output/Cartero-${{ needs.prepare-dist.outputs.version }}-macOS-${{ matrix.platform.name }}.dmg output

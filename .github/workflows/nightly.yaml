@@ -273,6 +273,11 @@ jobs:
           security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$MACOS_KEYCHAIN_PASSWORD" build.keychain
 
           cd ${{ needs.prepare-dist.outputs.root }}
+          /usr/bin/codesign --force -s "$MACOS_CODESIGN_NAME" --options runtime output/Cartero.app/Contents/MacOS/Cartero -v
+          for f in $(find output/Cartero.app -type f -name '*.dylib' -or -name '*.so'); do
+            /usr/bin/codesign --force -s "$MACOS_CODESIGN_NAME" --options runtime $f -v
+          done
+          /usr/bin/codesign --force -s "$MACOS_CODESIGN_NAME" --options runtime output/Cartero.app/Contents/Info.plist -v
           /usr/bin/codesign --force -s "$MACOS_CODESIGN_NAME" --options runtime output/Cartero.app -v
       - name: Notarization
         env:

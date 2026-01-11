@@ -1,0 +1,39 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: the Cartero authors
+
+name: Nightly release
+
+on:
+  push:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *'
+
+jobs:
+  tarball:
+    name: Compile tarball
+    runs-on: ubuntu-latest
+    env:
+      CARTERO_NIGHTLY_VERSION: 1
+    steps:
+      # required because cement-version.sh requires at least meson 1.4.0
+      - name: Upgrade meson
+        run: pip install meson
+      - name: Clone code
+        uses: actions/checkout@v4
+      - name: Generate version code
+        id: version-code
+        run: echo "version=$(build-aux/gen-version.py)" | tee -a $GITHUB_OUTPUT
+      - name: Install dependencies
+        run: sudo apt update && sudo apt install --no-install-recommends -y meson gettext libgtk-4-dev libadwaita-1-dev libgtksourceview-5-dev desktop-file-utils
+      - name: Setup project
+        run: meson setup build
+      - name: Build dist
+        run: meson dist -C build --no-tests
+      - name: Upload dist
+        uses: actions/upload-artifact@v6
+        id: upload-dist
+        with:
+          name: dist
+          path: build/meson-dist/*.tar.xz
+          compression-level: 0

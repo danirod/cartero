@@ -78,6 +78,7 @@ meson.add_dist_script(
     meson.project_build_root() / 'meson-dist' / meson.project_name() + '-' + version,
     meson.project_source_root(),
 )
+meson.add_dist_script('build-aux/cement-version.sh', meson.project_version())
 
 if get_option('profile') == 'development'
     # Setup pre-commit hook for ensuring coding style is always consistent

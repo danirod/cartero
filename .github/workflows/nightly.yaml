@@ -6,10 +6,17 @@ name: Nightly release
 on:
   push:
   workflow_dispatch:
+    inputs:
+      sign:
+        type: boolean
+        description: Sign the release
   schedule:
     - cron: '0 6 * * *'
 
 jobs:
+  # Generates a static tarball. We use this instead of the repo for the nightly
+  # builds because of the version priming and because we have to test the
+  # dist tarballs anyway.
   tarball:
     name: Compile tarball
     runs-on: ubuntu-latest
@@ -25,7 +32,9 @@ jobs:
         id: version-code
         run: echo "version=$(build-aux/gen-version.py)" | tee -a $GITHUB_OUTPUT
       - name: Install dependencies
-        run: sudo apt update && sudo apt install --no-install-recommends -y meson gettext libgtk-4-dev libadwaita-1-dev libgtksourceview-5-dev desktop-file-utils
+        run: |
+          sudo apt update
+          sudo apt install --no-install-recommends -y desktop-file-utils gettext libadwaita-1-dev libgtk-4-dev libgtksourceview-5-dev meson
       - name: Setup project
         run: meson setup build
       - name: Build dist
@@ -37,3 +46,113 @@ jobs:
           name: dist
           path: build/meson-dist/*.tar.xz
           compression-level: 0
+    outputs:
+      version: ${{ steps.version-code.outputs.version }}
+      dist: cartero-${{ steps.version-code.outputs.version }}.tar.xz
+      artifact-id: ${{ steps.upload-dist.outputs.artifact-id }}
+
+  # A side action to compile the jhb working dir and cache it.
+  macos-jhb:
+    strategy:
+      matrix:
+        platform:
+          - runs-on: macos-15-intel
+            name: x64
+          - runs-on: macos-26
+            name: arm64
+      fail-fast: false
+    name: "Prepare macOS ${{ matrix.platform.name }} buildenv"
+    runs-on: ${{ matrix.platform.runs-on }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch jhbuild
+        id: cache-jhbuild
+        uses: actions/cache/restore@v4
+        with:
+          path: /Users/Shared/work
+          key: jhb-${{ matrix.platform.name }}-49.3
+          lookup-only: true
+      - name: Compile jhbuild
+        if: ${{ steps.cache-jhbuild.outputs.cache-hit != 'true' }}
+        run: packaging/macos/jhbuild/main.sh
+      - name: Cache jhbuild
+        if: ${{ steps.cache-jhbuild.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v4
+        with:
+          path: /Users/Shared/work
+          key: jhb-${{ matrix.platform.name }}-49.3
+
+  # The main compilation pipeline for macOS
+  macos-dmg:
+    needs: [tarball, macos-jhb]
+    strategy:
+      matrix:
+        platform:
+          - runs-on: macos-15-intel
+            name: x64
+          - runs-on: macos-26
+            name: arm64
+      fail-fast: false
+    name: "macOS DMG ${{ matrix.platform.name }}"
+    runs-on: ${{ matrix.platform.runs-on }}
+    steps:
+      - name: Fetch dist
+        uses: actions/download-artifact@v7
+        with:
+          artifact-ids: ${{ needs.tarball.outputs.artifact-id }}
+      - name: Extract dist
+        run: tar -xf ${{ needs.tarball.outputs.dist }} --strip-components=1
+      - name: Fetch jhbuild
+        id: cache-jhbuild
+        uses: actions/cache/restore@v4
+        with:
+          path: /Users/Shared/work
+          key: jhb-${{ matrix.platform.name }}-49.3
+      - name: Fix GETTEXT_DIR for macOS
+        run: echo "GETTEXT_DIR=/Users/Shared/work/jhb-1.3+meson184" >> $GITHUB_ENV
+      - name: Build macOS version
+        run: |
+          export PATH=/Users/Shared/work/jhb-1.3+meson184/bin:${PATH}
+          meson setup -Dprofile=development -Dmacos-app=enabled --prefix=/ build
+          DESTDIR=$PWD/output ninja -C build install
+      - name: Codesigning
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.sign == 'true'
+        env:
+          MACOS_CODESIGN_BASE64: ${{ secrets.MACOS_CODESIGN_BASE64 }}
+          MACOS_CODESIGN_NAME: ${{ secrets.MACOS_CODESIGN_NAME }}
+          MACOS_CODESIGN_PASSWORD: ${{ secrets.MACOS_CODESIGN_PASSWORD }}
+          MACOS_KEYCHAIN_PASSWORD: ${{ secrets.MACOS_KEYCHAIN_PASSWORD }}
+        run: |
+          echo $MACOS_CODESIGN_BASE64 | base64 --decode > certificate.p12
+          security create-keychain -p "$MACOS_KEYCHAIN_PASSWORD" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "$MACOS_KEYCHAIN_PASSWORD" build.keychain
+          security import certificate.p12 -k build.keychain -P "$MACOS_CODESIGN_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$MACOS_KEYCHAIN_PASSWORD" build.keychain
+
+          /usr/bin/codesign --force -s "$MACOS_CODESIGN_NAME" --options runtime output/Cartero.app/Contents/MacOS/Cartero -v
+          for f in $(find output/Cartero.app -type f -name '*.dylib' -or -name '*.so'); do
+            /usr/bin/codesign --force -s "$MACOS_CODESIGN_NAME" --options runtime $f -v
+          done
+          /usr/bin/codesign --force -s "$MACOS_CODESIGN_NAME" --options runtime output/Cartero.app/Contents/Info.plist -v
+          /usr/bin/codesign --force -s "$MACOS_CODESIGN_NAME" --options runtime output/Cartero.app -v
+      - name: Notarization
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.sign == 'true'
+        env:
+          MACOS_NOTARIZATION_APPLE_ID: ${{ secrets.MACOS_NOTARIZATION_APPLE_ID }}
+          MACOS_NOTARIZATION_PASSWORD: ${{ secrets.MACOS_NOTARIZATION_PASSWORD }}
+          MACOS_NOTARIZATION_TEAM: ${{ secrets.MACOS_NOTARIZATION_TEAM }}
+        run: |
+          xcrun notarytool store-credentials "notarytool-profile" --apple-id "$MACOS_NOTARIZATION_APPLE_ID" --team-id "$MACOS_NOTARIZATION_TEAM" --password "$MACOS_NOTARIZATION_PASSWORD"
+          ditto -c -k --keepParent "output/Cartero.app" "build/Cartero-app.zip"
+          xcrun notarytool submit "build/Cartero-app.zip" --keychain-profile "notarytool-profile" --wait
+          xcrun stapler staple "output/Cartero.app"
+      - name: DMG creation
+        run: |
+          brew install create-dmg
+          create-dmg --volname Cartero --volicon packaging/macos/DmgIcon.icns --window-size 854 480 --background packaging/macos/DmgBackground.png --icon-size 96 --icon Cartero.app 210 225 --app-drop-link 640 225 --eula packaging/COPYING.rtf output/Cartero-${{ needs.tarball.outputs.version }}-macOS-${{ matrix.platform.name }}.dmg output
+      - uses: actions/upload-artifact@v4
+        name: Upload macOS version
+        with:
+          name: macos-${{ matrix.platform.name }}
+          path: output/*.dmg

@@ -16,7 +16,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 if host_machine.system() == 'darwin'
-    if get_option('macos-app').enabled() or get_option('macos-dmg').enabled()
+    if get_option('macos-app').enabled()
         if host_machine.cpu_family() == 'aarch64'
             info_plist_simplified_arch = 'arm64'
         elif host_machine.cpu_family() == 'x86_64'
@@ -35,19 +35,12 @@ if host_machine.system() == 'darwin'
             },
         )
 
+        # TODO: Merge both install scripts into a single one.
         meson.add_install_script('vendoring.py', application_id)
         meson.add_install_script(
             'packaging.py',
             '-i',
             get_option('macos-codesign-identity'),
-        )
-    endif
-
-    if get_option('macos-dmg').enabled()
-        meson.add_install_script(
-            'dmg.py',
-            '-p',
-            get_option('macos-notary-profile'),
         )
     endif
 endif

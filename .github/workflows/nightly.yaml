@@ -194,3 +194,41 @@ jobs:
         with:
           name: linux-gnu-flatpak-${{ matrix.platform.name }}
           path: Cartero-*.flatpak
+
+  # This builds the AppImage
+  gnulinux-appimage:
+    needs: [tarball]
+    strategy:
+      matrix:
+        platform:
+          - runs-on: ubuntu-latest
+            name: x86_64
+          - runs-on: ubuntu-24.04-arm
+            name: aarch64
+      fail-fast: false
+    runs-on: ${{ matrix.platform.runs-on }}
+    name: "GNU/Linux AppImage ${{ matrix.platform.name }}"
+    steps:
+    - name: Fetch dist
+      uses: actions/download-artifact@v7
+      with:
+        artifact-ids: ${{ needs.tarball.outputs.artifact-id }}
+    - name: Extract dist
+      run: tar -xf ${{ needs.tarball.outputs.dist }} --strip-components=1
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install --no-install-recommends desktop-file-utils gettext libadwaita-1-dev libfuse2 libgtk-4-bin libgtk-4-dev libgtksourceview-5-dev librsvg2-common meson jq
+    - name: Build
+      run: |
+        meson setup build -Dappimage=enabled -Dprofile=development --prefix=/usr
+        ninja -C build
+        DESTDIR=$PWD/AppDir ninja -C build install
+        curl -LO https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-$(uname -m).AppImage
+        chmod a+x appimagetool-$(uname -m).AppImage
+        VERSION="${{ needs.tarball.outputs.version }}" ./appimagetool-$(uname -m).AppImage AppDir
+    - name: Upload
+      uses: actions/upload-artifact@v6
+      with:
+        name: linux-gnu-appimage-${{ matrix.platform.name }}
+        path: Cartero-*.AppImage

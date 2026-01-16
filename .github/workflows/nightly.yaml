@@ -156,3 +156,41 @@ jobs:
         with:
           name: macos-${{ matrix.platform.name }}
           path: output/*.dmg
+
+  # This is the one that builds the Flatpak package.
+  gnulinux-flatpak:
+    needs: [tarball]
+    strategy:
+      matrix:
+        platform:
+          - runs-on: ubuntu-latest
+            name: x86_64
+          - runs-on: ubuntu-24.04-arm
+            name: aarch64
+      fail-fast: false
+    runs-on: ${{ matrix.platform.runs-on }}
+    container:
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-49
+      options: --privileged
+    name: "GNU/Linux Flatpak ${{ matrix.platform.name }}"
+    steps:
+      - name: Fetch dist
+        uses: actions/download-artifact@v7
+        with:
+          artifact-ids: ${{ needs.tarball.outputs.artifact-id }}
+      - name: Extract dist
+        run: tar -xf ${{ needs.tarball.outputs.dist }} --strip-components=1
+      - name: Build Flatpak
+        uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        with:
+          bundle: Cartero-${{ needs.tarball.outputs.version }}-${{ matrix.platform.name }}.flatpak
+          manifest-path: build-aux/es.danirod.Cartero.Devel.json
+          cache-key: flatpak-builder-${{ github.sha }}-${{ matrix.platform.name }}
+          build-bundle: true
+          arch: ${{ matrix.platform.name }}
+          upload-artifact: false
+      - name: Upload artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: linux-gnu-flatpak-${{ matrix.platform.name }}
+          path: Cartero-*.flatpak

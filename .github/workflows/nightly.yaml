@@ -261,3 +261,76 @@ jobs:
         with:
           name: linux-gnu-snap-${{ matrix.platform.name }}
           path: ${{ steps.build-snap.outputs.snap }}
+
+# This one builds the Windows version
+  win32:
+    needs: [tarball]
+    strategy:
+      matrix:
+        platform:
+          - runs-on: windows-latest
+            name: x64
+            msystem: ucrt64
+          - runs-on: windows-11-arm
+            name: arm64
+            msystem: clangarm64
+      fail-fast: false
+    runs-on: ${{ matrix.platform.runs-on }}
+    name: "Win32 ${{ matrix.platform.name }}"
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: >-
+            git
+            zip
+          pacboy: >-
+            blueprint-compiler
+            desktop-file-utils
+            gcc
+            gettext
+            gtk4
+            gtksourceview5
+            jq
+            libadwaita
+            librsvg
+            libxml2
+            meson
+            pkgconf
+            rust
+          msystem: ${{ matrix.platform.msystem }}
+      - name: Fetch dist
+        uses: actions/download-artifact@v7
+        with:
+          artifact-ids: ${{ needs.tarball.outputs.artifact-id }}
+      - name: Extract dist
+        run: tar -xf ${{ needs.tarball.outputs.dist }} --strip-component=1
+      - name: Build Windows version
+        run: |
+          meson setup build -Dprofile=development -Ddecorations=no-csd -Dwin32-installer=enabled --prefix=\\
+          DESTDIR=$PWD/build/cartero-win32 ninja -C build install
+          # mv build/cartero-win32/*.exe build/cartero-win32/cartero-${{ needs.tarball.outputs.version }}-windows-${{ matrix.platform.name }}.exe
+      - uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
+        name: Create Windows installer
+        with:
+          path: build/packaging/win32/installer.iss
+          options: /DSOURCE_DIR=${{ github.workspace }}/build/cartero-win32 /O+
+      - name: Rename Windows installer
+        run: mv build/cartero-win32/Output/*.exe build/cartero-${{ needs.tarball.outputs.version }}-windows-${{ matrix.platform.name }}.exe
+      - uses: actions/upload-artifact@v4
+        name: Upload Windows (installer)
+        with:
+          name: windows-installer-${{ matrix.platform.name }}
+          path: build/cartero-${{ needs.tarball.outputs.version }}-windows-${{ matrix.platform.name }}.exe
+      - name: Prepare ZIP distribution
+        run: |
+          cp packaging/win32/COPYING.html $PWD/build/cartero-win32/COPYING.html
+          (cd build/cartero-win32 && zip -r cartero-${{ needs.tarball.outputs.version }}-windows-${{ matrix.platform.name }}.zip COPYING.html bin lib share)
+      - uses: actions/upload-artifact@v4
+        name: Upload Windows (portable)
+        with:
+          name: windows-portable-${{ matrix.platform.name }}
+          path: build/cartero-win32/*.zip

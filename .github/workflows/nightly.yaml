@@ -108,6 +108,7 @@ jobs:
         with:
           path: /Users/Shared/work
           key: jhb-${{ matrix.platform.name }}-49.3
+          fail-on-cache-miss: true
       - name: Fix GETTEXT_DIR for macOS
         run: echo "GETTEXT_DIR=/Users/Shared/work/jhb-1.3+meson184" >> $GITHUB_ENV
       - name: Build macOS version
@@ -262,9 +263,42 @@ jobs:
           name: linux-gnu-snap-${{ matrix.platform.name }}
           path: ${{ steps.build-snap.outputs.snap }}
 
+  # Cache SimplySign for the Windows version. You might notice that we cache the
+  # same file in both runners. This is because there is no SimplySignDesktop
+  # for ARM, yet the ARM build runner will not be able to fetch a cache made
+  # from an x64 runner, for some reason.
+  win32-simplysign:
+    strategy:
+      matrix:
+        platform:
+          - runs-on: windows-latest
+            name: x64
+          - runs-on: windows-11-arm
+            name: arm64
+    runs-on: ${{ matrix.platform.runs-on }}
+    name: "Pre-cache SimplySign ${{ matrix.platform.name }}"
+    steps:
+      - name: Check cache
+        id: cache-simplysign
+        uses: actions/cache/restore@v4
+        with:
+          key: windows-simplysign-${{ matrix.platform.name }}-9.3.4.72
+          path: "*.msi"
+          lookup-only: true
+      - name: Fetch installer
+        if: ${{ steps.cache-simplysign.outputs.cache-hit != 'true' }}
+        shell: pwsh
+        run: Invoke-WebRequest -Uri 'https://files.certum.eu/software/SimplySignDesktop/Windows/9.3.4.72/SimplySignDesktop-9.3.4.72-64-bit-en.msi' -OutFile 'SimplySignDesktop-9.3.4.72-64-bit-en.msi'
+      - name: Cache installer
+        if: ${{ steps.cache-simplysign.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v4
+        with:
+          path: "*.msi"
+          key: windows-simplysign-${{ matrix.platform.name }}-9.3.4.72
+
   # This one builds the Windows version
   win32:
-    needs: [tarball]
+    needs: [tarball, win32-simplysign]
     strategy:
       matrix:
         platform:
@@ -302,17 +336,53 @@ jobs:
             pkgconf
             rust
           msystem: ${{ matrix.platform.msystem }}
+      - name: Fetch Simplysign
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.sign == 'true'
+        id: cache-simplysign
+        uses: actions/cache/restore@v4
+        with:
+          path: "*.msi"
+          key: windows-simplysign-${{ matrix.platform.name }}-9.3.4.72
+          fail-on-cache-miss: true
+      - name: Install SimplySign
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.sign == 'true'
+        shell: pwsh
+        run: |
+          $AbsoluteInstaller = Convert-Path 'SimplySignDesktop-9.3.4.72-64-bit-en.msi'
+          $Installer = Start-Process msiexec -ArgumentList "/i `"$AbsoluteInstaller`" /qn /norestart ALLUSERS=1 /l*v `"$PWD/install.log`"" -Wait -PassThru
+          if ($Installer.ExitCode -ne 0 ) {
+              Get-Content "$PWD/install.log"
+              exit $Installer.ExitCode
+          }
       - name: Fetch dist
         uses: actions/download-artifact@v7
         with:
           artifact-ids: ${{ needs.tarball.outputs.artifact-id }}
       - name: Extract dist
         run: tar -xf ${{ needs.tarball.outputs.dist }} --strip-component=1
+      - name: Start sign environment
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.sign == 'true'
+        env:
+          SIGN_USERNAME: ${{ secrets.WINDOWS_SIGN_USERNAME }}
+          SIGN_OTP_SECRET: ${{ secrets.WINDOWS_SIGN_PASSWORD }}
+        run: |
+          python -m venv venv
+          venv/bin/pip install pyotp
+          venv/bin/python3 .github/scripts/win32-sign.py
       - name: Build Windows version
         run: |
           meson setup build -Dprofile=default -Ddecorations=no-csd -Dwin32-installer=enabled --prefix=\\
           DESTDIR=$PWD/build/cartero-win32 ninja -C build install
-          # mv build/cartero-win32/*.exe build/cartero-win32/cartero-${{ needs.tarball.outputs.version }}-windows-${{ matrix.platform.name }}.exe
+      - name: Sign cartero.exe
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.sign == 'true'
+        shell: pwsh
+        # Always use the x64 version of signtool.exe, even when running on ARM. SimplySignDesktop
+        # is not ARM64 and it seems that there are conflicts when attempting to fetch an x64 cert
+        # from an ARM64 program.
+        run: |
+          $SignTool = Get-ChildItem -Path "${env:ProgramFiles(x86)}\Windows Kits\10\bin" -Recurse -Filter signtool.exe | Where-Object { $_.DirectoryName -like "*\x64" } | Sort-Object -Descending | Select-Object -First 1
+          & $SignTool sign /n "${{ secrets.WINDOWS_SIGN_CERT }}" /tr http://time.certum.pl /td sha256 /fd sha256 build/cartero-win32/bin/cartero.exe
+          & $SignTool verify /v /pa build/cartero-win32/bin/cartero.exe
       - uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
         name: Create Windows installer
         with:
@@ -320,6 +390,13 @@ jobs:
           options: /DSOURCE_DIR=${{ github.workspace }}/build/cartero-win32 /O+
       - name: Rename Windows installer
         run: mv build/cartero-win32/Output/*.exe build/cartero-${{ needs.tarball.outputs.version }}-windows-${{ matrix.platform.name }}.exe
+      - name: Sign installer
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.sign == 'true'
+        shell: pwsh
+        run: |
+          $SignTool = Get-ChildItem -Path "${env:ProgramFiles(x86)}\Windows Kits\10\bin" -Recurse -Filter signtool.exe | Where-Object { $_.DirectoryName -like "*\x64" } | Sort-Object -Descending | Select-Object -First 1
+          & $SignTool sign /n "${{ secrets.WINDOWS_SIGN_CERT }}" /tr http://time.certum.pl /td sha256 /fd sha256 build/cartero-${{ needs.tarball.outputs.version }}-windows-${{ matrix.platform.name }}.exe
+          & $SignTool verify /v /pa build/cartero-${{ needs.tarball.outputs.version }}-windows-${{ matrix.platform.name }}.exe
       - uses: actions/upload-artifact@v4
         name: Upload Windows (installer)
         with:

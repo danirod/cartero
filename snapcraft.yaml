@@ -11,8 +11,7 @@ description: |
   test web APIs and perform all kind of HTTP requests to web servers. It is
   compatible with any REST, SOAP or XML-RPC API and it supports multiple
   request methods as well as attaching body payloads to compatible requests.
-grade: devel
-
+grade: stable
 confinement: strict
 license: GPL-3.0-or-later
 compression: lzo
@@ -41,25 +40,22 @@ parts:
   rust:
     plugin: rust
     source: .
-    rust-channel: "1.92"
+    rust-channel: "1.93"
     override-build: "" # nop
     override-prime: "" # nop
   cartero:
     plugin: meson
     source: .
-    build-environment:
-      - CARTERO_NIGHTLY_VERSION: 1
     build-packages:
       - libssl-dev
     meson-parameters:
       - --prefix=/usr
       - --buildtype=release
-      - -Dprofile=development
     parse-info: [usr/share/metainfo/es.danirod.Cartero.Devel.metainfo.xml]
     override-pull: |
       craftctl default
       [ -d ${CRAFT_PART_SRC}/vendor ] && cp -rv ${CRAFT_PART_SRC}/vendor ${CRAFT_PART_BUILD}/vendor
-      [ -d ${CRAFT_PART_SRC}/vendor ] && cp -rv ${CRAFT_PART_SRC}/.cargo ${CRAFT_PART_BUILD}/.cargo
+      [ -d ${CRAFT_PART_SRC}/.cargo ] && cp -rv ${CRAFT_PART_SRC}/.cargo ${CRAFT_PART_BUILD}/.cargo
       sed -i.bak -e 's|Icon=@app_id@|Icon=/usr/share/icons/hicolor/scalable/apps/es.danirod.Cartero.Devel.svg|' data/cartero.desktop.in.in
 
 slots:

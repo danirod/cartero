@@ -80,7 +80,9 @@ highest priority.
 ## Using variables from an .env file
 
 When an .env file is in use, variables in the .env file are defined as variables.
-You can see the names (but not the values) from the Variables tab.
+You can see the names in the Variables tab. If you press the Reveal button, you
+will also be able to reveal or conceal the current value of the environment
+variable.
 
 ![An action row showing the env variables in use](../images/env-example.png)
 

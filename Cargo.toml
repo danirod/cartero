@@ -54,7 +54,7 @@ app_updater = []
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-adw = { version = "0.8.0", package = "libadwaita", features = ["v1_5"] }
+adw = { version = "0.8.0", package = "libadwaita", features = ["v1_8"] }
 base64.workspace = true
 cartero_http = { path = "crates/cartero-http" }
 cartero_interop = { path = "crates/cartero-interop" }
@@ -72,7 +72,7 @@ indexmap.workspace = true
 serde.workspace = true
 serde_json = { version = "1.0.143", features = ["preserve_order"] }
 serde_urlencoded.workspace = true
-sourceview5 = { version = "0.10.0", features = ["v5_12"]}
+sourceview5 = { version = "0.10.0", features = ["v5_12"] }
 srtemplate.workspace = true
 tokio.workspace = true
 toml.workspace = true
@@ -86,7 +86,7 @@ windows-sys = { version = "0.60.2", features = [
     "Wdk_System",
     "Wdk_System_SystemServices",
     "Win32_System_SystemInformation",
-]}
+] }
 winreg = "0.55"
 gdk4-win32 = '0.10.0'
 

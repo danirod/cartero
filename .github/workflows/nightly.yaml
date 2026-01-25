@@ -9,10 +9,65 @@ on:
     - cron: '0 6 * * *'
 
 jobs:
+  new-commits:
+    name: Check if there are new commits
+    runs-on: ubuntu-latest
+    outputs:
+      new-commits: ${{ steps.check.outputs.new-commits }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: get new commits
+        id: check
+        run: |
+          WEEKDAY=$(date +%u)
+          if [ "$WEEKDAY" -eq 1 ]; then
+            echo "It is Monday. Forcing nightly build."
+            echo "new-commits=true" >> $GITHUB_OUTPUT
+          elif [ -z "$(git rev-list --after="24 hours" HEAD)" ]; then
+            echo "No new activity in the Git repository. Skipping rebuild."
+            echo "new-commits=false" >> $GITHUB_OUTPUT
+          else
+            echo "New activity in the Git repository. Rebuilding nightly."
+            echo "new-commits=true" >> $GITHUB_OUTPUT
+          fi
+
   build:
+    needs: new-commits
+    if: ${{ needs.new-commits.outputs.new-commits == 'true' }}
     name: Build nightly dist
     uses: ./.github/workflows/build.yaml
     secrets: inherit
     with:
       sign: false
       profile: 'nightly'
+
+  snapcraft-edge:
+    needs: build
+    strategy:
+      matrix:
+        platform:
+          - runs-on: ubuntu-latest
+            name: x86_64
+          - runs-on: ubuntu-24.04-arm
+            name: aarch64
+      fail-fast: false
+    runs-on: ${{ matrix.platform.runs-on }}
+    name: "Push to Snapcraft (edge, ${{ matrix.platform.name }})"
+    steps:
+      - name: Fetch snap
+        uses: actions/download-artifact@v7
+        with:
+          name: linux-gnu-snap-${{ matrix.platform.name }}
+          path: snap/
+      - name: Derive filename
+        id: path
+        run: echo "file=$(find snap -name '*.snap')" >> "$GITHUB_OUTPUT"
+      - name: Upload snap
+        uses: snapcore/action-publish@v1
+        env:
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_LOGIN }}
+        with:
+          snap: ${{ steps.path.outputs.file }}
+          release: edge

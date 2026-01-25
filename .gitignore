@@ -3,3 +3,5 @@
 /subprojects/*
 !/subprojects/*.wrap
 /target
+/.flatpak
+/.vscode

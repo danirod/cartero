@@ -38,6 +38,7 @@ on:
         required: false
         default: 'disabled'
 
+run-name: "Build artifacts (profile=${{ inputs.profile }}; appupdater=${{ inputs.appupdater }}; sign=${{ inputs.sign }})"
 jobs:
   # Generates a static tarball. We use this instead of the repo for the nightly
   # builds because of the version priming and because we have to test the
@@ -178,7 +179,7 @@ jobs:
       - name: Build macOS version
         run: |
           export PATH=/Users/Shared/work/jhb-1.3+meson184/bin:${PATH}
-          meson setup -Dprofile=default -Dmacos-app=enabled -Dapp-updater=${{ inputs.app-updater }} --prefix=/ build
+          meson setup -Dprofile=default -Dmacos-app=enabled -Dapp-updater=${{ inputs.appupdater }} --prefix=/ build
           DESTDIR=$PWD/output ninja -C build install
       - name: Codesigning
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.sign == 'true'
@@ -286,7 +287,7 @@ jobs:
         sudo apt install --no-install-recommends desktop-file-utils gettext libadwaita-1-dev libfuse2 libgtk-4-bin libgtk-4-dev libgtksourceview-5-dev librsvg2-common meson jq
     - name: Build
       run: |
-        meson setup build -Dappimage=enabled -Dapp-updater=${{ inputs.app-updater }} -Dprofile=default --prefix=/usr
+        meson setup build -Dappimage=enabled -Dapp-updater=${{ inputs.appupdater }} -Dprofile=default --prefix=/usr
         ninja -C build
         DESTDIR=$PWD/AppDir ninja -C build install
         curl -LO https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-$(uname -m).AppImage
@@ -402,7 +403,7 @@ jobs:
           venv/bin/python3 .github/scripts/win32-sign.py
       - name: Build Windows version
         run: |
-          meson setup build -Dprofile=default -Ddecorations=no-csd -Dwin32-installer=enabled -Dapp-updater=${{ inputs.app-updater }} --prefix=\\
+          meson setup build -Dprofile=default -Ddecorations=no-csd -Dwin32-installer=enabled -Dapp-updater=${{ inputs.appupdater }} --prefix=\\
           DESTDIR=$PWD/build/cartero-win32 ninja -C build install
       - name: Sign cartero.exe
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.sign == 'true'

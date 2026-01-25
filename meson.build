@@ -67,6 +67,10 @@ if get_option('profile') == 'development'
         version_suffix = '-@0@'.format(vcs_tag)
     endif
     application_id = '@0@.@1@'.format(base_id, profile)
+elif meson.project_version().contains('nightly')
+  profile = 'Devel'
+  version_suffix = ''
+  application_id = '@0@.@1@'.format(base_id, profile)
 else
     profile = ''
     version_suffix = ''

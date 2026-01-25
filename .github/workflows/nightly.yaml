@@ -15,4 +15,4 @@ jobs:
     secrets: inherit
     with:
       sign: false
-      profile: 'stable'
+      profile: 'nightly'

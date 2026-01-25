@@ -108,7 +108,7 @@ async fn build_request(
     let ssl_mode = if env.config.validate_tls {
         SslOption::NONE
     } else {
-        SslOption::DANGER_ACCEPT_INVALID_CERTS
+        SslOption::DANGER_ACCEPT_INVALID_CERTS | SslOption::DANGER_ACCEPT_INVALID_HOSTS
     };
     let redirect_policy = if env.config.redirects > 0 {
         RedirectPolicy::Limit(env.config.redirects as u32)

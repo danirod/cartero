@@ -10,8 +10,9 @@ on:
 
 jobs:
   build:
+    name: Build nightly dist
     uses: ./.github/workflows/build.yaml
     secrets: inherit
     with:
       sign: false
-      profile: 'nightly'
+      profile: 'stable'

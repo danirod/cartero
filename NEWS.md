@@ -2,7 +2,7 @@
 
 These are the user-visible changes noticeable within Cartero.
 
-## [26.0] - unreleased
+## [26.0] - 2026-01-25
 
 ### Added
 

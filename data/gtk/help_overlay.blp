@@ -14,92 +14,88 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
-
 using Gtk 4.0;
+using Adw 1;
 
-Gtk.ShortcutsWindow help_overlay {
-    modal: true;
+Adw.ShortcutsDialog help_overlay {
+    Adw.ShortcutsSection {
+        title: C_("shortcuts window", "General shortcuts");
 
-    Gtk.ShortcutsSection {
-        Gtk.ShortcutsGroup {
-            title: C_("shortcuts window", "General shortcuts");
-
-            Gtk.ShortcutsShortcut {
-                title: C_("shortcuts window", "Show Keyboard Shortcuts");
-                action-name: "win.show-help-overlay";
-            }
-
-            Gtk.ShortcutsShortcut {
-                title: C_("shortcuts window", "Quit");
-                action-name: "app.quit";
-            }
+        Adw.ShortcutsItem {
+            title: C_("shortcuts window", "Show Keyboard Shortcuts");
+            action-name: "win.show-help-overlay";
         }
 
-        Gtk.ShortcutsGroup {
-            title: C_("shortcuts window", "Tab operations");
+        Adw.ShortcutsItem {
+            title: C_("shortcuts window", "Quit");
+            action-name: "app.quit";
+        }
+    }
 
-            Gtk.ShortcutsShortcut {
-                title: C_("shortcuts window", "New request tab");
-                action-name: "win.new";
-            }
+    Adw.ShortcutsSection {
+        title: C_("shortcuts window", "Tab operations");
 
-            Gtk.ShortcutsShortcut {
-                title: C_("shortcuts window", "Open request");
-                action-name: "win.open";
-            }
-
-            Gtk.ShortcutsShortcut {
-                title: C_("shortcuts window", "Save request");
-                action-name: "win.save";
-            }
-
-            Gtk.ShortcutsShortcut {
-                title: C_("shortcuts window", "Save request as");
-                action-name: "win.save-as";
-            }
-
-            Gtk.ShortcutsShortcut {
-                title: C_("shortcuts window", "Close request tab");
-                action-name: "win.close";
-            }
+        Adw.ShortcutsItem {
+            title: C_("shortcuts window", "New request tab");
+            action-name: "win.new";
         }
 
-        Gtk.ShortcutsGroup {
-          title: C_("shortcuts window", "Code view operations");
+        Adw.ShortcutsItem {
+            title: C_("shortcuts window", "Open request");
+            action-name: "win.open";
+        }
 
-          Gtk.ShortcutsShortcut {
+        Adw.ShortcutsItem {
+            title: C_("shortcuts window", "Save request");
+            action-name: "win.save";
+        }
+
+        Adw.ShortcutsItem {
+            title: C_("shortcuts window", "Save request as");
+            action-name: "win.save-as";
+        }
+
+        Adw.ShortcutsItem {
+            title: C_("shortcuts window", "Close request tab");
+            action-name: "win.close";
+        }
+    }
+
+    Adw.ShortcutsSection {
+        title: C_("shortcuts window", "Code view operations");
+
+        Adw.ShortcutsItem {
             title: C_("shortcuts window", "Zoom in");
             accelerator: "<Primary>plus";
-          }
-
-          Gtk.ShortcutsShortcut {
-            title: C_("shortcuts window", "Zoom out");
-            accelerator: "<Primary>minus";
-          }
-
-          Gtk.ShortcutsShortcut {
-            title: C_("shortcuts window", "Reset zoom");
-            accelerator: "<Primary>0";
-          }
-
-          Gtk.ShortcutsShortcut {
-            title: C_("shortcuts window", "Start search");
-            accelerator: "<Primary>f";
-          }
         }
 
-        Gtk.ShortcutsGroup {
-            title: C_("shortcuts window", "Request operations");
+        Adw.ShortcutsItem {
+            title: C_("shortcuts window", "Zoom out");
+            accelerator: "<Primary>minus";
+        }
 
-            Gtk.ShortcutsShortcut {
-              title: C_("shortcuts window", "Focus URL");
-              accelerator: "<Primary>l";
-            }
+        Adw.ShortcutsItem {
+            title: C_("shortcuts window", "Reset zoom");
+            accelerator: "<Primary>0";
+        }
 
-            Gtk.ShortcutsShortcut {
-                title: C_("shortcuts window", "Send request");
-                action-name: "win.request";
-            }
+        Adw.ShortcutsItem {
+            title: C_("shortcuts window", "Start search");
+            accelerator: "<Primary>f";
+        }
+    }
+
+    Adw.ShortcutsSection {
+        title: C_("shortcuts window", "Request operations");
+
+        Adw.ShortcutsItem {
+            title: C_("shortcuts window", "Focus URL");
+            accelerator: "<Primary>l";
+        }
+
+        Adw.ShortcutsItem {
+            title: C_("shortcuts window", "Send request");
+            action-name: "win.request";
         }
     }
 }

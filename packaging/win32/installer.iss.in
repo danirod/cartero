@@ -64,7 +64,7 @@ Name: "romanian"; MessagesFile: "{#MesonSourceRoot}\packaging\win32\Romanian.isl
 Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
 Name: "tamil"; MessagesFile: "compiler:Languages\Tamil.isl"
 Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
-Name: "chinesesimplified"; MessagesFile: "compiler:Languages\ChineseSimplified.isl"
+Name: "chinesesimplified"; MessagesFile: "{#MesonSourceRoot}\packaging\win32\ChineseSimplified.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked

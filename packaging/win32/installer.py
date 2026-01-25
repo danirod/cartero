@@ -71,7 +71,7 @@ def sign(path: Path, subject: str):
 
 
 install_dir = os.environ.get("MESON_INSTALL_DESTDIR_PREFIX")
-install_args = ["iscc.exe"]
+install_args = ["ISCC.exe"]
 if install_dir:
     install_args += ["/DSOURCE_DIR=" + install_dir, "/O" + install_dir]
 install_args += [args.installer]

@@ -4,7 +4,6 @@
 name: Nightly release
 
 on:
-  push:
   schedule:
     - cron: '0 6 * * *'
 

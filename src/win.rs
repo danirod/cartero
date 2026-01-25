@@ -655,7 +655,7 @@ mod imp {
         fn action_help_overlay(&self) {
             let obj = self.obj();
             let dialog = gtk::Builder::from_resource("/es/danirod/Cartero/gtk/help-overlay.ui")
-                .object::<adw::ShortcutsDialog>("shortcuts_dialog")
+                .object::<adw::ShortcutsDialog>("help_overlay")
                 .expect("Could not build help-overlay");
 
             dialog.connect_closed(glib::clone!(

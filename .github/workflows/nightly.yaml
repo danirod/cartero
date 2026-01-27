@@ -4,8 +4,9 @@
 name: Nightly release
 
 on:
+  workflow_dispatch:
   schedule:
-    - cron: '0 6 * * *'
+    - cron: '15 8 * * *'
 
 jobs:
   new-commits:

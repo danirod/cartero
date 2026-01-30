@@ -20,9 +20,6 @@ use gtk::prelude::WidgetExt;
 #[cfg(windows)]
 mod win32;
 
-#[cfg(target_os = "macos")]
-mod macos;
-
 #[derive(Clone, Eq, PartialEq)]
 pub(crate) enum ColorScheme {
     Light,
@@ -53,8 +50,6 @@ pub(crate) fn set_window_theme(win: &gtk::Window, color_scheme: adw::ColorScheme
     let scheme = ColorScheme::from(color_scheme);
     #[cfg(windows)]
     self::win32::set_window_theme(win, scheme);
-    #[cfg(target_os = "macos")]
-    self::macos::set_window_theme(win, scheme);
 }
 
 #[allow(unused)]
@@ -67,8 +62,6 @@ pub(crate) fn update_vibrancy(
     // Don't enable vibrancy when running in SSD mode because it adds a box around the window
     #[cfg(all(windows, not(feature = "csd")))]
     self::win32::update_vibrancy(win, vibrancy_mode);
-    // #[cfg(target_os = "macos")]
-    // self::macos::update_vibrancy(win, sidebar_width, headerbar_height);
 }
 
 /// Initialises the native elements for the window. This function does not initialise the
@@ -79,9 +72,6 @@ pub(crate) fn prepare_window(win: &gtk::Window) {
     // Marker class.
     #[cfg(target_os = "windows")]
     win.add_css_class("win32-native");
-
-    #[cfg(target_os = "macos")]
-    win.add_css_class("macos-native");
 
     win.connect_realize(|win| {
         let style_manager = adw::StyleManager::default();

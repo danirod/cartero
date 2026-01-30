@@ -764,11 +764,7 @@ mod imp {
                 .transform_to(|_, value: &glib::Value| {
                     let page = value.get::<String>().expect("No property?");
                     if page == "tabview" {
-                        if cfg!(target_os = "macos") {
-                            Some(adw::ToolbarStyle::RaisedBorder.to_value())
-                        } else {
-                            Some(adw::ToolbarStyle::Raised.to_value())
-                        }
+                        Some(adw::ToolbarStyle::Raised.to_value())
                     } else {
                         Some(adw::ToolbarStyle::Flat.to_value())
                     }

@@ -247,7 +247,7 @@ mod imp {
             dialog.add_response("cancel", &gettext("Cancel"));
             dialog.add_response("remove", &gettext("Remove"));
             dialog.set_response_appearance("remove", adw::ResponseAppearance::Destructive);
-            let response = dialog.choose_future(&parent).await;
+            let response = dialog.choose_future(Some(&parent)).await;
             "remove" == response
         }
 

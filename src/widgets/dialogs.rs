@@ -59,7 +59,7 @@ pub async fn file_load_error_dialog(
         .default_response("close")
         .build();
     alert.add_response("close", &gettext("Close"));
-    alert.choose_future(root).await;
+    alert.choose_future(Some(root)).await;
 }
 
 /// Renders an error message that shows the warnings found while loading a file.
@@ -90,7 +90,7 @@ pub async fn file_load_warning_dialog(
         .default_response("close")
         .build();
     alert.add_response("close", &gettext("Close"));
-    alert.choose_future(root).await;
+    alert.choose_future(Some(root)).await;
 }
 
 fn pretty_warning(warning: FileWarningTag) -> String {
@@ -120,7 +120,7 @@ pub async fn file_pick_out_of_prefix_error(
         .default_response("close")
         .build();
     alert.add_response("close", &gettext("Close"));
-    alert.choose_future(root).await;
+    alert.choose_future(Some(root)).await;
 }
 
 /// Renders an error message that shows the error that prevents the file from
@@ -143,7 +143,7 @@ pub async fn file_save_error(
         .default_response("close")
         .build();
     alert.add_response("close", &gettext("Close"));
-    alert.choose_future(root).await;
+    alert.choose_future(Some(root)).await;
 }
 
 /// Renders an error message associated with a FileDialog.
@@ -156,7 +156,7 @@ pub async fn glib_file_dialog_error(root: &impl IsA<gtk::Widget>, error: &glib::
         .default_response("close")
         .build();
     alert.add_response("close", &gettext("Close"));
-    alert.choose_future(root).await;
+    alert.choose_future(Some(root)).await;
 }
 
 pub async fn export_dialog_error(root: &impl IsA<gtk::Widget>, cause: CodeExportError) {
@@ -180,7 +180,7 @@ pub async fn export_dialog_error(root: &impl IsA<gtk::Widget>, cause: CodeExport
         .default_response("close")
         .build();
     alert.add_response("close", &gettext("Close"));
-    alert.choose_future(root).await;
+    alert.choose_future(Some(root)).await;
 }
 
 // Asks the user whether to actually close the window when there is unsaved
@@ -199,7 +199,7 @@ pub async fn confirm_close_window(root: &impl IsA<gtk::Widget>) -> bool {
     ]);
     question.set_response_appearance("continue", adw::ResponseAppearance::Destructive);
     question.set_default_response(Some("cancel"));
-    let response = question.choose_future(root).await;
+    let response = question.choose_future(Some(root)).await;
     response == "continue"
 }
 
@@ -234,7 +234,7 @@ pub async fn confirm_save(
     ]);
     question.set_response_appearance("save", adw::ResponseAppearance::Suggested);
     question.set_response_appearance("discard", adw::ResponseAppearance::Destructive);
-    let response = question.choose_future(root).await;
+    let response = question.choose_future(Some(root)).await;
     match response.as_str() {
         "discard" => SaveAlertDialogResponse::Discard,
         "save" => SaveAlertDialogResponse::Save,

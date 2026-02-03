@@ -168,28 +168,28 @@ pub trait BasePaneImplExt: BasePaneImpl {
         let data = Self::type_data();
         let parent_class = unsafe { &*(data.as_ref().parent_class() as *const ffi::Class) };
         let lookup_action = parent_class.lookup_action;
-        lookup_action(unsafe { self.obj().unsafe_cast_ref() }, name)
+        unsafe { lookup_action(self.obj().unsafe_cast_ref(), name) }
     }
 
     fn parent_load(&self) -> LoadResult {
         let data = Self::type_data();
         let parent_class = unsafe { &*(data.as_ref().parent_class() as *const ffi::Class) };
         let parent_load = parent_class.load;
-        parent_load(unsafe { self.obj().unsafe_cast_ref() })
+        unsafe { parent_load(self.obj().unsafe_cast_ref()) }
     }
 
     fn parent_save(&self) -> SaveResult {
         let data = Self::type_data();
         let parent_class = unsafe { &*(data.as_ref().parent_class() as *const ffi::Class) };
         let parent_save = parent_class.save;
-        parent_save(unsafe { self.obj().unsafe_cast_ref() })
+        unsafe { parent_save(self.obj().unsafe_cast_ref()) }
     }
 
     fn parent_duplicate(&self) -> BasePane {
         let data = Self::type_data();
         let parent_class = unsafe { &*(data.as_ref().parent_class() as *const ffi::Class) };
         let parent_duplicate = parent_class.duplicate;
-        parent_duplicate(unsafe { self.obj().unsafe_cast_ref() })
+        unsafe { parent_duplicate(self.obj().unsafe_cast_ref()) }
     }
 }
 

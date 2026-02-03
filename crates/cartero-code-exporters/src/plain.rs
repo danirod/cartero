@@ -32,7 +32,7 @@ use crate::ExportError;
 #[derive(Eq, PartialEq, Clone)]
 pub(crate) enum Auth {
     None,
-    BasicAuth { username: String, password: String },
+    Basic { username: String, password: String },
     BearerToken { token: String },
 }
 
@@ -191,7 +191,7 @@ impl From<RequestAuthenticationData> for Auth {
                 let basic = value
                     .downcast::<RequestAuthenticationBasic>()
                     .expect("No basic?");
-                Self::BasicAuth {
+                Self::Basic {
                     username: basic.username(),
                     password: basic.password(),
                 }

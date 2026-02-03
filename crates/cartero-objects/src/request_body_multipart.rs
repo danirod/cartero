@@ -16,7 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use glib::subclass::prelude::*;
-use glib::{prelude::*, Object};
+use glib::{Object, prelude::*};
 
 use crate::FieldTable;
 
@@ -136,7 +136,7 @@ mod imp {
             &self,
             tpl: &srtemplate::SrTemplate,
         ) -> Result<RequestBodyData, srtemplate::Error> {
-            let params = self.obj().params().render(&tpl)?;
+            let params = self.obj().params().render(tpl)?;
             Ok(super::RequestBodyMultipart::builder()
                 .params(&params)
                 .build()
@@ -221,7 +221,7 @@ mod tests {
     use srtemplate::SrTemplate;
 
     use crate::{
-        utils::test::assert_emits_signal, Field, FieldTable, RequestBodyDataExt, RequestBodyType,
+        Field, FieldTable, RequestBodyDataExt, RequestBodyType, utils::test::assert_emits_signal,
     };
 
     use super::RequestBodyMultipart;

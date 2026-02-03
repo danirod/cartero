@@ -25,9 +25,9 @@ mod imp {
 
     use super::*;
     use cartero_objects::{RequestBodyRaw, RequestBodyRawType};
-    use glib::{subclass::InitializingObject, Properties};
+    use glib::{Properties, subclass::InitializingObject};
     use gtk::{CompositeTemplate, Revealer};
-    use sourceview5::{prelude::BufferExt, Buffer, LanguageManager};
+    use sourceview5::{Buffer, LanguageManager, prelude::BufferExt};
 
     #[derive(Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::Raw)]
@@ -97,11 +97,11 @@ mod imp {
         }
 
         fn get_selected_text(&self) -> Option<String> {
-            if self.buffer.has_selection() {
-                if let Some((start, end)) = self.buffer.selection_bounds() {
-                    let text = self.buffer.slice(&start, &end, false);
-                    return Some(text.into());
-                }
+            if self.buffer.has_selection()
+                && let Some((start, end)) = self.buffer.selection_bounds()
+            {
+                let text = self.buffer.slice(&start, &end, false);
+                return Some(text.into());
             }
             None
         }

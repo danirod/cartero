@@ -28,7 +28,7 @@ mod imp {
         RequestAuthentication, RequestAuthenticationBasic, RequestAuthenticationBearer,
         RequestAuthenticationType,
     };
-    use glib::{subclass::InitializingObject, Object, Properties};
+    use glib::{Object, Properties, subclass::InitializingObject};
     use gtk::CompositeTemplate;
 
     #[derive(Default, Properties, CompositeTemplate)]

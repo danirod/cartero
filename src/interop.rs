@@ -29,8 +29,12 @@ impl std::fmt::Display for InnerError<FileLoadError> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let message = match self {
             Self::InteropError(fe) => match fe {
-                FileLoadError::SchemaTooNew => gettext("This file was created with a newer version of this application; please update!"),
-                FileLoadError::DeserializationError(_) => gettext("The file is corrupt or does not contain valid data for this application")
+                FileLoadError::SchemaTooNew => gettext(
+                    "This file was created with a newer version of this application; please update!",
+                ),
+                FileLoadError::DeserializationError(_) => gettext(
+                    "The file is corrupt or does not contain valid data for this application",
+                ),
             },
             Self::GlibError(e) => e.message().to_string(),
         };

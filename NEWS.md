@@ -4,6 +4,11 @@ These are the user-visible changes noticeable within Cartero.
 
 ## [26.1] - unreleased
 
+### Changed
+
+- - Updated Rust project dependencies.
+- - Updated codebase Rust edition to Rust 2024.
+
 ## [26.0] - 2026-01-25
 
 ### Added

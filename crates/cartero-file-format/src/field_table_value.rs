@@ -208,15 +208,21 @@ mod tests {
         let value = FieldTable::from(table);
         assert_eq!(3, value.n_items());
 
-        assert!(value
-            .iter::<Field>()
-            .any(|f| f.is_ok_and(|f| f.key() == "Content-Type" && f.value() == "text/html")));
-        assert!(value
-            .iter::<Field>()
-            .any(|f| f.is_ok_and(|f| f.key() == "Cookie" && f.value() == "admin=1234")));
-        assert!(value
-            .iter::<Field>()
-            .any(|f| f.is_ok_and(|f| f.key() == "Cookie" && f.value() == "session=2345")));
+        assert!(
+            value
+                .iter::<Field>()
+                .any(|f| f.is_ok_and(|f| f.key() == "Content-Type" && f.value() == "text/html"))
+        );
+        assert!(
+            value
+                .iter::<Field>()
+                .any(|f| f.is_ok_and(|f| f.key() == "Cookie" && f.value() == "admin=1234"))
+        );
+        assert!(
+            value
+                .iter::<Field>()
+                .any(|f| f.is_ok_and(|f| f.key() == "Cookie" && f.value() == "session=2345"))
+        );
     }
 
     #[test]

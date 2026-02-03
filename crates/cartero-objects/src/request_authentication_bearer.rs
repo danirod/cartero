@@ -16,7 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use glib::subclass::prelude::*;
-use glib::{prelude::*, Object};
+use glib::{Object, prelude::*};
 
 glib::wrapper! {
     /// Authentication type based on the RFC 6750 spec.
@@ -96,7 +96,7 @@ mod imp {
     impl RequestAuthenticationDataImpl for RequestAuthenticationBearer {
         fn dup(&self) -> crate::RequestAuthenticationData {
             super::RequestAuthenticationBearer::builder()
-                .token(self.obj().token().to_string())
+                .token(self.obj().token())
                 .build()
                 .upcast()
         }
@@ -160,7 +160,7 @@ mod tests {
     use srtemplate::SrTemplate;
 
     use crate::{
-        utils::test::assert_emits_signal, RequestAuthenticationDataExt, RequestAuthenticationType,
+        RequestAuthenticationDataExt, RequestAuthenticationType, utils::test::assert_emits_signal,
     };
 
     use super::*;

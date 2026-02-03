@@ -113,8 +113,7 @@ impl Response {
                 body.clone()
                     .to_vec()
                     .into_iter()
-                    .find(|ch| *ch < 0x08 || (*ch > 0x0D && *ch < 0x20))
-                    .is_some()
+                    .any(|ch| ch < 0x08 || (ch > 0x0D && ch < 0x20))
             })
     }
 
@@ -181,7 +180,7 @@ mod imp {
 }
 
 mod builder {
-    use glib::{object::ObjectBuilder, Object};
+    use glib::{Object, object::ObjectBuilder};
 
     use super::*;
 

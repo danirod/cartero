@@ -38,7 +38,7 @@ pub(crate) fn normalize_url(url: &str) -> Result<String, RequestError> {
 
 #[cfg(test)]
 mod tests {
-    use crate::{url::normalize_url, RequestError};
+    use crate::{RequestError, url::normalize_url};
 
     #[test]
     pub fn test_url_normalization() {

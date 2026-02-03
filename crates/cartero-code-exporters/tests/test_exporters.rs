@@ -15,7 +15,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use cartero_code_exporters::{export_request, Format};
+use cartero_code_exporters::{Format, export_request};
 
 macro_rules! test_suites {
     (

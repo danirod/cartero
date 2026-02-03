@@ -19,9 +19,9 @@ use formatx::formatx;
 use gettextrs::gettext;
 use glib::{object::IsA, prelude::Cast, types::StaticType};
 use gtk::{
+    DialogError, FileDialog, FileFilter,
     gio::{self, ListStore},
     prelude::{FileExt, ListModelExtManual, SettingsExtManual},
-    DialogError, FileDialog, FileFilter,
 };
 use std::path::PathBuf;
 

@@ -36,7 +36,7 @@ mod imp {
     use super::*;
 
     use glib::subclass::InitializingObject;
-    use gtk::{gio::SimpleActionGroup, CompositeTemplate};
+    use gtk::{CompositeTemplate, gio::SimpleActionGroup};
 
     #[derive(Default, CompositeTemplate)]
     #[template(resource = "/es/danirod/Cartero/settings/page_security.ui")]

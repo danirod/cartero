@@ -18,8 +18,8 @@
 use crate::interop::InnerError;
 
 use adw::{
-    prelude::{AlertDialogExt, AlertDialogExtManual},
     AlertDialog,
+    prelude::{AlertDialogExt, AlertDialogExtManual},
 };
 use cartero_code_exporters::ExportError as CodeExportError;
 use cartero_interop::{FileLoadError, FileSaveError, FileWarningTag};
@@ -136,7 +136,13 @@ pub async fn file_save_error(
         Some(name) => formatx!(gettext("Cannot save '{}'"), name).unwrap(),
         None => gettext("Cannot save the requested file"),
     };
-    let error_msg = format!("{}\n\n{}", gettext("There was an error during the saving process. Assume that your changes are still not saved."), error);
+    let error_msg = format!(
+        "{}\n\n{}",
+        gettext(
+            "There was an error during the saving process. Assume that your changes are still not saved."
+        ),
+        error
+    );
     let alert = AlertDialog::builder()
         .heading(&error_title)
         .body(&error_msg)
@@ -169,7 +175,9 @@ pub async fn export_dialog_error(root: &impl IsA<gtk::Widget>, cause: CodeExport
             gettext("There was a problem with a variable interpolation, review your inputs")
         }
         CodeExportError::TemplateError(cause) => {
-            let top = gettext("There has been an internal error during the export process. This is most likely a development error. (If you could report your test case and this error, we might be able to fix this in the future.)");
+            let top = gettext(
+                "There has been an internal error during the export process. This is most likely a development error. (If you could report your test case and this error, we might be able to fix this in the future.)",
+            );
             let error_cause = gettext("Error cause:");
             format!("{}\n\n{} {}", top, error_cause, cause)
         }

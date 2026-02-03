@@ -15,9 +15,9 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use glib::Object;
 use glib::prelude::*;
 use glib::subclass::prelude::*;
-use glib::Object;
 
 glib::wrapper! {
     /// Body payload with the request body encoded as provided.
@@ -213,7 +213,7 @@ mod tests {
     use srtemplate::SrTemplate;
 
     use crate::{
-        utils::test::assert_emits_signal, RequestBodyDataExt, RequestBodyRawType, RequestBodyType,
+        RequestBodyDataExt, RequestBodyRawType, RequestBodyType, utils::test::assert_emits_signal,
     };
 
     use super::RequestBodyRaw;

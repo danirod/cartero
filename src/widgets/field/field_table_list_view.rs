@@ -26,8 +26,8 @@ mod imp {
     use super::*;
     use cartero_objects::{Field, FieldTable};
     use glib::{
-        subclass::{InitializingObject, Signal},
         Properties,
+        subclass::{InitializingObject, Signal},
     };
     use gtk::CompositeTemplate;
 
@@ -88,9 +88,11 @@ mod imp {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
             SIGNALS.get_or_init(|| {
-                vec![Signal::builder("changed")
-                    .param_types([String::static_type()])
-                    .build()]
+                vec![
+                    Signal::builder("changed")
+                        .param_types([String::static_type()])
+                        .build(),
+                ]
             })
         }
     }

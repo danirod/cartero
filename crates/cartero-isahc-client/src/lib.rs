@@ -23,9 +23,9 @@ use std::time::{Duration, Instant};
 use cartero_http::{BoundRequest, RequestEnvironment, RequestError};
 use cartero_objects::{Field, FieldTable, Request, RequestMethod, Response};
 use isahc::{
+    AsyncBody, RequestExt, ResponseExt,
     config::{Configurable, RedirectPolicy, SslOption},
     http::{HeaderName, HeaderValue, Uri},
-    AsyncBody, RequestExt, ResponseExt,
 };
 
 pub fn default_user_agent() -> String {

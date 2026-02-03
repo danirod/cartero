@@ -17,13 +17,13 @@
 
 use adw::prelude::*;
 use gettextrs::gettext;
-use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
-use gtk::gio::{self, ActionEntryBuilder};
-use gtk::prelude::ActionMapExtManual;
+use glib::subclass::types::ObjectSubclassIsExt;
+use gtk::STYLE_PROVIDER_PRIORITY_APPLICATION;
 #[allow(deprecated)]
 use gtk::StyleContext;
-use gtk::STYLE_PROVIDER_PRIORITY_APPLICATION;
+use gtk::gio::{self, ActionEntryBuilder};
+use gtk::prelude::ActionMapExtManual;
 use sourceview5::StyleSchemeManager;
 
 use crate::config::{APP_ID, RESOURCE_PATH};
@@ -49,9 +49,9 @@ mod imp {
     use adw::prelude::*;
     use adw::subclass::application::AdwApplicationImpl;
     use glib::subclass::{object::ObjectImpl, types::ObjectSubclass};
+    use gtk::CssProvider;
     use gtk::subclass::prelude::*;
     use gtk::subclass::{application::GtkApplicationImpl, prelude::ApplicationImpl};
-    use gtk::CssProvider;
 
     use super::*;
 

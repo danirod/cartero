@@ -105,13 +105,9 @@ impl From<RequestBody> for PayloadValue {
             }
             RequestBodyType::File => {
                 let file = value.file().unwrap();
-                let content_type = file.content_type().and_then(|ct| {
-                    if ct.trim().is_empty() {
-                        None
-                    } else {
-                        Some(ct)
-                    }
-                });
+                let content_type = file
+                    .content_type()
+                    .and_then(|ct| if ct.trim().is_empty() { None } else { Some(ct) });
                 Self::File {
                     path: file.path(),
                     content_type,
@@ -192,12 +188,16 @@ mod tests {
 
         let body_params = body.params();
         assert_eq!(2, body_params.n_items());
-        assert!(body_params
-            .iter::<Field>()
-            .any(|f| f.is_ok_and(|f| f.key() == "group_id" && f.value() == "200")));
-        assert!(body_params
-            .iter::<Field>()
-            .any(|f| f.is_ok_and(|f| f.key() == "user_id" && f.value() == "1234")));
+        assert!(
+            body_params
+                .iter::<Field>()
+                .any(|f| f.is_ok_and(|f| f.key() == "group_id" && f.value() == "200"))
+        );
+        assert!(
+            body_params
+                .iter::<Field>()
+                .any(|f| f.is_ok_and(|f| f.key() == "user_id" && f.value() == "1234"))
+        );
     }
 
     #[test]
@@ -300,12 +300,16 @@ mod tests {
 
         let body_params = body.params();
         assert_eq!(2, body_params.n_items());
-        assert!(body_params
-            .iter::<Field>()
-            .any(|f| f.is_ok_and(|f| f.key() == "group_id" && f.value() == "200")));
-        assert!(body_params
-            .iter::<Field>()
-            .any(|f| f.is_ok_and(|f| f.key() == "user_id" && f.value() == "1234")));
+        assert!(
+            body_params
+                .iter::<Field>()
+                .any(|f| f.is_ok_and(|f| f.key() == "group_id" && f.value() == "200"))
+        );
+        assert!(
+            body_params
+                .iter::<Field>()
+                .any(|f| f.is_ok_and(|f| f.key() == "user_id" && f.value() == "1234"))
+        );
     }
 
     #[test]

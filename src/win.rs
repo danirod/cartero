@@ -16,8 +16,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use crate::{app::CarteroApplication, interop::LoadResult, widgets::shell::BasePane};
-use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
+use glib::subclass::types::ObjectSubclassIsExt;
 use gtk::{gio, glib};
 use indexmap::IndexMap;
 
@@ -28,10 +28,10 @@ mod imp {
     use std::cell::OnceCell;
 
     use adw::AboutDialog;
-    use adw::{prelude::*, subclass::prelude::*, TabPage};
+    use adw::{TabPage, prelude::*, subclass::prelude::*};
     use gettextrs::gettext;
-    use gtk::gio::{self, ActionEntry};
     use gtk::ClosureExpression;
+    use gtk::gio::{self, ActionEntry};
     use indexmap::IndexMap;
 
     use crate::app::CarteroApplication;

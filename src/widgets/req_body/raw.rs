@@ -25,9 +25,9 @@ mod imp {
 
     use super::*;
     use cartero_objects::{RequestBodyRaw, RequestBodyRawType};
-    use glib::{subclass::InitializingObject, Properties};
+    use glib::{Properties, subclass::InitializingObject};
     use gtk::{CompositeTemplate, Revealer};
-    use sourceview5::{prelude::BufferExt, Buffer, LanguageManager};
+    use sourceview5::{Buffer, LanguageManager, prelude::BufferExt};
 
     #[derive(Default, Properties, CompositeTemplate)]
     #[properties(wrapper_type = super::Raw)]

@@ -16,7 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use glib::subclass::prelude::*;
-use glib::{prelude::*, Object};
+use glib::{Object, prelude::*};
 use srtemplate::SrTemplate;
 
 use crate::{
@@ -317,7 +317,7 @@ mod imp {
         sync::OnceLock,
     };
 
-    use glib::{subclass::Signal, Properties, SignalGroup};
+    use glib::{Properties, SignalGroup, subclass::Signal};
 
     use crate::RequestAuthenticationData;
 
@@ -365,9 +365,11 @@ mod imp {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
             SIGNALS.get_or_init(|| {
-                vec![Signal::builder("changed")
-                    .param_types([String::static_type()])
-                    .build()]
+                vec![
+                    Signal::builder("changed")
+                        .param_types([String::static_type()])
+                        .build(),
+                ]
             })
         }
     }
@@ -415,7 +417,10 @@ mod imp {
                 self.obj().notify_auth_data();
             } else {
                 #[cfg(not(test))]
-                glib::g_critical!("Cartero", "set_auth_data() was called with a RequestAuthenticationData of invalid RequestAuthenticationType for this RequestAuthentication object");
+                glib::g_critical!(
+                    "Cartero",
+                    "set_auth_data() was called with a RequestAuthenticationData of invalid RequestAuthenticationType for this RequestAuthentication object"
+                );
             }
         }
     }
@@ -476,8 +481,8 @@ mod builder {
 #[cfg(test)]
 mod tests {
     use crate::{
-        utils::test::{assert_emits_signal, assert_emits_signals, assert_not_emits_signal},
         RequestAuthenticationDataExt,
+        utils::test::{assert_emits_signal, assert_emits_signals, assert_not_emits_signal},
     };
 
     use super::*;
@@ -641,9 +646,11 @@ mod tests {
             RequestAuthenticationType::BasicAuth,
             RequestAuthenticationData::NONE,
         );
-        assert!(authentication
-            .auth_data()
-            .is_some_and(|data| data.auth_type() == RequestAuthenticationType::BasicAuth));
+        assert!(
+            authentication
+                .auth_data()
+                .is_some_and(|data| data.auth_type() == RequestAuthenticationType::BasicAuth)
+        );
         assert_emits_signals(
             &authentication,
             &["notify::auth-type", "notify::auth-data"],
@@ -651,9 +658,11 @@ mod tests {
                 authentication.set_auth_type(RequestAuthenticationType::BearerToken);
             },
         );
-        assert!(authentication
-            .auth_data()
-            .is_some_and(|data| data.auth_type() == RequestAuthenticationType::BearerToken));
+        assert!(
+            authentication
+                .auth_data()
+                .is_some_and(|data| data.auth_type() == RequestAuthenticationType::BearerToken)
+        );
     }
 
     #[test]

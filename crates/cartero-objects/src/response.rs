@@ -181,7 +181,7 @@ mod imp {
 }
 
 mod builder {
-    use glib::{object::ObjectBuilder, Object};
+    use glib::{Object, object::ObjectBuilder};
 
     use super::*;
 

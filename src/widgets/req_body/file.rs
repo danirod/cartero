@@ -28,7 +28,7 @@ mod imp {
 
     use super::*;
     use cartero_objects::RequestBodyFile;
-    use glib::{subclass::InitializingObject, BindingGroup, Properties};
+    use glib::{BindingGroup, Properties, subclass::InitializingObject};
     use gtk::CompositeTemplate;
 
     #[derive(Default, Properties, CompositeTemplate)]

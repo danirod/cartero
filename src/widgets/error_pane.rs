@@ -19,8 +19,8 @@ use adw::prelude::*;
 use adw::subclass::prelude::*;
 use cartero_http::RequestError;
 use gettextrs::gettext;
-use glib::subclass::InitializingObject;
 use glib::Properties;
+use glib::subclass::InitializingObject;
 use gtk::CompositeTemplate;
 use std::cell::RefCell;
 

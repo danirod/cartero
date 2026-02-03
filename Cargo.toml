@@ -19,7 +19,7 @@
 members = ["crates/*"]
 
 [workspace.package]
-edition = "2021"
+edition = "2024"
 version = "26.1.0"
 license = "GPL-3.0-or-later"
 

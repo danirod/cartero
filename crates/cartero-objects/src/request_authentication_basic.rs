@@ -16,7 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use glib::subclass::prelude::*;
-use glib::{prelude::*, Object};
+use glib::{Object, prelude::*};
 
 glib::wrapper! {
     /// Authentication type based on the RFC 7617 spec.
@@ -65,7 +65,7 @@ impl RequestAuthenticationBasic {
 mod imp {
     use std::cell::RefCell;
 
-    use base64::{prelude::BASE64_STANDARD, Engine};
+    use base64::{Engine, prelude::BASE64_STANDARD};
     use glib::Properties;
 
     use crate::RequestAuthenticationDataImpl;
@@ -184,7 +184,7 @@ mod tests {
     use srtemplate::SrTemplate;
 
     use crate::{
-        utils::test::assert_emits_signal, RequestAuthenticationDataExt, RequestAuthenticationType,
+        RequestAuthenticationDataExt, RequestAuthenticationType, utils::test::assert_emits_signal,
     };
 
     use super::*;

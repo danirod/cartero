@@ -30,7 +30,7 @@ mod imp {
     use cartero_objects::{
         FieldTable, RequestBody, RequestBodyFile, RequestBodyRawType, RequestBodyType,
     };
-    use glib::{subclass::InitializingObject, Properties};
+    use glib::{Properties, subclass::InitializingObject};
     use gtk::CompositeTemplate;
 
     #[derive(Default, Properties, CompositeTemplate)]

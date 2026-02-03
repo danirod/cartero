@@ -15,7 +15,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-use glib::{object::ObjectExt, Object};
+use glib::{Object, object::ObjectExt};
 use gtk::{glib, pango::FontDescription, prelude::SettingsExtManual};
 
 use crate::settings::Settings;
@@ -24,21 +24,21 @@ mod imp {
     use std::cell::RefCell;
     use std::sync::OnceLock;
 
+    use glib::Properties;
     use glib::object::{Cast, ObjectExt};
     use glib::subclass::Signal;
     use glib::value::ToValue;
-    use glib::Properties;
     use gtk::gio::SettingsBindFlags;
     #[allow(deprecated)]
     use gtk::prelude::StyleContextExt;
     use gtk::prelude::{EventControllerExt, WidgetExt};
     use gtk::prelude::{SettingsExt, SettingsExtManual, TextViewExt};
     use gtk::subclass::prelude::*;
-    use gtk::{gdk, EventControllerScroll, EventControllerScrollFlags, PropagationPhase};
-    use gtk::{glib, WrapMode};
+    use gtk::{EventControllerScroll, EventControllerScrollFlags, PropagationPhase, gdk};
+    use gtk::{WrapMode, glib};
+    use sourceview5::StyleSchemeManager;
     use sourceview5::prelude::BufferExt;
     use sourceview5::subclass::view::ViewImpl;
-    use sourceview5::StyleSchemeManager;
 
     use crate::settings::Settings;
     use crate::widgets::code_view::{get_monospace_font_descriptor, render_css_rules};
@@ -361,11 +361,7 @@ fn get_monospace_font_descriptor() -> FontDescription {
 /// Given the zoom level, returns the scaling percentage.
 fn map_zoom_level(zoom: i32) -> f32 {
     let perc = 1.0 + (zoom as f32 / 8.0);
-    if perc < 0.25 {
-        0.25
-    } else {
-        perc
-    }
+    if perc < 0.25 { 0.25 } else { perc }
 }
 
 /// Returns the CSS document that should be provided to the StyleContext of a CodeView

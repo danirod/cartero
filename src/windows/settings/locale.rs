@@ -38,7 +38,7 @@ const LOCALES: [(&str, &str); 16] = [
 ];
 
 use glib::subclass::prelude::*;
-use glib::{prelude::*, Object};
+use glib::{Object, prelude::*};
 
 // Returns true if there is a file called locale/{iso}/LC_MESSAGES/cartero.mo in the datadir.
 fn locale_exists(iso: &str) -> bool {

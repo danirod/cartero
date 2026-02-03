@@ -24,8 +24,8 @@ mod imp {
     use super::*;
     use glib::subclass::InitializingObject;
     use gtk::{
-        gio::{SimpleAction, SimpleActionGroup},
         CompositeTemplate,
+        gio::{SimpleAction, SimpleActionGroup},
     };
 
     #[derive(Default, CompositeTemplate)]

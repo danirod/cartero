@@ -16,8 +16,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use adw::{
-    prelude::{AlertDialogExt, AlertDialogExtManual},
     AlertDialog,
+    prelude::{AlertDialogExt, AlertDialogExtManual},
 };
 use formatx::formatx;
 use gettextrs::gettext;

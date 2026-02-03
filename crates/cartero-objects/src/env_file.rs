@@ -43,15 +43,16 @@ impl EnvFile {
     }
 
     pub fn locate_for_path(file: &gio::File) -> Option<gio::File> {
-        if let Some(parent) = file.parent() {
-            let env = parent.child(".env");
-            if env.query_exists(gio::Cancellable::NONE) {
-                return Some(env);
-            } else {
-                return Self::locate_for_path(&parent);
+        match file.parent() {
+            Some(parent) => {
+                let env = parent.child(".env");
+                if env.query_exists(gio::Cancellable::NONE) {
+                    return Some(env);
+                } else {
+                    return Self::locate_for_path(&parent);
+                }
             }
-        } else {
-            None
+            _ => None,
         }
     }
 }
@@ -90,7 +91,7 @@ mod imp {
         prelude::{FileExt, FileMonitorExt, ListModelExt},
         subclass::prelude::ListModelImpl,
     };
-    use glib::{property::PropertySet, Properties, SignalHandlerId};
+    use glib::{Properties, SignalHandlerId, property::PropertySet};
 
     use crate::{Field, FieldTable};
 

@@ -26,8 +26,8 @@ use gtk::glib;
 use gtk::prelude::TextViewExt;
 use gtk::prelude::*;
 use serde_json::Value;
-use sourceview5::prelude::BufferExt;
 use sourceview5::LanguageManager;
+use sourceview5::prelude::BufferExt;
 
 use glib::subclass::types::ObjectSubclassIsExt;
 
@@ -37,19 +37,19 @@ mod imp {
     use crate::widgets::endpoint::ResponseHeaders;
     use crate::widgets::{CodeView, ErrorPane, SearchBox};
     use adw::subclass::bin::BinImpl;
-    use adw::{prelude::*, ToastOverlay};
+    use adw::{ToastOverlay, prelude::*};
     use cartero_http::RequestError;
     use cartero_objects::Response;
     use gettextrs::gettext;
+    use glib::Properties;
     use glib::object::Cast;
     use glib::subclass::InitializingObject;
-    use glib::Properties;
     use gtk::gdk::{ContentProvider, Display};
     use gtk::gio::{SimpleAction, SimpleActionGroup};
     use gtk::subclass::prelude::*;
     use gtk::{
-        subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetImpl},
         Box, CompositeTemplate, Label, TemplateChild,
+        subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetImpl},
     };
     use gtk::{Revealer, Spinner, Stack};
 

@@ -23,7 +23,7 @@ use cartero_objects::RequestMethod;
 mod imp {
     use super::*;
     use adw::EnumListItem;
-    use glib::{subclass::InitializingObject, Properties};
+    use glib::{Properties, subclass::InitializingObject};
     use gtk::{ClosureExpression, CompositeTemplate};
     use std::cell::RefCell;
 

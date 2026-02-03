@@ -19,7 +19,7 @@ use std::collections::HashMap;
 
 use gio::prelude::{ListModelExt, ListModelExtManual};
 use glib::subclass::prelude::*;
-use glib::{prelude::*, Object};
+use glib::{Object, prelude::*};
 use itertools::{EitherOrBoth, Itertools};
 use srtemplate::SrTemplate;
 
@@ -484,7 +484,7 @@ impl FromIterator<Field> for FieldTable {
 
 mod imp {
     use gio::subclass::prelude::ListModelImpl;
-    use glib::{subclass::Signal, SignalHandlerId};
+    use glib::{SignalHandlerId, subclass::Signal};
 
     use super::*;
     use std::{cell::RefCell, sync::OnceLock};
@@ -507,9 +507,11 @@ mod imp {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
             SIGNALS.get_or_init(|| {
-                vec![Signal::builder("changed")
-                    .param_types([String::static_type()])
-                    .build()]
+                vec![
+                    Signal::builder("changed")
+                        .param_types([String::static_type()])
+                        .build(),
+                ]
             })
         }
     }
@@ -1122,11 +1124,13 @@ mod tests {
 
     #[test]
     fn test_template_processor_deactivated_variable() {
-        let table = FieldTable::from_iter(vec![Field::builder()
-            .key("API_ROOT")
-            .value("http://localhost:8000")
-            .active(false)
-            .build()]);
+        let table = FieldTable::from_iter(vec![
+            Field::builder()
+                .key("API_ROOT")
+                .value("http://localhost:8000")
+                .active(false)
+                .build(),
+        ]);
 
         let processor = table.template_processor();
         assert!(!processor.contains_variable("API_ROOT"));
@@ -1236,10 +1240,12 @@ mod tests {
     fn test_render_with_invalid_variables() {
         let template = SrTemplate::default();
 
-        let table = FieldTable::from_iter(vec![Field::builder()
-            .key("Location")
-            .value("{{ API_ROOT }}/v1/users")
-            .build()]);
+        let table = FieldTable::from_iter(vec![
+            Field::builder()
+                .key("Location")
+                .value("{{ API_ROOT }}/v1/users")
+                .build(),
+        ]);
         let render_table = table.render(&template);
         let Err(srtemplate::Error::VariableNotFound(var)) = render_table else {
             panic!("expected err");

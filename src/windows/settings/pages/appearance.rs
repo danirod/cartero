@@ -37,7 +37,7 @@ mod imp {
 
     use glib::subclass::InitializingObject;
     use gtk::{
-        gio::SimpleActionGroup, pango::FontDescription, CompositeTemplate, FlowBox, FlowBoxChild,
+        CompositeTemplate, FlowBox, FlowBoxChild, gio::SimpleActionGroup, pango::FontDescription,
     };
     use sourceview5::{StyleSchemeManager, StyleSchemePreview};
 

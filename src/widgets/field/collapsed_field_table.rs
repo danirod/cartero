@@ -26,7 +26,7 @@ mod imp {
     use super::*;
 
     use cartero_objects::{Field, FieldTable};
-    use glib::{subclass::InitializingObject, Properties};
+    use glib::{Properties, subclass::InitializingObject};
     use gtk::CompositeTemplate;
 
     #[derive(Default, Properties, CompositeTemplate)]

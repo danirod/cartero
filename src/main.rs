@@ -68,7 +68,7 @@ fn init_data_dir() {
         let mut xdg_final_dirs = vec![datadir];
         xdg_final_dirs.extend(xdg_data_dirs);
         let xdg_data_dir = std::env::join_paths(&xdg_final_dirs).unwrap();
-        std::env::set_var("XDG_DATA_DIRS", xdg_data_dir);
+        unsafe { std::env::set_var("XDG_DATA_DIRS", xdg_data_dir) };
     }
 }
 
@@ -125,7 +125,7 @@ fn main() -> glib::ExitCode {
     init_data_dir();
     if let Some(locale) = get_locale_from_schema() {
         if locale != std::env::var("LANGUAGE").unwrap_or_default() {
-            std::env::set_var("LANGUAGE", locale);
+            unsafe { std::env::set_var("LANGUAGE", locale) };
             if cfg!(windows) {
                 // Windows actually will ignore this change to the env var, so
                 // the whole program needs to be relaunched to take effect.

@@ -104,10 +104,10 @@ mod imp {
                 if let Some(settings) = gtk::Settings::default() {
                     settings.set_gtk_font_name(Some("Segoe UI 10"));
                 }
-            } else if cfg!(target_os = "macos") {
-                if let Some(settings) = gtk::Settings::default() {
-                    settings.set_gtk_font_name(Some(".AppleSystemUIFont 14.5"));
-                }
+            } else if cfg!(target_os = "macos")
+                && let Some(settings) = gtk::Settings::default()
+            {
+                settings.set_gtk_font_name(Some(".AppleSystemUIFont 14.5"));
             }
 
             let obj = self.obj();
@@ -212,7 +212,7 @@ impl CarteroApplication {
         #[allow(deprecated)]
         StyleContext::add_provider_for_display(
             &gtk::gdk::Display::default().expect("No display"),
-            self.imp().app_theme.get_or_init(|| gtk::CssProvider::new()),
+            self.imp().app_theme.get_or_init(gtk::CssProvider::new),
             STYLE_PROVIDER_PRIORITY_APPLICATION,
         );
 
@@ -262,7 +262,7 @@ impl CarteroApplication {
             .unwrap_or_default();
         self.imp()
             .app_theme
-            .get_or_init(|| gtk::CssProvider::new())
+            .get_or_init(gtk::CssProvider::new)
             .load_from_string(css.as_str());
     }
 
@@ -276,7 +276,7 @@ impl CarteroApplication {
                     let window = app
                         .windows_by_type::<crate::windows::settings::Shell>()
                         .first()
-                        .map(|win| win.clone())
+                        .cloned()
                         .unwrap_or_else(|| {
                             let settings_shell = crate::windows::settings::Shell::new();
                             let window = app.new_window(&settings_shell);
@@ -308,7 +308,7 @@ impl CarteroApplication {
                     let window = app
                         .windows_by_type::<crate::windows::settings::Shell>()
                         .first()
-                        .map(|win| win.clone())
+                        .cloned()
                         .unwrap_or_else(|| {
                             let settings_shell = crate::windows::settings::Shell::new();
                             let window = app.new_window(&settings_shell);

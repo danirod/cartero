@@ -89,7 +89,7 @@ impl LocaleRepr {
 
         let store = ListStore::new::<Self>();
         for (iso, name) in languages {
-            if iso == "" || iso == "en" || locale_exists(iso) {
+            if iso.is_empty() || iso == "en" || locale_exists(iso) {
                 let repr: Self = Object::builder()
                     .property("iso", iso.to_string())
                     .property("name", name.to_string())

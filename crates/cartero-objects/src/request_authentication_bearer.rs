@@ -96,7 +96,7 @@ mod imp {
     impl RequestAuthenticationDataImpl for RequestAuthenticationBearer {
         fn dup(&self) -> crate::RequestAuthenticationData {
             super::RequestAuthenticationBearer::builder()
-                .token(self.obj().token().to_string())
+                .token(self.obj().token())
                 .build()
                 .upcast()
         }

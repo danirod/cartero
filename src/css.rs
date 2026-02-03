@@ -59,7 +59,7 @@ fn generate_window_css(scheme: &StyleScheme) -> String {
         css.alias("card_bg_color", "alpha(white, .5)");
     }
 
-    match (
+    if let (Some(accent_bg), Some(accent_fg)) = (
         locate_meta_color(scheme, "accent_bg_color").or(locate_scheme_color(
             scheme,
             "selection",
@@ -70,18 +70,14 @@ fn generate_window_css(scheme: &StyleScheme) -> String {
             "selection",
             "foreground",
         )),
-    ) {
-        (Some(accent_bg), Some(accent_fg)) => {
-            if !accent_bg.is_clear() {
-                css.variable("accent_bg_color", &accent_bg);
-                if accent_fg.is_clear() {
-                    css.variable("accent_fg_color", &text_fg);
-                } else {
-                    css.variable("accent_fg_color", &accent_fg);
-                }
-            }
+    ) && !accent_bg.is_clear()
+    {
+        css.variable("accent_bg_color", &accent_bg);
+        if accent_fg.is_clear() {
+            css.variable("accent_fg_color", &text_fg);
+        } else {
+            css.variable("accent_fg_color", &accent_fg);
         }
-        _ => {}
     }
 
     css.alias("card_fg_color", "@window_fg_color");
@@ -136,8 +132,10 @@ impl CssTheme {
             variable, hex_a, hex_b, clamp_level
         ));
     }
+}
 
-    fn to_string(&self) -> String {
-        self.0.clone()
+impl std::fmt::Display for CssTheme {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
     }
 }

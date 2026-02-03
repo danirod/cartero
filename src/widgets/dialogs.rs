@@ -155,10 +155,10 @@ pub async fn file_save_error(
 /// Renders an error message associated with a FileDialog.
 pub async fn glib_file_dialog_error(root: &impl IsA<gtk::Widget>, error: &glib::Error) {
     let alert = AlertDialog::builder()
-        .heading(&gettext(
+        .heading(gettext(
             "Could not select a valid file from the file chooser",
         ))
-        .body(&error.to_string())
+        .body(error.to_string())
         .default_response("close")
         .build();
     alert.add_response("close", &gettext("Close"));
@@ -183,7 +183,7 @@ pub async fn export_dialog_error(root: &impl IsA<gtk::Widget>, cause: CodeExport
         }
     };
     let alert = AlertDialog::builder()
-        .heading(&gettext("Could not export the request"))
+        .heading(gettext("Could not export the request"))
         .body(&error)
         .default_response("close")
         .build();
@@ -196,8 +196,8 @@ pub async fn export_dialog_error(root: &impl IsA<gtk::Widget>, cause: CodeExport
 // chose to keep the window for now.
 pub async fn confirm_close_window(root: &impl IsA<gtk::Widget>) -> bool {
     let question = AlertDialog::builder()
-        .heading(&gettext("There are unsaved changes"))
-        .body(&gettext(
+        .heading(gettext("There are unsaved changes"))
+        .body(gettext(
             "Closing this window will lose all unsaved data. Do you really want to proceed?",
         ))
         .build();
@@ -231,7 +231,7 @@ pub async fn confirm_save(
     };
     let question = AlertDialog::builder()
         .heading(&question_title)
-        .body(&gettext(
+        .body(gettext(
             "There are changes that have not been saved yet. What do you want to do?",
         ))
         .build();

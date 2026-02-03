@@ -24,6 +24,12 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
+impl Default for Security {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Security {
     pub fn new() -> Self {
         glib::Object::new()

@@ -97,11 +97,11 @@ mod imp {
         }
 
         fn get_selected_text(&self) -> Option<String> {
-            if self.buffer.has_selection() {
-                if let Some((start, end)) = self.buffer.selection_bounds() {
-                    let text = self.buffer.slice(&start, &end, false);
-                    return Some(text.into());
-                }
+            if self.buffer.has_selection()
+                && let Some((start, end)) = self.buffer.selection_bounds()
+            {
+                let text = self.buffer.slice(&start, &end, false);
+                return Some(text.into());
             }
             None
         }

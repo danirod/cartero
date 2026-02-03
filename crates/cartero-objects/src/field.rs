@@ -72,8 +72,8 @@ impl Field {
 
     pub fn dup(&self) -> Self {
         builder::FieldBuilder::default()
-            .key(self.key().to_string())
-            .value(self.value().to_string())
+            .key(self.key())
+            .value(self.value())
             .active(self.active())
             .masked(self.masked())
             .build()

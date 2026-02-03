@@ -118,7 +118,7 @@ async fn build_request(
     let request_timeout = Duration::from_secs_f64(env.config.timeout);
 
     // Build the request entity.
-    let bound_request = BoundRequest::new(&request, &env).await?;
+    let bound_request = BoundRequest::new(request, env).await?;
 
     let builder = isahc::Request::builder()
         .uri(bound_request.url.clone())

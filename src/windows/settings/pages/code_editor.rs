@@ -24,6 +24,12 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
+impl Default for CodeEditor {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl CodeEditor {
     pub fn new() -> Self {
         glib::Object::new()

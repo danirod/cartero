@@ -47,9 +47,9 @@ impl EnvFile {
             Some(parent) => {
                 let env = parent.child(".env");
                 if env.query_exists(gio::Cancellable::NONE) {
-                    return Some(env);
+                    Some(env)
                 } else {
-                    return Self::locate_for_path(&parent);
+                    Self::locate_for_path(&parent)
                 }
             }
             _ => None,
@@ -64,6 +64,12 @@ mod builder {
 
     pub struct EnvFileBuilder {
         builder: ObjectBuilder<'static, EnvFile>,
+    }
+
+    impl Default for EnvFileBuilder {
+        fn default() -> Self {
+            Self::new()
+        }
     }
 
     impl EnvFileBuilder {
@@ -142,10 +148,10 @@ mod imp {
     impl EnvFile {
         fn set_monitor(&self) {
             // Disconnect the old monitor if one is present.
-            if let Some(old_monitor_handler) = self.monitor_handler.replace(None) {
-                if let Some(old_monitor) = &*self.monitor.borrow() {
-                    old_monitor.disconnect(old_monitor_handler);
-                }
+            if let Some(old_monitor_handler) = self.monitor_handler.replace(None)
+                && let Some(old_monitor) = &*self.monitor.borrow()
+            {
+                old_monitor.disconnect(old_monitor_handler);
             }
 
             let next_monitor = match self.obj().file() {
@@ -160,7 +166,7 @@ mod imp {
                             self,
                             move |_, file, _, event_type| {
                                 dbg!(event_type);
-                                imp.reload_env(&file);
+                                imp.reload_env(file);
                             }
                         ));
                     }

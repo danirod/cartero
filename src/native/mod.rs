@@ -76,7 +76,7 @@ pub(crate) fn prepare_window(win: &gtk::Window) {
     win.connect_realize(|win| {
         let style_manager = adw::StyleManager::default();
         let color_scheme = style_manager.color_scheme();
-        set_window_theme(&win, color_scheme);
+        set_window_theme(win, color_scheme);
     });
 
     let style_manager = adw::StyleManager::default();

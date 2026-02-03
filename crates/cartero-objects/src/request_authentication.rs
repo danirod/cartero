@@ -400,7 +400,7 @@ mod imp {
         fn set_auth_type(&self, auth_type: RequestAuthenticationType) {
             let next = default_authentication_data(auth_type);
 
-            let current_type = { self.auth_type.borrow().clone() };
+            let current_type = { *self.auth_type.borrow() };
             if current_type != auth_type {
                 self.auth_type.replace(auth_type);
                 self.obj().set_auth_data(next);

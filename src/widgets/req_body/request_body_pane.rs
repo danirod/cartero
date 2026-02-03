@@ -149,10 +149,10 @@ mod imp {
             let body = self.obj().body();
             let (body_type, raw_body_type) = cast_selected_entry(self.combo.selected());
             body.set_body_type(body_type);
-            if let Some(raw_body_type) = raw_body_type {
-                if let Some(raw) = body.raw() {
-                    raw.set_payload_type(raw_body_type);
-                }
+            if let Some(raw_body_type) = raw_body_type
+                && let Some(raw) = body.raw()
+            {
+                raw.set_payload_type(raw_body_type);
             }
             self.pop_body();
             self.sync_container();

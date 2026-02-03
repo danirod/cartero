@@ -24,6 +24,12 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
+impl Default for Appearance {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Appearance {
     pub fn new() -> Self {
         glib::Object::new()

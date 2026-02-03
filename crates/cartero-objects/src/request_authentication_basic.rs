@@ -106,8 +106,8 @@ mod imp {
     impl RequestAuthenticationDataImpl for RequestAuthenticationBasic {
         fn dup(&self) -> crate::RequestAuthenticationData {
             super::RequestAuthenticationBasic::builder()
-                .username(self.obj().username().to_string())
-                .password(self.obj().password().to_string())
+                .username(self.obj().username())
+                .password(self.obj().password())
                 .build()
                 .upcast()
         }

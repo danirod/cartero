@@ -118,7 +118,7 @@ mod imp {
             &self,
             tpl: &srtemplate::SrTemplate,
         ) -> Result<RequestBodyData, srtemplate::Error> {
-            let path = tpl.render(&self.obj().path())?;
+            let path = tpl.render(self.obj().path())?;
             let content_type = self
                 .obj()
                 .content_type()
@@ -148,6 +148,12 @@ mod builder {
 
     pub struct RequestBodyFileBuilder {
         builder: ObjectBuilder<'static, RequestBodyFile>,
+    }
+
+    impl Default for RequestBodyFileBuilder {
+        fn default() -> Self {
+            Self::new()
+        }
     }
 
     impl RequestBodyFileBuilder {

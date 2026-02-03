@@ -341,16 +341,14 @@ fn get_monospace_font_descriptor() -> FontDescription {
             "Menlo 14".to_string()
         } else if cfg!(target_os = "windows") {
             "Consolas 11".to_string()
+        } else if gtk::gio::SettingsSchemaSource::default()
+            .and_then(|source| source.lookup("org.gnome.desktop.interface", true))
+            .is_some()
+        {
+            let settings = gtk::gio::Settings::new("org.gnome.desktop.interface");
+            settings.get::<String>("monospace-font-name")
         } else {
-            if gtk::gio::SettingsSchemaSource::default()
-                .and_then(|source| source.lookup("org.gnome.desktop.interface", true))
-                .is_some()
-            {
-                let settings = gtk::gio::Settings::new("org.gnome.desktop.interface");
-                settings.get::<String>("monospace-font-name")
-            } else {
-                "Monospace 10".to_string()
-            }
+            "Monospace 10".to_string()
         }
     } else {
         settings.get::<String>("custom-font")

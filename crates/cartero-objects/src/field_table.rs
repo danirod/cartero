@@ -134,10 +134,10 @@ impl FieldTable {
     /// upwards from this table.
     fn disconnect_signal(&self, field: &Field) {
         let mut signals = self.imp().signals.borrow_mut();
-        if let Some(handler) = signals.remove(field) {
-            if let Some(signal) = handler {
-                field.disconnect(signal);
-            }
+        if let Some(handler) = signals.remove(field)
+            && let Some(signal) = handler
+        {
+            field.disconnect(signal);
         }
     }
 

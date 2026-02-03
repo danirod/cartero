@@ -199,11 +199,11 @@ mod imp {
         }
 
         fn get_selected_text(&self) -> Option<String> {
-            if self.buffer.has_selection() {
-                if let Some((start, end)) = self.buffer.selection_bounds() {
-                    let text = self.buffer.slice(&start, &end, false);
-                    return Some(text.into());
-                }
+            if self.buffer.has_selection()
+                && let Some((start, end)) = self.buffer.selection_bounds()
+            {
+                let text = self.buffer.slice(&start, &end, false);
+                return Some(text.into());
             }
             None
         }
@@ -325,7 +325,7 @@ impl ResponsePanel {
         imp.duration.set_text(&format_duration(resp.duration()));
         imp.duration.set_visible(true);
 
-        let size = glib::format_size(resp.size() as u64);
+        let size = glib::format_size(resp.size());
         imp.response_size.set_text(&size);
         imp.response_size.set_visible(true);
 

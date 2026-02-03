@@ -110,22 +110,20 @@ mod imp {
             nodes.clear();
 
             // Reset the list.
-            for field in self.obj().field_table().iter::<Field>() {
-                if let Ok(field) = field {
-                    let row: FieldListBoxStaticRow =
-                        glib::Object::builder().property("field", field).build();
-                    self.obj()
-                        .bind_property("masked", &row, "allow-concealing")
-                        .sync_create()
-                        .build();
-                    self.obj()
-                        .bind_property("masked", &row, "concealed")
-                        .sync_create()
-                        .build();
-                    let widget = row.upcast();
-                    self.expander.add_row(&widget);
-                    nodes.push(widget);
-                }
+            for field in self.obj().field_table().iter::<Field>().flatten() {
+                let row: FieldListBoxStaticRow =
+                    glib::Object::builder().property("field", field).build();
+                self.obj()
+                    .bind_property("masked", &row, "allow-concealing")
+                    .sync_create()
+                    .build();
+                self.obj()
+                    .bind_property("masked", &row, "concealed")
+                    .sync_create()
+                    .build();
+                let widget = row.upcast();
+                self.expander.add_row(&widget);
+                nodes.push(widget);
             }
         }
     }

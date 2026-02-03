@@ -136,7 +136,7 @@ mod imp {
             &self,
             tpl: &srtemplate::SrTemplate,
         ) -> Result<RequestBodyData, srtemplate::Error> {
-            let params = self.obj().params().render(&tpl)?;
+            let params = self.obj().params().render(tpl)?;
             Ok(super::RequestBodyMultipart::builder()
                 .params(&params)
                 .build()

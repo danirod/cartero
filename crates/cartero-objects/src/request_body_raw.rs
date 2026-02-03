@@ -148,7 +148,7 @@ mod imp {
     impl RequestBodyDataImpl for RequestBodyRaw {
         fn dup(&self) -> RequestBodyData {
             super::RequestBodyRaw::builder(self.obj().payload_type())
-                .payload(self.obj().payload().to_string())
+                .payload(self.obj().payload())
                 .build()
                 .upcast()
         }
@@ -161,7 +161,7 @@ mod imp {
             &self,
             tpl: &srtemplate::SrTemplate,
         ) -> Result<RequestBodyData, srtemplate::Error> {
-            let payload = tpl.render(&self.obj().payload())?;
+            let payload = tpl.render(self.obj().payload())?;
             let payload_type = self.obj().payload_type();
             Ok(super::RequestBodyRaw::builder(payload_type)
                 .payload(payload)

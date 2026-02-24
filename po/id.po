@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-09-14 19:23+0200\n"
-"PO-Revision-Date: 2025-12-18 09:00+0000\n"
-"Last-Translator: Eganatha <ega8642@gmail.com>\n"
+"PO-Revision-Date: 2026-02-19 16:09+0000\n"
+"Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/cartero/"
 "cartero/id/>\n"
 "Language: id\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.15.1-dev\n"
+"X-Generator: Weblate 5.16.1-dev\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -105,26 +105,28 @@ msgstr "Tampilkan nomor baris dalam badan permintaan dan respon"
 #: data/es.danirod.Cartero.gschema.xml:32
 msgid "How many characters to pad when indenting the request body"
 msgstr ""
+"Berapa banyak karakter yang harus diisi (pad) saat mengindentasi isi "
+"permintaan"
 
 #: data/es.danirod.Cartero.gschema.xml:36
 msgid "How large should new windows be"
-msgstr ""
+msgstr "Seberapa lebar jendela baru seharusnya"
 
 #: data/es.danirod.Cartero.gschema.xml:40
 msgid "How tall should new windows be"
-msgstr ""
+msgstr "Seberapa tinggi jendela baru seharusnya"
 
 #: data/es.danirod.Cartero.gschema.xml:44
 msgid "Whether the application should open maximized"
-msgstr ""
+msgstr "Apakah aplikasi harus dibuka dalam keadaan dimaksimalkan"
 
 #: data/es.danirod.Cartero.gschema.xml:48
 msgid "The position of the split between two windows"
-msgstr ""
+msgstr "Posisi pemisah di antara dua jendela"
 
 #: data/es.danirod.Cartero.gschema.xml:52
 msgid "The current list of opened files"
-msgstr ""
+msgstr "Daftar file yang saat ini dibuka"
 
 #: data/es.danirod.Cartero.gschema.xml:56
 msgid "The last location where a file was opened"
@@ -156,15 +158,15 @@ msgstr "Apakah ingin menggunakan mode gelap."
 
 #: data/es.danirod.Cartero.gschema.xml:84
 msgid "The custom font in use"
-msgstr ""
+msgstr "Fonta kustom yang digunakan"
 
 #: data/es.danirod.Cartero.gschema.xml:88
 msgid "Whether to use the system font or a custom one"
-msgstr ""
+msgstr "Apakah akan menggunakan fonta sistem atau fonta kustom"
 
 #: data/es.danirod.Cartero.gschema.xml:92
 msgid "Whether to create backup files on save"
-msgstr ""
+msgstr "Apakah akan membuat file cadangan saat menyimpan"
 
 #: data/gtk/help_overlay.blp:25
 msgctxt "shortcuts window"
@@ -214,7 +216,7 @@ msgstr "Tutup tab permintaan"
 #: data/gtk/help_overlay.blp:68
 msgctxt "shortcuts window"
 msgid "Code view operations"
-msgstr ""
+msgstr "Operasi tampilan kode"
 
 #: data/gtk/help_overlay.blp:71
 msgctxt "shortcuts window"
@@ -244,7 +246,7 @@ msgstr "Operasi permintaan"
 #: data/gtk/help_overlay.blp:95
 msgctxt "shortcuts window"
 msgid "Focus URL"
-msgstr ""
+msgstr "URL fokus"
 
 #: data/gtk/help_overlay.blp:100
 msgctxt "shortcuts window"
@@ -412,6 +414,8 @@ msgid ""
 "You cannot pick a file from the file system until you save this request to "
 "disk."
 msgstr ""
+"Anda tidak dapat memilih file dari sistem file sampai Anda menyimpan "
+"permintaan ini ke disk."
 
 #: data/ui/file_body_pane.blp:97
 msgid ""
@@ -420,6 +424,11 @@ msgid ""
 "if they are in a parent directory or outside the project folder, or use "
 "absolute paths."
 msgstr ""
+"Anda hanya dapat melampirkan file ke suatu permintaan jika file tersebut "
+"berada di direktori yang sama dengan file permintaan, atau di dalam "
+"subdirektori. Anda tidak dapat melampirkan file ke suatu permintaan jika "
+"file tersebut berada di direktori induk atau di luar folder proyek, atau "
+"menggunakan path absolut."
 
 #: data/ui/mac_menu.blp:21
 msgctxt "menubar"
@@ -549,7 +558,7 @@ msgstr "Jendela"
 #: data/ui/mac_menu.blp:183
 msgctxt "menubar"
 msgid "Minimize"
-msgstr ""
+msgstr "Minimalkan"
 
 #. TRANSLATORS: This item will only be visible in macOS, where the convention is to call it "zoom" instead of "maximize"
 #: data/ui/mac_menu.blp:189
@@ -645,16 +654,15 @@ msgstr "Tipe badan"
 
 #: data/ui/request_body_pane.blp:60
 msgid "URL Encoded"
-msgstr "URL terenkode"
+msgstr "Dikodekan URL"
 
 #: data/ui/request_body_pane.blp:61
-#, fuzzy
 msgid "Multipart Form Data"
 msgstr "Data Form Multibagian"
 
 #: data/ui/request_body_pane.blp:64
 msgid "Raw"
-msgstr "Mentahan"
+msgstr "Mentah"
 
 #: data/ui/request_body_pane.blp:65
 msgid "From file"
@@ -734,50 +742,52 @@ msgstr "Gunakan fon sistem"
 
 #: data/ui/settings/page_appearance.blp:45
 msgid "Custom font"
-msgstr ""
+msgstr "Fonta kustom"
 
 #: data/ui/settings/page_appearance.blp:52
 msgid "Click to select a font"
-msgstr ""
+msgstr "Klik untuk memilih fonta"
 
 #: data/ui/settings/page_application.blp:22
 msgid "Application"
-msgstr ""
+msgstr "Aplikasi"
 
 #: data/ui/settings/page_application.blp:26
 #: data/ui/settings/page_application.blp:33
 msgid "Language"
-msgstr ""
+msgstr "Bahasa"
 
 #: data/ui/settings/page_application.blp:43
 msgid "You need to restart the program for the new locale to be used."
-msgstr ""
+msgstr "Anda perlu memulai ulang program agar lokal baru digunakan."
 
 #: data/ui/settings/page_application.blp:50
 msgid "File settings"
-msgstr ""
+msgstr "Pengaturan file"
 
 #: data/ui/settings/page_application.blp:53
 msgid "Create backup files"
-msgstr ""
+msgstr "Buat file cadangan"
 
 #: data/ui/settings/page_application.blp:54
 msgid ""
 "You might not want to enable this if you are already using a version control "
 "such as Git"
 msgstr ""
+"Anda mungkin tidak ingin mengaktifkan ini jika Anda sudah menggunakan "
+"kontrol versi seperti Git"
 
 #: data/ui/settings/page_application.blp:60
 msgid "Software updates"
-msgstr ""
+msgstr "Pembaruan perangkat lunak"
 
 #: data/ui/settings/page_application.blp:67
 msgid "Current version"
-msgstr ""
+msgstr "Versi saat ini"
 
 #: data/ui/settings/page_code_editor.blp:22
 msgid "Code editor"
-msgstr ""
+msgstr "Editor kode"
 
 #: data/ui/settings/page_http_client.blp:22
 msgid "HTTP Client"
@@ -1076,6 +1086,8 @@ msgstr "Gagal memeriksa pembaruan"
 #: src/updates/ui.rs:35
 msgid "Couldn't receive a valid response from the server. Please, check later."
 msgstr ""
+"Tidak dapat menerima respons yang valid dari server. Silakan periksa lagi "
+"nanti."
 
 #: src/updates/ui.rs:38 src/updates/ui.rs:48
 msgid "Accept"
@@ -1104,11 +1116,11 @@ msgstr "Terdapat versi baru Cartero!"
 
 #: src/updates/ui.rs:63
 msgid "_Open website"
-msgstr "_Buka situs"
+msgstr "Buka situs"
 
 #: src/updates/ui.rs:64
 msgid "_Not now"
-msgstr "Tidak sekara_ng"
+msgstr "Tidak sekarang"
 
 #: src/widgets/dialogs.rs:51
 #, rust-format
@@ -1117,22 +1129,22 @@ msgstr "Tidak dapat membuka '{}'"
 
 #: src/widgets/dialogs.rs:52
 msgid "Cannot open the requested file"
-msgstr ""
+msgstr "Tidak dapat membuka file yang diminta"
 
 #: src/widgets/dialogs.rs:61 src/widgets/dialogs.rs:92
 #: src/widgets/dialogs.rs:122 src/widgets/dialogs.rs:145
 #: src/widgets/dialogs.rs:158 src/widgets/dialogs.rs:182
 msgid "Close"
-msgstr ""
+msgstr "Tutup"
 
 #: src/widgets/dialogs.rs:75
 #, rust-format
 msgid "The file '{}' was loaded but had issues"
-msgstr ""
+msgstr "File '{}' dimuat tetapi mengalami masalah"
 
 #: src/widgets/dialogs.rs:76
 msgid "The requested file was loaded but had issues"
-msgstr ""
+msgstr "File yang diminta dimuat tetapi mengalami masalah"
 
 #: src/widgets/dialogs.rs:99
 #, rust-format
@@ -1140,10 +1152,12 @@ msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
 msgstr ""
+"Verba HTTP yang ditemukan di dalam file adalah '{}'. Itu tidak valid, akan "
+"kembali menggunakan '{}'."
 
 #: src/widgets/dialogs.rs:115
 msgid "The requested file cannot be picked"
-msgstr ""
+msgstr "File yang diminta tidak dapat dipilih"
 
 #: src/widgets/dialogs.rs:116
 #, rust-format
@@ -1153,25 +1167,31 @@ msgid ""
 "\n"
 "The file '{}' is not part of the '{}' directory"
 msgstr ""
+"File harus berada di dalam direktori yang sama dengan file permintaan atau "
+"proyek, atau di dalam subdirektorinya.\n"
+"\n"
+"File '{}' bukan bagian dari direktori '{}'"
 
 #: src/widgets/dialogs.rs:136
 #, rust-format
 msgid "Cannot save '{}'"
-msgstr ""
+msgstr "Tidak dapat menyimpan '{}'"
 
 #: src/widgets/dialogs.rs:137
 msgid "Cannot save the requested file"
-msgstr ""
+msgstr "Tidak dapat menyimpan file yang diminta"
 
 #: src/widgets/dialogs.rs:139
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
 msgstr ""
+"Terjadi kesalahan selama proses penyimpanan. Anggap bahwa perubahan Anda "
+"masih belum tersimpan."
 
 #: src/widgets/dialogs.rs:153
 msgid "Could not select a valid file from the file chooser"
-msgstr ""
+msgstr "Tidak dapat memilih file yang valid dari pemilih file"
 
 #: src/widgets/dialogs.rs:172
 msgid ""
@@ -1179,130 +1199,134 @@ msgid ""
 "likely a development error. (If you could report your test case and this "
 "error, we might be able to fix this in the future.)"
 msgstr ""
+"Terjadi kesalahan internal selama proses ekspor. Ini kemungkinan besar "
+"adalah kesalahan pengembangan. (Jika Anda dapat melaporkan kasus uji Anda "
+"dan kesalahan ini, kami mungkin dapat memperbaikinya di masa depan.)"
 
 #: src/widgets/dialogs.rs:173
 msgid "Error cause:"
-msgstr ""
+msgstr "Penyebab kesalahan:"
 
 #: src/widgets/dialogs.rs:178
 msgid "Could not export the request"
-msgstr ""
+msgstr "Tidak dapat mengekspor permintaan"
 
 #: src/widgets/dialogs.rs:191
 msgid "There are unsaved changes"
-msgstr ""
+msgstr "Ada perubahan yang belum disimpan"
 
 #: src/widgets/dialogs.rs:193
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
 msgstr ""
+"Menutup jendela ini akan menghilangkan semua data yang belum disimpan. "
+"Apakah Anda benar-benar ingin melanjutkan?"
 
 #: src/widgets/dialogs.rs:197 src/windows/settings/pages/proxy.rs:248
 msgid "Cancel"
-msgstr ""
+msgstr "Batal"
 
 #: src/widgets/dialogs.rs:198
 msgid "Close anyway"
-msgstr ""
+msgstr "Tutup saja"
 
 #: src/widgets/dialogs.rs:221
 #, rust-format
 msgid "Save changes in '{}'?"
-msgstr ""
+msgstr "Simpan perubahan pada '{}'?"
 
 #: src/widgets/dialogs.rs:222
 msgid "Save changes?"
-msgstr ""
+msgstr "Simpan perubahan?"
 
 #: src/widgets/dialogs.rs:227
 msgid "There are changes that have not been saved yet. What do you want to do?"
-msgstr ""
+msgstr "Ada perubahan yang belum disimpan. Apa yang ingin Anda lakukan?"
 
 #: src/widgets/dialogs.rs:231
 msgid "_Cancel"
-msgstr ""
+msgstr "_Batal"
 
 #: src/widgets/dialogs.rs:232
 msgid "_Discard"
-msgstr ""
+msgstr "_Buang"
 
 #: src/widgets/dialogs.rs:233
 msgid "_Save"
-msgstr ""
+msgstr "_Simpan"
 
 #: src/widgets/endpoint/endpoint_pane.rs:283
 #, rust-format
 msgid "Show {} variable from .env"
 msgid_plural "Show {} variables from .env"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Tampilkan {} variabel dari .env"
 
 #: src/widgets/endpoint/endpoint_pane.rs:557
 #: src/widgets/endpoint/endpoint_pane.rs:563
 #: src/widgets/endpoint/endpoint_pane.rs:584
 msgid "(generated during request)"
-msgstr ""
+msgstr "(dihasilkan selama permintaan)"
 
 #: src/widgets/endpoint/endpoint_pane.rs:612
 #, rust-format
 msgid "Show {} pre-generated headers"
-msgstr ""
+msgstr "Tampilkan {} header yang telah dibuat sebelumnya"
 
 #: src/widgets/endpoint/endpoint_pane.rs:829
 msgid "Export request as cURL"
-msgstr ""
+msgstr "Ekspor permintaan sebagai cURL"
 
 #: src/widgets/endpoint/endpoint_pane.rs:830
 msgid "Export request as Jetbrains HTTP"
-msgstr ""
+msgstr "Ekspor permintaan sebagai Jetbrains HTTP"
 
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
 #: src/widgets/endpoint/response_panel.rs:341
 #, rust-format
 msgid "{} s"
-msgstr ""
+msgstr "{} dtk"
 
 #. Format as milliseconds.
 #. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
 #: src/widgets/endpoint/response_panel.rs:345
 #, rust-format
 msgid "{} ms"
-msgstr ""
+msgstr "{} md"
 
 #: src/widgets/error_pane.rs:103
 msgid "The request data is not valid"
-msgstr ""
+msgstr "Data permintaan tidak valid"
 
 #: src/widgets/error_pane.rs:110
 msgid "The request failed"
-msgstr ""
+msgstr "Permintaan gagal"
 
 #: src/widgets/export_dialog.rs:115
 msgid "Content copied to the clipboard"
-msgstr ""
+msgstr "Konten disalin ke papan klip"
 
 #. TRANSLATORS: presented in file dialogs as the file type for a request
 #. The macOS native file dialog will already add the extension for us.
 #: src/widgets/file_dialogs.rs:42 src/widgets/file_dialogs.rs:150
 #: src/widgets/file_dialogs.rs:152
 msgid "Request"
-msgstr ""
+msgstr "Permintaan"
 
 #: src/widgets/file_dialogs.rs:110
 msgid "Open request"
-msgstr ""
+msgstr "Buka permintaan"
 
 #: src/widgets/file_dialogs.rs:187
 msgid "Select file"
-msgstr ""
+msgstr "Pilih file"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
 #: src/widgets/search_box.rs:254
 #, rust-format
 msgid "{} of {}"
-msgstr ""
+msgstr "{} dari {}"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count when only
 #. the number of total ocurrences is known.
@@ -1310,52 +1334,51 @@ msgstr ""
 #, rust-format
 msgid "{} result"
 msgid_plural "{} results"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} hasil"
 
 #: src/win.rs:291
 msgid "(untitled)"
-msgstr ""
+msgstr "(tanpa judul)"
 
 #: src/win.rs:305
 msgid "Draft"
-msgstr ""
+msgstr "Draf"
 
 #: src/win.rs:607
 msgid "The Cartero authors"
-msgstr ""
+msgstr "Para penulis Cartero"
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
 #: src/win.rs:630
 msgid "translator-credits"
-msgstr ""
+msgstr "Arif Budiman"
 
 #: src/win.rs:631
 msgid "© 2024-2026 the Cartero authors"
-msgstr ""
+msgstr "© 2024-2026 para penulis Cartero"
 
 #: src/windows/settings/pages/proxy.rs:205
 msgid "The value is not a valid domain or IP address"
-msgstr ""
+msgstr "Nilai tersebut bukan domain atau alamat IP yang valid"
 
 #: src/windows/settings/pages/proxy.rs:220
 msgid "The host identifier is already excluded"
-msgstr ""
+msgstr "Pengidentifikasi host sudah dikecualikan"
 
 #: src/windows/settings/pages/proxy.rs:240
 #, rust-format
 msgid "Delete '{}' from the list of excluded hosts for the proxy?"
-msgstr ""
+msgstr "Hapus '{}' dari daftar host yang dikecualikan untuk proksi?"
 
 #: src/windows/settings/pages/proxy.rs:245
 msgid "Delete identifier?"
-msgstr ""
+msgstr "Hapus pengidentifikasi?"
 
 #: src/windows/settings/pages/proxy.rs:249
 #: src/windows/settings/pages/proxy.rs:284
 msgid "Remove"
-msgstr ""
+msgstr "Hapus"
 
 #: src/windows/settings/pages/proxy.rs:268
 msgid "No domains or IP addresses are being excluded"
-msgstr ""
+msgstr "Tidak ada domain atau alamat IP yang dikecualikan"

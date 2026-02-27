@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2025-09-14 19:23+0200\n"
-"PO-Revision-Date: 2026-02-26 17:09+0000\n"
+"PO-Revision-Date: 2026-02-27 18:09+0000\n"
 "Last-Translator: Eganatha <ega8642@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/cartero/"
 "cartero/id/>\n"
@@ -56,7 +56,7 @@ msgstr "Penyesuaian dan modifikasi kepala permintaan dan muatan badan."
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:19
 msgid "Variable binding for API keys and other secret information."
-msgstr "Pengikatan variabel untuk kunci API dan informasi rahasia lainnya."
+msgstr "Pengaitan variabel untuk kunci API dan informasi rahasia lainnya."
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:25
 msgid "Main window of Cartero"

@@ -1,0 +1,57 @@
+# Metadata about the upstream project.
+# See https://wiki.debian.org/UpstreamMetadata
+
+# Uncomment these and fill them out to help users interact with upstream:
+Bug-Database: https://github.com/danirod/cartero/issues
+Bug-Submit: https://github.com/danirod/cartero/issues/new
+Changelog: https://github.com/danirod/cartero/blob/master/Changelog
+#Documentation: https://github.com/danirod/cartero/QLog/wiki
+Repository-Browse: https://github.com/danirod/cartero
+Repository: https://github.com/danirod/cartero.git
+#FAQ: https://github.com/<user>/<project>/blob/main/FAQ.md
+#Webservice: https://<project>.github.io/live-demo/
+Donation: https://ko-fi.com/danirod
+Registration: https://github.com/signup
+#Archive: PyPI # or CPAN, boost, etc.
+
+# Uncomment these and fill them out to help users evaluate upstream:
+#Gallery: https://github.com/<user>/<project>/wiki/pictures-made-with-this-program
+#Screenshots: # pictures *of* the program, as opposed to pictures *made with* the program
+#  - https://github.com/<user>/<project>/wiki/login-screen.png
+#  - https://github.com/<user>/<project>/wiki/help-menu.png
+#  - ...
+
+# Uncomment these and fill them out to help resolve security issues:
+#Security-Contact: <how to send security-related messages>
+#CPE: <space-separated Common Platform Enumerator values - see https://wiki.debian.org/CPEtagPackagesDep>
+
+# Uncomment these and fill them out to help researchers cite the project:
+#ASCL-Id: <Astrophysics Source Code Library ID>
+#Cite-As: <how the authors want their software be cited in publications, preferably as an HTML snippet>
+#Funding: <sources of funding>
+#Registry: # See DEP-12 for valid values
+#  - Name: <software registry>
+#    Entry: <entry in registry>
+#  - ...
+#Reference:
+#  -
+#    Author: <please use full names and separate multiple author by the keyword "and">
+#    Title: "remember to quote strings: colon characters confuse YAML"
+#    Type: <BibTeX entry type (e.g. "book", "inproceedings", or "article" (default)>
+#    Year: <year of publication>
+#    Booktitle: <title of the book the article is published in>
+#    Editor: <editor of the book>
+#    ISBN: <International Standard Book Number of the book>
+#    Publisher: <Publisher of the book>
+#    Journal: <abbreviated journal name>
+#    ISSN: <International Standard Serial Number of the periodical>
+#    Number: <issue number>
+#    Volume: <journal volume>
+#    Pages: <article page number(s)>
+#    DOI: <digital object identifier of the publication describing the work>
+#    PMID: <PubMed ID number>
+#    URL: <link to article's abstract, if different from eprint and PMID>
+#    eprint: <link to the article's full PDF>
+#  -
+#    ...
+#Other-References: <link to a page with more references>

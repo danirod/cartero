@@ -54,7 +54,7 @@ app_updater = []
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-adw = { version = "0.8.0", package = "libadwaita", features = ["v1_8"] }
+adw = { version = "0.8.0", package = "libadwaita", features = ["v1_5"] }
 base64.workspace = true
 cartero_http = { path = "crates/cartero-http" }
 cartero_interop = { path = "crates/cartero-interop" }

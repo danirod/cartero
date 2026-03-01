@@ -652,6 +652,23 @@ mod imp {
             about.present(Some(&*obj));
         }
 
+        fn action_help_overlay(&self) {
+            let obj = self.obj();
+            let dialog = gtk::Builder::from_resource("/es/danirod/Cartero/gtk/help-overlay.ui")
+                .object::<adw::Dialog>("help_overlay")
+                .expect("Could not build help-overlay");
+
+            dialog.connect_closed(glib::clone!(
+                #[weak]
+                obj,
+                move |_| {
+                    obj.present();
+                }
+            ));
+
+            dialog.present(Some(&*obj));
+        }
+
         fn update_native_appearance(&self) {
             let gtk_window = self.obj().clone().upcast::<gtk::Window>();
             let headerbar_height = match self.toolbar.top_bar_style() {
@@ -926,6 +943,21 @@ mod imp {
                 action_export_request,
                 action_export_response_body,
             ]);
+
+            if (adw::major_version() == 1 && adw::minor_version() >= 8) || adw::major_version() > 1
+            {
+                let action_help_overlay = ActionEntry::builder("show-help-overlay")
+                    .activate(glib::clone!(
+                        #[weak(rename_to = window)]
+                        self,
+                        move |_, _, _| {
+                            window.action_help_overlay();
+                        }
+                    ))
+                    .build();
+
+                obj.add_action_entries([action_help_overlay]);
+            }
 
             self.init_tab_bindings();
 

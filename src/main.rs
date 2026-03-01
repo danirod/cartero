@@ -104,21 +104,21 @@ fn main() -> glib::ExitCode {
     #[cfg(target_os = "windows")]
     {
         if let Err(_) = std::env::var("GSK_RENDERER") {
-            std::env::set_var("GSK_RENDERER", "cairo");
+            unsafe { std::env::set_var("GSK_RENDERER", "cairo") };
         }
-        std::env::set_var("GTK_CSD", "0");
+        unsafe { std::env::set_var("GTK_CSD", "0") };
     }
 
     #[cfg(target_os = "macos")]
     {
         let gdk_pixbuf = app_rel_path("lib/gdk-pixbuf-2.0/2.10.0/loaders.cache");
         if let Ok(true) = gdk_pixbuf.try_exists() {
-            std::env::set_var("GDK_PIXBUF_MODULE_FILE", gdk_pixbuf);
+            unsafe { std::env::set_var("GDK_PIXBUF_MODULE_FILE", gdk_pixbuf) };
         }
 
         let gtk_modules_dir = app_rel_path("lib/gtk-4.0");
         if let Ok(true) = gtk_modules_dir.try_exists() {
-            std::env::set_var("GTK_EXE_PREFIX", app_rel_path("lib"));
+            unsafe { std::env::set_var("GTK_EXE_PREFIX", app_rel_path("lib")) };
         }
     }
 

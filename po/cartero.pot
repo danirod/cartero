@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-09-14 19:23+0200\n"
+"POT-Creation-Date: 2026-03-01 18:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -71,172 +71,189 @@ msgstr ""
 msgid "Gnome;GTK;HTTP;REST;"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:12
+#: data/es.danirod.Cartero.gschema.xml:18
 msgid ""
 "A specific locale to use within the application instead of the system default"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:16
+#: data/es.danirod.Cartero.gschema.xml:22
 msgid "Automatically indent new lines for the request body"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:20
+#: data/es.danirod.Cartero.gschema.xml:26
 msgid "Wrap the body content"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:24
+#: data/es.danirod.Cartero.gschema.xml:30
 msgid "Whether to indent the request body with spaces or tabs"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:28
+#: data/es.danirod.Cartero.gschema.xml:34
 msgid "Show line numbers in the request and response bodies"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:32
+#: data/es.danirod.Cartero.gschema.xml:38
 msgid "How many characters to pad when indenting the request body"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:36
+#: data/es.danirod.Cartero.gschema.xml:42
 msgid "How large should new windows be"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:40
+#: data/es.danirod.Cartero.gschema.xml:46
 msgid "How tall should new windows be"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:44
+#: data/es.danirod.Cartero.gschema.xml:50
 msgid "Whether the application should open maximized"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:48
+#: data/es.danirod.Cartero.gschema.xml:54
 msgid "The position of the split between two windows"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:52
+#: data/es.danirod.Cartero.gschema.xml:58
 msgid "The current list of opened files"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:56
+#: data/es.danirod.Cartero.gschema.xml:62
 msgid "The last location where a file was opened"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:60
+#: data/es.danirod.Cartero.gschema.xml:66
 msgid "The last location where a file was saved"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:64
+#: data/es.danirod.Cartero.gschema.xml:70
 msgid "Whether to validate the TLS certificates during a request"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:68
+#: data/es.danirod.Cartero.gschema.xml:74
 msgid "Whether to follow redirections if that is the server response"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:72
+#: data/es.danirod.Cartero.gschema.xml:78
 msgid "Maximum number of redirections to follow before giving up"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:76
+#: data/es.danirod.Cartero.gschema.xml:82
 msgid "Maximum timeout when awaiting for an HTTP response."
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:80
+#: data/es.danirod.Cartero.gschema.xml:86
 msgid "Whether to use light or dark mode."
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:84
+#: data/es.danirod.Cartero.gschema.xml:90
 msgid "The custom font in use"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:88
+#: data/es.danirod.Cartero.gschema.xml:94
 msgid "Whether to use the system font or a custom one"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:92
+#: data/es.danirod.Cartero.gschema.xml:98
 msgid "Whether to create backup files on save"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:25
+#: data/help_overlay/adw_help_overlay.blp:22
+#: data/help_overlay/gtk_help_overlay.blp:25
 msgctxt "shortcuts window"
 msgid "General shortcuts"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:28
+#: data/help_overlay/adw_help_overlay.blp:25
+#: data/help_overlay/gtk_help_overlay.blp:28
 msgctxt "shortcuts window"
 msgid "Show Keyboard Shortcuts"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:33
+#: data/help_overlay/adw_help_overlay.blp:30
+#: data/help_overlay/gtk_help_overlay.blp:33
 msgctxt "shortcuts window"
 msgid "Quit"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:39
+#: data/help_overlay/adw_help_overlay.blp:36
+#: data/help_overlay/gtk_help_overlay.blp:39
 msgctxt "shortcuts window"
 msgid "Tab operations"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:42
+#: data/help_overlay/adw_help_overlay.blp:39
+#: data/help_overlay/gtk_help_overlay.blp:42
 msgctxt "shortcuts window"
 msgid "New request tab"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:47
+#: data/help_overlay/adw_help_overlay.blp:44
+#: data/help_overlay/gtk_help_overlay.blp:47
 msgctxt "shortcuts window"
 msgid "Open request"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:52
+#: data/help_overlay/adw_help_overlay.blp:49
+#: data/help_overlay/gtk_help_overlay.blp:52
 msgctxt "shortcuts window"
 msgid "Save request"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:57
+#: data/help_overlay/adw_help_overlay.blp:54
+#: data/help_overlay/gtk_help_overlay.blp:57
 msgctxt "shortcuts window"
 msgid "Save request as"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:62
+#: data/help_overlay/adw_help_overlay.blp:59
+#: data/help_overlay/gtk_help_overlay.blp:62
 msgctxt "shortcuts window"
 msgid "Close request tab"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:68
+#: data/help_overlay/adw_help_overlay.blp:65
+#: data/help_overlay/gtk_help_overlay.blp:68
 msgctxt "shortcuts window"
 msgid "Code view operations"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:71
+#: data/help_overlay/adw_help_overlay.blp:68
+#: data/help_overlay/gtk_help_overlay.blp:71
 msgctxt "shortcuts window"
 msgid "Zoom in"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:76
+#: data/help_overlay/adw_help_overlay.blp:73
+#: data/help_overlay/gtk_help_overlay.blp:76
 msgctxt "shortcuts window"
 msgid "Zoom out"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:81
+#: data/help_overlay/adw_help_overlay.blp:78
+#: data/help_overlay/gtk_help_overlay.blp:81
 msgctxt "shortcuts window"
 msgid "Reset zoom"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:86
+#: data/help_overlay/adw_help_overlay.blp:83
+#: data/help_overlay/gtk_help_overlay.blp:86
 msgctxt "shortcuts window"
 msgid "Start search"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:92
+#: data/help_overlay/adw_help_overlay.blp:89
+#: data/help_overlay/gtk_help_overlay.blp:92
 msgctxt "shortcuts window"
 msgid "Request operations"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:95
+#: data/help_overlay/adw_help_overlay.blp:92
+#: data/help_overlay/gtk_help_overlay.blp:95
 msgctxt "shortcuts window"
 msgid "Focus URL"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:100
+#: data/help_overlay/adw_help_overlay.blp:97
+#: data/help_overlay/gtk_help_overlay.blp:100
 msgctxt "shortcuts window"
 msgid "Send request"
 msgstr ""
@@ -245,9 +262,9 @@ msgstr ""
 msgid "Authorization method"
 msgstr ""
 
-#: data/ui/authentication_pane.blp:59 data/ui/request_body_pane.blp:59
-#: src/windows/settings/pages/proxy.rs:299
-#: src/windows/settings/pages/proxy.rs:310
+#: data/ui/authentication_pane.blp:59 data/ui/request_body_pane.blp:54
+#: src/windows/settings/pages/proxy.rs:303
+#: src/windows/settings/pages/proxy.rs:314
 msgid "(none)"
 msgstr ""
 
@@ -275,11 +292,11 @@ msgstr ""
 msgid "Request URL"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:74 data/ui/mac_menu.blp:113
+#: data/ui/endpoint_pane.blp:74 data/ui/mac_menu.blp:118
 msgid "Cancel request"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:83 data/ui/mac_menu.blp:108
+#: data/ui/endpoint_pane.blp:83 data/ui/mac_menu.blp:113
 msgid "Send"
 msgstr ""
 
@@ -291,46 +308,46 @@ msgstr ""
 msgid "Parameters"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:138 data/ui/response_panel.blp:137
+#: data/ui/endpoint_pane.blp:138 data/ui/response_panel.blp:196
 msgid "Headers"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:170
+#: data/ui/endpoint_pane.blp:172
 msgid "Variables"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:199
+#: data/ui/endpoint_pane.blp:201
 msgid ""
 "Cartero supports reading variables from an .env file, but you need to enable "
 "the feature first."
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:206 data/ui/main_window.blp:182
-#: data/ui/main_window_no_csd.blp:187 data/ui/settings/shell.blp:47
+#: data/ui/endpoint_pane.blp:208 data/ui/main_window.blp:187
+#: data/ui/main_window_no_csd.blp:192 data/ui/settings/shell.blp:47
 msgid "Settings"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:224
+#: data/ui/endpoint_pane.blp:226
 msgid ""
 "Cartero supports reading variables from an .env file, but you have to save "
 "the request first."
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:240
+#: data/ui/endpoint_pane.blp:242
 msgid ""
 "Place an .env file in the same disk directory as the request or in a parent "
 "directory to load the variables in Cartero."
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:246
+#: data/ui/endpoint_pane.blp:248
 msgid "Check again"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:275
+#: data/ui/endpoint_pane.blp:280
 msgid "Authorization"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:290 data/ui/response_panel.blp:55
+#: data/ui/endpoint_pane.blp:295 data/ui/response_panel.blp:114
 msgid "Body"
 msgstr ""
 
@@ -338,66 +355,72 @@ msgstr ""
 msgid "Generated output"
 msgstr ""
 
-#: data/ui/export_dialog.blp:64
+#: data/ui/export_dialog.blp:64 data/ui/response_panel.blp:82
 msgid "Copy to clipboard"
 msgstr ""
 
-#: data/ui/export_dialog.blp:69 data/ui/response_panel.blp:103
-#: src/widgets/file_dialogs.rs:230
+#: data/ui/export_dialog.blp:69 data/ui/response_panel.blp:162
+#: src/widgets/file_dialogs.rs:226
 msgid "Export to file"
 msgstr ""
 
-#: data/ui/field_list_box_row.blp:23 data/ui/field_placeholder_row.blp:27
+#: data/ui/field_list_box_row.blp:27 data/ui/field_placeholder_row.blp:27
 msgid "Enabled"
 msgstr ""
 
-#: data/ui/field_list_box_row.blp:37 data/ui/field_list_box_row.blp:38
+#: data/ui/field_list_box_row.blp:43 data/ui/field_list_box_row.blp:44
 #: data/ui/field_list_box_static_row.blp:36
 #: data/ui/field_placeholder_row.blp:41 data/ui/field_placeholder_row.blp:42
 msgid "Name"
 msgstr ""
 
-#: data/ui/field_list_box_row.blp:48 data/ui/field_list_box_row.blp:49
+#: data/ui/field_list_box_row.blp:59
+msgid ""
+"The value for this field will not be used because another field with the "
+"same name is overriding it."
+msgstr ""
+
+#: data/ui/field_list_box_row.blp:71 data/ui/field_list_box_row.blp:72
 #: data/ui/field_list_box_static_row.blp:46
 #: data/ui/field_placeholder_row.blp:52 data/ui/field_placeholder_row.blp:53
 msgid "Value"
 msgstr ""
 
-#: data/ui/field_list_box_row.blp:58 data/ui/field_placeholder_row.blp:62
+#: data/ui/field_list_box_row.blp:81 data/ui/field_placeholder_row.blp:62
 msgid "Actions"
 msgstr ""
 
-#: data/ui/field_list_box_row.blp:69
+#: data/ui/field_list_box_row.blp:92
 msgid "Toggle secret"
 msgstr ""
 
-#: data/ui/field_list_box_row.blp:76
+#: data/ui/field_list_box_row.blp:99
 msgid "Delete"
 msgstr ""
 
-#: data/ui/file_body_pane.blp:26
+#: data/ui/file_body_pane.blp:30
 msgid "File"
 msgstr ""
 
-#: data/ui/file_body_pane.blp:30
+#: data/ui/file_body_pane.blp:34
 msgid "Content Type"
 msgstr ""
 
-#: data/ui/file_body_pane.blp:41
+#: data/ui/file_body_pane.blp:45
 msgid "or select a file from the file system:"
 msgstr ""
 
-#: data/ui/file_body_pane.blp:50
+#: data/ui/file_body_pane.blp:54
 msgid "Select file…"
 msgstr ""
 
-#: data/ui/file_body_pane.blp:71
+#: data/ui/file_body_pane.blp:75
 msgid ""
 "You cannot pick a file from the file system until you save this request to "
 "disk."
 msgstr ""
 
-#: data/ui/file_body_pane.blp:97
+#: data/ui/file_body_pane.blp:101
 msgid ""
 "You can only attach files to a request if they are in the same directory as "
 "the request file, or in a subdirectory. You cannot attach files to a request "
@@ -421,7 +444,7 @@ msgid "Open request…"
 msgstr ""
 
 #: data/ui/mac_menu.blp:35 data/ui/main_window.blp:165
-#: data/ui/main_window_no_csd.blp:170 src/widgets/file_dialogs.rs:146
+#: data/ui/main_window_no_csd.blp:170 src/widgets/file_dialogs.rs:142
 msgid "Save request"
 msgstr ""
 
@@ -430,141 +453,146 @@ msgstr ""
 msgid "Save request as…"
 msgstr ""
 
-#: data/ui/mac_menu.blp:47 data/ui/main_window.blp:175
+#: data/ui/mac_menu.blp:45 data/ui/main_window.blp:175
 #: data/ui/main_window_no_csd.blp:180
+msgid "Duplicate request"
+msgstr ""
+
+#: data/ui/mac_menu.blp:52 data/ui/main_window.blp:180
+#: data/ui/main_window_no_csd.blp:185
 msgid "Close tab"
 msgstr ""
 
-#: data/ui/mac_menu.blp:54
+#: data/ui/mac_menu.blp:59
 msgctxt "menubar"
 msgid "Edit"
 msgstr ""
 
-#: data/ui/mac_menu.blp:58
+#: data/ui/mac_menu.blp:63
 msgctxt "menubar"
 msgid "Undo"
 msgstr ""
 
-#: data/ui/mac_menu.blp:63
+#: data/ui/mac_menu.blp:68
 msgctxt "menubar"
 msgid "Redo"
 msgstr ""
 
-#: data/ui/mac_menu.blp:70
+#: data/ui/mac_menu.blp:75
 msgctxt "menubar"
 msgid "Cut"
 msgstr ""
 
-#: data/ui/mac_menu.blp:75
+#: data/ui/mac_menu.blp:80
 msgctxt "menubar"
 msgid "Copy"
 msgstr ""
 
-#: data/ui/mac_menu.blp:80
+#: data/ui/mac_menu.blp:85
 msgctxt "menubar"
 msgid "Paste"
 msgstr ""
 
-#: data/ui/mac_menu.blp:85
+#: data/ui/mac_menu.blp:90
 msgctxt "menubar"
 msgid "Delete"
 msgstr ""
 
-#: data/ui/mac_menu.blp:92
+#: data/ui/mac_menu.blp:97
 msgctxt "menubar"
 msgid "Select All"
 msgstr ""
 
-#: data/ui/mac_menu.blp:99
+#: data/ui/mac_menu.blp:104
 msgctxt "menubar"
 msgid "Endpoint"
 msgstr ""
 
-#: data/ui/mac_menu.blp:103
+#: data/ui/mac_menu.blp:108
 msgctxt "menubar"
 msgid "Edit URL"
 msgstr ""
 
-#: data/ui/mac_menu.blp:120 data/ui/settings/page_code_editor.blp:26
+#: data/ui/mac_menu.blp:125 data/ui/settings/page_code_editor.blp:26
 msgid "Body appearance"
 msgstr ""
 
-#: data/ui/mac_menu.blp:124 data/ui/settings/page_code_editor.blp:29
+#: data/ui/mac_menu.blp:129 data/ui/settings/page_code_editor.blp:29
 msgid "Wrap content"
 msgstr ""
 
-#: data/ui/mac_menu.blp:129 data/ui/settings/page_code_editor.blp:34
+#: data/ui/mac_menu.blp:134 data/ui/settings/page_code_editor.blp:34
 msgid "Show line numbers"
 msgstr ""
 
-#: data/ui/mac_menu.blp:136 data/ui/settings/page_code_editor.blp:41
+#: data/ui/mac_menu.blp:141 data/ui/settings/page_code_editor.blp:41
 msgid "Automatic indentation"
 msgstr ""
 
-#: data/ui/mac_menu.blp:141 data/ui/settings/page_code_editor.blp:46
+#: data/ui/mac_menu.blp:146 data/ui/settings/page_code_editor.blp:46
 msgid "Indent with spaces"
 msgstr ""
 
-#: data/ui/mac_menu.blp:147 data/ui/settings/page_code_editor.blp:56
+#: data/ui/mac_menu.blp:152 data/ui/settings/page_code_editor.blp:56
 msgid "Indent with tabs"
 msgstr ""
 
-#: data/ui/mac_menu.blp:153 data/ui/settings/page_code_editor.blp:67
+#: data/ui/mac_menu.blp:158 data/ui/settings/page_code_editor.blp:67
 msgid "Spaces per tab"
 msgstr ""
 
-#: data/ui/mac_menu.blp:156
+#: data/ui/mac_menu.blp:161
 msgid "2"
 msgstr ""
 
-#: data/ui/mac_menu.blp:162
+#: data/ui/mac_menu.blp:167
 msgid "4"
 msgstr ""
 
-#: data/ui/mac_menu.blp:168
+#: data/ui/mac_menu.blp:173
 msgid "8"
 msgstr ""
 
-#: data/ui/mac_menu.blp:179
+#: data/ui/mac_menu.blp:184
 msgctxt "menubar"
 msgid "Window"
 msgstr ""
 
-#: data/ui/mac_menu.blp:183
+#: data/ui/mac_menu.blp:188
 msgctxt "menubar"
 msgid "Minimize"
 msgstr ""
 
 #. TRANSLATORS: This item will only be visible in macOS, where the convention is to call it "zoom" instead of "maximize"
-#: data/ui/mac_menu.blp:189
+#: data/ui/mac_menu.blp:194
 msgctxt "menubar"
 msgid "Zoom"
 msgstr ""
 
-#: data/ui/mac_menu.blp:196
+#: data/ui/mac_menu.blp:201
 msgctxt "menubar"
 msgid "Help"
 msgstr ""
 
-#: data/ui/mac_menu.blp:200 data/ui/welcome/welcome_pane.blp:132 src/win.rs:635
+#: data/ui/mac_menu.blp:205 data/ui/welcome/welcome_pane.blp:132 src/win.rs:640
 msgid "User manual"
 msgstr ""
 
-#: data/ui/mac_menu.blp:205 data/ui/welcome/welcome_pane.blp:142
+#: data/ui/mac_menu.blp:210 data/ui/welcome/welcome_pane.blp:142
 msgctxt "menubar"
 msgid "Report a bug"
 msgstr ""
 
-#: data/ui/mac_menu.blp:210
+#: data/ui/mac_menu.blp:215
 msgctxt "menubar"
 msgid "View discussions"
 msgstr ""
 
-#: data/ui/mac_menu.blp:217 src/win.rs:637
+#: data/ui/mac_menu.blp:222 src/win.rs:642
 msgid "Help us translate"
 msgstr ""
 
-#: data/ui/mac_menu.blp:224 data/ui/settings/page_application.blp:72
+#: data/ui/mac_menu.blp:229 data/ui/settings/page_application.blp:72
 msgid "Check for updates"
 msgstr ""
 
@@ -574,12 +602,12 @@ msgstr ""
 
 #: data/ui/main_window.blp:59 data/ui/main_window.blp:71
 #: data/ui/main_window_no_csd.blp:59 data/ui/main_window_no_csd.blp:71
-#: src/widgets/file_dialogs.rs:109 src/widgets/file_dialogs.rs:186
+#: src/widgets/file_dialogs.rs:105 src/widgets/file_dialogs.rs:182
 msgid "Open"
 msgstr ""
 
 #: data/ui/main_window.blp:79 data/ui/main_window_no_csd.blp:79
-#: src/widgets/file_dialogs.rs:145 src/widgets/file_dialogs.rs:228
+#: src/widgets/file_dialogs.rs:141 src/widgets/file_dialogs.rs:224
 msgid "Save"
 msgstr ""
 
@@ -603,15 +631,15 @@ msgstr ""
 msgid "Export response body…"
 msgstr ""
 
-#: data/ui/main_window.blp:189 data/ui/main_window_no_csd.blp:194
+#: data/ui/main_window.blp:194 data/ui/main_window_no_csd.blp:199
 msgid "Keyboard shortcuts"
 msgstr ""
 
-#: data/ui/main_window.blp:194 data/ui/main_window_no_csd.blp:199
+#: data/ui/main_window.blp:199 data/ui/main_window_no_csd.blp:204
 msgid "About Cartero"
 msgstr ""
 
-#: data/ui/main_window.blp:199 data/ui/main_window_no_csd.blp:204
+#: data/ui/main_window.blp:204 data/ui/main_window_no_csd.blp:209
 msgid "Quit"
 msgstr ""
 
@@ -627,19 +655,19 @@ msgstr ""
 msgid "Body type"
 msgstr ""
 
-#: data/ui/request_body_pane.blp:60
+#: data/ui/request_body_pane.blp:55
 msgid "URL Encoded"
 msgstr ""
 
-#: data/ui/request_body_pane.blp:61
+#: data/ui/request_body_pane.blp:56
 msgid "Multipart Form Data"
 msgstr ""
 
-#: data/ui/request_body_pane.blp:64
+#: data/ui/request_body_pane.blp:59
 msgid "Raw"
 msgstr ""
 
-#: data/ui/request_body_pane.blp:65
+#: data/ui/request_body_pane.blp:60
 msgid "From file"
 msgstr ""
 
@@ -655,19 +683,19 @@ msgstr ""
 msgid "Use the Send button to send a network request and it will show here."
 msgstr ""
 
-#: data/ui/response_panel.blp:68
+#: data/ui/response_panel.blp:127
 msgid "Response body"
 msgstr ""
 
-#: data/ui/response_panel.blp:87
+#: data/ui/response_panel.blp:146
 msgid "Binary response received"
 msgstr ""
 
-#: data/ui/response_panel.blp:88
+#: data/ui/response_panel.blp:147
 msgid "The response of this request should not be rendered in a text view."
 msgstr ""
 
-#: data/ui/response_panel.blp:110
+#: data/ui/response_panel.blp:169
 msgid "Render anyway"
 msgstr ""
 
@@ -691,32 +719,44 @@ msgstr ""
 msgid "Appearance"
 msgstr ""
 
-#: data/ui/settings/page_appearance.blp:27
+#: data/ui/settings/page_appearance.blp:26
+msgid "Color scheme"
+msgstr ""
+
+#: data/ui/settings/page_appearance.blp:60
+msgid "Interface"
+msgstr ""
+
+#: data/ui/settings/page_appearance.blp:63
 msgid "Application style"
 msgstr ""
 
 #. Has to be a separate variable due to variable lifetimes.
-#: data/ui/settings/page_appearance.blp:31 src/windows/settings/locale.rs:81
+#: data/ui/settings/page_appearance.blp:67 src/windows/settings/locale.rs:84
 msgid "Follow system settings"
 msgstr ""
 
-#: data/ui/settings/page_appearance.blp:32
+#: data/ui/settings/page_appearance.blp:68
 msgid "Light mode"
 msgstr ""
 
-#: data/ui/settings/page_appearance.blp:33
+#: data/ui/settings/page_appearance.blp:69
 msgid "Dark mode"
 msgstr ""
 
-#: data/ui/settings/page_appearance.blp:41
+#: data/ui/settings/page_appearance.blp:76
+msgid "Font"
+msgstr ""
+
+#: data/ui/settings/page_appearance.blp:79
 msgid "Use system font"
 msgstr ""
 
-#: data/ui/settings/page_appearance.blp:45
+#: data/ui/settings/page_appearance.blp:83
 msgid "Custom font"
 msgstr ""
 
-#: data/ui/settings/page_appearance.blp:52
+#: data/ui/settings/page_appearance.blp:90
 msgid "Click to select a font"
 msgstr ""
 
@@ -946,75 +986,75 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: src/interop.rs:32
+#: src/interop.rs:33
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
 
-#: src/interop.rs:33
+#: src/interop.rs:36
 msgid "The file is corrupt or does not contain valid data for this application"
 msgstr ""
 
-#: src/interop.rs:55
+#: src/interop.rs:59
 msgid "The specified URL is not valid"
 msgstr ""
 
-#: src/interop.rs:56 src/widgets/dialogs.rs:164
+#: src/interop.rs:60 src/widgets/dialogs.rs:170
 msgid "Cannot recognise the URL"
 msgstr ""
 
-#: src/interop.rs:57
+#: src/interop.rs:61
 msgid "The given URL is missing a protocol"
 msgstr ""
 
-#: src/interop.rs:59
+#: src/interop.rs:63
 #, rust-format
 msgid "The protocol {}:// is not supported"
 msgstr ""
 
-#: src/interop.rs:62 src/widgets/dialogs.rs:166
+#: src/interop.rs:66 src/widgets/dialogs.rs:172
 #, rust-format
 msgid "The variable '{}' is not defined"
 msgstr ""
 
-#: src/interop.rs:65 src/widgets/dialogs.rs:169
+#: src/interop.rs:69 src/widgets/dialogs.rs:175
 msgid "There was a problem with a variable interpolation, review your inputs"
 msgstr ""
 
-#: src/interop.rs:68
+#: src/interop.rs:72
 #, rust-format
 msgid "The header '{}' is not valid"
 msgstr ""
 
-#: src/interop.rs:71
+#: src/interop.rs:75
 #, rust-format
 msgid "The value for header '{}' is not valid"
 msgstr ""
 
-#: src/interop.rs:74
+#: src/interop.rs:78
 msgid "The given request body could not be encoded correctly"
 msgstr ""
 
-#: src/interop.rs:76
+#: src/interop.rs:80
 msgid "You have to save the request first"
 msgstr ""
 
-#: src/interop.rs:78
+#: src/interop.rs:82
 #, rust-format
 msgid "The file '{}' cannot be accessed due to the security policy"
 msgstr ""
 
-#: src/interop.rs:83
+#: src/interop.rs:87
 #, rust-format
 msgid "Defined value for proxy '{}' is not a valid configuration"
 msgstr ""
 
-#: src/interop.rs:87
+#: src/interop.rs:91
 msgid "There is an input/output error"
 msgstr ""
 
-#: src/interop.rs:88
+#: src/interop.rs:92
 msgid "There is a network error"
 msgstr ""
 
@@ -1067,8 +1107,8 @@ msgid "Cannot open the requested file"
 msgstr ""
 
 #: src/widgets/dialogs.rs:61 src/widgets/dialogs.rs:92
-#: src/widgets/dialogs.rs:122 src/widgets/dialogs.rs:145
-#: src/widgets/dialogs.rs:158 src/widgets/dialogs.rs:182
+#: src/widgets/dialogs.rs:122 src/widgets/dialogs.rs:151
+#: src/widgets/dialogs.rs:164 src/widgets/dialogs.rs:190
 msgid "Close"
 msgstr ""
 
@@ -1110,88 +1150,88 @@ msgstr ""
 msgid "Cannot save the requested file"
 msgstr ""
 
-#: src/widgets/dialogs.rs:139
+#: src/widgets/dialogs.rs:142
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
 msgstr ""
 
-#: src/widgets/dialogs.rs:153
+#: src/widgets/dialogs.rs:159
 msgid "Could not select a valid file from the file chooser"
 msgstr ""
 
-#: src/widgets/dialogs.rs:172
+#: src/widgets/dialogs.rs:179
 msgid ""
 "There has been an internal error during the export process. This is most "
 "likely a development error. (If you could report your test case and this "
 "error, we might be able to fix this in the future.)"
 msgstr ""
 
-#: src/widgets/dialogs.rs:173
+#: src/widgets/dialogs.rs:181
 msgid "Error cause:"
 msgstr ""
 
-#: src/widgets/dialogs.rs:178
+#: src/widgets/dialogs.rs:186
 msgid "Could not export the request"
 msgstr ""
 
-#: src/widgets/dialogs.rs:191
+#: src/widgets/dialogs.rs:199
 msgid "There are unsaved changes"
 msgstr ""
 
-#: src/widgets/dialogs.rs:193
+#: src/widgets/dialogs.rs:201
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
 msgstr ""
 
-#: src/widgets/dialogs.rs:197 src/windows/settings/pages/proxy.rs:248
+#: src/widgets/dialogs.rs:205 src/windows/settings/pages/proxy.rs:253
 msgid "Cancel"
 msgstr ""
 
-#: src/widgets/dialogs.rs:198
+#: src/widgets/dialogs.rs:206
 msgid "Close anyway"
 msgstr ""
 
-#: src/widgets/dialogs.rs:221
+#: src/widgets/dialogs.rs:229
 #, rust-format
 msgid "Save changes in '{}'?"
 msgstr ""
 
-#: src/widgets/dialogs.rs:222
+#: src/widgets/dialogs.rs:230
 msgid "Save changes?"
 msgstr ""
 
-#: src/widgets/dialogs.rs:227
+#: src/widgets/dialogs.rs:235
 msgid "There are changes that have not been saved yet. What do you want to do?"
 msgstr ""
 
-#: src/widgets/dialogs.rs:231
+#: src/widgets/dialogs.rs:239
 msgid "_Cancel"
 msgstr ""
 
-#: src/widgets/dialogs.rs:232
+#: src/widgets/dialogs.rs:240
 msgid "_Discard"
 msgstr ""
 
-#: src/widgets/dialogs.rs:233
+#: src/widgets/dialogs.rs:241
 msgid "_Save"
 msgstr ""
 
-#: src/widgets/endpoint/endpoint_pane.rs:283
+#: src/widgets/endpoint/endpoint_pane.rs:286
 #, rust-format
 msgid "Show {} variable from .env"
 msgid_plural "Show {} variables from .env"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/widgets/endpoint/endpoint_pane.rs:557
-#: src/widgets/endpoint/endpoint_pane.rs:563
-#: src/widgets/endpoint/endpoint_pane.rs:584
+#: src/widgets/endpoint/endpoint_pane.rs:559
+#: src/widgets/endpoint/endpoint_pane.rs:565
+#: src/widgets/endpoint/endpoint_pane.rs:586
 msgid "(generated during request)"
 msgstr ""
 
-#: src/widgets/endpoint/endpoint_pane.rs:612
+#: src/widgets/endpoint/endpoint_pane.rs:613
 #, rust-format
 msgid "Show {} pre-generated headers"
 msgstr ""
@@ -1205,14 +1245,14 @@ msgid "Export request as Jetbrains HTTP"
 msgstr ""
 
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
-#: src/widgets/endpoint/response_panel.rs:341
+#: src/widgets/endpoint/response_panel.rs:379
 #, rust-format
 msgid "{} s"
 msgstr ""
 
 #. Format as milliseconds.
 #. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
-#: src/widgets/endpoint/response_panel.rs:345
+#: src/widgets/endpoint/response_panel.rs:383
 #, rust-format
 msgid "{} ms"
 msgstr ""
@@ -1229,18 +1269,26 @@ msgstr ""
 msgid "Content copied to the clipboard"
 msgstr ""
 
+#: src/widgets/field/field_list_box_static_row.rs:149
+msgid "Show value"
+msgstr ""
+
+#: src/widgets/field/field_list_box_static_row.rs:151
+msgid "Hide value"
+msgstr ""
+
 #. TRANSLATORS: presented in file dialogs as the file type for a request
 #. The macOS native file dialog will already add the extension for us.
-#: src/widgets/file_dialogs.rs:42 src/widgets/file_dialogs.rs:150
-#: src/widgets/file_dialogs.rs:152
+#: src/widgets/file_dialogs.rs:42 src/widgets/file_dialogs.rs:146
+#: src/widgets/file_dialogs.rs:148
 msgid "Request"
 msgstr ""
 
-#: src/widgets/file_dialogs.rs:110
+#: src/widgets/file_dialogs.rs:106
 msgid "Open request"
 msgstr ""
 
-#: src/widgets/file_dialogs.rs:187
+#: src/widgets/file_dialogs.rs:183
 msgid "Select file"
 msgstr ""
 
@@ -1260,49 +1308,49 @@ msgid_plural "{} results"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/win.rs:291
+#: src/win.rs:288
 msgid "(untitled)"
 msgstr ""
 
-#: src/win.rs:305
+#: src/win.rs:302
 msgid "Draft"
 msgstr ""
 
-#: src/win.rs:607
+#: src/win.rs:612
 msgid "The Cartero authors"
 msgstr ""
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
-#: src/win.rs:630
+#: src/win.rs:635
 msgid "translator-credits"
 msgstr ""
 
-#: src/win.rs:631
+#: src/win.rs:636
 msgid "© 2024-2026 the Cartero authors"
 msgstr ""
 
-#: src/windows/settings/pages/proxy.rs:205
+#: src/windows/settings/pages/proxy.rs:210
 msgid "The value is not a valid domain or IP address"
 msgstr ""
 
-#: src/windows/settings/pages/proxy.rs:220
+#: src/windows/settings/pages/proxy.rs:225
 msgid "The host identifier is already excluded"
 msgstr ""
 
-#: src/windows/settings/pages/proxy.rs:240
+#: src/windows/settings/pages/proxy.rs:245
 #, rust-format
 msgid "Delete '{}' from the list of excluded hosts for the proxy?"
 msgstr ""
 
-#: src/windows/settings/pages/proxy.rs:245
+#: src/windows/settings/pages/proxy.rs:250
 msgid "Delete identifier?"
 msgstr ""
 
-#: src/windows/settings/pages/proxy.rs:249
-#: src/windows/settings/pages/proxy.rs:284
+#: src/windows/settings/pages/proxy.rs:254
+#: src/windows/settings/pages/proxy.rs:288
 msgid "Remove"
 msgstr ""
 
-#: src/windows/settings/pages/proxy.rs:268
+#: src/windows/settings/pages/proxy.rs:272
 msgid "No domains or IP addresses are being excluded"
 msgstr ""

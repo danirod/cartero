@@ -29,7 +29,7 @@ function diff_version {
     diffspec=$2
 
     for locale in $(linguas $version); do
-        if git diff --unified=0 $diffspec po/$locale.po | grep '^+msgstr ' | grep -qv '^+msgstr ""' ; then
+        if git diff --unified=0 $diffspec po/$locale.po | grep '^+msgstr ' | grep -v '^+msgstr "© 2024-' | grep -qv '^+msgstr ""' ; then
             echo $locale
         fi
     done

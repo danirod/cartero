@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
-"POT-Creation-Date: 2025-08-31 23:21+0200\n"
+"POT-Creation-Date: 2026-03-01 18:16+0100\n"
 "PO-Revision-Date: 2025-04-27 13:08+0000\n"
 "Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/cartero/cartero/ta/"
@@ -79,175 +79,192 @@ msgstr "அஞ்சலாளர்"
 msgid "Gnome;GTK;HTTP;REST;"
 msgstr "Gnome; gtk; http; ஓய்வு;"
 
-#: data/es.danirod.Cartero.gschema.xml:12
+#: data/es.danirod.Cartero.gschema.xml:18
 msgid ""
 "A specific locale to use within the application instead of the system default"
 msgstr ""
 
-#: data/es.danirod.Cartero.gschema.xml:16
+#: data/es.danirod.Cartero.gschema.xml:22
 msgid "Automatically indent new lines for the request body"
 msgstr "கோரிக்கை உடலுக்கு புதிய வரிகளை தானாகவே உள்தள்ளுங்கள்"
 
-#: data/es.danirod.Cartero.gschema.xml:20
+#: data/es.danirod.Cartero.gschema.xml:26
 msgid "Wrap the body content"
 msgstr "உடல் உள்ளடக்கத்தை மடிக்கவும்"
 
-#: data/es.danirod.Cartero.gschema.xml:24
+#: data/es.danirod.Cartero.gschema.xml:30
 msgid "Whether to indent the request body with spaces or tabs"
 msgstr "கோரிக்கை உடலை இடைவெளிகள் அல்லது தாவல்களுடன் உள்தள்ள வேண்டுமா"
 
-#: data/es.danirod.Cartero.gschema.xml:28
+#: data/es.danirod.Cartero.gschema.xml:34
 msgid "Show line numbers in the request and response bodies"
 msgstr "கோரிக்கை மற்றும் மறுமொழி அமைப்புகளில் வரி எண்களைக் காட்டு"
 
-#: data/es.danirod.Cartero.gschema.xml:32
+#: data/es.danirod.Cartero.gschema.xml:38
 msgid "How many characters to pad when indenting the request body"
 msgstr "கோரிக்கை உடலை உள்தள்ளும்போது எத்தனை எழுத்துக்கள் திண்டு"
 
-#: data/es.danirod.Cartero.gschema.xml:36
+#: data/es.danirod.Cartero.gschema.xml:42
 msgid "How large should new windows be"
 msgstr "புதிய சன்னல்கள் எவ்வளவு பெரியதாக இருக்க வேண்டும்"
 
-#: data/es.danirod.Cartero.gschema.xml:40
+#: data/es.danirod.Cartero.gschema.xml:46
 msgid "How tall should new windows be"
 msgstr "புதிய சன்னல்கள் எவ்வளவு உயரமாக இருக்க வேண்டும்"
 
-#: data/es.danirod.Cartero.gschema.xml:44
+#: data/es.danirod.Cartero.gschema.xml:50
 msgid "Whether the application should open maximized"
 msgstr "பயன்பாடு அதிகரிக்கப்பட வேண்டுமா"
 
-#: data/es.danirod.Cartero.gschema.xml:48
+#: data/es.danirod.Cartero.gschema.xml:54
 msgid "The position of the split between two windows"
 msgstr "இரண்டு சன்னல்களுக்கு இடையிலான பிளவுகளின் நிலை"
 
-#: data/es.danirod.Cartero.gschema.xml:52
+#: data/es.danirod.Cartero.gschema.xml:58
 msgid "The current list of opened files"
 msgstr "திறந்த கோப்புகளின் தற்போதைய பட்டியல்"
 
-#: data/es.danirod.Cartero.gschema.xml:56
+#: data/es.danirod.Cartero.gschema.xml:62
 msgid "The last location where a file was opened"
 msgstr "ஒரு கோப்பு திறக்கப்பட்ட கடைசி இடம்"
 
-#: data/es.danirod.Cartero.gschema.xml:60
+#: data/es.danirod.Cartero.gschema.xml:66
 msgid "The last location where a file was saved"
 msgstr "ஒரு கோப்பு சேமிக்கப்பட்ட கடைசி இடம்"
 
-#: data/es.danirod.Cartero.gschema.xml:64
+#: data/es.danirod.Cartero.gschema.xml:70
 msgid "Whether to validate the TLS certificates during a request"
 msgstr "கோரிக்கையின் போது TLS சான்றிதழ்களை சரிபார்க்கலாமா"
 
-#: data/es.danirod.Cartero.gschema.xml:68
+#: data/es.danirod.Cartero.gschema.xml:74
 msgid "Whether to follow redirections if that is the server response"
 msgstr "சேவையக பதில் என்றால் திருப்பிவிடுதல்களைப் பின்பற்ற வேண்டுமா"
 
-#: data/es.danirod.Cartero.gschema.xml:72
+#: data/es.danirod.Cartero.gschema.xml:78
 msgid "Maximum number of redirections to follow before giving up"
 msgstr "விட்டுக்கொடுப்பதற்கு முன் பின்பற்ற வேண்டிய அதிகபட்ச திருப்பிவிடங்கள்"
 
-#: data/es.danirod.Cartero.gschema.xml:76
+#: data/es.danirod.Cartero.gschema.xml:82
 msgid "Maximum timeout when awaiting for an HTTP response."
 msgstr "HTTP பதிலுக்காக காத்திருக்கும்போது அதிகபட்ச நேரம் முடிந்தது."
 
-#: data/es.danirod.Cartero.gschema.xml:80
+#: data/es.danirod.Cartero.gschema.xml:86
 msgid "Whether to use light or dark mode."
 msgstr "ஒளி அல்லது இருண்ட பயன்முறையைப் பயன்படுத்த வேண்டுமா."
 
-#: data/es.danirod.Cartero.gschema.xml:84
+#: data/es.danirod.Cartero.gschema.xml:90
 msgid "The custom font in use"
 msgstr "பயன்பாட்டில் உள்ள தனிப்பயன் எழுத்துரு"
 
-#: data/es.danirod.Cartero.gschema.xml:88
+#: data/es.danirod.Cartero.gschema.xml:94
 msgid "Whether to use the system font or a custom one"
 msgstr "கணினி எழுத்துரு அல்லது தனிப்பயன் ஒன்றைப் பயன்படுத்தலாமா"
 
-#: data/es.danirod.Cartero.gschema.xml:92
+#: data/es.danirod.Cartero.gschema.xml:98
 msgid "Whether to create backup files on save"
 msgstr "சேமிப்பில் காப்பு கோப்புகளை உருவாக்க வேண்டுமா"
 
-#: data/gtk/help_overlay.blp:25
+#: data/help_overlay/adw_help_overlay.blp:22
+#: data/help_overlay/gtk_help_overlay.blp:25
 msgctxt "shortcuts window"
 msgid "General shortcuts"
 msgstr "பொது குறுக்குவழிகள்"
 
-#: data/gtk/help_overlay.blp:28
+#: data/help_overlay/adw_help_overlay.blp:25
+#: data/help_overlay/gtk_help_overlay.blp:28
 msgctxt "shortcuts window"
 msgid "Show Keyboard Shortcuts"
 msgstr "விசைப்பலகை குறுக்குவழிகளைக் காட்டு"
 
-#: data/gtk/help_overlay.blp:33
+#: data/help_overlay/adw_help_overlay.blp:30
+#: data/help_overlay/gtk_help_overlay.blp:33
 msgctxt "shortcuts window"
 msgid "Quit"
 msgstr "வெளியேறு"
 
-#: data/gtk/help_overlay.blp:39
+#: data/help_overlay/adw_help_overlay.blp:36
+#: data/help_overlay/gtk_help_overlay.blp:39
 msgctxt "shortcuts window"
 msgid "Tab operations"
 msgstr "தாவல் செயல்பாடுகள்"
 
-#: data/gtk/help_overlay.blp:42
+#: data/help_overlay/adw_help_overlay.blp:39
+#: data/help_overlay/gtk_help_overlay.blp:42
 msgctxt "shortcuts window"
 msgid "New request tab"
 msgstr "புதிய கோரிக்கை தாவல்"
 
-#: data/gtk/help_overlay.blp:47
+#: data/help_overlay/adw_help_overlay.blp:44
+#: data/help_overlay/gtk_help_overlay.blp:47
 msgctxt "shortcuts window"
 msgid "Open request"
 msgstr "திறந்த கோரிக்கை"
 
-#: data/gtk/help_overlay.blp:52
+#: data/help_overlay/adw_help_overlay.blp:49
+#: data/help_overlay/gtk_help_overlay.blp:52
 msgctxt "shortcuts window"
 msgid "Save request"
 msgstr "கோரிக்கையைச் சேமிக்கவும்"
 
-#: data/gtk/help_overlay.blp:57
+#: data/help_overlay/adw_help_overlay.blp:54
+#: data/help_overlay/gtk_help_overlay.blp:57
 msgctxt "shortcuts window"
 msgid "Save request as"
 msgstr "கோரிக்கையை சேமிக்கவும்"
 
-#: data/gtk/help_overlay.blp:62
+#: data/help_overlay/adw_help_overlay.blp:59
+#: data/help_overlay/gtk_help_overlay.blp:62
 msgctxt "shortcuts window"
 msgid "Close request tab"
 msgstr "கோரிக்கை தாவலை மூடு"
 
-#: data/gtk/help_overlay.blp:68
+#: data/help_overlay/adw_help_overlay.blp:65
+#: data/help_overlay/gtk_help_overlay.blp:68
 #, fuzzy
 msgctxt "shortcuts window"
 msgid "Code view operations"
 msgstr "கோரிக்கை நடவடிக்கைகள்"
 
-#: data/gtk/help_overlay.blp:71
+#: data/help_overlay/adw_help_overlay.blp:68
+#: data/help_overlay/gtk_help_overlay.blp:71
 msgctxt "shortcuts window"
 msgid "Zoom in"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:76
+#: data/help_overlay/adw_help_overlay.blp:73
+#: data/help_overlay/gtk_help_overlay.blp:76
 msgctxt "shortcuts window"
 msgid "Zoom out"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:81
+#: data/help_overlay/adw_help_overlay.blp:78
+#: data/help_overlay/gtk_help_overlay.blp:81
 msgctxt "shortcuts window"
 msgid "Reset zoom"
 msgstr ""
 
-#: data/gtk/help_overlay.blp:86
+#: data/help_overlay/adw_help_overlay.blp:83
+#: data/help_overlay/gtk_help_overlay.blp:86
 #, fuzzy
 msgctxt "shortcuts window"
 msgid "Start search"
 msgstr "தேடல்"
 
-#: data/gtk/help_overlay.blp:92
+#: data/help_overlay/adw_help_overlay.blp:89
+#: data/help_overlay/gtk_help_overlay.blp:92
 msgctxt "shortcuts window"
 msgid "Request operations"
 msgstr "கோரிக்கை நடவடிக்கைகள்"
 
-#: data/gtk/help_overlay.blp:95
+#: data/help_overlay/adw_help_overlay.blp:92
+#: data/help_overlay/gtk_help_overlay.blp:95
 #, fuzzy
 msgctxt "shortcuts window"
 msgid "Focus URL"
 msgstr "முகவரி ஐக் கோருங்கள்"
 
-#: data/gtk/help_overlay.blp:100
+#: data/help_overlay/adw_help_overlay.blp:97
+#: data/help_overlay/gtk_help_overlay.blp:100
 msgctxt "shortcuts window"
 msgid "Send request"
 msgstr "கோரிக்கையை அனுப்பவும்"
@@ -256,9 +273,9 @@ msgstr "கோரிக்கையை அனுப்பவும்"
 msgid "Authorization method"
 msgstr "அங்கீகார முறை"
 
-#: data/ui/authentication_pane.blp:59 data/ui/request_body_pane.blp:59
-#: src/windows/settings/pages/proxy.rs:299
-#: src/windows/settings/pages/proxy.rs:310
+#: data/ui/authentication_pane.blp:59 data/ui/request_body_pane.blp:54
+#: src/windows/settings/pages/proxy.rs:303
+#: src/windows/settings/pages/proxy.rs:314
 msgid "(none)"
 msgstr "(எதுவுமில்லை)"
 
@@ -286,11 +303,11 @@ msgstr "கிள்ளாக்கு"
 msgid "Request URL"
 msgstr "முகவரி ஐக் கோருங்கள்"
 
-#: data/ui/endpoint_pane.blp:74 data/ui/mac_menu.blp:113
+#: data/ui/endpoint_pane.blp:74 data/ui/mac_menu.blp:118
 msgid "Cancel request"
 msgstr "கோரிக்கையை நீக்கறல்"
 
-#: data/ui/endpoint_pane.blp:83 data/ui/mac_menu.blp:108
+#: data/ui/endpoint_pane.blp:83 data/ui/mac_menu.blp:113
 msgid "Send"
 msgstr "அனுப்பு"
 
@@ -298,50 +315,50 @@ msgstr "அனுப்பு"
 msgid "Execute this HTTP request"
 msgstr "இந்த HTTP கோரிக்கையை இயக்கவும்"
 
-#: data/ui/endpoint_pane.blp:111
+#: data/ui/endpoint_pane.blp:112
 msgid "Parameters"
 msgstr "அளவுருக்கள்"
 
-#: data/ui/endpoint_pane.blp:137 data/ui/response_panel.blp:137
+#: data/ui/endpoint_pane.blp:138 data/ui/response_panel.blp:196
 msgid "Headers"
 msgstr "தலைப்பிகளுக்கு"
 
-#: data/ui/endpoint_pane.blp:186
+#: data/ui/endpoint_pane.blp:172
 msgid "Variables"
 msgstr "மாறிகள்"
 
-#: data/ui/endpoint_pane.blp:230
+#: data/ui/endpoint_pane.blp:201
 msgid ""
 "Cartero supports reading variables from an .env file, but you need to enable "
 "the feature first."
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:237 data/ui/main_window.blp:178
-#: data/ui/main_window_no_csd.blp:189 data/ui/settings/shell.blp:47
+#: data/ui/endpoint_pane.blp:208 data/ui/main_window.blp:187
+#: data/ui/main_window_no_csd.blp:192 data/ui/settings/shell.blp:47
 msgid "Settings"
 msgstr "அமைப்புகள்"
 
-#: data/ui/endpoint_pane.blp:249
+#: data/ui/endpoint_pane.blp:226
 msgid ""
 "Cartero supports reading variables from an .env file, but you have to save "
 "the request first."
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:259
+#: data/ui/endpoint_pane.blp:242
 msgid ""
 "Place an .env file in the same disk directory as the request or in a parent "
 "directory to load the variables in Cartero."
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:265
+#: data/ui/endpoint_pane.blp:248
 msgid "Check again"
 msgstr ""
 
-#: data/ui/endpoint_pane.blp:293
+#: data/ui/endpoint_pane.blp:280
 msgid "Authorization"
 msgstr "ஏற்பு"
 
-#: data/ui/endpoint_pane.blp:308 data/ui/response_panel.blp:55
+#: data/ui/endpoint_pane.blp:295 data/ui/response_panel.blp:114
 msgid "Body"
 msgstr "உடல்"
 
@@ -350,69 +367,77 @@ msgstr "உடல்"
 msgid "Generated output"
 msgstr "பொது குறுக்குவழிகள்"
 
-#: data/ui/export_dialog.blp:64
+#: data/ui/export_dialog.blp:64 data/ui/response_panel.blp:82
 #, fuzzy
 msgid "Copy to clipboard"
 msgstr "கிளிப்போர்டுக்கு உள்ளடக்கம் நகலெடுக்கப்பட்டது"
 
-#: data/ui/export_dialog.blp:69 data/ui/response_panel.blp:103
-#: src/widgets/file_dialogs.rs:230
+#: data/ui/export_dialog.blp:69 data/ui/response_panel.blp:162
+#: src/widgets/file_dialogs.rs:226
 #, fuzzy
 msgid "Export to file"
 msgstr "ஏற்றுமதி"
 
-#: data/ui/field_list_box_row.blp:23 data/ui/field_placeholder_row.blp:27
+#: data/ui/field_list_box_row.blp:27 data/ui/field_placeholder_row.blp:27
 msgid "Enabled"
 msgstr ""
 
-#: data/ui/field_list_box_row.blp:37 data/ui/field_list_box_row.blp:38
+#: data/ui/field_list_box_row.blp:43 data/ui/field_list_box_row.blp:44
 #: data/ui/field_list_box_static_row.blp:36
 #: data/ui/field_placeholder_row.blp:41 data/ui/field_placeholder_row.blp:42
 msgid "Name"
 msgstr "பெயர்"
 
-#: data/ui/field_list_box_row.blp:48 data/ui/field_list_box_row.blp:49
+#: data/ui/field_list_box_row.blp:59
+msgid ""
+"The value for this field will not be used because another field with the "
+"same name is overriding it."
+msgstr ""
+"The மதிப்பு க்கு this புலம் will not be used because another புலம் with the same "
+"பெயர் is overriding it."
+
+#: data/ui/field_list_box_row.blp:71 data/ui/field_list_box_row.blp:72
 #: data/ui/field_list_box_static_row.blp:46
 #: data/ui/field_placeholder_row.blp:52 data/ui/field_placeholder_row.blp:53
 msgid "Value"
 msgstr "மதிப்பு"
 
-#: data/ui/field_list_box_row.blp:58 data/ui/field_placeholder_row.blp:62
+#: data/ui/field_list_box_row.blp:81 data/ui/field_placeholder_row.blp:62
 msgid "Actions"
 msgstr "செயல்கள்"
 
-#: data/ui/field_list_box_row.blp:69
+#: data/ui/field_list_box_row.blp:92
 msgid "Toggle secret"
 msgstr "ரகசியத்தை மாற்றவும்"
 
-#: data/ui/field_list_box_row.blp:76
+#: data/ui/field_list_box_row.blp:99
 msgid "Delete"
 msgstr "நீக்கு"
 
-#: data/ui/file_body_pane.blp:26
+#: data/ui/file_body_pane.blp:30
 msgid "File"
 msgstr ""
 
-#: data/ui/file_body_pane.blp:30
+#: data/ui/file_body_pane.blp:34
 msgid "Content Type"
 msgstr ""
 
-#: data/ui/file_body_pane.blp:41
+#: data/ui/file_body_pane.blp:45
 #, fuzzy
 msgid "or select a file from the file system:"
 msgstr "கோப்பு தேர்வாளரிடமிருந்து செல்லுபடியாகும் கோப்பைத் தேர்ந்தெடுக்க முடியவில்லை"
 
-#: data/ui/file_body_pane.blp:50
+#: data/ui/file_body_pane.blp:54
 msgid "Select file…"
 msgstr ""
 
-#: data/ui/file_body_pane.blp:71
+#: data/ui/file_body_pane.blp:75
 msgid ""
 "You cannot pick a file from the file system until you save this request to "
 "disk."
 msgstr ""
 
-#: data/ui/file_body_pane.blp:97
+#: data/ui/file_body_pane.blp:101
 msgid ""
 "You can only attach files to a request if they are in the same directory as "
 "the request file, or in a subdirectory. You cannot attach files to a request "
@@ -425,213 +450,219 @@ msgctxt "menubar"
 msgid "File"
 msgstr ""
 
-#: data/ui/mac_menu.blp:25 data/ui/main_window.blp:151
-#: data/ui/main_window_no_csd.blp:162 data/ui/welcome/welcome_pane.blp:65
+#: data/ui/mac_menu.blp:25 data/ui/main_window.blp:155
+#: data/ui/main_window_no_csd.blp:160 data/ui/welcome/welcome_pane.blp:65
 msgid "New tab"
 msgstr "புதிய தாவல்"
 
-#: data/ui/mac_menu.blp:30 data/ui/main_window.blp:156
-#: data/ui/main_window_no_csd.blp:167 data/ui/welcome/welcome_pane.blp:78
+#: data/ui/mac_menu.blp:30 data/ui/main_window.blp:160
+#: data/ui/main_window_no_csd.blp:165 data/ui/welcome/welcome_pane.blp:78
 msgid "Open request…"
 msgstr "திறந்த கோரிக்கை …"
 
-#: data/ui/mac_menu.blp:35 data/ui/main_window.blp:161
-#: data/ui/main_window_no_csd.blp:172 src/widgets/file_dialogs.rs:146
+#: data/ui/mac_menu.blp:35 data/ui/main_window.blp:165
+#: data/ui/main_window_no_csd.blp:170 src/widgets/file_dialogs.rs:142
 msgid "Save request"
 msgstr "கோரிக்கையைச் சேமிக்கவும்"
 
-#: data/ui/mac_menu.blp:40 data/ui/main_window.blp:166
-#: data/ui/main_window_no_csd.blp:177
+#: data/ui/mac_menu.blp:40 data/ui/main_window.blp:170
+#: data/ui/main_window_no_csd.blp:175
 msgid "Save request as…"
 msgstr "கோரிக்கையை சேமிக்கவும் …"
 
-#: data/ui/mac_menu.blp:47 data/ui/main_window.blp:171
-#: data/ui/main_window_no_csd.blp:182
+#: data/ui/mac_menu.blp:45 data/ui/main_window.blp:175
+#: data/ui/main_window_no_csd.blp:180
+#, fuzzy
+msgid "Duplicate request"
+msgstr "கோரிக்கையைச் சேமிக்கவும்"
+
+#: data/ui/mac_menu.blp:52 data/ui/main_window.blp:180
+#: data/ui/main_window_no_csd.blp:185
 msgid "Close tab"
 msgstr "தாவலை மூடு"
 
-#: data/ui/mac_menu.blp:54
+#: data/ui/mac_menu.blp:59
 msgctxt "menubar"
 msgid "Edit"
 msgstr ""
 
-#: data/ui/mac_menu.blp:58
+#: data/ui/mac_menu.blp:63
 msgctxt "menubar"
 msgid "Undo"
 msgstr ""
 
-#: data/ui/mac_menu.blp:63
+#: data/ui/mac_menu.blp:68
 msgctxt "menubar"
 msgid "Redo"
 msgstr ""
 
-#: data/ui/mac_menu.blp:70
+#: data/ui/mac_menu.blp:75
 msgctxt "menubar"
 msgid "Cut"
 msgstr ""
 
-#: data/ui/mac_menu.blp:75
+#: data/ui/mac_menu.blp:80
 #, fuzzy
 msgctxt "menubar"
 msgid "Copy"
 msgstr "நகலெடு"
 
-#: data/ui/mac_menu.blp:80
+#: data/ui/mac_menu.blp:85
 msgctxt "menubar"
 msgid "Paste"
 msgstr ""
 
-#: data/ui/mac_menu.blp:85
+#: data/ui/mac_menu.blp:90
 #, fuzzy
 msgctxt "menubar"
 msgid "Delete"
 msgstr "நீக்கு"
 
-#: data/ui/mac_menu.blp:92
+#: data/ui/mac_menu.blp:97
 msgctxt "menubar"
 msgid "Select All"
 msgstr ""
 
-#: data/ui/mac_menu.blp:99
+#: data/ui/mac_menu.blp:104
 msgctxt "menubar"
 msgid "Endpoint"
 msgstr ""
 
-#: data/ui/mac_menu.blp:103
+#: data/ui/mac_menu.blp:108
 msgctxt "menubar"
 msgid "Edit URL"
 msgstr ""
 
-#: data/ui/mac_menu.blp:120 data/ui/settings/page_code_editor.blp:26
+#: data/ui/mac_menu.blp:125 data/ui/settings/page_code_editor.blp:26
 msgid "Body appearance"
 msgstr "உடல் தோற்றம்"
 
-#: data/ui/mac_menu.blp:124 data/ui/settings/page_code_editor.blp:29
+#: data/ui/mac_menu.blp:129 data/ui/settings/page_code_editor.blp:29
 msgid "Wrap content"
 msgstr "உள்ளடக்கத்தை மடக்கு"
 
-#: data/ui/mac_menu.blp:129 data/ui/settings/page_code_editor.blp:34
+#: data/ui/mac_menu.blp:134 data/ui/settings/page_code_editor.blp:34
 msgid "Show line numbers"
 msgstr "வரி எண்களைக் காட்டு"
 
-#: data/ui/mac_menu.blp:136 data/ui/settings/page_code_editor.blp:41
+#: data/ui/mac_menu.blp:141 data/ui/settings/page_code_editor.blp:41
 msgid "Automatic indentation"
 msgstr "தானியங்கி உள்தள்ளல்"
 
-#: data/ui/mac_menu.blp:141 data/ui/settings/page_code_editor.blp:46
+#: data/ui/mac_menu.blp:146 data/ui/settings/page_code_editor.blp:46
 msgid "Indent with spaces"
 msgstr "இடைவெளிகளுடன் உள்தள்ளுங்கள்"
 
-#: data/ui/mac_menu.blp:147 data/ui/settings/page_code_editor.blp:56
+#: data/ui/mac_menu.blp:152 data/ui/settings/page_code_editor.blp:56
 msgid "Indent with tabs"
 msgstr "தாவல்களுடன் உள்தள்ளுங்கள்"
 
-#: data/ui/mac_menu.blp:153 data/ui/settings/page_code_editor.blp:67
+#: data/ui/mac_menu.blp:158 data/ui/settings/page_code_editor.blp:67
 msgid "Spaces per tab"
 msgstr "ஒரு தாவலுக்கு இடங்கள்"
 
-#: data/ui/mac_menu.blp:156
+#: data/ui/mac_menu.blp:161
 msgid "2"
 msgstr "2"
 
-#: data/ui/mac_menu.blp:162
+#: data/ui/mac_menu.blp:167
 msgid "4"
 msgstr "4"
 
-#: data/ui/mac_menu.blp:168
+#: data/ui/mac_menu.blp:173
 msgid "8"
 msgstr "8"
 
-#: data/ui/mac_menu.blp:179
+#: data/ui/mac_menu.blp:184
 msgctxt "menubar"
 msgid "Window"
 msgstr ""
 
-#: data/ui/mac_menu.blp:183
+#: data/ui/mac_menu.blp:188
 msgctxt "menubar"
 msgid "Minimize"
 msgstr ""
 
 #. TRANSLATORS: This item will only be visible in macOS, where the convention is to call it "zoom" instead of "maximize"
-#: data/ui/mac_menu.blp:189
+#: data/ui/mac_menu.blp:194
 msgctxt "menubar"
 msgid "Zoom"
 msgstr ""
 
-#: data/ui/mac_menu.blp:196
+#: data/ui/mac_menu.blp:201
 msgctxt "menubar"
 msgid "Help"
 msgstr ""
 
-#: data/ui/mac_menu.blp:200 data/ui/welcome/welcome_pane.blp:132 src/win.rs:631
+#: data/ui/mac_menu.blp:205 data/ui/welcome/welcome_pane.blp:132 src/win.rs:640
 msgid "User manual"
 msgstr "பயனர் கையேடு"
 
-#: data/ui/mac_menu.blp:205 data/ui/welcome/welcome_pane.blp:142
+#: data/ui/mac_menu.blp:210 data/ui/welcome/welcome_pane.blp:142
 msgctxt "menubar"
 msgid "Report a bug"
 msgstr ""
 
-#: data/ui/mac_menu.blp:210
+#: data/ui/mac_menu.blp:215
 msgctxt "menubar"
 msgid "View discussions"
 msgstr ""
 
-#: data/ui/mac_menu.blp:217 src/win.rs:633
+#: data/ui/mac_menu.blp:222 src/win.rs:642
 msgid "Help us translate"
 msgstr "உதவி us மொழிபெயர்த்திடு"
 
-#: data/ui/mac_menu.blp:224 data/ui/settings/page_application.blp:72
+#: data/ui/mac_menu.blp:229 data/ui/settings/page_application.blp:72
 msgid "Check for updates"
 msgstr "புதுப்பிப்புகளை சரிபார்க்கவும்"
 
-#: data/ui/main_window.blp:50 data/ui/main_window_no_csd.blp:50
+#: data/ui/main_window.blp:48 data/ui/main_window_no_csd.blp:48
 msgid "New"
 msgstr "புதிய"
 
-#: data/ui/main_window.blp:61 data/ui/main_window.blp:73
-#: data/ui/main_window_no_csd.blp:61 data/ui/main_window_no_csd.blp:73
-#: src/widgets/file_dialogs.rs:109 src/widgets/file_dialogs.rs:186
+#: data/ui/main_window.blp:59 data/ui/main_window.blp:71
+#: data/ui/main_window_no_csd.blp:59 data/ui/main_window_no_csd.blp:71
+#: src/widgets/file_dialogs.rs:105 src/widgets/file_dialogs.rs:182
 msgid "Open"
 msgstr "திற"
 
-#: data/ui/main_window.blp:81 data/ui/main_window_no_csd.blp:81
-#: src/widgets/file_dialogs.rs:145 src/widgets/file_dialogs.rs:228
+#: data/ui/main_window.blp:79 data/ui/main_window_no_csd.blp:79
+#: src/widgets/file_dialogs.rs:141 src/widgets/file_dialogs.rs:224
 msgid "Save"
 msgstr "சேமி"
 
-#: data/ui/main_window.blp:90 data/ui/main_window_no_csd.blp:102
+#: data/ui/main_window.blp:88 data/ui/main_window_no_csd.blp:100
 msgid "Export request"
 msgstr "ஏற்றுமதி கோரிக்கை"
 
-#: data/ui/main_window.blp:97
+#: data/ui/main_window.blp:95
 msgid "Menu"
 msgstr ""
 
-#: data/ui/main_window.blp:128 data/ui/main_window_no_csd.blp:139
+#: data/ui/main_window.blp:132 data/ui/main_window_no_csd.blp:137
 #, fuzzy
 msgid "Export request as cURL…"
 msgstr "ஏற்றுமதி கோரிக்கை"
 
-#: data/ui/main_window.blp:134 data/ui/main_window_no_csd.blp:145
+#: data/ui/main_window.blp:138 data/ui/main_window_no_csd.blp:143
 #, fuzzy
 msgid "Export request as Jetbrains HTTP…"
 msgstr "ஏற்றுமதி கோரிக்கை"
 
-#: data/ui/main_window.blp:142 data/ui/main_window_no_csd.blp:153
+#: data/ui/main_window.blp:146 data/ui/main_window_no_csd.blp:151
 #, fuzzy
 msgid "Export response body…"
 msgstr "ஏற்றுமதி கோரிக்கை"
 
-#: data/ui/main_window.blp:185 data/ui/main_window_no_csd.blp:196
+#: data/ui/main_window.blp:194 data/ui/main_window_no_csd.blp:199
 msgid "Keyboard shortcuts"
 msgstr "விசைப்பலகை குறுக்குவழிகள்"
 
-#: data/ui/main_window.blp:190 data/ui/main_window_no_csd.blp:201
+#: data/ui/main_window.blp:199 data/ui/main_window_no_csd.blp:204
 msgid "About Cartero"
 msgstr "கார்டெரோ பற்றி"
 
-#: data/ui/main_window.blp:195 data/ui/main_window_no_csd.blp:206
+#: data/ui/main_window.blp:204 data/ui/main_window_no_csd.blp:209
 msgid "Quit"
 msgstr "வெளியேறு"
 
@@ -648,19 +679,19 @@ msgstr "கோரிக்கை முறை"
 msgid "Body type"
 msgstr "உடல் வகை"
 
-#: data/ui/request_body_pane.blp:60
+#: data/ui/request_body_pane.blp:55
 msgid "URL Encoded"
 msgstr "முகவரி குறியாக்கம் செய்யப்பட்டது"
 
-#: data/ui/request_body_pane.blp:61
+#: data/ui/request_body_pane.blp:56
 msgid "Multipart Form Data"
 msgstr "மல்டிபார்ட் படிவ தரவு"
 
-#: data/ui/request_body_pane.blp:64
+#: data/ui/request_body_pane.blp:59
 msgid "Raw"
 msgstr "மூல"
 
-#: data/ui/request_body_pane.blp:65
+#: data/ui/request_body_pane.blp:60
 #, fuzzy
 msgid "From file"
 msgstr "ஏற்றுமதி"
@@ -679,19 +710,19 @@ msgid "Use the Send button to send a network request and it will show here."
 msgstr ""
 "பிணைய கோரிக்கையை அனுப்ப அனுப்பு பொத்தானைப் பயன்படுத்தவும், அது இங்கே காண்பிக்கப்படும்."
 
-#: data/ui/response_panel.blp:68
+#: data/ui/response_panel.blp:127
 msgid "Response body"
 msgstr ""
 
-#: data/ui/response_panel.blp:87
+#: data/ui/response_panel.blp:146
 msgid "Binary response received"
 msgstr ""
 
-#: data/ui/response_panel.blp:88
+#: data/ui/response_panel.blp:147
 msgid "The response of this request should not be rendered in a text view."
 msgstr ""
 
-#: data/ui/response_panel.blp:110
+#: data/ui/response_panel.blp:169
 #, fuzzy
 msgid "Render anyway"
 msgstr "எப்படியும் மூடு"
@@ -716,32 +747,44 @@ msgstr "தேடலை மூடு"
 msgid "Appearance"
 msgstr "தோற்றம்"
 
-#: data/ui/settings/page_appearance.blp:27
+#: data/ui/settings/page_appearance.blp:26
+msgid "Color scheme"
+msgstr ""
+
+#: data/ui/settings/page_appearance.blp:60
+msgid "Interface"
+msgstr ""
+
+#: data/ui/settings/page_appearance.blp:63
 msgid "Application style"
 msgstr "பயன்பாட்டு நடை"
 
 #. Has to be a separate variable due to variable lifetimes.
-#: data/ui/settings/page_appearance.blp:31 src/windows/settings/locale.rs:81
+#: data/ui/settings/page_appearance.blp:67 src/windows/settings/locale.rs:84
 msgid "Follow system settings"
 msgstr "கணினி அமைப்புகளைப் பின்பற்றவும்"
 
-#: data/ui/settings/page_appearance.blp:32
+#: data/ui/settings/page_appearance.blp:68
 msgid "Light mode"
 msgstr "ஒளி பயன்முறை"
 
-#: data/ui/settings/page_appearance.blp:33
+#: data/ui/settings/page_appearance.blp:69
 msgid "Dark mode"
 msgstr "இருண்ட முறை"
 
-#: data/ui/settings/page_appearance.blp:41
+#: data/ui/settings/page_appearance.blp:76
+msgid "Font"
+msgstr ""
+
+#: data/ui/settings/page_appearance.blp:79
 msgid "Use system font"
 msgstr "கணினி எழுத்துருவைப் பயன்படுத்தவும்"
 
-#: data/ui/settings/page_appearance.blp:45
+#: data/ui/settings/page_appearance.blp:83
 msgid "Custom font"
 msgstr "தனிப்பயன் எழுத்துரு"
 
-#: data/ui/settings/page_appearance.blp:52
+#: data/ui/settings/page_appearance.blp:90
 msgid "Click to select a font"
 msgstr ""
 
@@ -976,77 +1019,77 @@ msgstr "முந்தைய முடிவு"
 msgid "Next"
 msgstr ""
 
-#: src/interop.rs:32
+#: src/interop.rs:33
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
 "இந்த பயன்பாட்டின் புதிய பதிப்போடு இந்த கோப்பு உருவாக்கப்பட்டது; தயவுசெய்து புதுப்பிக்கவும்!"
 
-#: src/interop.rs:33
+#: src/interop.rs:36
 msgid "The file is corrupt or does not contain valid data for this application"
 msgstr "கோப்பு ஊழல் நிறைந்தது அல்லது இந்த பயன்பாட்டிற்கான சரியான தரவு இல்லை"
 
-#: src/interop.rs:55
+#: src/interop.rs:59
 msgid "The specified URL is not valid"
 msgstr "குறிப்பிட்ட முகவரி செல்லுபடியாகாது"
 
-#: src/interop.rs:56 src/widgets/dialogs.rs:164
+#: src/interop.rs:60 src/widgets/dialogs.rs:170
 msgid "Cannot recognise the URL"
 msgstr "முகவரி ஐ அங்கீகரிக்க முடியாது"
 
-#: src/interop.rs:57
+#: src/interop.rs:61
 msgid "The given URL is missing a protocol"
 msgstr "கொடுக்கப்பட்ட முகவரி ஒரு நெறிமுறையைக் காணவில்லை"
 
-#: src/interop.rs:59
+#: src/interop.rs:63
 #, rust-format
 msgid "The protocol {}:// is not supported"
 msgstr "நெறிமுறை {}: // ஆதரிக்கப்படவில்லை"
 
-#: src/interop.rs:62 src/widgets/dialogs.rs:166
+#: src/interop.rs:66 src/widgets/dialogs.rs:172
 #, rust-format
 msgid "The variable '{}' is not defined"
 msgstr "'{}' மாறி வரையறுக்கப்படவில்லை"
 
-#: src/interop.rs:65 src/widgets/dialogs.rs:169
+#: src/interop.rs:69 src/widgets/dialogs.rs:175
 msgid "There was a problem with a variable interpolation, review your inputs"
 msgstr "மாறி இடைக்கணிப்பில் சிக்கல் இருந்தது, உங்கள் உள்ளீடுகளை மதிப்பாய்வு செய்யவும்"
 
-#: src/interop.rs:68
+#: src/interop.rs:72
 #, rust-format
 msgid "The header '{}' is not valid"
 msgstr "'{}' தலைப்பு செல்லுபடியாகாது"
 
-#: src/interop.rs:71
+#: src/interop.rs:75
 #, rust-format
 msgid "The value for header '{}' is not valid"
 msgstr "'{}' என்ற தலைப்புக்கான மதிப்பு செல்லுபடியாகாது"
 
-#: src/interop.rs:74
+#: src/interop.rs:78
 msgid "The given request body could not be encoded correctly"
 msgstr "கொடுக்கப்பட்ட கோரிக்கை உடலை சரியாக குறியாக்கம் செய்ய முடியவில்லை"
 
-#: src/interop.rs:76
+#: src/interop.rs:80
 #, fuzzy
 msgid "You have to save the request first"
 msgstr "கோரப்பட்ட கோப்பை சேமிக்க முடியாது"
 
-#: src/interop.rs:78
+#: src/interop.rs:82
 #, rust-format
 msgid "The file '{}' cannot be accessed due to the security policy"
 msgstr ""
 
-#: src/interop.rs:83
+#: src/interop.rs:87
 #, fuzzy, rust-format
 msgid "Defined value for proxy '{}' is not a valid configuration"
 msgstr "'{}' என்ற தலைப்புக்கான மதிப்பு செல்லுபடியாகாது"
 
-#: src/interop.rs:87
+#: src/interop.rs:91
 msgid "There is an input/output error"
 msgstr "உள்ளீடு/வெளியீட்டு பிழை உள்ளது"
 
-#: src/interop.rs:88
+#: src/interop.rs:92
 msgid "There is a network error"
 msgstr "பிணைய பிழை உள்ளது"
 
@@ -1102,8 +1145,8 @@ msgid "Cannot open the requested file"
 msgstr "கோரப்பட்ட கோப்பைத் திறக்க முடியாது"
 
 #: src/widgets/dialogs.rs:61 src/widgets/dialogs.rs:92
-#: src/widgets/dialogs.rs:122 src/widgets/dialogs.rs:145
-#: src/widgets/dialogs.rs:158 src/widgets/dialogs.rs:182
+#: src/widgets/dialogs.rs:122 src/widgets/dialogs.rs:151
+#: src/widgets/dialogs.rs:164 src/widgets/dialogs.rs:190
 msgid "Close"
 msgstr "மூடு"
 
@@ -1148,7 +1191,7 @@ msgstr "'{}' சேமிக்க முடியாது"
 msgid "Cannot save the requested file"
 msgstr "கோரப்பட்ட கோப்பை சேமிக்க முடியாது"
 
-#: src/widgets/dialogs.rs:139
+#: src/widgets/dialogs.rs:142
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
@@ -1156,31 +1199,31 @@ msgstr ""
 "சேமிப்பு செயல்பாட்டின் போது பிழை ஏற்பட்டது. உங்கள் மாற்றங்கள் இன்னும் சேமிக்கப்படவில்லை என்று "
 "வைத்துக் கொள்ளுங்கள்."
 
-#: src/widgets/dialogs.rs:153
+#: src/widgets/dialogs.rs:159
 msgid "Could not select a valid file from the file chooser"
 msgstr "கோப்பு தேர்வாளரிடமிருந்து செல்லுபடியாகும் கோப்பைத் தேர்ந்தெடுக்க முடியவில்லை"
 
-#: src/widgets/dialogs.rs:172
+#: src/widgets/dialogs.rs:179
 msgid ""
 "There has been an internal error during the export process. This is most "
 "likely a development error. (If you could report your test case and this "
 "error, we might be able to fix this in the future.)"
 msgstr ""
 
-#: src/widgets/dialogs.rs:173
+#: src/widgets/dialogs.rs:181
 msgid "Error cause:"
 msgstr ""
 
-#: src/widgets/dialogs.rs:178
+#: src/widgets/dialogs.rs:186
 #, fuzzy
 msgid "Could not export the request"
 msgstr "கோரப்பட்ட கோப்பைத் திறக்க முடியாது"
 
-#: src/widgets/dialogs.rs:191
+#: src/widgets/dialogs.rs:199
 msgid "There are unsaved changes"
 msgstr "There அரே unsaved changes"
 
-#: src/widgets/dialogs.rs:193
+#: src/widgets/dialogs.rs:201
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
@@ -1188,76 +1231,76 @@ msgstr ""
 "Closing this சாளரம் will lose அனைத்தும் unsaved data. Do you really want பெறுநர் "
 "proceed?"
 
-#: src/widgets/dialogs.rs:197 src/windows/settings/pages/proxy.rs:248
+#: src/widgets/dialogs.rs:205 src/windows/settings/pages/proxy.rs:253
 msgid "Cancel"
 msgstr "ரத்துசெய்"
 
-#: src/widgets/dialogs.rs:198
+#: src/widgets/dialogs.rs:206
 msgid "Close anyway"
 msgstr "எப்படியும் மூடு"
 
-#: src/widgets/dialogs.rs:221
+#: src/widgets/dialogs.rs:229
 #, rust-format
 msgid "Save changes in '{}'?"
 msgstr "சேமி changes in '{}'?"
 
-#: src/widgets/dialogs.rs:222
+#: src/widgets/dialogs.rs:230
 msgid "Save changes?"
 msgstr "மாற்றங்களைச் சேமிக்கவா?"
 
-#: src/widgets/dialogs.rs:227
+#: src/widgets/dialogs.rs:235
 msgid "There are changes that have not been saved yet. What do you want to do?"
 msgstr "இன்னும் சேமிக்கப்படாத மாற்றங்கள் உள்ளன. நீங்கள் என்ன செய்ய விரும்புகிறீர்கள்?"
 
-#: src/widgets/dialogs.rs:231
+#: src/widgets/dialogs.rs:239
 msgid "_Cancel"
 msgstr "_CANCEL"
 
-#: src/widgets/dialogs.rs:232
+#: src/widgets/dialogs.rs:240
 msgid "_Discard"
 msgstr "_ டிச்கார்ட்"
 
-#: src/widgets/dialogs.rs:233
+#: src/widgets/dialogs.rs:241
 msgid "_Save"
 msgstr "_சேவ்"
 
-#: src/widgets/endpoint/endpoint_pane.rs:296
+#: src/widgets/endpoint/endpoint_pane.rs:286
 #, rust-format
 msgid "Show {} variable from .env"
 msgid_plural "Show {} variables from .env"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/widgets/endpoint/endpoint_pane.rs:570
-#: src/widgets/endpoint/endpoint_pane.rs:576
-#: src/widgets/endpoint/endpoint_pane.rs:597
+#: src/widgets/endpoint/endpoint_pane.rs:559
+#: src/widgets/endpoint/endpoint_pane.rs:565
+#: src/widgets/endpoint/endpoint_pane.rs:586
 msgid "(generated during request)"
 msgstr ""
 
-#: src/widgets/endpoint/endpoint_pane.rs:625
+#: src/widgets/endpoint/endpoint_pane.rs:613
 #, rust-format
 msgid "Show {} pre-generated headers"
 msgstr ""
 
-#: src/widgets/endpoint/endpoint_pane.rs:842
+#: src/widgets/endpoint/endpoint_pane.rs:829
 #, fuzzy
 msgid "Export request as cURL"
 msgstr "ஏற்றுமதி கோரிக்கை"
 
-#: src/widgets/endpoint/endpoint_pane.rs:843
+#: src/widgets/endpoint/endpoint_pane.rs:830
 #, fuzzy
 msgid "Export request as Jetbrains HTTP"
 msgstr "ஏற்றுமதி கோரிக்கை"
 
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
-#: src/widgets/endpoint/response_panel.rs:341
+#: src/widgets/endpoint/response_panel.rs:379
 #, rust-format
 msgid "{} s"
 msgstr "{} கள்"
 
 #. Format as milliseconds.
 #. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
-#: src/widgets/endpoint/response_panel.rs:345
+#: src/widgets/endpoint/response_panel.rs:383
 #, rust-format
 msgid "{} ms"
 msgstr "{} எம்.எச்"
@@ -1274,18 +1317,26 @@ msgstr "கோரிக்கை தோல்வியடைந்தது"
 msgid "Content copied to the clipboard"
 msgstr "கிளிப்போர்டுக்கு உள்ளடக்கம் நகலெடுக்கப்பட்டது"
 
+#: src/widgets/field/field_list_box_static_row.rs:149
+msgid "Show value"
+msgstr ""
+
+#: src/widgets/field/field_list_box_static_row.rs:151
+msgid "Hide value"
+msgstr ""
+
 #. TRANSLATORS: presented in file dialogs as the file type for a request
 #. The macOS native file dialog will already add the extension for us.
-#: src/widgets/file_dialogs.rs:42 src/widgets/file_dialogs.rs:150
-#: src/widgets/file_dialogs.rs:152
+#: src/widgets/file_dialogs.rs:42 src/widgets/file_dialogs.rs:146
+#: src/widgets/file_dialogs.rs:148
 msgid "Request"
 msgstr "கோரிக்கை"
 
-#: src/widgets/file_dialogs.rs:110
+#: src/widgets/file_dialogs.rs:106
 msgid "Open request"
 msgstr "திறந்த கோரிக்கை"
 
-#: src/widgets/file_dialogs.rs:187
+#: src/widgets/file_dialogs.rs:183
 msgid "Select file"
 msgstr ""
 
@@ -1305,62 +1356,55 @@ msgid_plural "{} results"
 msgstr[0] "{} முடிவு"
 msgstr[1] "{} முடிவுகள்"
 
-#: src/win.rs:287
+#: src/win.rs:288
 msgid "(untitled)"
 msgstr "(பெயரிடப்படாதது)"
 
-#: src/win.rs:301
+#: src/win.rs:302
 msgid "Draft"
 msgstr "வரைவு"
 
-#: src/win.rs:603
+#: src/win.rs:612
 msgid "The Cartero authors"
 msgstr "கார்டெரோ ஆசிரியர்கள்"
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
-#: src/win.rs:626
+#: src/win.rs:635
 msgid "translator-credits"
 msgstr "தமிழ்நேரம்"
 
-#: src/win.rs:627
+#: src/win.rs:636
 msgid "© 2024-2026 the Cartero authors"
 msgstr "© 2024-2026 கார்டெரோ ஆசிரியர்கள்"
 
-#: src/windows/settings/pages/proxy.rs:205
+#: src/windows/settings/pages/proxy.rs:210
 msgid "The value is not a valid domain or IP address"
 msgstr ""
 
-#: src/windows/settings/pages/proxy.rs:220
+#: src/windows/settings/pages/proxy.rs:225
 msgid "The host identifier is already excluded"
 msgstr ""
 
-#: src/windows/settings/pages/proxy.rs:240
+#: src/windows/settings/pages/proxy.rs:245
 #, rust-format
 msgid "Delete '{}' from the list of excluded hosts for the proxy?"
 msgstr ""
 
-#: src/windows/settings/pages/proxy.rs:245
+#: src/windows/settings/pages/proxy.rs:250
 msgid "Delete identifier?"
 msgstr ""
 
-#: src/windows/settings/pages/proxy.rs:249
-#: src/windows/settings/pages/proxy.rs:284
+#: src/windows/settings/pages/proxy.rs:254
+#: src/windows/settings/pages/proxy.rs:288
 msgid "Remove"
 msgstr ""
 
-#: src/windows/settings/pages/proxy.rs:268
+#: src/windows/settings/pages/proxy.rs:272
 msgid "No domains or IP addresses are being excluded"
 msgstr ""
 
 #~ msgid "The current tab is not associated with a file"
 #~ msgstr "தற்போதைய தாவல் ஒரு கோப்போடு தொடர்புடையது அல்ல"
-
-#~ msgid ""
-#~ "The value for this field will not be used because another field with the "
-#~ "same name is overriding it."
-#~ msgstr ""
-#~ "The மதிப்பு க்கு this புலம் will not be used because another புலம் with the "
-#~ "same பெயர் is overriding it."
 
 #~ msgid "Export to"
 #~ msgstr "ஏற்றுமதி"

@@ -6,6 +6,8 @@ These are the user-visible changes noticeable within Cartero.
 
 ### Changed
 
+- - Updated Keyboard Shortcuts menu to use the new Adwaita based dialog
+    where possible.
 - - Updated Rust project dependencies.
 - - Updated codebase Rust edition to Rust 2024.
 

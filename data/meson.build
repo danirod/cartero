@@ -15,65 +15,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-blueprint_files = [
-    'gtk/help_overlay.blp',
-    'ui/authentication_pane.blp',
-    'ui/basic_auth_pane.blp',
-    'ui/bearer_token_pane.blp',
-    'ui/collapsed_field_table.blp',
-    'ui/endpoint_pane.blp',
-    'ui/error_pane.blp',
-    'ui/export_dialog.blp',
-    'ui/field_action_row.blp',
-    'ui/field_list_box_row.blp',
-    'ui/field_list_box_static_row.blp',
-    'ui/field_placeholder_row.blp',
-    'ui/field_table_list_view.blp',
-    'ui/file_body_pane.blp',
-    'ui/mac_menu.blp',
-    'ui/main_window_no_csd.blp',
-    'ui/main_window.blp',
-    'ui/method_dropdown.blp',
-    'ui/multipart_body_pane.blp',
-    'ui/raw_body_pane.blp',
-    'ui/request_body_pane.blp',
-    'ui/response_headers.blp',
-    'ui/response_panel.blp',
-    'ui/search_box.blp',
-    'ui/settings/page_appearance.blp',
-    'ui/settings/page_application.blp',
-    'ui/settings/page_code_editor.blp',
-    'ui/settings/page_http_client.blp',
-    'ui/settings/page_proxy.blp',
-    'ui/settings/page_security.blp',
-    'ui/settings/pill.blp',
-    'ui/settings/shell.blp',
-    'ui/urlencoded_body_pane.blp',
-    'ui/welcome/welcome_pane.blp',
-]
-
-blueprint_targets = []
-foreach blp : blueprint_files
-    blueprint_targets += blp.replace('.blp', '.ui').split('/')[-1]
-endforeach
-
-blueprints = custom_target(
-    'blueprints',
-    input: files(blueprint_files),
-    output: blueprint_targets,
-    command: [
-        find_program('blueprint-compiler'),
-        'batch-compile',
-        '@OUTDIR@',
-        '@CURRENT_SOURCE_DIR@',
-        '@INPUT@',
-    ],
-)
+subdir('ui')
+subdir('help_overlay')
 
 resources = gnome.compile_resources(
     'cartero',
     'cartero.gresource.xml',
-    dependencies: blueprints,
+    dependencies: [blueprints, help_overlay],
     gresource_bundle: true,
     source_dir: meson.current_build_dir(),
     install: true,

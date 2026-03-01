@@ -16,7 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use glib::subclass::prelude::*;
-use glib::{prelude::*, Object};
+use glib::{Object, prelude::*};
 
 glib::wrapper! {
     /// A key-valued string container with additional metadata.
@@ -72,8 +72,8 @@ impl Field {
 
     pub fn dup(&self) -> Self {
         builder::FieldBuilder::default()
-            .key(self.key().to_string())
-            .value(self.value().to_string())
+            .key(self.key())
+            .value(self.value())
             .active(self.active())
             .masked(self.masked())
             .build()
@@ -102,7 +102,7 @@ mod imp {
     use std::{cell::RefCell, sync::OnceLock};
 
     use super::*;
-    use glib::{subclass::Signal, Properties};
+    use glib::{Properties, subclass::Signal};
 
     #[derive(Properties)]
     #[properties(wrapper_type = super::Field)]
@@ -159,9 +159,11 @@ mod imp {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
             SIGNALS.get_or_init(|| {
-                vec![Signal::builder("changed")
-                    .param_types([String::static_type()])
-                    .build()]
+                vec![
+                    Signal::builder("changed")
+                        .param_types([String::static_type()])
+                        .build(),
+                ]
             })
         }
     }

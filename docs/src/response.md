@@ -47,7 +47,7 @@ Use the **Headers** pane to inspect or copy the HTTP response headers.
 
 ## Request errors
 
-When an something goes wrong and it becomes impossible to retrieve a valid
+When a request goes wrong and it becomes impossible to retrieve a valid
 response, an error message is presented instead. In the following example, the
 HTTP request is made to a server whose host name could not be resolved, so
 an error is presented.

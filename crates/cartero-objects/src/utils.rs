@@ -18,7 +18,7 @@
 /// TODO: convert into a macro?
 #[cfg(test)]
 pub(crate) mod test {
-    use std::sync::{atomic::AtomicBool, Arc, Mutex};
+    use std::sync::{Arc, Mutex, atomic::AtomicBool};
 
     use glib::object::IsA;
     use glib::object::ObjectExt;

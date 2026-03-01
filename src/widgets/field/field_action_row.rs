@@ -23,7 +23,7 @@ mod imp {
     use std::cell::RefCell;
 
     use cartero_objects::Field;
-    use glib::{subclass::InitializingObject, Properties};
+    use glib::{Properties, subclass::InitializingObject};
     use gtk::CompositeTemplate;
 
     use super::*;

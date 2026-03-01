@@ -24,6 +24,12 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
+impl Default for Security {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Security {
     pub fn new() -> Self {
         glib::Object::new()
@@ -36,7 +42,7 @@ mod imp {
     use super::*;
 
     use glib::subclass::InitializingObject;
-    use gtk::{gio::SimpleActionGroup, CompositeTemplate};
+    use gtk::{CompositeTemplate, gio::SimpleActionGroup};
 
     #[derive(Default, CompositeTemplate)]
     #[template(resource = "/es/danirod/Cartero/settings/page_security.ui")]

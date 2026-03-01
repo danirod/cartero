@@ -24,7 +24,7 @@ mod imp {
     use super::*;
     use cartero_objects::Field;
     use gettextrs::gettext;
-    use glib::{subclass::InitializingObject, BindingGroup, Properties};
+    use glib::{BindingGroup, Properties, subclass::InitializingObject};
     use gtk::CompositeTemplate;
 
     #[derive(Default, CompositeTemplate, Properties)]
@@ -119,11 +119,7 @@ mod imp {
                     let allows_conceal = value
                         .get::<bool>()
                         .expect("allow-concealing is of invalid type");
-                    if allows_conceal {
-                        Some(1.0)
-                    } else {
-                        Some(0.0)
-                    }
+                    if allows_conceal { Some(1.0) } else { Some(0.0) }
                 })
                 .sync_create()
                 .build();

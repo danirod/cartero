@@ -4,8 +4,9 @@
 name: Nightly release
 
 on:
+  workflow_dispatch:
   schedule:
-    - cron: '0 6 * * *'
+    - cron: '15 8 * * *'
 
 jobs:
   new-commits:
@@ -41,6 +42,7 @@ jobs:
     with:
       sign: false
       profile: 'nightly'
+      appupdater: 'disabled'
 
   snapcraft-edge:
     needs: build

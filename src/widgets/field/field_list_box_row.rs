@@ -24,10 +24,10 @@ mod imp {
     use super::*;
     use cartero_objects::Field;
     use glib::{
-        subclass::{InitializingObject, Signal},
         Properties,
+        subclass::{InitializingObject, Signal},
     };
-    use gtk::{gio::SimpleAction, CompositeTemplate};
+    use gtk::{CompositeTemplate, gio::SimpleAction};
 
     #[derive(Default, CompositeTemplate, Properties)]
     #[properties(wrapper_type = super::FieldListBoxRow)]

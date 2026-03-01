@@ -23,7 +23,7 @@ mod imp {
     use adw::prelude::*;
     use adw::subclass::prelude::*;
     use cartero_objects::{Field, FieldTable};
-    use glib::{subclass::InitializingObject, Properties};
+    use glib::{Properties, subclass::InitializingObject};
     use gtk::{Box, CompositeTemplate, ListBox, TemplateChild};
 
     use crate::widgets::field::FieldActionRow;

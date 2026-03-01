@@ -18,8 +18,8 @@
 use std::sync::OnceLock;
 use windows_sys::Wdk::System::SystemServices::RtlGetVersion;
 use windows_sys::Win32::System::SystemInformation::OSVERSIONINFOW;
-use winreg::enums::HKEY_CURRENT_USER;
 use winreg::RegKey;
+use winreg::enums::HKEY_CURRENT_USER;
 
 #[allow(unused)]
 pub(super) fn windows_build_number() -> u32 {

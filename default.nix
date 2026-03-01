@@ -14,7 +14,6 @@ in
 
     src = ./.;
 
-    useFetchCargoVendor = true;
     cargoLock.lockFile = ./Cargo.lock;
 
     nativeBuildInputs = with pkgs; [
@@ -29,7 +28,7 @@ in
       gtk4
       shared-mime-info
       glib
-      wrapGAppsHook
+      wrapGAppsHook4
       hicolor-icon-theme
     ];
 
@@ -37,7 +36,7 @@ in
       gtksourceview5
       pango
       gdk-pixbuf
-      openssl_3
+      openssl
       graphene
       libadwaita
     ];

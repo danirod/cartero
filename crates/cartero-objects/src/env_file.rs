@@ -43,15 +43,16 @@ impl EnvFile {
     }
 
     pub fn locate_for_path(file: &gio::File) -> Option<gio::File> {
-        if let Some(parent) = file.parent() {
-            let env = parent.child(".env");
-            if env.query_exists(gio::Cancellable::NONE) {
-                return Some(env);
-            } else {
-                return Self::locate_for_path(&parent);
+        match file.parent() {
+            Some(parent) => {
+                let env = parent.child(".env");
+                if env.query_exists(gio::Cancellable::NONE) {
+                    Some(env)
+                } else {
+                    Self::locate_for_path(&parent)
+                }
             }
-        } else {
-            None
+            _ => None,
         }
     }
 }
@@ -63,6 +64,12 @@ mod builder {
 
     pub struct EnvFileBuilder {
         builder: ObjectBuilder<'static, EnvFile>,
+    }
+
+    impl Default for EnvFileBuilder {
+        fn default() -> Self {
+            Self::new()
+        }
     }
 
     impl EnvFileBuilder {
@@ -90,7 +97,7 @@ mod imp {
         prelude::{FileExt, FileMonitorExt, ListModelExt},
         subclass::prelude::ListModelImpl,
     };
-    use glib::{property::PropertySet, Properties, SignalHandlerId};
+    use glib::{Properties, SignalHandlerId, property::PropertySet};
 
     use crate::{Field, FieldTable};
 
@@ -141,10 +148,10 @@ mod imp {
     impl EnvFile {
         fn set_monitor(&self) {
             // Disconnect the old monitor if one is present.
-            if let Some(old_monitor_handler) = self.monitor_handler.replace(None) {
-                if let Some(old_monitor) = &*self.monitor.borrow() {
-                    old_monitor.disconnect(old_monitor_handler);
-                }
+            if let Some(old_monitor_handler) = self.monitor_handler.replace(None)
+                && let Some(old_monitor) = &*self.monitor.borrow()
+            {
+                old_monitor.disconnect(old_monitor_handler);
             }
 
             let next_monitor = match self.obj().file() {
@@ -159,7 +166,7 @@ mod imp {
                             self,
                             move |_, file, _, event_type| {
                                 dbg!(event_type);
-                                imp.reload_env(&file);
+                                imp.reload_env(file);
                             }
                         ));
                     }

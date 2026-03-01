@@ -105,9 +105,11 @@ mod imp {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
             SIGNALS.get_or_init(|| {
-                vec![Signal::builder("changed")
-                    .param_types([String::static_type()])
-                    .build()]
+                vec![
+                    Signal::builder("changed")
+                        .param_types([String::static_type()])
+                        .build(),
+                ]
             })
         }
     }
@@ -193,14 +195,14 @@ pub trait RequestAuthenticationDataImplExt: RequestAuthenticationDataImpl {
         let data = Self::type_data();
         let parent_class = unsafe { &*(data.as_ref().parent_class() as *const ffi::Class) };
         let dup = parent_class.dup;
-        dup(unsafe { self.obj().unsafe_cast_ref() })
+        unsafe { dup(self.obj().unsafe_cast_ref()) }
     }
 
     fn parent_auth_type(&self) -> RequestAuthenticationType {
         let data = Self::type_data();
         let parent_class = unsafe { &*(data.as_ref().parent_class() as *const ffi::Class) };
         let auth_type = parent_class.auth_type;
-        auth_type(unsafe { self.obj().unsafe_cast_ref() })
+        unsafe { auth_type(self.obj().unsafe_cast_ref()) }
     }
 
     fn parent_resolve(
@@ -210,14 +212,14 @@ pub trait RequestAuthenticationDataImplExt: RequestAuthenticationDataImpl {
         let data = Self::type_data();
         let parent_class = unsafe { &*(data.as_ref().parent_class() as *const ffi::Class) };
         let resolve = parent_class.resolve;
-        resolve(unsafe { self.obj().unsafe_cast_ref() }, tpl)
+        unsafe { resolve(self.obj().unsafe_cast_ref(), tpl) }
     }
 
     fn parent_rendered_headers(&self) -> Vec<(String, String)> {
         let data = Self::type_data();
         let parent_class = unsafe { &*(data.as_ref().parent_class() as *const ffi::Class) };
         let rendered_headers = parent_class.rendered_headers;
-        rendered_headers(unsafe { self.obj().unsafe_cast_ref() })
+        unsafe { rendered_headers(self.obj().unsafe_cast_ref()) }
     }
 }
 

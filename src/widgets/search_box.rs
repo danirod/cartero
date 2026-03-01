@@ -28,14 +28,14 @@ mod imp {
 
     use formatx::formatx;
     use gettextrs::{gettext, ngettext};
+    use glib::Properties;
     use glib::object::{Cast, ObjectExt};
     use glib::subclass::{InitializingObject, Signal};
-    use glib::Properties;
     use gtk::gio::{ActionEntry, SimpleActionGroup};
     use gtk::prelude::{ActionMapExtManual, EditableExt, TextBufferExt, TextViewExt, WidgetExt};
     use gtk::subclass::prelude::*;
-    use gtk::{gdk, glib, TextIter};
     use gtk::{CompositeTemplate, TemplateChild};
+    use gtk::{TextIter, gdk, glib};
     use sourceview5::prelude::SearchSettingsExt;
     use sourceview5::{Buffer, SearchContext, SearchSettings};
 

@@ -16,7 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use glib::subclass::prelude::*;
-use glib::{prelude::*, Object};
+use glib::{Object, prelude::*};
 use srtemplate::SrTemplate;
 
 use crate::{
@@ -358,7 +358,7 @@ mod imp {
         sync::OnceLock,
     };
 
-    use glib::{subclass::Signal, Properties, SignalGroup};
+    use glib::{Properties, SignalGroup, subclass::Signal};
 
     use crate::{RequestBodyData, RequestBodyDataExt};
 
@@ -406,9 +406,11 @@ mod imp {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
             SIGNALS.get_or_init(|| {
-                vec![Signal::builder("changed")
-                    .param_types([String::static_type()])
-                    .build()]
+                vec![
+                    Signal::builder("changed")
+                        .param_types([String::static_type()])
+                        .build(),
+                ]
             })
         }
     }
@@ -456,7 +458,10 @@ mod imp {
                 self.obj().notify_body_data();
             } else {
                 #[cfg(not(test))]
-                glib::g_critical!("Cartero", "set_body_data() was called with a RequestBodyData of invalid RequestBodyType for this RequestBody object");
+                glib::g_critical!(
+                    "Cartero",
+                    "set_body_data() was called with a RequestBodyData of invalid RequestBodyType for this RequestBody object"
+                );
             }
         }
     }
@@ -469,10 +474,10 @@ mod tests {
     use srtemplate::SrTemplate;
 
     use crate::{
-        utils::test::{assert_emits_signal, assert_emits_signals, assert_not_emits_signal},
         Field, FieldTable, RequestBodyData, RequestBodyDataExt, RequestBodyFile,
         RequestBodyMultipart, RequestBodyRaw, RequestBodyRawType, RequestBodyType,
         RequestBodyUrlencoded,
+        utils::test::{assert_emits_signal, assert_emits_signals, assert_not_emits_signal},
     };
 
     use super::RequestBody;
@@ -582,15 +587,17 @@ mod tests {
     #[test]
     pub fn set_body_type_changes_data_type() {
         let body = RequestBody::new(RequestBodyType::UrlEncoded, RequestBodyData::NONE);
-        assert!(body
-            .body_data()
-            .is_some_and(|data| data.body_type() == RequestBodyType::UrlEncoded));
+        assert!(
+            body.body_data()
+                .is_some_and(|data| data.body_type() == RequestBodyType::UrlEncoded)
+        );
         assert_emits_signals(&body, &["notify::body-type", "notify::body-data"], || {
             body.set_body_type(RequestBodyType::Multipart)
         });
-        assert!(body
-            .body_data()
-            .is_some_and(|data| data.body_type() == RequestBodyType::Multipart));
+        assert!(
+            body.body_data()
+                .is_some_and(|data| data.body_type() == RequestBodyType::Multipart)
+        );
     }
 
     #[test]

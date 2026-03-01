@@ -33,7 +33,6 @@
   - [Compiling on macOS](./compiling/macos.md)
 - [Hacking the code](./hacking.md)
 - [Contributing to Cartero](./contributing.md)
-- [Release engineering](./releng.md)
 
 ---
 

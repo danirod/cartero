@@ -149,10 +149,7 @@ impl From<Request> for RequestValue {
         };
         let authorization = match value.authentication().auth_type() {
             cartero_objects::RequestAuthenticationType::None => None,
-            _ => match AuthorizationValue::try_from(value.authentication()) {
-                Ok(result) => Some(result),
-                Err(_) => None,
-            },
+            _ => AuthorizationValue::try_from(value.authentication()).ok(),
         };
 
         let inactive_params = value

@@ -64,7 +64,7 @@
               gtk4
               shared-mime-info
               glib
-              wrapGAppsHook
+              wrapGAppsHook4
               hicolor-icon-theme
             ];
 
@@ -72,7 +72,7 @@
               gtksourceview5
               pango
               gdk-pixbuf
-              openssl_3
+              openssl
               graphene
               libadwaita
             ];

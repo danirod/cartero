@@ -3,7 +3,7 @@
   {{ "\n" }}{{ key }}: {{ value }}
 {%- endfor -%}
 {%- match request.auth -%}
-  {%- when Some(Auth::BasicAuth { username, password }) -%}
+  {%- when Some(Auth::Basic { username, password }) -%}
     {{ "\n" }}Authorization: Basic {{ username }} {{ password }}
   {%- when Some(Auth::BearerToken { token }) -%}
     {{ "\n" }}Authorization: Bearer {{ token }}

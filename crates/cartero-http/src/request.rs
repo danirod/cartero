@@ -20,8 +20,8 @@ use std::collections::HashMap;
 use cartero_objects::{FieldTable, Request, RequestMethod};
 
 use crate::{
-    active_pairs, auth::BoundHeaders, body::BoundBody, url::normalize_url, RequestEnvironment,
-    RequestError,
+    RequestEnvironment, RequestError, active_pairs, auth::BoundHeaders, body::BoundBody,
+    url::normalize_url,
 };
 
 pub struct BoundRequest {

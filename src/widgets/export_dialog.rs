@@ -26,10 +26,10 @@ mod imp {
     use super::*;
     use formatx::formatx;
     use gettextrs::gettext;
-    use glib::{subclass::InitializingObject, Properties};
+    use glib::{Properties, subclass::InitializingObject};
     use gtk::{
-        gdk::{ContentProvider, Display},
         CompositeTemplate,
+        gdk::{ContentProvider, Display},
     };
 
     #[derive(Default, CompositeTemplate, Properties)]

@@ -15,9 +15,9 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use glib::Object;
 use glib::prelude::*;
 use glib::subclass::prelude::*;
-use glib::Object;
 
 glib::wrapper! {
     /// Body payload that is read from a file.
@@ -118,7 +118,7 @@ mod imp {
             &self,
             tpl: &srtemplate::SrTemplate,
         ) -> Result<RequestBodyData, srtemplate::Error> {
-            let path = tpl.render(&self.obj().path())?;
+            let path = tpl.render(self.obj().path())?;
             let content_type = self
                 .obj()
                 .content_type()
@@ -148,6 +148,12 @@ mod builder {
 
     pub struct RequestBodyFileBuilder {
         builder: ObjectBuilder<'static, RequestBodyFile>,
+    }
+
+    impl Default for RequestBodyFileBuilder {
+        fn default() -> Self {
+            Self::new()
+        }
     }
 
     impl RequestBodyFileBuilder {
@@ -180,7 +186,7 @@ mod builder {
 mod tests {
     use srtemplate::SrTemplate;
 
-    use crate::{utils::test::assert_emits_signal, RequestBodyDataExt};
+    use crate::{RequestBodyDataExt, utils::test::assert_emits_signal};
 
     use super::*;
 
@@ -253,9 +259,11 @@ mod tests {
             .content_type(Some("application/xml"))
             .build();
         assert_eq!(request_body.path(), "./assets/report.xml");
-        assert!(request_body
-            .content_type()
-            .is_some_and(|content_type| content_type == "application/xml"));
+        assert!(
+            request_body
+                .content_type()
+                .is_some_and(|content_type| content_type == "application/xml")
+        );
     }
 
     #[test]

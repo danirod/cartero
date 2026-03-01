@@ -26,8 +26,8 @@ mod imp {
     use super::*;
     use cartero_objects::{Field, FieldTable};
     use glib::{
-        subclass::{InitializingObject, Signal},
         Properties,
+        subclass::{InitializingObject, Signal},
     };
     use gtk::CompositeTemplate;
 
@@ -88,9 +88,11 @@ mod imp {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
             SIGNALS.get_or_init(|| {
-                vec![Signal::builder("changed")
-                    .param_types([String::static_type()])
-                    .build()]
+                vec![
+                    Signal::builder("changed")
+                        .param_types([String::static_type()])
+                        .build(),
+                ]
             })
         }
     }
@@ -103,7 +105,7 @@ mod imp {
     impl FieldTableListView {
         #[template_callback]
         fn on_insert_field(&self, field: &Field) {
-            self.obj().table().insert(&field);
+            self.obj().table().insert(field);
 
             // Get a reference to the last row.
             let last_id = self.obj().table().n_items() - 1;
@@ -186,28 +188,28 @@ mod imp {
             let rows = self.table.borrow().n_items() as i32;
             let mut seen = HashSet::new();
             for row in (0..rows).rev() {
-                if let Some(widget) = self.list_box.row_at_index(row) {
-                    if let Some(field_row) = widget.child().and_downcast::<FieldListBoxRow>() {
-                        if !field_row.field().active() {
-                            field_row.set_overriden(false);
-                            continue;
-                        }
+                if let Some(widget) = self.list_box.row_at_index(row)
+                    && let Some(field_row) = widget.child().and_downcast::<FieldListBoxRow>()
+                {
+                    if !field_row.field().active() {
+                        field_row.set_overriden(false);
+                        continue;
+                    }
 
-                        let key = {
-                            let key = field_row.field().key();
-                            if self.obj().check_overriden_icase() {
-                                key.to_ascii_lowercase()
-                            } else {
-                                key
-                            }
-                        };
-
-                        if seen.contains(&key) {
-                            field_row.set_overriden(true);
+                    let key = {
+                        let key = field_row.field().key();
+                        if self.obj().check_overriden_icase() {
+                            key.to_ascii_lowercase()
                         } else {
-                            seen.insert(key.clone());
-                            field_row.set_overriden(false);
+                            key
                         }
+                    };
+
+                    if seen.contains(&key) {
+                        field_row.set_overriden(true);
+                    } else {
+                        seen.insert(key.clone());
+                        field_row.set_overriden(false);
                     }
                 }
             }

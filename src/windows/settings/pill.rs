@@ -29,7 +29,7 @@ mod imp {
 
     use super::*;
 
-    use glib::{subclass::InitializingObject, Properties};
+    use glib::{Properties, subclass::InitializingObject};
     use gtk::CompositeTemplate;
 
     #[derive(Default, CompositeTemplate, Properties)]

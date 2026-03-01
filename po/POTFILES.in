@@ -4,7 +4,8 @@ data/es.danirod.Cartero.metainfo.xml.in.in
 data/cartero.desktop.in.in
 data/es.danirod.Cartero.gschema.xml
 
-data/gtk/help_overlay.blp
+data/help_overlay/adw_help_overlay.blp
+data/help_overlay/gtk_help_overlay.blp
 data/ui/authentication_pane.blp
 data/ui/basic_auth_pane.blp
 data/ui/bearer_token_pane.blp

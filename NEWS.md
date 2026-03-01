@@ -9,6 +9,12 @@ These are the user-visible changes noticeable within Cartero.
 - - Updated Rust project dependencies.
 - - Updated codebase Rust edition to Rust 2024.
 
+### Translation Updates
+
+- Galician
+- Indonesian
+- Polish
+
 ## [26.0] - 2026-01-25
 
 ### Added

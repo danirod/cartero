@@ -344,22 +344,21 @@ impl ResponsePanel {
             self.render_response_body_as_text();
         }
 
-        let language = if resp.is_json() {
-            LanguageManager::default().language("json")
-        } else if resp.is_xml() {
-            LanguageManager::default().language("xml")
-        } else {
-            resp.headers()
-                .find_by_name_icase("Content-Type")
-                .map(|ctypes| ctypes[0].to_owned())
-                .and_then(|ctype| {
-                    let ctype = match ctype.split_once(';') {
-                        Some((c, _)) => c.to_string(),
-                        None => ctype,
-                    };
-                    LanguageManager::default().guess_language(Option::<PathBuf>::None, Some(&ctype))
+        let language = resp
+            .headers()
+            .find_by_name_icase("Content-Type")
+            .map(|ctypes| ctypes[0].to_owned())
+            .and_then(|ctype| {
+                let ctype = match ctype.split_once(';') {
+                    Some((c, _)) => c.to_string(),
+                    None => ctype,
+                };
+                let media_types = compose_media_types(&ctype);
+                media_types.iter().find_map(|media_type| {
+                    LanguageManager::default()
+                        .guess_language(Option::<PathBuf>::None, Some(&media_type))
                 })
-        };
+            });
 
         match language {
             Some(language) => buffer.set_language(Some(&language)),
@@ -381,5 +380,35 @@ fn format_duration(duration: u64) -> String {
         // Format as milliseconds.
         // TRANSLATORS: duration measured in milliseconds, as in "234 ms"
         formatx!(gettext("{} ms"), duration).unwrap()
+    }
+}
+
+fn compose_media_types(string: &str) -> Vec<String> {
+    let Some((mtype, msubtype)) = string.split_once("/") else {
+        return vec![];
+    };
+    msubtype
+        .split("+")
+        .map(|variant| format!("{}/{}", mtype, variant))
+        .collect()
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn test_compose_media_types() {
+        let table = vec![
+            ("application/json", vec!["application/json"]),
+            ("text/svg+xml", vec!["text/svg", "text/xml"]),
+            (
+                "application/activity+json",
+                vec!["application/activity", "application/json"],
+            ),
+            ("invalid", vec![]),
+        ];
+        for (input, expected) in table {
+            let output = super::compose_media_types(input);
+            assert_eq!(output, expected);
+        }
     }
 }

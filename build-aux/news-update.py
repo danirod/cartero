@@ -49,6 +49,8 @@ def write_xml_block(node, title, lines):
 news = {}
 versions = [dir for dir in Path('NEWS.d').iterdir() if dir.is_dir()]
 for version in versions:
+    if version.name == 'unreleased':
+        continue
     news[version.name] = {
         'notes': read_file(version, 'notes'),
         'released': read_file(version, 'release-date'),

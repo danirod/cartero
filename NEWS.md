@@ -106,20 +106,14 @@ These are the user-visible changes noticeable within Cartero.
 
 ### Translation Updates
 
-- Catalan
 - Czech
 - German
-- Esperanto
 - Spanish
 - Basque
-- French
 - Galician
 - Indonesian
 - Portuguese
-- Portuguese (Brazil)
-- Romanian
 - Russian
-- Tamil
 
 ## [0.2.4] - 2025-08-10
 
@@ -146,19 +140,11 @@ These are the user-visible changes noticeable within Cartero.
 
 ### Translation Updates
 
-- Catalan
-- Czech
-- German
-- Esperanto
 - Spanish
-- Basque
 - French
 - Galician
-- Portuguese
 - Portuguese (Brazil)
-- Romanian
 - Russian
-- Tamil
 
 ## [0.2.3] - 2025-07-05
 
@@ -174,7 +160,6 @@ These are the user-visible changes noticeable within Cartero.
 - Basque
 - Portuguese (Brazil)
 - Russian
-- Tamil
 
 ## [0.2.2] - 2025-04-30
 

@@ -76,7 +76,7 @@ impl Request {
 
     pub fn dup(&self) -> Self {
         builder::RequestBuilder::new(self.url().as_str(), self.method())
-            .headers(&self.headers())
+            .headers(&self.headers().dup())
             .params(&self.params().dup())
             .variables(&self.variables().dup())
             .with_auth(self.authentication().dup())

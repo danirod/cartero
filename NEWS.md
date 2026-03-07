@@ -11,6 +11,11 @@ These are the user-visible changes noticeable within Cartero.
 - - Updated Rust project dependencies.
 - - Updated codebase Rust edition to Rust 2024.
 
+### Fixed
+
+- - Responses whose content type used +yaml as a suffix (e.g.
+    application/vnd.oai.openapi+yaml) were not being coloured as YAML.
+
 ### Translation Updates
 
 - Galician

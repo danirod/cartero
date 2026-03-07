@@ -1,0 +1,1 @@
+- Responses whose content type used +yaml as a suffix (e.g. application/vnd.oai.openapi+yaml) were not being coloured as YAML.

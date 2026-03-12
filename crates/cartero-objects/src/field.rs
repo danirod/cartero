@@ -220,7 +220,7 @@ mod builder {
 
 #[cfg(test)]
 mod tests {
-    use crate::utils::test::assert_emits_signal;
+    use crate::utils::test::{assert_emits_signal, assert_not_emits_signal};
 
     use super::*;
 
@@ -269,5 +269,39 @@ mod tests {
         assert_emits_signal(&field, "changed", || field.set_value("text/html"));
         assert_emits_signal(&field, "changed", || field.set_active(false));
         assert_emits_signal(&field, "changed", || field.set_masked(true));
+    }
+
+    #[test]
+    pub fn test_dup() {
+        let field = Field::builder()
+            .key("user-agent")
+            .value("mozilla/5.0")
+            .active(false)
+            .masked(true)
+            .build();
+        let duped = field.dup();
+        assert_eq!(field.key(), "user-agent");
+        assert_eq!(field.value(), "mozilla/5.0");
+        assert!(!field.active());
+        assert!(field.masked());
+
+        assert_eq!(duped.key(), "user-agent");
+        assert_eq!(duped.value(), "mozilla/5.0");
+        assert!(!duped.active());
+        assert!(duped.masked());
+    }
+
+    #[test]
+    pub fn test_dup_emits_separate_change_signals() {
+        let field = Field::builder()
+            .key("user-agent")
+            .value("mozilla/5.0")
+            .build();
+        let duped = field.dup();
+        assert_emits_signal(&field, "changed", || field.set_key("Accept"));
+        assert_emits_signal(&duped, "changed", || duped.set_key("Accept"));
+
+        assert_not_emits_signal(&field, "changed", || duped.set_value("text/html"));
+        assert_not_emits_signal(&duped, "changed", || field.set_value("text/html"));
     }
 }

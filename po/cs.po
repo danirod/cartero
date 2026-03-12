@@ -9,16 +9,16 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2026-03-01 18:16+0100\n"
-"PO-Revision-Date: 2025-08-24 08:01+0000\n"
-"Last-Translator: vesp <vesp@post.cz>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/cartero/cartero/cs/"
-">\n"
+"PO-Revision-Date: 2026-03-12 23:45+0000\n"
+"Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/cartero/cartero/"
+"cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.13\n"
+"X-Generator: Weblate 5.17-dev\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -83,6 +83,8 @@ msgstr "Gnome;GTK;HTTP;REST;"
 msgid ""
 "A specific locale to use within the application instead of the system default"
 msgstr ""
+"Konkrétní místní a jazyková nastavení, která používat v rámci aplikace "
+"namísto těch systémových"
 
 #: data/es.danirod.Cartero.gschema.xml:22
 msgid "Automatically indent new lines for the request body"
@@ -330,6 +332,8 @@ msgid ""
 "Cartero supports reading variables from an .env file, but you need to enable "
 "the feature first."
 msgstr ""
+"Cartero podporuje načítání proměnných z .env souborů, ale nejdříve je třeba "
+"tuto funkci zapnout."
 
 #: data/ui/endpoint_pane.blp:208 data/ui/main_window.blp:187
 #: data/ui/main_window_no_csd.blp:192 data/ui/settings/shell.blp:47
@@ -341,16 +345,20 @@ msgid ""
 "Cartero supports reading variables from an .env file, but you have to save "
 "the request first."
 msgstr ""
+"Cartero podporuje načítání proměnných z .env souboru, ale nejprve je třeba "
+"požadavek uložit."
 
 #: data/ui/endpoint_pane.blp:242
 msgid ""
 "Place an .env file in the same disk directory as the request or in a parent "
 "directory to load the variables in Cartero."
 msgstr ""
+"Pro načítání proměnných v Cartero umístěte .env soubor di stejné složky na "
+"úložišti jako požadavek nebo do nadřazené složky."
 
 #: data/ui/endpoint_pane.blp:248
 msgid "Check again"
-msgstr ""
+msgstr "Znovu zkontrolovat"
 
 #: data/ui/endpoint_pane.blp:280
 msgid "Authorization"
@@ -415,7 +423,7 @@ msgstr "Soubor"
 
 #: data/ui/file_body_pane.blp:34
 msgid "Content Type"
-msgstr ""
+msgstr "Typ obsahu"
 
 #: data/ui/file_body_pane.blp:45
 msgid "or select a file from the file system:"
@@ -472,9 +480,8 @@ msgstr "Uložit požadavek jako…"
 
 #: data/ui/mac_menu.blp:45 data/ui/main_window.blp:175
 #: data/ui/main_window_no_csd.blp:180
-#, fuzzy
 msgid "Duplicate request"
-msgstr "Uložit požadavek"
+msgstr "Zduplikovat požadavek"
 
 #: data/ui/mac_menu.blp:52 data/ui/main_window.blp:180
 #: data/ui/main_window_no_csd.blp:185
@@ -524,7 +531,7 @@ msgstr "Vybrat vše"
 #: data/ui/mac_menu.blp:104
 msgctxt "menubar"
 msgid "Endpoint"
-msgstr ""
+msgstr "Koncový bod"
 
 #: data/ui/mac_menu.blp:108
 msgctxt "menubar"
@@ -585,7 +592,7 @@ msgstr "Minimalizovat"
 #: data/ui/mac_menu.blp:194
 msgctxt "menubar"
 msgid "Zoom"
-msgstr ""
+msgstr "Maximalizovat"
 
 #: data/ui/mac_menu.blp:201
 msgctxt "menubar"
@@ -741,11 +748,11 @@ msgstr "Vzhled"
 
 #: data/ui/settings/page_appearance.blp:26
 msgid "Color scheme"
-msgstr ""
+msgstr "Schéma barev"
 
 #: data/ui/settings/page_appearance.blp:60
 msgid "Interface"
-msgstr ""
+msgstr "Rozhraní"
 
 #: data/ui/settings/page_appearance.blp:63
 msgid "Application style"
@@ -766,7 +773,7 @@ msgstr "Tmavé téma"
 
 #: data/ui/settings/page_appearance.blp:76
 msgid "Font"
-msgstr ""
+msgstr "Písmo"
 
 #: data/ui/settings/page_appearance.blp:79
 msgid "Use system font"
@@ -856,42 +863,43 @@ msgstr "Počet sekund, jak dlouho čekat před ukončením požadavku"
 
 #: data/ui/settings/page_proxy.blp:22
 msgid "Proxy"
-msgstr ""
+msgstr "Proxy"
 
 #: data/ui/settings/page_proxy.blp:26
-#, fuzzy
 msgid "Proxy settings"
-msgstr "Volby souborů"
+msgstr "Nastavení pro proxy"
 
 #: data/ui/settings/page_proxy.blp:29
 msgid "HTTP Proxy"
-msgstr ""
+msgstr "HTTP proxy"
 
 #: data/ui/settings/page_proxy.blp:33
 msgid "HTTPS Proxy"
-msgstr ""
+msgstr "HTTPS proxy"
 
 #: data/ui/settings/page_proxy.blp:38
 msgid "Exclude from proxy"
-msgstr ""
+msgstr "Vynechat z proxy"
 
 #: data/ui/settings/page_proxy.blp:39
 msgid ""
 "IP addresses and domain names contained in this list will bypass the proxy "
 "settings and be accessed directly."
 msgstr ""
+"IP adresy a názvy domén obsažené v tomto seznamu budou obcházet nastavení "
+"proxy a bude k nim přistupováno napřímo."
 
 #: data/ui/settings/page_proxy.blp:55 data/ui/settings/page_proxy.blp:56
 msgid "Address to exclude"
-msgstr ""
+msgstr "Adresa kterou vynechat"
 
 #: data/ui/settings/page_proxy.blp:60
 msgid "Add"
-msgstr ""
+msgstr "Přidat"
 
 #: data/ui/settings/page_proxy.blp:91
 msgid "Environment variables"
-msgstr ""
+msgstr "Proměnné prostředí"
 
 #. TRANSLATORS: Keep the variable names "http_proxy", "https_proxy" and "no_proxy" in English because that's the name of the variable.
 #: data/ui/settings/page_proxy.blp:93
@@ -899,23 +907,25 @@ msgid ""
 "Cartero supports the use of the standard http_proxy, https_proxy and "
 "no_proxy environment variables to provide the system proxy settings."
 msgstr ""
+"Cartero pro poskytování nastavení systémové proxy podporuje použití "
+"standardních proměnných prostředí http_proxy, https_proxy a no_proxy."
 
 #: data/ui/settings/page_proxy.blp:107
 msgid "Use environment variables as a fallback"
-msgstr ""
+msgstr "Náhradně použít proměnné prostředí"
 
 #: data/ui/settings/page_proxy.blp:127 data/ui/settings/page_proxy.blp:138
 #: data/ui/settings/page_proxy.blp:149
 msgid "(empty)"
-msgstr ""
+msgstr "(prázdné)"
 
 #: data/ui/settings/page_security.blp:22
 msgid "Security"
-msgstr ""
+msgstr "Zabezpečení"
 
 #: data/ui/settings/page_security.blp:26
 msgid ".env files"
-msgstr ""
+msgstr ".env soubory"
 
 #: data/ui/settings/page_security.blp:27
 msgid ""
@@ -923,16 +933,22 @@ msgid ""
 "credentials. Cartero can locate .env files and expose the variables inside "
 "so that you can use them in your requests."
 msgstr ""
+".env soubory jsou běžně používány v projektech pro uchovávání citlivých "
+"hodnot, jako například přihlašovací údaje. Cartero je může .env soubory "
+"vyhledat a exponovat tyto proměnné uvnitř, takže je můžete používat ve svých "
+"požadavcích."
 
 #: data/ui/settings/page_security.blp:31
 msgid "Find and load .env files"
-msgstr ""
+msgstr "Najít a načíst .env soubory"
 
 #: data/ui/settings/page_security.blp:32
 msgid ""
 "Cartero will only traverse your disk looking for .env files if you enable "
 "this option."
 msgstr ""
+"Pokud je tato volba zapnutá, Cartero bude pouze traverzovat vaším diskem a "
+"hledat .env soubory."
 
 #: data/ui/welcome/welcome_pane.blp:45
 msgid "Welcome to Cartero"
@@ -947,20 +963,21 @@ msgid ""
 "Cartero is free software, released under the terms of the GNU General Public "
 "License v3 or later."
 msgstr ""
+"Cartero je svobodný software, vydaný pod licencí GNU General Public License "
+"v3 nebo novější."
 
 #: data/ui/welcome/welcome_pane.blp:118 data/ui/welcome/welcome_pane.blp:166
 msgid "Know your rights"
-msgstr ""
+msgstr "Znejte svá práva"
 
 #: data/ui/welcome/welcome_pane.blp:152
-#, fuzzy
 msgid "Social media updates"
-msgstr "Aktualizace softwaru"
+msgstr "Aktualizace sociálních médií"
 
 #. TRANSLATORS: if your language has a different word for free as in freedom and free as in beer, and it's clear that free means "freedom", you might skip the "as in freedom" bit if you wish.
 #: data/ui/welcome/welcome_pane.blp:182
 msgid "You can use Cartero for free (as in freedom)"
-msgstr ""
+msgstr "Cartero můžete používat zcela svobodně (pro cokoli chcete)"
 
 #: data/ui/welcome/welcome_pane.blp:183
 msgid ""
@@ -969,20 +986,26 @@ msgid ""
 "\n"
 "Even if you use it at work or for commercial purposes."
 msgstr ""
+"Pro používání tohoto software nemusíte žádat o svolení nebo si kupovat "
+"licenci či předplatné.\n"
+"\n"
+"A to i když ho používáte v zaměstnání či jinak pro komerční účely."
 
 #: data/ui/welcome/welcome_pane.blp:190
 msgid "You can get, study and modify the source code"
-msgstr ""
+msgstr "Můžete získat, prostudovávat si a upravovat zdrojové kódy"
 
 #: data/ui/welcome/welcome_pane.blp:191
 msgid ""
 "Mod the program so that it works exactly how you want, or just learn things "
 "if you are new to programming."
 msgstr ""
+"Upravte si program tak, aby fungoval přesně tak, jak potřebujete, nebo se "
+"jen učte věci, pokud jste v programování noví."
 
 #: data/ui/welcome/welcome_pane.blp:198
 msgid "You can share copies of the program"
-msgstr ""
+msgstr "Můžete šířit kopie tohoto programu"
 
 #: data/ui/welcome/welcome_pane.blp:199
 msgid ""
@@ -992,25 +1015,32 @@ msgid ""
 "(In other words: if you fork, your project must retain the GNU General "
 "Public License too.)"
 msgstr ""
+"Můžete vytvářet své vlastní balíčky s Cartero nebo sdílet kopie tohoto "
+"softwaru s ostatními lidmi, pokud příjemcům tyto svobody zůstanou také "
+"zachovány.\n"
+"\n"
+"(Jinými slovy: pokud si uděláte vlastní variantu, je třeba, aby váš projekt "
+"byl také pod GNU General Public Licence.)"
 
 #: data/ui/welcome/welcome_pane.blp:206
 msgid "Cartero is built in community"
-msgstr ""
+msgstr "Cartero je vytvářeno komunitou"
 
 #: data/ui/welcome/welcome_pane.blp:207
 msgid ""
 "Share feedback, contribute code, report bugs, translate Cartero to your "
 "language… You can be part of this!"
 msgstr ""
+"Sdílejte zpětnou vazbu, přispívejte programováním, hlaste chyby, překládejte "
+"Cartero do svého jazyka… Můžete být součástí!"
 
 #: data/ui/welcome/welcome_pane.blp:219
-#, fuzzy
 msgid "Previous"
-msgstr "Předchozí výsledek"
+msgstr "Předchozí"
 
 #: data/ui/welcome/welcome_pane.blp:235
 msgid "Next"
-msgstr ""
+msgstr "Další"
 
 #: src/interop.rs:33
 msgid ""
@@ -1073,9 +1103,9 @@ msgid "The file '{}' cannot be accessed due to the security policy"
 msgstr "K souboru '{}' nelze přistupit kvůli bezpečnostní politice"
 
 #: src/interop.rs:87
-#, fuzzy, rust-format
+#, rust-format
 msgid "Defined value for proxy '{}' is not a valid configuration"
-msgstr "Hodnota hlavičky '{}' není platná"
+msgstr "Definovaná hodnota pro proxy „{}“ není platným nastavením"
 
 #: src/interop.rs:91
 msgid "There is an input/output error"
@@ -1158,6 +1188,8 @@ msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
 msgstr ""
+"HTTP sloveso nalezené v souboru bylo „{}“. Toto není platné – náhradně bude "
+"použito „{}“."
 
 #: src/widgets/dialogs.rs:115
 msgid "The requested file cannot be picked"
@@ -1171,6 +1203,10 @@ msgid ""
 "\n"
 "The file '{}' is not part of the '{}' directory"
 msgstr ""
+"Je třeba, aby se soubor nacházel ve stejné složce, jako požadavek nebo "
+"soubor projektu (nebo v libovolné z jejích podsložek).\n"
+"\n"
+"Soubor „{}“ není součástí složky „{}“"
 
 #: src/widgets/dialogs.rs:136
 #, rust-format
@@ -1260,9 +1296,9 @@ msgstr "_Uložit"
 #, rust-format
 msgid "Show {} variable from .env"
 msgid_plural "Show {} variables from .env"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Zobrazit {} proměnnou z .env"
+msgstr[1] "Zobrazit {} proměnné z .env"
+msgstr[2] "Zobrazit {} proměnných z .env"
 
 #: src/widgets/endpoint/endpoint_pane.rs:559
 #: src/widgets/endpoint/endpoint_pane.rs:565
@@ -1311,11 +1347,11 @@ msgstr "Obsah zkopírován do schránky"
 
 #: src/widgets/field/field_list_box_static_row.rs:149
 msgid "Show value"
-msgstr ""
+msgstr "Zobrazit hodnotu"
 
 #: src/widgets/field/field_list_box_static_row.rs:151
 msgid "Hide value"
-msgstr ""
+msgstr "Skrýt hodnotu"
 
 #. TRANSLATORS: presented in file dialogs as the file type for a request
 #. The macOS native file dialog will already add the extension for us.
@@ -1364,7 +1400,7 @@ msgstr "Autoři aplikace Cartero"
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
 #: src/win.rs:635
 msgid "translator-credits"
-msgstr "vesp"
+msgstr "vesp,Pavel Borecki"
 
 #: src/win.rs:636
 msgid "© 2024-2026 the Cartero authors"
@@ -1372,29 +1408,29 @@ msgstr "© 2024-2026 autoři aplikace Cartero"
 
 #: src/windows/settings/pages/proxy.rs:210
 msgid "The value is not a valid domain or IP address"
-msgstr ""
+msgstr "Tato hodnota není platnou doménou nebo IP adresou"
 
 #: src/windows/settings/pages/proxy.rs:225
 msgid "The host identifier is already excluded"
-msgstr ""
+msgstr "Tento identifikátor hostitele už je vynechán"
 
 #: src/windows/settings/pages/proxy.rs:245
 #, rust-format
 msgid "Delete '{}' from the list of excluded hosts for the proxy?"
-msgstr ""
+msgstr "Vymazat „{}“ ze seznamu vynechaných hostitelů pro proxy?"
 
 #: src/windows/settings/pages/proxy.rs:250
 msgid "Delete identifier?"
-msgstr ""
+msgstr "Smazat identifikátor?"
 
 #: src/windows/settings/pages/proxy.rs:254
 #: src/windows/settings/pages/proxy.rs:288
 msgid "Remove"
-msgstr ""
+msgstr "Odebrat"
 
 #: src/windows/settings/pages/proxy.rs:272
 msgid "No domains or IP addresses are being excluded"
-msgstr ""
+msgstr "Nejsou vynechávány žádné domény nebo IP adresy"
 
 #~ msgid "The current tab is not associated with a file"
 #~ msgstr "Aktuální karta není přidružena k souboru"

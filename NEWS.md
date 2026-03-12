@@ -6,15 +6,21 @@ These are the user-visible changes noticeable within Cartero.
 
 ### Changed
 
-- - Updated Keyboard Shortcuts menu to use the new Adwaita based dialog
-    where possible - thanks, @youpie.
-- - Updated Rust project dependencies.
-- - Updated codebase Rust edition to Rust 2024.
+- Duplicated requests will now have the dirty bit set on creation, to
+  force Cartero to ask for unsaved changes on close or exit.
+- Updated Keyboard Shortcuts menu to use the new Adwaita based dialog
+  where possible - thanks, @youpie.
+- Updated Rust project dependencies.
+- Updated codebase Rust edition to Rust 2024.
 
 ### Fixed
 
-- - Responses whose content type used +yaml as a suffix (e.g.
-    application/vnd.oai.openapi+yaml) were not being coloured as YAML.
+- Modifying the query params table of a duplicated request sometimes
+  had no effect on the URL address.
+- Duplicated requests did not actually fork the headers table, so
+  changing headers in one tab would affect the other.
+- Responses whose content type used +yaml as a suffix (e.g.
+  application/vnd.oai.openapi+yaml) were not being coloured as YAML.
 
 ### Translation Updates
 

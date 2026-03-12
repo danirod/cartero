@@ -241,6 +241,7 @@ mod imp {
             let endpoint_pane = glib::Object::builder::<super::EndpointPane>()
                 .property("request", new_request)
                 .build();
+            endpoint_pane.set_dirty(true);
             endpoint_pane.upcast()
         }
     }

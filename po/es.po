@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2026-03-01 18:16+0100\n"
-"PO-Revision-Date: 2025-10-31 20:02+0000\n"
-"Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
+"PO-Revision-Date: 2026-03-14 10:09+0000\n"
+"Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/cartero/cartero/"
 "es/>\n"
 "Language: es\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.1-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -480,9 +480,8 @@ msgstr "Guardar petición como…"
 
 #: data/ui/mac_menu.blp:45 data/ui/main_window.blp:175
 #: data/ui/main_window_no_csd.blp:180
-#, fuzzy
 msgid "Duplicate request"
-msgstr "Guardar petición"
+msgstr "Duplicar petición"
 
 #: data/ui/mac_menu.blp:52 data/ui/main_window.blp:180
 #: data/ui/main_window_no_csd.blp:185
@@ -749,11 +748,11 @@ msgstr "Apariencia"
 
 #: data/ui/settings/page_appearance.blp:26
 msgid "Color scheme"
-msgstr ""
+msgstr "Esquema de colores"
 
 #: data/ui/settings/page_appearance.blp:60
 msgid "Interface"
-msgstr ""
+msgstr "Interfaz"
 
 #: data/ui/settings/page_appearance.blp:63
 msgid "Application style"
@@ -774,7 +773,7 @@ msgstr "Modo oscuro"
 
 #: data/ui/settings/page_appearance.blp:76
 msgid "Font"
-msgstr ""
+msgstr "Fuente"
 
 #: data/ui/settings/page_appearance.blp:79
 msgid "Use system font"
@@ -1348,11 +1347,11 @@ msgstr "Contenido copiado al portapapeles"
 
 #: src/widgets/field/field_list_box_static_row.rs:149
 msgid "Show value"
-msgstr ""
+msgstr "Mostrar valor"
 
 #: src/widgets/field/field_list_box_static_row.rs:151
 msgid "Hide value"
-msgstr ""
+msgstr "Esconder valor"
 
 #. TRANSLATORS: presented in file dialogs as the file type for a request
 #. The macOS native file dialog will already add the extension for us.

@@ -25,6 +25,7 @@ These are the user-visible changes noticeable within Cartero.
 ### Translation Updates
 
 - Czech
+- Spanish
 - Galician
 - Indonesian
 - Polish

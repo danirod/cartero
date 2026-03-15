@@ -1399,7 +1399,7 @@ msgstr "Los autores de Cartero"
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
 #: src/win.rs:635
 msgid "translator-credits"
-msgstr "Dani Rodríguez"
+msgstr "Dani Rodríguez,Francisco Serrador"
 
 #: src/win.rs:636
 msgid "© 2024-2026 the Cartero authors"

@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ mod imp {
     use cartero_objects::{
         FieldTable, RequestBody, RequestBodyFile, RequestBodyRawType, RequestBodyType,
     };
-    use glib::{subclass::InitializingObject, Properties};
+    use glib::{Properties, subclass::InitializingObject};
     use gtk::CompositeTemplate;
 
     #[derive(Default, Properties, CompositeTemplate)]
@@ -149,10 +149,10 @@ mod imp {
             let body = self.obj().body();
             let (body_type, raw_body_type) = cast_selected_entry(self.combo.selected());
             body.set_body_type(body_type);
-            if let Some(raw_body_type) = raw_body_type {
-                if let Some(raw) = body.raw() {
-                    raw.set_payload_type(raw_body_type);
-                }
+            if let Some(raw_body_type) = raw_body_type
+                && let Some(raw) = body.raw()
+            {
+                raw.set_payload_type(raw_body_type);
             }
             self.pop_body();
             self.sync_container();

@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ use crate::ExportError;
 #[derive(Eq, PartialEq, Clone)]
 pub(crate) enum Auth {
     None,
-    BasicAuth { username: String, password: String },
+    Basic { username: String, password: String },
     BearerToken { token: String },
 }
 
@@ -191,7 +191,7 @@ impl From<RequestAuthenticationData> for Auth {
                 let basic = value
                     .downcast::<RequestAuthenticationBasic>()
                     .expect("No basic?");
-                Self::BasicAuth {
+                Self::Basic {
                     username: basic.username(),
                     password: basic.password(),
                 }

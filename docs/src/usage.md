@@ -19,7 +19,7 @@ To start a new session, you will probably want to create a request. There are ma
 
 ## The endpoint layout
 
-In Cartero 25.0, the endpoint pane is organized in sections:
+In Cartero 26.0, the endpoint pane is organized in sections:
 
 ![A screenshot of the empty request panel of Cartero](images/cartero-areas.png)
 
@@ -78,4 +78,10 @@ To open a request:
 * Press the _Open request_ button in the welcome message.
 * At any time, pressing `Ctrl + O` (`Cmd + O` on macOS).
 * Use the _Open_ button in the application toolbar.
-* Choose _Open request...` from the application menu of the window.
+* Choose **Open request...** from the application menu of the window.
+
+### Duplicate a request
+
+To duplicate a request file, choose **Duplicate request** from the application
+menu of the window. A new untitled request will appear with the same contents
+as the one where the menu option was chosen.

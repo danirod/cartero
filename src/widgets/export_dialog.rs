@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,10 +26,10 @@ mod imp {
     use super::*;
     use formatx::formatx;
     use gettextrs::gettext;
-    use glib::{subclass::InitializingObject, Properties};
+    use glib::{Properties, subclass::InitializingObject};
     use gtk::{
-        gdk::{ContentProvider, Display},
         CompositeTemplate,
+        gdk::{ContentProvider, Display},
     };
 
     #[derive(Default, CompositeTemplate, Properties)]

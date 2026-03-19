@@ -1,0 +1,2 @@
+Pressing the Tab or the Shift-Tab keys in a request table (parameters, variables...) will now skip the row itself and focus instead an actual component like the checkbox or the dropdown menu.
+MacOS: on systems with a dual graphics card setup, Cartero will now run on the integrated rather than the discrete one. (This is good, it will save a lot of battery.)

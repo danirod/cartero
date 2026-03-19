@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use glib::subclass::prelude::*;
-use glib::{prelude::*, Object};
+use glib::{Object, prelude::*};
 
 glib::wrapper! {
     /// A key-valued string container with additional metadata.
@@ -72,8 +72,8 @@ impl Field {
 
     pub fn dup(&self) -> Self {
         builder::FieldBuilder::default()
-            .key(self.key().to_string())
-            .value(self.value().to_string())
+            .key(self.key())
+            .value(self.value())
             .active(self.active())
             .masked(self.masked())
             .build()
@@ -102,7 +102,7 @@ mod imp {
     use std::{cell::RefCell, sync::OnceLock};
 
     use super::*;
-    use glib::{subclass::Signal, Properties};
+    use glib::{Properties, subclass::Signal};
 
     #[derive(Properties)]
     #[properties(wrapper_type = super::Field)]
@@ -159,9 +159,11 @@ mod imp {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
             SIGNALS.get_or_init(|| {
-                vec![Signal::builder("changed")
-                    .param_types([String::static_type()])
-                    .build()]
+                vec![
+                    Signal::builder("changed")
+                        .param_types([String::static_type()])
+                        .build(),
+                ]
             })
         }
     }
@@ -218,7 +220,7 @@ mod builder {
 
 #[cfg(test)]
 mod tests {
-    use crate::utils::test::assert_emits_signal;
+    use crate::utils::test::{assert_emits_signal, assert_not_emits_signal};
 
     use super::*;
 
@@ -267,5 +269,39 @@ mod tests {
         assert_emits_signal(&field, "changed", || field.set_value("text/html"));
         assert_emits_signal(&field, "changed", || field.set_active(false));
         assert_emits_signal(&field, "changed", || field.set_masked(true));
+    }
+
+    #[test]
+    pub fn test_dup() {
+        let field = Field::builder()
+            .key("user-agent")
+            .value("mozilla/5.0")
+            .active(false)
+            .masked(true)
+            .build();
+        let duped = field.dup();
+        assert_eq!(field.key(), "user-agent");
+        assert_eq!(field.value(), "mozilla/5.0");
+        assert!(!field.active());
+        assert!(field.masked());
+
+        assert_eq!(duped.key(), "user-agent");
+        assert_eq!(duped.value(), "mozilla/5.0");
+        assert!(!duped.active());
+        assert!(duped.masked());
+    }
+
+    #[test]
+    pub fn test_dup_emits_separate_change_signals() {
+        let field = Field::builder()
+            .key("user-agent")
+            .value("mozilla/5.0")
+            .build();
+        let duped = field.dup();
+        assert_emits_signal(&field, "changed", || field.set_key("Accept"));
+        assert_emits_signal(&duped, "changed", || duped.set_key("Accept"));
+
+        assert_not_emits_signal(&field, "changed", || duped.set_value("text/html"));
+        assert_not_emits_signal(&duped, "changed", || field.set_value("text/html"));
     }
 }

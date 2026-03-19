@@ -1,0 +1,6 @@
+HTTP responses sometimes were not rendered if they had the Content-Type header set to JSON but they were not actually parseable as JSON.
+HTTP response headers sometimes did not render properly when they had angle brackets (such as the Link header).
+HTTP requests sometimes could not be exported when they had spaces in the URL.
+Windows: overriding the language in the settings dialog previously had no effect.
+MacOS: the URL bar did not focus when pressing Command-L.
+MacOS: the export dialog did not actually copy the code to the system clipboard.

@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -103,9 +103,11 @@ mod imp {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
             SIGNALS.get_or_init(|| {
-                vec![Signal::builder("changed")
-                    .param_types([String::static_type()])
-                    .build()]
+                vec![
+                    Signal::builder("changed")
+                        .param_types([String::static_type()])
+                        .build(),
+                ]
             })
         }
     }
@@ -184,28 +186,28 @@ pub trait RequestBodyDataImplExt: RequestBodyDataImpl {
         let data = Self::type_data();
         let parent_class = unsafe { &*(data.as_ref().parent_class() as *const ffi::Class) };
         let dup = parent_class.dup;
-        dup(unsafe { self.obj().unsafe_cast_ref() })
+        unsafe { dup(self.obj().unsafe_cast_ref()) }
     }
 
     fn parent_body_type(&self) -> RequestBodyType {
         let data = Self::type_data();
         let parent_class = unsafe { &*(data.as_ref().parent_class() as *const ffi::Class) };
         let body_type = parent_class.body_type;
-        body_type(unsafe { self.obj().unsafe_cast_ref() })
+        unsafe { body_type(self.obj().unsafe_cast_ref()) }
     }
 
     fn resolve(&self, tpl: &SrTemplate) -> Result<RequestBodyData, srtemplate::Error> {
         let data = Self::type_data();
         let parent_class = unsafe { &*(data.as_ref().parent_class() as *const ffi::Class) };
         let resolve = parent_class.resolve;
-        resolve(unsafe { self.obj().unsafe_cast_ref() }, tpl)
+        unsafe { resolve(self.obj().unsafe_cast_ref(), tpl) }
     }
 
     fn parent_rendered_headers(&self) -> Vec<(String, String)> {
         let data = Self::type_data();
         let parent_class = unsafe { &*(data.as_ref().parent_class() as *const ffi::Class) };
         let rendered_headers = parent_class.rendered_headers;
-        rendered_headers(unsafe { self.obj().unsafe_cast_ref() })
+        unsafe { rendered_headers(self.obj().unsafe_cast_ref()) }
     }
 }
 

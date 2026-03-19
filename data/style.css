@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2025 the Cartero authors
+ * Copyright 2024-2026 the Cartero authors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -59,28 +59,6 @@ window.mica .welcome-pane {
 window.mica .sidebar-pane {
   background-color: transparent;
   --sidebar-border-color: transparent;
-}
-
-/* macOS style when running as Vibrant. */
-window.vibrant,
-window.vibrant .top-bar,
-window.vibrant .view,
-window.vibrant .background,
-window.vibrant .sidebar-pane,
-window.vibrant .content-pane {
-  background-color: transparent;
-}
-
-window.vibrant dialog .background {
-  background-color: var(--window-bg-color);
-}
-window.vibrant dialog .view {
-  background-color: var(--view-bg-color);
-}
-
-/* Disable window own border radius and use the macOS one because they don't match. */
-window.macos-native {
-  border-radius: 0;
 }
 
 /* Theme pickers. */

@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,6 +24,12 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
+impl Default for Proxy {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Proxy {
     pub fn new() -> Self {
         glib::Object::new()
@@ -39,8 +45,8 @@ mod imp {
     use gettextrs::gettext;
     use glib::subclass::InitializingObject;
     use gtk::{
-        gio::{SimpleAction, SimpleActionGroup},
         CompositeTemplate,
+        gio::{SimpleAction, SimpleActionGroup},
     };
 
     #[derive(Default, CompositeTemplate)]
@@ -247,7 +253,7 @@ mod imp {
             dialog.add_response("cancel", &gettext("Cancel"));
             dialog.add_response("remove", &gettext("Remove"));
             dialog.set_response_appearance("remove", adw::ResponseAppearance::Destructive);
-            let response = dialog.choose_future(&parent).await;
+            let response = dialog.choose_future(Some(&parent)).await;
             "remove" == response
         }
 

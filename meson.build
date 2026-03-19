@@ -1,4 +1,4 @@
-# Copyright 2024-2025 the Cartero authors
+# Copyright 2024-2026 the Cartero authors
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ base_id = 'es.danirod.Cartero'
 dependency('glib-2.0', version: '>= 2.80')
 dependency('gtk4', version: '>= 4.14')
 dependency('gtksourceview-5', version: '>= 5.12')
-dependency('libadwaita-1', version: '>= 1.5')
+adwaita = dependency('libadwaita-1', version: '>= 1.5')
 dependency('openssl', version: '>= 1.0')
 
 if host_machine.system() == 'linux'
@@ -67,6 +67,10 @@ if get_option('profile') == 'development'
         version_suffix = '-@0@'.format(vcs_tag)
     endif
     application_id = '@0@.@1@'.format(base_id, profile)
+elif meson.project_version().contains('nightly')
+  profile = 'Devel'
+  version_suffix = ''
+  application_id = '@0@.@1@'.format(base_id, profile)
 else
     profile = ''
     version_suffix = ''
@@ -77,6 +81,11 @@ meson.add_dist_script(
     'build-aux/dist-vendor.sh',
     meson.project_build_root() / 'meson-dist' / meson.project_name() + '-' + version,
     meson.project_source_root(),
+)
+meson.add_dist_script(
+  'build-aux/cement-version.sh',
+  application_id,
+  meson.project_version(),
 )
 
 if get_option('profile') == 'development'

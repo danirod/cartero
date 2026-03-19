@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use glib::subclass::prelude::*;
-use glib::{prelude::*, Object};
+use glib::{Object, prelude::*};
 use srtemplate::SrTemplate;
 
 use crate::RequestMethod;
@@ -76,7 +76,7 @@ impl Request {
 
     pub fn dup(&self) -> Self {
         builder::RequestBuilder::new(self.url().as_str(), self.method())
-            .headers(&self.headers())
+            .headers(&self.headers().dup())
             .params(&self.params().dup())
             .variables(&self.variables().dup())
             .with_auth(self.authentication().dup())
@@ -112,9 +112,9 @@ mod imp {
         sync::OnceLock,
     };
 
-    use glib::{subclass::Signal, Properties, SignalGroup};
+    use glib::{Properties, SignalGroup, subclass::Signal};
 
-    use crate::{field_table::FieldTable, RequestAuthentication, RequestBody, RequestMethod};
+    use crate::{RequestAuthentication, RequestBody, RequestMethod, field_table::FieldTable};
 
     use super::*;
 
@@ -253,9 +253,11 @@ mod imp {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
             SIGNALS.get_or_init(|| {
-                vec![Signal::builder("changed")
-                    .param_types([String::static_type()])
-                    .build()]
+                vec![
+                    Signal::builder("changed")
+                        .param_types([String::static_type()])
+                        .build(),
+                ]
             })
         }
     }
@@ -438,9 +440,9 @@ mod tests {
     use gio::prelude::ListModelExt;
 
     use crate::{
-        utils::test::assert_emits_signal, Field, FieldTable, RequestAuthentication,
-        RequestAuthenticationBearer, RequestAuthenticationType, RequestBody, RequestBodyRaw,
-        RequestBodyRawType, RequestBodyType,
+        Field, FieldTable, RequestAuthentication, RequestAuthenticationBearer,
+        RequestAuthenticationType, RequestBody, RequestBodyRaw, RequestBodyRawType,
+        RequestBodyType, utils::test::assert_emits_signal,
     };
 
     use super::*;

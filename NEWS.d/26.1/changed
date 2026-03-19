@@ -1,0 +1,4 @@
+Duplicated requests will now have the dirty bit set on creation, to force Cartero to ask for unsaved changes on close or exit.
+Updated Keyboard Shortcuts menu to use the new Adwaita based dialog where possible - thanks, @youpie.
+Updated Rust project dependencies.
+Updated codebase Rust edition to Rust 2024.

@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ use std::collections::HashMap;
 
 use gio::prelude::{ListModelExt, ListModelExtManual};
 use glib::subclass::prelude::*;
-use glib::{prelude::*, Object};
+use glib::{Object, prelude::*};
 use itertools::{EitherOrBoth, Itertools};
 use srtemplate::SrTemplate;
 
@@ -134,10 +134,10 @@ impl FieldTable {
     /// upwards from this table.
     fn disconnect_signal(&self, field: &Field) {
         let mut signals = self.imp().signals.borrow_mut();
-        if let Some(handler) = signals.remove(field) {
-            if let Some(signal) = handler {
-                field.disconnect(signal);
-            }
+        if let Some(handler) = signals.remove(field)
+            && let Some(signal) = handler
+        {
+            field.disconnect(signal);
         }
     }
 
@@ -215,7 +215,7 @@ impl FieldTable {
             fields.clear();
             fields.append(&mut new_fields);
 
-            new_fields.iter().enumerate().for_each(|(pos, field)| {
+            fields.iter().enumerate().for_each(|(pos, field)| {
                 self.connect_signal(field, pos);
             });
         }
@@ -484,7 +484,7 @@ impl FromIterator<Field> for FieldTable {
 
 mod imp {
     use gio::subclass::prelude::ListModelImpl;
-    use glib::{subclass::Signal, SignalHandlerId};
+    use glib::{SignalHandlerId, subclass::Signal};
 
     use super::*;
     use std::{cell::RefCell, sync::OnceLock};
@@ -507,9 +507,11 @@ mod imp {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
             SIGNALS.get_or_init(|| {
-                vec![Signal::builder("changed")
-                    .param_types([String::static_type()])
-                    .build()]
+                vec![
+                    Signal::builder("changed")
+                        .param_types([String::static_type()])
+                        .build(),
+                ]
             })
         }
     }
@@ -1055,6 +1057,10 @@ mod tests {
         assert_eq!("Content-Type", table1.field(0).unwrap().key());
         assert_eq!("Host", table1.field(1).unwrap().key());
         assert_eq!("Server", table1.field(2).unwrap().key());
+
+        assert_emits_signal(&table1, "changed", || {
+            table1.field(0).unwrap().set_value("application/json")
+        });
     }
 
     #[test]
@@ -1122,11 +1128,13 @@ mod tests {
 
     #[test]
     fn test_template_processor_deactivated_variable() {
-        let table = FieldTable::from_iter(vec![Field::builder()
-            .key("API_ROOT")
-            .value("http://localhost:8000")
-            .active(false)
-            .build()]);
+        let table = FieldTable::from_iter(vec![
+            Field::builder()
+                .key("API_ROOT")
+                .value("http://localhost:8000")
+                .active(false)
+                .build(),
+        ]);
 
         let processor = table.template_processor();
         assert!(!processor.contains_variable("API_ROOT"));
@@ -1236,10 +1244,12 @@ mod tests {
     fn test_render_with_invalid_variables() {
         let template = SrTemplate::default();
 
-        let table = FieldTable::from_iter(vec![Field::builder()
-            .key("Location")
-            .value("{{ API_ROOT }}/v1/users")
-            .build()]);
+        let table = FieldTable::from_iter(vec![
+            Field::builder()
+                .key("Location")
+                .value("{{ API_ROOT }}/v1/users")
+                .build(),
+        ]);
         let render_table = table.render(&template);
         let Err(srtemplate::Error::VariableNotFound(var)) = render_table else {
             panic!("expected err");
@@ -1338,6 +1348,53 @@ mod tests {
             }
         });
         assert_emits_signal(&table, "changed", || table.remove(0));
+    }
+
+    #[test]
+    fn test_dup() {
+        let table = FieldTable::from_iter(vec![
+            Field::builder()
+                .key("user-agent")
+                .value("mozilla/5.0")
+                .build(),
+            Field::builder().key("accept").value("text/html").build(),
+        ]);
+        let duped = table.dup();
+        assert_eq!(table.n_items(), duped.n_items());
+        assert_eq!(table.field(0).unwrap().key(), duped.field(0).unwrap().key());
+        assert_eq!(
+            table.field(0).unwrap().value(),
+            duped.field(0).unwrap().value()
+        );
+        assert_eq!(table.field(1).unwrap().key(), duped.field(1).unwrap().key());
+        assert_eq!(
+            table.field(1).unwrap().value(),
+            duped.field(1).unwrap().value()
+        );
+    }
+
+    #[test]
+    pub fn test_dup_emits_separate_change_signals() {
+        let table = FieldTable::from_iter(vec![
+            Field::builder()
+                .key("user-agent")
+                .value("mozilla/5.0")
+                .build(),
+            Field::builder().key("accept").value("text/html").build(),
+        ]);
+        let duped = table.dup();
+        assert_emits_signal(&table, "changed", || {
+            table.field(0).unwrap().set_key("Accept")
+        });
+        assert_emits_signal(&duped, "changed", || {
+            duped.field(0).unwrap().set_key("Accept")
+        });
+        assert_not_emits_signal(&table, "changed", || {
+            duped.field(0).unwrap().set_value("text/html")
+        });
+        assert_not_emits_signal(&duped, "changed", || {
+            table.field(0).unwrap().set_value("text/html")
+        });
     }
 
     fn assert_field(f: &Field, key: &str, value: &str, active: bool, masked: bool) {

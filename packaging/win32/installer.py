@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright 2024-2025 the Cartero authors
+# Copyright 2024-2026 the Cartero authors
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -71,7 +71,7 @@ def sign(path: Path, subject: str):
 
 
 install_dir = os.environ.get("MESON_INSTALL_DESTDIR_PREFIX")
-install_args = ["iscc.exe"]
+install_args = ["ISCC.exe"]
 if install_dir:
     install_args += ["/DSOURCE_DIR=" + install_dir, "/O" + install_dir]
 install_args += [args.installer]

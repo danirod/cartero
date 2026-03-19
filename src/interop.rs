@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,8 +29,12 @@ impl std::fmt::Display for InnerError<FileLoadError> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let message = match self {
             Self::InteropError(fe) => match fe {
-                FileLoadError::SchemaTooNew => gettext("This file was created with a newer version of this application; please update!"),
-                FileLoadError::DeserializationError(_) => gettext("The file is corrupt or does not contain valid data for this application")
+                FileLoadError::SchemaTooNew => gettext(
+                    "This file was created with a newer version of this application; please update!",
+                ),
+                FileLoadError::DeserializationError(_) => gettext(
+                    "The file is corrupt or does not contain valid data for this application",
+                ),
             },
             Self::GlibError(e) => e.message().to_string(),
         };

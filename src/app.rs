@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,13 +17,13 @@
 
 use adw::prelude::*;
 use gettextrs::gettext;
-use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
-use gtk::gio::{self, ActionEntryBuilder};
-use gtk::prelude::ActionMapExtManual;
+use glib::subclass::types::ObjectSubclassIsExt;
+use gtk::STYLE_PROVIDER_PRIORITY_APPLICATION;
 #[allow(deprecated)]
 use gtk::StyleContext;
-use gtk::STYLE_PROVIDER_PRIORITY_APPLICATION;
+use gtk::gio::{self, ActionEntryBuilder};
+use gtk::prelude::ActionMapExtManual;
 use sourceview5::StyleSchemeManager;
 
 use crate::config::{APP_ID, RESOURCE_PATH};
@@ -49,9 +49,9 @@ mod imp {
     use adw::prelude::*;
     use adw::subclass::application::AdwApplicationImpl;
     use glib::subclass::{object::ObjectImpl, types::ObjectSubclass};
+    use gtk::CssProvider;
     use gtk::subclass::prelude::*;
     use gtk::subclass::{application::GtkApplicationImpl, prelude::ApplicationImpl};
-    use gtk::CssProvider;
 
     use super::*;
 
@@ -104,10 +104,10 @@ mod imp {
                 if let Some(settings) = gtk::Settings::default() {
                     settings.set_gtk_font_name(Some("Segoe UI 10"));
                 }
-            } else if cfg!(target_os = "macos") {
-                if let Some(settings) = gtk::Settings::default() {
-                    settings.set_gtk_font_name(Some(".AppleSystemUIFont 14.5"));
-                }
+            } else if cfg!(target_os = "macos")
+                && let Some(settings) = gtk::Settings::default()
+            {
+                settings.set_gtk_font_name(Some(".AppleSystemUIFont 14.5"));
             }
 
             let obj = self.obj();
@@ -212,7 +212,7 @@ impl CarteroApplication {
         #[allow(deprecated)]
         StyleContext::add_provider_for_display(
             &gtk::gdk::Display::default().expect("No display"),
-            self.imp().app_theme.get_or_init(|| gtk::CssProvider::new()),
+            self.imp().app_theme.get_or_init(gtk::CssProvider::new),
             STYLE_PROVIDER_PRIORITY_APPLICATION,
         );
 
@@ -262,7 +262,7 @@ impl CarteroApplication {
             .unwrap_or_default();
         self.imp()
             .app_theme
-            .get_or_init(|| gtk::CssProvider::new())
+            .get_or_init(gtk::CssProvider::new)
             .load_from_string(css.as_str());
     }
 
@@ -276,7 +276,7 @@ impl CarteroApplication {
                     let window = app
                         .windows_by_type::<crate::windows::settings::Shell>()
                         .first()
-                        .map(|win| win.clone())
+                        .cloned()
                         .unwrap_or_else(|| {
                             let settings_shell = crate::windows::settings::Shell::new();
                             let window = app.new_window(&settings_shell);
@@ -308,7 +308,7 @@ impl CarteroApplication {
                     let window = app
                         .windows_by_type::<crate::windows::settings::Shell>()
                         .first()
-                        .map(|win| win.clone())
+                        .cloned()
                         .unwrap_or_else(|| {
                             let settings_shell = crate::windows::settings::Shell::new();
                             let window = app.new_window(&settings_shell);

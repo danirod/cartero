@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use glib::Object;
 use glib::prelude::*;
 use glib::subclass::prelude::*;
-use glib::Object;
 
 glib::wrapper! {
     /// Body payload with the request body encoded as provided.
@@ -148,7 +148,7 @@ mod imp {
     impl RequestBodyDataImpl for RequestBodyRaw {
         fn dup(&self) -> RequestBodyData {
             super::RequestBodyRaw::builder(self.obj().payload_type())
-                .payload(self.obj().payload().to_string())
+                .payload(self.obj().payload())
                 .build()
                 .upcast()
         }
@@ -161,7 +161,7 @@ mod imp {
             &self,
             tpl: &srtemplate::SrTemplate,
         ) -> Result<RequestBodyData, srtemplate::Error> {
-            let payload = tpl.render(&self.obj().payload())?;
+            let payload = tpl.render(self.obj().payload())?;
             let payload_type = self.obj().payload_type();
             Ok(super::RequestBodyRaw::builder(payload_type)
                 .payload(payload)
@@ -213,7 +213,7 @@ mod tests {
     use srtemplate::SrTemplate;
 
     use crate::{
-        utils::test::assert_emits_signal, RequestBodyDataExt, RequestBodyRawType, RequestBodyType,
+        RequestBodyDataExt, RequestBodyRawType, RequestBodyType, utils::test::assert_emits_signal,
     };
 
     use super::RequestBodyRaw;

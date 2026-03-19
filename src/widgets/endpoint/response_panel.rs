@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,8 +26,8 @@ use gtk::glib;
 use gtk::prelude::TextViewExt;
 use gtk::prelude::*;
 use serde_json::Value;
-use sourceview5::prelude::BufferExt;
 use sourceview5::LanguageManager;
+use sourceview5::prelude::BufferExt;
 
 use glib::subclass::types::ObjectSubclassIsExt;
 
@@ -37,19 +37,19 @@ mod imp {
     use crate::widgets::endpoint::ResponseHeaders;
     use crate::widgets::{CodeView, ErrorPane, SearchBox};
     use adw::subclass::bin::BinImpl;
-    use adw::{prelude::*, ToastOverlay};
+    use adw::{ToastOverlay, prelude::*};
     use cartero_http::RequestError;
     use cartero_objects::Response;
     use gettextrs::gettext;
+    use glib::Properties;
     use glib::object::Cast;
     use glib::subclass::InitializingObject;
-    use glib::Properties;
     use gtk::gdk::{ContentProvider, Display};
     use gtk::gio::{SimpleAction, SimpleActionGroup};
     use gtk::subclass::prelude::*;
     use gtk::{
-        subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetImpl},
         Box, CompositeTemplate, Label, TemplateChild,
+        subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetImpl},
     };
     use gtk::{Revealer, Spinner, Stack};
 
@@ -199,11 +199,11 @@ mod imp {
         }
 
         fn get_selected_text(&self) -> Option<String> {
-            if self.buffer.has_selection() {
-                if let Some((start, end)) = self.buffer.selection_bounds() {
-                    let text = self.buffer.slice(&start, &end, false);
-                    return Some(text.into());
-                }
+            if self.buffer.has_selection()
+                && let Some((start, end)) = self.buffer.selection_bounds()
+            {
+                let text = self.buffer.slice(&start, &end, false);
+                return Some(text.into());
             }
             None
         }
@@ -325,7 +325,7 @@ impl ResponsePanel {
         imp.duration.set_text(&format_duration(resp.duration()));
         imp.duration.set_visible(true);
 
-        let size = glib::format_size(resp.size() as u64);
+        let size = glib::format_size(resp.size());
         imp.response_size.set_text(&size);
         imp.response_size.set_visible(true);
 
@@ -344,22 +344,21 @@ impl ResponsePanel {
             self.render_response_body_as_text();
         }
 
-        let language = if resp.is_json() {
-            LanguageManager::default().language("json")
-        } else if resp.is_xml() {
-            LanguageManager::default().language("xml")
-        } else {
-            resp.headers()
-                .find_by_name_icase("Content-Type")
-                .map(|ctypes| ctypes[0].to_owned())
-                .and_then(|ctype| {
-                    let ctype = match ctype.split_once(';') {
-                        Some((c, _)) => c.to_string(),
-                        None => ctype,
-                    };
-                    LanguageManager::default().guess_language(Option::<PathBuf>::None, Some(&ctype))
+        let language = resp
+            .headers()
+            .find_by_name_icase("Content-Type")
+            .map(|ctypes| ctypes[0].to_owned())
+            .and_then(|ctype| {
+                let ctype = match ctype.split_once(';') {
+                    Some((c, _)) => c.to_string(),
+                    None => ctype,
+                };
+                let media_types = compose_media_types(&ctype);
+                media_types.iter().find_map(|media_type| {
+                    LanguageManager::default()
+                        .guess_language(Option::<PathBuf>::None, Some(&media_type))
                 })
-        };
+            });
 
         match language {
             Some(language) => buffer.set_language(Some(&language)),
@@ -381,5 +380,35 @@ fn format_duration(duration: u64) -> String {
         // Format as milliseconds.
         // TRANSLATORS: duration measured in milliseconds, as in "234 ms"
         formatx!(gettext("{} ms"), duration).unwrap()
+    }
+}
+
+fn compose_media_types(string: &str) -> Vec<String> {
+    let Some((mtype, msubtype)) = string.split_once("/") else {
+        return vec![];
+    };
+    msubtype
+        .split("+")
+        .map(|variant| format!("{}/{}", mtype, variant))
+        .collect()
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn test_compose_media_types() {
+        let table = vec![
+            ("application/json", vec!["application/json"]),
+            ("text/svg+xml", vec!["text/svg", "text/xml"]),
+            (
+                "application/activity+json",
+                vec!["application/activity", "application/json"],
+            ),
+            ("invalid", vec![]),
+        ];
+        for (input, expected) in table {
+            let output = super::compose_media_types(input);
+            assert_eq!(output, expected);
+        }
     }
 }

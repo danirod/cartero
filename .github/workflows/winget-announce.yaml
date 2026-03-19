@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: the Cartero authors
+
+name: WinGet Release
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    name: Update WinGet Package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Submit to WinGet
+        uses: vedantmgoyal9/winget-releaser@19e706d4c9121098010096f9c495a70a7518b30f
+        with:
+          identifier: DaniRodríguez.Cartero
+          token: ${{ secrets.WINGET_TOKEN }}

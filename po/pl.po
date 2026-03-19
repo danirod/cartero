@@ -1,0 +1,1426 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the cartero package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#: data/ui/settings/page_proxy.blp:78
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: cartero\n"
+"Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
+"POT-Creation-Date: 2026-03-01 18:16+0100\n"
+"PO-Revision-Date: 2026-02-27 22:45+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 "
+"|| n%100>14) ? 1 : 2);\n"
+"X-Generator: Poedit 3.6\n"
+
+#: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
+msgid "Make HTTP requests and test APIs"
+msgstr "Wykonuj zapytania HTTP i testuj API"
+
+#: data/es.danirod.Cartero.metainfo.xml.in.in:14
+msgid ""
+"Cartero is a graphical HTTP client that can be used as a developer tool to "
+"test web APIs and perform all kind of HTTP requests to web servers. It is "
+"compatible with any REST, SOAP or XML-RPC API and it supports multiple "
+"request methods as well as attaching body payloads to compatible requests."
+msgstr ""
+"Cartero to graficzny klient HTTP, który może być używano jako narzędzie "
+"deweloperskie do testowania API webowych i wykonywania wszystkich rodzajów "
+"żądań HTTP do serwerów webowych. Jest kompatybilny z każdym API opartym o "
+"REST, SOAP lub XML-RPC i wspiera wiele metod zapytań, a także załączanie "
+"ładunku do kompatybilnych żądań."
+
+#: data/es.danirod.Cartero.metainfo.xml.in.in:15
+msgid "Features:"
+msgstr "Funkcjonalności:"
+
+#: data/es.danirod.Cartero.metainfo.xml.in.in:17
+msgid ""
+"Loads and saves to plain Git-friendly TOML files, so that you can own your "
+"data."
+msgstr ""
+"Ładuje i zapisuje do prostych i przyjaznych dla Git-a, dzięki czemu możesz "
+"wziąć swoje dane w swoje ręce."
+
+#: data/es.danirod.Cartero.metainfo.xml.in.in:18
+msgid ""
+"Customization and modification of the request headers and body payloads."
+msgstr "Dostosowywanie i modyfikacja nagłówków i ciała żądań."
+
+#: data/es.danirod.Cartero.metainfo.xml.in.in:19
+msgid "Variable binding for API keys and other secret information."
+msgstr "Przypisywanie zmiennych do kluczy API i innych tajnych informacji."
+
+#: data/es.danirod.Cartero.metainfo.xml.in.in:25
+msgid "Main window of Cartero"
+msgstr "Główne okno Cartero"
+
+#: data/es.danirod.Cartero.metainfo.xml.in.in:29
+msgid "Modifying HTTP headers"
+msgstr "Modyfikacja nagłówków HTTP"
+
+#: data/es.danirod.Cartero.metainfo.xml.in.in:33
+msgid "Setting the request payload"
+msgstr "Ustawianie ładunku żądania"
+
+#: data/cartero.desktop.in.in:2
+msgid "Cartero"
+msgstr ""
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/cartero.desktop.in.in:10
+msgid "Gnome;GTK;HTTP;REST;"
+msgstr ""
+
+#: data/es.danirod.Cartero.gschema.xml:18
+msgid ""
+"A specific locale to use within the application instead of the system default"
+msgstr ""
+"Specyficzne ustawienia regionalne do użycia w aplikacji zamiast domyślnych "
+"ustawień systemu"
+
+#: data/es.danirod.Cartero.gschema.xml:22
+msgid "Automatically indent new lines for the request body"
+msgstr "Automatyczna indentacja nowych linii w ciele żądana"
+
+#: data/es.danirod.Cartero.gschema.xml:26
+msgid "Wrap the body content"
+msgstr "Zawijanie treści ciała"
+
+#: data/es.danirod.Cartero.gschema.xml:30
+msgid "Whether to indent the request body with spaces or tabs"
+msgstr "Czy używać spacji czy tabów do indenacji ciała żądania"
+
+#: data/es.danirod.Cartero.gschema.xml:34
+msgid "Show line numbers in the request and response bodies"
+msgstr "Pokazuj numery linii w ciałach żądania i odpowiedzi"
+
+#: data/es.danirod.Cartero.gschema.xml:38
+msgid "How many characters to pad when indenting the request body"
+msgstr "Ile znaków dodać podczas indentacji ciała żądania"
+
+#: data/es.danirod.Cartero.gschema.xml:42
+msgid "How large should new windows be"
+msgstr "Jak duże powinny być nowe okna"
+
+#: data/es.danirod.Cartero.gschema.xml:46
+msgid "How tall should new windows be"
+msgstr "Jak wysokie powinny być nowe okna"
+
+#: data/es.danirod.Cartero.gschema.xml:50
+msgid "Whether the application should open maximized"
+msgstr "Czy aplikacja powinna być zmaksymalizowana"
+
+#: data/es.danirod.Cartero.gschema.xml:54
+msgid "The position of the split between two windows"
+msgstr "Pozycja podziału między dwoma oknami"
+
+#: data/es.danirod.Cartero.gschema.xml:58
+msgid "The current list of opened files"
+msgstr "Lista otwieranych plików"
+
+#: data/es.danirod.Cartero.gschema.xml:62
+msgid "The last location where a file was opened"
+msgstr "Lokalizacja ostatnio otwieranego pliku"
+
+#: data/es.danirod.Cartero.gschema.xml:66
+msgid "The last location where a file was saved"
+msgstr "Lokalizacja ostatnio zapisanego pliku"
+
+#: data/es.danirod.Cartero.gschema.xml:70
+msgid "Whether to validate the TLS certificates during a request"
+msgstr "Czy sprawdzać certyfikaty TLS podczas żądania"
+
+#: data/es.danirod.Cartero.gschema.xml:74
+msgid "Whether to follow redirections if that is the server response"
+msgstr "Czy podążać za przekierowaniami, jeśli taka jest odpowiedź serwera"
+
+#: data/es.danirod.Cartero.gschema.xml:78
+msgid "Maximum number of redirections to follow before giving up"
+msgstr "Maksymalna liczba przekierowań do podążania przed rezygnacją"
+
+#: data/es.danirod.Cartero.gschema.xml:82
+msgid "Maximum timeout when awaiting for an HTTP response."
+msgstr "Maksymalny czas oczekiwania na odpowiedź HTTP."
+
+#: data/es.danirod.Cartero.gschema.xml:86
+msgid "Whether to use light or dark mode."
+msgstr "Czy używać jasnego czy ciemnego trybu."
+
+#: data/es.danirod.Cartero.gschema.xml:90
+msgid "The custom font in use"
+msgstr "Własna czcionka w użyciu"
+
+#: data/es.danirod.Cartero.gschema.xml:94
+msgid "Whether to use the system font or a custom one"
+msgstr "Czy używać własnej czcionki czy systemowej"
+
+#: data/es.danirod.Cartero.gschema.xml:98
+msgid "Whether to create backup files on save"
+msgstr "Czy tworzyć kopie zapasowe przy zapisie"
+
+#: data/help_overlay/adw_help_overlay.blp:22
+#: data/help_overlay/gtk_help_overlay.blp:25
+msgctxt "shortcuts window"
+msgid "General shortcuts"
+msgstr "Ogólne skróty klawiszowe"
+
+#: data/help_overlay/adw_help_overlay.blp:25
+#: data/help_overlay/gtk_help_overlay.blp:28
+msgctxt "shortcuts window"
+msgid "Show Keyboard Shortcuts"
+msgstr "Pokaż skróty klawiszowe"
+
+#: data/help_overlay/adw_help_overlay.blp:30
+#: data/help_overlay/gtk_help_overlay.blp:33
+msgctxt "shortcuts window"
+msgid "Quit"
+msgstr "Wyjdź"
+
+#: data/help_overlay/adw_help_overlay.blp:36
+#: data/help_overlay/gtk_help_overlay.blp:39
+msgctxt "shortcuts window"
+msgid "Tab operations"
+msgstr "Operacje na kartach"
+
+#: data/help_overlay/adw_help_overlay.blp:39
+#: data/help_overlay/gtk_help_overlay.blp:42
+msgctxt "shortcuts window"
+msgid "New request tab"
+msgstr "Karta nowego żądania"
+
+#: data/help_overlay/adw_help_overlay.blp:44
+#: data/help_overlay/gtk_help_overlay.blp:47
+msgctxt "shortcuts window"
+msgid "Open request"
+msgstr "Otwórz żądanie"
+
+#: data/help_overlay/adw_help_overlay.blp:49
+#: data/help_overlay/gtk_help_overlay.blp:52
+msgctxt "shortcuts window"
+msgid "Save request"
+msgstr "Zapisz żądanie"
+
+#: data/help_overlay/adw_help_overlay.blp:54
+#: data/help_overlay/gtk_help_overlay.blp:57
+msgctxt "shortcuts window"
+msgid "Save request as"
+msgstr "Zapisz żądanie jako"
+
+#: data/help_overlay/adw_help_overlay.blp:59
+#: data/help_overlay/gtk_help_overlay.blp:62
+msgctxt "shortcuts window"
+msgid "Close request tab"
+msgstr "Zamknij kartę żądania"
+
+#: data/help_overlay/adw_help_overlay.blp:65
+#: data/help_overlay/gtk_help_overlay.blp:68
+msgctxt "shortcuts window"
+msgid "Code view operations"
+msgstr "Operacje na widoku kodu"
+
+#: data/help_overlay/adw_help_overlay.blp:68
+#: data/help_overlay/gtk_help_overlay.blp:71
+msgctxt "shortcuts window"
+msgid "Zoom in"
+msgstr "Zwiększ powiększenie"
+
+#: data/help_overlay/adw_help_overlay.blp:73
+#: data/help_overlay/gtk_help_overlay.blp:76
+msgctxt "shortcuts window"
+msgid "Zoom out"
+msgstr "Zmniejsz powiększenie"
+
+#: data/help_overlay/adw_help_overlay.blp:78
+#: data/help_overlay/gtk_help_overlay.blp:81
+msgctxt "shortcuts window"
+msgid "Reset zoom"
+msgstr "Resetuj powiększenie"
+
+#: data/help_overlay/adw_help_overlay.blp:83
+#: data/help_overlay/gtk_help_overlay.blp:86
+msgctxt "shortcuts window"
+msgid "Start search"
+msgstr "Rozpocznij wyszukiwanie"
+
+#: data/help_overlay/adw_help_overlay.blp:89
+#: data/help_overlay/gtk_help_overlay.blp:92
+msgctxt "shortcuts window"
+msgid "Request operations"
+msgstr "Operacje żądania"
+
+#: data/help_overlay/adw_help_overlay.blp:92
+#: data/help_overlay/gtk_help_overlay.blp:95
+msgctxt "shortcuts window"
+msgid "Focus URL"
+msgstr "Skupienie na URL"
+
+#: data/help_overlay/adw_help_overlay.blp:97
+#: data/help_overlay/gtk_help_overlay.blp:100
+msgctxt "shortcuts window"
+msgid "Send request"
+msgstr "Wyślij żądanie"
+
+#: data/ui/authentication_pane.blp:34
+msgid "Authorization method"
+msgstr "Metoda autoryzacji"
+
+#: data/ui/authentication_pane.blp:59 data/ui/request_body_pane.blp:54
+#: src/windows/settings/pages/proxy.rs:303
+#: src/windows/settings/pages/proxy.rs:314
+msgid "(none)"
+msgstr "(brak)"
+
+#: data/ui/authentication_pane.blp:60
+msgid "Basic auth"
+msgstr "Podstawowa autoryzacja"
+
+#: data/ui/authentication_pane.blp:61
+msgid "Bearer token"
+msgstr "Token okaziciela"
+
+#: data/ui/basic_auth_pane.blp:23
+msgid "Username"
+msgstr "Nazwa"
+
+#: data/ui/basic_auth_pane.blp:28
+msgid "Password"
+msgstr "Hasło"
+
+#: data/ui/bearer_token_pane.blp:23
+msgid "Token"
+msgstr ""
+
+#: data/ui/endpoint_pane.blp:61 data/ui/endpoint_pane.blp:62
+msgid "Request URL"
+msgstr "Adres URL żądania"
+
+#: data/ui/endpoint_pane.blp:74 data/ui/mac_menu.blp:118
+msgid "Cancel request"
+msgstr "Anuluj żądanie"
+
+#: data/ui/endpoint_pane.blp:83 data/ui/mac_menu.blp:113
+msgid "Send"
+msgstr "Wyślij"
+
+#: data/ui/endpoint_pane.blp:84
+msgid "Execute this HTTP request"
+msgstr "Wyślij to żądanie HTTP"
+
+#: data/ui/endpoint_pane.blp:112
+msgid "Parameters"
+msgstr "Parametry"
+
+#: data/ui/endpoint_pane.blp:138 data/ui/response_panel.blp:196
+msgid "Headers"
+msgstr "Nagłówki"
+
+#: data/ui/endpoint_pane.blp:172
+msgid "Variables"
+msgstr "Zmienne"
+
+#: data/ui/endpoint_pane.blp:201
+msgid ""
+"Cartero supports reading variables from an .env file, but you need to enable "
+"the feature first."
+msgstr ""
+"Cartero wspiera importowanie zmiennych z pliku .env, ale musisz najpierw "
+"włączyć tą funkcję."
+
+#: data/ui/endpoint_pane.blp:208 data/ui/main_window.blp:187
+#: data/ui/main_window_no_csd.blp:192 data/ui/settings/shell.blp:47
+msgid "Settings"
+msgstr "Ustawienia"
+
+#: data/ui/endpoint_pane.blp:226
+msgid ""
+"Cartero supports reading variables from an .env file, but you have to save "
+"the request first."
+msgstr ""
+"Cartero wspiera importowanie zmiennych z pliku .env, ale musisz najpierw "
+"zapisać żądanie."
+
+#: data/ui/endpoint_pane.blp:242
+msgid ""
+"Place an .env file in the same disk directory as the request or in a parent "
+"directory to load the variables in Cartero."
+msgstr ""
+"Umieść plik .env w tym samym lub nadrzędnym katalogu co żądanie, aby "
+"załadować zmienne do Cartero."
+
+#: data/ui/endpoint_pane.blp:248
+msgid "Check again"
+msgstr "Sprawdź ponownie"
+
+#: data/ui/endpoint_pane.blp:280
+msgid "Authorization"
+msgstr "Autoryzacja"
+
+#: data/ui/endpoint_pane.blp:295 data/ui/response_panel.blp:114
+msgid "Body"
+msgstr "Ciało"
+
+#: data/ui/export_dialog.blp:54
+msgid "Generated output"
+msgstr "Wygenerowane dane wyjściowe"
+
+#: data/ui/export_dialog.blp:64 data/ui/response_panel.blp:82
+msgid "Copy to clipboard"
+msgstr "Kopiuj do schowka"
+
+#: data/ui/export_dialog.blp:69 data/ui/response_panel.blp:162
+#: src/widgets/file_dialogs.rs:226
+msgid "Export to file"
+msgstr "Eksportuj do pliku"
+
+#: data/ui/field_list_box_row.blp:27 data/ui/field_placeholder_row.blp:27
+msgid "Enabled"
+msgstr "Włączone"
+
+#: data/ui/field_list_box_row.blp:43 data/ui/field_list_box_row.blp:44
+#: data/ui/field_list_box_static_row.blp:36
+#: data/ui/field_placeholder_row.blp:41 data/ui/field_placeholder_row.blp:42
+msgid "Name"
+msgstr "Nazwa"
+
+#: data/ui/field_list_box_row.blp:59
+msgid ""
+"The value for this field will not be used because another field with the "
+"same name is overriding it."
+msgstr ""
+
+#: data/ui/field_list_box_row.blp:71 data/ui/field_list_box_row.blp:72
+#: data/ui/field_list_box_static_row.blp:46
+#: data/ui/field_placeholder_row.blp:52 data/ui/field_placeholder_row.blp:53
+msgid "Value"
+msgstr "Wartość"
+
+#: data/ui/field_list_box_row.blp:81 data/ui/field_placeholder_row.blp:62
+msgid "Actions"
+msgstr "Operacje"
+
+#: data/ui/field_list_box_row.blp:92
+msgid "Toggle secret"
+msgstr "Przełącz sekrety"
+
+#: data/ui/field_list_box_row.blp:99
+msgid "Delete"
+msgstr "Usuń"
+
+#: data/ui/file_body_pane.blp:30
+msgid "File"
+msgstr "Plik"
+
+#: data/ui/file_body_pane.blp:34
+msgid "Content Type"
+msgstr "Typ zawartości"
+
+#: data/ui/file_body_pane.blp:45
+msgid "or select a file from the file system:"
+msgstr "lub wybierz plik z systemu plików:"
+
+#: data/ui/file_body_pane.blp:54
+msgid "Select file…"
+msgstr "Wybierz plik…"
+
+#: data/ui/file_body_pane.blp:75
+msgid ""
+"You cannot pick a file from the file system until you save this request to "
+"disk."
+msgstr ""
+"Nie możesz wybrać pliku z systemu plików, dopóki nie zapiszesz tego żądania "
+"na dysk."
+
+#: data/ui/file_body_pane.blp:101
+msgid ""
+"You can only attach files to a request if they are in the same directory as "
+"the request file, or in a subdirectory. You cannot attach files to a request "
+"if they are in a parent directory or outside the project folder, or use "
+"absolute paths."
+msgstr ""
+"Dołączać pliki do żądania możesz tylko wtedy, gdy są one w tym samym lub "
+"podrzędnym katalogu co plik żądania. Nie możesz dołączyć plików z katalogu "
+"nadrzędnego lub innego z poza projektu albo używać ścieżek bezwzględnych."
+
+#: data/ui/mac_menu.blp:21
+msgctxt "menubar"
+msgid "File"
+msgstr "Plik"
+
+#: data/ui/mac_menu.blp:25 data/ui/main_window.blp:155
+#: data/ui/main_window_no_csd.blp:160 data/ui/welcome/welcome_pane.blp:65
+msgid "New tab"
+msgstr "Nowa karta"
+
+#: data/ui/mac_menu.blp:30 data/ui/main_window.blp:160
+#: data/ui/main_window_no_csd.blp:165 data/ui/welcome/welcome_pane.blp:78
+msgid "Open request…"
+msgstr "Otwórz żądanie…"
+
+#: data/ui/mac_menu.blp:35 data/ui/main_window.blp:165
+#: data/ui/main_window_no_csd.blp:170 src/widgets/file_dialogs.rs:142
+msgid "Save request"
+msgstr "Zapisz żądanie"
+
+#: data/ui/mac_menu.blp:40 data/ui/main_window.blp:170
+#: data/ui/main_window_no_csd.blp:175
+msgid "Save request as…"
+msgstr "Zapisz żądanie jako…"
+
+#: data/ui/mac_menu.blp:45 data/ui/main_window.blp:175
+#: data/ui/main_window_no_csd.blp:180
+#, fuzzy
+msgid "Duplicate request"
+msgstr "Zapisz żądanie"
+
+#: data/ui/mac_menu.blp:52 data/ui/main_window.blp:180
+#: data/ui/main_window_no_csd.blp:185
+msgid "Close tab"
+msgstr "Zamknij kartę"
+
+#: data/ui/mac_menu.blp:59
+msgctxt "menubar"
+msgid "Edit"
+msgstr "Edytuj"
+
+#: data/ui/mac_menu.blp:63
+msgctxt "menubar"
+msgid "Undo"
+msgstr "Do tyłu"
+
+#: data/ui/mac_menu.blp:68
+msgctxt "menubar"
+msgid "Redo"
+msgstr "Do przodu"
+
+#: data/ui/mac_menu.blp:75
+msgctxt "menubar"
+msgid "Cut"
+msgstr "Wytnij"
+
+#: data/ui/mac_menu.blp:80
+msgctxt "menubar"
+msgid "Copy"
+msgstr "Kopiuj"
+
+#: data/ui/mac_menu.blp:85
+msgctxt "menubar"
+msgid "Paste"
+msgstr "Wklej"
+
+#: data/ui/mac_menu.blp:90
+msgctxt "menubar"
+msgid "Delete"
+msgstr "Usuń"
+
+#: data/ui/mac_menu.blp:97
+msgctxt "menubar"
+msgid "Select All"
+msgstr "Zaznacz wszystko"
+
+#: data/ui/mac_menu.blp:104
+msgctxt "menubar"
+msgid "Endpoint"
+msgstr "Host końcowy"
+
+#: data/ui/mac_menu.blp:108
+msgctxt "menubar"
+msgid "Edit URL"
+msgstr "Edytuj URL"
+
+#: data/ui/mac_menu.blp:125 data/ui/settings/page_code_editor.blp:26
+msgid "Body appearance"
+msgstr "Wygląd ciała"
+
+#: data/ui/mac_menu.blp:129 data/ui/settings/page_code_editor.blp:29
+msgid "Wrap content"
+msgstr "Zawijaj zawartość"
+
+#: data/ui/mac_menu.blp:134 data/ui/settings/page_code_editor.blp:34
+msgid "Show line numbers"
+msgstr "Pokazuj numery linii"
+
+#: data/ui/mac_menu.blp:141 data/ui/settings/page_code_editor.blp:41
+msgid "Automatic indentation"
+msgstr "Automatyczna indentacja"
+
+#: data/ui/mac_menu.blp:146 data/ui/settings/page_code_editor.blp:46
+msgid "Indent with spaces"
+msgstr "Indentacja ze spacjami"
+
+#: data/ui/mac_menu.blp:152 data/ui/settings/page_code_editor.blp:56
+msgid "Indent with tabs"
+msgstr "Indentacja z tabem"
+
+#: data/ui/mac_menu.blp:158 data/ui/settings/page_code_editor.blp:67
+msgid "Spaces per tab"
+msgstr "Spacje na kartę"
+
+#: data/ui/mac_menu.blp:161
+msgid "2"
+msgstr ""
+
+#: data/ui/mac_menu.blp:167
+msgid "4"
+msgstr ""
+
+#: data/ui/mac_menu.blp:173
+msgid "8"
+msgstr ""
+
+#: data/ui/mac_menu.blp:184
+msgctxt "menubar"
+msgid "Window"
+msgstr "Okno"
+
+#: data/ui/mac_menu.blp:188
+msgctxt "menubar"
+msgid "Minimize"
+msgstr "Zminimalizuj"
+
+#. TRANSLATORS: This item will only be visible in macOS, where the convention is to call it "zoom" instead of "maximize"
+#: data/ui/mac_menu.blp:194
+msgctxt "menubar"
+msgid "Zoom"
+msgstr "Powiększenie"
+
+#: data/ui/mac_menu.blp:201
+msgctxt "menubar"
+msgid "Help"
+msgstr "Pomoc"
+
+#: data/ui/mac_menu.blp:205 data/ui/welcome/welcome_pane.blp:132 src/win.rs:640
+msgid "User manual"
+msgstr "Instrukcja obsługi"
+
+#: data/ui/mac_menu.blp:210 data/ui/welcome/welcome_pane.blp:142
+msgctxt "menubar"
+msgid "Report a bug"
+msgstr "Zgłoś błąd"
+
+#: data/ui/mac_menu.blp:215
+msgctxt "menubar"
+msgid "View discussions"
+msgstr "Zobacz dyskusje"
+
+#: data/ui/mac_menu.blp:222 src/win.rs:642
+msgid "Help us translate"
+msgstr "Pomóż nam tłumaczyć"
+
+#: data/ui/mac_menu.blp:229 data/ui/settings/page_application.blp:72
+msgid "Check for updates"
+msgstr "Sprawdź aktualizacje"
+
+#: data/ui/main_window.blp:48 data/ui/main_window_no_csd.blp:48
+msgid "New"
+msgstr "Nowy"
+
+#: data/ui/main_window.blp:59 data/ui/main_window.blp:71
+#: data/ui/main_window_no_csd.blp:59 data/ui/main_window_no_csd.blp:71
+#: src/widgets/file_dialogs.rs:105 src/widgets/file_dialogs.rs:182
+msgid "Open"
+msgstr "Otwórz"
+
+#: data/ui/main_window.blp:79 data/ui/main_window_no_csd.blp:79
+#: src/widgets/file_dialogs.rs:141 src/widgets/file_dialogs.rs:224
+msgid "Save"
+msgstr "Zapisz"
+
+#: data/ui/main_window.blp:88 data/ui/main_window_no_csd.blp:100
+msgid "Export request"
+msgstr "Wyeksportuj żądanie"
+
+#: data/ui/main_window.blp:95
+msgid "Menu"
+msgstr ""
+
+#: data/ui/main_window.blp:132 data/ui/main_window_no_csd.blp:137
+msgid "Export request as cURL…"
+msgstr "Wyeksportuj żądanie jako polecenie cURL…"
+
+#: data/ui/main_window.blp:138 data/ui/main_window_no_csd.blp:143
+msgid "Export request as Jetbrains HTTP…"
+msgstr "Wyeksportuj żądanie do Jetbrains HTTP…"
+
+#: data/ui/main_window.blp:146 data/ui/main_window_no_csd.blp:151
+msgid "Export response body…"
+msgstr "Wyeksportuj ciało żądania…"
+
+#: data/ui/main_window.blp:194 data/ui/main_window_no_csd.blp:199
+msgid "Keyboard shortcuts"
+msgstr "Skróty klawiszowe"
+
+#: data/ui/main_window.blp:199 data/ui/main_window_no_csd.blp:204
+msgid "About Cartero"
+msgstr "O Cartero"
+
+#: data/ui/main_window.blp:204 data/ui/main_window_no_csd.blp:209
+msgid "Quit"
+msgstr "Wyjdź"
+
+#: data/ui/method_dropdown.blp:28
+msgid "Request method"
+msgstr "Metoda żądania"
+
+#: data/ui/raw_body_pane.blp:28
+msgid "Request body"
+msgstr "Ciało żądania"
+
+#: data/ui/request_body_pane.blp:34
+msgid "Body type"
+msgstr "Typ ciała"
+
+#: data/ui/request_body_pane.blp:55
+msgid "URL Encoded"
+msgstr "Zakodowany URL"
+
+#: data/ui/request_body_pane.blp:56
+msgid "Multipart Form Data"
+msgstr "Dane formularza wieloczęściowego"
+
+#: data/ui/request_body_pane.blp:59
+msgid "Raw"
+msgstr "Surowe"
+
+#: data/ui/request_body_pane.blp:60
+msgid "From file"
+msgstr "Z pliku"
+
+#: data/ui/response_headers.blp:42
+msgid "No headers"
+msgstr "Brak nagłówków"
+
+#: data/ui/response_panel.blp:30
+msgid "Ready to request"
+msgstr "Gotowe do wysłania"
+
+#: data/ui/response_panel.blp:31
+msgid "Use the Send button to send a network request and it will show here."
+msgstr "Użyj przycisku 'Wyślij', aby wysłać żądanie, a ono się tutaj pokaże."
+
+#: data/ui/response_panel.blp:127
+msgid "Response body"
+msgstr "Ciało żądania"
+
+#: data/ui/response_panel.blp:146
+msgid "Binary response received"
+msgstr "Otrzymano odpowiedź w formacie binarnym"
+
+#: data/ui/response_panel.blp:147
+msgid "The response of this request should not be rendered in a text view."
+msgstr "Odpowiedź na to żądanie nie powinna być wyświetlana jako tekst."
+
+#: data/ui/response_panel.blp:169
+msgid "Render anyway"
+msgstr "Wyświetl i tak"
+
+#: data/ui/search_box.blp:42 data/ui/search_box.blp:43
+msgid "Search"
+msgstr "Szukaj"
+
+#: data/ui/search_box.blp:63
+msgid "Previous result"
+msgstr "Poprzedni wynik"
+
+#: data/ui/search_box.blp:69
+msgid "Next result"
+msgstr "Następny wynik"
+
+#: data/ui/search_box.blp:81
+msgid "Close search"
+msgstr "Zamknij wyszukiwanie"
+
+#: data/ui/settings/page_appearance.blp:22
+msgid "Appearance"
+msgstr "Wygląd"
+
+#: data/ui/settings/page_appearance.blp:26
+msgid "Color scheme"
+msgstr ""
+
+#: data/ui/settings/page_appearance.blp:60
+msgid "Interface"
+msgstr ""
+
+#: data/ui/settings/page_appearance.blp:63
+msgid "Application style"
+msgstr "Styl aplikacji"
+
+#. Has to be a separate variable due to variable lifetimes.
+#: data/ui/settings/page_appearance.blp:67 src/windows/settings/locale.rs:84
+msgid "Follow system settings"
+msgstr "Ustawienie systemowe"
+
+#: data/ui/settings/page_appearance.blp:68
+msgid "Light mode"
+msgstr "Jasny tryb"
+
+#: data/ui/settings/page_appearance.blp:69
+msgid "Dark mode"
+msgstr "Ciemny tryb"
+
+#: data/ui/settings/page_appearance.blp:76
+msgid "Font"
+msgstr ""
+
+#: data/ui/settings/page_appearance.blp:79
+msgid "Use system font"
+msgstr "Używaj czcionki systemowej"
+
+#: data/ui/settings/page_appearance.blp:83
+msgid "Custom font"
+msgstr "Własna czcionka"
+
+#: data/ui/settings/page_appearance.blp:90
+msgid "Click to select a font"
+msgstr "Kliknij, aby wybrać czcionkę"
+
+#: data/ui/settings/page_application.blp:22
+msgid "Application"
+msgstr "Aplikacja"
+
+#: data/ui/settings/page_application.blp:26
+#: data/ui/settings/page_application.blp:33
+msgid "Language"
+msgstr "Język"
+
+#: data/ui/settings/page_application.blp:43
+msgid "You need to restart the program for the new locale to be used."
+msgstr ""
+"Musisz ponownie uruchomić program, aby używać nowych ustawień regionalnych."
+
+#: data/ui/settings/page_application.blp:50
+msgid "File settings"
+msgstr "Ustawienia pliku"
+
+#: data/ui/settings/page_application.blp:53
+msgid "Create backup files"
+msgstr "Twórz kopie zapasowe"
+
+#: data/ui/settings/page_application.blp:54
+msgid ""
+"You might not want to enable this if you are already using a version control "
+"such as Git"
+msgstr ""
+"Możesz nie chcieć tego włączać jeśli używasz systemu kontroli wersji, np. "
+"Git-a"
+
+#: data/ui/settings/page_application.blp:60
+msgid "Software updates"
+msgstr "Aktualizacje"
+
+#: data/ui/settings/page_application.blp:67
+msgid "Current version"
+msgstr "Obecna wersja"
+
+#: data/ui/settings/page_code_editor.blp:22
+msgid "Code editor"
+msgstr "Edytor tekstu"
+
+#: data/ui/settings/page_http_client.blp:22
+msgid "HTTP Client"
+msgstr "Klient HTTP"
+
+#: data/ui/settings/page_http_client.blp:27
+msgid "Enforce TLS validation"
+msgstr "Wymuś walidację TLS"
+
+#: data/ui/settings/page_http_client.blp:28
+msgid "Cancel a request if the TLS handshake fails"
+msgstr "Anuluj żądanie jeśli uzgadnianie TLS się nie powiedzie"
+
+#: data/ui/settings/page_http_client.blp:32
+msgid "Follow redirects"
+msgstr "Używaj przekierowań"
+
+#: data/ui/settings/page_http_client.blp:33
+msgid "Make follow-up requests if the server returns an HTTP 3xx response"
+msgstr "Wysyłaj żądanie uzupełniające, jeśli serwer zwróci odpowiedź HTTP 3xx"
+
+#: data/ui/settings/page_http_client.blp:38
+msgid "Maximum redirects"
+msgstr "Maksymalna liczba przekierowań"
+
+#: data/ui/settings/page_http_client.blp:50
+msgid "Request timeout"
+msgstr "Przekroczono limit czasu"
+
+#: data/ui/settings/page_http_client.blp:51
+msgid "Seconds to wait before cancelling the request"
+msgstr "Liczba sekund oczekiwania przed anulowaniem żądania"
+
+#: data/ui/settings/page_proxy.blp:22
+msgid "Proxy"
+msgstr ""
+
+#: data/ui/settings/page_proxy.blp:26
+msgid "Proxy settings"
+msgstr "Ustawienia proxy"
+
+#: data/ui/settings/page_proxy.blp:29
+msgid "HTTP Proxy"
+msgstr "Proxy HTTP"
+
+#: data/ui/settings/page_proxy.blp:33
+msgid "HTTPS Proxy"
+msgstr "Proxy HTTPS"
+
+#: data/ui/settings/page_proxy.blp:38
+msgid "Exclude from proxy"
+msgstr "Wyklucz z proxy"
+
+#: data/ui/settings/page_proxy.blp:39
+msgid ""
+"IP addresses and domain names contained in this list will bypass the proxy "
+"settings and be accessed directly."
+msgstr ""
+"Adresy IP i nazwy domenowe z tej list będą omijać ustawienia proxy i będą "
+"dostępne bezpośrednio."
+
+#: data/ui/settings/page_proxy.blp:55 data/ui/settings/page_proxy.blp:56
+msgid "Address to exclude"
+msgstr "Adresy do wykluczenia"
+
+#: data/ui/settings/page_proxy.blp:60
+msgid "Add"
+msgstr "Dodaj"
+
+#: data/ui/settings/page_proxy.blp:91
+msgid "Environment variables"
+msgstr "Zmienne środowiskowe"
+
+#. TRANSLATORS: Keep the variable names "http_proxy", "https_proxy" and "no_proxy" in English because that's the name of the variable.
+#: data/ui/settings/page_proxy.blp:93
+msgid ""
+"Cartero supports the use of the standard http_proxy, https_proxy and "
+"no_proxy environment variables to provide the system proxy settings."
+msgstr ""
+"Cartero wspiera wykorzystanie standardowych zmiennych środowiskowych jak "
+"http_proxy, https_proxy oraz no_proxy, aby korzystać z systemowych ustawień "
+"proxy."
+
+#: data/ui/settings/page_proxy.blp:107
+msgid "Use environment variables as a fallback"
+msgstr "Użyj zmiennych środowiskowych jako opcję rezerwową"
+
+#: data/ui/settings/page_proxy.blp:127 data/ui/settings/page_proxy.blp:138
+#: data/ui/settings/page_proxy.blp:149
+msgid "(empty)"
+msgstr "(puste)"
+
+#: data/ui/settings/page_security.blp:22
+msgid "Security"
+msgstr "Bezpieczeństwo"
+
+#: data/ui/settings/page_security.blp:26
+msgid ".env files"
+msgstr "pliki .env"
+
+#: data/ui/settings/page_security.blp:27
+msgid ""
+".env files are commonly used in projects to store sensitive values such as "
+"credentials. Cartero can locate .env files and expose the variables inside "
+"so that you can use them in your requests."
+msgstr ""
+"pliki .env są zwykle używane w projektach do przechowywania wrażliwych "
+"danych, jak hasła. Cartero może zlokalizować pliku .env i wykorzystać "
+"zmienne w nich zawarte, abyś mógł użyć ich w swoich żądaniach."
+
+#: data/ui/settings/page_security.blp:31
+msgid "Find and load .env files"
+msgstr "Znajdź i załaduj pliku .env"
+
+#: data/ui/settings/page_security.blp:32
+msgid ""
+"Cartero will only traverse your disk looking for .env files if you enable "
+"this option."
+msgstr ""
+"Cartero będzie przeszukiwał twój dysk tylko w poszukiwaniu plików .env, "
+"jeśli włączysz tę opcję."
+
+#: data/ui/welcome/welcome_pane.blp:45
+msgid "Welcome to Cartero"
+msgstr "Witaj w Cartero"
+
+#: data/ui/welcome/welcome_pane.blp:46
+msgid "Create or open a request and start testing APIs now."
+msgstr "Stwórz lub otwórz żądanie i zacznij testować API."
+
+#: data/ui/welcome/welcome_pane.blp:113
+msgid ""
+"Cartero is free software, released under the terms of the GNU General Public "
+"License v3 or later."
+msgstr ""
+"Cartero jest wolnym oprogramowanie, wydanym na warunkach licencji GNU "
+"General Public License v3 lub nowszej."
+
+#: data/ui/welcome/welcome_pane.blp:118 data/ui/welcome/welcome_pane.blp:166
+msgid "Know your rights"
+msgstr "Poznaj swoje prawa"
+
+#: data/ui/welcome/welcome_pane.blp:152
+msgid "Social media updates"
+msgstr "Aktualności w mediach społecznościowych"
+
+#. TRANSLATORS: if your language has a different word for free as in freedom and free as in beer, and it's clear that free means "freedom", you might skip the "as in freedom" bit if you wish.
+#: data/ui/welcome/welcome_pane.blp:182
+msgid "You can use Cartero for free (as in freedom)"
+msgstr "Możesz używać dowolnie używać Cartero"
+
+#: data/ui/welcome/welcome_pane.blp:183
+msgid ""
+"You don't have to ask for permission or purchase a license or subscription "
+"to use this software.\n"
+"\n"
+"Even if you use it at work or for commercial purposes."
+msgstr ""
+"Nie musisz pytać o zgodę lub kupować licencję lub subskrypcję, żeby używać "
+"tego oprogramowania.\n"
+"\n"
+"Nawet, jeśli używasz go w pracy lub do celów komercyjnych."
+
+#: data/ui/welcome/welcome_pane.blp:190
+msgid "You can get, study and modify the source code"
+msgstr "Możesz otrzymać, studiować i modyfikować kod źródłowy"
+
+#: data/ui/welcome/welcome_pane.blp:191
+msgid ""
+"Mod the program so that it works exactly how you want, or just learn things "
+"if you are new to programming."
+msgstr ""
+"Zmodyfikuj program, aby działa dokładnie tak jak ty chcesz lub po prostu ucz "
+"się, jeśli jesteś nowy w programowaniu."
+
+#: data/ui/welcome/welcome_pane.blp:198
+msgid "You can share copies of the program"
+msgstr "Możesz udostępniać kopie tego programu"
+
+#: data/ui/welcome/welcome_pane.blp:199
+msgid ""
+"You can repackage Cartero or share copies of the software with other people, "
+"as long as the recipients have access to these freedoms too.\n"
+"\n"
+"(In other words: if you fork, your project must retain the GNU General "
+"Public License too.)"
+msgstr ""
+"Możesz przepakowywać Cartero albo udostępniać kopie programowania innym "
+"osobom, po warunkiem że odbiory też mają dostęp do tych wolności.\n"
+"\n"
+"(inaczej: jeśli zrobisz fork, twój projekt musi też używać licencji GNU "
+"General Public License)"
+
+#: data/ui/welcome/welcome_pane.blp:206
+msgid "Cartero is built in community"
+msgstr "Cartero jest budowane przez społeczność"
+
+#: data/ui/welcome/welcome_pane.blp:207
+msgid ""
+"Share feedback, contribute code, report bugs, translate Cartero to your "
+"language… You can be part of this!"
+msgstr ""
+"Podziel się swoją opinią, rozwijaj kod, zgłaszaj błędy, tłumacz Cartero na "
+"swój język… Możesz być tego częścią!"
+
+#: data/ui/welcome/welcome_pane.blp:219
+msgid "Previous"
+msgstr "Poprzedni"
+
+#: data/ui/welcome/welcome_pane.blp:235
+msgid "Next"
+msgstr "Następny"
+
+#: src/interop.rs:33
+msgid ""
+"This file was created with a newer version of this application; please "
+"update!"
+msgstr ""
+"Ten plik został stworzony w nowszej wersji tej aplikacji; zrób aktualizację!"
+
+#: src/interop.rs:36
+msgid "The file is corrupt or does not contain valid data for this application"
+msgstr ""
+"Plik jest uszkodzony lub nie zawiera poprawnych danych dla tej aplikacji"
+
+#: src/interop.rs:59
+msgid "The specified URL is not valid"
+msgstr "Podany adres URL jest nieprawidłowy"
+
+#: src/interop.rs:60 src/widgets/dialogs.rs:170
+msgid "Cannot recognise the URL"
+msgstr "Nie można rozpoznać adresu URL"
+
+#: src/interop.rs:61
+msgid "The given URL is missing a protocol"
+msgstr "Podany adres URL nie zawiera protokołu"
+
+#: src/interop.rs:63
+#, rust-format
+msgid "The protocol {}:// is not supported"
+msgstr "Protokół {}:// nie jest wspierany"
+
+#: src/interop.rs:66 src/widgets/dialogs.rs:172
+#, rust-format
+msgid "The variable '{}' is not defined"
+msgstr "Zmienna '{}' nie jest zdefiniowana"
+
+#: src/interop.rs:69 src/widgets/dialogs.rs:175
+msgid "There was a problem with a variable interpolation, review your inputs"
+msgstr "Wystąpił problem z interpolacją zmiennej, sprawdź swoje dane wejściowe"
+
+#: src/interop.rs:72
+#, rust-format
+msgid "The header '{}' is not valid"
+msgstr "Nagłówek '{}' nie jest poprawny"
+
+#: src/interop.rs:75
+#, rust-format
+msgid "The value for header '{}' is not valid"
+msgstr "Wartość dla nagłówka '{}' nie jest poprawna"
+
+#: src/interop.rs:78
+msgid "The given request body could not be encoded correctly"
+msgstr "Podane ciało żądania nie mogło zostać poprawnie zakodowane"
+
+#: src/interop.rs:80
+msgid "You have to save the request first"
+msgstr "Najpierw musisz zapisać żądanie"
+
+#: src/interop.rs:82
+#, rust-format
+msgid "The file '{}' cannot be accessed due to the security policy"
+msgstr ""
+"Nie  można uzyskać dostępu do pliku '{}' z powodu polityki bezpieczeństwa"
+
+#: src/interop.rs:87
+#, rust-format
+msgid "Defined value for proxy '{}' is not a valid configuration"
+msgstr "Wartość zdefiniowana dla proxy '{}' jest nieporawna"
+
+#: src/interop.rs:91
+msgid "There is an input/output error"
+msgstr "Wystąpił błąd danych wejścia/wyjścia"
+
+#: src/interop.rs:92
+msgid "There is a network error"
+msgstr "Wystąpił błąd sieci"
+
+#: src/updates/ui.rs:33
+msgid "Error checking updates"
+msgstr "Błąd podczas sprawdzania aktualizacji"
+
+#: src/updates/ui.rs:35
+msgid "Couldn't receive a valid response from the server. Please, check later."
+msgstr ""
+"Nie udało się otrzymać poprawnej odpowiedzi z serwera. Sprawdź później."
+
+#: src/updates/ui.rs:38 src/updates/ui.rs:48
+msgid "Accept"
+msgstr "Zaakceptuj"
+
+#: src/updates/ui.rs:45
+msgid "No updates at the moment"
+msgstr "Brak aktualizacji w tym momencie"
+
+#: src/updates/ui.rs:46
+msgid "You are running the latest version of Cartero."
+msgstr "Używasz najnowszej wersji Cartero."
+
+#: src/updates/ui.rs:57
+#, rust-format
+msgid ""
+"Version {} has been released. Do you want to visit the website to download "
+"the update now?"
+msgstr ""
+"Wersja {} została wydana. Czy chcesz wejść na stronę, aby pobrać "
+"aktualizację teraz?"
+
+#: src/updates/ui.rs:59
+msgid "There is a new version of Cartero!"
+msgstr "Jest nowa wersja Cartero!"
+
+#: src/updates/ui.rs:63
+msgid "_Open website"
+msgstr "_Otwórz stronę"
+
+#: src/updates/ui.rs:64
+msgid "_Not now"
+msgstr "_Nie teraz"
+
+#: src/widgets/dialogs.rs:51
+#, rust-format
+msgid "Cannot open '{}'"
+msgstr "Nie udało się otworzyć '{}'"
+
+#: src/widgets/dialogs.rs:52
+msgid "Cannot open the requested file"
+msgstr "Nie udało się otworzyć wybranego pliku"
+
+#: src/widgets/dialogs.rs:61 src/widgets/dialogs.rs:92
+#: src/widgets/dialogs.rs:122 src/widgets/dialogs.rs:151
+#: src/widgets/dialogs.rs:164 src/widgets/dialogs.rs:190
+msgid "Close"
+msgstr "Zamknij"
+
+#: src/widgets/dialogs.rs:75
+#, rust-format
+msgid "The file '{}' was loaded but had issues"
+msgstr "Plik '{}' został załadowany, ale ma błędy"
+
+#: src/widgets/dialogs.rs:76
+msgid "The requested file was loaded but had issues"
+msgstr "Wybrany plik został załadowany, ale ma błędy"
+
+#: src/widgets/dialogs.rs:99
+#, rust-format
+msgid ""
+"The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
+"to '{}'."
+msgstr ""
+"Znaleziono w pliku polecenie HTTP '{}'. Jest ono nieprawidłowe i zostanie "
+"zastąpione przez '{}'."
+
+#: src/widgets/dialogs.rs:115
+msgid "The requested file cannot be picked"
+msgstr "Wybrany plik nie może zostać pobrany"
+
+#: src/widgets/dialogs.rs:116
+#, rust-format
+msgid ""
+"The file must be within the same directory as the request or project file or "
+"any of its subdirectories.\n"
+"\n"
+"The file '{}' is not part of the '{}' directory"
+msgstr ""
+"Plik musi by w tym samym katalogu co plik żądania lub projektu lub w jego "
+"podkatalogu.\n"
+"\n"
+" Plik '{}' nie jest w katalogu '{}'"
+
+#: src/widgets/dialogs.rs:136
+#, rust-format
+msgid "Cannot save '{}'"
+msgstr "Nie można zapisać '{}'"
+
+#: src/widgets/dialogs.rs:137
+msgid "Cannot save the requested file"
+msgstr "Nie można zapisać żądanego pliku"
+
+#: src/widgets/dialogs.rs:142
+msgid ""
+"There was an error during the saving process. Assume that your changes are "
+"still not saved."
+msgstr "Wystąpił błąd zapisu. Przyjmij, że twoje dane ciągle nie są zapisane."
+
+#: src/widgets/dialogs.rs:159
+msgid "Could not select a valid file from the file chooser"
+msgstr "Nie udało się wybrać poprawnego pliku"
+
+#: src/widgets/dialogs.rs:179
+msgid ""
+"There has been an internal error during the export process. This is most "
+"likely a development error. (If you could report your test case and this "
+"error, we might be able to fix this in the future.)"
+msgstr ""
+"Wystąpił wewnętrzny błąd w trakcie procesu eksportowania. Prawdopodobnie "
+"jest to błąd programistyczny. Jeśli zgłosisz ten błąd i testowe dane, "
+"będziemy mogli spróbować go naprawić w przyszłości."
+
+#: src/widgets/dialogs.rs:181
+msgid "Error cause:"
+msgstr "Przyczyna błędu:"
+
+#: src/widgets/dialogs.rs:186
+msgid "Could not export the request"
+msgstr "Nie udało się wyeksportować żądania"
+
+#: src/widgets/dialogs.rs:199
+msgid "There are unsaved changes"
+msgstr "Niektóre zmiany nie zostały zapisane"
+
+#: src/widgets/dialogs.rs:201
+msgid ""
+"Closing this window will lose all unsaved data. Do you really want to "
+"proceed?"
+msgstr ""
+"Zamknięcie tego okna spowoduje utratę niezapisanych danych. Czy na pewno "
+"chcesz przejść dalej?"
+
+#: src/widgets/dialogs.rs:205 src/windows/settings/pages/proxy.rs:253
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: src/widgets/dialogs.rs:206
+msgid "Close anyway"
+msgstr "Zamknij pomimo to"
+
+#: src/widgets/dialogs.rs:229
+#, rust-format
+msgid "Save changes in '{}'?"
+msgstr "Zapisać zmiany w '{}'?"
+
+#: src/widgets/dialogs.rs:230
+msgid "Save changes?"
+msgstr "Zapisać zmiany?"
+
+#: src/widgets/dialogs.rs:235
+msgid "There are changes that have not been saved yet. What do you want to do?"
+msgstr "Niektóre zmiany nie zostały jeszcze zapisane. Co chcesz zrobić?"
+
+#: src/widgets/dialogs.rs:239
+msgid "_Cancel"
+msgstr "_Anuluj"
+
+#: src/widgets/dialogs.rs:240
+msgid "_Discard"
+msgstr "_Odrzuć"
+
+#: src/widgets/dialogs.rs:241
+msgid "_Save"
+msgstr "_Zapisz"
+
+#: src/widgets/endpoint/endpoint_pane.rs:286
+#, rust-format
+msgid "Show {} variable from .env"
+msgid_plural "Show {} variables from .env"
+msgstr[0] "Pokaż {} zmienną z pliku .env"
+msgstr[1] "Pokaż {} zmienne z pliku .env"
+msgstr[2] "Pokaż {} zmiennych z pliku .env"
+
+#: src/widgets/endpoint/endpoint_pane.rs:559
+#: src/widgets/endpoint/endpoint_pane.rs:565
+#: src/widgets/endpoint/endpoint_pane.rs:586
+msgid "(generated during request)"
+msgstr "(generowane podczas żądania)"
+
+#: src/widgets/endpoint/endpoint_pane.rs:613
+#, rust-format
+msgid "Show {} pre-generated headers"
+msgstr "Pokaż {} wstępnie wygenerowane nagłówki"
+
+#: src/widgets/endpoint/endpoint_pane.rs:829
+msgid "Export request as cURL"
+msgstr "Wyeksportuj żądanie jako polecenie cURL"
+
+#: src/widgets/endpoint/endpoint_pane.rs:830
+msgid "Export request as Jetbrains HTTP"
+msgstr "Wyeksportuj żądanie do Jetbrains HTTP"
+
+#. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
+#: src/widgets/endpoint/response_panel.rs:379
+#, rust-format
+msgid "{} s"
+msgstr ""
+
+#. Format as milliseconds.
+#. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
+#: src/widgets/endpoint/response_panel.rs:383
+#, rust-format
+msgid "{} ms"
+msgstr ""
+
+#: src/widgets/error_pane.rs:103
+msgid "The request data is not valid"
+msgstr "Parametry żądania są niepoprawne"
+
+#: src/widgets/error_pane.rs:110
+msgid "The request failed"
+msgstr "Żądanie się nie powiodło"
+
+#: src/widgets/export_dialog.rs:115
+msgid "Content copied to the clipboard"
+msgstr "Zawartość skopiowana do schowka"
+
+#: src/widgets/field/field_list_box_static_row.rs:149
+msgid "Show value"
+msgstr ""
+
+#: src/widgets/field/field_list_box_static_row.rs:151
+msgid "Hide value"
+msgstr ""
+
+#. TRANSLATORS: presented in file dialogs as the file type for a request
+#. The macOS native file dialog will already add the extension for us.
+#: src/widgets/file_dialogs.rs:42 src/widgets/file_dialogs.rs:146
+#: src/widgets/file_dialogs.rs:148
+msgid "Request"
+msgstr "Żądanie"
+
+#: src/widgets/file_dialogs.rs:106
+msgid "Open request"
+msgstr "Otwórz żądanie"
+
+#: src/widgets/file_dialogs.rs:183
+msgid "Select file"
+msgstr "Wybierz plik"
+
+#. TRANSLATORS: this string is used to build the search box ocurrences count; the first
+#. placeholder is the current ocurrence index, the second one is the total.
+#: src/widgets/search_box.rs:254
+#, rust-format
+msgid "{} of {}"
+msgstr "{} z {}"
+
+#. TRANSLATORS: this string is used to build the search box ocurrences count when only
+#. the number of total ocurrences is known.
+#: src/widgets/search_box.rs:262
+#, rust-format
+msgid "{} result"
+msgid_plural "{} results"
+msgstr[0] "{} wynik"
+msgstr[1] "{} wyniki"
+msgstr[2] "{} wyników"
+
+#: src/win.rs:288
+msgid "(untitled)"
+msgstr "(bez tytułu)"
+
+#: src/win.rs:302
+msgid "Draft"
+msgstr "Szkic"
+
+#: src/win.rs:612
+msgid "The Cartero authors"
+msgstr "Autorzy Cartero"
+
+#. Translators: Replace "translator-credits" with your names. Put a comma between.
+#: src/win.rs:635
+msgid "translator-credits"
+msgstr "dawkagaming"
+
+#: src/win.rs:636
+msgid "© 2024-2026 the Cartero authors"
+msgstr "© 2024-2026 autorzy Cartero"
+
+#: src/windows/settings/pages/proxy.rs:210
+msgid "The value is not a valid domain or IP address"
+msgstr "Wartość nie jest poprawną domeną lub adresem IP"
+
+#: src/windows/settings/pages/proxy.rs:225
+msgid "The host identifier is already excluded"
+msgstr "Identyfikator hosta jest już wykluczony"
+
+#: src/windows/settings/pages/proxy.rs:245
+#, rust-format
+msgid "Delete '{}' from the list of excluded hosts for the proxy?"
+msgstr "Usunąć '{}' z listy wykluczonych hostów dla proxy?"
+
+#: src/windows/settings/pages/proxy.rs:250
+msgid "Delete identifier?"
+msgstr "Usunąć identyfikator?"
+
+#: src/windows/settings/pages/proxy.rs:254
+#: src/windows/settings/pages/proxy.rs:288
+msgid "Remove"
+msgstr "Usuń"
+
+#: src/windows/settings/pages/proxy.rs:272
+msgid "No domains or IP addresses are being excluded"
+msgstr "Żadne domeny lub adresy IP nie są wykluczone"

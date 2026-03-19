@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -113,8 +113,7 @@ impl Response {
                 body.clone()
                     .to_vec()
                     .into_iter()
-                    .find(|ch| *ch < 0x08 || (*ch > 0x0D && *ch < 0x20))
-                    .is_some()
+                    .any(|ch| ch < 0x08 || (ch > 0x0D && ch < 0x20))
             })
     }
 
@@ -181,7 +180,7 @@ mod imp {
 }
 
 mod builder {
-    use glib::{object::ObjectBuilder, Object};
+    use glib::{Object, object::ObjectBuilder};
 
     use super::*;
 

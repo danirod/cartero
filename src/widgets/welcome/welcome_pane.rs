@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,8 +24,8 @@ mod imp {
     use super::*;
     use glib::subclass::InitializingObject;
     use gtk::{
-        gio::{SimpleAction, SimpleActionGroup},
         CompositeTemplate,
+        gio::{SimpleAction, SimpleActionGroup},
     };
 
     #[derive(Default, CompositeTemplate)]

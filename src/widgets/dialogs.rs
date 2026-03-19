@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
 use crate::interop::InnerError;
 
 use adw::{
-    prelude::{AlertDialogExt, AlertDialogExtManual},
     AlertDialog,
+    prelude::{AlertDialogExt, AlertDialogExtManual},
 };
 use cartero_code_exporters::ExportError as CodeExportError;
 use cartero_interop::{FileLoadError, FileSaveError, FileWarningTag};
@@ -59,7 +59,7 @@ pub async fn file_load_error_dialog(
         .default_response("close")
         .build();
     alert.add_response("close", &gettext("Close"));
-    alert.choose_future(root).await;
+    alert.choose_future(Some(root)).await;
 }
 
 /// Renders an error message that shows the warnings found while loading a file.
@@ -90,7 +90,7 @@ pub async fn file_load_warning_dialog(
         .default_response("close")
         .build();
     alert.add_response("close", &gettext("Close"));
-    alert.choose_future(root).await;
+    alert.choose_future(Some(root)).await;
 }
 
 fn pretty_warning(warning: FileWarningTag) -> String {
@@ -120,7 +120,7 @@ pub async fn file_pick_out_of_prefix_error(
         .default_response("close")
         .build();
     alert.add_response("close", &gettext("Close"));
-    alert.choose_future(root).await;
+    alert.choose_future(Some(root)).await;
 }
 
 /// Renders an error message that shows the error that prevents the file from
@@ -136,27 +136,33 @@ pub async fn file_save_error(
         Some(name) => formatx!(gettext("Cannot save '{}'"), name).unwrap(),
         None => gettext("Cannot save the requested file"),
     };
-    let error_msg = format!("{}\n\n{}", gettext("There was an error during the saving process. Assume that your changes are still not saved."), error);
+    let error_msg = format!(
+        "{}\n\n{}",
+        gettext(
+            "There was an error during the saving process. Assume that your changes are still not saved."
+        ),
+        error
+    );
     let alert = AlertDialog::builder()
         .heading(&error_title)
         .body(&error_msg)
         .default_response("close")
         .build();
     alert.add_response("close", &gettext("Close"));
-    alert.choose_future(root).await;
+    alert.choose_future(Some(root)).await;
 }
 
 /// Renders an error message associated with a FileDialog.
 pub async fn glib_file_dialog_error(root: &impl IsA<gtk::Widget>, error: &glib::Error) {
     let alert = AlertDialog::builder()
-        .heading(&gettext(
+        .heading(gettext(
             "Could not select a valid file from the file chooser",
         ))
-        .body(&error.to_string())
+        .body(error.to_string())
         .default_response("close")
         .build();
     alert.add_response("close", &gettext("Close"));
-    alert.choose_future(root).await;
+    alert.choose_future(Some(root)).await;
 }
 
 pub async fn export_dialog_error(root: &impl IsA<gtk::Widget>, cause: CodeExportError) {
@@ -169,18 +175,20 @@ pub async fn export_dialog_error(root: &impl IsA<gtk::Widget>, cause: CodeExport
             gettext("There was a problem with a variable interpolation, review your inputs")
         }
         CodeExportError::TemplateError(cause) => {
-            let top = gettext("There has been an internal error during the export process. This is most likely a development error. (If you could report your test case and this error, we might be able to fix this in the future.)");
+            let top = gettext(
+                "There has been an internal error during the export process. This is most likely a development error. (If you could report your test case and this error, we might be able to fix this in the future.)",
+            );
             let error_cause = gettext("Error cause:");
             format!("{}\n\n{} {}", top, error_cause, cause)
         }
     };
     let alert = AlertDialog::builder()
-        .heading(&gettext("Could not export the request"))
+        .heading(gettext("Could not export the request"))
         .body(&error)
         .default_response("close")
         .build();
     alert.add_response("close", &gettext("Close"));
-    alert.choose_future(root).await;
+    alert.choose_future(Some(root)).await;
 }
 
 // Asks the user whether to actually close the window when there is unsaved
@@ -188,8 +196,8 @@ pub async fn export_dialog_error(root: &impl IsA<gtk::Widget>, cause: CodeExport
 // chose to keep the window for now.
 pub async fn confirm_close_window(root: &impl IsA<gtk::Widget>) -> bool {
     let question = AlertDialog::builder()
-        .heading(&gettext("There are unsaved changes"))
-        .body(&gettext(
+        .heading(gettext("There are unsaved changes"))
+        .body(gettext(
             "Closing this window will lose all unsaved data. Do you really want to proceed?",
         ))
         .build();
@@ -199,7 +207,7 @@ pub async fn confirm_close_window(root: &impl IsA<gtk::Widget>) -> bool {
     ]);
     question.set_response_appearance("continue", adw::ResponseAppearance::Destructive);
     question.set_default_response(Some("cancel"));
-    let response = question.choose_future(root).await;
+    let response = question.choose_future(Some(root)).await;
     response == "continue"
 }
 
@@ -223,7 +231,7 @@ pub async fn confirm_save(
     };
     let question = AlertDialog::builder()
         .heading(&question_title)
-        .body(&gettext(
+        .body(gettext(
             "There are changes that have not been saved yet. What do you want to do?",
         ))
         .build();
@@ -234,7 +242,7 @@ pub async fn confirm_save(
     ]);
     question.set_response_appearance("save", adw::ResponseAppearance::Suggested);
     question.set_response_appearance("discard", adw::ResponseAppearance::Destructive);
-    let response = question.choose_future(root).await;
+    let response = question.choose_future(Some(root)).await;
     match response.as_str() {
         "discard" => SaveAlertDialogResponse::Discard,
         "save" => SaveAlertDialogResponse::Save,

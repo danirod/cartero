@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: GPL-3.0-or-later OR CC-BY-SA-4.0
- * SPDX-FileCopyrightText: 2024-2025 the Cartero authors
+ * SPDX-FileCopyrightText: 2024-2026 the Cartero authors
  */
 
 :root {
@@ -202,4 +202,21 @@ body::before {
 
 .blogpost figure img {
   border: 1px solid var(--button-bg-color);
+}
+
+.blogpost blockquote {
+  outline: 1px solid rgb(from var(--window-fg-color) r g b / 0.2);
+  border-left: 10px solid rgb(from var(--window-fg-color) r g b / 0.1);
+  padding: 0.5rem;
+  padding-left: 1rem;
+  margin-left: 0;
+  font-size: 0.95em;
+}
+
+.blogpost blockquote :first-child {
+  margin-top: 0;
+}
+
+.blogpost blockquote :last-child {
+  margin-bottom: 0;
 }

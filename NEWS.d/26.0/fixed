@@ -1,0 +1,3 @@
+Responses were being treated as binary if they contained the CR (\r) character.
+Disabling TLS validation still failed a request if the certificate didn't have a matching SAN.
+MacOS: the main application window could sometimes stop receiving mouse clicks on macOS 26.

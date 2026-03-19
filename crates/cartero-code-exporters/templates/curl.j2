@@ -5,7 +5,7 @@ curl -X {{ request.method }} '{{ request.url }}'
 {%- if let Some(auth) = request.auth -%}
 {{- " \\\n" -}}
 {%- match auth -%}
-{%- when Auth::BasicAuth { username, password } %}    --basic -u '{{ username }}:{{ password }}'
+{%- when Auth::Basic { username, password } %}    --basic -u '{{ username }}:{{ password }}'
 {%- when Auth::BearerToken { token } %}    --oauth2-bearer '{{ token }}'
 {%- when _ -%}
 {%- endmatch -%}

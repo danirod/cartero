@@ -1,14 +1,13 @@
 [book]
 authors = ["Dani Rodríguez"]
 language = "en"
-multilingual = true
 title = "Cartero Docs"
 description = "The user manual to learn how to use Cartero."
 
 [output.html]
 no-section-label = true
 git-repository-url = "https://github.com/danirod/cartero"
-git-repository-icon = "fa-github"
+git-repository-icon = "fab-github"
 edit-url-template = "https://github.com/danirod/cartero/edit/trunk/docs/{path}"
 
 [output.html.fold]

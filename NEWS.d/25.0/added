@@ -1,0 +1,8 @@
+Added support for proxies.
+Added support for dotenv files: values defined in an .env file can be loaded as variables.
+The Headers pane will now present pre-generated headers added by Cartero.
+Added a new request body type: "From file", loads the raw request body from the contents of a file.
+It is now possible to export requests in JetBrains HTTP format.
+It is now possible to export a request or a response directly into a file.
+It is now possible to export the contents of an HTTP response.
+The welcome pane now has an additional sheet with information and links.

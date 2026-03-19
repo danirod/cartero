@@ -1,0 +1,3 @@
+Fix translation for the about and shortcuts dialog.
+Word wrapping of long lines without spaces did not work properly.
+Deactivate toolbar buttons if no request are open.

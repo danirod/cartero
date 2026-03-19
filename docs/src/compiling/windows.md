@@ -148,21 +148,14 @@ copying bin\cartero.exe, every datafile of Cartero itself, and also vendor
 every required library, additional gettext locale file, image loader, icons
 and other support files.
 
-## Creating an installer
+## Additional actions
 
-If you have [Inno Setup][innosetup] installed and iscc.exe is available in the
-PATH, you can also enable the `win32-installer` option. It will cause the
-application to be bundled just like the `win32-bundle` option, but it will
-also trigger the creation of a InnoSetup installer in the DESTDIR.
+Some actions are present in the Meson project because they are used as part of
+the official releng made by the Cartero team. While you can use these workflows
+on your own, these are private and they can change or be removed at any time if
+we find a better way to bundle our official release.
 
-```sh
-meson setup build -Ddecorations=no-csd -Dwin32-installer=enabled --prefix=\\
-DESTDIR=$PWD/win32 ninja -C build install
-```
-
-[innosetup]: https://jrsoftware.org/isinfo.php
-
-## Signing the application
+### Signing the application
 
 Modern Windows versions present a scary SmartScreen warning if you try to
 run a program that has not been digitally signed. _This is, of course, very
@@ -196,6 +189,24 @@ This step is probably too coupled to the [release engineering](../releng.md)
 process. Official Cartero binary distribution files for Windows are signed
 with a Certum open source certificate, which explains why the timestamp
 server is the one from Certum.
+
+### Creating an installer
+
+Use the `win32-installer` Meson option to generate an .iss file compatible
+with [Inno Setup][innosetup], to produce a valid installer. If InnoSetup is
+installed and ISCC.exe is found in your PATH, the installer will be
+automatically built in the DESTDIR.
+
+```sh
+meson setup build -Ddecorations=no-csd -Dwin32-installer=enabled --prefix=\\
+DESTDIR=$PWD/win32 ninja -C build install
+```
+
+Signing an installer does not sign the executable files installed by it, so
+you should also sign cartero.exe if you plan on distributing the installer
+to other systems.
+
+[innosetup]: https://jrsoftware.org/isinfo.php
 
 ## Experimental workflows
 

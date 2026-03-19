@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,6 +26,12 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
+impl Default for Shell {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Shell {
     pub fn new() -> Self {
         glib::Object::new()
@@ -43,7 +49,7 @@ impl Shell {
                 row.activate();
                 return;
             }
-            index = index + 1;
+            index += 1;
         }
     }
 }
@@ -146,53 +152,48 @@ mod imp {
         }
 
         pub(super) fn init_native_window(&self, win: &gtk::Window) {
-            crate::native::prepare_window(&win);
+            crate::native::prepare_window(win);
 
             win.connect_fullscreened_notify(glib::clone!(
                 #[weak(rename_to = imp)]
                 self,
                 move |win| {
-                    imp.update_native_appearance(&win);
+                    imp.update_native_appearance(win);
                 }
             ));
             win.connect_maximized_notify(glib::clone!(
                 #[weak(rename_to = imp)]
                 self,
                 move |win| {
-                    imp.update_native_appearance(&win);
+                    imp.update_native_appearance(win);
                 }
             ));
             win.connect_default_width_notify(glib::clone!(
                 #[weak(rename_to = imp)]
                 self,
                 move |win| {
-                    imp.update_native_appearance(&win);
+                    imp.update_native_appearance(win);
                 }
             ));
             win.connect_default_height_notify(glib::clone!(
                 #[weak(rename_to = imp)]
                 self,
                 move |win| {
-                    imp.update_native_appearance(&win);
+                    imp.update_native_appearance(win);
                 }
             ));
             win.connect_realize(glib::clone!(
                 #[weak(rename_to = imp)]
                 self,
                 move |win| {
-                    imp.update_native_appearance(&win);
+                    imp.update_native_appearance(win);
                 }
             ));
         }
 
         fn update_native_appearance(&self, win: &gtk::Window) {
             let sidebar_width = 175;
-            crate::native::update_vibrancy(
-                &win,
-                VibrancyMode::Transient,
-                None,
-                Some(sidebar_width),
-            );
+            crate::native::update_vibrancy(win, VibrancyMode::Transient, None, Some(sidebar_width));
         }
 
         fn init_root_window(&self) {
@@ -232,17 +233,20 @@ mod imp {
         }
 
         fn init_sidebar(&self) {
-            for page in self.settings_stack.pages().iter::<adw::ViewStackPage>() {
-                if let Ok(page) = page {
-                    let pill: Pill = glib::Object::builder()
-                        .property("icon-name", page.icon_name())
-                        .property("label", page.title())
-                        .property("name", page.name())
-                        .build();
+            for page in self
+                .settings_stack
+                .pages()
+                .iter::<adw::ViewStackPage>()
+                .flatten()
+            {
+                let pill: Pill = glib::Object::builder()
+                    .property("icon-name", page.icon_name())
+                    .property("label", page.title())
+                    .property("name", page.name())
+                    .build();
 
-                    let child = gtk::ListBoxRow::builder().child(&pill).build();
-                    self.sidebar_box.append(&child);
-                }
+                let child = gtk::ListBoxRow::builder().child(&pill).build();
+                self.sidebar_box.append(&child);
             }
         }
 

@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,11 +19,11 @@ use cartero_interop::FileSaveError;
 use cartero_objects::Field;
 use serde::{Serialize, Serializer};
 use toml_edit::{
-    visit_mut::{self, VisitMut},
     InlineTable, Item, KeyMut, Value,
+    visit_mut::{self, VisitMut},
 };
 
-use crate::{field_table_value::FieldTableValue, ToField};
+use crate::{ToField, field_table_value::FieldTableValue};
 
 pub(crate) fn alphabetical_field_table<T, S>(
     field_table: &Option<FieldTableValue<T>>,

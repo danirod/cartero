@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use crate::{app::CarteroApplication, interop::LoadResult, widgets::shell::BasePane};
-use glib::subclass::types::ObjectSubclassIsExt;
 use glib::Object;
+use glib::subclass::types::ObjectSubclassIsExt;
 use gtk::{gio, glib};
 use indexmap::IndexMap;
 
@@ -28,10 +28,10 @@ mod imp {
     use std::cell::OnceCell;
 
     use adw::AboutDialog;
-    use adw::{prelude::*, subclass::prelude::*, TabPage};
+    use adw::{TabPage, prelude::*, subclass::prelude::*};
     use gettextrs::gettext;
-    use gtk::gio::{self, ActionEntry};
     use gtk::ClosureExpression;
+    use gtk::gio::{self, ActionEntry};
     use indexmap::IndexMap;
 
     use crate::app::CarteroApplication;
@@ -140,7 +140,7 @@ mod imp {
                     .build();
             }
             tab_binding_group
-                .bind("title", &*obj, "title")
+                .bind("title", obj, "title")
                 .sync_create()
                 .transform_to(|_, value| {
                     value
@@ -164,7 +164,7 @@ mod imp {
             /* Enable these actions only if there is an open page. */
             let tab_dependent_actions = ["save", "save-as", "duplicate", "close", "request"];
             for tab in tab_dependent_actions {
-                if let Some(action) = obj.lookup_action(&tab) {
+                if let Some(action) = obj.lookup_action(tab) {
                     has_page.bind(&action, "enabled", Some(&*self.tabview));
                 }
             }
@@ -342,7 +342,7 @@ mod imp {
                 .collect::<HashSet<String>>();
 
             endpoints
-                .into_iter()
+                .iter()
                 .filter_map(|file| {
                     if opened.contains(file.uri().as_str()) {
                         None
@@ -377,7 +377,7 @@ mod imp {
                     LoadResult::Error(_) => false,
                 };
                 if can_open {
-                    self.insert_pane_into_tabs(&pane);
+                    self.insert_pane_into_tabs(pane);
                 }
             }
         }
@@ -392,10 +392,10 @@ mod imp {
 
             if not_opened_paths.is_empty() {
                 /* Every requested file is opened. Just switch to one of the requested panes. */
-                if let Some(path) = all_paths.first() {
-                    if let Some(page) = self.find_pane_by_path(path) {
-                        self.tabview.set_selected_page(&page);
-                    }
+                if let Some(path) = all_paths.first()
+                    && let Some(page) = self.find_pane_by_path(path)
+                {
+                    self.tabview.set_selected_page(&page);
                 }
             } else {
                 let results = self.preload_panes(not_opened_paths).await;
@@ -422,10 +422,10 @@ mod imp {
             let not_opened_paths = self.filter_endpoints_to_open(files);
             if not_opened_paths.is_empty() {
                 /* Every requested file is opened. Just switch to one of the requested panes. */
-                if let Some(path) = files.first() {
-                    if let Some(page) = self.find_pane_by_path(path) {
-                        self.tabview.set_selected_page(&page);
-                    }
+                if let Some(path) = files.first()
+                    && let Some(page) = self.find_pane_by_path(path)
+                {
+                    self.tabview.set_selected_page(&page);
                 }
                 IndexMap::new()
             } else {
@@ -449,10 +449,10 @@ mod imp {
                 match failures {
                     LoadResult::Successful | LoadResult::Anonymous => {}
                     LoadResult::Warning(warnings) => {
-                        if let Some(file) = pane.file() {
-                            if let Some(page) = self.find_pane_by_path(&file) {
-                                self.tabview.set_selected_page(&page);
-                            }
+                        if let Some(file) = pane.file()
+                            && let Some(page) = self.find_pane_by_path(&file)
+                        {
+                            self.tabview.set_selected_page(&page);
                         }
                         dialogs::file_load_warning_dialog(
                             &*obj,
@@ -506,7 +506,7 @@ mod imp {
         /// The error is swallowed because the user is already notified.
         async fn gracefully_prompt_save_file(&self) -> Option<gio::File> {
             let obj = self.obj();
-            match crate::widgets::save_file(&*obj).await {
+            match crate::widgets::save_file(&obj).await {
                 Ok(maybe_file) => maybe_file,
                 Err(e) => {
                     dialogs::glib_file_dialog_error(&*obj, &e).await;
@@ -592,7 +592,7 @@ mod imp {
                 /* The window has not been modified, so there is nothing to do besides closing it. */
                 true
             };
-            self.tabview.close_page_finish(&tabpage, close_page);
+            self.tabview.close_page_finish(tabpage, close_page);
 
             if self.tabview.selected_page().is_none() {
                 /* No more tabs to present, switch to the welcome view. */
@@ -633,7 +633,7 @@ mod imp {
                 ])
                 // Translators: Replace "translator-credits" with your names. Put a comma between.
                 .translator_credits(gettext("translator-credits"))
-                .copyright(gettext("© 2024-2025 the Cartero authors"))
+                .copyright(gettext("© 2024-2026 the Cartero authors"))
                 .release_notes(include_str!("widgets/changelog.xml.inc"))
                 .license_type(gtk::License::Gpl30)
                 .build();
@@ -650,6 +650,23 @@ mod imp {
                 }
             ));
             about.present(Some(&*obj));
+        }
+
+        fn action_help_overlay(&self) {
+            let obj = self.obj();
+            let dialog = gtk::Builder::from_resource("/es/danirod/Cartero/gtk/help-overlay.ui")
+                .object::<adw::Dialog>("help_overlay")
+                .expect("Could not build help-overlay");
+
+            dialog.connect_closed(glib::clone!(
+                #[weak]
+                obj,
+                move |_| {
+                    obj.present();
+                }
+            ));
+
+            dialog.present(Some(&*obj));
         }
 
         fn update_native_appearance(&self) {
@@ -764,11 +781,7 @@ mod imp {
                 .transform_to(|_, value: &glib::Value| {
                     let page = value.get::<String>().expect("No property?");
                     if page == "tabview" {
-                        if cfg!(target_os = "macos") {
-                            Some(adw::ToolbarStyle::RaisedBorder.to_value())
-                        } else {
-                            Some(adw::ToolbarStyle::Raised.to_value())
-                        }
+                        Some(adw::ToolbarStyle::Raised.to_value())
                     } else {
                         Some(adw::ToolbarStyle::Flat.to_value())
                     }
@@ -930,6 +943,21 @@ mod imp {
                 action_export_request,
                 action_export_response_body,
             ]);
+
+            if (adw::major_version() == 1 && adw::minor_version() >= 8) || adw::major_version() > 1
+            {
+                let action_help_overlay = ActionEntry::builder("show-help-overlay")
+                    .activate(glib::clone!(
+                        #[weak(rename_to = window)]
+                        self,
+                        move |_, _, _| {
+                            window.action_help_overlay();
+                        }
+                    ))
+                    .build();
+
+                obj.add_action_entries([action_help_overlay]);
+            }
 
             self.init_tab_bindings();
 

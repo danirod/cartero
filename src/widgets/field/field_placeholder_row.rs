@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,8 +24,8 @@ mod imp {
     use super::*;
     use cartero_objects::{Field, FieldTable};
     use glib::{
-        subclass::{InitializingObject, Signal},
         Properties,
+        subclass::{InitializingObject, Signal},
     };
     use gtk::CompositeTemplate;
 
@@ -90,9 +90,11 @@ mod imp {
         fn signals() -> &'static [Signal] {
             static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
             SIGNALS.get_or_init(|| {
-                vec![Signal::builder("insert-field")
-                    .param_types([Field::static_type()])
-                    .build()]
+                vec![
+                    Signal::builder("insert-field")
+                        .param_types([Field::static_type()])
+                        .build(),
+                ]
             })
         }
     }

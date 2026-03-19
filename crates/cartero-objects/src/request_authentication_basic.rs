@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use glib::subclass::prelude::*;
-use glib::{prelude::*, Object};
+use glib::{Object, prelude::*};
 
 glib::wrapper! {
     /// Authentication type based on the RFC 7617 spec.
@@ -65,7 +65,7 @@ impl RequestAuthenticationBasic {
 mod imp {
     use std::cell::RefCell;
 
-    use base64::{prelude::BASE64_STANDARD, Engine};
+    use base64::{Engine, prelude::BASE64_STANDARD};
     use glib::Properties;
 
     use crate::RequestAuthenticationDataImpl;
@@ -106,8 +106,8 @@ mod imp {
     impl RequestAuthenticationDataImpl for RequestAuthenticationBasic {
         fn dup(&self) -> crate::RequestAuthenticationData {
             super::RequestAuthenticationBasic::builder()
-                .username(self.obj().username().to_string())
-                .password(self.obj().password().to_string())
+                .username(self.obj().username())
+                .password(self.obj().password())
                 .build()
                 .upcast()
         }
@@ -184,7 +184,7 @@ mod tests {
     use srtemplate::SrTemplate;
 
     use crate::{
-        utils::test::assert_emits_signal, RequestAuthenticationDataExt, RequestAuthenticationType,
+        RequestAuthenticationDataExt, RequestAuthenticationType, utils::test::assert_emits_signal,
     };
 
     use super::*;

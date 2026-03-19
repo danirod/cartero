@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,9 +19,9 @@ use formatx::formatx;
 use gettextrs::gettext;
 use glib::{object::IsA, prelude::Cast, types::StaticType};
 use gtk::{
+    DialogError, FileDialog, FileFilter,
     gio::{self, ListStore},
     prelude::{FileExt, ListModelExtManual, SettingsExtManual},
-    DialogError, FileDialog, FileFilter,
 };
 use std::path::PathBuf;
 
@@ -62,11 +62,11 @@ fn new_file_dialog() -> FileDialog {
 
 /// The settings key to use where the directory of the last opened file is.
 /// The next time the open file dialog is called, this is where we start.
-const LAST_OPEN_DIR: &'static str = "last-open-dir";
+const LAST_OPEN_DIR: &str = "last-open-dir";
 
 /// The settings key to use where the directory of the last saved file is.
 /// The next time the save file dialog is called, this is where we start.
-const LAST_SAVE_DIR: &'static str = "last-save-dir";
+const LAST_SAVE_DIR: &str = "last-save-dir";
 
 /// Returns the gio::File for the path stored in the settings under the key.
 fn get_file_setting(key: &str) -> Option<gio::File> {
@@ -192,7 +192,7 @@ where
             if in_prefix {
                 Ok(Some(result))
             } else {
-                file_pick_out_of_prefix_error(parent.upcast_ref(), &result, &prefix_path.unwrap())
+                file_pick_out_of_prefix_error(parent.upcast_ref(), &result, prefix_path.unwrap())
                     .await;
                 Ok(None)
             }

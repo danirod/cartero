@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -87,7 +87,7 @@ impl TryFrom<u32> for RequestMethod {
     type Error = ();
 
     fn try_from(value: u32) -> Result<Self, Self::Error> {
-        let values = vec![
+        let values = [
             Self::Get,
             Self::Post,
             Self::Put,
@@ -97,7 +97,7 @@ impl TryFrom<u32> for RequestMethod {
             Self::Head,
             Self::Trace,
         ];
-        values.get(value as usize).map(|s| s.clone()).ok_or(())
+        values.get(value as usize).copied().ok_or(())
     }
 }
 

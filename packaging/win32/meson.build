@@ -1,4 +1,4 @@
-# Copyright 2024-2025 the Cartero authors
+# Copyright 2024-2026 the Cartero authors
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,6 +27,9 @@ if host_machine.system() == 'windows'
     endif
 
     if get_option('win32-installer').enabled()
+        # Required if you want to compile the installer.
+        inno_setup = find_program('ISCC.exe', required: false)
+
         windows_setup = configure_file(
             input: 'installer.iss.in',
             output: 'installer.iss',
@@ -36,16 +39,23 @@ if host_machine.system() == 'windows'
             },
         )
 
-        if sign_subject != ''
-            meson.add_install_script(
-                'installer.py',
-                '-i',
-                windows_setup,
-                '-n',
-                sign_subject,
-            )
+        if inno_setup.found()
+            if sign_subject != ''
+                meson.add_install_script(
+                    'installer.py',
+                    '-i',
+                    windows_setup,
+                    '-n',
+                    sign_subject,
+                )
+            else
+                meson.add_install_script('installer.py', '-i', windows_setup)
+            endif
         else
-            meson.add_install_script('installer.py', '-i', windows_setup)
+            warning(
+                'Cannot generate installer because ISCC.exe is not found.',
+                'Leaving .iss file at build dir anyway.',
+            )
         endif
     endif
 endif

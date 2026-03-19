@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,6 +24,12 @@ glib::wrapper! {
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 }
 
+impl Default for Appearance {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Appearance {
     pub fn new() -> Self {
         glib::Object::new()
@@ -37,7 +43,7 @@ mod imp {
 
     use glib::subclass::InitializingObject;
     use gtk::{
-        gio::SimpleActionGroup, pango::FontDescription, CompositeTemplate, FlowBox, FlowBoxChild,
+        CompositeTemplate, FlowBox, FlowBoxChild, gio::SimpleActionGroup, pango::FontDescription,
     };
     use sourceview5::{StyleSchemeManager, StyleSchemePreview};
 

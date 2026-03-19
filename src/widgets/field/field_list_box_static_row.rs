@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ mod imp {
     use super::*;
     use cartero_objects::Field;
     use gettextrs::gettext;
-    use glib::{subclass::InitializingObject, BindingGroup, Properties};
+    use glib::{BindingGroup, Properties, subclass::InitializingObject};
     use gtk::CompositeTemplate;
 
     #[derive(Default, CompositeTemplate, Properties)]
@@ -119,11 +119,7 @@ mod imp {
                     let allows_conceal = value
                         .get::<bool>()
                         .expect("allow-concealing is of invalid type");
-                    if allows_conceal {
-                        Some(1.0)
-                    } else {
-                        Some(0.0)
-                    }
+                    if allows_conceal { Some(1.0) } else { Some(0.0) }
                 })
                 .sync_create()
                 .build();

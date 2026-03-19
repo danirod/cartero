@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ const LOCALES: [(&str, &str); 16] = [
 ];
 
 use glib::subclass::prelude::*;
-use glib::{prelude::*, Object};
+use glib::{Object, prelude::*};
 
 // Returns true if there is a file called locale/{iso}/LC_MESSAGES/cartero.mo in the datadir.
 fn locale_exists(iso: &str) -> bool {
@@ -89,7 +89,7 @@ impl LocaleRepr {
 
         let store = ListStore::new::<Self>();
         for (iso, name) in languages {
-            if iso == "" || iso == "en" || locale_exists(iso) {
+            if iso.is_empty() || iso == "en" || locale_exists(iso) {
                 let repr: Self = Object::builder()
                     .property("iso", iso.to_string())
                     .property("name", name.to_string())

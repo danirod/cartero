@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ mod imp {
     use glib::{JoinHandle, Properties};
     use gtk::gio::{self, Cancellable, FileCreateFlags, SimpleAction, SimpleActionGroup};
     use gtk::subclass::prelude::*;
-    use gtk::{prelude::*, ClosureExpression, CompositeTemplate};
+    use gtk::{ClosureExpression, CompositeTemplate, prelude::*};
 
     use crate::interop::{InnerError, LoadResult, SaveResult};
     use crate::settings::Settings;
@@ -50,7 +50,7 @@ mod imp {
     use crate::widgets::field::{CollapsedFieldTable, FieldTableListView};
     use crate::widgets::req_body::RequestBodyPane;
     use crate::widgets::shell::BasePaneImpl;
-    use crate::widgets::{file_dialogs, ExportDialog, MethodDropdown};
+    use crate::widgets::{ExportDialog, MethodDropdown, file_dialogs};
 
     #[derive(CompositeTemplate, Properties, Default)]
     #[template(resource = "/es/danirod/Cartero/endpoint_pane.ui")]
@@ -241,6 +241,7 @@ mod imp {
             let endpoint_pane = glib::Object::builder::<super::EndpointPane>()
                 .property("request", new_request)
                 .build();
+            endpoint_pane.set_dirty(true);
             endpoint_pane.upcast()
         }
     }
@@ -579,12 +580,11 @@ mod imp {
                 .body_data()
                 .map(|body| {
                     let mut headers = body.rendered_headers();
-                    if body.body_type() == RequestBodyType::Multipart {
-                        if let Some((_, value)) =
+                    if body.body_type() == RequestBodyType::Multipart
+                        && let Some((_, value)) =
                             headers.iter_mut().find(|(key, _)| key == "Content-Type")
-                        {
-                            *value = format!("{}{}", *value, gettext("(generated during request)"));
-                        }
+                    {
+                        *value = format!("{}{}", *value, gettext("(generated during request)"));
                     }
                     headers
                 })

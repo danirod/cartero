@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 /// TODO: convert into a macro?
 #[cfg(test)]
 pub(crate) mod test {
-    use std::sync::{atomic::AtomicBool, Arc, Mutex};
+    use std::sync::{Arc, Mutex, atomic::AtomicBool};
 
     use glib::object::IsA;
     use glib::object::ObjectExt;

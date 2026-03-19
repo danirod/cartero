@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ use std::{
 use cartero_objects::{Request, RequestBodyDataExt, RequestBodyType};
 use gio::prelude::FileExt;
 
-use crate::{active_pairs, RequestEnvironment, RequestError};
+use crate::{RequestEnvironment, RequestError, active_pairs};
 
 #[derive(Default)]
 pub(crate) struct BoundBody {
@@ -250,9 +250,11 @@ mod tests {
         assert_eq!(1, result.headers.len());
         assert_eq!("Content-Type", result.headers[0].0);
 
-        assert!(result.headers[0]
-            .1
-            .starts_with("multipart/form-data; boundary="));
+        assert!(
+            result.headers[0]
+                .1
+                .starts_with("multipart/form-data; boundary=")
+        );
         let boundary = result.headers[0]
             .1
             .replace("multipart/form-data; boundary=", "");
@@ -307,9 +309,11 @@ mod tests {
         assert_eq!(1, result.headers.len());
         assert_eq!("Content-Type", result.headers[0].0);
 
-        assert!(result.headers[0]
-            .1
-            .starts_with("multipart/form-data; boundary="));
+        assert!(
+            result.headers[0]
+                .1
+                .starts_with("multipart/form-data; boundary=")
+        );
         let boundary = result.headers[0]
             .1
             .replace("multipart/form-data; boundary=", "");

@@ -1,0 +1,3 @@
+Added a tab to generate a cURL command with the contents of a request.
+Added a preferences dialog to control application settings.
+Added a search functionality (Ctrl-F) to the text area panes.

@@ -1,13 +1,13 @@
 {
-    "id" : "es.danirod.Cartero.Devel",
-    "runtime" : "org.gnome.Platform",
-    "runtime-version" : "48",
-    "sdk" : "org.gnome.Sdk",
-    "sdk-extensions" : [
+    "id": "es.danirod.Cartero.Devel",
+    "runtime": "org.gnome.Platform",
+    "runtime-version": "49",
+    "sdk": "org.gnome.Sdk",
+    "sdk-extensions": [
         "org.freedesktop.Sdk.Extension.rust-stable"
     ],
-    "command" : "cartero",
-    "finish-args" : [
+    "command": "cartero",
+    "finish-args": [
         "--device=dri",
         "--share=network",
         "--share=ipc",
@@ -15,35 +15,24 @@
         "--socket=wayland",
         "--filesystem=host"
     ],
-    "build-options" : {
-        "append-path" : "/usr/lib/sdk/rust-stable/bin",
-        "build-args" : [
+    "build-options": {
+        "append-path": "/usr/lib/sdk/rust-stable/bin",
+        "build-args": [
             "--share=network"
         ]
     },
-    "modules" : [
+    "modules": [
         {
-            "name": "blueprint-compiler",
+            "name": "cartero",
+            "builddir": true,
             "buildsystem": "meson",
-            "sources": [
-                {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/jwestman/blueprint-compiler",
-                    "tag": "v0.16.0"
-                }
-            ]
-        },
-        {
-            "name" : "cartero",
-            "builddir" : true,
-            "buildsystem" : "meson",
             "config-opts": [
                 "-Dprofile=development"
             ],
-            "sources" : [
+            "sources": [
                 {
-                    "type" : "dir",
-                    "path" : "../"
+                    "type": "dir",
+                    "path": "../"
                 }
             ]
         }

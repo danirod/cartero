@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,9 +23,9 @@ use std::time::{Duration, Instant};
 use cartero_http::{BoundRequest, RequestEnvironment, RequestError};
 use cartero_objects::{Field, FieldTable, Request, RequestMethod, Response};
 use isahc::{
+    AsyncBody, RequestExt, ResponseExt,
     config::{Configurable, RedirectPolicy, SslOption},
     http::{HeaderName, HeaderValue, Uri},
-    AsyncBody, RequestExt, ResponseExt,
 };
 
 pub fn default_user_agent() -> String {
@@ -108,7 +108,7 @@ async fn build_request(
     let ssl_mode = if env.config.validate_tls {
         SslOption::NONE
     } else {
-        SslOption::DANGER_ACCEPT_INVALID_CERTS
+        SslOption::DANGER_ACCEPT_INVALID_CERTS | SslOption::DANGER_ACCEPT_INVALID_HOSTS
     };
     let redirect_policy = if env.config.redirects > 0 {
         RedirectPolicy::Limit(env.config.redirects as u32)
@@ -118,7 +118,7 @@ async fn build_request(
     let request_timeout = Duration::from_secs_f64(env.config.timeout);
 
     // Build the request entity.
-    let bound_request = BoundRequest::new(&request, &env).await?;
+    let bound_request = BoundRequest::new(request, env).await?;
 
     let builder = isahc::Request::builder()
         .uri(bound_request.url.clone())

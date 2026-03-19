@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,14 +28,14 @@ mod imp {
 
     use formatx::formatx;
     use gettextrs::{gettext, ngettext};
+    use glib::Properties;
     use glib::object::{Cast, ObjectExt};
     use glib::subclass::{InitializingObject, Signal};
-    use glib::Properties;
     use gtk::gio::{ActionEntry, SimpleActionGroup};
     use gtk::prelude::{ActionMapExtManual, EditableExt, TextBufferExt, TextViewExt, WidgetExt};
     use gtk::subclass::prelude::*;
-    use gtk::{gdk, glib, TextIter};
     use gtk::{CompositeTemplate, TemplateChild};
+    use gtk::{TextIter, gdk, glib};
     use sourceview5::prelude::SearchSettingsExt;
     use sourceview5::{Buffer, SearchContext, SearchSettings};
 

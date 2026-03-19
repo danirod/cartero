@@ -1,4 +1,4 @@
-# Copyright 2024-2025 the Cartero authors
+# Copyright 2024-2026 the Cartero authors
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -80,3 +80,36 @@ jobs:
         uses: actions/checkout@v4
       - name: Check REUSE compliance
         uses: fsfe/reuse-action@v5
+  news:
+    name: Check NEWS files are properly updated
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt update && sudo apt install -y --no-install-recommends python3-pip
+          pip install --break-system-packages mdformat lxml
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Check if news-update.py comes clean
+        run: |
+          build-aux/news-update.py
+          if ! git diff --quiet ; then
+            echo "NEWS file is not updated, please run build-aux/news-update.py"
+            exit 1
+          fi
+  flake:
+    strategy:
+      matrix:
+        platform:
+          - runs-on: ubuntu-latest
+            name: x86_64
+          - runs-on: ubuntu-24.04-arm
+            name: aarch64
+      fail-fast: false
+    runs-on: ${{ matrix.platform.runs-on }}
+    name: "Flake (${{ matrix.platform.name }})"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v31
+      - run: nix build
+      - run: nix flake check

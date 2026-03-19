@@ -1,0 +1,3 @@
+Modifying the query params table of a duplicated request sometimes had no effect on the URL address.
+Duplicated requests did not actually fork the headers table, so changing headers in one tab would affect the other.
+Responses whose content type used +yaml as a suffix (e.g. application/vnd.oai.openapi+yaml) were not being coloured as YAML.

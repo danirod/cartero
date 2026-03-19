@@ -1,4 +1,4 @@
-// Copyright 2024-2025 the Cartero authors
+// Copyright 2024-2026 the Cartero authors
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -68,7 +68,7 @@ fn init_data_dir() {
         let mut xdg_final_dirs = vec![datadir];
         xdg_final_dirs.extend(xdg_data_dirs);
         let xdg_data_dir = std::env::join_paths(&xdg_final_dirs).unwrap();
-        std::env::set_var("XDG_DATA_DIRS", xdg_data_dir);
+        unsafe { std::env::set_var("XDG_DATA_DIRS", xdg_data_dir) };
     }
 }
 
@@ -104,36 +104,41 @@ fn main() -> glib::ExitCode {
     #[cfg(target_os = "windows")]
     {
         if let Err(_) = std::env::var("GSK_RENDERER") {
-            std::env::set_var("GSK_RENDERER", "cairo");
+            unsafe { std::env::set_var("GSK_RENDERER", "cairo") };
         }
-        std::env::set_var("GTK_CSD", "0");
+        unsafe { std::env::set_var("GTK_CSD", "0") };
     }
 
     #[cfg(target_os = "macos")]
     {
         let gdk_pixbuf = app_rel_path("lib/gdk-pixbuf-2.0/2.10.0/loaders.cache");
         if let Ok(true) = gdk_pixbuf.try_exists() {
-            std::env::set_var("GDK_PIXBUF_MODULE_FILE", gdk_pixbuf);
+            unsafe { std::env::set_var("GDK_PIXBUF_MODULE_FILE", gdk_pixbuf) };
+        }
+
+        let gtk_modules_dir = app_rel_path("lib/gtk-4.0");
+        if let Ok(true) = gtk_modules_dir.try_exists() {
+            unsafe { std::env::set_var("GTK_EXE_PREFIX", app_rel_path("lib")) };
         }
     }
 
     init_data_dir();
-    if let Some(locale) = get_locale_from_schema() {
-        if locale != std::env::var("LANGUAGE").unwrap_or_default() {
-            std::env::set_var("LANGUAGE", locale);
-            if cfg!(windows) {
-                // Windows actually will ignore this change to the env var, so
-                // the whole program needs to be relaunched to take effect.
-                let exe = std::env::current_exe().expect("No argv[0]?");
-                let mut args = std::env::args_os();
-                let _ = args.next();
+    if let Some(locale) = get_locale_from_schema()
+        && locale != std::env::var("LANGUAGE").unwrap_or_default()
+    {
+        unsafe { std::env::set_var("LANGUAGE", locale) };
+        if cfg!(windows) {
+            // Windows actually will ignore this change to the env var, so
+            // the whole program needs to be relaunched to take effect.
+            let exe = std::env::current_exe().expect("No argv[0]?");
+            let mut args = std::env::args_os();
+            let _ = args.next();
 
-                let status = std::process::Command::new(exe)
-                    .args(args)
-                    .status()
-                    .expect("Invalid re-call for cartero.exe");
-                std::process::exit(status.code().unwrap_or(1));
-            }
+            let status = std::process::Command::new(exe)
+                .args(args)
+                .status()
+                .expect("Invalid re-call for cartero.exe");
+            std::process::exit(status.code().unwrap_or(1));
         }
     }
     init_locale();

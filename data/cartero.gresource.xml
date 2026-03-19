@@ -14,7 +14,7 @@
     <file alias="field_placeholder_row.ui" compressed="true" preprocess="xml-stripblanks">ui/field_placeholder_row.ui</file>
     <file alias="field_table_list_view.ui" compressed="true" preprocess="xml-stripblanks">ui/field_table_list_view.ui</file>
     <file alias="file_body_pane.ui" compressed="true" preprocess="xml-stripblanks">ui/file_body_pane.ui</file>
-    <file alias="gtk/help-overlay.ui" compressed="true" preprocess="xml-stripblanks">gtk/help_overlay.ui</file>
+    <file alias="gtk/help-overlay.ui" compressed="true" preprocess="xml-stripblanks">help_overlay/help_overlay.ui</file>
     <file alias="mac_menu.ui" compressed="true" preprocess="xml-stripblanks">ui/mac_menu.ui</file>
     <file alias="main_window_no_csd.ui" compressed="true" preprocess="xml-stripblanks">ui/main_window_no_csd.ui</file>
     <file alias="main_window.ui" compressed="true" preprocess="xml-stripblanks">ui/main_window.ui</file>

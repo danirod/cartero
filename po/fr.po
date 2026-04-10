@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2026-03-01 18:16+0100\n"
-"PO-Revision-Date: 2025-08-01 22:56+0000\n"
-"Last-Translator: Dani Rodríguez <dani@danirod.es>\n"
+"PO-Revision-Date: 2026-04-10 21:09+0000\n"
+"Last-Translator: Altero <aurelien.reinert4@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/cartero/cartero/"
 "fr/>\n"
 "Language: fr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -248,7 +248,6 @@ msgstr ""
 
 #: data/help_overlay/adw_help_overlay.blp:83
 #: data/help_overlay/gtk_help_overlay.blp:86
-#, fuzzy
 msgctxt "shortcuts window"
 msgid "Start search"
 msgstr "Rechercher"
@@ -288,15 +287,15 @@ msgstr ""
 
 #: data/ui/authentication_pane.blp:61
 msgid "Bearer token"
-msgstr ""
+msgstr "Bearer token"
 
 #: data/ui/basic_auth_pane.blp:23
 msgid "Username"
-msgstr ""
+msgstr "Nom d'utilisateur"
 
 #: data/ui/basic_auth_pane.blp:28
 msgid "Password"
-msgstr ""
+msgstr "Mot de passe"
 
 #: data/ui/bearer_token_pane.blp:23
 msgid "Token"
@@ -307,9 +306,8 @@ msgid "Request URL"
 msgstr "URL de requête"
 
 #: data/ui/endpoint_pane.blp:74 data/ui/mac_menu.blp:118
-#, fuzzy
 msgid "Cancel request"
-msgstr "Enregistrer la requête"
+msgstr "Annuler la requête"
 
 #: data/ui/endpoint_pane.blp:83 data/ui/mac_menu.blp:113
 msgid "Send"
@@ -329,13 +327,15 @@ msgstr "En-têtes"
 
 #: data/ui/endpoint_pane.blp:172
 msgid "Variables"
-msgstr ""
+msgstr "Variables"
 
 #: data/ui/endpoint_pane.blp:201
 msgid ""
 "Cartero supports reading variables from an .env file, but you need to enable "
 "the feature first."
 msgstr ""
+"Cartero prend en charge la lecture des variables depuis un fichier .env, "
+"mais vous devez d'abord activer la fonctionnalité."
 
 #: data/ui/endpoint_pane.blp:208 data/ui/main_window.blp:187
 #: data/ui/main_window_no_csd.blp:192 data/ui/settings/shell.blp:47
@@ -347,16 +347,20 @@ msgid ""
 "Cartero supports reading variables from an .env file, but you have to save "
 "the request first."
 msgstr ""
+"Cartero prend en charge la lecture des variables depuis un fichier .env, "
+"mais vous devez d'abord enregistrer la requête."
 
 #: data/ui/endpoint_pane.blp:242
 msgid ""
 "Place an .env file in the same disk directory as the request or in a parent "
 "directory to load the variables in Cartero."
 msgstr ""
+"Placez un fichier .env dans le même répertoire que la requête ou dans un "
+"répertoire parent pour charger les variables dans Cartero."
 
 #: data/ui/endpoint_pane.blp:248
 msgid "Check again"
-msgstr ""
+msgstr "Vérifier de nouveau"
 
 #: data/ui/endpoint_pane.blp:280
 msgid "Authorization"
@@ -593,16 +597,16 @@ msgstr ""
 #: data/ui/mac_menu.blp:201
 msgctxt "menubar"
 msgid "Help"
-msgstr ""
+msgstr "Aide"
 
 #: data/ui/mac_menu.blp:205 data/ui/welcome/welcome_pane.blp:132 src/win.rs:640
 msgid "User manual"
-msgstr ""
+msgstr "Manuel d'utilisation"
 
 #: data/ui/mac_menu.blp:210 data/ui/welcome/welcome_pane.blp:142
 msgctxt "menubar"
 msgid "Report a bug"
-msgstr ""
+msgstr "Signaler un bug"
 
 #: data/ui/mac_menu.blp:215
 msgctxt "menubar"
@@ -611,7 +615,7 @@ msgstr ""
 
 #: data/ui/mac_menu.blp:222 src/win.rs:642
 msgid "Help us translate"
-msgstr ""
+msgstr "Aidez-nous à traduire"
 
 #: data/ui/mac_menu.blp:229 data/ui/settings/page_application.blp:72
 msgid "Check for updates"
@@ -638,7 +642,7 @@ msgstr "Exporter la requête"
 
 #: data/ui/main_window.blp:95
 msgid "Menu"
-msgstr ""
+msgstr "Menu"
 
 #: data/ui/main_window.blp:132 data/ui/main_window_no_csd.blp:137
 #, fuzzy
@@ -825,7 +829,7 @@ msgstr ""
 
 #: data/ui/settings/page_application.blp:67
 msgid "Current version"
-msgstr ""
+msgstr "Version actuelle"
 
 #: data/ui/settings/page_code_editor.blp:22
 msgid "Code editor"
@@ -882,25 +886,27 @@ msgstr ""
 
 #: data/ui/settings/page_proxy.blp:38
 msgid "Exclude from proxy"
-msgstr ""
+msgstr "Exclure du proxy"
 
 #: data/ui/settings/page_proxy.blp:39
 msgid ""
 "IP addresses and domain names contained in this list will bypass the proxy "
 "settings and be accessed directly."
 msgstr ""
+"Les adresses IP et les noms de domaine figurant dans cette liste "
+"contourneront les paramètres du proxy et seront accessibles directement."
 
 #: data/ui/settings/page_proxy.blp:55 data/ui/settings/page_proxy.blp:56
 msgid "Address to exclude"
-msgstr ""
+msgstr "Adresses à exclure"
 
 #: data/ui/settings/page_proxy.blp:60
 msgid "Add"
-msgstr ""
+msgstr "Ajouter"
 
 #: data/ui/settings/page_proxy.blp:91
 msgid "Environment variables"
-msgstr ""
+msgstr "Variables d'environnement"
 
 #. TRANSLATORS: Keep the variable names "http_proxy", "https_proxy" and "no_proxy" in English because that's the name of the variable.
 #: data/ui/settings/page_proxy.blp:93
@@ -916,15 +922,15 @@ msgstr ""
 #: data/ui/settings/page_proxy.blp:127 data/ui/settings/page_proxy.blp:138
 #: data/ui/settings/page_proxy.blp:149
 msgid "(empty)"
-msgstr ""
+msgstr "(vide)"
 
 #: data/ui/settings/page_security.blp:22
 msgid "Security"
-msgstr ""
+msgstr "Sécurité"
 
 #: data/ui/settings/page_security.blp:26
 msgid ".env files"
-msgstr ""
+msgstr "fichiers .env"
 
 #: data/ui/settings/page_security.blp:27
 msgid ""
@@ -935,7 +941,7 @@ msgstr ""
 
 #: data/ui/settings/page_security.blp:31
 msgid "Find and load .env files"
-msgstr ""
+msgstr "Trouver et charger des fichiers .env"
 
 #: data/ui/settings/page_security.blp:32
 msgid ""
@@ -957,6 +963,8 @@ msgid ""
 "Cartero is free software, released under the terms of the GNU General Public "
 "License v3 or later."
 msgstr ""
+"Cartero est un logiciel libre, publié sous les termes de la Licence Publique "
+"Générale GNU v3 ou ultérieure."
 
 #: data/ui/welcome/welcome_pane.blp:118 data/ui/welcome/welcome_pane.blp:166
 msgid "Know your rights"
@@ -969,7 +977,7 @@ msgstr ""
 #. TRANSLATORS: if your language has a different word for free as in freedom and free as in beer, and it's clear that free means "freedom", you might skip the "as in freedom" bit if you wish.
 #: data/ui/welcome/welcome_pane.blp:182
 msgid "You can use Cartero for free (as in freedom)"
-msgstr ""
+msgstr "Vous pouvez utiliser Cartero librement"
 
 #: data/ui/welcome/welcome_pane.blp:183
 msgid ""
@@ -981,17 +989,20 @@ msgstr ""
 
 #: data/ui/welcome/welcome_pane.blp:190
 msgid "You can get, study and modify the source code"
-msgstr ""
+msgstr "Vous pouvez récupérer, étudier et modifier le code source"
 
 #: data/ui/welcome/welcome_pane.blp:191
 msgid ""
 "Mod the program so that it works exactly how you want, or just learn things "
 "if you are new to programming."
 msgstr ""
+"Personnalisez le programme de sorte qu'il fonctionne exactement comme vous "
+"le souhaitez, ou profitez-en simplement pour apprendre si vous débutez en "
+"programmation."
 
 #: data/ui/welcome/welcome_pane.blp:198
 msgid "You can share copies of the program"
-msgstr ""
+msgstr "Vous pouvez partager des copies du programme"
 
 #: data/ui/welcome/welcome_pane.blp:199
 msgid ""
@@ -1019,7 +1030,7 @@ msgstr "Résultat précédent"
 
 #: data/ui/welcome/welcome_pane.blp:235
 msgid "Next"
-msgstr ""
+msgstr "Suivant"
 
 #: src/interop.rs:33
 msgid ""
@@ -1051,7 +1062,7 @@ msgstr ""
 #: src/interop.rs:66 src/widgets/dialogs.rs:172
 #, rust-format
 msgid "The variable '{}' is not defined"
-msgstr ""
+msgstr "La variable '{}' n'est pas définie"
 
 #: src/interop.rs:69 src/widgets/dialogs.rs:175
 msgid "There was a problem with a variable interpolation, review your inputs"
@@ -1060,12 +1071,12 @@ msgstr ""
 #: src/interop.rs:72
 #, rust-format
 msgid "The header '{}' is not valid"
-msgstr ""
+msgstr "L'en-tête '{}' n'est pas valide"
 
 #: src/interop.rs:75
 #, rust-format
 msgid "The value for header '{}' is not valid"
-msgstr ""
+msgstr "La valeur pour l'en-tête '{}' n'est pas valide"
 
 #: src/interop.rs:78
 msgid "The given request body could not be encoded correctly"
@@ -1095,7 +1106,7 @@ msgstr ""
 
 #: src/updates/ui.rs:33
 msgid "Error checking updates"
-msgstr ""
+msgstr "Erreur lors de la vérification des mises à jour"
 
 #: src/updates/ui.rs:35
 msgid "Couldn't receive a valid response from the server. Please, check later."
@@ -1107,11 +1118,11 @@ msgstr ""
 
 #: src/updates/ui.rs:45
 msgid "No updates at the moment"
-msgstr ""
+msgstr "Aucune mise à jour pour le moment"
 
 #: src/updates/ui.rs:46
 msgid "You are running the latest version of Cartero."
-msgstr ""
+msgstr "Vous exécutez la dernière version de Cartero."
 
 #: src/updates/ui.rs:57
 #, rust-format
@@ -1119,6 +1130,8 @@ msgid ""
 "Version {} has been released. Do you want to visit the website to download "
 "the update now?"
 msgstr ""
+"La version {} est disponible. Souhaitez-vous vous rendre sur le site Web "
+"pour télécharger la mise à jour dès maintenant ?"
 
 #: src/updates/ui.rs:59
 msgid "There is a new version of Cartero!"
@@ -1300,16 +1313,15 @@ msgstr ""
 #: src/widgets/endpoint/response_panel.rs:383
 #, rust-format
 msgid "{} ms"
-msgstr ""
+msgstr "{} ms"
 
 #: src/widgets/error_pane.rs:103
 msgid "The request data is not valid"
 msgstr ""
 
 #: src/widgets/error_pane.rs:110
-#, fuzzy
 msgid "The request failed"
-msgstr "Créer des requêtes HTTP et tester des API"
+msgstr "La requête a échoué"
 
 #: src/widgets/export_dialog.rs:115
 msgid "Content copied to the clipboard"
@@ -1395,7 +1407,7 @@ msgstr ""
 #: src/windows/settings/pages/proxy.rs:254
 #: src/windows/settings/pages/proxy.rs:288
 msgid "Remove"
-msgstr ""
+msgstr "Supprimer"
 
 #: src/windows/settings/pages/proxy.rs:272
 msgid "No domains or IP addresses are being excluded"

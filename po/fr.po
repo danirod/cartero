@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2026-03-01 18:16+0100\n"
-"PO-Revision-Date: 2026-04-10 21:09+0000\n"
+"PO-Revision-Date: 2026-04-10 23:10+0000\n"
 "Last-Translator: Altero <aurelien.reinert4@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/cartero/cartero/"
 "fr/>\n"
@@ -35,7 +35,7 @@ msgstr ""
 "pour tester les APIs web et générer toutes sortes de requêtes HTTP aux "
 "serveurs web. Cartero est compatible avec n'importe quelle API (REST, SOAP "
 "et XML-RPC) et supporte de nombreuses méthodes de requêtes ainsi que "
-"l'intégration de payloads dans le body pour les requêtes compatibles"
+"l'intégration de charges utiles pour les requêtes compatibles."
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:15
 msgid "Features:"
@@ -46,15 +46,15 @@ msgid ""
 "Loads and saves to plain Git-friendly TOML files, so that you can own your "
 "data."
 msgstr ""
-"Charger et enregistrer dans des fichiers TOML \"Git-Friendly\" à des fins de "
-"sauvegarde"
+"Charge et enregistre les données dans des fichiers TOML simples et "
+"compatibles avec Git, afin que vous restiez maître de vos données."
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:18
 msgid ""
 "Customization and modification of the request headers and body payloads."
 msgstr ""
-"Modification et customisation des en-têtes et des payloads du corps des "
-"requêtes"
+"Personnalisation et modification des en-têtes et des charges utiles des "
+"requêtes."
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:19
 msgid "Variable binding for API keys and other secret information."
@@ -66,11 +66,11 @@ msgstr "Fenêtre principale de Cartero"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:29
 msgid "Modifying HTTP headers"
-msgstr ""
+msgstr "Modification des en-têtes HTTP"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:33
 msgid "Setting the request payload"
-msgstr ""
+msgstr "Définition du contenu de la requête"
 
 #: data/cartero.desktop.in.in:2
 msgid "Cartero"
@@ -129,11 +129,11 @@ msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:62
 msgid "The last location where a file was opened"
-msgstr ""
+msgstr "Le dernier emplacement où un fichier a été ouvert"
 
 #: data/es.danirod.Cartero.gschema.xml:66
 msgid "The last location where a file was saved"
-msgstr ""
+msgstr "Le dernier emplacement où un fichier a été enregistré"
 
 #: data/es.danirod.Cartero.gschema.xml:70
 msgid "Whether to validate the TLS certificates during a request"
@@ -388,7 +388,7 @@ msgstr "Exporter vers"
 
 #: data/ui/field_list_box_row.blp:27 data/ui/field_placeholder_row.blp:27
 msgid "Enabled"
-msgstr ""
+msgstr "Activé"
 
 #: data/ui/field_list_box_row.blp:43 data/ui/field_list_box_row.blp:44
 #: data/ui/field_list_box_static_row.blp:36
@@ -477,9 +477,8 @@ msgstr "Enregistrer la requête sous…"
 
 #: data/ui/mac_menu.blp:45 data/ui/main_window.blp:175
 #: data/ui/main_window_no_csd.blp:180
-#, fuzzy
 msgid "Duplicate request"
-msgstr "Enregistrer la requête"
+msgstr "Dupliquer la requête"
 
 #: data/ui/mac_menu.blp:52 data/ui/main_window.blp:180
 #: data/ui/main_window_no_csd.blp:185
@@ -645,19 +644,16 @@ msgid "Menu"
 msgstr "Menu"
 
 #: data/ui/main_window.blp:132 data/ui/main_window_no_csd.blp:137
-#, fuzzy
 msgid "Export request as cURL…"
-msgstr "Exporter la requête"
+msgstr "Exporter la requête en tant que cURL…"
 
 #: data/ui/main_window.blp:138 data/ui/main_window_no_csd.blp:143
-#, fuzzy
 msgid "Export request as Jetbrains HTTP…"
-msgstr "Exporter la requête"
+msgstr "Exporter la requête en tant que Jetbrains HTTP…"
 
 #: data/ui/main_window.blp:146 data/ui/main_window_no_csd.blp:151
-#, fuzzy
 msgid "Export response body…"
-msgstr "Exporter la requête"
+msgstr "Exporter le corps de la réponse…"
 
 #: data/ui/main_window.blp:194 data/ui/main_window_no_csd.blp:199
 msgid "Keyboard shortcuts"
@@ -708,7 +704,7 @@ msgstr "En-têtes"
 
 #: data/ui/response_panel.blp:30
 msgid "Ready to request"
-msgstr ""
+msgstr "Prêt à envoyer"
 
 #: data/ui/response_panel.blp:31
 msgid "Use the Send button to send a network request and it will show here."
@@ -718,15 +714,16 @@ msgstr ""
 
 #: data/ui/response_panel.blp:127
 msgid "Response body"
-msgstr ""
+msgstr "Corps de la réponse"
 
 #: data/ui/response_panel.blp:146
 msgid "Binary response received"
-msgstr ""
+msgstr "Réponse binaire reçue"
 
 #: data/ui/response_panel.blp:147
 msgid "The response of this request should not be rendered in a text view."
 msgstr ""
+"La réponse à cette requête ne doit pas être affichée dans une vue de texte."
 
 #: data/ui/response_panel.blp:169
 #, fuzzy
@@ -755,11 +752,11 @@ msgstr "Apparence"
 
 #: data/ui/settings/page_appearance.blp:26
 msgid "Color scheme"
-msgstr ""
+msgstr "Palette de couleurs"
 
 #: data/ui/settings/page_appearance.blp:60
 msgid "Interface"
-msgstr ""
+msgstr "Interface"
 
 #: data/ui/settings/page_appearance.blp:63
 msgid "Application style"
@@ -780,7 +777,7 @@ msgstr "Thème sombre"
 
 #: data/ui/settings/page_appearance.blp:76
 msgid "Font"
-msgstr ""
+msgstr "Police"
 
 #: data/ui/settings/page_appearance.blp:79
 msgid "Use system font"
@@ -792,7 +789,7 @@ msgstr "Police personnalisée"
 
 #: data/ui/settings/page_appearance.blp:90
 msgid "Click to select a font"
-msgstr ""
+msgstr "Cliquez pour sélectionner une police"
 
 #: data/ui/settings/page_application.blp:22
 msgid "Application"
@@ -801,11 +798,13 @@ msgstr "Application"
 #: data/ui/settings/page_application.blp:26
 #: data/ui/settings/page_application.blp:33
 msgid "Language"
-msgstr ""
+msgstr "Langue"
 
 #: data/ui/settings/page_application.blp:43
 msgid "You need to restart the program for the new locale to be used."
 msgstr ""
+"Vous devez redémarrer l'application pour que les nouveaux paramètres "
+"régionaux soient pris en compte."
 
 #: data/ui/settings/page_application.blp:50
 msgid "File settings"
@@ -825,7 +824,7 @@ msgstr ""
 
 #: data/ui/settings/page_application.blp:60
 msgid "Software updates"
-msgstr ""
+msgstr "Mises à jour du logiciel"
 
 #: data/ui/settings/page_application.blp:67
 msgid "Current version"
@@ -833,7 +832,7 @@ msgstr "Version actuelle"
 
 #: data/ui/settings/page_code_editor.blp:22
 msgid "Code editor"
-msgstr ""
+msgstr "Éditeur de code"
 
 #: data/ui/settings/page_http_client.blp:22
 msgid "HTTP Client"
@@ -845,7 +844,7 @@ msgstr "Effectuer la validation TLS"
 
 #: data/ui/settings/page_http_client.blp:28
 msgid "Cancel a request if the TLS handshake fails"
-msgstr ""
+msgstr "Annuler une requête si la négociation TLS échoue"
 
 #: data/ui/settings/page_http_client.blp:32
 msgid "Follow redirects"
@@ -865,11 +864,11 @@ msgstr "Délai de requête"
 
 #: data/ui/settings/page_http_client.blp:51
 msgid "Seconds to wait before cancelling the request"
-msgstr ""
+msgstr "Secondes à attendre avant d'annuler la requête"
 
 #: data/ui/settings/page_proxy.blp:22
 msgid "Proxy"
-msgstr ""
+msgstr "Proxy"
 
 #: data/ui/settings/page_proxy.blp:26
 #, fuzzy
@@ -878,11 +877,11 @@ msgstr "Paramètres des fichiers"
 
 #: data/ui/settings/page_proxy.blp:29
 msgid "HTTP Proxy"
-msgstr ""
+msgstr "Proxy HTTP"
 
 #: data/ui/settings/page_proxy.blp:33
 msgid "HTTPS Proxy"
-msgstr ""
+msgstr "Proxy HTTPS"
 
 #: data/ui/settings/page_proxy.blp:38
 msgid "Exclude from proxy"
@@ -917,7 +916,7 @@ msgstr ""
 
 #: data/ui/settings/page_proxy.blp:107
 msgid "Use environment variables as a fallback"
-msgstr ""
+msgstr "Utiliser les variables d'environnement comme solution de secours"
 
 #: data/ui/settings/page_proxy.blp:127 data/ui/settings/page_proxy.blp:138
 #: data/ui/settings/page_proxy.blp:149
@@ -938,6 +937,10 @@ msgid ""
 "credentials. Cartero can locate .env files and expose the variables inside "
 "so that you can use them in your requests."
 msgstr ""
+"Les fichiers .env sont couramment utilisés dans les projets pour stocker des "
+"valeurs sensibles telles que les identifiants. Cartero peut localiser les "
+"fichiers .env et extraire les variables à l'intérieur de sorte que vous "
+"pouvez les utiliser dans vos requêtes."
 
 #: data/ui/settings/page_security.blp:31
 msgid "Find and load .env files"
@@ -948,6 +951,8 @@ msgid ""
 "Cartero will only traverse your disk looking for .env files if you enable "
 "this option."
 msgstr ""
+"Cartero ne parcourra votre disque à la recherche de fichiers .env que si "
+"vous activez cette option."
 
 #: data/ui/welcome/welcome_pane.blp:45
 msgid "Welcome to Cartero"
@@ -968,11 +973,11 @@ msgstr ""
 
 #: data/ui/welcome/welcome_pane.blp:118 data/ui/welcome/welcome_pane.blp:166
 msgid "Know your rights"
-msgstr ""
+msgstr "Connaître vos droits"
 
 #: data/ui/welcome/welcome_pane.blp:152
 msgid "Social media updates"
-msgstr ""
+msgstr "Actualités sur les réseaux sociaux"
 
 #. TRANSLATORS: if your language has a different word for free as in freedom and free as in beer, and it's clear that free means "freedom", you might skip the "as in freedom" bit if you wish.
 #: data/ui/welcome/welcome_pane.blp:182
@@ -1135,7 +1140,7 @@ msgstr ""
 
 #: src/updates/ui.rs:59
 msgid "There is a new version of Cartero!"
-msgstr ""
+msgstr "Une nouvelle version de Cartero est disponible !"
 
 #: src/updates/ui.rs:63
 #, fuzzy
@@ -1144,16 +1149,16 @@ msgstr "Ouvrir la requête"
 
 #: src/updates/ui.rs:64
 msgid "_Not now"
-msgstr ""
+msgstr "_Pas maintenant"
 
 #: src/widgets/dialogs.rs:51
 #, rust-format
 msgid "Cannot open '{}'"
-msgstr ""
+msgstr "Impossible d'ouvrir '{}'"
 
 #: src/widgets/dialogs.rs:52
 msgid "Cannot open the requested file"
-msgstr ""
+msgstr "Impossible d'ouvrir le fichier demandé"
 
 #: src/widgets/dialogs.rs:61 src/widgets/dialogs.rs:92
 #: src/widgets/dialogs.rs:122 src/widgets/dialogs.rs:151
@@ -1179,9 +1184,8 @@ msgid ""
 msgstr ""
 
 #: src/widgets/dialogs.rs:115
-#, fuzzy
 msgid "The requested file cannot be picked"
-msgstr "Créer des requêtes HTTP et tester des API"
+msgstr "Le fichier demandé ne peut pas être sélectionné"
 
 #: src/widgets/dialogs.rs:116
 #, rust-format
@@ -1195,11 +1199,11 @@ msgstr ""
 #: src/widgets/dialogs.rs:136
 #, rust-format
 msgid "Cannot save '{}'"
-msgstr ""
+msgstr "Impossible d'enregistrer '{}'"
 
 #: src/widgets/dialogs.rs:137
 msgid "Cannot save the requested file"
-msgstr ""
+msgstr "Impossible d'enregistrer le fichier demandé"
 
 #: src/widgets/dialogs.rs:142
 msgid ""
@@ -1220,7 +1224,7 @@ msgstr ""
 
 #: src/widgets/dialogs.rs:181
 msgid "Error cause:"
-msgstr ""
+msgstr "Cause de l'erreur :"
 
 #: src/widgets/dialogs.rs:186
 #, fuzzy
@@ -1229,7 +1233,7 @@ msgstr "Exporter la requête"
 
 #: src/widgets/dialogs.rs:199
 msgid "There are unsaved changes"
-msgstr ""
+msgstr "Il y a des modifications non enregistrées"
 
 #: src/widgets/dialogs.rs:201
 msgid ""
@@ -1278,8 +1282,8 @@ msgstr "_Enregistrer"
 #, rust-format
 msgid "Show {} variable from .env"
 msgid_plural "Show {} variables from .env"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Afficher {} variable de .env"
+msgstr[1] "Afficher {} variables de .env"
 
 #: src/widgets/endpoint/endpoint_pane.rs:559
 #: src/widgets/endpoint/endpoint_pane.rs:565
@@ -1290,7 +1294,7 @@ msgstr ""
 #: src/widgets/endpoint/endpoint_pane.rs:613
 #, rust-format
 msgid "Show {} pre-generated headers"
-msgstr ""
+msgstr "Afficher {} en-têtes pré-générées"
 
 #: src/widgets/endpoint/endpoint_pane.rs:829
 #, fuzzy
@@ -1306,7 +1310,7 @@ msgstr "Exporter la requête"
 #: src/widgets/endpoint/response_panel.rs:379
 #, rust-format
 msgid "{} s"
-msgstr ""
+msgstr "{} s"
 
 #. Format as milliseconds.
 #. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
@@ -1317,7 +1321,7 @@ msgstr "{} ms"
 
 #: src/widgets/error_pane.rs:103
 msgid "The request data is not valid"
-msgstr ""
+msgstr "Les données de la requête sont invalides"
 
 #: src/widgets/error_pane.rs:110
 msgid "The request failed"
@@ -1329,11 +1333,11 @@ msgstr "Contenu copié dans le presse-papier"
 
 #: src/widgets/field/field_list_box_static_row.rs:149
 msgid "Show value"
-msgstr ""
+msgstr "Afficher la valeur"
 
 #: src/widgets/field/field_list_box_static_row.rs:151
 msgid "Hide value"
-msgstr ""
+msgstr "Masquer la valeur"
 
 #. TRANSLATORS: presented in file dialogs as the file type for a request
 #. The macOS native file dialog will already add the extension for us.
@@ -1348,7 +1352,7 @@ msgstr ""
 
 #: src/widgets/file_dialogs.rs:183
 msgid "Select file"
-msgstr ""
+msgstr "Sélectionner un fichier"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
@@ -1389,7 +1393,7 @@ msgstr "© 2024-2026 les auteurs de Cartero"
 
 #: src/windows/settings/pages/proxy.rs:210
 msgid "The value is not a valid domain or IP address"
-msgstr ""
+msgstr "La valeur n'est pas un domaine ou une adresse IP valide"
 
 #: src/windows/settings/pages/proxy.rs:225
 msgid "The host identifier is already excluded"
@@ -1402,7 +1406,7 @@ msgstr ""
 
 #: src/windows/settings/pages/proxy.rs:250
 msgid "Delete identifier?"
-msgstr ""
+msgstr "Supprimer l'identifiant ?"
 
 #: src/windows/settings/pages/proxy.rs:254
 #: src/windows/settings/pages/proxy.rs:288
@@ -1411,7 +1415,7 @@ msgstr "Supprimer"
 
 #: src/windows/settings/pages/proxy.rs:272
 msgid "No domains or IP addresses are being excluded"
-msgstr ""
+msgstr "Aucun domaine ni aucune adresse IP n'est exclu"
 
 #~ msgid "Export to"
 #~ msgstr "Exporter vers"

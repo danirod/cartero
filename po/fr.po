@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2026-03-01 18:16+0100\n"
-"PO-Revision-Date: 2026-04-11 10:11+0000\n"
+"PO-Revision-Date: 2026-04-11 12:09+0000\n"
 "Last-Translator: Altero <aurelien.reinert4@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/cartero/cartero/"
 "fr/>\n"
@@ -157,7 +157,7 @@ msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:90
 msgid "The custom font in use"
-msgstr ""
+msgstr "La police personnalisée utilisée"
 
 #: data/es.danirod.Cartero.gschema.xml:94
 msgid "Whether to use the system font or a custom one"
@@ -232,19 +232,19 @@ msgstr "Opérations sur les requêtes"
 #: data/help_overlay/gtk_help_overlay.blp:71
 msgctxt "shortcuts window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Zoom avant"
 
 #: data/help_overlay/adw_help_overlay.blp:73
 #: data/help_overlay/gtk_help_overlay.blp:76
 msgctxt "shortcuts window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Zoom arrière"
 
 #: data/help_overlay/adw_help_overlay.blp:78
 #: data/help_overlay/gtk_help_overlay.blp:81
 msgctxt "shortcuts window"
 msgid "Reset zoom"
-msgstr ""
+msgstr "Réinitialiser le zoom"
 
 #: data/help_overlay/adw_help_overlay.blp:83
 #: data/help_overlay/gtk_help_overlay.blp:86
@@ -516,7 +516,7 @@ msgstr "Copier"
 #: data/ui/mac_menu.blp:85
 msgctxt "menubar"
 msgid "Paste"
-msgstr ""
+msgstr "Coller"
 
 #: data/ui/mac_menu.blp:90
 #, fuzzy
@@ -1113,7 +1113,7 @@ msgstr ""
 
 #: src/interop.rs:92
 msgid "There is a network error"
-msgstr ""
+msgstr "Il y a une erreur réseau"
 
 #: src/updates/ui.rs:33
 msgid "Error checking updates"
@@ -1122,10 +1122,12 @@ msgstr "Erreur lors de la vérification des mises à jour"
 #: src/updates/ui.rs:35
 msgid "Couldn't receive a valid response from the server. Please, check later."
 msgstr ""
+"Impossible d'obtenir une réponse valide du serveur. Veuillez réessayer plus "
+"tard."
 
 #: src/updates/ui.rs:38 src/updates/ui.rs:48
 msgid "Accept"
-msgstr ""
+msgstr "Accepter"
 
 #: src/updates/ui.rs:45
 msgid "No updates at the moment"
@@ -1176,11 +1178,11 @@ msgstr "Fermer l'onglet"
 #: src/widgets/dialogs.rs:75
 #, rust-format
 msgid "The file '{}' was loaded but had issues"
-msgstr ""
+msgstr "Le fichier '{}' a été chargé mais des problèmes sont survenus"
 
 #: src/widgets/dialogs.rs:76
 msgid "The requested file was loaded but had issues"
-msgstr ""
+msgstr "Le fichier demandé a été chargé mais des problèmes sont survenus"
 
 #: src/widgets/dialogs.rs:99
 #, rust-format

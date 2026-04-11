@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2026-03-01 18:16+0100\n"
-"PO-Revision-Date: 2026-04-10 23:10+0000\n"
+"PO-Revision-Date: 2026-04-11 10:11+0000\n"
 "Last-Translator: Altero <aurelien.reinert4@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/cartero/cartero/"
 "fr/>\n"
@@ -422,25 +422,27 @@ msgstr "Supprimer"
 
 #: data/ui/file_body_pane.blp:30
 msgid "File"
-msgstr ""
+msgstr "Fichier"
 
 #: data/ui/file_body_pane.blp:34
 msgid "Content Type"
-msgstr ""
+msgstr "Type de contenu"
 
 #: data/ui/file_body_pane.blp:45
 msgid "or select a file from the file system:"
-msgstr ""
+msgstr "ou sélectionnez un fichier dans le système de fichiers :"
 
 #: data/ui/file_body_pane.blp:54
 msgid "Select file…"
-msgstr ""
+msgstr "Sélectionner un fichier…"
 
 #: data/ui/file_body_pane.blp:75
 msgid ""
 "You cannot pick a file from the file system until you save this request to "
 "disk."
 msgstr ""
+"Vous ne pouvez pas sélectionner de fichier dans le système de fichiers tant "
+"que vous n'avez pas enregistré cette requête sur le disque."
 
 #: data/ui/file_body_pane.blp:101
 msgid ""
@@ -453,7 +455,7 @@ msgstr ""
 #: data/ui/mac_menu.blp:21
 msgctxt "menubar"
 msgid "File"
-msgstr ""
+msgstr "Fichier"
 
 #: data/ui/mac_menu.blp:25 data/ui/main_window.blp:155
 #: data/ui/main_window_no_csd.blp:160 data/ui/welcome/welcome_pane.blp:65
@@ -1020,13 +1022,15 @@ msgstr ""
 
 #: data/ui/welcome/welcome_pane.blp:206
 msgid "Cartero is built in community"
-msgstr ""
+msgstr "Cartero est développé en communauté"
 
 #: data/ui/welcome/welcome_pane.blp:207
 msgid ""
 "Share feedback, contribute code, report bugs, translate Cartero to your "
 "language… You can be part of this!"
 msgstr ""
+"Partagez vos commentaires, contribuez au code, signalez les bugs, traduisez "
+"Cartero dans votre langue... Vous pouvez en faire partie !"
 
 #: data/ui/welcome/welcome_pane.blp:219
 #, fuzzy
@@ -1046,14 +1050,16 @@ msgstr ""
 #: src/interop.rs:36
 msgid "The file is corrupt or does not contain valid data for this application"
 msgstr ""
+"Le fichier est corrompu ou ne contient pas de données valides pour cette "
+"application"
 
 #: src/interop.rs:59
 msgid "The specified URL is not valid"
-msgstr ""
+msgstr "L'URL spécifiée n'est pas valide"
 
 #: src/interop.rs:60 src/widgets/dialogs.rs:170
 msgid "Cannot recognise the URL"
-msgstr ""
+msgstr "Impossible de reconnaître l'URL"
 
 #: src/interop.rs:61
 msgid "The given URL is missing a protocol"
@@ -1062,7 +1068,7 @@ msgstr ""
 #: src/interop.rs:63
 #, rust-format
 msgid "The protocol {}:// is not supported"
-msgstr ""
+msgstr "Le protocole {}:// n'est pas supporté"
 
 #: src/interop.rs:66 src/widgets/dialogs.rs:172
 #, rust-format
@@ -1089,7 +1095,7 @@ msgstr ""
 
 #: src/interop.rs:80
 msgid "You have to save the request first"
-msgstr ""
+msgstr "Vous devez d'abord enregistrer la requête"
 
 #: src/interop.rs:82
 #, rust-format

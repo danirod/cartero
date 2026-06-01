@@ -9,18 +9,20 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2026-03-01 18:16+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2026-06-01 15:01+0000\n"
+"Last-Translator: Hüseyin Şevikbaş <h.sevikbas@gmail.com>\n"
+"Language-Team: Turkish <https://hosted.weblate.org/projects/cartero/cartero/"
+"tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2026.6\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
-msgstr ""
+msgstr "HTTP istekleri oluşturun ve API'leri test edin"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:14
 msgid ""
@@ -29,103 +31,112 @@ msgid ""
 "compatible with any REST, SOAP or XML-RPC API and it supports multiple "
 "request methods as well as attaching body payloads to compatible requests."
 msgstr ""
+"Cartero, web API'lerini test etmek ve web sunucularına her türlü HTTP isteği "
+"göndermek için geliştirici aracı olarak kullanılabilen grafiksel bir HTTP "
+"istemcisidir. Her türlü REST, SOAP veya XML-RPC API ile uyumludur ve çeşitli "
+"istek yöntemlerini desteklemenin yanı sıra, uyumlu isteklere gövde verileri "
+"ekleme özelliğine de sahiptir."
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:15
 msgid "Features:"
-msgstr ""
+msgstr "Özellikler:"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:17
 msgid ""
 "Loads and saves to plain Git-friendly TOML files, so that you can own your "
 "data."
 msgstr ""
+"Verilerinizi tam olarak kontrol edebilmeniz için, Git ile uyumlu basit TOML "
+"dosyalarına yükler ve kaydeder."
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:18
 msgid ""
 "Customization and modification of the request headers and body payloads."
 msgstr ""
+"İstek başlıklarının ve gövde verilerinin özelleştirilmesi ve değiştirilmesi."
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:19
 msgid "Variable binding for API keys and other secret information."
-msgstr ""
+msgstr "API anahtarları ve diğer gizli bilgiler için değişken bağlama."
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:25
 msgid "Main window of Cartero"
-msgstr ""
+msgstr "Cartero'nun ana penceresi"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:29
 msgid "Modifying HTTP headers"
-msgstr ""
+msgstr "HTTP başlıklarını değiştirme"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:33
 msgid "Setting the request payload"
-msgstr ""
+msgstr "İstek yükünün ayarlanması"
 
 #: data/cartero.desktop.in.in:2
 msgid "Cartero"
-msgstr ""
+msgstr "Cartero"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/cartero.desktop.in.in:10
 msgid "Gnome;GTK;HTTP;REST;"
-msgstr ""
+msgstr "Gnome;GTK;HTTP;REST;"
 
 #: data/es.danirod.Cartero.gschema.xml:18
 msgid ""
 "A specific locale to use within the application instead of the system default"
 msgstr ""
+"Sistem varsayılanı yerine uygulama içinde kullanılacak belirli bir yerel ayar"
 
 #: data/es.danirod.Cartero.gschema.xml:22
 msgid "Automatically indent new lines for the request body"
-msgstr ""
+msgstr "İstek gövdesindeki yeni satırları otomatik olarak girintile"
 
 #: data/es.danirod.Cartero.gschema.xml:26
 msgid "Wrap the body content"
-msgstr ""
+msgstr "Gövde içeriğini sar"
 
 #: data/es.danirod.Cartero.gschema.xml:30
 msgid "Whether to indent the request body with spaces or tabs"
-msgstr ""
+msgstr "İstek gövdesinde girinti için boşluk mu yoksa sekme mi kullanılacağı"
 
 #: data/es.danirod.Cartero.gschema.xml:34
 msgid "Show line numbers in the request and response bodies"
-msgstr ""
+msgstr "İstek ve yanıt gövdelerinde satır numaralarını göster"
 
 #: data/es.danirod.Cartero.gschema.xml:38
 msgid "How many characters to pad when indenting the request body"
-msgstr ""
+msgstr "İstek gövdesini girintilemek için kaç karakter eklenmeli"
 
 #: data/es.danirod.Cartero.gschema.xml:42
 msgid "How large should new windows be"
-msgstr ""
+msgstr "Yeni pencereler ne kadar büyük olmalı"
 
 #: data/es.danirod.Cartero.gschema.xml:46
 msgid "How tall should new windows be"
-msgstr ""
+msgstr "Yeni pencereler ne kadar yüksek olmalı"
 
 #: data/es.danirod.Cartero.gschema.xml:50
 msgid "Whether the application should open maximized"
-msgstr ""
+msgstr "Uygulamanın tam ekran olarak açılıp açılmayacağı"
 
 #: data/es.danirod.Cartero.gschema.xml:54
 msgid "The position of the split between two windows"
-msgstr ""
+msgstr "İki pencere arasındaki ayrımın konumu"
 
 #: data/es.danirod.Cartero.gschema.xml:58
 msgid "The current list of opened files"
-msgstr ""
+msgstr "Açık dosyaların mevcut listesi"
 
 #: data/es.danirod.Cartero.gschema.xml:62
 msgid "The last location where a file was opened"
-msgstr ""
+msgstr "Dosyanın en son açıldığı konum"
 
 #: data/es.danirod.Cartero.gschema.xml:66
 msgid "The last location where a file was saved"
-msgstr ""
+msgstr "Dosyanın en son kaydedildiği konum"
 
 #: data/es.danirod.Cartero.gschema.xml:70
 msgid "Whether to validate the TLS certificates during a request"
-msgstr ""
+msgstr "Bir istek sırasında TLS sertifikalarının doğrulanıp doğrulanmayacağı"
 
 #: data/es.danirod.Cartero.gschema.xml:74
 msgid "Whether to follow redirections if that is the server response"
@@ -133,171 +144,171 @@ msgstr ""
 
 #: data/es.danirod.Cartero.gschema.xml:78
 msgid "Maximum number of redirections to follow before giving up"
-msgstr ""
+msgstr "Vazgeçmeden önce takip edilecek maksimum yönlendirme sayısı"
 
 #: data/es.danirod.Cartero.gschema.xml:82
 msgid "Maximum timeout when awaiting for an HTTP response."
-msgstr ""
+msgstr "HTTP yanıtı beklenirken geçerli olan maksimum zaman aşımı süresi."
 
 #: data/es.danirod.Cartero.gschema.xml:86
 msgid "Whether to use light or dark mode."
-msgstr ""
+msgstr "Açık mod mu yoksa koyu mod mu kullanılacağı."
 
 #: data/es.danirod.Cartero.gschema.xml:90
 msgid "The custom font in use"
-msgstr ""
+msgstr "Kullanılan özel yazı tipi"
 
 #: data/es.danirod.Cartero.gschema.xml:94
 msgid "Whether to use the system font or a custom one"
-msgstr ""
+msgstr "Sistem fontunun veya özel bir fontun kullanılıp kullanılmayacağı"
 
 #: data/es.danirod.Cartero.gschema.xml:98
 msgid "Whether to create backup files on save"
-msgstr ""
+msgstr "Kaydetme sırasında yedek dosyalar oluşturulup oluşturulmayacağı"
 
 #: data/help_overlay/adw_help_overlay.blp:22
 #: data/help_overlay/gtk_help_overlay.blp:25
 msgctxt "shortcuts window"
 msgid "General shortcuts"
-msgstr ""
+msgstr "Genel kısayollar"
 
 #: data/help_overlay/adw_help_overlay.blp:25
 #: data/help_overlay/gtk_help_overlay.blp:28
 msgctxt "shortcuts window"
 msgid "Show Keyboard Shortcuts"
-msgstr ""
+msgstr "Klavye Kısayollarını Göster"
 
 #: data/help_overlay/adw_help_overlay.blp:30
 #: data/help_overlay/gtk_help_overlay.blp:33
 msgctxt "shortcuts window"
 msgid "Quit"
-msgstr ""
+msgstr "Çık"
 
 #: data/help_overlay/adw_help_overlay.blp:36
 #: data/help_overlay/gtk_help_overlay.blp:39
 msgctxt "shortcuts window"
 msgid "Tab operations"
-msgstr ""
+msgstr "Sekme işlemleri"
 
 #: data/help_overlay/adw_help_overlay.blp:39
 #: data/help_overlay/gtk_help_overlay.blp:42
 msgctxt "shortcuts window"
 msgid "New request tab"
-msgstr ""
+msgstr "Yeni istek sekmesi"
 
 #: data/help_overlay/adw_help_overlay.blp:44
 #: data/help_overlay/gtk_help_overlay.blp:47
 msgctxt "shortcuts window"
 msgid "Open request"
-msgstr ""
+msgstr "Açık istek"
 
 #: data/help_overlay/adw_help_overlay.blp:49
 #: data/help_overlay/gtk_help_overlay.blp:52
 msgctxt "shortcuts window"
 msgid "Save request"
-msgstr ""
+msgstr "İsteği kaydet"
 
 #: data/help_overlay/adw_help_overlay.blp:54
 #: data/help_overlay/gtk_help_overlay.blp:57
 msgctxt "shortcuts window"
 msgid "Save request as"
-msgstr ""
+msgstr "İsteği farklı kaydet"
 
 #: data/help_overlay/adw_help_overlay.blp:59
 #: data/help_overlay/gtk_help_overlay.blp:62
 msgctxt "shortcuts window"
 msgid "Close request tab"
-msgstr ""
+msgstr "İstek sekmesini kapat"
 
 #: data/help_overlay/adw_help_overlay.blp:65
 #: data/help_overlay/gtk_help_overlay.blp:68
 msgctxt "shortcuts window"
 msgid "Code view operations"
-msgstr ""
+msgstr "Kod görünümü işlemleri"
 
 #: data/help_overlay/adw_help_overlay.blp:68
 #: data/help_overlay/gtk_help_overlay.blp:71
 msgctxt "shortcuts window"
 msgid "Zoom in"
-msgstr ""
+msgstr "Yakınlaştır"
 
 #: data/help_overlay/adw_help_overlay.blp:73
 #: data/help_overlay/gtk_help_overlay.blp:76
 msgctxt "shortcuts window"
 msgid "Zoom out"
-msgstr ""
+msgstr "Uzaklaştır"
 
 #: data/help_overlay/adw_help_overlay.blp:78
 #: data/help_overlay/gtk_help_overlay.blp:81
 msgctxt "shortcuts window"
 msgid "Reset zoom"
-msgstr ""
+msgstr "Yakınlaştırmayı sıfırla"
 
 #: data/help_overlay/adw_help_overlay.blp:83
 #: data/help_overlay/gtk_help_overlay.blp:86
 msgctxt "shortcuts window"
 msgid "Start search"
-msgstr ""
+msgstr "Aramayı başlat"
 
 #: data/help_overlay/adw_help_overlay.blp:89
 #: data/help_overlay/gtk_help_overlay.blp:92
 msgctxt "shortcuts window"
 msgid "Request operations"
-msgstr ""
+msgstr "İstek işlemleri"
 
 #: data/help_overlay/adw_help_overlay.blp:92
 #: data/help_overlay/gtk_help_overlay.blp:95
 msgctxt "shortcuts window"
 msgid "Focus URL"
-msgstr ""
+msgstr "Odak URL'si"
 
 #: data/help_overlay/adw_help_overlay.blp:97
 #: data/help_overlay/gtk_help_overlay.blp:100
 msgctxt "shortcuts window"
 msgid "Send request"
-msgstr ""
+msgstr "İstek gönder"
 
 #: data/ui/authentication_pane.blp:34
 msgid "Authorization method"
-msgstr ""
+msgstr "Yetkilendirme yöntemi"
 
 #: data/ui/authentication_pane.blp:59 data/ui/request_body_pane.blp:54
 #: src/windows/settings/pages/proxy.rs:303
 #: src/windows/settings/pages/proxy.rs:314
 msgid "(none)"
-msgstr ""
+msgstr "(Yok)"
 
 #: data/ui/authentication_pane.blp:60
 msgid "Basic auth"
-msgstr ""
+msgstr "Temel kimlik doğrulama"
 
 #: data/ui/authentication_pane.blp:61
 msgid "Bearer token"
-msgstr ""
+msgstr "Bearer token"
 
 #: data/ui/basic_auth_pane.blp:23
 msgid "Username"
-msgstr ""
+msgstr "Kullanıcı adı"
 
 #: data/ui/basic_auth_pane.blp:28
 msgid "Password"
-msgstr ""
+msgstr "Parola"
 
 #: data/ui/bearer_token_pane.blp:23
 msgid "Token"
-msgstr ""
+msgstr "Token"
 
 #: data/ui/endpoint_pane.blp:61 data/ui/endpoint_pane.blp:62
 msgid "Request URL"
-msgstr ""
+msgstr "İstek URL'si"
 
 #: data/ui/endpoint_pane.blp:74 data/ui/mac_menu.blp:118
 msgid "Cancel request"
-msgstr ""
+msgstr "İsteği iptal et"
 
 #: data/ui/endpoint_pane.blp:83 data/ui/mac_menu.blp:113
 msgid "Send"
-msgstr ""
+msgstr "Gönder"
 
 #: data/ui/endpoint_pane.blp:84
 msgid "Execute this HTTP request"

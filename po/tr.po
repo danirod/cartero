@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2026-03-01 18:16+0100\n"
-"PO-Revision-Date: 2026-06-01 23:01+0000\n"
+"PO-Revision-Date: 2026-06-02 01:01+0000\n"
 "Last-Translator: Hüseyin Şevikbaş <h.sevikbas@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/cartero/cartero/"
 "tr/>\n"
@@ -278,11 +278,11 @@ msgstr "Yetkilendirme yöntemi"
 #: src/windows/settings/pages/proxy.rs:303
 #: src/windows/settings/pages/proxy.rs:314
 msgid "(none)"
-msgstr "(Yok)"
+msgstr "(yok)"
 
 #: data/ui/authentication_pane.blp:60
 msgid "Basic auth"
-msgstr "Temel kimlik doğrulama"
+msgstr "Basic Auth"
 
 #: data/ui/authentication_pane.blp:61
 msgid "Bearer token"
@@ -1028,106 +1028,112 @@ msgid ""
 "Share feedback, contribute code, report bugs, translate Cartero to your "
 "language… You can be part of this!"
 msgstr ""
+"Geri bildirim paylaşın, koda katkıda bulunun, hataları bildirin, Cartero'yu "
+"kendi dilinize çevirin… Siz de bunun bir parçası olabilirsiniz!"
 
 #: data/ui/welcome/welcome_pane.blp:219
 msgid "Previous"
-msgstr ""
+msgstr "Önceki"
 
 #: data/ui/welcome/welcome_pane.blp:235
 msgid "Next"
-msgstr ""
+msgstr "Sonraki"
 
 #: src/interop.rs:33
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
+"Bu dosya, uygulamanın daha yeni bir sürümüyle oluşturulmuştur; lütfen "
+"uygulamayı güncelleyin!"
 
 #: src/interop.rs:36
 msgid "The file is corrupt or does not contain valid data for this application"
-msgstr ""
+msgstr "Dosya bozuk ya da bu uygulama için geçerli veriler içermiyor"
 
 #: src/interop.rs:59
 msgid "The specified URL is not valid"
-msgstr ""
+msgstr "Belirtilen URL geçerli değil"
 
 #: src/interop.rs:60 src/widgets/dialogs.rs:170
 msgid "Cannot recognise the URL"
-msgstr ""
+msgstr "URL tanınamıyor"
 
 #: src/interop.rs:61
 msgid "The given URL is missing a protocol"
-msgstr ""
+msgstr "Verilen URL'de bir protokol eksik"
 
 #: src/interop.rs:63
 #, rust-format
 msgid "The protocol {}:// is not supported"
-msgstr ""
+msgstr "{}:// protokolü desteklenmiyor"
 
 #: src/interop.rs:66 src/widgets/dialogs.rs:172
 #, rust-format
 msgid "The variable '{}' is not defined"
-msgstr ""
+msgstr "'{}' değişkeni tanımlanmamış"
 
 #: src/interop.rs:69 src/widgets/dialogs.rs:175
 msgid "There was a problem with a variable interpolation, review your inputs"
 msgstr ""
+"Değişken yerleştirmeyle ilgili bir sorun oluştu; girdilerinizi gözden geçirin"
 
 #: src/interop.rs:72
 #, rust-format
 msgid "The header '{}' is not valid"
-msgstr ""
+msgstr "'{}' başlığı geçersiz"
 
 #: src/interop.rs:75
 #, rust-format
 msgid "The value for header '{}' is not valid"
-msgstr ""
+msgstr "'{}' başlığının değeri geçersiz"
 
 #: src/interop.rs:78
 msgid "The given request body could not be encoded correctly"
-msgstr ""
+msgstr "Verilen istek gövdesi doğru şekilde kodlanamadı"
 
 #: src/interop.rs:80
 msgid "You have to save the request first"
-msgstr ""
+msgstr "Önce isteği kaydetmeniz gerekiyor"
 
 #: src/interop.rs:82
 #, rust-format
 msgid "The file '{}' cannot be accessed due to the security policy"
-msgstr ""
+msgstr "Güvenlik ilkesi nedeniyle ‘{}’ dosyasına erişilemiyor"
 
 #: src/interop.rs:87
 #, rust-format
 msgid "Defined value for proxy '{}' is not a valid configuration"
-msgstr ""
+msgstr "'{}' için tanımlanan proxy değeri geçerli bir yapılandırma değil"
 
 #: src/interop.rs:91
 msgid "There is an input/output error"
-msgstr ""
+msgstr "Giriş/çıkış hatası oluştu"
 
 #: src/interop.rs:92
 msgid "There is a network error"
-msgstr ""
+msgstr "Ağ hatası oluştu"
 
 #: src/updates/ui.rs:33
 msgid "Error checking updates"
-msgstr ""
+msgstr "Güncellemeler denetlenirken hata oluştu"
 
 #: src/updates/ui.rs:35
 msgid "Couldn't receive a valid response from the server. Please, check later."
 msgstr ""
+"Sunucudan geçerli bir yanıt alınamadı. Lütfen daha sonra tekrar deneyin."
 
 #: src/updates/ui.rs:38 src/updates/ui.rs:48
 msgid "Accept"
-msgstr ""
+msgstr "Kabul et"
 
 #: src/updates/ui.rs:45
 msgid "No updates at the moment"
-msgstr ""
+msgstr "Şu anda güncelleme yok"
 
 #: src/updates/ui.rs:46
 msgid "You are running the latest version of Cartero."
-msgstr ""
+msgstr "Cartero'nun en son sürümünü kullanıyorsunuz."
 
 #: src/updates/ui.rs:57
 #, rust-format
@@ -1135,42 +1141,44 @@ msgid ""
 "Version {} has been released. Do you want to visit the website to download "
 "the update now?"
 msgstr ""
+"{} sürümü yayımlandı. Güncellemeyi şimdi indirmek için web sitesini ziyaret "
+"etmek ister misiniz?"
 
 #: src/updates/ui.rs:59
 msgid "There is a new version of Cartero!"
-msgstr ""
+msgstr "Cartero'nun yeni bir sürümü var!"
 
 #: src/updates/ui.rs:63
 msgid "_Open website"
-msgstr ""
+msgstr "_Web sitesini aç"
 
 #: src/updates/ui.rs:64
 msgid "_Not now"
-msgstr ""
+msgstr "_Şimdi değil"
 
 #: src/widgets/dialogs.rs:51
 #, rust-format
 msgid "Cannot open '{}'"
-msgstr ""
+msgstr "'{}' açılamıyor"
 
 #: src/widgets/dialogs.rs:52
 msgid "Cannot open the requested file"
-msgstr ""
+msgstr "İstenen dosya açılamıyor"
 
 #: src/widgets/dialogs.rs:61 src/widgets/dialogs.rs:92
 #: src/widgets/dialogs.rs:122 src/widgets/dialogs.rs:151
 #: src/widgets/dialogs.rs:164 src/widgets/dialogs.rs:190
 msgid "Close"
-msgstr ""
+msgstr "Kapat"
 
 #: src/widgets/dialogs.rs:75
 #, rust-format
 msgid "The file '{}' was loaded but had issues"
-msgstr ""
+msgstr "'{}' dosyası yüklendi, ancak bazı sorunlar tespit edildi"
 
 #: src/widgets/dialogs.rs:76
 msgid "The requested file was loaded but had issues"
-msgstr ""
+msgstr "İstenen dosya yüklendi, ancak bazı sorunlar tespit edildi"
 
 #: src/widgets/dialogs.rs:99
 #, rust-format
@@ -1178,10 +1186,12 @@ msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
 msgstr ""
+"Dosyada bulunan HTTP yöntemi '{}' idi. Bu geçerli bir yöntem olmadığından '{}"
+"' kullanılacaktır."
 
 #: src/widgets/dialogs.rs:115
 msgid "The requested file cannot be picked"
-msgstr ""
+msgstr "İstenen dosya seçilemiyor"
 
 #: src/widgets/dialogs.rs:116
 #, rust-format
@@ -1191,25 +1201,31 @@ msgid ""
 "\n"
 "The file '{}' is not part of the '{}' directory"
 msgstr ""
+"Dosya, istek veya proje dosyasıyla aynı dizinde ya da onun alt dizinlerinden "
+"birinde bulunmalıdır.\n"
+"\n"
+"'{}' dosyası, '{}' dizininin bir parçası değildir"
 
 #: src/widgets/dialogs.rs:136
 #, rust-format
 msgid "Cannot save '{}'"
-msgstr ""
+msgstr "'{}' kaydedilemiyor"
 
 #: src/widgets/dialogs.rs:137
 msgid "Cannot save the requested file"
-msgstr ""
+msgstr "İstenen dosya kaydedilemedi"
 
 #: src/widgets/dialogs.rs:142
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
 msgstr ""
+"Kaydetme işlemi sırasında bir hata oluştu. Değişikliklerinizin henüz "
+"kaydedilmediğini varsayın."
 
 #: src/widgets/dialogs.rs:159
 msgid "Could not select a valid file from the file chooser"
-msgstr ""
+msgstr "Dosya seçiciden geçerli bir dosya seçilemedi"
 
 #: src/widgets/dialogs.rs:179
 msgid ""
@@ -1217,138 +1233,143 @@ msgid ""
 "likely a development error. (If you could report your test case and this "
 "error, we might be able to fix this in the future.)"
 msgstr ""
+"Dışa aktarma işlemi sırasında dahili bir hata oluştu. Bu büyük olasılıkla "
+"bir geliştirme hatasından kaynaklanmaktadır. (Test senaryonuzu ve bu hata "
+"iletisini bildirirseniz, gelecekte bu sorunu giderebiliriz.)"
 
 #: src/widgets/dialogs.rs:181
 msgid "Error cause:"
-msgstr ""
+msgstr "Hata nedeni:"
 
 #: src/widgets/dialogs.rs:186
 msgid "Could not export the request"
-msgstr ""
+msgstr "İstek dışa aktarılamadı"
 
 #: src/widgets/dialogs.rs:199
 msgid "There are unsaved changes"
-msgstr ""
+msgstr "Kaydedilmemiş değişiklikler var"
 
 #: src/widgets/dialogs.rs:201
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
 msgstr ""
+"Bu pencereyi kapatırsanız kaydedilmemiş tüm veriler kaybolacaktır. Devam "
+"etmek istediğinizden emin misiniz?"
 
 #: src/widgets/dialogs.rs:205 src/windows/settings/pages/proxy.rs:253
 msgid "Cancel"
-msgstr ""
+msgstr "İptal"
 
 #: src/widgets/dialogs.rs:206
 msgid "Close anyway"
-msgstr ""
+msgstr "Yine de kapat"
 
 #: src/widgets/dialogs.rs:229
 #, rust-format
 msgid "Save changes in '{}'?"
-msgstr ""
+msgstr "'{}' içindeki değişiklikler kaydedilsin mi?"
 
 #: src/widgets/dialogs.rs:230
 msgid "Save changes?"
-msgstr ""
+msgstr "Değişiklikler kaydedilsin mi?"
 
 #: src/widgets/dialogs.rs:235
 msgid "There are changes that have not been saved yet. What do you want to do?"
-msgstr ""
+msgstr "Henüz kaydedilmemiş değişiklikler var. Ne yapmak istiyorsunuz?"
 
 #: src/widgets/dialogs.rs:239
 msgid "_Cancel"
-msgstr ""
+msgstr "_İptal"
 
 #: src/widgets/dialogs.rs:240
 msgid "_Discard"
-msgstr ""
+msgstr "_Vazgeç"
 
 #: src/widgets/dialogs.rs:241
 msgid "_Save"
-msgstr ""
+msgstr "_Kaydet"
 
 #: src/widgets/endpoint/endpoint_pane.rs:286
 #, rust-format
 msgid "Show {} variable from .env"
 msgid_plural "Show {} variables from .env"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] ".env dosyasındaki {} değişkenini göster"
+msgstr[1] ".env dosyasındaki {} değişkeni göster"
 
 #: src/widgets/endpoint/endpoint_pane.rs:559
 #: src/widgets/endpoint/endpoint_pane.rs:565
 #: src/widgets/endpoint/endpoint_pane.rs:586
 msgid "(generated during request)"
-msgstr ""
+msgstr "(istek sırasında oluşturuldu)"
 
 #: src/widgets/endpoint/endpoint_pane.rs:613
 #, rust-format
 msgid "Show {} pre-generated headers"
-msgstr ""
+msgstr "Önceden oluşturulmuş {} üst bilgiyi göster"
 
 #: src/widgets/endpoint/endpoint_pane.rs:829
 msgid "Export request as cURL"
-msgstr ""
+msgstr "İsteği cURL olarak dışa aktar"
 
 #: src/widgets/endpoint/endpoint_pane.rs:830
 msgid "Export request as Jetbrains HTTP"
-msgstr ""
+msgstr "İsteği JetBrains HTTP olarak dışa aktar"
 
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
 #: src/widgets/endpoint/response_panel.rs:379
 #, rust-format
 msgid "{} s"
-msgstr ""
+msgstr "{} s"
 
 #. Format as milliseconds.
 #. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
 #: src/widgets/endpoint/response_panel.rs:383
 #, rust-format
 msgid "{} ms"
-msgstr ""
+msgstr "{} ms"
 
 #: src/widgets/error_pane.rs:103
 msgid "The request data is not valid"
-msgstr ""
+msgstr "İstek verileri geçerli değil"
 
 #: src/widgets/error_pane.rs:110
 msgid "The request failed"
-msgstr ""
+msgstr "İstek başarısız oldu"
 
 #: src/widgets/export_dialog.rs:115
 msgid "Content copied to the clipboard"
-msgstr ""
+msgstr "İçerik panoya kopyalandı"
 
 #: src/widgets/field/field_list_box_static_row.rs:149
 msgid "Show value"
-msgstr ""
+msgstr "Değeri göster"
 
 #: src/widgets/field/field_list_box_static_row.rs:151
 msgid "Hide value"
-msgstr ""
+msgstr "Değeri gizle"
 
 #. TRANSLATORS: presented in file dialogs as the file type for a request
 #. The macOS native file dialog will already add the extension for us.
 #: src/widgets/file_dialogs.rs:42 src/widgets/file_dialogs.rs:146
 #: src/widgets/file_dialogs.rs:148
 msgid "Request"
-msgstr ""
+msgstr "İstek"
 
 #: src/widgets/file_dialogs.rs:106
 msgid "Open request"
-msgstr ""
+msgstr "İstek aç"
 
 #: src/widgets/file_dialogs.rs:183
 msgid "Select file"
-msgstr ""
+msgstr "Dosya seç"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
 #: src/widgets/search_box.rs:254
 #, rust-format
 msgid "{} of {}"
-msgstr ""
+msgstr "{} / {}"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count when only
 #. the number of total ocurrences is known.
@@ -1356,52 +1377,52 @@ msgstr ""
 #, rust-format
 msgid "{} result"
 msgid_plural "{} results"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} sonuç"
+msgstr[1] "{} sonuç"
 
 #: src/win.rs:288
 msgid "(untitled)"
-msgstr ""
+msgstr "(Adsız)"
 
 #: src/win.rs:302
 msgid "Draft"
-msgstr ""
+msgstr "Taslak"
 
 #: src/win.rs:612
 msgid "The Cartero authors"
-msgstr ""
+msgstr "Cartero'nun geliştiricileri"
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
 #: src/win.rs:635
 msgid "translator-credits"
-msgstr ""
+msgstr "Hüseyin Şevikbaş"
 
 #: src/win.rs:636
 msgid "© 2024-2026 the Cartero authors"
-msgstr ""
+msgstr "© 2024-2026 Cartero geliştiricileri"
 
 #: src/windows/settings/pages/proxy.rs:210
 msgid "The value is not a valid domain or IP address"
-msgstr ""
+msgstr "Değer, geçerli bir alan adı veya IP adresi değil"
 
 #: src/windows/settings/pages/proxy.rs:225
 msgid "The host identifier is already excluded"
-msgstr ""
+msgstr "Bu ana makine tanımlayıcısı zaten hariç tutulmuş"
 
 #: src/windows/settings/pages/proxy.rs:245
 #, rust-format
 msgid "Delete '{}' from the list of excluded hosts for the proxy?"
-msgstr ""
+msgstr "'{}' öğesi proxy için hariç tutulanlar listesinden kaldırılsın mı?"
 
 #: src/windows/settings/pages/proxy.rs:250
 msgid "Delete identifier?"
-msgstr ""
+msgstr "Tanımlayıcı silinsin mi?"
 
 #: src/windows/settings/pages/proxy.rs:254
 #: src/windows/settings/pages/proxy.rs:288
 msgid "Remove"
-msgstr ""
+msgstr "Kaldır"
 
 #: src/windows/settings/pages/proxy.rs:272
 msgid "No domains or IP addresses are being excluded"
-msgstr ""
+msgstr "Hariç tutulan alan adı veya IP adresi yok"

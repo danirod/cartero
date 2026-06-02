@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2026-03-01 18:16+0100\n"
-"PO-Revision-Date: 2026-06-02 11:49+0000\n"
+"PO-Revision-Date: 2026-06-02 12:19+0000\n"
 "Last-Translator: Hüseyin Şevikbaş <h.sevikbas@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/cartero/cartero/"
 "tr/>\n"
@@ -660,7 +660,7 @@ msgstr "Klavye kısayolları"
 
 #: data/ui/main_window.blp:199 data/ui/main_window_no_csd.blp:204
 msgid "About Cartero"
-msgstr "Cartero Hakkında"
+msgstr "Cartero hakkında"
 
 #: data/ui/main_window.blp:204 data/ui/main_window_no_csd.blp:209
 msgid "Quit"

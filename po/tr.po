@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2026-03-01 18:16+0100\n"
-"PO-Revision-Date: 2026-06-02 01:01+0000\n"
+"PO-Revision-Date: 2026-06-02 10:44+0000\n"
 "Last-Translator: Hüseyin Şevikbaş <h.sevikbas@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/cartero/cartero/"
 "tr/>\n"
@@ -354,8 +354,8 @@ msgid ""
 "Place an .env file in the same disk directory as the request or in a parent "
 "directory to load the variables in Cartero."
 msgstr ""
-"Cartero'da değişkenleri yüklemek için, istekle aynı disk dizinine veya bir "
-"üst dizine bir .env dosyası yerleştirin."
+"Değişkenleri yüklemek için .env dosyasını istek dosyasıyla aynı dizine veya "
+"bir üst dizine yerleştirin."
 
 #: data/ui/endpoint_pane.blp:248
 msgid "Check again"
@@ -390,7 +390,7 @@ msgstr "Etkin"
 #: data/ui/field_list_box_static_row.blp:36
 #: data/ui/field_placeholder_row.blp:41 data/ui/field_placeholder_row.blp:42
 msgid "Name"
-msgstr "İsim"
+msgstr "Ad"
 
 #: data/ui/field_list_box_row.blp:59
 msgid ""
@@ -447,10 +447,9 @@ msgid ""
 "if they are in a parent directory or outside the project folder, or use "
 "absolute paths."
 msgstr ""
-"Bir isteğe yalnızca, istek dosyasıyla aynı dizinde veya bir alt dizinde "
-"bulunan dosyaları ekleyebilirsiniz. Dosyalar üst dizinde veya proje "
-"klasörünün dışında bulunuyorsa ya da mutlak yollar kullanılıyorsa, isteğe "
-"dosya ekleyemezsiniz."
+"Bir dosyayı isteğe ekleyebilmek için dosyanın istek dosyasıyla aynı dizinde "
+"veya bir alt dizinde bulunması gerekir. Proje klasörü dışındaki dosyalar ve "
+"mutlak yollar desteklenmez."
 
 #: data/ui/mac_menu.blp:21
 msgctxt "menubar"
@@ -681,15 +680,15 @@ msgstr "Gövde türü"
 
 #: data/ui/request_body_pane.blp:55
 msgid "URL Encoded"
-msgstr "URL kodlu"
+msgstr "URL Encoded"
 
 #: data/ui/request_body_pane.blp:56
 msgid "Multipart Form Data"
-msgstr "Çok Parçalı Form Verileri"
+msgstr "Multipart Form Data"
 
 #: data/ui/request_body_pane.blp:59
 msgid "Raw"
-msgstr "Ham"
+msgstr "Raw"
 
 #: data/ui/request_body_pane.blp:60
 msgid "From file"
@@ -701,12 +700,12 @@ msgstr "Üst bilgi yok"
 
 #: data/ui/response_panel.blp:30
 msgid "Ready to request"
-msgstr "İstek için hazır"
+msgstr "İstek göndermeye hazır"
 
 #: data/ui/response_panel.blp:31
 msgid "Use the Send button to send a network request and it will show here."
 msgstr ""
-"Bir ağ isteği göndermek için Gönder düğmesini kullanın; sonuç burada "
+"Bir ağ isteği göndermek için Gönder düğmesine tıklayın. Sonuç burada "
 "görüntülenecektir."
 
 #: data/ui/response_panel.blp:127

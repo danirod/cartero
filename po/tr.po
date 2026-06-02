@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2026-03-01 18:16+0100\n"
-"PO-Revision-Date: 2026-06-02 10:44+0000\n"
+"PO-Revision-Date: 2026-06-02 11:39+0000\n"
 "Last-Translator: Hüseyin Şevikbaş <h.sevikbas@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/cartero/cartero/"
 "tr/>\n"
@@ -92,7 +92,7 @@ msgstr "İstek gövdesindeki yeni satırları otomatik olarak girintile"
 
 #: data/es.danirod.Cartero.gschema.xml:26
 msgid "Wrap the body content"
-msgstr "Gövde içeriğini sar"
+msgstr "Gövde içeriğini satırlara kaydır"
 
 #: data/es.danirod.Cartero.gschema.xml:30
 msgid "Whether to indent the request body with spaces or tabs"
@@ -202,7 +202,7 @@ msgstr "Yeni istek sekmesi"
 #: data/help_overlay/gtk_help_overlay.blp:47
 msgctxt "shortcuts window"
 msgid "Open request"
-msgstr "Açık istek"
+msgstr "İstek aç"
 
 #: data/help_overlay/adw_help_overlay.blp:49
 #: data/help_overlay/gtk_help_overlay.blp:52
@@ -262,7 +262,7 @@ msgstr "İstek işlemleri"
 #: data/help_overlay/gtk_help_overlay.blp:95
 msgctxt "shortcuts window"
 msgid "Focus URL"
-msgstr "Odak URL'si"
+msgstr "URL'ye odaklan"
 
 #: data/help_overlay/adw_help_overlay.blp:97
 #: data/help_overlay/gtk_help_overlay.blp:100
@@ -542,7 +542,7 @@ msgstr "Gövde görünümü"
 
 #: data/ui/mac_menu.blp:129 data/ui/settings/page_code_editor.blp:29
 msgid "Wrap content"
-msgstr "İçeriği sar"
+msgstr "Satır kaydırma"
 
 #: data/ui/mac_menu.blp:134 data/ui/settings/page_code_editor.blp:34
 msgid "Show line numbers"
@@ -550,7 +550,7 @@ msgstr "Satır numaralarını göster"
 
 #: data/ui/mac_menu.blp:141 data/ui/settings/page_code_editor.blp:41
 msgid "Automatic indentation"
-msgstr "Otomatik girinti"
+msgstr "Otomatik girintileme"
 
 #: data/ui/mac_menu.blp:146 data/ui/settings/page_code_editor.blp:46
 msgid "Indent with spaces"
@@ -613,7 +613,7 @@ msgstr "Tartışmaları görüntüle"
 
 #: data/ui/mac_menu.blp:222 src/win.rs:642
 msgid "Help us translate"
-msgstr "Çeviriye katkıda bulunun"
+msgstr "Çeviriye katkıda bulun"
 
 #: data/ui/mac_menu.blp:229 data/ui/settings/page_application.blp:72
 msgid "Check for updates"
@@ -796,7 +796,7 @@ msgstr "Dil"
 
 #: data/ui/settings/page_application.blp:43
 msgid "You need to restart the program for the new locale to be used."
-msgstr "Yeni dil ayarının geçerli olması için yeniden başlatmanız gerekir."
+msgstr "Yeni dil ayarının geçerli olması için yeniden başlatmanız gerekiyor."
 
 #: data/ui/settings/page_application.blp:50
 msgid "File settings"
@@ -824,7 +824,7 @@ msgstr "Mevcut sürüm"
 
 #: data/ui/settings/page_code_editor.blp:22
 msgid "Code editor"
-msgstr "Kod editörü"
+msgstr "Kod düzenleyici"
 
 #: data/ui/settings/page_http_client.blp:22
 msgid "HTTP Client"
@@ -1013,7 +1013,7 @@ msgid ""
 "Public License too.)"
 msgstr ""
 "Cartero'yu yeniden paketleyebilir veya yazılımın kopyalarını başka kişilerle "
-"paylaşabilirsiniz; yeter ki alıcılar da bu özgürlüklere sahip olsun. ✅\n"
+"paylaşabilirsiniz; yeter ki alıcılar da bu özgürlüklere sahip olsun.\n"
 "\n"
 "(Başka bir deyişle: Bir çatallanma (fork) oluşturursanız, projeniz de GNU "
 "Genel Kamu Lisansı'nı (GPL) korumalıdır.)"
@@ -1389,7 +1389,7 @@ msgstr "Taslak"
 
 #: src/win.rs:612
 msgid "The Cartero authors"
-msgstr "Cartero'nun geliştiricileri"
+msgstr "Cartero geliştiricileri"
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
 #: src/win.rs:635

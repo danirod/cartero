@@ -17,5 +17,5 @@ There are currently five tabs in this pane:
 
 In previous versions of Cartero, there was a tab called "Export request". The
 functionalities provided by this tab are now present in the "Export menu".
-Check out the [Export menu](export.md) chapter for more information on how
+Check out the [Export menu](advanced/export.md) chapter for more information on how
 to use this menu.

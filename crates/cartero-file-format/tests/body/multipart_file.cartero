@@ -1,0 +1,16 @@
+version = 1
+url = "https://www.example.com/login"
+method = "POST"
+
+[body]
+type = "multipart"
+
+[body.variables]
+csrf_token = { value = "token", active = false, secret = true }
+password = { value = "bar", active = true, secret = true }
+remember_me = { value = "1", active = false, secret = false }
+username = "foo"
+
+[body.files]
+banner_picture = { value = "banner.jpg", active = false }
+profile_picture = "avatar.jpg"

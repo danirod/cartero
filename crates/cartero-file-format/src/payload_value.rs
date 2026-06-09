@@ -16,12 +16,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 use cartero_objects::{
-    FieldTable, RequestBody, RequestBodyFile, RequestBodyMultipart, RequestBodyRaw,
+    Field, FieldTable, RequestBody, RequestBodyFile, RequestBodyMultipart, RequestBodyRaw,
     RequestBodyRawType, RequestBodyType, RequestBodyUrlencoded,
 };
+use gio::prelude::ListModelExtManual;
 use serde::{Deserialize, Serialize};
 
-use crate::{field_table_value::FieldTableValue, field_value::FieldValue};
+use crate::{field_table_value::FieldTableValue, field_value::FieldValue, file_value::FileValue};
 
 #[derive(Clone, Serialize, Deserialize, Debug, Eq, PartialEq)]
 pub(crate) enum PayloadRawFormat {
@@ -65,6 +66,8 @@ pub(crate) enum PayloadValue {
     Multipart {
         #[serde(serialize_with = "crate::serializer::alphabetical_field_table")]
         variables: Option<FieldTableValue<FieldValue>>,
+        #[serde(serialize_with = "crate::serializer::alphabetical_field_table")]
+        files: Option<FieldTableValue<FileValue>>,
     },
     #[serde(rename = "raw")]
     Raw {
@@ -92,9 +95,27 @@ impl From<RequestBody> for PayloadValue {
             }
             RequestBodyType::Multipart => {
                 let multipart = value.multipart().unwrap();
-                Self::Multipart {
-                    variables: Some(multipart.params().into()),
-                }
+
+                let variables = {
+                    let fields = multipart.fields();
+                    if fields.len() > 0 {
+                        let table = FieldTable::from_iter(fields);
+                        Some(table.into())
+                    } else {
+                        None
+                    }
+                };
+                let files = {
+                    let files = multipart.files();
+                    if files.len() > 0 {
+                        let table = FieldTable::from_iter(files);
+                        Some(table.into())
+                    } else {
+                        None
+                    }
+                };
+
+                Self::Multipart { variables, files }
             }
             RequestBodyType::Raw => {
                 let raw = value.raw().unwrap();
@@ -126,9 +147,21 @@ impl From<PayloadValue> for RequestBody {
                 let parsed_body = RequestBodyRaw::new(parsed_format, &body);
                 RequestBody::new(RequestBodyType::Raw, Some(parsed_body))
             }
-            PayloadValue::Multipart { variables } => {
+            PayloadValue::Multipart { variables, files } => {
                 let parsed_variables = variables.map(FieldTable::from).unwrap_or_default();
-                let parsed_body = RequestBodyMultipart::from_table(&parsed_variables);
+                let parsed_files = files.map(FieldTable::from).unwrap_or_default();
+                let combined_table = FieldTable::default();
+                for variable in parsed_variables.iter::<Field>() {
+                    if let Ok(variable) = variable {
+                        combined_table.insert(&variable);
+                    }
+                }
+                for file in parsed_files.iter::<Field>() {
+                    if let Ok(file) = file {
+                        combined_table.insert(&file);
+                    }
+                }
+                let parsed_body = RequestBodyMultipart::from_table(&combined_table);
                 RequestBody::new(RequestBodyType::Multipart, Some(parsed_body))
             }
             PayloadValue::UrlEncoded { variables } => {
@@ -292,6 +325,7 @@ mod tests {
         let params = FieldTableValue::new(HashMap::from(params));
         let body = PayloadValue::Multipart {
             variables: Some(params),
+            files: None,
         };
 
         let parsed = RequestBody::from(body);
@@ -328,7 +362,7 @@ mod tests {
         );
 
         let serial = PayloadValue::from(body);
-        let PayloadValue::Multipart { variables } = serial else {
+        let PayloadValue::Multipart { variables, files } = serial else {
             panic!("Not the expected type");
         };
         let variables = variables.unwrap();

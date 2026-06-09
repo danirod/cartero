@@ -58,6 +58,7 @@ enum DocumentPointer {
     Root,
     Authorization,
     Body,
+    BodyFiles,
     BodyVariables,
     Header,
     Headers,
@@ -65,6 +66,7 @@ enum DocumentPointer {
     InactiveParams,
     Unknown,
     BodyVariable,
+    BodyFile,
     Variables,
     Variable,
 }
@@ -78,8 +80,10 @@ impl DocumentPointer {
             (DocumentPointer::Root, "inactive-params") => DocumentPointer::InactiveParams,
             (DocumentPointer::Root, "variables") => DocumentPointer::Variables,
             (DocumentPointer::Body, "variables") => DocumentPointer::BodyVariables,
+            (DocumentPointer::Body, "files") => DocumentPointer::BodyFiles,
             (DocumentPointer::Headers, _) => DocumentPointer::Header,
             (DocumentPointer::BodyVariables, _) => DocumentPointer::BodyVariable,
+            (DocumentPointer::BodyFiles, _) => DocumentPointer::BodyFile,
             (DocumentPointer::InactiveParams, _) => DocumentPointer::InactiveParam,
             (DocumentPointer::Variables, _) => DocumentPointer::Variable,
             _ => DocumentPointer::Unknown,
@@ -108,6 +112,7 @@ impl VisitMut for SaveFileNormalizer {
             DocumentPointer::Authorization
             | DocumentPointer::Body
             | DocumentPointer::BodyVariables
+            | DocumentPointer::BodyFiles
             | DocumentPointer::Headers
             | DocumentPointer::Variables
             | DocumentPointer::InactiveParams => {
@@ -130,6 +135,7 @@ impl VisitMut for SaveFileNormalizer {
     fn visit_array_mut(&mut self, node: &mut toml_edit::Array) {
         match self.pointer {
             DocumentPointer::BodyVariable
+            | DocumentPointer::BodyFile
             | DocumentPointer::Header
             | DocumentPointer::InactiveParam
             | DocumentPointer::Variable => {

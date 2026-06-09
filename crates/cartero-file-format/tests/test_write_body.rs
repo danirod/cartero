@@ -95,6 +95,56 @@ pub fn multipart() {
 }
 
 #[test]
+pub fn multipart_file() {
+    let fields = vec![
+        Field::builder().key("username").value("foo").build(),
+        Field::builder()
+            .key("password")
+            .value("bar")
+            .masked(true)
+            .build(),
+        Field::builder()
+            .key("remember_me")
+            .value("1")
+            .active(false)
+            .build(),
+        Field::builder()
+            .key("csrf_token")
+            .value("token")
+            .active(false)
+            .masked(true)
+            .build(),
+        Field::builder()
+            .key("profile_picture")
+            .value("avatar.jpg")
+            .active(true)
+            .masked(false)
+            .file()
+            .build(),
+        Field::builder()
+            .key("banner_picture")
+            .value("banner.jpg")
+            .active(false)
+            .masked(false)
+            .file()
+            .build(),
+    ];
+    let fields_table = FieldTable::from_iter(fields);
+    let multipart = RequestBodyMultipart::builder()
+        .params(&fields_table)
+        .build();
+    let req: Request = Request::builder("https://www.example.com/login", RequestMethod::Post)
+        .with_body(RequestBody::builder().multipart(&multipart).build())
+        .build();
+
+    let encoded = serialize_request(&req).unwrap();
+    let actual = include_str!("body/multipart_file.cartero");
+    println!("{actual}");
+    println!("{encoded}");
+    assert_eq!(actual, encoded);
+}
+
+#[test]
 fn multipart_duplicate() {
     let fields = vec![
         Field::builder().key("category").value("10").build(),

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2026-03-01 18:16+0100\n"
-"PO-Revision-Date: 2026-06-07 21:01+0000\n"
+"PO-Revision-Date: 2026-06-20 15:01+0000\n"
 "Last-Translator: Carlos Balarezo <balfaz@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/cartero/cartero/"
 "it/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6\n"
+"X-Generator: Weblate 2026.7.dev0\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -759,140 +759,144 @@ msgstr "Stilo della applicazione"
 #. Has to be a separate variable due to variable lifetimes.
 #: data/ui/settings/page_appearance.blp:67 src/windows/settings/locale.rs:84
 msgid "Follow system settings"
-msgstr ""
+msgstr "Segui opzioni del sistema"
 
 #: data/ui/settings/page_appearance.blp:68
 msgid "Light mode"
-msgstr ""
+msgstr "Modo chiaro"
 
 #: data/ui/settings/page_appearance.blp:69
 msgid "Dark mode"
-msgstr ""
+msgstr "Modo scuro"
 
 #: data/ui/settings/page_appearance.blp:76
 msgid "Font"
-msgstr ""
+msgstr "Font"
 
 #: data/ui/settings/page_appearance.blp:79
 msgid "Use system font"
-msgstr ""
+msgstr "Usare font del sistema"
 
 #: data/ui/settings/page_appearance.blp:83
 msgid "Custom font"
-msgstr ""
+msgstr "Font personalizzato"
 
 #: data/ui/settings/page_appearance.blp:90
 msgid "Click to select a font"
-msgstr ""
+msgstr "Fai click per selezionare font"
 
 #: data/ui/settings/page_application.blp:22
 msgid "Application"
-msgstr ""
+msgstr "Applicazione"
 
 #: data/ui/settings/page_application.blp:26
 #: data/ui/settings/page_application.blp:33
 msgid "Language"
-msgstr ""
+msgstr "Lingua"
 
 #: data/ui/settings/page_application.blp:43
 msgid "You need to restart the program for the new locale to be used."
-msgstr ""
+msgstr "Necessario riavvio per applicare nuova lingua."
 
 #: data/ui/settings/page_application.blp:50
 msgid "File settings"
-msgstr ""
+msgstr "Preferenze file"
 
 #: data/ui/settings/page_application.blp:53
 msgid "Create backup files"
-msgstr ""
+msgstr "Creare copie di sicurezza"
 
 #: data/ui/settings/page_application.blp:54
 msgid ""
 "You might not want to enable this if you are already using a version control "
 "such as Git"
 msgstr ""
+"Forse non vuoi attivare questa opzione se stai usando Git come version "
+"controller"
 
 #: data/ui/settings/page_application.blp:60
 msgid "Software updates"
-msgstr ""
+msgstr "Aggiornamento software"
 
 #: data/ui/settings/page_application.blp:67
 msgid "Current version"
-msgstr ""
+msgstr "Versione attuale"
 
 #: data/ui/settings/page_code_editor.blp:22
 msgid "Code editor"
-msgstr ""
+msgstr "Editore di codice"
 
 #: data/ui/settings/page_http_client.blp:22
 msgid "HTTP Client"
-msgstr ""
+msgstr "Client HTTP"
 
 #: data/ui/settings/page_http_client.blp:27
 msgid "Enforce TLS validation"
-msgstr ""
+msgstr "Forza validazione TLS"
 
 #: data/ui/settings/page_http_client.blp:28
 msgid "Cancel a request if the TLS handshake fails"
-msgstr ""
+msgstr "Annulla richiesta quando TLS fallisce"
 
 #: data/ui/settings/page_http_client.blp:32
 msgid "Follow redirects"
-msgstr ""
+msgstr "Segui redirects"
 
 #: data/ui/settings/page_http_client.blp:33
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
-msgstr ""
+msgstr "Continua le richieste se il server ritorna una risposta HTTP 3xx"
 
 #: data/ui/settings/page_http_client.blp:38
 msgid "Maximum redirects"
-msgstr ""
+msgstr "Redirects massimi"
 
 #: data/ui/settings/page_http_client.blp:50
 msgid "Request timeout"
-msgstr ""
+msgstr "Timeout delle richieste"
 
 #: data/ui/settings/page_http_client.blp:51
 msgid "Seconds to wait before cancelling the request"
-msgstr ""
+msgstr "Secondi di attesa prima di annullare una petizione"
 
 #: data/ui/settings/page_proxy.blp:22
 msgid "Proxy"
-msgstr ""
+msgstr "Proxy"
 
 #: data/ui/settings/page_proxy.blp:26
 msgid "Proxy settings"
-msgstr ""
+msgstr "Preferenze proxy"
 
 #: data/ui/settings/page_proxy.blp:29
 msgid "HTTP Proxy"
-msgstr ""
+msgstr "Proxy HTTP"
 
 #: data/ui/settings/page_proxy.blp:33
 msgid "HTTPS Proxy"
-msgstr ""
+msgstr "Proxy HTTPS"
 
 #: data/ui/settings/page_proxy.blp:38
 msgid "Exclude from proxy"
-msgstr ""
+msgstr "Escludi dal proxy"
 
 #: data/ui/settings/page_proxy.blp:39
 msgid ""
 "IP addresses and domain names contained in this list will bypass the proxy "
 "settings and be accessed directly."
 msgstr ""
+"Gli indirizzi IP e nomi di dominio in questa lista ignoreranno le opzioni di "
+"proxy e saranno accessi direttamente."
 
 #: data/ui/settings/page_proxy.blp:55 data/ui/settings/page_proxy.blp:56
 msgid "Address to exclude"
-msgstr ""
+msgstr "Indirizzi da escludere"
 
 #: data/ui/settings/page_proxy.blp:60
 msgid "Add"
-msgstr ""
+msgstr "Aggiungere"
 
 #: data/ui/settings/page_proxy.blp:91
 msgid "Environment variables"
-msgstr ""
+msgstr "Variabili d'intorno"
 
 #. TRANSLATORS: Keep the variable names "http_proxy", "https_proxy" and "no_proxy" in English because that's the name of the variable.
 #: data/ui/settings/page_proxy.blp:93
@@ -900,23 +904,25 @@ msgid ""
 "Cartero supports the use of the standard http_proxy, https_proxy and "
 "no_proxy environment variables to provide the system proxy settings."
 msgstr ""
+"Cartero supporta l'uso di variabili standard http_proxy, https_proxy y "
+"no_proxy per fornire le opzioni proxy del sistema."
 
 #: data/ui/settings/page_proxy.blp:107
 msgid "Use environment variables as a fallback"
-msgstr ""
+msgstr "Usare variabili d'intorno come alternativa"
 
 #: data/ui/settings/page_proxy.blp:127 data/ui/settings/page_proxy.blp:138
 #: data/ui/settings/page_proxy.blp:149
 msgid "(empty)"
-msgstr ""
+msgstr "(vuoto)"
 
 #: data/ui/settings/page_security.blp:22
 msgid "Security"
-msgstr ""
+msgstr "Sicurezza"
 
 #: data/ui/settings/page_security.blp:26
 msgid ".env files"
-msgstr ""
+msgstr "File .env"
 
 #: data/ui/settings/page_security.blp:27
 msgid ""
@@ -924,43 +930,48 @@ msgid ""
 "credentials. Cartero can locate .env files and expose the variables inside "
 "so that you can use them in your requests."
 msgstr ""
+"I files .env si usano normalmente nei progetti per salvare dati sensibili "
+"come ad esempio, credenziali. Cartero puo localizzare i file .env ed esporre "
+"le variabili nel file per essere usate nelle tue petizioni."
 
 #: data/ui/settings/page_security.blp:31
 msgid "Find and load .env files"
-msgstr ""
+msgstr "Cerca e carica files .env"
 
 #: data/ui/settings/page_security.blp:32
 msgid ""
 "Cartero will only traverse your disk looking for .env files if you enable "
 "this option."
-msgstr ""
+msgstr "Cartero cercherà nel disco solo i file .env se attivi questa opzione."
 
 #: data/ui/welcome/welcome_pane.blp:45
 msgid "Welcome to Cartero"
-msgstr ""
+msgstr "Benvenuto a Cartero"
 
 #: data/ui/welcome/welcome_pane.blp:46
 msgid "Create or open a request and start testing APIs now."
-msgstr ""
+msgstr "Crea o apre una petizione e inizia a testare API's adesso."
 
 #: data/ui/welcome/welcome_pane.blp:113
 msgid ""
 "Cartero is free software, released under the terms of the GNU General Public "
 "License v3 or later."
 msgstr ""
+"Cartero è un software libero, pubblicato secondo i termini della Licenza "
+"Publica Generale (GPL) di GNU v3 o posteriore."
 
 #: data/ui/welcome/welcome_pane.blp:118 data/ui/welcome/welcome_pane.blp:166
 msgid "Know your rights"
-msgstr ""
+msgstr "Conosci tuoi diritti"
 
 #: data/ui/welcome/welcome_pane.blp:152
 msgid "Social media updates"
-msgstr ""
+msgstr "Aggiornamenti socials"
 
 #. TRANSLATORS: if your language has a different word for free as in freedom and free as in beer, and it's clear that free means "freedom", you might skip the "as in freedom" bit if you wish.
 #: data/ui/welcome/welcome_pane.blp:182
 msgid "You can use Cartero for free (as in freedom)"
-msgstr ""
+msgstr "Puoi usare Cartero liberamente"
 
 #: data/ui/welcome/welcome_pane.blp:183
 msgid ""
@@ -969,20 +980,26 @@ msgid ""
 "\n"
 "Even if you use it at work or for commercial purposes."
 msgstr ""
+"Non devi chiedere permessi o acquistare licenze o abbonamento per usare "
+"questo software.\n"
+"\n"
+"Comprende l'utilizzo professionale e con scopi commerciali."
 
 #: data/ui/welcome/welcome_pane.blp:190
 msgid "You can get, study and modify the source code"
-msgstr ""
+msgstr "Puoi avere, studiare e modificare il codice sorgente"
 
 #: data/ui/welcome/welcome_pane.blp:191
 msgid ""
 "Mod the program so that it works exactly how you want, or just learn things "
 "if you are new to programming."
 msgstr ""
+"Modifica l'applicazione per farla funzionare esattamente come vuoi tu, o "
+"impara cose se stai iniziando nella programmazione."
 
 #: data/ui/welcome/welcome_pane.blp:198
 msgid "You can share copies of the program"
-msgstr ""
+msgstr "Puoi condividere copie del programma"
 
 #: data/ui/welcome/welcome_pane.blp:199
 msgid ""
@@ -992,100 +1009,113 @@ msgid ""
 "(In other words: if you fork, your project must retain the GNU General "
 "Public License too.)"
 msgstr ""
+"Puoi rifare il package di Cartero o condividere copie del software con altre "
+"persone, sempre che gli utenti possano godere delle stesse liberta di "
+"accesso.\n"
+"\n"
+"(In poche parole: Crea la tua propria versione ma il tuo progetto deve "
+"conservare la Licenza Publica Generale (GPL) di GNU.)"
 
 #: data/ui/welcome/welcome_pane.blp:206
 msgid "Cartero is built in community"
-msgstr ""
+msgstr "Cartero si sviluppa nella comunity"
 
 #: data/ui/welcome/welcome_pane.blp:207
 msgid ""
 "Share feedback, contribute code, report bugs, translate Cartero to your "
 "language… You can be part of this!"
 msgstr ""
+"Invia tuo feedback, contribuisce con codice, invia errori, traduci Cartero "
+"nella tua lingua... Puoi fare parte di questo!"
 
 #: data/ui/welcome/welcome_pane.blp:219
 msgid "Previous"
-msgstr ""
+msgstr "Anteriore"
 
 #: data/ui/welcome/welcome_pane.blp:235
 msgid "Next"
-msgstr ""
+msgstr "Seguente"
 
 #: src/interop.rs:33
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
+"Il file è stato creato con una versione più recente di questo programma; per "
+"favore aggiorna!"
 
 #: src/interop.rs:36
 msgid "The file is corrupt or does not contain valid data for this application"
-msgstr ""
+msgstr "Il file è danneggiato o non ha dati validi per questa applicazione"
 
 #: src/interop.rs:59
 msgid "The specified URL is not valid"
-msgstr ""
+msgstr "L'URL specificato non è valido"
 
 #: src/interop.rs:60 src/widgets/dialogs.rs:170
 msgid "Cannot recognise the URL"
-msgstr ""
+msgstr "URL non riconosciuto"
 
 #: src/interop.rs:61
 msgid "The given URL is missing a protocol"
-msgstr ""
+msgstr "L'URL indicato non ha protocolo"
 
 #: src/interop.rs:63
 #, rust-format
 msgid "The protocol {}:// is not supported"
-msgstr ""
+msgstr "Protocolo {}:// non supportato"
 
 #: src/interop.rs:66 src/widgets/dialogs.rs:172
 #, rust-format
 msgid "The variable '{}' is not defined"
-msgstr ""
+msgstr "Variabile '{}' non supportata"
 
 #: src/interop.rs:69 src/widgets/dialogs.rs:175
 msgid "There was a problem with a variable interpolation, review your inputs"
 msgstr ""
+"Problemi trovati durante l'interpolazione delle variabili, riguarda l'input"
 
 #: src/interop.rs:72
 #, rust-format
 msgid "The header '{}' is not valid"
-msgstr ""
+msgstr "Header '{}' non valido"
 
 #: src/interop.rs:75
 #, rust-format
 msgid "The value for header '{}' is not valid"
-msgstr ""
+msgstr "Il valore dell'Header '{}' non valido"
 
 #: src/interop.rs:78
 msgid "The given request body could not be encoded correctly"
 msgstr ""
+"Il body della petizione fornita non si ha potuto codificare correttamente"
 
 #: src/interop.rs:80
 msgid "You have to save the request first"
-msgstr ""
+msgstr "Prima devi salvare la petizione"
 
 #: src/interop.rs:82
 #, rust-format
 msgid "The file '{}' cannot be accessed due to the security policy"
 msgstr ""
+"Il file '{}' non può essere raggiunto per motivi di politica di sicurezza"
 
 #: src/interop.rs:87
 #, rust-format
 msgid "Defined value for proxy '{}' is not a valid configuration"
-msgstr ""
+msgstr "Il valore definito per il proxy '{}' non ha una configurazione valida"
 
 #: src/interop.rs:91
 msgid "There is an input/output error"
-msgstr ""
+msgstr "Errore di input/output"
 
 #: src/interop.rs:92
 msgid "There is a network error"
-msgstr ""
+msgstr "Errore di rete"
 
 #: src/updates/ui.rs:33
 msgid "Error checking updates"
-msgstr ""
+msgstr "Errore verificando aggiornamenti"
 
 #: src/updates/ui.rs:35
 msgid "Couldn't receive a valid response from the server. Please, check later."

@@ -1,0 +1,12 @@
+Source: cartero
+Section: net
+Priority: optional
+Maintainer: Dani Rodriguez <dani@danirod.es>
+Build-Depends: debhelper-compat (= 13), meson, ninja-build, pkgconf, cargo-1.85, rustc-1.85, libgtk-4-dev, libssl-dev, libadwaita-1-dev, libgtksourceview-5-dev, desktop-file-utils, python3, python3-gi, gir1.2-gtk-4.0
+Standards-Version: 4.5.0
+Homepage: https://github.com/danirod/cartero
+
+Package: cartero
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libgtk-4-1, libadwaita-1-0, libgtksourceview-5-0
+Description: Cartero is a graphical HTTP client that can be used as a developer tool to test web APIs and perform all kind of HTTP requests to web servers. It is compatible with any REST, SOAP or XML-RPC API and it supports multiple request methods as well as attaching body payloads to compatible requests.

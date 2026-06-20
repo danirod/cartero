@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2026-03-01 18:16+0100\n"
-"PO-Revision-Date: 2026-06-20 15:01+0000\n"
+"PO-Revision-Date: 2026-06-20 17:01+0000\n"
 "Last-Translator: Carlos Balarezo <balfaz@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/cartero/cartero/"
 "it/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
-msgstr "Fai richieste HTTP e prova API's"
+msgstr "Fai richieste HTTP e testea API's"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:14
 msgid ""
@@ -254,7 +254,7 @@ msgstr "Inizia ricerca"
 #: data/help_overlay/gtk_help_overlay.blp:92
 msgctxt "shortcuts window"
 msgid "Request operations"
-msgstr "Richieste HTTP"
+msgstr "Operazioni di petizione"
 
 #: data/help_overlay/adw_help_overlay.blp:92
 #: data/help_overlay/gtk_help_overlay.blp:95
@@ -519,7 +519,7 @@ msgstr "Incolla"
 #: data/ui/mac_menu.blp:90
 msgctxt "menubar"
 msgid "Delete"
-msgstr "Elimina"
+msgstr "Eliminare"
 
 #: data/ui/mac_menu.blp:97
 msgctxt "menubar"
@@ -1119,19 +1119,19 @@ msgstr "Errore verificando aggiornamenti"
 
 #: src/updates/ui.rs:35
 msgid "Couldn't receive a valid response from the server. Please, check later."
-msgstr ""
+msgstr "Server ha inviato una risposta non valida. Per favore, verificare dopo."
 
 #: src/updates/ui.rs:38 src/updates/ui.rs:48
 msgid "Accept"
-msgstr ""
+msgstr "Accettare"
 
 #: src/updates/ui.rs:45
 msgid "No updates at the moment"
-msgstr ""
+msgstr "Nessun aggiornamento disponibile"
 
 #: src/updates/ui.rs:46
 msgid "You are running the latest version of Cartero."
-msgstr ""
+msgstr "Stai usando la versione più recente di Cartero."
 
 #: src/updates/ui.rs:57
 #, rust-format
@@ -1139,42 +1139,44 @@ msgid ""
 "Version {} has been released. Do you want to visit the website to download "
 "the update now?"
 msgstr ""
+"Nuova versione {} disponibile. Vuoi visitare la pagine per scaricare "
+"l'aggiornamento adesso?"
 
 #: src/updates/ui.rs:59
 msgid "There is a new version of Cartero!"
-msgstr ""
+msgstr "Hai la nuova versione di Cartero!"
 
 #: src/updates/ui.rs:63
 msgid "_Open website"
-msgstr ""
+msgstr "_Apri sito web"
 
 #: src/updates/ui.rs:64
 msgid "_Not now"
-msgstr ""
+msgstr "_Non adesso"
 
 #: src/widgets/dialogs.rs:51
 #, rust-format
 msgid "Cannot open '{}'"
-msgstr ""
+msgstr "Non si può aprire '{}'"
 
 #: src/widgets/dialogs.rs:52
 msgid "Cannot open the requested file"
-msgstr ""
+msgstr "Non si può aprire il file richiesto"
 
 #: src/widgets/dialogs.rs:61 src/widgets/dialogs.rs:92
 #: src/widgets/dialogs.rs:122 src/widgets/dialogs.rs:151
 #: src/widgets/dialogs.rs:164 src/widgets/dialogs.rs:190
 msgid "Close"
-msgstr ""
+msgstr "Chiudere"
 
 #: src/widgets/dialogs.rs:75
 #, rust-format
 msgid "The file '{}' was loaded but had issues"
-msgstr ""
+msgstr "Il file '{}' si ha caricato con problemi"
 
 #: src/widgets/dialogs.rs:76
 msgid "The requested file was loaded but had issues"
-msgstr ""
+msgstr "Il file richiesto è stato caricato ma con errori"
 
 #: src/widgets/dialogs.rs:99
 #, rust-format
@@ -1182,10 +1184,12 @@ msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
 msgstr ""
+"L'azione HTTP trovata nel file era '{}'. Non valido, perciò verrà "
+"ristabilito '{}'."
 
 #: src/widgets/dialogs.rs:115
 msgid "The requested file cannot be picked"
-msgstr ""
+msgstr "Il file richiesto non può essere selezionato"
 
 #: src/widgets/dialogs.rs:116
 #, rust-format
@@ -1195,25 +1199,31 @@ msgid ""
 "\n"
 "The file '{}' is not part of the '{}' directory"
 msgstr ""
+"Il file si deve trovare nella stessa directory della petizione del progetto "
+"o in qualsiasi sottocartella.\n"
+"\n"
+"Il file '{}' non è parte della directory '{}'"
 
 #: src/widgets/dialogs.rs:136
 #, rust-format
 msgid "Cannot save '{}'"
-msgstr ""
+msgstr "Impossibile salvare '{}'"
 
 #: src/widgets/dialogs.rs:137
 msgid "Cannot save the requested file"
-msgstr ""
+msgstr "Non si può salvare il file richiesto"
 
 #: src/widgets/dialogs.rs:142
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
 msgstr ""
+"Errore durante processo di salvataggio. Presuppone che le tue modifiche non "
+"sono state ancora salvate."
 
 #: src/widgets/dialogs.rs:159
 msgid "Could not select a valid file from the file chooser"
-msgstr ""
+msgstr "Impossibile selezionare un file valido da esplora file"
 
 #: src/widgets/dialogs.rs:179
 msgid ""
@@ -1221,138 +1231,143 @@ msgid ""
 "likely a development error. (If you could report your test case and this "
 "error, we might be able to fix this in the future.)"
 msgstr ""
+"Errore interno durante processo d' esportazione. Probabilmente sia un errore "
+"dell'applicazione. (Chiediamo cortesemente riportare questo errore per "
+"risolverlo prossimamente.)"
 
 #: src/widgets/dialogs.rs:181
 msgid "Error cause:"
-msgstr ""
+msgstr "Causa dell'errore:"
 
 #: src/widgets/dialogs.rs:186
 msgid "Could not export the request"
-msgstr ""
+msgstr "Esportazione della petizione non riuscita"
 
 #: src/widgets/dialogs.rs:199
 msgid "There are unsaved changes"
-msgstr ""
+msgstr "Ci sono modifiche ancora non salvate"
 
 #: src/widgets/dialogs.rs:201
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
 msgstr ""
+"Chiudendo la finestra si perderanno tutti i dati non salvati. Vuoi "
+"continuare?"
 
 #: src/widgets/dialogs.rs:205 src/windows/settings/pages/proxy.rs:253
 msgid "Cancel"
-msgstr ""
+msgstr "Annulla"
 
 #: src/widgets/dialogs.rs:206
 msgid "Close anyway"
-msgstr ""
+msgstr "Chiudere ugualmente"
 
 #: src/widgets/dialogs.rs:229
 #, rust-format
 msgid "Save changes in '{}'?"
-msgstr ""
+msgstr "Salvare le modifiche in '{}'?"
 
 #: src/widgets/dialogs.rs:230
 msgid "Save changes?"
-msgstr ""
+msgstr "Salvare le modifiche?"
 
 #: src/widgets/dialogs.rs:235
 msgid "There are changes that have not been saved yet. What do you want to do?"
-msgstr ""
+msgstr "Ci sono modifiche da salvare. Come vuoi procedere?"
 
 #: src/widgets/dialogs.rs:239
 msgid "_Cancel"
-msgstr ""
+msgstr "_Annulla"
 
 #: src/widgets/dialogs.rs:240
 msgid "_Discard"
-msgstr ""
+msgstr "_Ignora"
 
 #: src/widgets/dialogs.rs:241
 msgid "_Save"
-msgstr ""
+msgstr "_Salvare"
 
 #: src/widgets/endpoint/endpoint_pane.rs:286
 #, rust-format
 msgid "Show {} variable from .env"
 msgid_plural "Show {} variables from .env"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Mostrare {} variabile del .env"
+msgstr[1] "Mostrare {} variabili del .env"
 
 #: src/widgets/endpoint/endpoint_pane.rs:559
 #: src/widgets/endpoint/endpoint_pane.rs:565
 #: src/widgets/endpoint/endpoint_pane.rs:586
 msgid "(generated during request)"
-msgstr ""
+msgstr "(generato durante la petizione)"
 
 #: src/widgets/endpoint/endpoint_pane.rs:613
 #, rust-format
 msgid "Show {} pre-generated headers"
-msgstr ""
+msgstr "Mostra {} headers pre generati"
 
 #: src/widgets/endpoint/endpoint_pane.rs:829
 msgid "Export request as cURL"
-msgstr ""
+msgstr "Esporta petizione come cURL"
 
 #: src/widgets/endpoint/endpoint_pane.rs:830
 msgid "Export request as Jetbrains HTTP"
-msgstr ""
+msgstr "Esporta petizione come Jetbrains HTTP"
 
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
 #: src/widgets/endpoint/response_panel.rs:379
 #, rust-format
 msgid "{} s"
-msgstr ""
+msgstr "{} s"
 
 #. Format as milliseconds.
 #. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
 #: src/widgets/endpoint/response_panel.rs:383
 #, rust-format
 msgid "{} ms"
-msgstr ""
+msgstr "{} ms"
 
 #: src/widgets/error_pane.rs:103
 msgid "The request data is not valid"
-msgstr ""
+msgstr "I dati della petizione non sono validi"
 
 #: src/widgets/error_pane.rs:110
 msgid "The request failed"
-msgstr ""
+msgstr "La petizione ha fallito"
 
 #: src/widgets/export_dialog.rs:115
 msgid "Content copied to the clipboard"
-msgstr ""
+msgstr "Contenuto copiato nella clipboard"
 
 #: src/widgets/field/field_list_box_static_row.rs:149
 msgid "Show value"
-msgstr ""
+msgstr "Mostra valore"
 
 #: src/widgets/field/field_list_box_static_row.rs:151
 msgid "Hide value"
-msgstr ""
+msgstr "Nasconde valore"
 
 #. TRANSLATORS: presented in file dialogs as the file type for a request
 #. The macOS native file dialog will already add the extension for us.
 #: src/widgets/file_dialogs.rs:42 src/widgets/file_dialogs.rs:146
 #: src/widgets/file_dialogs.rs:148
 msgid "Request"
-msgstr ""
+msgstr "Richiesta"
 
 #: src/widgets/file_dialogs.rs:106
 msgid "Open request"
-msgstr ""
+msgstr "Apri petizione"
 
 #: src/widgets/file_dialogs.rs:183
 msgid "Select file"
-msgstr ""
+msgstr "Seleziona file"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
 #: src/widgets/search_box.rs:254
 #, rust-format
 msgid "{} of {}"
-msgstr ""
+msgstr "{} di {}"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count when only
 #. the number of total ocurrences is known.
@@ -1360,52 +1375,52 @@ msgstr ""
 #, rust-format
 msgid "{} result"
 msgid_plural "{} results"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} risultato"
+msgstr[1] "{} risultati"
 
 #: src/win.rs:288
 msgid "(untitled)"
-msgstr ""
+msgstr "(senza titolo)"
 
 #: src/win.rs:302
 msgid "Draft"
-msgstr ""
+msgstr "Bozza"
 
 #: src/win.rs:612
 msgid "The Cartero authors"
-msgstr ""
+msgstr "Gli autori di Cartero"
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
 #: src/win.rs:635
 msgid "translator-credits"
-msgstr ""
+msgstr "Carlos Balarezo; BalFaz dev"
 
 #: src/win.rs:636
 msgid "© 2024-2026 the Cartero authors"
-msgstr ""
+msgstr "© 2024-2026 gli autori di Cartero"
 
 #: src/windows/settings/pages/proxy.rs:210
 msgid "The value is not a valid domain or IP address"
-msgstr ""
+msgstr "Il valore non è un dominio o indirizzo IP valido"
 
 #: src/windows/settings/pages/proxy.rs:225
 msgid "The host identifier is already excluded"
-msgstr ""
+msgstr "L'identificatore host è già escluso"
 
 #: src/windows/settings/pages/proxy.rs:245
 #, rust-format
 msgid "Delete '{}' from the list of excluded hosts for the proxy?"
-msgstr ""
+msgstr "Eliminare '{}' della lista dei host esclusi per il proxy?"
 
 #: src/windows/settings/pages/proxy.rs:250
 msgid "Delete identifier?"
-msgstr ""
+msgstr "Elimina identificatore?"
 
 #: src/windows/settings/pages/proxy.rs:254
 #: src/windows/settings/pages/proxy.rs:288
 msgid "Remove"
-msgstr ""
+msgstr "Elimina"
 
 #: src/windows/settings/pages/proxy.rs:272
 msgid "No domains or IP addresses are being excluded"
-msgstr ""
+msgstr "Nessun dominio o indirizzo IP escluso"

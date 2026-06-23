@@ -66,8 +66,7 @@ reported first to the package manager or to the port maintainer, not here.
 You can also get it from Homebrew [using the tap][homebrew]:
 
 ```bash
-brew tap SoloAntonio/cartero
-brew install --cask cartero
+brew install --cask SoloAntonio/cartero/cartero
 ```
 
 #### Windows

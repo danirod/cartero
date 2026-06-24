@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2026-03-01 18:16+0100\n"
-"PO-Revision-Date: 2026-06-23 16:01+0000\n"
+"PO-Revision-Date: 2026-06-24 16:01+0000\n"
 "Last-Translator: தமிழ்நேரம் <tamilneram247@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/cartero/cartero/"
 "ta/>\n"
@@ -590,7 +590,7 @@ msgstr "குறைக்கவும்"
 #: data/ui/mac_menu.blp:194
 msgctxt "menubar"
 msgid "Zoom"
-msgstr "பெரிதாக்கு"
+msgstr "உருமாற்று"
 
 #: data/ui/mac_menu.blp:201
 msgctxt "menubar"
@@ -957,7 +957,7 @@ msgid ""
 "Cartero is free software, released under the terms of the GNU General Public "
 "License v3 or later."
 msgstr ""
-"கார்டெரோ என்பது குனு பொது பொது உரிமம் v3 அல்லது அதற்குப் பிறகு வெளியிடப்பட்ட இலவச "
+"கார்டெரோ என்பது குனு பொது பொதுமக்கள் உரிமம் v3 அல்லது அதற்குப் பிறகு வெளியிடப்பட்ட இலவச "
 "மென்பொருள்."
 
 #: data/ui/welcome/welcome_pane.blp:118 data/ui/welcome/welcome_pane.blp:166
@@ -1011,8 +1011,8 @@ msgstr ""
 "பெறுநர்களும் இந்த சுதந்திரங்களை அணுகும் வரை, நீங்கள் கார்டெரோவை மீண்டும் பேக்கேச் செய்யலாம் "
 "அல்லது மென்பொருளின் நகல்களை மற்றவர்களுடன் பகிர்ந்து கொள்ளலாம். \n"
 "\n"
-"(வேறு வார்த்தைகளில் கூறுவதானால்: நீங்கள் பிரித்தால், உங்கள் திட்டம் குனு பொது பொது உரிமத்தையும் "
-"வைத்திருக்க வேண்டும்.)"
+"(வேறு வார்த்தைகளில் கூறுவதானால்: நீங்கள் பிரித்தால், உங்கள் திட்டம் குனு பொது பொதுமக்கள் "
+"உரிமத்தையும் வைத்திருக்க வேண்டும்.)"
 
 #: data/ui/welcome/welcome_pane.blp:206
 msgid "Cartero is built in community"
@@ -1273,7 +1273,7 @@ msgstr "இன்னும் சேமிக்கப்படாத மாற�
 
 #: src/widgets/dialogs.rs:239
 msgid "_Cancel"
-msgstr "_CANCEL"
+msgstr "கைவிடு"
 
 #: src/widgets/dialogs.rs:240
 msgid "_Discard"

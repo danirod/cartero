@@ -9,20 +9,20 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2026-03-01 18:16+0100\n"
-"PO-Revision-Date: 2026-04-20 09:09+0000\n"
-"Last-Translator: Eganatha <ega8642@gmail.com>\n"
-"Language-Team: Indonesian <https://hosted.weblate.org/projects/cartero/"
-"cartero/id/>\n"
-"Language: id\n"
+"PO-Revision-Date: 2026-06-20 17:01+0000\n"
+"Last-Translator: Carlos Balarezo <balfaz@gmail.com>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/cartero/cartero/"
+"it/>\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.17.1-dev\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2026.7.dev0\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
-msgstr "Buat permintaan HTTP dan tes API"
+msgstr "Fai richieste HTTP e testea API's"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:14
 msgid ""
@@ -31,44 +31,43 @@ msgid ""
 "compatible with any REST, SOAP or XML-RPC API and it supports multiple "
 "request methods as well as attaching body payloads to compatible requests."
 msgstr ""
-"Cartero merupakan klien grafis HTTP yang dapat digunakan sebagai alat "
-"pengembang untuk mencoba API web dan melakukan banyak jenis permintaan HTTP "
-"ke server web. Ini kompatibel dengan berbagai REST, SOAP, atau API XML-RPC "
-"dan mendukung beberapa metode permintaan serta mencantumkan muatan badan ke "
-"permintaan yang kompatibel."
+"Cartero (Postino) è un client di richieste HTTP grafico progettato come "
+"strumento di sviluppo per testing di API's web e per realizzare ogni tipo di "
+"richiesta HTTP a servizi web. É compatibile con qualsiasi API REST, SOAP o "
+"XML-RPC e supporta metodi multipli di richieste, permette anche allegare "
+"oggetti (payload) nel body delle richieste compatibili."
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:15
 msgid "Features:"
-msgstr "Fitur:"
+msgstr "Caratteristiche:"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:17
 msgid ""
 "Loads and saves to plain Git-friendly TOML files, so that you can own your "
 "data."
 msgstr ""
-"Memuat dan menyimpan ke berkas TOML ramah-Git, sehingga Anda dapat memiliki "
-"Anda sendiri."
+"Carica e salva archivi TOML compatibili con Git, per avere tuoi propri dati."
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:18
 msgid ""
 "Customization and modification of the request headers and body payloads."
-msgstr "Penyesuaian dan modifikasi kepala permintaan dan muatan badan."
+msgstr "Personalizzazione e modifica dei headers e body's di una richiesta."
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:19
 msgid "Variable binding for API keys and other secret information."
-msgstr "Pengaitan variabel untuk kunci API dan informasi rahasia lainnya."
+msgstr "Collegamento di variabili per chiavi API e altre informazioni segrete."
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:25
 msgid "Main window of Cartero"
-msgstr "Jendela utama Cartero"
+msgstr "Finestra principale di Cartero"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:29
 msgid "Modifying HTTP headers"
-msgstr "Memodifikasi kepala HTTP"
+msgstr "Modificando i headers HTTP"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:33
 msgid "Setting the request payload"
-msgstr "Menyetel muatan permintaan"
+msgstr "Impostando body della richiesta"
 
 #: data/cartero.desktop.in.in:2
 msgid "Cartero"
@@ -83,218 +82,217 @@ msgstr "Gnome;GTK;HTTP;REST;"
 msgid ""
 "A specific locale to use within the application instead of the system default"
 msgstr ""
-"Lokalisasi spesifik yang akan digunakan dalam aplikasi sebagai pengganti "
-"bawaan sistem"
+"Specificare un'altra lingua da usare invece di quella predeterminata dal "
+"sistema"
 
 #: data/es.danirod.Cartero.gschema.xml:22
 msgid "Automatically indent new lines for the request body"
-msgstr "Secara otomatis mengindentasi baris baru untuk badan permintaan"
+msgstr "Indentare automaticamente le nuove righe nel body della richiesta"
 
 #: data/es.danirod.Cartero.gschema.xml:26
 msgid "Wrap the body content"
-msgstr "Bungkus konten badan"
+msgstr "Salti di linea nel body"
 
 #: data/es.danirod.Cartero.gschema.xml:30
 msgid "Whether to indent the request body with spaces or tabs"
-msgstr "Apakah ingin mengindentasi badan permintaan dengan spasi atau tab"
+msgstr "Indentare il body della richiesta con spazi o con tabulazioni"
 
 #: data/es.danirod.Cartero.gschema.xml:34
 msgid "Show line numbers in the request and response bodies"
-msgstr "Tampilkan nomor baris dalam badan permintaan dan respon"
+msgstr "Mostra i numeri di linee nel body della richiesta e nella risposta"
 
 #: data/es.danirod.Cartero.gschema.xml:38
 msgid "How many characters to pad when indenting the request body"
-msgstr ""
-"Berapa banyak karakter yang harus diisi (pad) saat mengindentasi isi "
-"permintaan"
+msgstr "Quanti caratteri usare per indentare il body delle richieste"
 
 #: data/es.danirod.Cartero.gschema.xml:42
 msgid "How large should new windows be"
-msgstr "Seberapa lebar jendela baru seharusnya"
+msgstr "Specifica lunghezza delle nuove finestre"
 
 #: data/es.danirod.Cartero.gschema.xml:46
 msgid "How tall should new windows be"
-msgstr "Seberapa tinggi jendela baru seharusnya"
+msgstr "Specifica altezza delle nuove finestre"
 
 #: data/es.danirod.Cartero.gschema.xml:50
 msgid "Whether the application should open maximized"
-msgstr "Apakah aplikasi harus dibuka dalam keadaan dimaksimalkan"
+msgstr "Se la applicazione si avvia massimizzata"
 
 #: data/es.danirod.Cartero.gschema.xml:54
 msgid "The position of the split between two windows"
-msgstr "Posisi pemisah di antara dua jendela"
+msgstr "Posizione del separatore di entrambe le finestre"
 
 #: data/es.danirod.Cartero.gschema.xml:58
 msgid "The current list of opened files"
-msgstr "Daftar berkas yang saat ini dibuka"
+msgstr "La lista attuale di archivi aperti"
 
 #: data/es.danirod.Cartero.gschema.xml:62
 msgid "The last location where a file was opened"
-msgstr "Lokasi terakhir berkas dibuka"
+msgstr "Ubicazione dell'ultimo file aperto"
 
 #: data/es.danirod.Cartero.gschema.xml:66
 msgid "The last location where a file was saved"
-msgstr "Lokasi terakhir berkas disimpan"
+msgstr "Ultima ubicazione dell'ultimo file salvato"
 
 #: data/es.danirod.Cartero.gschema.xml:70
 msgid "Whether to validate the TLS certificates during a request"
-msgstr "Apakah ingin validasi sertifikat TLS selama permintaan"
+msgstr "Convalidare o no gli ultimi certificati TLS durante una richiesta"
 
 #: data/es.danirod.Cartero.gschema.xml:74
 msgid "Whether to follow redirections if that is the server response"
-msgstr "Apakah ingin mengikuti alihan jika itu merupakan respon server"
+msgstr ""
+"Permettere redirezionamento o no quando quella sia la risposta del server"
 
 #: data/es.danirod.Cartero.gschema.xml:78
 msgid "Maximum number of redirections to follow before giving up"
-msgstr "Jumlah maksimum alihan yang harus diikuti sebelum menyerah"
+msgstr "Il numero massimo di redirezionamenti eseguiti prima di fermarsi"
 
 #: data/es.danirod.Cartero.gschema.xml:82
 msgid "Maximum timeout when awaiting for an HTTP response."
-msgstr "Batas waktu pada saat menunggu respon HTTP."
+msgstr "Timeout massimo per attendere risposta da una richiesta HTTP."
 
 #: data/es.danirod.Cartero.gschema.xml:86
 msgid "Whether to use light or dark mode."
-msgstr "Apakah ingin menggunakan mode gelap."
+msgstr "Usare Dark o Light mode."
 
 #: data/es.danirod.Cartero.gschema.xml:90
 msgid "The custom font in use"
-msgstr "Fonta kustom yang digunakan"
+msgstr "Font personalizzata in uso"
 
 #: data/es.danirod.Cartero.gschema.xml:94
 msgid "Whether to use the system font or a custom one"
-msgstr "Apakah akan menggunakan fonta sistem atau fonta kustom"
+msgstr "Usare font predeterminata del sistema o font personalizzata"
 
 #: data/es.danirod.Cartero.gschema.xml:98
 msgid "Whether to create backup files on save"
-msgstr "Apakah akan membuat file cadangan saat menyimpan"
+msgstr "Creare o no backups durante il salvataggio"
 
 #: data/help_overlay/adw_help_overlay.blp:22
 #: data/help_overlay/gtk_help_overlay.blp:25
 msgctxt "shortcuts window"
 msgid "General shortcuts"
-msgstr "Pintasan Umum"
+msgstr "Shortcuts generali"
 
 #: data/help_overlay/adw_help_overlay.blp:25
 #: data/help_overlay/gtk_help_overlay.blp:28
 msgctxt "shortcuts window"
 msgid "Show Keyboard Shortcuts"
-msgstr "Tampilkan Pintasan Papan tik"
+msgstr "Mostrare shortcuts di tastiera"
 
 #: data/help_overlay/adw_help_overlay.blp:30
 #: data/help_overlay/gtk_help_overlay.blp:33
 msgctxt "shortcuts window"
 msgid "Quit"
-msgstr "Keluar"
+msgstr "Esci"
 
 #: data/help_overlay/adw_help_overlay.blp:36
 #: data/help_overlay/gtk_help_overlay.blp:39
 msgctxt "shortcuts window"
 msgid "Tab operations"
-msgstr "Operasi tab"
+msgstr "Attività di schede"
 
 #: data/help_overlay/adw_help_overlay.blp:39
 #: data/help_overlay/gtk_help_overlay.blp:42
 msgctxt "shortcuts window"
 msgid "New request tab"
-msgstr "Tab permintaan baru"
+msgstr "Nuova scheda di richiesta"
 
 #: data/help_overlay/adw_help_overlay.blp:44
 #: data/help_overlay/gtk_help_overlay.blp:47
 msgctxt "shortcuts window"
 msgid "Open request"
-msgstr "Buka permintaan"
+msgstr "Apri richiesta"
 
 #: data/help_overlay/adw_help_overlay.blp:49
 #: data/help_overlay/gtk_help_overlay.blp:52
 msgctxt "shortcuts window"
 msgid "Save request"
-msgstr "Simpan permintaan"
+msgstr "Salva richiesta"
 
 #: data/help_overlay/adw_help_overlay.blp:54
 #: data/help_overlay/gtk_help_overlay.blp:57
 msgctxt "shortcuts window"
 msgid "Save request as"
-msgstr "Simpan permintaan sebagai"
+msgstr "Salva richiesta con nome"
 
 #: data/help_overlay/adw_help_overlay.blp:59
 #: data/help_overlay/gtk_help_overlay.blp:62
 msgctxt "shortcuts window"
 msgid "Close request tab"
-msgstr "Tutup tab permintaan"
+msgstr "Chiude scheda di richiesta"
 
 #: data/help_overlay/adw_help_overlay.blp:65
 #: data/help_overlay/gtk_help_overlay.blp:68
 msgctxt "shortcuts window"
 msgid "Code view operations"
-msgstr "Operasi tampilan kode"
+msgstr "Visualizzazione del codice della attività"
 
 #: data/help_overlay/adw_help_overlay.blp:68
 #: data/help_overlay/gtk_help_overlay.blp:71
 msgctxt "shortcuts window"
 msgid "Zoom in"
-msgstr "Zum ke dalam"
+msgstr "Zoom In"
 
 #: data/help_overlay/adw_help_overlay.blp:73
 #: data/help_overlay/gtk_help_overlay.blp:76
 msgctxt "shortcuts window"
 msgid "Zoom out"
-msgstr "Zum keluar"
+msgstr "Zoom Out"
 
 #: data/help_overlay/adw_help_overlay.blp:78
 #: data/help_overlay/gtk_help_overlay.blp:81
 msgctxt "shortcuts window"
 msgid "Reset zoom"
-msgstr "Reset zum"
+msgstr "Reset zoom"
 
 #: data/help_overlay/adw_help_overlay.blp:83
 #: data/help_overlay/gtk_help_overlay.blp:86
 msgctxt "shortcuts window"
 msgid "Start search"
-msgstr "Mulai pencarian"
+msgstr "Inizia ricerca"
 
 #: data/help_overlay/adw_help_overlay.blp:89
 #: data/help_overlay/gtk_help_overlay.blp:92
 msgctxt "shortcuts window"
 msgid "Request operations"
-msgstr "Operasi permintaan"
+msgstr "Operazioni di petizione"
 
 #: data/help_overlay/adw_help_overlay.blp:92
 #: data/help_overlay/gtk_help_overlay.blp:95
 msgctxt "shortcuts window"
 msgid "Focus URL"
-msgstr "URL fokus"
+msgstr "Focus URL"
 
 #: data/help_overlay/adw_help_overlay.blp:97
 #: data/help_overlay/gtk_help_overlay.blp:100
 msgctxt "shortcuts window"
 msgid "Send request"
-msgstr "Kirim permintaan"
+msgstr "Invia richiesta"
 
 #: data/ui/authentication_pane.blp:34
 msgid "Authorization method"
-msgstr "Metode autorisasi"
+msgstr "Metodo di autorizzazione"
 
 #: data/ui/authentication_pane.blp:59 data/ui/request_body_pane.blp:54
 #: src/windows/settings/pages/proxy.rs:303
 #: src/windows/settings/pages/proxy.rs:314
 msgid "(none)"
-msgstr "(nihil)"
+msgstr "(nulla)"
 
 #: data/ui/authentication_pane.blp:60
 msgid "Basic auth"
-msgstr "Autentikasi sederhana"
+msgstr "Basic Auth"
 
 #: data/ui/authentication_pane.blp:61
 msgid "Bearer token"
-msgstr "Pembawa token"
+msgstr "Bearer token"
 
 #: data/ui/basic_auth_pane.blp:23
 msgid "Username"
-msgstr "Nama pengguna"
+msgstr "Utente"
 
 #: data/ui/basic_auth_pane.blp:28
 msgid "Password"
-msgstr "Kata sandi"
+msgstr "Password"
 
 #: data/ui/bearer_token_pane.blp:23
 msgid "Token"
@@ -302,145 +300,144 @@ msgstr "Token"
 
 #: data/ui/endpoint_pane.blp:61 data/ui/endpoint_pane.blp:62
 msgid "Request URL"
-msgstr "URL Permintaan"
+msgstr "Richiesta URL"
 
 #: data/ui/endpoint_pane.blp:74 data/ui/mac_menu.blp:118
 msgid "Cancel request"
-msgstr "Batalkan permintaan"
+msgstr "Annulla richiesta"
 
 #: data/ui/endpoint_pane.blp:83 data/ui/mac_menu.blp:113
 msgid "Send"
-msgstr "Kirim"
+msgstr "Invia"
 
 #: data/ui/endpoint_pane.blp:84
 msgid "Execute this HTTP request"
-msgstr "Eksekusi permintaan HTTP ini"
+msgstr "Esegui richiesta HTTP"
 
 #: data/ui/endpoint_pane.blp:112
 msgid "Parameters"
-msgstr "Parameter"
+msgstr "Parametri"
 
 #: data/ui/endpoint_pane.blp:138 data/ui/response_panel.blp:196
 msgid "Headers"
-msgstr "Kepala"
+msgstr "Headers"
 
 #: data/ui/endpoint_pane.blp:172
 msgid "Variables"
-msgstr "Variabel"
+msgstr "Variabili"
 
 #: data/ui/endpoint_pane.blp:201
 msgid ""
 "Cartero supports reading variables from an .env file, but you need to enable "
 "the feature first."
 msgstr ""
-"Cartero mendukung pembacaan variabel dari berkas .env, tetapi anda harus "
-"menyalakannya terlebih dahulu."
+"Cartero può leggere variabili da un file .env ma la funzione dev'essere "
+"stata abilitata."
 
 #: data/ui/endpoint_pane.blp:208 data/ui/main_window.blp:187
 #: data/ui/main_window_no_csd.blp:192 data/ui/settings/shell.blp:47
 msgid "Settings"
-msgstr "Pengaturan"
+msgstr "Preferenze"
 
 #: data/ui/endpoint_pane.blp:226
 msgid ""
 "Cartero supports reading variables from an .env file, but you have to save "
 "the request first."
 msgstr ""
-"Cartero mendukung pembacaan variabel dari berkas .env, tetapi anda harus "
-"menyimpan permintaannya terlebih dahulu."
+"Cartero supporta la lettura di variabili da un file .env ma la richiesta "
+"deve prima essere salvata."
 
 #: data/ui/endpoint_pane.blp:242
 msgid ""
 "Place an .env file in the same disk directory as the request or in a parent "
 "directory to load the variables in Cartero."
 msgstr ""
-"Letakan berkas .env di direktori diska yang sama dengan permintaan atau "
-"dalam direktori orang tua untuk memuat variabel dalam Cartero."
+"Posizione un file .env nella stessa cartella delle tue richieste oppure "
+"nella cartella superiore per caricare le variabili in Cartero."
 
 #: data/ui/endpoint_pane.blp:248
 msgid "Check again"
-msgstr "Cek lagi"
+msgstr "Verifica di nuovo"
 
 #: data/ui/endpoint_pane.blp:280
 msgid "Authorization"
-msgstr "Autorisasi"
+msgstr "Autorizzazione"
 
 #: data/ui/endpoint_pane.blp:295 data/ui/response_panel.blp:114
 msgid "Body"
-msgstr "Badan"
+msgstr "Body"
 
 #: data/ui/export_dialog.blp:54
 msgid "Generated output"
-msgstr "Hasil output"
+msgstr "Output generato"
 
 #: data/ui/export_dialog.blp:64 data/ui/response_panel.blp:82
 msgid "Copy to clipboard"
-msgstr "Salin ke papan klip"
+msgstr "Copia nella clipboard"
 
 #: data/ui/export_dialog.blp:69 data/ui/response_panel.blp:162
 #: src/widgets/file_dialogs.rs:226
 msgid "Export to file"
-msgstr "Ekspor ke berkas"
+msgstr "Esporta file"
 
 #: data/ui/field_list_box_row.blp:27 data/ui/field_placeholder_row.blp:27
 msgid "Enabled"
-msgstr "Menyala"
+msgstr "Abilitato"
 
 #: data/ui/field_list_box_row.blp:43 data/ui/field_list_box_row.blp:44
 #: data/ui/field_list_box_static_row.blp:36
 #: data/ui/field_placeholder_row.blp:41 data/ui/field_placeholder_row.blp:42
 msgid "Name"
-msgstr "Nama"
+msgstr "Nome"
 
 #: data/ui/field_list_box_row.blp:59
 msgid ""
 "The value for this field will not be used because another field with the "
 "same name is overriding it."
 msgstr ""
-"Nilai pada kolom ini tidak akan digunakan karena ada kolom lain dengan nama "
-"yang sama yang menggantikannya."
+"Il valore di questo campo no verrà usato, un'altro campo con lo stesso nome "
+"lo sta sovrascrivendo."
 
 #: data/ui/field_list_box_row.blp:71 data/ui/field_list_box_row.blp:72
 #: data/ui/field_list_box_static_row.blp:46
 #: data/ui/field_placeholder_row.blp:52 data/ui/field_placeholder_row.blp:53
 msgid "Value"
-msgstr "Nilai"
+msgstr "Valore"
 
 #: data/ui/field_list_box_row.blp:81 data/ui/field_placeholder_row.blp:62
 msgid "Actions"
-msgstr "Aksi"
+msgstr "Azione"
 
 #: data/ui/field_list_box_row.blp:92
 msgid "Toggle secret"
-msgstr "Jungkitkan rahasia"
+msgstr "Switch segreto"
 
 #: data/ui/field_list_box_row.blp:99
 msgid "Delete"
-msgstr "Hapus"
+msgstr "Cancellare"
 
 #: data/ui/file_body_pane.blp:30
 msgid "File"
-msgstr "Berkas"
+msgstr "File"
 
 #: data/ui/file_body_pane.blp:34
 msgid "Content Type"
-msgstr "Tipe Konten"
+msgstr "Content Type"
 
 #: data/ui/file_body_pane.blp:45
 msgid "or select a file from the file system:"
-msgstr "atau pilih berkas dari sistem file:"
+msgstr "o seleziona un file da esplora file:"
 
 #: data/ui/file_body_pane.blp:54
 msgid "Select file…"
-msgstr "Pilih berkas…"
+msgstr "Seleziona file…"
 
 #: data/ui/file_body_pane.blp:75
 msgid ""
 "You cannot pick a file from the file system until you save this request to "
 "disk."
 msgstr ""
-"Anda tidak dapat memilih file dari sistem file sampai Anda menyimpan "
-"permintaan ini ke disk."
+"Per selezionare un file da esplora file devi prima salvare questa richiesta."
 
 #: data/ui/file_body_pane.blp:101
 msgid ""
@@ -449,124 +446,123 @@ msgid ""
 "if they are in a parent directory or outside the project folder, or use "
 "absolute paths."
 msgstr ""
-"Anda hanya dapat melampirkan file ke suatu permintaan jika file tersebut "
-"berada di direktori yang sama dengan file permintaan, atau di dalam "
-"subdirektori. Anda tidak dapat melampirkan file ke suatu permintaan jika "
-"file tersebut berada di direktori induk atau di luar folder proyek, atau "
-"menggunakan path absolut."
+"Puoi allegare files ad una richiesta solo se sono nello stessa directory del "
+"file di richiesta o una sottocartella. Non puoi allegare files ad una "
+"richiesta se si trova nella directory superiore o fuori della cartella del "
+"progetto, o se si usano percorsi assoluti."
 
 #: data/ui/mac_menu.blp:21
 msgctxt "menubar"
 msgid "File"
-msgstr "Berkas"
+msgstr "File"
 
 #: data/ui/mac_menu.blp:25 data/ui/main_window.blp:155
 #: data/ui/main_window_no_csd.blp:160 data/ui/welcome/welcome_pane.blp:65
 msgid "New tab"
-msgstr "Tab baru"
+msgstr "Nuova scheda"
 
 #: data/ui/mac_menu.blp:30 data/ui/main_window.blp:160
 #: data/ui/main_window_no_csd.blp:165 data/ui/welcome/welcome_pane.blp:78
 msgid "Open request…"
-msgstr "Buka permintaan…"
+msgstr "Apri richiesta…"
 
 #: data/ui/mac_menu.blp:35 data/ui/main_window.blp:165
 #: data/ui/main_window_no_csd.blp:170 src/widgets/file_dialogs.rs:142
 msgid "Save request"
-msgstr "Simpan permintaan"
+msgstr "Salva richiesta"
 
 #: data/ui/mac_menu.blp:40 data/ui/main_window.blp:170
 #: data/ui/main_window_no_csd.blp:175
 msgid "Save request as…"
-msgstr "Simpan permintaan sebagai…"
+msgstr "Salva richiesta con nome…"
 
 #: data/ui/mac_menu.blp:45 data/ui/main_window.blp:175
 #: data/ui/main_window_no_csd.blp:180
 msgid "Duplicate request"
-msgstr "Permintaan duplikat"
+msgstr "Duplica richiesta"
 
 #: data/ui/mac_menu.blp:52 data/ui/main_window.blp:180
 #: data/ui/main_window_no_csd.blp:185
 msgid "Close tab"
-msgstr "Tutup tab"
+msgstr "Chiude scheda"
 
 #: data/ui/mac_menu.blp:59
 msgctxt "menubar"
 msgid "Edit"
-msgstr "Sunting"
+msgstr "Modifica"
 
 #: data/ui/mac_menu.blp:63
 msgctxt "menubar"
 msgid "Undo"
-msgstr "Urungkan"
+msgstr "Annulla"
 
 #: data/ui/mac_menu.blp:68
 msgctxt "menubar"
 msgid "Redo"
-msgstr "Tak Urungkan"
+msgstr "Ripeti"
 
 #: data/ui/mac_menu.blp:75
 msgctxt "menubar"
 msgid "Cut"
-msgstr "Potong"
+msgstr "Taglia"
 
 #: data/ui/mac_menu.blp:80
 msgctxt "menubar"
 msgid "Copy"
-msgstr "Salin"
+msgstr "Copia"
 
 #: data/ui/mac_menu.blp:85
 msgctxt "menubar"
 msgid "Paste"
-msgstr "Tempel"
+msgstr "Incolla"
 
 #: data/ui/mac_menu.blp:90
 msgctxt "menubar"
 msgid "Delete"
-msgstr "Hapus"
+msgstr "Eliminare"
 
 #: data/ui/mac_menu.blp:97
 msgctxt "menubar"
 msgid "Select All"
-msgstr "Pilih Semua"
+msgstr "Seleziona tutto"
 
 #: data/ui/mac_menu.blp:104
 msgctxt "menubar"
 msgid "Endpoint"
-msgstr "Titik akhir"
+msgstr "Richiesta"
 
 #: data/ui/mac_menu.blp:108
 msgctxt "menubar"
 msgid "Edit URL"
-msgstr "Sunting URL"
+msgstr "Modifica URL"
 
 #: data/ui/mac_menu.blp:125 data/ui/settings/page_code_editor.blp:26
 msgid "Body appearance"
-msgstr "Penampilan badan"
+msgstr "Aspetto del body"
 
 #: data/ui/mac_menu.blp:129 data/ui/settings/page_code_editor.blp:29
 msgid "Wrap content"
-msgstr "Bungkus konten"
+msgstr "Adatta contenuto"
 
 #: data/ui/mac_menu.blp:134 data/ui/settings/page_code_editor.blp:34
 msgid "Show line numbers"
-msgstr "Tampilkan nomor baris"
+msgstr "Mostrare righe numerate"
 
 #: data/ui/mac_menu.blp:141 data/ui/settings/page_code_editor.blp:41
 msgid "Automatic indentation"
-msgstr "Indentasi otomatis"
+msgstr "Indentazione automatica"
 
 #: data/ui/mac_menu.blp:146 data/ui/settings/page_code_editor.blp:46
 msgid "Indent with spaces"
-msgstr "Indentasi dengan spasi"
+msgstr "Indentare con spazi"
 
 #: data/ui/mac_menu.blp:152 data/ui/settings/page_code_editor.blp:56
 msgid "Indent with tabs"
-msgstr "Indentasi dengan tab"
+msgstr "Indentare con tabulazione"
 
 #: data/ui/mac_menu.blp:158 data/ui/settings/page_code_editor.blp:67
 msgid "Spaces per tab"
-msgstr "Spasi per tab"
+msgstr "Spazi per tabulazione"
 
 #: data/ui/mac_menu.blp:161
 msgid "2"
@@ -583,64 +579,64 @@ msgstr "8"
 #: data/ui/mac_menu.blp:184
 msgctxt "menubar"
 msgid "Window"
-msgstr "Jendela"
+msgstr "Finestra"
 
 #: data/ui/mac_menu.blp:188
 msgctxt "menubar"
 msgid "Minimize"
-msgstr "Minimalkan"
+msgstr "Minimizza"
 
 #. TRANSLATORS: This item will only be visible in macOS, where the convention is to call it "zoom" instead of "maximize"
 #: data/ui/mac_menu.blp:194
 msgctxt "menubar"
 msgid "Zoom"
-msgstr "Besarkan"
+msgstr "Zoom"
 
 #: data/ui/mac_menu.blp:201
 msgctxt "menubar"
 msgid "Help"
-msgstr "Bantuan"
+msgstr "Aiuto"
 
 #: data/ui/mac_menu.blp:205 data/ui/welcome/welcome_pane.blp:132 src/win.rs:640
 msgid "User manual"
-msgstr "Manual pengguna"
+msgstr "Manuale d'uso"
 
 #: data/ui/mac_menu.blp:210 data/ui/welcome/welcome_pane.blp:142
 msgctxt "menubar"
 msgid "Report a bug"
-msgstr "Laporkan kutu"
+msgstr "Riportare bug"
 
 #: data/ui/mac_menu.blp:215
 msgctxt "menubar"
 msgid "View discussions"
-msgstr "Tampilkan diskusi"
+msgstr "Vede thread"
 
 #: data/ui/mac_menu.blp:222 src/win.rs:642
 msgid "Help us translate"
-msgstr "Bantu kami menerjemahkan"
+msgstr "Aiutaci per tradurre"
 
 #: data/ui/mac_menu.blp:229 data/ui/settings/page_application.blp:72
 msgid "Check for updates"
-msgstr "Periksa pembaruan"
+msgstr "Verifica aggiornamenti"
 
 #: data/ui/main_window.blp:48 data/ui/main_window_no_csd.blp:48
 msgid "New"
-msgstr "Baru"
+msgstr "Nuovo"
 
 #: data/ui/main_window.blp:59 data/ui/main_window.blp:71
 #: data/ui/main_window_no_csd.blp:59 data/ui/main_window_no_csd.blp:71
 #: src/widgets/file_dialogs.rs:105 src/widgets/file_dialogs.rs:182
 msgid "Open"
-msgstr "Buka"
+msgstr "Apri"
 
 #: data/ui/main_window.blp:79 data/ui/main_window_no_csd.blp:79
 #: src/widgets/file_dialogs.rs:141 src/widgets/file_dialogs.rs:224
 msgid "Save"
-msgstr "Simpan"
+msgstr "Salva"
 
 #: data/ui/main_window.blp:88 data/ui/main_window_no_csd.blp:100
 msgid "Export request"
-msgstr "Ekspor permintaan"
+msgstr "Esporta richiesta"
 
 #: data/ui/main_window.blp:95
 msgid "Menu"
@@ -648,131 +644,130 @@ msgstr "Menu"
 
 #: data/ui/main_window.blp:132 data/ui/main_window_no_csd.blp:137
 msgid "Export request as cURL…"
-msgstr "Ekspor permintaan sebagai cURL…"
+msgstr "Esporta richiesta in formato cURL…"
 
 #: data/ui/main_window.blp:138 data/ui/main_window_no_csd.blp:143
 msgid "Export request as Jetbrains HTTP…"
-msgstr "Ekspor permintaan sebagai HTTP Jetbrains…"
+msgstr "Esporta richiesta come Jetbrains HTTP…"
 
 #: data/ui/main_window.blp:146 data/ui/main_window_no_csd.blp:151
 msgid "Export response body…"
-msgstr "Ekspor badan permintaan…"
+msgstr "Esporta body della richiesta…"
 
 #: data/ui/main_window.blp:194 data/ui/main_window_no_csd.blp:199
 msgid "Keyboard shortcuts"
-msgstr "Pintasan papan tik"
+msgstr "Shortcuts tastiera"
 
 #: data/ui/main_window.blp:199 data/ui/main_window_no_csd.blp:204
 msgid "About Cartero"
-msgstr "Tentang Cartero"
+msgstr "Informazione di Cartero"
 
 #: data/ui/main_window.blp:204 data/ui/main_window_no_csd.blp:209
 msgid "Quit"
-msgstr "Keluar"
+msgstr "Esci"
 
 #: data/ui/method_dropdown.blp:28
 msgid "Request method"
-msgstr "Metode Permintaan"
+msgstr "Metodo di richiesta"
 
 #: data/ui/raw_body_pane.blp:28
 msgid "Request body"
-msgstr "Badan permintaan"
+msgstr "Body della richiesta"
 
 #: data/ui/request_body_pane.blp:34
 msgid "Body type"
-msgstr "Tipe badan"
+msgstr "Body type"
 
 #: data/ui/request_body_pane.blp:55
 msgid "URL Encoded"
-msgstr "Dikodekan URL"
+msgstr "URL Encoded"
 
 #: data/ui/request_body_pane.blp:56
 msgid "Multipart Form Data"
-msgstr "Data Form Multibagian"
+msgstr "Multipart Form Data"
 
 #: data/ui/request_body_pane.blp:59
 msgid "Raw"
-msgstr "Mentah"
+msgstr "Raw"
 
 #: data/ui/request_body_pane.blp:60
 msgid "From file"
-msgstr "Dari berkas"
+msgstr "Da file"
 
 #: data/ui/response_headers.blp:42
 msgid "No headers"
-msgstr "Tidak ada kepala"
+msgstr "Senza headers"
 
 #: data/ui/response_panel.blp:30
 msgid "Ready to request"
-msgstr "Siap untuk meminta"
+msgstr "Pronto per inviare"
 
 #: data/ui/response_panel.blp:31
 msgid "Use the Send button to send a network request and it will show here."
 msgstr ""
-"Gunakan tombol kirim untuk mengirim permintaan jaringan dan itu akan tampil "
-"disini."
+"Usa il pulsante Invia per inoltrare la richiesta di rete e vedi il risultato "
+"qui."
 
 #: data/ui/response_panel.blp:127
 msgid "Response body"
-msgstr "Badan respon"
+msgstr "Response body"
 
 #: data/ui/response_panel.blp:146
 msgid "Binary response received"
-msgstr "Menerima respon biner"
+msgstr "Ricevuta risposta binaria"
 
 #: data/ui/response_panel.blp:147
 msgid "The response of this request should not be rendered in a text view."
-msgstr ""
-"Respon dari permintaan ini seharusnya tidak dirender dalam tampilan teks."
+msgstr "La risposta di questa richiesta non deve mostrarsi in un textfield."
 
 #: data/ui/response_panel.blp:169
 msgid "Render anyway"
-msgstr "Render saja"
+msgstr "Mostra comunque"
 
 #: data/ui/search_box.blp:42 data/ui/search_box.blp:43
 msgid "Search"
-msgstr "Cari"
+msgstr "Cerca"
 
 #: data/ui/search_box.blp:63
 msgid "Previous result"
-msgstr "Hasil sebelumnya"
+msgstr "Risultato precedente"
 
 #: data/ui/search_box.blp:69
 msgid "Next result"
-msgstr "Hasil berikutnya"
+msgstr "Prossimo risultato"
 
 #: data/ui/search_box.blp:81
 msgid "Close search"
-msgstr "Tutup pencarian"
+msgstr "Chiude ricerca"
 
 #: data/ui/settings/page_appearance.blp:22
 msgid "Appearance"
-msgstr "Tampilan"
+msgstr "Aspetto"
 
 #: data/ui/settings/page_appearance.blp:26
 msgid "Color scheme"
-msgstr "Skema warna"
+msgstr "Palette di colori"
 
 #: data/ui/settings/page_appearance.blp:60
 msgid "Interface"
-msgstr "Antarmuka"
+msgstr "Interfaccia"
 
 #: data/ui/settings/page_appearance.blp:63
 msgid "Application style"
-msgstr "Gaya Aplikasi"
+msgstr "Stilo della applicazione"
 
 #. Has to be a separate variable due to variable lifetimes.
 #: data/ui/settings/page_appearance.blp:67 src/windows/settings/locale.rs:84
 msgid "Follow system settings"
-msgstr "Ikuti pengaturan sistem"
+msgstr "Segui opzioni del sistema"
 
 #: data/ui/settings/page_appearance.blp:68
 msgid "Light mode"
-msgstr "Mode terang"
+msgstr "Modo chiaro"
 
 #: data/ui/settings/page_appearance.blp:69
 msgid "Dark mode"
-msgstr "Mode gelap"
+msgstr "Modo scuro"
 
 #: data/ui/settings/page_appearance.blp:76
 msgid "Font"
@@ -780,129 +775,128 @@ msgstr "Font"
 
 #: data/ui/settings/page_appearance.blp:79
 msgid "Use system font"
-msgstr "Gunakan fon sistem"
+msgstr "Usare font del sistema"
 
 #: data/ui/settings/page_appearance.blp:83
 msgid "Custom font"
-msgstr "Fonta kustom"
+msgstr "Font personalizzato"
 
 #: data/ui/settings/page_appearance.blp:90
 msgid "Click to select a font"
-msgstr "Klik untuk memilih fonta"
+msgstr "Fai click per selezionare font"
 
 #: data/ui/settings/page_application.blp:22
 msgid "Application"
-msgstr "Aplikasi"
+msgstr "Applicazione"
 
 #: data/ui/settings/page_application.blp:26
 #: data/ui/settings/page_application.blp:33
 msgid "Language"
-msgstr "Bahasa"
+msgstr "Lingua"
 
 #: data/ui/settings/page_application.blp:43
 msgid "You need to restart the program for the new locale to be used."
-msgstr "Anda perlu memulai ulang program agar lokal baru digunakan."
+msgstr "Necessario riavvio per applicare nuova lingua."
 
 #: data/ui/settings/page_application.blp:50
 msgid "File settings"
-msgstr "Pengaturan file"
+msgstr "Preferenze file"
 
 #: data/ui/settings/page_application.blp:53
 msgid "Create backup files"
-msgstr "Buat file cadangan"
+msgstr "Creare copie di sicurezza"
 
 #: data/ui/settings/page_application.blp:54
 msgid ""
 "You might not want to enable this if you are already using a version control "
 "such as Git"
 msgstr ""
-"Anda mungkin tidak ingin mengaktifkan ini jika Anda sudah menggunakan "
-"kontrol versi seperti Git"
+"Forse non vuoi attivare questa opzione se stai usando Git come version "
+"controller"
 
 #: data/ui/settings/page_application.blp:60
 msgid "Software updates"
-msgstr "Pembaruan perangkat lunak"
+msgstr "Aggiornamento software"
 
 #: data/ui/settings/page_application.blp:67
 msgid "Current version"
-msgstr "Versi saat ini"
+msgstr "Versione attuale"
 
 #: data/ui/settings/page_code_editor.blp:22
 msgid "Code editor"
-msgstr "Editor kode"
+msgstr "Editore di codice"
 
 #: data/ui/settings/page_http_client.blp:22
 msgid "HTTP Client"
-msgstr "Klien HTTP"
+msgstr "Client HTTP"
 
 #: data/ui/settings/page_http_client.blp:27
 msgid "Enforce TLS validation"
-msgstr "Paksa validasi TLS"
+msgstr "Forza validazione TLS"
 
 #: data/ui/settings/page_http_client.blp:28
 msgid "Cancel a request if the TLS handshake fails"
-msgstr "Batalkan permintaan jika jabat tangan TLS gagal"
+msgstr "Annulla richiesta quando TLS fallisce"
 
 #: data/ui/settings/page_http_client.blp:32
 msgid "Follow redirects"
-msgstr "Ikuti alihan"
+msgstr "Segui redirects"
 
 #: data/ui/settings/page_http_client.blp:33
 msgid "Make follow-up requests if the server returns an HTTP 3xx response"
-msgstr ""
-"Membuat permintaan tindak lanjut jika server mengembalikan respon HTTP 3xx"
+msgstr "Continua le richieste se il server ritorna una risposta HTTP 3xx"
 
 #: data/ui/settings/page_http_client.blp:38
 msgid "Maximum redirects"
-msgstr "Pengalihan maksimum"
+msgstr "Redirects massimi"
 
 #: data/ui/settings/page_http_client.blp:50
 msgid "Request timeout"
-msgstr "Batas waktu permintaan"
+msgstr "Timeout delle richieste"
 
 #: data/ui/settings/page_http_client.blp:51
 msgid "Seconds to wait before cancelling the request"
-msgstr "Waktu tunggu sebelum membatalkan permintaan"
+msgstr "Secondi di attesa prima di annullare una petizione"
 
 #: data/ui/settings/page_proxy.blp:22
 msgid "Proxy"
-msgstr "Proksi"
+msgstr "Proxy"
 
 #: data/ui/settings/page_proxy.blp:26
 msgid "Proxy settings"
-msgstr "Pengaturan proksi"
+msgstr "Preferenze proxy"
 
 #: data/ui/settings/page_proxy.blp:29
 msgid "HTTP Proxy"
-msgstr "Proksi HTTP"
+msgstr "Proxy HTTP"
 
 #: data/ui/settings/page_proxy.blp:33
 msgid "HTTPS Proxy"
-msgstr "Proksi HTTPS"
+msgstr "Proxy HTTPS"
 
 #: data/ui/settings/page_proxy.blp:38
 msgid "Exclude from proxy"
-msgstr "Kecualikan dari proksi"
+msgstr "Escludi dal proxy"
 
 #: data/ui/settings/page_proxy.blp:39
 msgid ""
 "IP addresses and domain names contained in this list will bypass the proxy "
 "settings and be accessed directly."
 msgstr ""
-"Alamat IP dan nama domain yang terdapat dalam daftar ini akan melewati "
-"pengaturan proksi dan dapat diakses langsung."
+"Gli indirizzi IP e nomi di dominio in questa lista ignoreranno le opzioni di "
+"proxy e saranno accessi direttamente."
 
 #: data/ui/settings/page_proxy.blp:55 data/ui/settings/page_proxy.blp:56
 msgid "Address to exclude"
-msgstr "Alamat yang ingin dikecualikan"
+msgstr "Indirizzi da escludere"
 
 #: data/ui/settings/page_proxy.blp:60
 msgid "Add"
-msgstr "Tambah"
+msgstr "Aggiungere"
 
 #: data/ui/settings/page_proxy.blp:91
 msgid "Environment variables"
-msgstr "Variabel lingkungan"
+msgstr "Variabili d'intorno"
 
 #. TRANSLATORS: Keep the variable names "http_proxy", "https_proxy" and "no_proxy" in English because that's the name of the variable.
 #: data/ui/settings/page_proxy.blp:93
@@ -910,25 +904,25 @@ msgid ""
 "Cartero supports the use of the standard http_proxy, https_proxy and "
 "no_proxy environment variables to provide the system proxy settings."
 msgstr ""
-"Cartero mendukung penggunaan standar lingkungan variabel http_proxy, "
-"https_proxy, dan no_proxy untuk menyediakan pengaturan proksi sistem."
+"Cartero supporta l'uso di variabili standard http_proxy, https_proxy y "
+"no_proxy per fornire le opzioni proxy del sistema."
 
 #: data/ui/settings/page_proxy.blp:107
 msgid "Use environment variables as a fallback"
-msgstr "Gunakan variabel lingkungan sebagai cadangan"
+msgstr "Usare variabili d'intorno come alternativa"
 
 #: data/ui/settings/page_proxy.blp:127 data/ui/settings/page_proxy.blp:138
 #: data/ui/settings/page_proxy.blp:149
 msgid "(empty)"
-msgstr "(kosong)"
+msgstr "(vuoto)"
 
 #: data/ui/settings/page_security.blp:22
 msgid "Security"
-msgstr "Keamanan"
+msgstr "Sicurezza"
 
 #: data/ui/settings/page_security.blp:26
 msgid ".env files"
-msgstr "Berkas .env"
+msgstr "File .env"
 
 #: data/ui/settings/page_security.blp:27
 msgid ""
@@ -936,50 +930,48 @@ msgid ""
 "credentials. Cartero can locate .env files and expose the variables inside "
 "so that you can use them in your requests."
 msgstr ""
-"Berkas .env sering digunakan dalam proyek untuk menyimpan nilai sensitif "
-"seperti kredensial. Cartero dapat menemukan berkas .env dan mengungkapkan "
-"variabel di dalam sehingga Anda dapat menggunakannya dalam permintaan Anda."
+"I files .env si usano normalmente nei progetti per salvare dati sensibili "
+"come ad esempio, credenziali. Cartero puo localizzare i file .env ed esporre "
+"le variabili nel file per essere usate nelle tue petizioni."
 
 #: data/ui/settings/page_security.blp:31
 msgid "Find and load .env files"
-msgstr "Cari dan muat berkas .env"
+msgstr "Cerca e carica files .env"
 
 #: data/ui/settings/page_security.blp:32
 msgid ""
 "Cartero will only traverse your disk looking for .env files if you enable "
 "this option."
-msgstr ""
-"Cartero hanya akan menjelajahi diska Anda untuk mencari berkas .env jika "
-"Anda mengaktifkan opsi ini."
+msgstr "Cartero cercherà nel disco solo i file .env se attivi questa opzione."
 
 #: data/ui/welcome/welcome_pane.blp:45
 msgid "Welcome to Cartero"
-msgstr "Selamat datang di Cartero"
+msgstr "Benvenuto a Cartero"
 
 #: data/ui/welcome/welcome_pane.blp:46
 msgid "Create or open a request and start testing APIs now."
-msgstr "Buat atau buka permintaan dan memulai percobaan API sekarang."
+msgstr "Crea o apre una petizione e inizia a testare API's adesso."
 
 #: data/ui/welcome/welcome_pane.blp:113
 msgid ""
 "Cartero is free software, released under the terms of the GNU General Public "
 "License v3 or later."
 msgstr ""
-"Cartero merupakan perangkat lunak bebas, dirilis berdasarkan syarat-syarat "
-"Lisensi Publik Umum GNU v3 atau setelahnya."
+"Cartero è un software libero, pubblicato secondo i termini della Licenza "
+"Publica Generale (GPL) di GNU v3 o posteriore."
 
 #: data/ui/welcome/welcome_pane.blp:118 data/ui/welcome/welcome_pane.blp:166
 msgid "Know your rights"
-msgstr "Ketahui hak-hak Anda"
+msgstr "Conosci tuoi diritti"
 
 #: data/ui/welcome/welcome_pane.blp:152
 msgid "Social media updates"
-msgstr "Pembaruan media sosial"
+msgstr "Aggiornamenti socials"
 
 #. TRANSLATORS: if your language has a different word for free as in freedom and free as in beer, and it's clear that free means "freedom", you might skip the "as in freedom" bit if you wish.
 #: data/ui/welcome/welcome_pane.blp:182
 msgid "You can use Cartero for free (as in freedom)"
-msgstr "Anda dapat menggunakan Cartero secara gratis (seperti kebebasan)"
+msgstr "Puoi usare Cartero liberamente"
 
 #: data/ui/welcome/welcome_pane.blp:183
 msgid ""
@@ -988,27 +980,26 @@ msgid ""
 "\n"
 "Even if you use it at work or for commercial purposes."
 msgstr ""
-"Anda tidak perlu meminta izin atau membeli lisensi atau langganan untuk "
-"menggunakan perangkat lunak ini.\n"
+"Non devi chiedere permessi o acquistare licenze o abbonamento per usare "
+"questo software.\n"
 "\n"
-"Bahkan jika Anda menggunakannya dalam tempat kerja atau untuk tujuan "
-"komersial."
+"Comprende l'utilizzo professionale e con scopi commerciali."
 
 #: data/ui/welcome/welcome_pane.blp:190
 msgid "You can get, study and modify the source code"
-msgstr "Anda mampu mendapatkan, mempelajari, dan memodifikasi sumber kodenya"
+msgstr "Puoi avere, studiare e modificare il codice sorgente"
 
 #: data/ui/welcome/welcome_pane.blp:191
 msgid ""
 "Mod the program so that it works exactly how you want, or just learn things "
 "if you are new to programming."
 msgstr ""
-"Modifikasi programnya sehingga bekerja seperti apa yang Anda inginkan, atau "
-"hanya ingin mempelajari hal-hal jika Anda baru dalam pemrograman."
+"Modifica l'applicazione per farla funzionare esattamente come vuoi tu, o "
+"impara cose se stai iniziando nella programmazione."
 
 #: data/ui/welcome/welcome_pane.blp:198
 msgid "You can share copies of the program"
-msgstr "Anda dapat membagikan salinan programnya"
+msgstr "Puoi condividere copie del programma"
 
 #: data/ui/welcome/welcome_pane.blp:199
 msgid ""
@@ -1018,130 +1009,129 @@ msgid ""
 "(In other words: if you fork, your project must retain the GNU General "
 "Public License too.)"
 msgstr ""
-"Anda dapat mengemas ulang Cartero atau membagikan salinan perangkat lunaknya "
-"dengan orang lain, selama penerimanya memiliki akses terhadap kebebasan-"
-"kebebasan tersebut.\n"
+"Puoi rifare il package di Cartero o condividere copie del software con altre "
+"persone, sempre che gli utenti possano godere delle stesse liberta di "
+"accesso.\n"
 "\n"
-"(Dalam kata lain: jika Anda fork, proyek Anda harus mempertahankan Lisensi "
-"Publik Umum GNU tersebut.)"
+"(In poche parole: Crea la tua propria versione ma il tuo progetto deve "
+"conservare la Licenza Publica Generale (GPL) di GNU.)"
 
 #: data/ui/welcome/welcome_pane.blp:206
 msgid "Cartero is built in community"
-msgstr "Cartero dibangun dalam komunitas"
+msgstr "Cartero si sviluppa nella comunity"
 
 #: data/ui/welcome/welcome_pane.blp:207
 msgid ""
 "Share feedback, contribute code, report bugs, translate Cartero to your "
 "language… You can be part of this!"
 msgstr ""
-"Bagikan umpan balik, kontribusi kode, laporkan kutu, terjemahkan Cartero ke "
-"bahasa Anda... Anda bisa menjadi bagian ini!"
+"Invia tuo feedback, contribuisce con codice, invia errori, traduci Cartero "
+"nella tua lingua... Puoi fare parte di questo!"
 
 #: data/ui/welcome/welcome_pane.blp:219
 msgid "Previous"
-msgstr "Sebelumnya"
+msgstr "Anteriore"
 
 #: data/ui/welcome/welcome_pane.blp:235
 msgid "Next"
-msgstr "Lanjut"
+msgstr "Seguente"
 
 #: src/interop.rs:33
 msgid ""
 "This file was created with a newer version of this application; please "
 "update!"
 msgstr ""
-"Berkas ini dibuat menggunakan versi terbaru dari aplikasi ini; mohon "
-"diperbarui!"
+"Il file è stato creato con una versione più recente di questo programma; per "
+"favore aggiorna!"
 
 #: src/interop.rs:36
 msgid "The file is corrupt or does not contain valid data for this application"
-msgstr ""
-"Berkas tersebut rusak atau tidak mengandung data yang valid untuk aplikasi "
-"ini"
+msgstr "Il file è danneggiato o non ha dati validi per questa applicazione"
 
 #: src/interop.rs:59
 msgid "The specified URL is not valid"
-msgstr "URL yang ditentukan tidak valid"
+msgstr "L'URL specificato non è valido"
 
 #: src/interop.rs:60 src/widgets/dialogs.rs:170
 msgid "Cannot recognise the URL"
-msgstr "Tidak dapat mengenali URL"
+msgstr "URL non riconosciuto"
 
 #: src/interop.rs:61
 msgid "The given URL is missing a protocol"
-msgstr "URL yang diberikan tidak menyertakan protokol"
+msgstr "L'URL indicato non ha protocolo"
 
 #: src/interop.rs:63
 #, rust-format
 msgid "The protocol {}:// is not supported"
-msgstr "Protokol {}:// tidak didukung"
+msgstr "Protocolo {}:// non supportato"
 
 #: src/interop.rs:66 src/widgets/dialogs.rs:172
 #, rust-format
 msgid "The variable '{}' is not defined"
-msgstr "Variabel '{}' tidak didefiniskan"
+msgstr "Variabile '{}' non supportata"
 
 #: src/interop.rs:69 src/widgets/dialogs.rs:175
 msgid "There was a problem with a variable interpolation, review your inputs"
-msgstr "Terdapat masalah dengan interpolasi variabel, periksa masukan Anda"
+msgstr ""
+"Problemi trovati durante l'interpolazione delle variabili, riguarda l'input"
 
 #: src/interop.rs:72
 #, rust-format
 msgid "The header '{}' is not valid"
-msgstr "Kepala '{}' tidak valid"
+msgstr "Header '{}' non valido"
 
 #: src/interop.rs:75
 #, rust-format
 msgid "The value for header '{}' is not valid"
-msgstr "Nilai untuk kepala '{}' tidak valid"
+msgstr "Il valore dell'Header '{}' non valido"
 
 #: src/interop.rs:78
 msgid "The given request body could not be encoded correctly"
-msgstr "Badan permintaan yang diberikan tidak dapat di enkode secara benar"
+msgstr ""
+"Il body della petizione fornita non si ha potuto codificare correttamente"
 
 #: src/interop.rs:80
 msgid "You have to save the request first"
-msgstr "Anda perlu menyimpan permintaannya terlebih dahulu"
+msgstr "Prima devi salvare la petizione"
 
 #: src/interop.rs:82
 #, rust-format
 msgid "The file '{}' cannot be accessed due to the security policy"
-msgstr "Berkas '{}' tidak dapat di akses dikarenakan kebijakan keamanan"
+msgstr ""
+"Il file '{}' non può essere raggiunto per motivi di politica di sicurezza"
 
 #: src/interop.rs:87
 #, rust-format
 msgid "Defined value for proxy '{}' is not a valid configuration"
-msgstr "Nilai yang ditentukan untuk proksi '{}' bukan konfigurasi valid"
+msgstr "Il valore definito per il proxy '{}' non ha una configurazione valida"
 
 #: src/interop.rs:91
 msgid "There is an input/output error"
-msgstr "Terdapat masalah input/output"
+msgstr "Errore di input/output"
 
 #: src/interop.rs:92
 msgid "There is a network error"
-msgstr "Terdapat masalah jaringan"
+msgstr "Errore di rete"
 
 #: src/updates/ui.rs:33
 msgid "Error checking updates"
-msgstr "Gagal memeriksa pembaruan"
+msgstr "Errore verificando aggiornamenti"
 
 #: src/updates/ui.rs:35
 msgid "Couldn't receive a valid response from the server. Please, check later."
-msgstr ""
-"Tidak dapat menerima respons yang valid dari server. Silakan periksa lagi "
-"nanti."
+msgstr "Server ha inviato una risposta non valida. Per favore, verificare dopo."
 
 #: src/updates/ui.rs:38 src/updates/ui.rs:48
 msgid "Accept"
-msgstr "Terima"
+msgstr "Accettare"
 
 #: src/updates/ui.rs:45
 msgid "No updates at the moment"
-msgstr "Tidak ada pembaruan untuk saat ini"
+msgstr "Nessun aggiornamento disponibile"
 
 #: src/updates/ui.rs:46
 msgid "You are running the latest version of Cartero."
-msgstr "Anda menjalankan versi terbaru Cartero."
+msgstr "Stai usando la versione più recente di Cartero."
 
 #: src/updates/ui.rs:57
 #, rust-format
@@ -1149,44 +1139,44 @@ msgid ""
 "Version {} has been released. Do you want to visit the website to download "
 "the update now?"
 msgstr ""
-"Versi {} telah dirilis. Apakah Anda ingin mengunjungi situs web dan "
-"mengunduh pembaruannya sekarang?"
+"Nuova versione {} disponibile. Vuoi visitare la pagine per scaricare "
+"l'aggiornamento adesso?"
 
 #: src/updates/ui.rs:59
 msgid "There is a new version of Cartero!"
-msgstr "Terdapat versi baru Cartero!"
+msgstr "Hai la nuova versione di Cartero!"
 
 #: src/updates/ui.rs:63
 msgid "_Open website"
-msgstr "Buka situs"
+msgstr "_Apri sito web"
 
 #: src/updates/ui.rs:64
 msgid "_Not now"
-msgstr "Tidak sekarang"
+msgstr "_Non adesso"
 
 #: src/widgets/dialogs.rs:51
 #, rust-format
 msgid "Cannot open '{}'"
-msgstr "Tidak dapat membuka '{}'"
+msgstr "Non si può aprire '{}'"
 
 #: src/widgets/dialogs.rs:52
 msgid "Cannot open the requested file"
-msgstr "Tidak dapat membuka file yang diminta"
+msgstr "Non si può aprire il file richiesto"
 
 #: src/widgets/dialogs.rs:61 src/widgets/dialogs.rs:92
 #: src/widgets/dialogs.rs:122 src/widgets/dialogs.rs:151
 #: src/widgets/dialogs.rs:164 src/widgets/dialogs.rs:190
 msgid "Close"
-msgstr "Tutup"
+msgstr "Chiudere"
 
 #: src/widgets/dialogs.rs:75
 #, rust-format
 msgid "The file '{}' was loaded but had issues"
-msgstr "File '{}' dimuat tetapi mengalami masalah"
+msgstr "Il file '{}' si ha caricato con problemi"
 
 #: src/widgets/dialogs.rs:76
 msgid "The requested file was loaded but had issues"
-msgstr "File yang diminta dimuat tetapi mengalami masalah"
+msgstr "Il file richiesto è stato caricato ma con errori"
 
 #: src/widgets/dialogs.rs:99
 #, rust-format
@@ -1194,12 +1184,12 @@ msgid ""
 "The HTTP verb found in the file was '{}'. It is not valid, it will fallback "
 "to '{}'."
 msgstr ""
-"Verba HTTP yang ditemukan di dalam file adalah '{}'. Itu tidak valid, akan "
-"kembali menggunakan '{}'."
+"L'azione HTTP trovata nel file era '{}'. Non valido, perciò verrà "
+"ristabilito '{}'."
 
 #: src/widgets/dialogs.rs:115
 msgid "The requested file cannot be picked"
-msgstr "File yang diminta tidak dapat dipilih"
+msgstr "Il file richiesto non può essere selezionato"
 
 #: src/widgets/dialogs.rs:116
 #, rust-format
@@ -1209,31 +1199,31 @@ msgid ""
 "\n"
 "The file '{}' is not part of the '{}' directory"
 msgstr ""
-"File harus berada di dalam direktori yang sama dengan file permintaan atau "
-"proyek, atau di dalam subdirektorinya.\n"
+"Il file si deve trovare nella stessa directory della petizione del progetto "
+"o in qualsiasi sottocartella.\n"
 "\n"
-"File '{}' bukan bagian dari direktori '{}'"
+"Il file '{}' non è parte della directory '{}'"
 
 #: src/widgets/dialogs.rs:136
 #, rust-format
 msgid "Cannot save '{}'"
-msgstr "Tidak dapat menyimpan '{}'"
+msgstr "Impossibile salvare '{}'"
 
 #: src/widgets/dialogs.rs:137
 msgid "Cannot save the requested file"
-msgstr "Tidak dapat menyimpan file yang diminta"
+msgstr "Non si può salvare il file richiesto"
 
 #: src/widgets/dialogs.rs:142
 msgid ""
 "There was an error during the saving process. Assume that your changes are "
 "still not saved."
 msgstr ""
-"Terjadi kesalahan selama proses penyimpanan. Anggap bahwa perubahan Anda "
-"masih belum tersimpan."
+"Errore durante processo di salvataggio. Presuppone che le tue modifiche non "
+"sono state ancora salvate."
 
 #: src/widgets/dialogs.rs:159
 msgid "Could not select a valid file from the file chooser"
-msgstr "Tidak dapat memilih file yang valid dari pemilih file"
+msgstr "Impossibile selezionare un file valido da esplora file"
 
 #: src/widgets/dialogs.rs:179
 msgid ""
@@ -1241,142 +1231,143 @@ msgid ""
 "likely a development error. (If you could report your test case and this "
 "error, we might be able to fix this in the future.)"
 msgstr ""
-"Terjadi kesalahan internal selama proses ekspor. Ini kemungkinan besar "
-"adalah kesalahan pengembangan. (Jika Anda dapat melaporkan kasus uji Anda "
-"dan kesalahan ini, kami mungkin dapat memperbaikinya di masa depan.)"
+"Errore interno durante processo d' esportazione. Probabilmente sia un errore "
+"dell'applicazione. (Chiediamo cortesemente riportare questo errore per "
+"risolverlo prossimamente.)"
 
 #: src/widgets/dialogs.rs:181
 msgid "Error cause:"
-msgstr "Penyebab kesalahan:"
+msgstr "Causa dell'errore:"
 
 #: src/widgets/dialogs.rs:186
 msgid "Could not export the request"
-msgstr "Tidak dapat mengekspor permintaan"
+msgstr "Esportazione della petizione non riuscita"
 
 #: src/widgets/dialogs.rs:199
 msgid "There are unsaved changes"
-msgstr "Ada perubahan yang belum disimpan"
+msgstr "Ci sono modifiche ancora non salvate"
 
 #: src/widgets/dialogs.rs:201
 msgid ""
 "Closing this window will lose all unsaved data. Do you really want to "
 "proceed?"
 msgstr ""
-"Menutup jendela ini akan menghilangkan semua data yang belum disimpan. "
-"Apakah Anda benar-benar ingin melanjutkan?"
+"Chiudendo la finestra si perderanno tutti i dati non salvati. Vuoi "
+"continuare?"
 
 #: src/widgets/dialogs.rs:205 src/windows/settings/pages/proxy.rs:253
 msgid "Cancel"
-msgstr "Batal"
+msgstr "Annulla"
 
 #: src/widgets/dialogs.rs:206
 msgid "Close anyway"
-msgstr "Tutup saja"
+msgstr "Chiudere ugualmente"
 
 #: src/widgets/dialogs.rs:229
 #, rust-format
 msgid "Save changes in '{}'?"
-msgstr "Simpan perubahan pada '{}'?"
+msgstr "Salvare le modifiche in '{}'?"
 
 #: src/widgets/dialogs.rs:230
 msgid "Save changes?"
-msgstr "Simpan perubahan?"
+msgstr "Salvare le modifiche?"
 
 #: src/widgets/dialogs.rs:235
 msgid "There are changes that have not been saved yet. What do you want to do?"
-msgstr "Ada perubahan yang belum disimpan. Apa yang ingin Anda lakukan?"
+msgstr "Ci sono modifiche da salvare. Come vuoi procedere?"
 
 #: src/widgets/dialogs.rs:239
 msgid "_Cancel"
-msgstr "_Batal"
+msgstr "_Annulla"
 
 #: src/widgets/dialogs.rs:240
 msgid "_Discard"
-msgstr "_Buang"
+msgstr "_Ignora"
 
 #: src/widgets/dialogs.rs:241
 msgid "_Save"
-msgstr "_Simpan"
+msgstr "_Salvare"
 
 #: src/widgets/endpoint/endpoint_pane.rs:286
 #, rust-format
 msgid "Show {} variable from .env"
 msgid_plural "Show {} variables from .env"
-msgstr[0] "Tampilkan {} variabel dari .env"
+msgstr[0] "Mostrare {} variabile del .env"
+msgstr[1] "Mostrare {} variabili del .env"
 
 #: src/widgets/endpoint/endpoint_pane.rs:559
 #: src/widgets/endpoint/endpoint_pane.rs:565
 #: src/widgets/endpoint/endpoint_pane.rs:586
 msgid "(generated during request)"
-msgstr "(dihasilkan selama permintaan)"
+msgstr "(generato durante la petizione)"
 
 #: src/widgets/endpoint/endpoint_pane.rs:613
 #, rust-format
 msgid "Show {} pre-generated headers"
-msgstr "Tampilkan kepala {} yang telah dibuat sebelumnya"
+msgstr "Mostra {} headers pre generati"
 
 #: src/widgets/endpoint/endpoint_pane.rs:829
 msgid "Export request as cURL"
-msgstr "Ekspor permintaan sebagai cURL"
+msgstr "Esporta petizione come cURL"
 
 #: src/widgets/endpoint/endpoint_pane.rs:830
 msgid "Export request as Jetbrains HTTP"
-msgstr "Ekspor permintaan sebagai Jetbrains HTTP"
+msgstr "Esporta petizione come Jetbrains HTTP"
 
 #. TRANSLATORS: duration measured in seconds, units in symbol, as in "1.23 s"
 #: src/widgets/endpoint/response_panel.rs:379
 #, rust-format
 msgid "{} s"
-msgstr "{} dtk"
+msgstr "{} s"
 
 #. Format as milliseconds.
 #. TRANSLATORS: duration measured in milliseconds, as in "234 ms"
 #: src/widgets/endpoint/response_panel.rs:383
 #, rust-format
 msgid "{} ms"
-msgstr "{} md"
+msgstr "{} ms"
 
 #: src/widgets/error_pane.rs:103
 msgid "The request data is not valid"
-msgstr "Data permintaan tidak valid"
+msgstr "I dati della petizione non sono validi"
 
 #: src/widgets/error_pane.rs:110
 msgid "The request failed"
-msgstr "Permintaan gagal"
+msgstr "La petizione ha fallito"
 
 #: src/widgets/export_dialog.rs:115
 msgid "Content copied to the clipboard"
-msgstr "Konten disalin ke papan klip"
+msgstr "Contenuto copiato nella clipboard"
 
 #: src/widgets/field/field_list_box_static_row.rs:149
 msgid "Show value"
-msgstr "Tampilkan nilai"
+msgstr "Mostra valore"
 
 #: src/widgets/field/field_list_box_static_row.rs:151
 msgid "Hide value"
-msgstr "Sembunyikan nilai"
+msgstr "Nasconde valore"
 
 #. TRANSLATORS: presented in file dialogs as the file type for a request
 #. The macOS native file dialog will already add the extension for us.
 #: src/widgets/file_dialogs.rs:42 src/widgets/file_dialogs.rs:146
 #: src/widgets/file_dialogs.rs:148
 msgid "Request"
-msgstr "Permintaan"
+msgstr "Richiesta"
 
 #: src/widgets/file_dialogs.rs:106
 msgid "Open request"
-msgstr "Buka permintaan"
+msgstr "Apri petizione"
 
 #: src/widgets/file_dialogs.rs:183
 msgid "Select file"
-msgstr "Pilih file"
+msgstr "Seleziona file"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count; the first
 #. placeholder is the current ocurrence index, the second one is the total.
 #: src/widgets/search_box.rs:254
 #, rust-format
 msgid "{} of {}"
-msgstr "{} dari {}"
+msgstr "{} di {}"
 
 #. TRANSLATORS: this string is used to build the search box ocurrences count when only
 #. the number of total ocurrences is known.
@@ -1384,51 +1375,52 @@ msgstr "{} dari {}"
 #, rust-format
 msgid "{} result"
 msgid_plural "{} results"
-msgstr[0] "{} hasil"
+msgstr[0] "{} risultato"
+msgstr[1] "{} risultati"
 
 #: src/win.rs:288
 msgid "(untitled)"
-msgstr "(tanpa judul)"
+msgstr "(senza titolo)"
 
 #: src/win.rs:302
 msgid "Draft"
-msgstr "Draf"
+msgstr "Bozza"
 
 #: src/win.rs:612
 msgid "The Cartero authors"
-msgstr "Para penulis Cartero"
+msgstr "Gli autori di Cartero"
 
 #. Translators: Replace "translator-credits" with your names. Put a comma between.
 #: src/win.rs:635
 msgid "translator-credits"
-msgstr "Arif Budiman,Ega Natha"
+msgstr "Carlos Balarezo; BalFaz dev"
 
 #: src/win.rs:636
 msgid "© 2024-2026 the Cartero authors"
-msgstr "© 2024-2026 para penulis Cartero"
+msgstr "© 2024-2026 gli autori di Cartero"
 
 #: src/windows/settings/pages/proxy.rs:210
 msgid "The value is not a valid domain or IP address"
-msgstr "Nilai tersebut bukan domain atau alamat IP yang valid"
+msgstr "Il valore non è un dominio o indirizzo IP valido"
 
 #: src/windows/settings/pages/proxy.rs:225
 msgid "The host identifier is already excluded"
-msgstr "Pengidentifikasi host sudah dikecualikan"
+msgstr "L'identificatore host è già escluso"
 
 #: src/windows/settings/pages/proxy.rs:245
 #, rust-format
 msgid "Delete '{}' from the list of excluded hosts for the proxy?"
-msgstr "Hapus '{}' dari daftar host yang dikecualikan untuk proksi?"
+msgstr "Eliminare '{}' della lista dei host esclusi per il proxy?"
 
 #: src/windows/settings/pages/proxy.rs:250
 msgid "Delete identifier?"
-msgstr "Hapus pengidentifikasi?"
+msgstr "Elimina identificatore?"
 
 #: src/windows/settings/pages/proxy.rs:254
 #: src/windows/settings/pages/proxy.rs:288
 msgid "Remove"
-msgstr "Hapus"
+msgstr "Elimina"
 
 #: src/windows/settings/pages/proxy.rs:272
 msgid "No domains or IP addresses are being excluded"
-msgstr "Tidak ada domain atau alamat IP yang dikecualikan"
+msgstr "Nessun dominio o indirizzo IP escluso"

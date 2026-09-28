@@ -24,6 +24,7 @@ version = "26.1.0"
 license = "GPL-3.0-or-later"
 
 [workspace.dependencies]
+adw = { version = "0.8.1", package = "libadwaita", features = ["v1_5"] }
 askama = "0.14.0"
 base64 = "0.22.1"
 content_disposition = "0.4.0"
@@ -31,6 +32,7 @@ formdata = "0.13.0"
 futures-lite = "2.6.1"
 glib = { version = "0.21.5", features = ["v2_80"] }
 gio = { version = "0.21.5", features = ["v2_80"] }
+gtk = { package = "gtk4", version = "0.10.3", features = ["v4_14"] }
 http = "1.3.1"
 indexmap = { version = "2.13.0", features = ["serde"] }
 serde = { version = "1.0.228", features = ["derive"] }
@@ -50,12 +52,14 @@ license.workspace = true
 default = ["csd"]
 csd = []
 app_updater = []
+new_gtk = ["cartero_gtk"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-adw = { version = "0.8.1", package = "libadwaita", features = ["v1_5"] }
+adw.workspace = true
 base64.workspace = true
+cartero_gtk = { path = "crates/cartero-gtk", optional = true }
 cartero_http = { path = "crates/cartero-http" }
 cartero_interop = { path = "crates/cartero-interop" }
 cartero_isahc_client = { path = "crates/cartero-isahc-client" }
@@ -67,7 +71,7 @@ formdata.workspace = true
 futures-lite.workspace = true
 gettext-rs = { version = "0.7.7", features = ["gettext-system"] }
 glib.workspace = true
-gtk = { package = "gtk4", version = "0.10.3", features = ["v4_14"] }
+gtk.workspace = true
 indexmap.workspace = true
 serde.workspace = true
 serde_json = { version = "1.0.149", features = ["preserve_order"] }

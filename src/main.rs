@@ -156,8 +156,14 @@ fn main() -> glib::ExitCode {
         gettextrs::bindtextdomain("libadwaita", localedir).expect("Unable to bind the text domain");
     }
 
-    let app = CarteroApplication::new();
-    app.run()
+    if cfg!(feature = "new_gtk") {
+        use cartero_gtk;
+        let app = cartero_gtk::Application::new();
+        app.run()
+    } else {
+        let app = CarteroApplication::new();
+        app.run()
+    }
 }
 
 /// This function does some nasty things in order to get the Gio resources file loaded during tests.

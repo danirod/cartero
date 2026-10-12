@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: cartero\n"
 "Report-Msgid-Bugs-To: https://github.com/danirod/cartero/issues\n"
 "POT-Creation-Date: 2026-03-01 18:16+0100\n"
-"PO-Revision-Date: 2025-12-04 12:00+0000\n"
+"PO-Revision-Date: 2026-06-27 11:01+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <ibaios@disroot.org>\n"
 "Language-Team: Basque <https://hosted.weblate.org/projects/cartero/cartero/"
 "eu/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15-dev\n"
+"X-Generator: Weblate 2026.7.dev0\n"
 
 #: data/es.danirod.Cartero.metainfo.xml.in.in:11 data/cartero.desktop.in.in:3
 msgid "Make HTTP requests and test APIs"
@@ -479,9 +479,8 @@ msgstr "Gorde eskaera honela…"
 
 #: data/ui/mac_menu.blp:45 data/ui/main_window.blp:175
 #: data/ui/main_window_no_csd.blp:180
-#, fuzzy
 msgid "Duplicate request"
-msgstr "Gorde eskaera"
+msgstr "Bikoiztu eskaera"
 
 #: data/ui/mac_menu.blp:52 data/ui/main_window.blp:180
 #: data/ui/main_window_no_csd.blp:185
@@ -748,11 +747,11 @@ msgstr "Itxura"
 
 #: data/ui/settings/page_appearance.blp:26
 msgid "Color scheme"
-msgstr ""
+msgstr "Kolore-eskema"
 
 #: data/ui/settings/page_appearance.blp:60
 msgid "Interface"
-msgstr ""
+msgstr "Interfazea"
 
 #: data/ui/settings/page_appearance.blp:63
 msgid "Application style"
@@ -773,7 +772,7 @@ msgstr "Modu iluna"
 
 #: data/ui/settings/page_appearance.blp:76
 msgid "Font"
-msgstr ""
+msgstr "Letra-tipoa"
 
 #: data/ui/settings/page_appearance.blp:79
 msgid "Use system font"
@@ -1338,7 +1337,7 @@ msgstr ""
 
 #: src/widgets/field/field_list_box_static_row.rs:151
 msgid "Hide value"
-msgstr ""
+msgstr "Ezkutatu balioa"
 
 #. TRANSLATORS: presented in file dialogs as the file type for a request
 #. The macOS native file dialog will already add the extension for us.

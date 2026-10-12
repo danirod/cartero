@@ -26,9 +26,15 @@ These are the user-visible changes noticeable within Cartero.
 
 - Czech
 - Spanish
+- Basque
+- French
 - Galician
 - Indonesian
+- Italian
 - Polish
+- Tamil
+- Turkish
+- Chinese (Simplified)
 
 ## [26.0] - 2026-01-25
 

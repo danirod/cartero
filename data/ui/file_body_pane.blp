@@ -98,7 +98,9 @@ template $CarteroFileBodyPane: Gtk.Box {
           halign: fill;
           hexpand: true;
           xalign: 0;
-          label: _("You can only attach files to a request if they are in the same directory as the request file, or in a subdirectory. You cannot attach files to a request if they are in a parent directory or outside the project folder, or use absolute paths.");
+          label: _(
+            "You can only attach files to a request if they are in the same directory as the request file, or in a subdirectory. You cannot attach files to a request if they are in a parent directory or outside the project folder, or use absolute paths."
+          );
         }
       }
     }

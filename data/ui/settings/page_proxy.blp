@@ -36,7 +36,9 @@ template $CarteroSettingsPageProxy: Adw.PreferencesPage {
 
   Adw.PreferencesGroup {
     title: _("Exclude from proxy");
-    description: _("IP addresses and domain names contained in this list will bypass the proxy settings and be accessed directly.");
+    description: _(
+      "IP addresses and domain names contained in this list will bypass the proxy settings and be accessed directly."
+    );
 
     Gtk.Box {
       orientation: vertical;
@@ -90,7 +92,9 @@ template $CarteroSettingsPageProxy: Adw.PreferencesPage {
   Adw.PreferencesGroup {
     title: _("Environment variables");
     // TRANSLATORS: Keep the variable names "http_proxy", "https_proxy" and "no_proxy" in English because that's the name of the variable.
-    description: _("Cartero supports the use of the standard http_proxy, https_proxy and no_proxy environment variables to provide the system proxy settings.");
+    description: _(
+      "Cartero supports the use of the standard http_proxy, https_proxy and no_proxy environment variables to provide the system proxy settings."
+    );
 
     Gtk.Box {
       orientation: vertical;

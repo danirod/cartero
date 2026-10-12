@@ -198,7 +198,9 @@ template $CarteroEndpointPane: $CarteroBasePane {
                     Adw.ActionRow {
                       selectable: false;
                       focusable: false;
-                      title: _("Cartero supports reading variables from an .env file, but you need to enable the feature first.");
+                      title: _(
+                        "Cartero supports reading variables from an .env file, but you need to enable the feature first."
+                      );
 
                       Gtk.Button {
                         valign: center;
@@ -223,7 +225,9 @@ template $CarteroEndpointPane: $CarteroBasePane {
                     Adw.ActionRow {
                       selectable: false;
                       focusable: false;
-                      title: _("Cartero supports reading variables from an .env file, but you have to save the request first.");
+                      title: _(
+                        "Cartero supports reading variables from an .env file, but you have to save the request first."
+                      );
                     }
                   };
                 }
@@ -239,7 +243,9 @@ template $CarteroEndpointPane: $CarteroBasePane {
                     Adw.ActionRow {
                       selectable: false;
                       focusable: false;
-                      title: _("Place an .env file in the same disk directory as the request or in a parent directory to load the variables in Cartero.");
+                      title: _(
+                        "Place an .env file in the same disk directory as the request or in a parent directory to load the variables in Cartero."
+                      );
 
                       Gtk.Button {
                         valign: center;

@@ -110,7 +110,9 @@ template $CarteroWelcomePane: Adw.BreakpointBin {
           Gtk.Label gpl_license {
             wrap: true;
             halign: start;
-            label: _("Cartero is free software, released under the terms of the GNU General Public License v3 or later.");
+            label: _(
+              "Cartero is free software, released under the terms of the GNU General Public License v3 or later."
+            );
           }
 
           Gtk.Button know_your_rights {
@@ -180,7 +182,9 @@ Adw.Dialog rights {
           icon-name: "verified-checkmark-symbolic";
           // TRANSLATORS: if your language has a different word for free as in freedom and free as in beer, and it's clear that free means "freedom", you might skip the "as in freedom" bit if you wish.
           title: _("You can use Cartero for free (as in freedom)");
-          description: _("You don't have to ask for permission or purchase a license or subscription to use this software.\n\nEven if you use it at work or for commercial purposes.");
+          description: _(
+            "You don't have to ask for permission or purchase a license or subscription to use this software.\n\nEven if you use it at work or for commercial purposes."
+          );
         }
 
         Adw.StatusPage {
@@ -188,7 +192,9 @@ Adw.Dialog rights {
           vexpand: true;
           icon-name: "git-symbolic";
           title: _("You can get, study and modify the source code");
-          description: _("Mod the program so that it works exactly how you want, or just learn things if you are new to programming.");
+          description: _(
+            "Mod the program so that it works exactly how you want, or just learn things if you are new to programming."
+          );
         }
 
         Adw.StatusPage {
@@ -196,7 +202,9 @@ Adw.Dialog rights {
           vexpand: true;
           icon-name: "share-symbolic";
           title: _("You can share copies of the program");
-          description: _("You can repackage Cartero or share copies of the software with other people, as long as the recipients have access to these freedoms too.\n\n(In other words: if you fork, your project must retain the GNU General Public License too.)");
+          description: _(
+            "You can repackage Cartero or share copies of the software with other people, as long as the recipients have access to these freedoms too.\n\n(In other words: if you fork, your project must retain the GNU General Public License too.)"
+          );
         }
 
         Adw.StatusPage {
@@ -204,7 +212,9 @@ Adw.Dialog rights {
           vexpand: true;
           icon-name: "people-symbolic";
           title: _("Cartero is built in community");
-          description: _("Share feedback, contribute code, report bugs, translate Cartero to your language… You can be part of this!");
+          description: _(
+            "Share feedback, contribute code, report bugs, translate Cartero to your language… You can be part of this!"
+          );
         }
       }
 

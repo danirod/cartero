@@ -56,7 +56,9 @@ template $CarteroFieldListBoxRow: Gtk.Box {
         halign: end;
         margin-end: 2;
         icon-name: "eye-not-looking-symbolic";
-        tooltip-text: _("The value for this field will not be used because another field with the same name is overriding it.");
+        tooltip-text: _(
+          "The value for this field will not be used because another field with the same name is overriding it."
+        );
         visible: bind template.overriden;
       }
     }

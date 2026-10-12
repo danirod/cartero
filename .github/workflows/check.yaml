@@ -38,28 +38,23 @@ jobs:
         run: subprojects/blueprint-compiler/blueprint-compiler.py format data/ui
       - name: build
         run: ninja -C build
-      - name: linguas
+      - name: linguas in alphabetical order
         run: |
-          for lang in $(cat po/LINGUAS | grep -E '^[a-z]{2,3}$')
-          do
-            b=$a
-            a=$lang
-            if [[ "$a" < "$b" ]]; then
-              echo "po/LINGUAS is not sorted alphabetically: $lang"
-              exit 1
-            fi
-          done
+          sed -e '/^\s*#.*/d' -e '/^\s*$/d' < po/LINGUAS | LC_ALL=C sort -c
       - name: update-po-check
         run: |
+          MSGDIFF=$(mktemp -d)
+          build-aux/check-po.sh > $MSGDIFF/old
+          ninja -C build cartero-pot
           ninja -C build cartero-update-po
-          ! git -c core.pager="" diff -U0 po | grep -v '^@@' | grep 'msgid'
-          git checkout -- po
+          build-aux/check-po.sh > $MSGDIFF/new
+          diff -u $MSGDIFF/old $MSGDIFF/new && git checkout -- po
       - name: glib-schema
         run: glib-compile-schemas --targetdir build --strict data
       - name: glib-desktop
         run: meson devenv -C build desktop-file-validate data/es.danirod.Cartero.desktop
       - name: glib-appstream
-        run: meson devenv -C build appstreamcli validate data/es.danirod.Cartero.metainfo.xml
+        run: meson devenv -C build appstreamcli validate --no-net data/es.danirod.Cartero.metainfo.xml
       - name: cargo-fmt
         run: meson devenv -C build cargo fmt --manifest-path=../Cargo.toml --check --all
       - name: cargo-test

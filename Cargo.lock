@@ -178,6 +178,7 @@ dependencies = [
  "base64 0.22.1",
  "cartero_code_exporters",
  "cartero_file_format",
+ "cartero_gtk",
  "cartero_http",
  "cartero_interop",
  "cartero_isahc_client",
@@ -234,6 +235,17 @@ dependencies = [
  "serde",
  "toml 0.8.23",
  "toml_edit 0.23.10+spec-1.0.0",
+]
+
+[[package]]
+name = "cartero_gtk"
+version = "26.1.0"
+dependencies = [
+ "cartero_objects",
+ "gio",
+ "glib",
+ "gtk4",
+ "libadwaita",
 ]
 
 [[package]]

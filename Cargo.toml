@@ -54,7 +54,7 @@ app_updater = []
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-adw = { version = "0.8.1", package = "libadwaita", features = ["v1_5"] }
+adw = { version = "0.8.1", package = "libadwaita", features = ["v1_7"] }
 base64.workspace = true
 cartero_http = { path = "crates/cartero-http" }
 cartero_interop = { path = "crates/cartero-interop" }
@@ -67,7 +67,7 @@ formdata.workspace = true
 futures-lite.workspace = true
 gettext-rs = { version = "0.7.7", features = ["gettext-system"] }
 glib.workspace = true
-gtk = { package = "gtk4", version = "0.10.3", features = ["v4_14"] }
+gtk = { package = "gtk4", version = "0.10.3", features = ["v4_18"] }
 indexmap.workspace = true
 serde.workspace = true
 serde_json = { version = "1.0.149", features = ["preserve_order"] }

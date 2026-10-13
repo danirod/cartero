@@ -85,12 +85,12 @@ You can also add Cartero to your system [as a flake][flake].
 
 ## Building
 
-Cartero requires GNOME SDK 46 or greater to build. This includes:
+Cartero requires GNOME SDK 48 or greater to build. This includes:
 
 - adwaita-1 >= 1.5
-- glib >= 2.80
-- gtk >= 4.14
-- gtksourceview >= 5.12
+- glib >= 2.84
+- gtk >= 4.18
+- gtksourceview >= 5.16
 
 Additionally required:
 

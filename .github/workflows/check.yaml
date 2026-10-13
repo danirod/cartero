@@ -26,7 +26,7 @@ name: Check
 jobs:
   check:
     name: Check
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: dependencies
         run: sudo apt update && sudo apt install -y --no-install-recommends gettext meson libgtk-4-dev libadwaita-1-dev libgtksourceview-5-dev desktop-file-utils xvfb
@@ -69,7 +69,7 @@ jobs:
           command: check licenses
           arguments: --workspace
   reuse:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -77,7 +77,7 @@ jobs:
         uses: fsfe/reuse-action@v5
   news:
     name: Check NEWS files are properly updated
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - name: Install dependencies
         run: |
@@ -96,9 +96,9 @@ jobs:
     strategy:
       matrix:
         platform:
-          - runs-on: ubuntu-latest
+          - runs-on: ubuntu-26.04
             name: x86_64
-          - runs-on: ubuntu-24.04-arm
+          - runs-on: ubuntu-26.04-arm
             name: aarch64
       fail-fast: false
     runs-on: ${{ matrix.platform.runs-on }}

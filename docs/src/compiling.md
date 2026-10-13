@@ -3,10 +3,10 @@
 Currently, to build the application you'll have to make sure that the required
 libraries are installed on your system.
 
-- glib >= 2.72
-- gtk >= 4.14
+- glib >= 2.80
+- gtk >= 4.18
 - gtksourceview >= 5.4
-- libadwaita >= 1.5
+- libadwaita >= 1.7
 - openssl >= 1.0
 
 For a successful build, will also need the following packages installed in your system: **meson**, **ninja**, **rust** and **gettext**.

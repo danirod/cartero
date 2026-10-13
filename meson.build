@@ -19,7 +19,7 @@ project(
     'cartero',
     'rust',
     version: run_command('build-aux/gen-version.py', check: true).stdout().strip(),
-    meson_version: '>= 0.64',
+    meson_version: '>= 1.4.0',
     license: 'GPL-3.0-or-later',
 )
 
@@ -28,10 +28,10 @@ gnome = import('gnome')
 
 base_id = 'es.danirod.Cartero'
 
-dependency('glib-2.0', version: '>= 2.80')
-dependency('gtk4', version: '>= 4.14')
-dependency('gtksourceview-5', version: '>= 5.12')
-adwaita = dependency('libadwaita-1', version: '>= 1.5')
+dependency('glib-2.0', version: '>= 2.84')
+dependency('gtk4', version: '>= 4.18')
+dependency('gtksourceview-5', version: '>= 5.16')
+adwaita = dependency('libadwaita-1', version: '>= 1.7')
 dependency('openssl', version: '>= 1.0')
 
 if host_machine.system() == 'linux'

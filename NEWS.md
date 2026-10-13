@@ -12,6 +12,7 @@ These are the user-visible changes noticeable within Cartero.
   where possible - thanks, @youpie.
 - Updated Rust project dependencies.
 - Updated codebase Rust edition to Rust 2024.
+- Bumped minimum GNOME SDK to 48.
 
 ### Fixed
 

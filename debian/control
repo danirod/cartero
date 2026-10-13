@@ -1,0 +1,29 @@
+Source: cartero
+Section: devel
+Priority: optional
+Maintainer: Dawid Kulas <sp9ska@op.pl>
+Vcs-Browser: https://salsa.debian.org/dawkagaming/cartero
+Vcs-Git: https://salsa.debian.org/dawkagaming/cartero.git
+Build-Depends:
+ debhelper (>= 10.0.0),
+ debhelper-compat (= 13),
+ rust-all,
+ libglib2.0-dev,
+ libgtk-4-dev,
+ libadwaita-1-dev,
+ libgtksourceview-5-dev,
+ libssl-dev,
+ gsettings-desktop-schemas-dev,
+ blueprint-compiler,
+ meson
+Standards-Version: 4.7.2
+Homepage: https://github.com/danirod/cartero
+
+Package: cartero
+Architecture: any
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends}
+Description: Cartero is a graphical HTTP client that can be used as a developer tool 
+ to test web APIs and perform all kind of HTTP requests to web servers. It is compatible with any REST, SOAP or XML-RPC API 
+ and it supports multiple request methods as well as attaching body payloads to compatible requests.

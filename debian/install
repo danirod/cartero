@@ -1,0 +1,4 @@
+debian/tmp/usr/bin/* usr/bin/
+debian/tmp/usr/share/glib-2.0/schemas/es.danirod.Cartero.gschema.xml usr/share/glib-2.0/
+debian/tmp/usr/share/* usr/share/
+debian/tmp/usr/lib/* usr/lib/

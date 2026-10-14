@@ -1,0 +1,19 @@
+#!/usr/bin/make -f
+
+export DH_VERBOSE=1
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	meson setup builddir --prefix=/usr --native-file=native.ini
+
+override_dh_auto_build: 
+	ninja -C builddir -j$(shell nproc)
+
+override_dh_auto_install:
+	DESTDIR=$(CURDIR)/debian/tmp meson install -C builddir
+
+override_dh_auto_clean:
+	[ ! -d builddir ] || ninja -C builddir clean
+	rm -rf builddir

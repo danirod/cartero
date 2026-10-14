@@ -98,6 +98,17 @@ impl Default for Field {
     }
 }
 
+#[derive(Debug, Copy, Clone, Default, PartialEq, Eq, glib::Enum)]
+#[enum_type(name = "CarteroFieldFormat")]
+pub enum FieldFormat {
+    #[default]
+    #[enum_value(name = "FIELD")]
+    Field,
+
+    #[enum_value(name = "FILE")]
+    File,
+}
+
 mod imp {
     use std::{cell::RefCell, sync::OnceLock};
 
@@ -118,6 +129,9 @@ mod imp {
 
         #[property(get, set, default = false)]
         masked: RefCell<bool>,
+
+        #[property(get, set, builder(FieldFormat::default()))]
+        format: RefCell<FieldFormat>,
     }
 
     impl Default for Field {
@@ -127,6 +141,7 @@ mod imp {
                 value: Default::default(),
                 active: true.into(),
                 masked: false.into(),
+                format: Default::default(),
             }
         }
     }
@@ -215,6 +230,11 @@ mod builder {
             self.builder = self.builder.property("masked", masked);
             self
         }
+
+        pub fn file(mut self) -> Self {
+            self.builder = self.builder.property("format", FieldFormat::File);
+            self
+        }
     }
 }
 
@@ -234,6 +254,7 @@ mod tests {
         assert_eq!(field.value(), "Mozilla/5.0");
         assert!(field.active());
         assert!(!field.masked());
+        assert_eq!(field.format(), FieldFormat::Field);
     }
 
     #[test]
@@ -243,11 +264,13 @@ mod tests {
             .value("Mozilla/5.0")
             .active(false)
             .masked(true)
+            .file()
             .build();
         assert_eq!(field.key(), "User-Agent");
         assert_eq!(field.value(), "Mozilla/5.0");
         assert!(!field.active());
         assert!(field.masked());
+        assert_eq!(field.format(), FieldFormat::File);
     }
 
     #[test]

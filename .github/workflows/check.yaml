@@ -60,7 +60,7 @@ jobs:
     needs: [gettext]
     steps:
       - name: dependencies
-        run: sudo apt update && sudo apt install -y --no-install-recommends meson libgtk-4-dev libadwaita-1-dev libgtksourceview-5-dev desktop-file-utils xvfb
+        run: sudo apt update && sudo apt install -y --no-install-recommends appstream meson libgtk-4-dev libadwaita-1-dev libgtksourceview-5-dev desktop-file-utils xvfb
       - name: clone
         uses: actions/checkout@v4
       - name: gettext
@@ -84,7 +84,6 @@ jobs:
           sed -e '/^\s*#.*/d' -e '/^\s*$/d' < po/LINGUAS | LC_ALL=C sort -c
       - name: update-po-check
         run: |
-          gettext --version
           MSGDIFF=$(mktemp -d)
           build-aux/check-po.sh > $MSGDIFF/old
           ninja -C build cartero-pot

@@ -84,6 +84,7 @@ jobs:
           sed -e '/^\s*#.*/d' -e '/^\s*$/d' < po/LINGUAS | LC_ALL=C sort -c
       - name: update-po-check
         run: |
+          gettext --version
           MSGDIFF=$(mktemp -d)
           build-aux/check-po.sh > $MSGDIFF/old
           ninja -C build cartero-pot

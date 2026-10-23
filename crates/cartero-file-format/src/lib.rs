@@ -23,6 +23,7 @@ use cartero_objects::{Field, Request};
 mod authorization_value;
 mod field_table_value;
 mod field_value;
+mod file_value;
 mod payload_value;
 mod query_value;
 mod request_value;

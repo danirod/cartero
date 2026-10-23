@@ -15,10 +15,11 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+use gio::prelude::ListModelExtManual;
 use glib::subclass::prelude::*;
 use glib::{Object, prelude::*};
 
-use crate::FieldTable;
+use crate::{Field, FieldFormat, FieldTable};
 
 glib::wrapper! {
     /// Body payload with a rich multipart stream encoded.
@@ -67,6 +68,22 @@ impl RequestBodyMultipart {
     /// Create a new payload with the given table as initial data.
     pub fn from_table(table: &FieldTable) -> Self {
         Object::builder().property("params", table).build()
+    }
+
+    pub fn fields(&self) -> Vec<Field> {
+        self.params()
+            .iter::<Field>()
+            .filter_map(|maybe_field| maybe_field.ok())
+            .filter(|field| field.format() == FieldFormat::Field)
+            .collect::<Vec<Field>>()
+    }
+
+    pub fn files(&self) -> Vec<Field> {
+        self.params()
+            .iter::<Field>()
+            .filter_map(|maybe_field| maybe_field.ok())
+            .filter(|field| field.format() == FieldFormat::File)
+            .collect::<Vec<Field>>()
     }
 }
 
@@ -371,5 +388,39 @@ mod tests {
             ),
             headers[0]
         );
+    }
+
+    #[test]
+    fn test_extract_fields() {
+        let field_table = FieldTable::from_iter(vec![
+            Field::builder().key("target").value("example").build(),
+            Field::builder()
+                .key("upload")
+                .value("avatar.jpg")
+                .file()
+                .build(),
+        ]);
+        let body = RequestBodyMultipart::from_table(&field_table);
+        let fields = body.fields();
+        assert_eq!(2, field_table.n_items());
+        assert_eq!(1, fields.len());
+        assert_eq!("target", fields[0].key());
+    }
+
+    #[test]
+    fn test_extract_files() {
+        let field_table = FieldTable::from_iter(vec![
+            Field::builder().key("target").value("example").build(),
+            Field::builder()
+                .key("upload")
+                .value("avatar.jpg")
+                .file()
+                .build(),
+        ]);
+        let body = RequestBodyMultipart::from_table(&field_table);
+        let fields = body.files();
+        assert_eq!(2, field_table.n_items());
+        assert_eq!(1, fields.len());
+        assert_eq!("upload", fields[0].key());
     }
 }
